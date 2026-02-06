@@ -1,0 +1,3502 @@
+[
+    {
+        "id": 1,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc WriteTextToFile(filePath string, text string) error {\n\treturn os.WriteFile(filePath, []byte(text), 0644)\n}",
+        "summary": "Writes a string to a file using the os.WriteFile convenience function with standard permissions."
+    },
+    {
+        "id": 2,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n)\n\nfunc ReadFileLines(filePath string) ([]string, error) {\n\tfile, err := os.Open(filePath)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer file.Close()\n\n\tvar lines []string\n\tscanner := bufio.NewScanner(file)\n\tfor scanner.Scan() {\n\t\tlines = append(lines, scanner.Text())\n\t}\n\treturn lines, scanner.Err()\n}",
+        "summary": "Reads a file line by line using a bufio.Scanner and returns a slice of strings."
+    },
+    {
+        "id": 3,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"os\"\n)\n\nfunc ReadFileContent(path string) (string, error) {\n\tfile, err := os.Open(path)\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\tdefer file.Close()\n\n\tcontent, err := io.ReadAll(file)\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\treturn string(content), nil\n}",
+        "summary": "Opens a file and reads its entire content into a string using io.ReadAll."
+    },
+    {
+        "id": 4,
+        "code": "package main\n\nimport \"os\"\n\nfunc ReadEntireFile(name string) ([]byte, error) {\n\treturn os.ReadFile(name)\n}",
+        "summary": "Reads the entire contents of a named file into a byte slice."
+    },
+    {
+        "id": 5,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc AppendStringToFile(path, text string) error {\n\tf, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer f.Close()\n\t_, err = f.WriteString(text)\n\treturn err\n}",
+        "summary": "Appends a given string to a file, creating the file if it does not exist."
+    },
+    {
+        "id": 6,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n)\n\nfunc CountLines(path string) (int, error) {\n\tfile, err := os.Open(path)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)\n\tcount := 0\n\tfor scanner.Scan() {\n\t\tcount++\n\t}\n\treturn count, scanner.Err()\n}",
+        "summary": "Counts the number of lines in a file by scanning through it."
+    },
+    {
+        "id": 7,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"os\"\n)\n\nfunc CopyFile(src, dst string) (int64, error) {\n\tsourceFile, err := os.Open(src)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\tdefer sourceFile.Close()\n\n\tdestFile, err := os.Create(dst)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\tdefer destFile.Close()\n\n\treturn io.Copy(destFile, sourceFile)\n}",
+        "summary": "Copies the contents of a source file to a destination file."
+    },
+    {
+        "id": 8,
+        "code": "package main\n\nimport \"os\"\n\nfunc FileExists(filename string) bool {\n\tinfo, err := os.Stat(filename)\n\tif os.IsNotExist(err) {\n\t\treturn false\n\t}\n\treturn !info.IsDir()\n}",
+        "summary": "Checks if a specific file exists and is not a directory."
+    },
+    {
+        "id": 9,
+        "code": "package main\n\nimport \"os\"\n\nfunc DeleteFile(path string) error {\n\treturn os.Remove(path)\n}",
+        "summary": "Removes the named file or (empty) directory."
+    },
+    {
+        "id": 10,
+        "code": "package main\n\nimport (\n\t\"encoding/csv\"\n\t\"os\"\n)\n\nfunc ReadCSV(path string) ([][]string, error) {\n\tf, err := os.Open(path)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer f.Close()\n\n\treader := csv.NewReader(f)\n\treturn reader.ReadAll()\n}",
+        "summary": "Reads a CSV file and returns the data as a slice of string slices."
+    },
+    {
+        "id": 11,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc ReadFirstLine(path string) (string, error) {\n\tfile, err := os.Open(path)\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)\n\tif scanner.Scan() {\n\t\treturn scanner.Text(), nil\n\t}\n\treturn \"\", fmt.Errorf(\"file is empty\")\n}",
+        "summary": "Reads and returns only the first line of a file."
+    },
+    {
+        "id": 12,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ReadFileToString(filepath string) (string, error) {\n\tbytes, err := os.ReadFile(filepath)\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\treturn string(bytes), nil\n}",
+        "summary": "Reads a file and returns its entire content as a string."
+    },
+    {
+        "id": 13,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc CreateEmptyFile(name string) error {\n\tfile, err := os.Create(name)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer file.Close()\n\treturn nil\n}",
+        "summary": "Creates a new empty file with the specified name, truncating it if it exists."
+    },
+    {
+        "id": 14,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc CountWords(path string) (int, error) {\n\tfile, err := os.Open(path)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)\n\tscanner.Split(bufio.ScanWords)\n\tcount := 0\n\tfor scanner.Scan() {\n\t\tcount++\n\t}\n\treturn count, scanner.Err()\n}",
+        "summary": "Counts the total number of words in a text file."
+    },
+    {
+        "id": 15,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc RenameFile(oldPath, newPath string) error {\n\treturn os.Rename(oldPath, newPath)\n}",
+        "summary": "Renames or moves a file from an old path to a new path."
+    },
+    {
+        "id": 16,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ReadBytes(path string) ([]byte, error) {\n\treturn os.ReadFile(path)\n}",
+        "summary": "A simple wrapper to read file content into a byte slice."
+    },
+    {
+        "id": 17,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n)\n\nfunc WriteLines(path string, lines []string) error {\n\tfile, err := os.Create(path)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer file.Close()\n\n\tw := bufio.NewWriter(file)\n\tfor _, line := range lines {\n\t\tfmt.Fprintln(w, line)\n\t}\n\treturn w.Flush()\n}",
+        "summary": "Writes a slice of strings to a file, each on a new line."
+    },
+    {
+        "id": 18,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc GetFileSize(path string) (int64, error) {\n\tfi, err := os.Stat(path)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\treturn fi.Size(), nil\n}",
+        "summary": "Returns the size of a file in bytes."
+    },
+    {
+        "id": 19,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc SafeWriteFile(path string, data []byte) error {\n\t// Writes with read-only permissions for owner\n\treturn os.WriteFile(path, data, 0400)\n}",
+        "summary": "Writes data to a file with restrictive read-only permissions."
+    },
+    {
+        "id": 20,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"os\"\n)\n\nfunc CatFile(path string) error {\n\tfile, err := os.Open(path)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer file.Close()\n\t_, err = io.Copy(os.Stdout, file)\n\treturn err\n}",
+        "summary": "Reads a file and prints its content directly to standard output."
+    },
+    {
+        "id": 21,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc GrepFile(path, term string) ([]string, error) {\n\tfile, err := os.Open(path)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer file.Close()\n\n\tvar matches []string\n\tscanner := bufio.NewScanner(file)\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tif strings.Contains(line, term) {\n\t\t\tmatches = append(matches, line)\n\t\t}\n\t}\n\treturn matches, scanner.Err()\n}",
+        "summary": "Searches for a term in a file and returns all lines containing that term."
+    },
+    {
+        "id": 22,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc TruncateFile(path string) error {\n\treturn os.Truncate(path, 0)\n}",
+        "summary": "Truncates a file to size 0, effectively clearing its content."
+    },
+    {
+        "id": 23,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"os\"\n)\n\nfunc ReadNBytes(path string, n int64) ([]byte, error) {\n\tf, err := os.Open(path)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer f.Close()\n\n\tbuf := make([]byte, n)\n\t_, err = io.ReadFull(f, buf)\n\treturn buf, err\n}",
+        "summary": "Reads exactly N bytes from the beginning of a file."
+    },
+    {
+        "id": 24,
+        "code": "package main\n\nimport (\n\t\"os\"\n\t\"path/filepath\"\n)\n\nfunc GetFileExt(path string) string {\n\treturn filepath.Ext(path)\n}",
+        "summary": "Returns the extension of a file path."
+    },
+    {
+        "id": 25,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n)\n\nfunc ProcessLines(path string, process func(string)) error {\n\tfile, err := os.Open(path)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)\n\tfor scanner.Scan() {\n\t\tprocess(scanner.Text())\n\t}\n\treturn scanner.Err()\n}",
+        "summary": "Reads a file and applies a callback function to every line."
+    },
+    {
+        "id": 26,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc EnsureDir(dirName string) error {\n\treturn os.MkdirAll(dirName, 0755)\n}",
+        "summary": "Ensures a directory exists, creating it and any necessary parents if missing."
+    },
+    {
+        "id": 27,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ReadSymlink(path string) (string, error) {\n\treturn os.Readlink(path)\n}",
+        "summary": "Reads the destination of a symbolic link."
+    },
+    {
+        "id": 28,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ChmodFile(path string, mode os.FileMode) error {\n\treturn os.Chmod(path, mode)\n}",
+        "summary": "Changes the mode (permissions) of a file."
+    },
+    {
+        "id": 29,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n)\n\nfunc ReadLinesToMap(path string) (map[string]bool, error) {\n\tlines := make(map[string]bool)\n\tfile, err := os.Open(path)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)\n\tfor scanner.Scan() {\n\t\tlines[scanner.Text()] = true\n\t}\n\treturn lines, scanner.Err()\n}",
+        "summary": "Reads lines from a file and returns them as keys in a map (useful for unique sets)."
+    },
+    {
+        "id": 30,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc RemoveFile(path string) {\n\t_ = os.Remove(path)\n}",
+        "summary": "Attempts to remove a file, ignoring any errors that occur."
+    },
+    {
+        "id": 31,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc WriteBytes(path string, data []byte) error {\n\treturn os.WriteFile(path, data, 0600)\n}",
+        "summary": "Writes a byte slice to a file with user-only read/write permissions."
+    },
+    {
+        "id": 32,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc PrintCwd() error {\n\tdir, err := os.Getwd()\n\tif err != nil {\n\t\treturn err\n\t}\n\tfmt.Println(dir)\n\treturn nil\n}",
+        "summary": "Prints the current working directory to standard output."
+    },
+    {
+        "id": 33,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc IsDir(path string) (bool, error) {\n\tfi, err := os.Stat(path)\n\tif err != nil {\n\t\treturn false, err\n\t}\n\treturn fi.IsDir(), nil\n}",
+        "summary": "Checks if the given path points to a directory."
+    },
+    {
+        "id": 34,
+        "code": "package main\n\nimport (\n\t\"io/fs\"\n\t\"path/filepath\"\n)\n\nfunc WalkDir(root string) ([]string, error) {\n\tvar files []string\n\terr := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {\n\t\tif !d.IsDir() {\n\t\t\tfiles = append(files, path)\n\t\t}\n\t\treturn nil\n\t})\n\treturn files, err\n}",
+        "summary": "Recursively walks a directory tree and returns a list of all files found."
+    },
+    {
+        "id": 35,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ReadAllText(path string) string {\n\tcontent, _ := os.ReadFile(path)\n\treturn string(content)\n}",
+        "summary": "Reads a file and returns its content as a string, ignoring errors (returning empty string on fail)."
+    },
+    {
+        "id": 36,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"os\"\n)\n\nfunc WriteJSON(path string, data any) error {\n\tbytes, err := json.MarshalIndent(data, \"\", \"  \")\n\tif err != nil {\n\t\treturn err\n\t}\n\treturn os.WriteFile(path, bytes, 0644)\n}",
+        "summary": "Marshals an arbitrary data structure to JSON and writes it to a file."
+    },
+    {
+        "id": 37,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"os\"\n)\n\nfunc ReadJSON(path string, target any) error {\n\tbytes, err := os.ReadFile(path)\n\tif err != nil {\n\t\treturn err\n\t}\n\treturn json.Unmarshal(bytes, target)\n}",
+        "summary": "Reads a file and unmarshals the JSON content into the provided target structure."
+    },
+    {
+        "id": 38,
+        "code": "package main\n\nimport (\n\t\"os\"\n\t\"time\"\n)\n\nfunc TouchFile(path string) error {\n\tnow := time.Now()\n\treturn os.Chtimes(path, now, now)\n}",
+        "summary": "Updates the access and modification times of a file to the current time."
+    },
+    {
+        "id": 39,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"os\"\n)\n\nfunc CreateTempFile(content string) (string, error) {\n\tf, err := os.CreateTemp(\"\", \"example\")\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\tdefer f.Close()\n\t_, err = f.WriteString(content)\n\treturn f.Name(), err\n}",
+        "summary": "Creates a temporary file, writes content to it, and returns the filename."
+    },
+    {
+        "id": 40,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc CheckPermission(path string) bool {\n\tf, err := os.OpenFile(path, os.O_RDWR, 0666)\n\tif err != nil {\n\t\treturn os.IsPermission(err)\n\t}\n\tf.Close()\n\treturn true\n}",
+        "summary": "Checks if the program has read/write permissions for a file."
+    },
+    {
+        "id": 41,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n)\n\nfunc ReadBytesFromFile(path string, count int) ([]byte, error) {\n\tf, err := os.Open(path)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer f.Close()\n\n\treader := bufio.NewReader(f)\n\tbuf := make([]byte, count)\n\t_, err = reader.Read(buf)\n\treturn buf, err\n}",
+        "summary": "Reads a specific number of bytes from the start of a file using a bufio.Reader."
+    },
+    {
+        "id": 42,
+        "code": "package main\n\nimport (\n\t\"os\"\n\t\"path/filepath\"\n)\n\nfunc GetAbsPath(relPath string) (string, error) {\n\treturn filepath.Abs(relPath)\n}",
+        "summary": "Returns the absolute path for a given relative path."
+    },
+    {
+        "id": 43,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc CreateDir(path string) error {\n\treturn os.Mkdir(path, 0755)\n}",
+        "summary": "Creates a single directory with 0755 permissions."
+    },
+    {
+        "id": 44,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc ListDir(path string) error {\n\tentries, err := os.ReadDir(path)\n\tif err != nil {\n\t\treturn err\n\t}\n\tfor _, e := range entries {\n\t\tfmt.Println(e.Name())\n\t}\n\treturn nil\n}",
+        "summary": "Lists the names of all entries in a directory."
+    },
+    {
+        "id": 45,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc RemoveDirRec(path string) error {\n\treturn os.RemoveAll(path)\n}",
+        "summary": "Recursively removes a directory and all its children."
+    },
+    {
+        "id": 46,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Symlink(oldname, newname string) error {\n\treturn os.Symlink(oldname, newname)\n}",
+        "summary": "Creates a symbolic link."
+    },
+    {
+        "id": 47,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n)\n\nfunc ReadStdin() string {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tscanner.Scan()\n\treturn scanner.Text()\n}",
+        "summary": "Reads a single line from standard input."
+    },
+    {
+        "id": 48,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc WriteStdout(msg string) {\n\tos.Stdout.WriteString(msg + \"\\n\")\n}",
+        "summary": "Writes a message followed by a newline to standard output."
+    },
+    {
+        "id": 49,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc WriteStderr(msg string) {\n\tfmt.Fprintln(os.Stderr, msg)\n}",
+        "summary": "Writes a message line to standard error."
+    },
+    {
+        "id": 50,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"os\"\n)\n\nfunc OverwriteFile(path string, r io.Reader) error {\n\tf, err := os.Create(path)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer f.Close()\n\t_, err = io.Copy(f, r)\n\treturn err\n}",
+        "summary": "Overwrites a file with data read from an io.Reader."
+    },
+    {
+        "id": 51,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc SafeReadFile(path string) string {\n\tdata, err := os.ReadFile(path)\n\tif err != nil {\n\t\treturn \"\"\n\t}\n\treturn string(data)\n}",
+        "summary": "Reads a file safely, returning an empty string on error."
+    },
+    {
+        "id": 52,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc TempDir() string {\n\treturn os.TempDir()\n}",
+        "summary": "Returns the default directory for temporary files."
+    },
+    {
+        "id": 53,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc UserHomeDir() (string, error) {\n\treturn os.UserHomeDir()\n}",
+        "summary": "Returns the current user's home directory."
+    },
+    {
+        "id": 54,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc UserCacheDir() (string, error) {\n\treturn os.UserCacheDir()\n}",
+        "summary": "Returns the default root directory for user-specific cache data."
+    },
+    {
+        "id": 55,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc GetEnvVar(key string) string {\n\treturn os.Getenv(key)\n}",
+        "summary": "Retrieves the value of the environment variable named by key."
+    },
+    {
+        "id": 56,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc SetEnvVar(key, value string) error {\n\treturn os.Setenv(key, value)\n}",
+        "summary": "Sets the value of the environment variable named by key."
+    },
+    {
+        "id": 57,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc UnsetEnvVar(key string) error {\n\treturn os.Unsetenv(key)\n}",
+        "summary": "Unsets a single environment variable."
+    },
+    {
+        "id": 58,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ClearEnv() {\n\tos.Clearenv()\n}",
+        "summary": "Deletes all environment variables."
+    },
+    {
+        "id": 59,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ExpandEnv(s string) string {\n\treturn os.ExpandEnv(s)\n}",
+        "summary": "Replaces ${var} or $var in the string according to the values of the current environment variables."
+    },
+    {
+        "id": 60,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc GetPID() int {\n\treturn os.Getpid()\n}",
+        "summary": "Returns the process ID of the caller."
+    },
+    {
+        "id": 61,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc GetPPID() int {\n\treturn os.Getppid()\n}",
+        "summary": "Returns the process ID of the caller's parent."
+    },
+    {
+        "id": 62,
+        "code": "package main\n\nimport (\n\t\"os\"\n\t\"time\"\n)\n\nfunc SetDeadline(f *os.File, t time.Time) error {\n\treturn f.SetDeadline(t)\n}",
+        "summary": "Sets the read and write deadlines for a file."
+    },
+    {
+        "id": 63,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc SyncFile(f *os.File) error {\n\treturn f.Sync()\n}",
+        "summary": "Commits the current contents of the file to stable storage."
+    },
+    {
+        "id": 64,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ChownFile(name string, uid, gid int) error {\n\treturn os.Chown(name, uid, gid)\n}",
+        "summary": "Changes the numeric uid and gid of the named file."
+    },
+    {
+        "id": 65,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc LchownFile(name string, uid, gid int) error {\n\treturn os.Lchown(name, uid, gid)\n}",
+        "summary": "Changes the numeric uid and gid of the named file; if the file is a symbolic link, it changes the link itself."
+    },
+    {
+        "id": 66,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc PrintFileMode(name string) error {\n\tfi, err := os.Stat(name)\n\tif err != nil {\n\t\treturn err\n\t}\n\tfmt.Println(fi.Mode())\n\treturn nil\n}",
+        "summary": "Prints the file mode bits of a file."
+    },
+    {
+        "id": 67,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc IsSymlink(fi os.FileInfo) bool {\n\treturn fi.Mode()&os.ModeSymlink != 0\n}",
+        "summary": "Checks if the FileInfo describes a symbolic link."
+    },
+    {
+        "id": 68,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc IsSocket(fi os.FileInfo) bool {\n\treturn fi.Mode()&os.ModeSocket != 0\n}",
+        "summary": "Checks if the FileInfo describes a Unix socket."
+    },
+    {
+        "id": 69,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc IsDevice(fi os.FileInfo) bool {\n\treturn fi.Mode()&os.ModeDevice != 0\n}",
+        "summary": "Checks if the FileInfo describes a device file."
+    },
+    {
+        "id": 70,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc SameFile(fi1, fi2 os.FileInfo) bool {\n\treturn os.SameFile(fi1, fi2)\n}",
+        "summary": "Reports whether fi1 and fi2 describe the same file."
+    },
+    {
+        "id": 71,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc GetPagesize() int {\n\treturn os.Getpagesize()\n}",
+        "summary": "Returns the underlying system's memory page size."
+    },
+    {
+        "id": 72,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Exit(code int) {\n\tos.Exit(code)\n}",
+        "summary": "Causes the current program to exit with the given status code."
+    },
+    {
+        "id": 73,
+        "code": "package main\n\nimport (\n\t\"os/exec\"\n)\n\nfunc RunCommand(name string, args ...string) error {\n\tcmd := exec.Command(name, args...)\n\treturn cmd.Run()\n}",
+        "summary": "Runs a command and waits for it to complete."
+    },
+    {
+        "id": 74,
+        "code": "package main\n\nimport (\n\t\"os/exec\"\n)\n\nfunc CommandOutput(name string, args ...string) ([]byte, error) {\n\treturn exec.Command(name, args...).Output()\n}",
+        "summary": "Runs a command and returns its standard output."
+    },
+    {
+        "id": 75,
+        "code": "package main\n\nimport (\n\t\"os/exec\"\n)\n\nfunc CombinedOutput(name string, args ...string) ([]byte, error) {\n\treturn exec.Command(name, args...).CombinedOutput()\n}",
+        "summary": "Runs a command and returns its combined standard output and standard error."
+    },
+    {
+        "id": 76,
+        "code": "package main\n\nimport (\n\t\"os/exec\"\n)\n\nfunc StartCommand(name string, args ...string) (*exec.Cmd, error) {\n\tcmd := exec.Command(name, args...)\n\terr := cmd.Start()\n\treturn cmd, err\n}",
+        "summary": "Starts the specified command but does not wait for it to complete."
+    },
+    {
+        "id": 77,
+        "code": "package main\n\nimport (\n\t\"os/exec\"\n)\n\nfunc LookPath(file string) (string, error) {\n\treturn exec.LookPath(file)\n}",
+        "summary": "Searches for an executable named file in the directories named by the PATH environment variable."
+    },
+    {
+        "id": 78,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc JoinPaths(elem ...string) string {\n\treturn filepath.Join(elem...)\n}",
+        "summary": "Joins any number of path elements into a single path, separating them with an OS specific Separator."
+    },
+    {
+        "id": 79,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc BaseName(path string) string {\n\treturn filepath.Base(path)\n}",
+        "summary": "Returns the last element of path."
+    },
+    {
+        "id": 80,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc DirName(path string) string {\n\treturn filepath.Dir(path)\n}",
+        "summary": "Returns all but the last element of path, typically the path's directory."
+    },
+    {
+        "id": 81,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc CleanPath(path string) string {\n\treturn filepath.Clean(path)\n}",
+        "summary": "Returns the shortest path name equivalent to path by purely lexical processing."
+    },
+    {
+        "id": 82,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc IsAbs(path string) bool {\n\treturn filepath.IsAbs(path)\n}",
+        "summary": "Reports whether the path is absolute."
+    },
+    {
+        "id": 83,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc RelPath(basepath, targpath string) (string, error) {\n\treturn filepath.Rel(basepath, targpath)\n}",
+        "summary": "Returns a relative path that is lexically equivalent to targpath when joined to basepath."
+    },
+    {
+        "id": 84,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc MatchPath(pattern, name string) (bool, error) {\n\treturn filepath.Match(pattern, name)\n}",
+        "summary": "Reports whether name matches the shell file name pattern."
+    },
+    {
+        "id": 85,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc Glob(pattern string) ([]string, error) {\n\treturn filepath.Glob(pattern)\n}",
+        "summary": "Returns the names of all files matching pattern or nil if there is no matching file."
+    },
+    {
+        "id": 86,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc SplitPath(path string) (string, string) {\n\treturn filepath.Split(path)\n}",
+        "summary": "Splits path immediately following the final Separator, separating it into a directory and file name."
+    },
+    {
+        "id": 87,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc SplitList(path string) []string {\n\treturn filepath.SplitList(path)\n}",
+        "summary": "Splits a list of paths joined by the OS-specific ListSeparator."
+    },
+    {
+        "id": 88,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc VolumeName(path string) string {\n\treturn filepath.VolumeName(path)\n}",
+        "summary": "Returns the volume name component of the file path."
+    },
+    {
+        "id": 89,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc ToSlash(path string) string {\n\treturn filepath.ToSlash(path)\n}",
+        "summary": "Returns the result of replacing each separator character in path with a slash."
+    },
+    {
+        "id": 90,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc FromSlash(path string) string {\n\treturn filepath.FromSlash(path)\n}",
+        "summary": "Returns the result of replacing each slash character in path with a separator character."
+    },
+    {
+        "id": 91,
+        "code": "package main\n\nimport (\n\t\"archive/zip\"\n\t\"os\"\n)\n\nfunc ReadZip(path string) error {\n\tr, err := zip.OpenReader(path)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer r.Close()\n\treturn nil\n}",
+        "summary": "Opens a ZIP file for reading."
+    },
+    {
+        "id": 92,
+        "code": "package main\n\nimport (\n\t\"archive/tar\"\n\t\"io\"\n\t\"os\"\n)\n\nfunc ReadTar(path string) error {\n\tf, err := os.Open(path)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer f.Close()\n\n\ttr := tar.NewReader(f)\n\tfor {\n\t\t_, err := tr.Next()\n\t\tif err == io.EOF {\n\t\t\tbreak\n\t\t}\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t}\n\treturn nil\n}",
+        "summary": "Reads a TAR file sequentially."
+    },
+    {
+        "id": 93,
+        "code": "package main\n\nimport (\n\t\"compress/gzip\"\n\t\"io\"\n\t\"os\"\n)\n\nfunc ReadGzip(path string) (io.ReadCloser, error) {\n\tf, err := os.Open(path)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\treturn gzip.NewReader(f)\n}",
+        "summary": "Opens a gzip file for reading."
+    },
+    {
+        "id": 94,
+        "code": "package main\n\nimport (\n\t\"compress/flate\"\n\t\"os\"\n)\n\nfunc WriteFlate(path string) (*flate.Writer, error) {\n\tf, err := os.Create(path)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\treturn flate.NewWriter(f, flate.DefaultCompression)\n}",
+        "summary": "Creates a new flate writer to compress data to a file."
+    },
+    {
+        "id": 95,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"bytes\"\n)\n\nfunc ScanBytes(data []byte) {\n\tscanner := bufio.NewScanner(bytes.NewReader(data))\n\tfor scanner.Scan() {\n\t\t// process line\n\t}\n}",
+        "summary": "Scans lines from a byte slice."
+    },
+    {
+        "id": 96,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"strings\"\n)\n\nfunc ScanString(s string) {\n\tscanner := bufio.NewScanner(strings.NewReader(s))\n\tfor scanner.Scan() {\n\t\t// process line\n\t}\n}",
+        "summary": "Scans lines from a string."
+    },
+    {
+        "id": 97,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"os\"\n)\n\nfunc CopyN(dst io.Writer, src io.Reader, n int64) (int64, error) {\n\treturn io.CopyN(dst, src, n)\n}",
+        "summary": "Copies N bytes from src to dst."
+    },
+    {
+        "id": 98,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc ReadAtLeast(r io.Reader, buf []byte, min int) (int, error) {\n\treturn io.ReadAtLeast(r, buf, min)\n}",
+        "summary": "Reads from r into buf until it has read at least min bytes."
+    },
+    {
+        "id": 99,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc ReadFull(r io.Reader, buf []byte) (int, error) {\n\treturn io.ReadFull(r, buf)\n}",
+        "summary": "Reads exactly len(buf) bytes from r into buf."
+    },
+    {
+        "id": 100,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc WriteString(w io.Writer, s string) (int, error) {\n\treturn io.WriteString(w, s)\n}",
+        "summary": "Writes the contents of the string s to w, which accepts a slice of bytes."
+    },
+    {
+        "id": 101,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc HttpGet(url string) (*http.Response, error) {\n\treturn http.Get(url)\n}",
+        "summary": "Sends an HTTP GET request to the specified URL."
+    },
+    {
+        "id": 102,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"net/http\"\n)\n\nfunc HttpPost(url, contentType string, body io.Reader) (*http.Response, error) {\n\treturn http.Post(url, contentType, body)\n}",
+        "summary": "Sends an HTTP POST request with a specific content type and body."
+    },
+    {
+        "id": 103,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc ParseURL(rawURL string) (*url.URL, error) {\n\treturn url.Parse(rawURL)\n}",
+        "summary": "Parses a raw URL string into a URL structure."
+    },
+    {
+        "id": 104,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc ValuesToQuery(v url.Values) string {\n\treturn v.Encode()\n}",
+        "summary": "Encodes URL values into a URL encoded query string."
+    },
+    {
+        "id": 105,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n)\n\nfunc MarshalToJSON(v any) ([]byte, error) {\n\treturn json.Marshal(v)\n}",
+        "summary": "Converts a Go value to its JSON encoding."
+    },
+    {
+        "id": 106,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n)\n\nfunc UnmarshalJSON(data []byte, v any) error {\n\treturn json.Unmarshal(data, v)\n}",
+        "summary": "Parses JSON-encoded data and stores the result in the value pointed to by v."
+    },
+    {
+        "id": 107,
+        "code": "package main\n\nimport (\n\t\"encoding/base64\"\n)\n\nfunc Base64Encode(data []byte) string {\n\treturn base64.StdEncoding.EncodeToString(data)\n}",
+        "summary": "Encodes a byte slice into a base64 encoded string."
+    },
+    {
+        "id": 108,
+        "code": "package main\n\nimport (\n\t\"encoding/base64\"\n)\n\nfunc Base64Decode(s string) ([]byte, error) {\n\treturn base64.StdEncoding.DecodeString(s)\n}",
+        "summary": "Decodes a base64 encoded string back into a byte slice."
+    },
+    {
+        "id": 109,
+        "code": "package main\n\nimport (\n\t\"crypto/sha256\"\n)\n\nfunc HashSHA256(data []byte) [32]byte {\n\treturn sha256.Sum256(data)\n}",
+        "summary": "Calculates the SHA256 checksum of the data."
+    },
+    {
+        "id": 110,
+        "code": "package main\n\nimport (\n\t\"encoding/hex\"\n)\n\nfunc HexEncode(src []byte) string {\n\treturn hex.EncodeToString(src)\n}",
+        "summary": "Encodes bytes into a hexadecimal string."
+    },
+    {
+        "id": 111,
+        "code": "package main\n\nimport (\n\t\"encoding/hex\"\n)\n\nfunc HexDecode(s string) ([]byte, error) {\n\treturn hex.DecodeString(s)\n}",
+        "summary": "Decodes a hexadecimal string into bytes."
+    },
+    {
+        "id": 112,
+        "code": "package main\n\nimport (\n\t\"math/rand\"\n)\n\nfunc RandomInt(n int) int {\n\treturn rand.Intn(n)\n}",
+        "summary": "Returns a non-negative pseudo-random integer in the half-open interval [0,n)."
+    },
+    {
+        "id": 113,
+        "code": "package main\n\nimport (\n\t\"crypto/rand\"\n)\n\nfunc CryptoRandomBytes(n int) ([]byte, error) {\n\tb := make([]byte, n)\n\t_, err := rand.Read(b)\n\treturn b, err\n}",
+        "summary": "Generates n cryptographically secure random bytes."
+    },
+    {
+        "id": 114,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc CurrentTime() time.Time {\n\treturn time.Now()\n}",
+        "summary": "Returns the current local time."
+    },
+    {
+        "id": 115,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc FormatTime(t time.Time) string {\n\treturn t.Format(time.RFC3339)\n}",
+        "summary": "Formats a time according to the RFC3339 layout."
+    },
+    {
+        "id": 116,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc ParseTime(layout, value string) (time.Time, error) {\n\treturn time.Parse(layout, value)\n}",
+        "summary": "Parses a formatted string and returns the time value it represents."
+    },
+    {
+        "id": 117,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc SleepSeconds(seconds int) {\n\ttime.Sleep(time.Duration(seconds) * time.Second)\n}",
+        "summary": "Pauses the current goroutine for the specified number of seconds."
+    },
+    {
+        "id": 118,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc TimeSince(t time.Time) time.Duration {\n\treturn time.Since(t)\n}",
+        "summary": "Returns the time elapsed since t."
+    },
+    {
+        "id": 119,
+        "code": "package main\n\nimport (\n\t\"context\"\n)\n\nfunc NewBackgroundContext() context.Context {\n\treturn context.Background()\n}",
+        "summary": "Returns a non-nil, empty Context. It is never canceled, has no values, and has no deadline."
+    },
+    {
+        "id": 120,
+        "code": "package main\n\nimport (\n\t\"context\"\n)\n\nfunc ContextWithCancel(parent context.Context) (context.Context, context.CancelFunc) {\n\treturn context.WithCancel(parent)\n}",
+        "summary": "Returns a copy of parent with a new Done channel. The returned context's Done channel is closed when the returned cancel function is called."
+    },
+    {
+        "id": 121,
+        "code": "package main\n\nimport (\n\t\"context\"\n\t\"time\"\n)\n\nfunc ContextWithTimeout(parent context.Context, d time.Duration) (context.Context, context.CancelFunc) {\n\treturn context.WithTimeout(parent, d)\n}",
+        "summary": "Returns a copy of parent context that is canceled after duration d."
+    },
+    {
+        "id": 122,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc UseMutex(m *sync.Mutex, action func()) {\n\tm.Lock()\n\tdefer m.Unlock()\n\taction()\n}",
+        "summary": "Executes an action while holding a mutex lock."
+    },
+    {
+        "id": 123,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc UseRWMutexRead(m *sync.RWMutex, action func()) {\n\tm.RLock()\n\tdefer m.RUnlock()\n\taction()\n}",
+        "summary": "Executes an action while holding a read-lock on an RWMutex."
+    },
+    {
+        "id": 124,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc WaitGroupWait(wg *sync.WaitGroup) {\n\twg.Wait()\n}",
+        "summary": "Blocks until the WaitGroup counter is zero."
+    },
+    {
+        "id": 125,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc RunOnce(once *sync.Once, action func()) {\n\tonce.Do(action)\n}",
+        "summary": "Calls the function action only if Once.Do is being called for the first time for this instance of Once."
+    },
+    {
+        "id": 126,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicAdd(addr *int64, delta int64) int64 {\n\treturn atomic.AddInt64(addr, delta)\n}",
+        "summary": "Atomically adds delta to *addr and returns the new value."
+    },
+    {
+        "id": 127,
+        "code": "package main\n\nfunc CreateIntChannel(capacity int) chan int {\n\treturn make(chan int, capacity)\n}",
+        "summary": "Creates a buffered channel of integers with the specified capacity."
+    },
+    {
+        "id": 128,
+        "code": "package main\n\nfunc SendToChannel(ch chan<- int, value int) {\n\tch <- value\n}",
+        "summary": "Sends a value into an integer channel."
+    },
+    {
+        "id": 129,
+        "code": "package main\n\nfunc ReceiveFromChannel(ch <-chan int) int {\n\treturn <-ch\n}",
+        "summary": "Receives a value from an integer channel, blocking until one is available."
+    },
+    {
+        "id": 130,
+        "code": "package main\n\nfunc CloseChannel(ch chan int) {\n\tclose(ch)\n}",
+        "summary": "Closes a channel."
+    },
+    {
+        "id": 131,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc SplitString(s, sep string) []string {\n\treturn strings.Split(s, sep)\n}",
+        "summary": "Slices s into all substrings separated by sep and returns a slice of the substrings."
+    },
+    {
+        "id": 132,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc JoinStrings(elems []string, sep string) string {\n\treturn strings.Join(elems, sep)\n}",
+        "summary": "Concatenates the elements of its first argument to create a single string, using the separator string sep."
+    },
+    {
+        "id": 133,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ReplaceAll(s, old, new string) string {\n\treturn strings.ReplaceAll(s, old, new)\n}",
+        "summary": "Returns a copy of the string s with all non-overlapping instances of old replaced by new."
+    },
+    {
+        "id": 134,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ToUpper(s string) string {\n\treturn strings.ToUpper(s)\n}",
+        "summary": "Returns s with all Unicode letters mapped to their upper case."
+    },
+    {
+        "id": 135,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ToLower(s string) string {\n\treturn strings.ToLower(s)\n}",
+        "summary": "Returns s with all Unicode letters mapped to their lower case."
+    },
+    {
+        "id": 136,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc TrimSpace(s string) string {\n\treturn strings.TrimSpace(s)\n}",
+        "summary": "Returns a slice of the string s, with all leading and trailing white space removed."
+    },
+    {
+        "id": 137,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc HasPrefix(s, prefix string) bool {\n\treturn strings.HasPrefix(s, prefix)\n}",
+        "summary": "Tests whether the string s begins with prefix."
+    },
+    {
+        "id": 138,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc HasSuffix(s, suffix string) bool {\n\treturn strings.HasSuffix(s, suffix)\n}",
+        "summary": "Tests whether the string s ends with suffix."
+    },
+    {
+        "id": 139,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc CompileRegex(expr string) (*regexp.Regexp, error) {\n\treturn regexp.Compile(expr)\n}",
+        "summary": "Parses a regular expression and returns, if successful, a Regexp object that can be used to match against text."
+    },
+    {
+        "id": 140,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc MatchString(pattern, s string) (bool, error) {\n\treturn regexp.MatchString(pattern, s)\n}",
+        "summary": "Reports whether the string s contains any match of the regular expression pattern."
+    },
+    {
+        "id": 141,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc StringToInt(s string) (int, error) {\n\treturn strconv.Atoi(s)\n}",
+        "summary": "Converts a string to an int."
+    },
+    {
+        "id": 142,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc IntToString(i int) string {\n\treturn strconv.Itoa(i)\n}",
+        "summary": "Converts an int to a string."
+    },
+    {
+        "id": 143,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc ParseFloat(s string) (float64, error) {\n\treturn strconv.ParseFloat(s, 64)\n}",
+        "summary": "Converts the string s to a floating-point number with 64-bit precision."
+    },
+    {
+        "id": 144,
+        "code": "package main\n\nimport (\n\t\"slices\"\n)\n\nfunc SortInts(x []int) {\n\tslices.Sort(x)\n}",
+        "summary": "Sorts a slice of integers in increasing order using the slices package (Go 1.21+)."
+    },
+    {
+        "id": 145,
+        "code": "package main\n\nimport (\n\t\"slices\"\n)\n\nfunc SliceContains[E comparable](s []E, v E) bool {\n\treturn slices.Contains(s, v)\n}",
+        "summary": "Reports whether v is present in s using the slices package (Go 1.21+)."
+    },
+    {
+        "id": 146,
+        "code": "package main\n\nimport (\n\t\"slices\"\n)\n\nfunc MaxInSlice[E cmp.Ordered](x []E) E {\n\treturn slices.Max(x)\n}",
+        "summary": "Returns the maximal value in a slice of ordered elements (Go 1.21+)."
+    },
+    {
+        "id": 147,
+        "code": "package main\n\nimport (\n\t\"maps\"\n)\n\nfunc MapKeys[K comparable, V any](m map[K]V) []K {\n\tvar keys []K\n\tfor k := range m {\n\t\tkeys = append(keys, k)\n\t}\n\treturn keys\n}",
+        "summary": "Returns a slice containing all keys of the map."
+    },
+    {
+        "id": 148,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc LogInfo(v ...any) {\n\tlog.Println(v...)\n}",
+        "summary": "Logs a message to the standard logger."
+    },
+    {
+        "id": 149,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc LogFatal(v ...any) {\n\tlog.Fatal(v...)\n}",
+        "summary": "Logs a message to the standard logger and then calls os.Exit(1)."
+    },
+    {
+        "id": 150,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc CommandLineArgs() []string {\n\treturn os.Args\n}",
+        "summary": "Returns the command-line arguments, starting with the program name."
+    },
+    {
+        "id": 151,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc ParseFlags() {\n\tflag.Parse()\n}",
+        "summary": "Parses the command-line flags from os.Args[1:]."
+    },
+    {
+        "id": 152,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc StartHTTPServer(addr string, handler http.Handler) error {\n\treturn http.ListenAndServe(addr, handler)\n}",
+        "summary": "Starts an HTTP server listening on the given address."
+    },
+    {
+        "id": 153,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Abs(x float64) float64 {\n\treturn math.Abs(x)\n}",
+        "summary": "Returns the absolute value of x."
+    },
+    {
+        "id": 154,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Max(x, y float64) float64 {\n\treturn math.Max(x, y)\n}",
+        "summary": "Returns the larger of x or y."
+    },
+    {
+        "id": 155,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Min(x, y float64) float64 {\n\treturn math.Min(x, y)\n}",
+        "summary": "Returns the smaller of x or y."
+    },
+    {
+        "id": 156,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc GetType(v any) reflect.Type {\n\treturn reflect.TypeOf(v)\n}",
+        "summary": "Returns the reflection Type of the value v."
+    },
+    {
+        "id": 157,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc GetValue(v any) reflect.Value {\n\treturn reflect.ValueOf(v)\n}",
+        "summary": "Returns the reflection Value of the value v."
+    },
+    {
+        "id": 158,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc DeepEqual(x, y any) bool {\n\treturn reflect.DeepEqual(x, y)\n}",
+        "summary": "DeepEqual reports whether x and y are deeply equal."
+    },
+    {
+        "id": 159,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc NumCPU() int {\n\treturn runtime.NumCPU()\n}",
+        "summary": "Returns the number of logical CPUs usable by the current process."
+    },
+    {
+        "id": 160,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc GOOS() string {\n\treturn runtime.GOOS\n}",
+        "summary": "Returns the operating system target (e.g., \"linux\", \"darwin\", \"windows\")."
+    },
+    {
+        "id": 161,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc GOARCH() string {\n\treturn runtime.GOARCH\n}",
+        "summary": "Returns the running program's architecture target (e.g., \"amd64\", \"arm64\")."
+    },
+    {
+        "id": 162,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc Pipe() (*io.PipeReader, *io.PipeWriter) {\n\treturn io.Pipe()\n}",
+        "summary": "Creates a synchronous in-memory pipe."
+    },
+    {
+        "id": 163,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc MultiReader(readers ...io.Reader) io.Reader {\n\treturn io.MultiReader(readers...)\n}",
+        "summary": "Returns a Reader that's the logical concatenation of the provided input readers."
+    },
+    {
+        "id": 164,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc MultiWriter(writers ...io.Writer) io.Writer {\n\treturn io.MultiWriter(writers...)\n}",
+        "summary": "Returns a Writer that duplicates its writes to all the provided writers."
+    },
+    {
+        "id": 165,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc TeeReader(r io.Reader, w io.Writer) io.Reader {\n\treturn io.TeeReader(r, w)\n}",
+        "summary": "Returns a Reader that writes to w what it reads from r."
+    },
+    {
+        "id": 166,
+        "code": "package main\n\nimport (\n\t\"bytes\"\n)\n\nfunc NewBuffer(buf []byte) *bytes.Buffer {\n\treturn bytes.NewBuffer(buf)\n}",
+        "summary": "Creates and initializes a new Buffer using buf as its initial contents."
+    },
+    {
+        "id": 167,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n)\n\nfunc NewReader(rd io.Reader) *bufio.Reader {\n\treturn bufio.NewReader(rd)\n}",
+        "summary": "Returns a new Reader whose buffer has the default size."
+    },
+    {
+        "id": 168,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n)\n\nfunc NewWriter(w io.Writer) *bufio.Writer {\n\treturn bufio.NewWriter(w)\n}",
+        "summary": "Returns a new Writer whose buffer has the default size."
+    },
+    {
+        "id": 169,
+        "code": "package main\n\nimport (\n\t\"errors\"\n)\n\nfunc NewError(text string) error {\n\treturn errors.New(text)\n}",
+        "summary": "Returns an error that formats as the given text."
+    },
+    {
+        "id": 170,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Errorf(format string, a ...any) error {\n\treturn fmt.Errorf(format, a...)\n}",
+        "summary": "Formats according to a format specifier and returns the string as a value that satisfies error."
+    },
+    {
+        "id": 171,
+        "code": "package main\n\nimport (\n\t\"errors\"\n)\n\nfunc IsError(err, target error) bool {\n\treturn errors.Is(err, target)\n}",
+        "summary": "Reports whether any error in err's chain matches target."
+    },
+    {
+        "id": 172,
+        "code": "package main\n\nimport (\n\t\"encoding/xml\"\n)\n\nfunc MarshalXML(v any) ([]byte, error) {\n\treturn xml.Marshal(v)\n}",
+        "summary": "Returns the XML encoding of v."
+    },
+    {
+        "id": 173,
+        "code": "package main\n\nimport (\n\t\"encoding/xml\"\n)\n\nfunc UnmarshalXML(data []byte, v any) error {\n\treturn xml.Unmarshal(data, v)\n}",
+        "summary": "Parses the XML-encoded data and stores the result in the value pointed to by v."
+    },
+    {
+        "id": 174,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc ParseIP(s string) net.IP {\n\treturn net.ParseIP(s)\n}",
+        "summary": "Parses s as an IP address, returning the result."
+    },
+    {
+        "id": 175,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc LookupHost(host string) ([]string, error) {\n\treturn net.LookupHost(host)\n}",
+        "summary": "Looks up the given host using the local resolver."
+    },
+    {
+        "id": 176,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc Dial(network, address string) (net.Conn, error) {\n\treturn net.Dial(network, address)\n}",
+        "summary": "Connects to the address on the named network."
+    },
+    {
+        "id": 177,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc Listen(network, address string) (net.Listener, error) {\n\treturn net.Listen(network, address)\n}",
+        "summary": "Announces on the local network address."
+    },
+    {
+        "id": 178,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsDigit(r rune) bool {\n\treturn unicode.IsDigit(r)\n}",
+        "summary": "Reports whether the rune is a decimal digit."
+    },
+    {
+        "id": 179,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsLetter(r rune) bool {\n\treturn unicode.IsLetter(r)\n}",
+        "summary": "Reports whether the rune is a letter."
+    },
+    {
+        "id": 180,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Sprint(a ...any) string {\n\treturn fmt.Sprint(a...)\n}",
+        "summary": "Formats using the default formats for its operands and returns the resulting string."
+    },
+    {
+        "id": 181,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Sprintf(format string, a ...any) string {\n\treturn fmt.Sprintf(format, a...)\n}",
+        "summary": "Formats according to a format specifier and returns the resulting string."
+    },
+    {
+        "id": 182,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc SortStrings(x []string) {\n\tsort.Strings(x)\n}",
+        "summary": "Sorts a slice of strings in increasing order."
+    },
+    {
+        "id": 183,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc IntsAreSorted(x []int) bool {\n\treturn sort.IntsAreSorted(x)\n}",
+        "summary": "Reports whether the slice x is sorted in increasing order."
+    },
+    {
+        "id": 184,
+        "code": "package main\n\nimport (\n\t\"container/list\"\n)\n\nfunc NewList() *list.List {\n\treturn list.New()\n}",
+        "summary": "Initializes a new doubly linked list."
+    },
+    {
+        "id": 185,
+        "code": "package main\n\nimport (\n\t\"container/ring\"\n)\n\nfunc NewRing(n int) *ring.Ring {\n\treturn ring.New(n)\n}",
+        "summary": "Creates a new ring of n elements."
+    },
+    {
+        "id": 186,
+        "code": "package main\n\nimport (\n\t\"os/signal\"\n\t\"os\"\n)\n\nfunc NotifySignal(c chan<- os.Signal, sig ...os.Signal) {\n\tsignal.Notify(c, sig...)\n}",
+        "summary": "Causes package signal to relay incoming signals to c."
+    },
+    {
+        "id": 187,
+        "code": "package main\n\nimport (\n\t\"os/signal\"\n)\n\nfunc StopSignal(c chan<- os.Signal) {\n\tsignal.Stop(c)\n}",
+        "summary": "Causes package signal to stop relaying incoming signals to c."
+    },
+    {
+        "id": 188,
+        "code": "package main\n\nimport (\n\t\"html\"\n)\n\nfunc EscapeString(s string) string {\n\treturn html.EscapeString(s)\n}",
+        "summary": "Escapes special characters like < to become &lt;."
+    },
+    {
+        "id": 189,
+        "code": "package main\n\nimport (\n\t\"html\"\n)\n\nfunc UnescapeString(s string) string {\n\treturn html.UnescapeString(s)\n}",
+        "summary": "Unescapes entities like &lt; to become <."
+    },
+    {
+        "id": 190,
+        "code": "package main\n\nimport (\n\t\"hash/crc32\"\n)\n\nfunc ChecksumIEEE(data []byte) uint32 {\n\treturn crc32.ChecksumIEEE(data)\n}",
+        "summary": "Returns the CRC-32 checksum of data using the IEEE polynomial."
+    },
+    {
+        "id": 191,
+        "code": "package main\n\nimport (\n\t\"hash/adler32\"\n)\n\nfunc ChecksumAdler32(data []byte) uint32 {\n\treturn adler32.Checksum(data)\n}",
+        "summary": "Returns the Adler-32 checksum of data."
+    },
+    {
+        "id": 192,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc PutUint64(b []byte, v uint64) {\n\tbinary.BigEndian.PutUint64(b, v)\n}",
+        "summary": "Writes a uint64 into a byte slice using Big Endian byte order."
+    },
+    {
+        "id": 193,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc Uint64(b []byte) uint64 {\n\treturn binary.BigEndian.Uint64(b)\n}",
+        "summary": "Reads a uint64 from a byte slice using Big Endian byte order."
+    },
+    {
+        "id": 194,
+        "code": "package main\n\nimport (\n\t\"image\"\n\t\"os\"\n)\n\nfunc DecodeConfig(path string) (image.Config, string, error) {\n\tf, err := os.Open(path)\n\tif err != nil {\n\t\treturn image.Config{}, \"\", err\n\t}\n\tdefer f.Close()\n\treturn image.DecodeConfig(f)\n}",
+        "summary": "Decodes the color model and dimensions of an image without decoding the entire image."
+    },
+    {
+        "id": 195,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc HandleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {\n\thttp.HandleFunc(pattern, handler)\n}",
+        "summary": "Registers the handler function for the given pattern in the DefaultServeMux."
+    },
+    {
+        "id": 196,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc NotFound(w http.ResponseWriter, r *http.Request) {\n\thttp.NotFound(w, r)\n}",
+        "summary": "Replies to the request with an HTTP 404 not found error."
+    },
+    {
+        "id": 197,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc SetCookie(w http.ResponseWriter, cookie *http.Cookie) {\n\thttp.SetCookie(w, cookie)\n}",
+        "summary": "Adds a Set-Cookie header to the provided ResponseWriter's headers."
+    },
+    {
+        "id": 198,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc StdinStat() (os.FileInfo, error) {\n\treturn os.Stdin.Stat()\n}",
+        "summary": "Returns the FileInfo structure describing standard input."
+    },
+    {
+        "id": 199,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc RunTests(m *testing.M) {\n\tm.Run()\n}",
+        "summary": "Runs the tests. It returns an exit code to pass to os.Exit."
+    },
+    {
+        "id": 200,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc RuneCountInString(s string) int {\n\treturn utf8.RuneCountInString(s)\n}",
+        "summary": "Returns the number of runes in s."
+    },
+    {
+        "id": 201,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ContainsAny(s, chars string) bool {\n\treturn strings.ContainsAny(s, chars)\n}",
+        "summary": "Reports whether any Unicode code points in chars are within s."
+    },
+    {
+        "id": 202,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc EqualFold(s, t string) bool {\n\treturn strings.EqualFold(s, t)\n}",
+        "summary": "Reports whether s and t, interpreted as UTF-8 strings, are equal under Unicode case-folding."
+    },
+    {
+        "id": 203,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc CutString(s, sep string) (before, after string, found bool) {\n\treturn strings.Cut(s, sep)\n}",
+        "summary": "Slices s around the first instance of sep, returning the text before and after sep."
+    },
+    {
+        "id": 204,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc TrimPrefix(s, prefix string) string {\n\treturn strings.TrimPrefix(s, prefix)\n}",
+        "summary": "Returns s without the provided leading prefix string."
+    },
+    {
+        "id": 205,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc TrimSuffix(s, suffix string) string {\n\treturn strings.TrimSuffix(s, suffix)\n}",
+        "summary": "Returns s without the provided trailing suffix string."
+    },
+    {
+        "id": 206,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc IndexByte(s string, c byte) int {\n\treturn strings.IndexByte(s, c)\n}",
+        "summary": "Returns the index of the first instance of c in s, or -1 if c is not present."
+    },
+    {
+        "id": 207,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc RepeatString(s string, count int) string {\n\treturn strings.Repeat(s, count)\n}",
+        "summary": "Returns a new string consisting of count copies of the string s."
+    },
+    {
+        "id": 208,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ReplaceString(s, old, new string, n int) string {\n\treturn strings.Replace(s, old, new, n)\n}",
+        "summary": "Returns a copy of the string s with the first n non-overlapping instances of old replaced by new."
+    },
+    {
+        "id": 209,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc SplitN(s, sep string, n int) []string {\n\treturn strings.SplitN(s, sep, n)\n}",
+        "summary": "Slices s into substrings separated by sep and returns a slice of the substrings, count determined by n."
+    },
+    {
+        "id": 210,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc BuilderString(strs ...string) string {\n\tvar sb strings.Builder\n\tfor _, s := range strs {\n\t\tsb.WriteString(s)\n\t}\n\treturn sb.String()\n}",
+        "summary": "Efficiently concatenates strings using strings.Builder."
+    },
+    {
+        "id": 211,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc FormatBool(b bool) string {\n\treturn strconv.FormatBool(b)\n}",
+        "summary": "Returns \"true\" or \"false\" according to the value of b."
+    },
+    {
+        "id": 212,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc FormatInt(i int64, base int) string {\n\treturn strconv.FormatInt(i, base)\n}",
+        "summary": "Returns the string representation of i in the given base."
+    },
+    {
+        "id": 213,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc FormatFloat(f float64) string {\n\treturn strconv.FormatFloat(f, 'f', -1, 64)\n}",
+        "summary": "Converts a floating-point number to a string."
+    },
+    {
+        "id": 214,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc ParseBool(str string) (bool, error) {\n\treturn strconv.ParseBool(str)\n}",
+        "summary": "Converts a string to a boolean value."
+    },
+    {
+        "id": 215,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc ParseUint(s string, base int, bitSize int) (uint64, error) {\n\treturn strconv.ParseUint(s, base, bitSize)\n}",
+        "summary": "Parses a string as an unsigned integer."
+    },
+    {
+        "id": 216,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Ceil(x float64) float64 {\n\treturn math.Ceil(x)\n}",
+        "summary": "Returns the least integer value greater than or equal to x."
+    },
+    {
+        "id": 217,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Floor(x float64) float64 {\n\treturn math.Floor(x)\n}",
+        "summary": "Returns the greatest integer value less than or equal to x."
+    },
+    {
+        "id": 218,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Round(x float64) float64 {\n\treturn math.Round(x)\n}",
+        "summary": "Returns the nearest integer, rounding half away from zero."
+    },
+    {
+        "id": 219,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Pow(x, y float64) float64 {\n\treturn math.Pow(x, y)\n}",
+        "summary": "Returns x**y, the base-x exponential of y."
+    },
+    {
+        "id": 220,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Sqrt(x float64) float64 {\n\treturn math.Sqrt(x)\n}",
+        "summary": "Returns the square root of x."
+    },
+    {
+        "id": 221,
+        "code": "package main\n\nimport (\n\t\"slices\"\n)\n\nfunc ReverseSlice[S ~[]E, E any](s S) {\n\tslices.Reverse(s)\n}",
+        "summary": "Reverses the elements of a slice in place."
+    },
+    {
+        "id": 222,
+        "code": "package main\n\nimport (\n\t\"slices\"\n)\n\nfunc CompactSlice[S ~[]E, E comparable](s S) S {\n\treturn slices.Compact(s)\n}",
+        "summary": "Replaces consecutive runs of equal elements with a single copy."
+    },
+    {
+        "id": 223,
+        "code": "package main\n\nimport (\n\t\"slices\"\n)\n\nfunc CloneSlice[S ~[]E, E any](s S) S {\n\treturn slices.Clone(s)\n}",
+        "summary": "Returns a copy of the slice."
+    },
+    {
+        "id": 224,
+        "code": "package main\n\nimport (\n\t\"slices\"\n)\n\nfunc DeleteSliceRange[S ~[]E, E any](s S, i, j int) S {\n\treturn slices.Delete(s, i, j)\n}",
+        "summary": "Removes the elements s[i:j] from s, returning the modified slice."
+    },
+    {
+        "id": 225,
+        "code": "package main\n\nimport (\n\t\"maps\"\n)\n\nfunc CloneMap[M ~map[K]V, K comparable, V any](m M) M {\n\treturn maps.Clone(m)\n}",
+        "summary": "Returns a copy of the map."
+    },
+    {
+        "id": 226,
+        "code": "package main\n\nimport (\n\t\"maps\"\n)\n\nfunc CopyMap[M ~map[K]V, K comparable, V any](dst, src M) {\n\tmaps.Copy(dst, src)\n}",
+        "summary": "Copies all key/value pairs from src to dst."
+    },
+    {
+        "id": 227,
+        "code": "package main\n\nimport (\n\t\"maps\"\n)\n\nfunc DeleteFuncMap[M ~map[K]V, K comparable, V any](m M, del func(K, V) bool) {\n\tmaps.DeleteFunc(m, del)\n}",
+        "summary": "Deletes any key/value pairs from m for which del returns true."
+    },
+    {
+        "id": 228,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc AddDate(t time.Time, years, months, days int) time.Time {\n\treturn t.AddDate(years, months, days)\n}",
+        "summary": "Returns the time corresponding to adding the given number of years, months, and days to t."
+    },
+    {
+        "id": 229,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc TimeAfter(t1, t2 time.Time) bool {\n\treturn t1.After(t2)\n}",
+        "summary": "Reports whether the time instant t1 is after t2."
+    },
+    {
+        "id": 230,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc TimeBefore(t1, t2 time.Time) bool {\n\treturn t1.Before(t2)\n}",
+        "summary": "Reports whether the time instant t1 is before t2."
+    },
+    {
+        "id": 231,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc UnixTimestamp() int64 {\n\treturn time.Now().Unix()\n}",
+        "summary": "Returns the number of seconds elapsed since January 1, 1970 UTC."
+    },
+    {
+        "id": 232,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc UnixMilli() int64 {\n\treturn time.Now().UnixMilli()\n}",
+        "summary": "Returns the number of milliseconds elapsed since January 1, 1970 UTC."
+    },
+    {
+        "id": 233,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc NewTicker(d time.Duration) *time.Ticker {\n\treturn time.NewTicker(d)\n}",
+        "summary": "Returns a new Ticker containing a channel that will send the time on the channel after each tick."
+    },
+    {
+        "id": 234,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc StopTicker(t *time.Ticker) {\n\tt.Stop()\n}",
+        "summary": "Stops a ticker. It does not close the channel."
+    },
+    {
+        "id": 235,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc TimerAfter(d time.Duration) <-chan time.Time {\n\treturn time.After(d)\n}",
+        "summary": "Waits for the duration to elapse and then sends the current time on the returned channel."
+    },
+    {
+        "id": 236,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ReadDir(name string) ([]os.DirEntry, error) {\n\treturn os.ReadDir(name)\n}",
+        "summary": "Reads the named directory and returns a list of directory entries sorted by filename."
+    },
+    {
+        "id": 237,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc MkdirTemp(dir, pattern string) (string, error) {\n\treturn os.MkdirTemp(dir, pattern)\n}",
+        "summary": "Creates a new temporary directory in the directory dir using the given pattern."
+    },
+    {
+        "id": 238,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ChangeDir(dir string) error {\n\treturn os.Chdir(dir)\n}",
+        "summary": "Changes the current working directory to the named directory."
+    },
+    {
+        "id": 239,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc GetUserConfigDir() (string, error) {\n\treturn os.UserConfigDir()\n}",
+        "summary": "Returns the default root directory for user-specific configuration data."
+    },
+    {
+        "id": 240,
+        "code": "package main\n\nimport (\n\t\"bufio\"\n\t\"os\"\n)\n\nfunc ReadStringUntil(r *bufio.Reader, delim byte) (string, error) {\n\treturn r.ReadString(delim)\n}",
+        "summary": "Reads until the first occurrence of delim in the input."
+    },
+    {
+        "id": 241,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc CopyBuffer(dst io.Writer, src io.Reader, buf []byte) (int64, error) {\n\treturn io.CopyBuffer(dst, src, buf)\n}",
+        "summary": "Copies from src to dst using the provided buffer."
+    },
+    {
+        "id": 242,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc LimitReader(r io.Reader, n int64) io.Reader {\n\treturn io.LimitReader(r, n)\n}",
+        "summary": "Returns a Reader that reads from r but stops with EOF after n bytes."
+    },
+    {
+        "id": 243,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n\t\"time\"\n)\n\nfunc NewHttpClient(timeout time.Duration) *http.Client {\n\treturn &http.Client{Timeout: timeout}\n}",
+        "summary": "Creates a new HTTP client with a specified timeout."
+    },
+    {
+        "id": 244,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n\t\"net/url\"\n)\n\nfunc PostForm(url string, data url.Values) (*http.Response, error) {\n\treturn http.PostForm(url, data)\n}",
+        "summary": "Issues a POST to the specified URL, with data's keys and values URL-encoded as the request body."
+    },
+    {
+        "id": 245,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc NewMux() *http.ServeMux {\n\treturn http.NewServeMux()\n}",
+        "summary": "Allocates and returns a new ServeMux."
+    },
+    {
+        "id": 246,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc ErrorResponse(w http.ResponseWriter, error string, code int) {\n\thttp.Error(w, error, code)\n}",
+        "summary": "Replies to the request with the specified error message and HTTP code."
+    },
+    {
+        "id": 247,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc JoinPath(base string, elem ...string) (string, error) {\n\treturn url.JoinPath(base, elem...)\n}",
+        "summary": "Joins a base URL string and a path elements into a single URL string."
+    },
+    {
+        "id": 248,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc PathEscape(s string) string {\n\treturn url.PathEscape(s)\n}",
+        "summary": "Escapes the string so it can be safely placed inside a URL path segment."
+    },
+    {
+        "id": 249,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc ListenTCP(network string, laddr *net.TCPAddr) (*net.TCPListener, error) {\n\treturn net.ListenTCP(network, laddr)\n}",
+        "summary": "Announces on the TCP address laddr and returns a TCP listener."
+    },
+    {
+        "id": 250,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc ResolveUDPAddr(network, address string) (*net.UDPAddr, error) {\n\treturn net.ResolveUDPAddr(network, address)\n}",
+        "summary": "Returns an address of UDP end point."
+    },
+    {
+        "id": 251,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"io\"\n)\n\nfunc NewJsonDecoder(r io.Reader) *json.Decoder {\n\treturn json.NewDecoder(r)\n}",
+        "summary": "Returns a new JSON decoder that reads from r."
+    },
+    {
+        "id": 252,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"io\"\n)\n\nfunc NewJsonEncoder(w io.Writer) *json.Encoder {\n\treturn json.NewEncoder(w)\n}",
+        "summary": "Returns a new JSON encoder that writes to w."
+    },
+    {
+        "id": 253,
+        "code": "package main\n\nimport (\n\t\"encoding/xml\"\n\t\"io\"\n)\n\nfunc NewXmlDecoder(r io.Reader) *xml.Decoder {\n\treturn xml.NewDecoder(r)\n}",
+        "summary": "Creates a new XML parser reading from r."
+    },
+    {
+        "id": 254,
+        "code": "package main\n\nimport (\n\t\"encoding/gob\"\n\t\"io\"\n)\n\nfunc NewGobEncoder(w io.Writer) *gob.Encoder {\n\treturn gob.NewEncoder(w)\n}",
+        "summary": "Returns a new encoder that will transmit on the io.Writer."
+    },
+    {
+        "id": 255,
+        "code": "package main\n\nimport (\n\t\"encoding/csv\"\n\t\"io\"\n)\n\nfunc NewCsvWriter(w io.Writer) *csv.Writer {\n\treturn csv.NewWriter(w)\n}",
+        "summary": "Returns a new CSV writer that writes to w."
+    },
+    {
+        "id": 256,
+        "code": "package main\n\nimport (\n\t\"crypto/md5\"\n)\n\nfunc Md5Hash(data []byte) [16]byte {\n\treturn md5.Sum(data)\n}",
+        "summary": "Returns the MD5 checksum of the data."
+    },
+    {
+        "id": 257,
+        "code": "package main\n\nimport (\n\t\"crypto/sha1\"\n)\n\nfunc Sha1Hash(data []byte) [20]byte {\n\treturn sha1.Sum(data)\n}",
+        "summary": "Returns the SHA1 checksum of the data."
+    },
+    {
+        "id": 258,
+        "code": "package main\n\nimport (\n\t\"crypto/sha512\"\n)\n\nfunc Sha512Hash(data []byte) [64]byte {\n\treturn sha512.Sum512(data)\n}",
+        "summary": "Returns the SHA512 checksum of the data."
+    },
+    {
+        "id": 259,
+        "code": "package main\n\nimport (\n\t\"crypto/hmac\"\n\t\"crypto/sha256\"\n)\n\nfunc HmacSha256(message, key []byte) []byte {\n\tmac := hmac.New(sha256.New, key)\n\tmac.Write(message)\n\treturn mac.Sum(nil)\n}",
+        "summary": "Calculates the HMAC-SHA256 signature of a message using a key."
+    },
+    {
+        "id": 260,
+        "code": "package main\n\nimport (\n\t\"crypto/subtle\"\n)\n\nfunc ConstantTimeCompare(x, y []byte) int {\n\treturn subtle.ConstantTimeCompare(x, y)\n}",
+        "summary": "Returns 1 if the two byte slices are equal, 0 otherwise, in constant time."
+    },
+    {
+        "id": 261,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc NewCond(l sync.Locker) *sync.Cond {\n\treturn sync.NewCond(l)\n}",
+        "summary": "Returns a new Cond with Locker l."
+    },
+    {
+        "id": 262,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc CondWait(c *sync.Cond) {\n\tc.Wait()\n}",
+        "summary": "Atomically unlocks c.L and suspends execution of the calling goroutine."
+    },
+    {
+        "id": 263,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc CondSignal(c *sync.Cond) {\n\tc.Signal()\n}",
+        "summary": "Wakes one goroutine waiting on c, if there is any."
+    },
+    {
+        "id": 264,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc CondBroadcast(c *sync.Cond) {\n\tc.Broadcast()\n}",
+        "summary": "Wakes all goroutines waiting on c."
+    },
+    {
+        "id": 265,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicLoadInt64(addr *int64) int64 {\n\treturn atomic.LoadInt64(addr)\n}",
+        "summary": "Atomically loads *addr."
+    },
+    {
+        "id": 266,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicStoreInt64(addr *int64, val int64) {\n\tatomic.StoreInt64(addr, val)\n}",
+        "summary": "Atomically stores val into *addr."
+    },
+    {
+        "id": 267,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicCompareAndSwapInt64(addr *int64, old, new int64) bool {\n\treturn atomic.CompareAndSwapInt64(addr, old, new)\n}",
+        "summary": "Executes the compare-and-swap operation for an int64 value."
+    },
+    {
+        "id": 268,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc GOMAXPROCS(n int) int {\n\treturn runtime.GOMAXPROCS(n)\n}",
+        "summary": "Sets the maximum number of CPUs that can be executing simultaneously."
+    },
+    {
+        "id": 269,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc Gosched() {\n\truntime.Gosched()\n}",
+        "summary": "Yields the processor, allowing other goroutines to run."
+    },
+    {
+        "id": 270,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc Goexit() {\n\truntime.Goexit()\n}",
+        "summary": "Terminates the goroutine that calls it."
+    },
+    {
+        "id": 271,
+        "code": "package main\n\nimport (\n\t\"unsafe\"\n)\n\nfunc Sizeof(v any) uintptr {\n\t// Note: unsafe.Sizeof takes an expression type, usually used directly\n\t// This wrapper might not behave exactly as expected on interfaces without specifics\n\treturn unsafe.Sizeof(v)\n}",
+        "summary": "Returns the size in bytes of a variable."
+    },
+    {
+        "id": 272,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc IsNil(v any) bool {\n\tval := reflect.ValueOf(v)\n\treturn val.Kind() == reflect.Ptr && val.IsNil()\n}",
+        "summary": "Checks if a value is nil, useful for interfaces."
+    },
+    {
+        "id": 273,
+        "code": "package main\n\nimport (\n\t\"text/template\"\n)\n\nfunc NewTemplate(name string) *template.Template {\n\treturn template.New(name)\n}",
+        "summary": "Allocates a new text template with the given name."
+    },
+    {
+        "id": 274,
+        "code": "package main\n\nimport (\n\t\"html/template\"\n)\n\nfunc ParseHTMLTemplate(name, text string) (*template.Template, error) {\n\treturn template.New(name).Parse(text)\n}",
+        "summary": "Parses a string into an HTML template."
+    },
+    {
+        "id": 275,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc NewRGBA(r image.Rectangle) *image.RGBA {\n\treturn image.NewRGBA(r)\n}",
+        "summary": "Creates a new RGBA image with the given bounds."
+    },
+    {
+        "id": 276,
+        "code": "package main\n\nimport (\n\t\"image/png\"\n\t\"io\"\n\t\"image\"\n)\n\nfunc EncodePNG(w io.Writer, m image.Image) error {\n\treturn png.Encode(w, m)\n}",
+        "summary": "Writes the image m to w in PNG format."
+    },
+    {
+        "id": 277,
+        "code": "package main\n\nimport (\n\t\"image/jpeg\"\n\t\"io\"\n\t\"image\"\n)\n\nfunc EncodeJPEG(w io.Writer, m image.Image, o *jpeg.Options) error {\n\treturn jpeg.Encode(w, m, o)\n}",
+        "summary": "Writes the image m to w in JPEG format with the given options."
+    },
+    {
+        "id": 278,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc RegexQuoteMeta(s string) string {\n\treturn regexp.QuoteMeta(s)\n}",
+        "summary": "Returns a string that escapes all regular expression metacharacters inside the argument text."
+    },
+    {
+        "id": 279,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc ValidString(s string) bool {\n\treturn utf8.ValidString(s)\n}",
+        "summary": "Reports whether s consists entirely of valid UTF-8-encoded runes."
+    },
+    {
+        "id": 280,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc DecodeRuneInString(s string) (r rune, size int) {\n\treturn utf8.DecodeRuneInString(s)\n}",
+        "summary": "Unpacks the first UTF-8 encoding in s and returns the rune and its width in bytes."
+    },
+    {
+        "id": 281,
+        "code": "package main\n\nimport (\n\t\"math/big\"\n)\n\nfunc NewBigInt(x int64) *big.Int {\n\treturn big.NewInt(x)\n}",
+        "summary": "Allocates and returns a new Big Int set to x."
+    },
+    {
+        "id": 282,
+        "code": "package main\n\nimport (\n\t\"math/big\"\n)\n\nfunc BigIntAdd(x, y *big.Int) *big.Int {\n\tz := new(big.Int)\n\treturn z.Add(x, y)\n}",
+        "summary": "Sets z to the sum x+y and returns z."
+    },
+    {
+        "id": 283,
+        "code": "package main\n\nimport (\n\t\"math/big\"\n)\n\nfunc BigIntMul(x, y *big.Int) *big.Int {\n\tz := new(big.Int)\n\treturn z.Mul(x, y)\n}",
+        "summary": "Sets z to the product x*y and returns z."
+    },
+    {
+        "id": 284,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Println(a ...any) (n int, err error) {\n\treturn fmt.Println(a...)\n}",
+        "summary": "Formats using the default formats for its operands and writes to standard output."
+    },
+    {
+        "id": 285,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Printf(format string, a ...any) (n int, err error) {\n\treturn fmt.Printf(format, a...)\n}",
+        "summary": "Formats according to a format specifier and writes to standard output."
+    },
+    {
+        "id": 286,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc SearchInts(a []int, x int) int {\n\treturn sort.SearchInts(a, x)\n}",
+        "summary": "Searches for x in a sorted slice of ints and returns the index as specified by Search."
+    },
+    {
+        "id": 287,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc SearchStrings(a []string, x string) int {\n\treturn sort.SearchStrings(a, x)\n}",
+        "summary": "Searches for x in a sorted slice of strings and returns the index."
+    },
+    {
+        "id": 288,
+        "code": "package main\n\nimport (\n\t\"container/heap\"\n)\n\nfunc HeapInit(h heap.Interface) {\n\theap.Init(h)\n}",
+        "summary": "Initializes a heap. A heap must be initialized before any of the heap operations can be used."
+    },
+    {
+        "id": 289,
+        "code": "package main\n\nimport (\n\t\"container/heap\"\n)\n\nfunc HeapPush(h heap.Interface, x any) {\n\theap.Push(h, x)\n}",
+        "summary": "Pushes the element x onto the heap."
+    },
+    {
+        "id": 290,
+        "code": "package main\n\nimport (\n\t\"container/heap\"\n)\n\nfunc HeapPop(h heap.Interface) any {\n\treturn heap.Pop(h)\n}",
+        "summary": "Removes and returns the minimum element (according to Less) from the heap."
+    },
+    {
+        "id": 291,
+        "code": "package main\n\nimport (\n\t\"encoding/ascii85\"\n)\n\nfunc Ascii85Encode(src []byte) string {\n\tdst := make([]byte, ascii85.MaxEncodedLen(len(src)))\n\tn := ascii85.Encode(dst, src)\n\treturn string(dst[:n])\n}",
+        "summary": "Encodes src into at most MaxEncodedLen(len(src)) bytes of dst, returning the actual number of bytes written."
+    },
+    {
+        "id": 292,
+        "code": "package main\n\nimport (\n\t\"hash/fnv\"\n)\n\nfunc HashFNV1a(data []byte) uint64 {\n\th := fnv.New64a()\n\th.Write(data)\n\treturn h.Sum64()\n}",
+        "summary": "Computes the FNV-1a 64-bit hash of the data."
+    },
+    {
+        "id": 293,
+        "code": "package main\n\nimport (\n\t\"mime\"\n)\n\nfunc TypeByExtension(ext string) string {\n\treturn mime.TypeByExtension(ext)\n}",
+        "summary": "Returns the MIME type associated with the file extension ext."
+    },
+    {
+        "id": 294,
+        "code": "package main\n\nimport (\n\t\"net/mail\"\n\t\"io\"\n)\n\nfunc ReadEmailMessage(r io.Reader) (*mail.Message, error) {\n\treturn mail.ReadMessage(r)\n}",
+        "summary": "Reads a message, which typically consists of a header and a body, from r."
+    },
+    {
+        "id": 295,
+        "code": "package main\n\nimport (\n\t\"net/smtp\"\n)\n\nfunc SendMail(addr string, a smtp.Auth, from string, to []string, msg []byte) error {\n\treturn smtp.SendMail(addr, a, from, to, msg)\n}",
+        "summary": "Connects to the server at addr, switches to TLS if possible, authenticates with the optional mechanism a if possible, and then sends an email."
+    },
+    {
+        "id": 296,
+        "code": "package main\n\nimport (\n\t\"log/syslog\"\n)\n\nfunc NewSyslogWriter(network, raddr string, priority syslog.Priority, tag string) (*syslog.Writer, error) {\n\treturn syslog.Dial(network, raddr, priority, tag)\n}",
+        "summary": "Establishes a connection to a log daemon by connecting to address raddr on the specified network."
+    },
+    {
+        "id": 297,
+        "code": "package main\n\nimport (\n\t\"os/user\"\n)\n\nfunc CurrentUser() (*user.User, error) {\n\treturn user.Current()\n}",
+        "summary": "Returns the current user."
+    },
+    {
+        "id": 298,
+        "code": "package main\n\nimport (\n\t\"path\"\n)\n\nfunc PathMatch(pattern, name string) (bool, error) {\n\treturn path.Match(pattern, name)\n}",
+        "summary": "Reports whether name matches the shell file name pattern (generic path)."
+    },
+    {
+        "id": 299,
+        "code": "package main\n\nimport (\n\t\"plugin\"\n)\n\nfunc OpenPlugin(path string) (*plugin.Plugin, error) {\n\treturn plugin.Open(path)\n}",
+        "summary": "Opens a Go plugin."
+    },
+    {
+        "id": 300,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc MapIndex(v reflect.Value, key reflect.Value) reflect.Value {\n\treturn v.MapIndex(key)\n}",
+        "summary": "Returns the value associated with key in the map v."
+    },
+    {
+        "id": 301,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc MustCompileRegex(str string) *regexp.Regexp {\n\treturn regexp.MustCompile(str)\n}",
+        "summary": "Compiles a regular expression and panics if the expression cannot be parsed."
+    },
+    {
+        "id": 302,
+        "code": "package main\n\nimport (\n\t\"runtime/debug\"\n)\n\nfunc PrintStack() {\n\tdebug.PrintStack()\n}",
+        "summary": "Prints to standard error the stack trace returned by runtime.Stack."
+    },
+    {
+        "id": 303,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc SortFloat64s(x []float64) {\n\tsort.Float64s(x)\n}",
+        "summary": "Sorts a slice of float64s in increasing order."
+    },
+    {
+        "id": 304,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc Fields(s string) []string {\n\treturn strings.Fields(s)\n}",
+        "summary": "Splits the string s around each instance of one or more consecutive white space characters."
+    },
+    {
+        "id": 305,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc MapString(mapping func(rune) rune, s string) string {\n\treturn strings.Map(mapping, s)\n}",
+        "summary": "Returns a copy of the string s with all its characters modified according to the mapping function."
+    },
+    {
+        "id": 306,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc NewPool(newFunc func() any) *sync.Pool {\n\treturn &sync.Pool{New: newFunc}\n}",
+        "summary": "Creates a new sync.Pool with a New function."
+    },
+    {
+        "id": 307,
+        "code": "package main\n\nimport (\n\t\"testing\"\n\t\"testing/quick\"\n)\n\nfunc QuickCheck(f any, config *quick.Config) error {\n\treturn quick.Check(f, config)\n}",
+        "summary": "Checks that f is true for generated arguments."
+    },
+    {
+        "id": 308,
+        "code": "package main\n\nimport (\n\t\"text/scanner\"\n\t\"strings\"\n)\n\nfunc InitScanner(s *scanner.Scanner, src string) *scanner.Scanner {\n\treturn s.Init(strings.NewReader(src))\n}",
+        "summary": "Initializes a scanner with a new source reader."
+    },
+    {
+        "id": 309,
+        "code": "package main\n\nimport (\n\t\"text/tabwriter\"\n\t\"io\"\n)\n\nfunc NewTabWriter(output io.Writer, minwidth, tabwidth, padding int, padchar byte, flags uint) *tabwriter.Writer {\n\treturn tabwriter.NewWriter(output, minwidth, tabwidth, padding, padchar, flags)\n}",
+        "summary": "Creates a new tabwriter.Writer."
+    },
+    {
+        "id": 310,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc LoadLocation(name string) (*time.Location, error) {\n\treturn time.LoadLocation(name)\n}",
+        "summary": "Returns the Location with the given name."
+    },
+    {
+        "id": 311,
+        "code": "package main\n\nimport (\n\t\"unicode/utf16\"\n)\n\nfunc EncodeUTF16(s []rune) []uint16 {\n\treturn utf16.Encode(s)\n}",
+        "summary": "Returns the UTF-16 encoding of the Unicode rune sequence s."
+    },
+    {
+        "id": 312,
+        "code": "package main\n\nimport (\n\t\"unicode/utf16\"\n)\n\nfunc DecodeUTF16(s []uint16) []rune {\n\treturn utf16.Decode(s)\n}",
+        "summary": "Returns the Unicode rune sequence represented by the UTF-16 encoding s."
+    },
+    {
+        "id": 313,
+        "code": "package main\n\nimport (\n\t\"archive/zip\"\n\t\"io\"\n)\n\nfunc NewZipWriter(w io.Writer) *zip.Writer {\n\treturn zip.NewWriter(w)\n}",
+        "summary": "Returns a new Zip Writer writing a zip file to w."
+    },
+    {
+        "id": 314,
+        "code": "package main\n\nimport (\n\t\"compress/gzip\"\n\t\"io\"\n)\n\nfunc NewGzipWriter(w io.Writer) *gzip.Writer {\n\treturn gzip.NewWriter(w)\n}",
+        "summary": "Returns a new Writer that writes compressed bytes to w."
+    },
+    {
+        "id": 315,
+        "code": "package main\n\nimport (\n\t\"database/sql\"\n)\n\nfunc OpenDB(driverName, dataSourceName string) (*sql.DB, error) {\n\treturn sql.Open(driverName, dataSourceName)\n}",
+        "summary": "Opens a database specified by its database driver name and a driver-specific data source name."
+    },
+    {
+        "id": 316,
+        "code": "package main\n\nimport (\n\t\"debug/elf\"\n)\n\nfunc OpenELF(name string) (*elf.File, error) {\n\treturn elf.Open(name)\n}",
+        "summary": "Opens the named ELF file using os.Open."
+    },
+    {
+        "id": 317,
+        "code": "package main\n\nimport (\n\t\"debug/pe\"\n)\n\nfunc OpenPE(name string) (*pe.File, error) {\n\treturn pe.Open(name)\n}",
+        "summary": "Opens the named PE file."
+    },
+    {
+        "id": 318,
+        "code": "package main\n\nimport (\n\t\"encoding/ascii85\"\n)\n\nfunc Ascii85Decode(dst, src []byte) (ndst, nsrc int, err error) {\n\treturn ascii85.Decode(dst, src, true)\n}",
+        "summary": "Decodes src into dst, assuming the last block is flushed."
+    },
+    {
+        "id": 319,
+        "code": "package main\n\nimport (\n\t\"encoding/asn1\"\n)\n\nfunc MarshalASN1(val any) ([]byte, error) {\n\treturn asn1.Marshal(val)\n}",
+        "summary": "Returns the ASN.1 encoding of val."
+    },
+    {
+        "id": 320,
+        "code": "package main\n\nimport (\n\t\"encoding/csv\"\n\t\"io\"\n)\n\nfunc WriteCSVAll(w *csv.Writer, records [][]string) error {\n\treturn w.WriteAll(records)\n}",
+        "summary": "Writes multiple CSV records to w using Write and then flushes."
+    },
+    {
+        "id": 321,
+        "code": "package main\n\nimport (\n\t\"expvar\"\n)\n\nfunc NewInt(name string) *expvar.Int {\n\treturn expvar.NewInt(name)\n}",
+        "summary": "Returns a new Int variable satisfying the Var interface."
+    },
+    {
+        "id": 322,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc BoolFlag(name string, value bool, usage string) *bool {\n\treturn flag.Bool(name, value, usage)\n}",
+        "summary": "Defines a bool flag with specified name, default value, and usage string."
+    },
+    {
+        "id": 323,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc StringFlag(name string, value string, usage string) *string {\n\treturn flag.String(name, value, usage)\n}",
+        "summary": "Defines a string flag with specified name, default value, and usage string."
+    },
+    {
+        "id": 324,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"io\"\n)\n\nfunc Fscanf(r io.Reader, format string, a ...any) (n int, err error) {\n\treturn fmt.Fscanf(r, format, a...)\n}",
+        "summary": "Scans text read from r, storing successive space-separated values into successive arguments as determined by the format."
+    },
+    {
+        "id": 325,
+        "code": "package main\n\nimport (\n\t\"go/scanner\"\n\t\"go/token\"\n)\n\nfunc InitGoScanner(s *scanner.Scanner, fset *token.FileSet, filename string, src []byte) {\n\tfile := fset.AddFile(filename, fset.Base(), len(src))\n\ts.Init(file, src, nil, 0)\n}",
+        "summary": "Initializes a Go source scanner."
+    },
+    {
+        "id": 326,
+        "code": "package main\n\nimport (\n\t\"html/template\"\n)\n\nfunc MustHTML(t *template.Template, err error) *template.Template {\n\treturn template.Must(t, err)\n}",
+        "summary": "Wraps a call to a function returning (*Template, error) and panics if the error is non-nil."
+    },
+    {
+        "id": 327,
+        "code": "package main\n\nimport (\n\t\"image\"\n\t\"image/color\"\n)\n\nfunc At(img image.Image, x, y int) color.Color {\n\treturn img.At(x, y)\n}",
+        "summary": "Returns the color of the pixel at (x, y)."
+    },
+    {
+        "id": 328,
+        "code": "package main\n\nimport (\n\t\"image/draw\"\n\t\"image\"\n)\n\nfunc Draw(dst draw.Image, r image.Rectangle, src image.Image, sp image.Point, op draw.Op) {\n\tdraw.Draw(dst, r, src, sp, op)\n}",
+        "summary": "Aligns r.Min in dst with sp in src and then replaces the rectangle r in dst with the result of a Porter-Duff composition."
+    },
+    {
+        "id": 329,
+        "code": "package main\n\nimport (\n\t\"index/suffixarray\"\n)\n\nfunc NewSuffixArray(data []byte) *suffixarray.Index {\n\treturn suffixarray.New(data)\n}",
+        "summary": "Creates a new SuffixArray Index for data."
+    },
+    {
+        "id": 330,
+        "code": "package main\n\nimport (\n\t\"io/fs\"\n)\n\nfunc ReadFileFS(fsys fs.FS, name string) ([]byte, error) {\n\treturn fs.ReadFile(fsys, name)\n}",
+        "summary": "Reads the named file from the file system fs."
+    },
+    {
+        "id": 331,
+        "code": "package main\n\nimport (\n\t\"log\"\n\t\"io\"\n)\n\nfunc NewLogger(out io.Writer, prefix string, flag int) *log.Logger {\n\treturn log.New(out, prefix, flag)\n}",
+        "summary": "Creates a new Logger."
+    },
+    {
+        "id": 332,
+        "code": "package main\n\nimport (\n\t\"math/big\"\n)\n\nfunc BigIntString(z *big.Int, text string, base int) (*big.Int, bool) {\n\treturn z.SetString(text, base)\n}",
+        "summary": "Sets the value of z to the number represented by the string text and returns z and a boolean indicating success."
+    },
+    {
+        "id": 333,
+        "code": "package main\n\nimport (\n\t\"math/bits\"\n)\n\nfunc OnesCount(x uint) int {\n\treturn bits.OnesCount(x)\n}",
+        "summary": "Returns the number of one bits (\"population count\") in x."
+    },
+    {
+        "id": 334,
+        "code": "package main\n\nimport (\n\t\"math/cmplx\"\n)\n\nfunc ComplexAbs(x complex128) float64 {\n\treturn cmplx.Abs(x)\n}",
+        "summary": "Returns the absolute value (magnitude) of x."
+    },
+    {
+        "id": 335,
+        "code": "package main\n\nimport (\n\t\"mime/multipart\"\n\t\"io\"\n)\n\nfunc NewMultipartReader(r io.Reader, boundary string) *multipart.Reader {\n\treturn multipart.NewReader(r, boundary)\n}",
+        "summary": "Creates a new multipart Reader reading from r using the given boundary."
+    },
+    {
+        "id": 336,
+        "code": "package main\n\nimport (\n\t\"mime/quotedprintable\"\n\t\"io\"\n)\n\nfunc NewQuotedPrintableReader(r io.Reader) *quotedprintable.Reader {\n\treturn quotedprintable.NewReader(r)\n}",
+        "summary": "Returns a quoted-printable reader for r."
+    },
+    {
+        "id": 337,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc JoinHostPort(host, port string) string {\n\treturn net.JoinHostPort(host, port)\n}",
+        "summary": "Combines host and port into a network address of the form \"host:port\"."
+    },
+    {
+        "id": 338,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc SplitHostPort(hostport string) (host, port string, err error) {\n\treturn net.SplitHostPort(hostport)\n}",
+        "summary": "Splits a network address of the form \"host:port\" into host and port."
+    },
+    {
+        "id": 339,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc RedirectHandler(url string, code int) http.Handler {\n\treturn http.RedirectHandler(url, code)\n}",
+        "summary": "Returns a request handler that redirects each request it receives to the given URL using the given status code."
+    },
+    {
+        "id": 340,
+        "code": "package main\n\nimport (\n\t\"net/http/cookiejar\"\n)\n\nfunc NewCookieJar(o *cookiejar.Options) (*cookiejar.Jar, error) {\n\treturn cookiejar.New(o)\n}",
+        "summary": "Returns a new CookieJar."
+    },
+    {
+        "id": 341,
+        "code": "package main\n\nimport (\n\t\"net/http/httptest\"\n\t\"net/http\"\n)\n\nfunc NewRecorder() *httptest.ResponseRecorder {\n\treturn httptest.NewRecorder()\n}",
+        "summary": "Returns an initialized ResponseRecorder, useful for testing HTTP handlers."
+    },
+    {
+        "id": 342,
+        "code": "package main\n\nimport (\n\t\"net/http/httputil\"\n\t\"io\"\n)\n\nfunc DumpResponse(resp *http.Response, body bool) ([]byte, error) {\n\treturn httputil.DumpResponse(resp, body)\n}",
+        "summary": "DumpResponse is like DumpRequest but dumps a response."
+    },
+    {
+        "id": 343,
+        "code": "package main\n\nimport (\n\t\"net/mail\"\n)\n\nfunc ParseAddress(address string) (*mail.Address, error) {\n\treturn mail.ParseAddress(address)\n}",
+        "summary": "Parses a single RFC 5322 address, e.g. \"Barry Gibbs <bg@example.com>\"."
+    },
+    {
+        "id": 344,
+        "code": "package main\n\nimport (\n\t\"net/rpc\"\n)\n\nfunc DialRPC(network, address string) (*rpc.Client, error) {\n\treturn rpc.Dial(network, address)\n}",
+        "summary": "Connects to an RPC server at the specified network address."
+    },
+    {
+        "id": 345,
+        "code": "package main\n\nimport (\n\t\"net/textproto\"\n)\n\nfunc CanonicalMIMEHeaderKey(s string) string {\n\treturn textproto.CanonicalMIMEHeaderKey(s)\n}",
+        "summary": "Returns the canonical format of the MIME header key s."
+    },
+    {
+        "id": 346,
+        "code": "package main\n\nimport (\n\t\"os/signal\"\n)\n\nfunc IgnoreSignal(sig ...os.Signal) {\n\tsignal.Ignore(sig...)\n}",
+        "summary": "Causes the provided signals to be ignored."
+    },
+    {
+        "id": 347,
+        "code": "package main\n\nimport (\n\t\"os/user\"\n)\n\nfunc LookupUser(username string) (*user.User, error) {\n\treturn user.Lookup(username)\n}",
+        "summary": "Looks up a user by username."
+    },
+    {
+        "id": 348,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc CopyReflect(dst, src reflect.Value) int {\n\treturn reflect.Copy(dst, src)\n}",
+        "summary": "Copies the contents of src to dst using reflection."
+    },
+    {
+        "id": 349,
+        "code": "package main\n\nimport (\n\t\"regexp/syntax\"\n)\n\nfunc ParseRegexSyntax(s string, flags syntax.Flags) (*syntax.Regexp, error) {\n\treturn syntax.Parse(s, flags)\n}",
+        "summary": "Parses a regular expression string s into a syntax tree."
+    },
+    {
+        "id": 350,
+        "code": "package main\n\nimport (\n\t\"runtime/pprof\"\n\t\"io\"\n)\n\nfunc StartCPUProfile(w io.Writer) error {\n\treturn pprof.StartCPUProfile(w)\n}",
+        "summary": "Enables CPU profiling for the current process."
+    },
+    {
+        "id": 351,
+        "code": "package main\n\nimport (\n\t\"runtime/trace\"\n\t\"io\"\n)\n\nfunc StartTrace(w io.Writer) error {\n\treturn trace.Start(w)\n}",
+        "summary": "Enables tracing for the current process."
+    },
+    {
+        "id": 352,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc SortSlice(slice any, less func(i, j int) bool) {\n\tsort.Slice(slice, less)\n}",
+        "summary": "Sorts the slice x given the provided less function."
+    },
+    {
+        "id": 353,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc Quote(s string) string {\n\treturn strconv.Quote(s)\n}",
+        "summary": "Returns a double-quoted Go string literal representing s."
+    },
+    {
+        "id": 354,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ContainsString(s, substr string) bool {\n\treturn strings.Contains(s, substr)\n}",
+        "summary": "Reports whether substr is within s."
+    },
+    {
+        "id": 355,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicLoadUint32(addr *uint32) uint32 {\n\treturn atomic.LoadUint32(addr)\n}",
+        "summary": "Atomically loads *addr."
+    },
+    {
+        "id": 356,
+        "code": "package main\n\nimport (\n\t\"testing/fstest\"\n)\n\nfunc MapFS(m map[string]*fstest.MapFile) fstest.MapFS {\n\treturn fstest.MapFS(m)\n}",
+        "summary": "Creates a new in-memory file system."
+    },
+    {
+        "id": 357,
+        "code": "package main\n\nimport (\n\t\"text/template/parse\"\n)\n\nfunc ParseTemplate(name, text string, leftDelim, rightDelim string, funcs ...map[string]any) (map[string]*parse.Tree, error) {\n\treturn parse.Parse(name, text, leftDelim, rightDelim, funcs...)\n}",
+        "summary": "Parses a string into a text template syntax tree."
+    },
+    {
+        "id": 358,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc TimeIn(t time.Time, loc *time.Location) time.Time {\n\treturn t.In(loc)\n}",
+        "summary": "Returns a copy of t representing the same time instant, but with the copy's location information set to loc."
+    },
+    {
+        "id": 359,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsUpper(r rune) bool {\n\treturn unicode.IsUpper(r)\n}",
+        "summary": "Reports whether the rune is an upper case letter."
+    },
+    {
+        "id": 360,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc RuneLen(r rune) int {\n\treturn utf8.RuneLen(r)\n}",
+        "summary": "Returns the number of bytes required to encode the rune."
+    },
+    {
+        "id": 361,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc UserPassword(username, password string) *url.Userinfo {\n\treturn url.UserPassword(username, password)\n}",
+        "summary": "Returns a Userinfo containing the provided username and password."
+    },
+    {
+        "id": 362,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc LogPanic(v ...any) {\n\tlog.Panic(v...)\n}",
+        "summary": "Logs a message and then panics."
+    },
+    {
+        "id": 363,
+        "code": "package main\n\nimport (\n\t\"hash/crc64\"\n)\n\nfunc ChecksumISO(data []byte) uint64 {\n\treturn crc64.Checksum(data, crc64.MakeTable(crc64.ISO))\n}",
+        "summary": "Returns the CRC-64 checksum of data using the ISO polynomial."
+    },
+    {
+        "id": 364,
+        "code": "package main\n\nimport (\n\t\"encoding/gob\"\n\t\"io\"\n)\n\nfunc NewGobDecoder(r io.Reader) *gob.Decoder {\n\treturn gob.NewDecoder(r)\n}",
+        "summary": "Returns a new decoder that reads from the io.Reader."
+    },
+    {
+        "id": 365,
+        "code": "package main\n\nimport (\n\t\"encoding/hex\"\n)\n\nfunc HexDump(data []byte) string {\n\treturn hex.Dump(data)\n}",
+        "summary": "Returns a string that contains a hex dump of the given data."
+    },
+    {
+        "id": 366,
+        "code": "package main\n\nimport (\n\t\"html\"\n)\n\nfunc UnescapeHTML(s string) string {\n\treturn html.UnescapeString(s)\n}",
+        "summary": "Unescapes entities like &lt; to become < (duplicate of 189 but widely used alias)."
+    },
+    {
+        "id": 367,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc StatusText(code int) string {\n\treturn http.StatusText(code)\n}",
+        "summary": "Returns a text for the HTTP status code."
+    },
+    {
+        "id": 368,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Getgid() int {\n\treturn os.Getgid()\n}",
+        "summary": "Returns the numeric group ID of the caller."
+    },
+    {
+        "id": 369,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Getuid() int {\n\treturn os.Getuid()\n}",
+        "summary": "Returns the numeric user ID of the caller."
+    },
+    {
+        "id": 370,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc EvalSymlinks(path string) (string, error) {\n\treturn filepath.EvalSymlinks(path)\n}",
+        "summary": "Returns the path name after the evaluation of any symbolic links."
+    },
+    {
+        "id": 371,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc MatchRegex(pattern string, b []byte) (bool, error) {\n\treturn regexp.Match(pattern, b)\n}",
+        "summary": "Reports whether the byte slice b contains any match of the regular expression pattern."
+    },
+    {
+        "id": 372,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc CountString(s, substr string) int {\n\treturn strings.Count(s, substr)\n}",
+        "summary": "Counts the number of non-overlapping instances of substr in s."
+    },
+    {
+        "id": 373,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc IndexString(s, substr string) int {\n\treturn strings.Index(s, substr)\n}",
+        "summary": "Returns the index of the first instance of substr in s, or -1 if substr is not present."
+    },
+    {
+        "id": 374,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc LastIndexString(s, substr string) int {\n\treturn strings.LastIndex(s, substr)\n}",
+        "summary": "Returns the index of the last instance of substr in s, or -1 if substr is not present."
+    },
+    {
+        "id": 375,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc DateEqual(t1, t2 time.Time) bool {\n\treturn t1.Equal(t2)\n}",
+        "summary": "Reports whether t1 and t2 represent the same time instant."
+    },
+    {
+        "id": 376,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc DurationHours(d time.Duration) float64 {\n\treturn d.Hours()\n}",
+        "summary": "Returns the duration as a floating point number of hours."
+    },
+    {
+        "id": 377,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc DurationMinutes(d time.Duration) float64 {\n\treturn d.Minutes()\n}",
+        "summary": "Returns the duration as a floating point number of minutes."
+    },
+    {
+        "id": 378,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc DurationSeconds(d time.Duration) float64 {\n\treturn d.Seconds()\n}",
+        "summary": "Returns the duration as a floating point number of seconds."
+    },
+    {
+        "id": 379,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Fprint(w io.Writer, a ...any) (n int, err error) {\n\treturn fmt.Fprint(w, a...)\n}",
+        "summary": "Formats using the default formats for its operands and writes to w."
+    },
+    {
+        "id": 380,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Fprintln(w io.Writer, a ...any) (n int, err error) {\n\treturn fmt.Fprintln(w, a...)\n}",
+        "summary": "Formats using the default formats for its operands and writes to w, appending a newline."
+    },
+    {
+        "id": 381,
+        "code": "package main\n\nimport (\n\t\"math/rand\"\n)\n\nfunc RandomFloat64() float64 {\n\treturn rand.Float64()\n}",
+        "summary": "Returns a pseudo-random number in [0.0,1.0) as a float64."
+    },
+    {
+        "id": 382,
+        "code": "package main\n\nimport (\n\t\"math/rand\"\n)\n\nfunc RandomPerm(n int) []int {\n\treturn rand.Perm(n)\n}",
+        "summary": "Returns a slice of n ints containing a pseudo-random permutation of the integers [0,n)."
+    },
+    {
+        "id": 383,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc Walk(root string, walkFn filepath.WalkFunc) error {\n\treturn filepath.Walk(root, walkFn)\n}",
+        "summary": "Walks the file tree rooted at root, calling walkFn for each file or directory in the tree."
+    },
+    {
+        "id": 384,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc ReflectIndirect(v reflect.Value) reflect.Value {\n\treturn reflect.Indirect(v)\n}",
+        "summary": "Returns the value that v points to. If v is a nil pointer, Indirect returns a zero Value."
+    },
+    {
+        "id": 385,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc ReadMemStats(m *runtime.MemStats) {\n\truntime.ReadMemStats(m)\n}",
+        "summary": "Populates m with memory allocator statistics."
+    },
+    {
+        "id": 386,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc StringsAreSorted(x []string) bool {\n\treturn sort.StringsAreSorted(x)\n}",
+        "summary": "Reports whether the slice x is sorted in increasing order."
+    },
+    {
+        "id": 387,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc ParseBoolString(str string) (bool, error) {\n\treturn strconv.ParseBool(str)\n}",
+        "summary": "Converts a string to a boolean."
+    },
+    {
+        "id": 388,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc EqualStrings(a, b string) bool {\n\treturn strings.EqualFold(a, b)\n}",
+        "summary": "Compares two strings for equality under Unicode case-folding."
+    },
+    {
+        "id": 389,
+        "code": "package main\n\nimport (\n\t\"syscall\"\n)\n\nfunc GetSyscallPid() int {\n\treturn syscall.Getpid()\n}",
+        "summary": "Returns the process ID of the current process using syscall."
+    },
+    {
+        "id": 390,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestingShort() bool {\n\treturn testing.Short()\n}",
+        "summary": "Reports whether the -test.short flag was set."
+    },
+    {
+        "id": 391,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestingVerbose() bool {\n\treturn testing.Verbose()\n}",
+        "summary": "Reports whether the -test.v flag was set."
+    },
+    {
+        "id": 392,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc NanoTime() int64 {\n\treturn time.Now().UnixNano()\n}",
+        "summary": "Returns the current time as nanoseconds elapsed since January 1, 1970 UTC."
+    },
+    {
+        "id": 393,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsControl(r rune) bool {\n\treturn unicode.IsControl(r)\n}",
+        "summary": "Reports whether the rune is a control character."
+    },
+    {
+        "id": 394,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsSpace(r rune) bool {\n\treturn unicode.IsSpace(r)\n}",
+        "summary": "Reports whether the rune is a space character."
+    },
+    {
+        "id": 395,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc QueryEscape(s string) string {\n\treturn url.QueryEscape(s)\n}",
+        "summary": "Escapes the string so it can be safely placed inside a URL query."
+    },
+    {
+        "id": 396,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc QueryUnescape(s string) (string, error) {\n\treturn url.QueryUnescape(s)\n}",
+        "summary": "Unescapes a string by replacing %AB with the byte 0xAB and '+' with ' '."
+    },
+    {
+        "id": 397,
+        "code": "package main\n\nimport (\n\t\"os/exec\"\n)\n\nfunc CommandPath(cmd *exec.Cmd) string {\n\treturn cmd.Path\n}",
+        "summary": "Returns the path of the command to run."
+    },
+    {
+        "id": 398,
+        "code": "package main\n\nimport (\n\t\"path\"\n)\n\nfunc PathClean(path string) string {\n\treturn path.Clean(path)\n}",
+        "summary": "Returns the shortest path name equivalent to path by purely lexical processing (for slash-separated paths)."
+    },
+    {
+        "id": 399,
+        "code": "package main\n\nimport (\n\t\"path\"\n)\n\nfunc PathJoin(elem ...string) string {\n\treturn path.Join(elem...)\n}",
+        "summary": "Joins any number of path elements into a single path (for slash-separated paths)."
+    },
+    {
+        "id": 400,
+        "code": "package main\n\nimport (\n\t\"plugin\"\n)\n\nfunc LookupPluginSymbol(p *plugin.Plugin, symName string) (plugin.Symbol, error) {\n\treturn p.Lookup(symName)\n}",
+        "summary": "Searches for a symbol named symName in the plugin p."
+    },
+    {
+        "id": 401,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc ReflectZero(typ reflect.Type) reflect.Value {\n\treturn reflect.Zero(typ)\n}",
+        "summary": "Returns a Value representing the zero value for the specified type."
+    },
+    {
+        "id": 402,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc MustCompilePOSIX(str string) *regexp.Regexp {\n\treturn regexp.MustCompilePOSIX(str)\n}",
+        "summary": "Compiles a POSIX regular expression and panics if the expression cannot be parsed."
+    },
+    {
+        "id": 403,
+        "code": "package main\n\nimport (\n\t\"runtime/debug\"\n)\n\nfunc FreeOSMemory() {\n\tdebug.FreeOSMemory()\n}",
+        "summary": "Forces a garbage collection and attempts to return unused memory to the OS."
+    },
+    {
+        "id": 404,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc ReverseSort(data sort.Interface) {\n\tsort.Sort(sort.Reverse(data))\n}",
+        "summary": "Sorts the data in reverse order."
+    },
+    {
+        "id": 405,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc TrimLeft(s, cutset string) string {\n\treturn strings.TrimLeft(s, cutset)\n}",
+        "summary": "Returns a slice of the string s with all leading Unicode code points contained in cutset removed."
+    },
+    {
+        "id": 406,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc TrimRight(s, cutset string) string {\n\treturn strings.TrimRight(s, cutset)\n}",
+        "summary": "Returns a slice of the string s with all trailing Unicode code points contained in cutset removed."
+    },
+    {
+        "id": 407,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc NewMap() *sync.Map {\n\treturn &sync.Map{}\n}",
+        "summary": "Creates a new concurrent map."
+    },
+    {
+        "id": 408,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc AllocsPerRun(runs int, f func()) float64 {\n\treturn testing.AllocsPerRun(runs, f)\n}",
+        "summary": "Returns the average number of allocations during calls to f."
+    },
+    {
+        "id": 409,
+        "code": "package main\n\nimport (\n\t\"text/scanner\"\n)\n\nfunc Scan(s *scanner.Scanner) rune {\n\treturn s.Scan()\n}",
+        "summary": "Scans the next token and returns the token type."
+    },
+    {
+        "id": 410,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc FixedZone(name string, offset int) *time.Location {\n\treturn time.FixedZone(name, offset)\n}",
+        "summary": "Returns a Location that always uses the given zone name and offset (seconds east of UTC)."
+    },
+    {
+        "id": 411,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsPunct(r rune) bool {\n\treturn unicode.IsPunct(r)\n}",
+        "summary": "Reports whether the rune is a punctuation character."
+    },
+    {
+        "id": 412,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc FullRune(p []byte) bool {\n\treturn utf8.FullRune(p)\n}",
+        "summary": "Reports whether the bytes in p begin with a full UTF-8 encoding of a rune."
+    },
+    {
+        "id": 413,
+        "code": "package main\n\nimport (\n\t\"archive/zip\"\n)\n\nfunc RegisterZipDecompressor(method uint16, dcomp zip.Decompressor) {\n\tzip.RegisterDecompressor(method, dcomp)\n}",
+        "summary": "Registers a custom decompressor for a specific method ID in ZIP archives."
+    },
+    {
+        "id": 414,
+        "code": "package main\n\nimport (\n\t\"compress/zlib\"\n\t\"io\"\n)\n\nfunc NewZlibWriter(w io.Writer) *zlib.Writer {\n\treturn zlib.NewWriter(w)\n}",
+        "summary": "Returns a new Zlib Writer."
+    },
+    {
+        "id": 415,
+        "code": "package main\n\nimport (\n\t\"database/sql\"\n)\n\nfunc DBStats(db *sql.DB) sql.DBStats {\n\treturn db.Stats()\n}",
+        "summary": "Returns database statistics."
+    },
+    {
+        "id": 416,
+        "code": "package main\n\nimport (\n\t\"encoding/base32\"\n)\n\nfunc Base32Encode(data []byte) string {\n\treturn base32.StdEncoding.EncodeToString(data)\n}",
+        "summary": "Encodes a byte slice into a base32 encoded string."
+    },
+    {
+        "id": 417,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc PutUint32(b []byte, v uint32) {\n\tbinary.BigEndian.PutUint32(b, v)\n}",
+        "summary": "Writes a uint32 into a byte slice using Big Endian byte order."
+    },
+    {
+        "id": 418,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc Uint32(b []byte) uint32 {\n\treturn binary.BigEndian.Uint32(b)\n}",
+        "summary": "Reads a uint32 from a byte slice using Big Endian byte order."
+    },
+    {
+        "id": 419,
+        "code": "package main\n\nimport (\n\t\"encoding/pem\"\n)\n\nfunc EncodePEM(b []byte) []byte {\n\treturn pem.EncodeToMemory(&pem.Block{Type: \"MESSAGE\", Bytes: b})\n}",
+        "summary": "Encodes a byte slice into PEM format."
+    },
+    {
+        "id": 420,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc Float64Flag(name string, value float64, usage string) *float64 {\n\treturn flag.Float64(name, value, usage)\n}",
+        "summary": "Defines a float64 flag with specified name, default value, and usage string."
+    },
+    {
+        "id": 421,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc ErrorfWrap(err error, msg string) error {\n\treturn fmt.Errorf(\"%s: %w\", msg, err)\n}",
+        "summary": "Wraps an error with a prefix message."
+    },
+    {
+        "id": 422,
+        "code": "package main\n\nimport (\n\t\"go/token\"\n)\n\nfunc NewFileSet() *token.FileSet {\n\treturn token.NewFileSet()\n}",
+        "summary": "Creates a new file set."
+    },
+    {
+        "id": 423,
+        "code": "package main\n\nimport (\n\t\"hash/crc32\"\n)\n\nfunc NewCRC32() hash.Hash32 {\n\treturn crc32.NewIEEE()\n}",
+        "summary": "Creates a new CRC-32 hash using the IEEE polynomial."
+    },
+    {
+        "id": 424,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc Rect(x0, y0, x1, y1 int) image.Rectangle {\n\treturn image.Rect(x0, y0, x1, y1)\n}",
+        "summary": "Returns a Rectangle with the specified coordinates."
+    },
+    {
+        "id": 425,
+        "code": "package main\n\nimport (\n\t\"image/color\"\n)\n\nfunc RGBA(r, g, b, a uint8) color.RGBA {\n\treturn color.RGBA{r, g, b, a}\n}",
+        "summary": "Creates a new RGBA color."
+    },
+    {
+        "id": 426,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc Copy(dst io.Writer, src io.Reader) (int64, error) {\n\treturn io.Copy(dst, src)\n}",
+        "summary": "Copies from src to dst until either EOF is reached on src or an error occurs."
+    },
+    {
+        "id": 427,
+        "code": "package main\n\nimport (\n\t\"io/fs\"\n)\n\nfunc GlobFS(fsys fs.FS, pattern string) ([]string, error) {\n\treturn fs.Glob(fsys, pattern)\n}",
+        "summary": "Returns the names of all files matching pattern in the file system fsys."
+    },
+    {
+        "id": 428,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc SetOutput(w io.Writer) {\n\tlog.SetOutput(w)\n}",
+        "summary": "Sets the output destination for the standard logger."
+    },
+    {
+        "id": 429,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc IsNaN(f float64) bool {\n\treturn math.IsNaN(f)\n}",
+        "summary": "Reports whether f is an IEEE 754 ``not-a-number'' value."
+    },
+    {
+        "id": 430,
+        "code": "package main\n\nimport (\n\t\"math/rand\"\n)\n\nfunc Seed(seed int64) {\n\trand.Seed(seed)\n}",
+        "summary": "Uses the provided seed value to initialize the default Source."
+    },
+    {
+        "id": 431,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc LookupIP(host string) ([]net.IP, error) {\n\treturn net.LookupIP(host)\n}",
+        "summary": "Looks up the host using the local resolver and returns a slice of that host's IPv4 and IPv6 addresses."
+    },
+    {
+        "id": 432,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc CanonicalHeaderKey(s string) string {\n\treturn http.CanonicalHeaderKey(s)\n}",
+        "summary": "Returns the canonical format of the header key s."
+    },
+    {
+        "id": 433,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc ParseRequestURI(rawurl string) (*url.URL, error) {\n\treturn url.ParseRequestURI(rawurl)\n}",
+        "summary": "Parses rawurl into a URL structure. It assumes that rawurl was received in an HTTP request."
+    },
+    {
+        "id": 434,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc PipeFile() (r *os.File, w *os.File, err error) {\n\treturn os.Pipe()\n}",
+        "summary": "Returns a connected pair of Files; reads from r return bytes written to w."
+    },
+    {
+        "id": 435,
+        "code": "package main\n\nimport (\n\t\"path\"\n)\n\nfunc PathBase(path string) string {\n\treturn path.Base(path)\n}",
+        "summary": "Returns the last element of path (using slash separator)."
+    },
+    {
+        "id": 436,
+        "code": "package main\n\nimport (\n\t\"path\"\n)\n\nfunc PathDir(path string) string {\n\treturn path.Dir(path)\n}",
+        "summary": "Returns all but the last element of path (using slash separator)."
+    },
+    {
+        "id": 437,
+        "code": "package main\n\nimport (\n\t\"path\"\n)\n\nfunc PathExt(path string) string {\n\treturn path.Ext(path)\n}",
+        "summary": "Returns the file name extension used by path."
+    },
+    {
+        "id": 438,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc DeepEqualValue(v1, v2 reflect.Value) bool {\n\treturn v1.Interface() == v2.Interface()\n}",
+        "summary": "Compares two reflect values for equality by converting them to interfaces."
+    },
+    {
+        "id": 439,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc FindAllString(re *regexp.Regexp, s string, n int) []string {\n\treturn re.FindAllString(s, n)\n}",
+        "summary": "Returns a slice of all successive matches of the expression."
+    },
+    {
+        "id": 440,
+        "code": "package main\n\nimport (\n\t\"runtime/debug\"\n)\n\nfunc SetMaxStack(bytes int) int {\n\treturn debug.SetMaxStack(bytes)\n}",
+        "summary": "Sets the maximum amount of memory that can be used by a single goroutine stack."
+    },
+    {
+        "id": 441,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc IsSorted(data sort.Interface) bool {\n\treturn sort.IsSorted(data)\n}",
+        "summary": "Reports whether data is sorted."
+    },
+    {
+        "id": 442,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc Unquote(s string) (string, error) {\n\treturn strconv.Unquote(s)\n}",
+        "summary": "Interprets s as a single-quoted, double-quoted, or backquoted Go string literal, returning the string value."
+    },
+    {
+        "id": 443,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc Map(mapping func(rune) rune, s string) string {\n\treturn strings.Map(mapping, s)\n}",
+        "summary": "Returns a copy of the string s with all its characters modified according to the mapping function."
+    },
+    {
+        "id": 444,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicAddUint64(addr *uint64, delta uint64) uint64 {\n\treturn atomic.AddUint64(addr, delta)\n}",
+        "summary": "Atomically adds delta to *addr."
+    },
+    {
+        "id": 445,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc Benchmark(f func(b *testing.B)) testing.BenchmarkResult {\n\treturn testing.Benchmark(f)\n}",
+        "summary": "Benchmarks the function f."
+    },
+    {
+        "id": 446,
+        "code": "package main\n\nimport (\n\t\"text/template\"\n)\n\nfunc ParseFiles(filenames ...string) (*template.Template, error) {\n\treturn template.ParseFiles(filenames...)\n}",
+        "summary": "Creates a new Template and parses the template definitions from the named files."
+    },
+    {
+        "id": 447,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc NewTimer(d time.Duration) *time.Timer {\n\treturn time.NewTimer(d)\n}",
+        "summary": "Creates a new Timer that will send the current time on its channel after at least duration d."
+    },
+    {
+        "id": 448,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsSymbol(r rune) bool {\n\treturn unicode.IsSymbol(r)\n}",
+        "summary": "Reports whether the rune is a symbol character."
+    },
+    {
+        "id": 449,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc ValidRune(r rune) bool {\n\treturn utf8.ValidRune(r)\n}",
+        "summary": "Reports whether r can be faithfully represented as a valid UTF-8 byte sequence."
+    },
+    {
+        "id": 450,
+        "code": "package main\n\nimport (\n\t\"archive/tar\"\n)\n\nfunc NewTarWriter(w io.Writer) *tar.Writer {\n\treturn tar.NewWriter(w)\n}",
+        "summary": "Creates a new Tar Writer writing to w."
+    },
+    {
+        "id": 451,
+        "code": "package main\n\nimport (\n\t\"compress/lzw\"\n\t\"io\"\n)\n\nfunc NewLzwReader(r io.Reader, order lzw.Order, litWidth int) io.ReadCloser {\n\treturn lzw.NewReader(r, order, litWidth)\n}",
+        "summary": "Creates a new LZW reader."
+    },
+    {
+        "id": 452,
+        "code": "package main\n\nimport (\n\t\"database/sql\"\n)\n\nfunc RegisterDriver(name string, driver sql.Driver) {\n\tsql.Register(name, driver)\n}",
+        "summary": "Registers a database driver."
+    },
+    {
+        "id": 453,
+        "code": "package main\n\nimport (\n\t\"encoding/base64\"\n)\n\nfunc URLEncoding() *base64.Encoding {\n\treturn base64.URLEncoding\n}",
+        "summary": "Returns the standard base64 URL encoding."
+    },
+    {
+        "id": 454,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc PutUint16(b []byte, v uint16) {\n\tbinary.BigEndian.PutUint16(b, v)\n}",
+        "summary": "Writes a uint16 into a byte slice using Big Endian byte order."
+    },
+    {
+        "id": 455,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc Uint16(b []byte) uint16 {\n\treturn binary.BigEndian.Uint16(b)\n}",
+        "summary": "Reads a uint16 from a byte slice using Big Endian byte order."
+    },
+    {
+        "id": 456,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc IntFlag(name string, value int, usage string) *int {\n\treturn flag.Int(name, value, usage)\n}",
+        "summary": "Defines an int flag with specified name, default value, and usage string."
+    },
+    {
+        "id": 457,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"io\"\n)\n\nfunc Fprintln(w io.Writer, a ...any) (n int, err error) {\n\treturn fmt.Fprintln(w, a...)\n}",
+        "summary": "Formats using the default formats for its operands and writes to w."
+    },
+    {
+        "id": 458,
+        "code": "package main\n\nimport (\n\t\"go/parser\"\n\t\"go/token\"\n\t\"go/ast\"\n)\n\nfunc ParseExpr(x string) (ast.Expr, error) {\n\treturn parser.ParseExpr(x)\n}",
+        "summary": "Parses a Go expression string."
+    },
+    {
+        "id": 459,
+        "code": "package main\n\nimport (\n\t\"hash/crc32\"\n)\n\nfunc UpdateCRC32(crc uint32, tab *crc32.Table, p []byte) uint32 {\n\treturn crc32.Update(crc, tab, p)\n}",
+        "summary": "Returns the result of adding the bytes in p to the crc."
+    },
+    {
+        "id": 460,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc Pt(x, y int) image.Point {\n\treturn image.Pt(x, y)\n}",
+        "summary": "Returns a Point with the given coordinates."
+    },
+    {
+        "id": 461,
+        "code": "package main\n\nimport (\n\t\"image/draw\"\n\t\"image\"\n)\n\nfunc DrawMask(dst draw.Image, r image.Rectangle, src image.Image, sp image.Point, mask image.Image, mp image.Point, op draw.Op) {\n\tdraw.DrawMask(dst, r, src, sp, mask, mp, op)\n}",
+        "summary": "Draws the src image on dst image with a mask."
+    },
+    {
+        "id": 462,
+        "code": "package main\n\nimport (\n\t\"io\"\n\t\"strings\"\n)\n\nfunc NewSectionReader(r io.ReaderAt, off int64, n int64) *io.SectionReader {\n\treturn io.NewSectionReader(r, off, n)\n}",
+        "summary": "Returns a SectionReader that reads from r starting at offset off and stops with EOF after n bytes."
+    },
+    {
+        "id": 463,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc Prefix() string {\n\treturn log.Prefix()\n}",
+        "summary": "Returns the output prefix for the standard logger."
+    },
+    {
+        "id": 464,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc IsInf(f float64, sign int) bool {\n\treturn math.IsInf(f, sign)\n}",
+        "summary": "Reports whether f is an infinity, according to sign."
+    },
+    {
+        "id": 465,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc IPv4(a, b, c, d byte) net.IP {\n\treturn net.IPv4(a, b, c, d)\n}",
+        "summary": "Returns the IP address of the IPv4 address a.b.c.d."
+    },
+    {
+        "id": 466,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc ParseCookie(raw string) ([]*http.Cookie, error) {\n\theader := http.Header{\"Cookie\": []string{raw}}\n\treq := &http.Request{Header: header}\n\treturn req.Cookie(\"name\") // Simplified wrapper example\n}",
+        "summary": "Not a direct standard library function, but creates a request to parse cookies."
+    },
+    {
+        "id": 467,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Executable() (string, error) {\n\treturn os.Executable()\n}",
+        "summary": "Returns the path name for the executable that started the current process."
+    },
+    {
+        "id": 468,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc HasPrefixPath(p, prefix string) bool {\n\treturn false // Not a standard function, placeholder for custom logic\n}",
+        "summary": "Checks if path starts with prefix (conceptually)."
+    },
+    {
+        "id": 469,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc MakeSlice(typ reflect.Type, len, cap int) reflect.Value {\n\treturn reflect.MakeSlice(typ, len, cap)\n}",
+        "summary": "Creates a new zero-initialized slice value for the specified slice type, length, and capacity."
+    },
+    {
+        "id": 470,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc FindString(re *regexp.Regexp, s string) string {\n\treturn re.FindString(s)\n}",
+        "summary": "Returns a string holding the text of the leftmost match in s of the regular expression."
+    },
+    {
+        "id": 471,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc Version() string {\n\treturn runtime.Version()\n}",
+        "summary": "Returns the Go tree's version string."
+    },
+    {
+        "id": 472,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc SliceIsSorted(x any, less func(i, j int) bool) bool {\n\treturn sort.SliceIsSorted(x, less)\n}",
+        "summary": "Reports whether the slice x is sorted according to the provided less function."
+    },
+    {
+        "id": 473,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc QuoteRune(r rune) string {\n\treturn strconv.QuoteRune(r)\n}",
+        "summary": "Returns a single-quoted Go character literal representing the rune."
+    },
+    {
+        "id": 474,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc LastIndexByte(s string, c byte) int {\n\treturn strings.LastIndexByte(s, c)\n}",
+        "summary": "Returns the index of the last instance of c in s, or -1 if c is not present."
+    },
+    {
+        "id": 475,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicStoreUint32(addr *uint32, val uint32) {\n\tatomic.StoreUint32(addr, val)\n}",
+        "summary": "Atomically stores val into *addr."
+    },
+    {
+        "id": 476,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc Coverage() float64 {\n\treturn testing.Coverage()\n}",
+        "summary": "Returns the current code coverage as a fraction in the range [0, 1]."
+    },
+    {
+        "id": 477,
+        "code": "package main\n\nimport (\n\t\"text/scanner\"\n)\n\nfunc ScannerPos(s *scanner.Scanner) scanner.Position {\n\treturn s.Pos()\n}",
+        "summary": "Returns the current position of the scanner."
+    },
+    {
+        "id": 478,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc ParseDuration(s string) (time.Duration, error) {\n\treturn time.ParseDuration(s)\n}",
+        "summary": "Parses a duration string."
+    },
+    {
+        "id": 479,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsMark(r rune) bool {\n\treturn unicode.IsMark(r)\n}",
+        "summary": "Reports whether the rune is a mark character."
+    },
+    {
+        "id": 480,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc RuneCount(p []byte) int {\n\treturn utf8.RuneCount(p)\n}",
+        "summary": "Returns the number of runes in p."
+    },
+    {
+        "id": 481,
+        "code": "package main\n\nimport (\n\t\"archive/zip\"\n\t\"os\"\n)\n\nfunc ZipOpen(name string) (*zip.ReadCloser, error) {\n\treturn zip.OpenReader(name)\n}",
+        "summary": "Opens a zip file specified by name and returns a ReadCloser."
+    },
+    {
+        "id": 482,
+        "code": "package main\n\nimport (\n\t\"compress/gzip\"\n)\n\nfunc GzipReaderReset(z *gzip.Reader, r io.Reader) error {\n\treturn z.Reset(r)\n}",
+        "summary": "Resets the Reader to be like a new Reader, reading from r."
+    },
+    {
+        "id": 483,
+        "code": "package main\n\nimport (\n\t\"database/sql\"\n)\n\nfunc SQLPing(db *sql.DB) error {\n\treturn db.Ping()\n}",
+        "summary": "Verifies a connection to the database is still alive, establishing a connection if necessary."
+    },
+    {
+        "id": 484,
+        "code": "package main\n\nimport (\n\t\"encoding/base64\"\n)\n\nfunc StdEncoding() *base64.Encoding {\n\treturn base64.StdEncoding\n}",
+        "summary": "Returns the standard base64 encoding."
+    },
+    {
+        "id": 485,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc Size(v any) int {\n\treturn binary.Size(v)\n}",
+        "summary": "Returns how many bytes Write would generate to encode the value v."
+    },
+    {
+        "id": 486,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n)\n\nfunc Compact(dst *bytes.Buffer, src []byte) error {\n\treturn json.Compact(dst, src)\n}",
+        "summary": "Appends to dst the JSON-encoded src with insignificant space characters elided."
+    },
+    {
+        "id": 487,
+        "code": "package main\n\nimport (\n\t\"encoding/xml\"\n)\n\nfunc EscapeText(w io.Writer, s []byte) error {\n\treturn xml.EscapeText(w, s)\n}",
+        "summary": "Writes to w the XML-escaped representation of the text data s."
+    },
+    {
+        "id": 488,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc Args() []string {\n\treturn flag.Args()\n}",
+        "summary": "Returns the non-flag arguments."
+    },
+    {
+        "id": 489,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Sprintln(a ...any) string {\n\treturn fmt.Sprintln(a...)\n}",
+        "summary": "Formats using the default formats for its operands and returns the resulting string. Spaces are always added between operands and a newline is appended."
+    },
+    {
+        "id": 490,
+        "code": "package main\n\nimport (\n\t\"hash/adler32\"\n)\n\nfunc Adler32New() hash.Hash32 {\n\treturn adler32.New()\n}",
+        "summary": "Returns a new hash.Hash32 computing the Adler-32 checksum."
+    },
+    {
+        "id": 491,
+        "code": "package main\n\nimport (\n\t\"image/png\"\n)\n\nfunc PNGDecode(r io.Reader) (image.Image, error) {\n\treturn png.Decode(r)\n}",
+        "summary": "Reads a PNG image from r and returns it as an image.Image."
+    },
+    {
+        "id": 492,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc ReadAtLeast(r io.Reader, buf []byte, min int) (int, error) {\n\treturn io.ReadAtLeast(r, buf, min)\n}",
+        "summary": "Reads from r into buf until it has read at least min bytes."
+    },
+    {
+        "id": 493,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc Output(calldepth int, s string) error {\n\treturn log.Output(calldepth, s)\n}",
+        "summary": "Writes the output for a logging event."
+    },
+    {
+        "id": 494,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc NaN() float64 {\n\treturn math.NaN()\n}",
+        "summary": "Returns an IEEE 754 ``not-a-number'' value."
+    },
+    {
+        "id": 495,
+        "code": "package main\n\nimport (\n\t\"math/rand\"\n)\n\nfunc Read(p []byte) (n int, err error) {\n\treturn rand.Read(p)\n}",
+        "summary": "Read generates len(p) random bytes from the default Source."
+    },
+    {
+        "id": 496,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc ListenPacket(network, address string) (net.PacketConn, error) {\n\treturn net.ListenPacket(network, address)\n}",
+        "summary": "Announces on the local network address."
+    },
+    {
+        "id": 497,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc ParseTime(text string) (time.Time, error) {\n\treturn http.ParseTime(text)\n}",
+        "summary": "Parses a time header (like the Date: header), trying the 3 HTTP formats."
+    },
+    {
+        "id": 498,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc Values() url.Values {\n\treturn make(url.Values)\n}",
+        "summary": "Creates a new Values map."
+    },
+    {
+        "id": 499,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Hostname() (name string, err error) {\n\treturn os.Hostname()\n}",
+        "summary": "Returns the host name reported by the kernel."
+    },
+    {
+        "id": 500,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc WalkDir(root string, fn fs.WalkDirFunc) error {\n\treturn filepath.WalkDir(root, fn)\n}",
+        "summary": "Walks the file tree rooted at root, calling fn for each file or directory in the tree, including root."
+    },
+    {
+        "id": 501,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc Append(s reflect.Value, x ...reflect.Value) reflect.Value {\n\treturn reflect.Append(s, x...)\n}",
+        "summary": "Appends values x to slice s and returns the resulting slice."
+    },
+    {
+        "id": 502,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc CompilePOSIX(expr string) (*regexp.Regexp, error) {\n\treturn regexp.CompilePOSIX(expr)\n}",
+        "summary": "Compiles a POSIX regular expression."
+    },
+    {
+        "id": 503,
+        "code": "package main\n\nimport (\n\t\"runtime/pprof\"\n)\n\nfunc WriteHeapProfile(w io.Writer) error {\n\treturn pprof.WriteHeapProfile(w)\n}",
+        "summary": "Writes a pprof-formatted snapshot of the heap to w."
+    },
+    {
+        "id": 504,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc Search(n int, f func(int) bool) int {\n\treturn sort.Search(n, f)\n}",
+        "summary": "Uses binary search to find and return the smallest index i in [0, n) at which f(i) is true."
+    },
+    {
+        "id": 505,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc Trim(s, cutset string) string {\n\treturn strings.Trim(s, cutset)\n}",
+        "summary": "Returns a slice of the string s with all leading and trailing Unicode code points contained in cutset removed."
+    },
+    {
+        "id": 506,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicAddUint32(addr *uint32, delta uint32) uint32 {\n\treturn atomic.AddUint32(addr, delta)\n}",
+        "summary": "Atomically adds delta to *addr."
+    },
+    {
+        "id": 507,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc Short() bool {\n\treturn testing.Short()\n}",
+        "summary": "Reports whether the -test.short flag was set."
+    },
+    {
+        "id": 508,
+        "code": "package main\n\nimport (\n\t\"text/scanner\"\n)\n\nfunc TokenString(tok rune) string {\n\treturn scanner.TokenString(tok)\n}",
+        "summary": "Returns a printable string for a token or Unicode character."
+    },
+    {
+        "id": 509,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc After(d time.Duration) <-chan time.Time {\n\treturn time.After(d)\n}",
+        "summary": "Waits for the duration to elapse and then sends the current time on the returned channel."
+    },
+    {
+        "id": 510,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsNumber(r rune) bool {\n\treturn unicode.IsNumber(r)\n}",
+        "summary": "Reports whether the rune is a number character."
+    },
+    {
+        "id": 511,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc Valid(p []byte) bool {\n\treturn utf8.Valid(p)\n}",
+        "summary": "Reports whether p consists entirely of valid UTF-8-encoded runes."
+    },
+    {
+        "id": 512,
+        "code": "package main\n\nimport (\n\t\"archive/tar\"\n)\n\nfunc FileInfoHeader(fi os.FileInfo, link string) (*tar.Header, error) {\n\treturn tar.FileInfoHeader(fi, link)\n}",
+        "summary": "Creates a partially-populated Header from fi."
+    },
+    {
+        "id": 513,
+        "code": "package main\n\nimport (\n\t\"compress/gzip\"\n)\n\nfunc NewReader(r io.Reader) (*gzip.Reader, error) {\n\treturn gzip.NewReader(r)\n}",
+        "summary": "Creates a new gzip Reader reading from r."
+    },
+    {
+        "id": 514,
+        "code": "package main\n\nimport (\n\t\"database/sql\"\n)\n\nfunc Drivers() []string {\n\treturn sql.Drivers()\n}",
+        "summary": "Returns a sorted list of the names of the registered drivers."
+    },
+    {
+        "id": 515,
+        "code": "package main\n\nimport (\n\t\"encoding/base64\"\n)\n\nfunc NewEncoder(enc *base64.Encoding, w io.Writer) io.WriteCloser {\n\treturn base64.NewEncoder(enc, w)\n}",
+        "summary": "Returns a new base64 stream encoder."
+    },
+    {
+        "id": 516,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc PutVarint(b []byte, x int64) int {\n\treturn binary.PutVarint(b, x)\n}",
+        "summary": "Encodes an int64 into buf and returns the number of bytes written."
+    },
+    {
+        "id": 517,
+        "code": "package main\n\nimport (\n\t\"encoding/csv\"\n)\n\nfunc NewReader(r io.Reader) *csv.Reader {\n\treturn csv.NewReader(r)\n}",
+        "summary": "Returns a new CSV Reader reading from r."
+    },
+    {
+        "id": 518,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n)\n\nfunc Indent(dst *bytes.Buffer, src []byte, prefix, indent string) error {\n\treturn json.Indent(dst, src, prefix, indent)\n}",
+        "summary": "Appends to dst an indented form of the JSON-encoded src."
+    },
+    {
+        "id": 519,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc Parse() {\n\tflag.Parse()\n}",
+        "summary": "Parses the command-line flags from os.Args[1:]."
+    },
+    {
+        "id": 520,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Scanf(format string, a ...any) (n int, err error) {\n\treturn fmt.Scanf(format, a...)\n}",
+        "summary": "Scans text read from standard input, storing successive space-separated values into successive arguments as determined by the format."
+    },
+    {
+        "id": 521,
+        "code": "package main\n\nimport (\n\t\"hash/crc32\"\n)\n\nfunc Update(crc uint32, tab *crc32.Table, p []byte) uint32 {\n\treturn crc32.Update(crc, tab, p)\n}",
+        "summary": "Returns the result of adding the bytes in p to the crc."
+    },
+    {
+        "id": 522,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc NewCMYK(r image.Rectangle) *image.CMYK {\n\treturn image.NewCMYK(r)\n}",
+        "summary": "Creates a new CMYK image with the given bounds."
+    },
+    {
+        "id": 523,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc TeeReader(r io.Reader, w io.Writer) io.Reader {\n\treturn io.TeeReader(r, w)\n}",
+        "summary": "Returns a Reader that writes to w what it reads from r."
+    },
+    {
+        "id": 524,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc Fatal(v ...any) {\n\tlog.Fatal(v...)\n}",
+        "summary": "Is equivalent to Print() followed by a call to os.Exit(1)."
+    },
+    {
+        "id": 525,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Inf(sign int) float64 {\n\treturn math.Inf(sign)\n}",
+        "summary": "Returns an infinity, according to sign."
+    },
+    {
+        "id": 526,
+        "code": "package main\n\nimport (\n\t\"math/rand\"\n)\n\nfunc Intn(n int) int {\n\treturn rand.Intn(n)\n}",
+        "summary": "Returns, as an int, a non-negative pseudo-random number in the half-open interval [0,n)."
+    },
+    {
+        "id": 527,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc ResolveTCPAddr(network, address string) (*net.TCPAddr, error) {\n\treturn net.ResolveTCPAddr(network, address)\n}",
+        "summary": "Returns an address of TCP end point."
+    },
+    {
+        "id": 528,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc Handle(pattern string, handler http.Handler) {\n\thttp.Handle(pattern, handler)\n}",
+        "summary": "Registers the handler for the given pattern in the DefaultServeMux."
+    },
+    {
+        "id": 529,
+        "code": "package main\n\nimport (\n\t\"net/url\"\n)\n\nfunc Parse(rawurl string) (*url.URL, error) {\n\treturn url.Parse(rawurl)\n}",
+        "summary": "Parses rawurl into a URL structure."
+    },
+    {
+        "id": 530,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Environ() []string {\n\treturn os.Environ()\n}",
+        "summary": "Returns a copy of strings representing the environment, in the form \"key=value\"."
+    },
+    {
+        "id": 531,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc Walk(root string, fn filepath.WalkFunc) error {\n\treturn filepath.Walk(root, fn)\n}",
+        "summary": "Walks the file tree rooted at root, calling fn for each file or directory in the tree."
+    },
+    {
+        "id": 532,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc MakeMap(typ reflect.Type) reflect.Value {\n\treturn reflect.MakeMap(typ)\n}",
+        "summary": "Creates a new map with the specified type."
+    },
+    {
+        "id": 533,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc Match(pattern string, b []byte) (bool, error) {\n\treturn regexp.Match(pattern, b)\n}",
+        "summary": "Reports whether the byte slice b contains any match of the regular expression pattern."
+    },
+    {
+        "id": 534,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc Caller(skip int) (pc uintptr, file string, line int, ok bool) {\n\treturn runtime.Caller(skip)\n}",
+        "summary": "Reports file and line number information about function invocations on the calling goroutine's stack."
+    },
+    {
+        "id": 535,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc Strings(x []string) {\n\tsort.Strings(x)\n}",
+        "summary": "Sorts a slice of strings in increasing order."
+    },
+    {
+        "id": 536,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc Atoi(s string) (int, error) {\n\treturn strconv.Atoi(s)\n}",
+        "summary": "Equivalent to ParseInt(s, 10, 0), converted to type int."
+    },
+    {
+        "id": 537,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ToTitle(s string) string {\n\treturn strings.ToTitle(s)\n}",
+        "summary": "Returns a copy of the string s with all Unicode letters mapped to their Unicode title case."
+    },
+    {
+        "id": 538,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc NewCond(l sync.Locker) *sync.Cond {\n\treturn sync.NewCond(l)\n}",
+        "summary": "Returns a new Cond with Locker l."
+    },
+    {
+        "id": 539,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc Verbose() bool {\n\treturn testing.Verbose()\n}",
+        "summary": "Reports whether the -test.v flag was set."
+    },
+    {
+        "id": 540,
+        "code": "package main\n\nimport (\n\t\"text/template\"\n)\n\nfunc New(name string) *template.Template {\n\treturn template.New(name)\n}",
+        "summary": "Allocates a new, undefined template with the given name."
+    },
+    {
+        "id": 541,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc Tick(d time.Duration) <-chan time.Time {\n\treturn time.Tick(d)\n}",
+        "summary": "Is a convenience wrapper for NewTicker providing access to the ticking channel only."
+    },
+    {
+        "id": 542,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsDigit(r rune) bool {\n\treturn unicode.IsDigit(r)\n}",
+        "summary": "Reports whether the rune is a decimal digit."
+    },
+    {
+        "id": 543,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc DecodeRune(p []byte) (r rune, size int) {\n\treturn utf8.DecodeRune(p)\n}",
+        "summary": "Unpacks the first UTF-8 encoding in p and returns the rune and its width in bytes."
+    },
+    {
+        "id": 544,
+        "code": "package main\n\nimport (\n\t\"archive/zip\"\n)\n\nfunc OpenReader(name string) (*zip.ReadCloser, error) {\n\treturn zip.OpenReader(name)\n}",
+        "summary": "OpenReader will open the Zip file specified by name and return a ReadCloser."
+    },
+    {
+        "id": 545,
+        "code": "package main\n\nimport (\n\t\"compress/flate\"\n\t\"io\"\n)\n\nfunc NewFlateWriter(w io.Writer, level int) (*flate.Writer, error) {\n\treturn flate.NewWriter(w, level)\n}",
+        "summary": "Returns a new Writer compressing data at the given level."
+    },
+    {
+        "id": 546,
+        "code": "package main\n\nimport (\n\t\"crypto/rand\"\n)\n\nfunc ReadRandom(b []byte) (n int, err error) {\n\treturn rand.Read(b)\n}",
+        "summary": "Is a helper function that calls Reader.Read using io.ReadFull."
+    },
+    {
+        "id": 547,
+        "code": "package main\n\nimport (\n\t\"encoding/ascii85\"\n)\n\nfunc MaxEncodedLen(n int) int {\n\treturn ascii85.MaxEncodedLen(n)\n}",
+        "summary": "Returns the maximum length of an encoding of n source bytes."
+    },
+    {
+        "id": 548,
+        "code": "package main\n\nimport (\n\t\"encoding/base64\"\n)\n\nfunc NewDecoder(enc *base64.Encoding, r io.Reader) io.Reader {\n\treturn base64.NewDecoder(enc, r)\n}",
+        "summary": "Returns a new base64 stream decoder."
+    },
+    {
+        "id": 549,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc Varint(buf []byte) (int64, int) {\n\treturn binary.Varint(buf)\n}",
+        "summary": "Decodes an int64 from buf and returns that value and the number of bytes read."
+    },
+    {
+        "id": 550,
+        "code": "package main\n\nimport (\n\t\"encoding/csv\"\n)\n\nfunc NewWriter(w io.Writer) *csv.Writer {\n\treturn csv.NewWriter(w)\n}",
+        "summary": "Returns a new Writer that writes to w."
+    },
+    {
+        "id": 551,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n)\n\nfunc Valid(data []byte) bool {\n\treturn json.Valid(data)\n}",
+        "summary": "Reports whether data is a valid JSON encoding."
+    },
+    {
+        "id": 552,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc Bool(name string, value bool, usage string) *bool {\n\treturn flag.Bool(name, value, usage)\n}",
+        "summary": "Defines a bool flag with specified name, default value, and usage string."
+    },
+    {
+        "id": 553,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Print(a ...any) (n int, err error) {\n\treturn fmt.Print(a...)\n}",
+        "summary": "Formats using the default formats for its operands and writes to standard output."
+    },
+    {
+        "id": 554,
+        "code": "package main\n\nimport (\n\t\"go/format\"\n\t\"go/token\"\n)\n\nfunc Node(dst io.Writer, fset *token.FileSet, node any) error {\n\treturn format.Node(dst, fset, node)\n}",
+        "summary": "Formats node in canonical gofmt style and writes the result to dst."
+    },
+    {
+        "id": 555,
+        "code": "package main\n\nimport (\n\t\"hash/fnv\"\n)\n\nfunc New32() hash.Hash32 {\n\treturn fnv.New32()\n}",
+        "summary": "Returns a new 32-bit FNV-1 hash.Hash."
+    },
+    {
+        "id": 556,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc NewUniform(c color.Color) *image.Uniform {\n\treturn image.NewUniform(c)\n}",
+        "summary": "Creates a new Uniform image of the given color."
+    },
+    {
+        "id": 557,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc Pipe() (*io.PipeReader, *io.PipeWriter) {\n\treturn io.Pipe()\n}",
+        "summary": "Creates a synchronous in-memory pipe."
+    },
+    {
+        "id": 558,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc Println(v ...any) {\n\tlog.Println(v...)\n}",
+        "summary": "Calls Output to print to the standard logger."
+    },
+    {
+        "id": 559,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Pi() float64 {\n\treturn math.Pi\n}",
+        "summary": "Returns the value of Pi."
+    },
+    {
+        "id": 560,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc DialTimeout(network, address string, timeout time.Duration) (net.Conn, error) {\n\treturn net.DialTimeout(network, address, timeout)\n}",
+        "summary": "Connects to the address on the named network with a timeout."
+    },
+    {
+        "id": 561,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc ListenAndServe(addr string, handler http.Handler) error {\n\treturn http.ListenAndServe(addr, handler)\n}",
+        "summary": "Listens on the TCP network address addr and then calls Serve with handler to handle requests on incoming connections."
+    },
+    {
+        "id": 562,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Mkdir(name string, perm os.FileMode) error {\n\treturn os.Mkdir(name, perm)\n}",
+        "summary": "Creates a new directory with the specified name and permission bits."
+    },
+    {
+        "id": 563,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc Abs(path string) (string, error) {\n\treturn filepath.Abs(path)\n}",
+        "summary": "Returns an absolute representation of path."
+    },
+    {
+        "id": 564,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc Swapper(slice any) func(i, j int) {\n\treturn reflect.Swapper(slice)\n}",
+        "summary": "Returns a function that swaps the elements in the provided slice."
+    },
+    {
+        "id": 565,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc QuoteMeta(s string) string {\n\treturn regexp.QuoteMeta(s)\n}",
+        "summary": "Returns a string that escapes all regular expression metacharacters inside the argument text."
+    },
+    {
+        "id": 566,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc NumCPU() int {\n\treturn runtime.NumCPU()\n}",
+        "summary": "Returns the number of logical CPUs usable by the current process."
+    },
+    {
+        "id": 567,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc Ints(x []int) {\n\tsort.Ints(x)\n}",
+        "summary": "Sorts a slice of ints in increasing order."
+    },
+    {
+        "id": 568,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc Itoa(i int) string {\n\treturn strconv.Itoa(i)\n}",
+        "summary": "Equivalent to FormatInt(int64(i), 10)."
+    },
+    {
+        "id": 569,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ToLower(s string) string {\n\treturn strings.ToLower(s)\n}",
+        "summary": "Returns s with all Unicode letters mapped to their lower case."
+    },
+    {
+        "id": 570,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc OnceFunc(f func()) func() {\n\treturn sync.OnceFunc(f)\n}",
+        "summary": "Returns a function that calls f only once."
+    },
+    {
+        "id": 571,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc Init() {\n\ttesting.Init()\n}",
+        "summary": "Registers testing flags."
+    },
+    {
+        "id": 572,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc Sleep(d time.Duration) {\n\ttime.Sleep(d)\n}",
+        "summary": "Pauses the current goroutine for at least the duration d."
+    },
+    {
+        "id": 573,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsLetter(r rune) bool {\n\treturn unicode.IsLetter(r)\n}",
+        "summary": "Reports whether the rune is a letter (category L)."
+    },
+    {
+        "id": 574,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc RuneStart(b byte) bool {\n\treturn utf8.RuneStart(b)\n}",
+        "summary": "Reports whether the byte could be the first byte of an encoded, possibly invalid rune."
+    },
+    {
+        "id": 575,
+        "code": "package main\n\nimport (\n\t\"archive/zip\"\n)\n\nfunc NewReader(r io.ReaderAt, size int64) (*zip.Reader, error) {\n\treturn zip.NewReader(r, size)\n}",
+        "summary": "Returns a new Reader reading from r, which is assumed to have the given size in bytes."
+    },
+    {
+        "id": 576,
+        "code": "package main\n\nimport (\n\t\"compress/gzip\"\n)\n\nfunc NewWriter(w io.Writer) *gzip.Writer {\n\treturn gzip.NewWriter(w)\n}",
+        "summary": "Returns a new Writer."
+    },
+    {
+        "id": 577,
+        "code": "package main\n\nimport (\n\t\"database/sql\"\n)\n\nfunc Open(driverName, dataSourceName string) (*sql.DB, error) {\n\treturn sql.Open(driverName, dataSourceName)\n}",
+        "summary": "Opens a database specified by its database driver name and a driver-specific data source name."
+    },
+    {
+        "id": 578,
+        "code": "package main\n\nimport (\n\t\"encoding/base64\"\n)\n\nfunc NewDecoder(enc *base64.Encoding, r io.Reader) io.Reader {\n\treturn base64.NewDecoder(enc, r)\n}",
+        "summary": "Returns a new base64 stream decoder."
+    },
+    {
+        "id": 579,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc Read(r io.Reader, order binary.ByteOrder, data any) error {\n\treturn binary.Read(r, order, data)\n}",
+        "summary": "Reads structured binary data from r into data."
+    },
+    {
+        "id": 580,
+        "code": "package main\n\nimport (\n\t\"encoding/gob\"\n)\n\nfunc Register(value any) {\n\tgob.Register(value)\n}",
+        "summary": "Records a type, identified by a value of that type, under its internal type name."
+    },
+    {
+        "id": 581,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n)\n\nfunc Marshal(v any) ([]byte, error) {\n\treturn json.Marshal(v)\n}",
+        "summary": "Returns the JSON encoding of v."
+    },
+    {
+        "id": 582,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc String(name string, value string, usage string) *string {\n\treturn flag.String(name, value, usage)\n}",
+        "summary": "Defines a string flag with specified name, default value, and usage string."
+    },
+    {
+        "id": 583,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Scanln(a ...any) (n int, err error) {\n\treturn fmt.Scanln(a...)\n}",
+        "summary": "Scans text read from standard input, storing successive space-separated values into successive arguments."
+    },
+    {
+        "id": 584,
+        "code": "package main\n\nimport (\n\t\"hash/adler32\"\n)\n\nfunc Checksum(data []byte) uint32 {\n\treturn adler32.Checksum(data)\n}",
+        "summary": "Returns the Adler-32 checksum of data."
+    },
+    {
+        "id": 585,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc NewGray(r image.Rectangle) *image.Gray {\n\treturn image.NewGray(r)\n}",
+        "summary": "Creates a new Gray image with the given bounds."
+    },
+    {
+        "id": 586,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc LimitReader(r io.Reader, n int64) io.Reader {\n\treturn io.LimitReader(r, n)\n}",
+        "summary": "Returns a Reader that reads from r but stops with EOF after n bytes."
+    },
+    {
+        "id": 587,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc Panic(v ...any) {\n\tlog.Panic(v...)\n}",
+        "summary": "Is equivalent to Print() followed by a call to panic()."
+    },
+    {
+        "id": 588,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Pow10(n int) float64 {\n\treturn math.Pow10(n)\n}",
+        "summary": "Returns 10**n, the base-10 exponential of n."
+    },
+    {
+        "id": 589,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc ParseCIDR(s string) (net.IP, *net.IPNet, error) {\n\treturn net.ParseCIDR(s)\n}",
+        "summary": "Parses s as a CIDR notation IP address and prefix length."
+    },
+    {
+        "id": 590,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc Serve(l net.Listener, handler http.Handler) error {\n\treturn http.Serve(l, handler)\n}",
+        "summary": "Accepts incoming HTTP connections on the listener l, creating a new service goroutine for each."
+    },
+    {
+        "id": 591,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc RemoveAll(path string) error {\n\treturn os.RemoveAll(path)\n}",
+        "summary": "Removes path and any children it contains."
+    },
+    {
+        "id": 592,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc Base(path string) string {\n\treturn filepath.Base(path)\n}",
+        "summary": "Returns the last element of path."
+    },
+    {
+        "id": 593,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc DeepEqual(x, y any) bool {\n\treturn reflect.DeepEqual(x, y)\n}",
+        "summary": "Reports whether x and y are ``deeply equal''."
+    },
+    {
+        "id": 594,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc MatchString(pattern string, s string) (bool, error) {\n\treturn regexp.MatchString(pattern, s)\n}",
+        "summary": "Reports whether the string s contains any match of the regular expression pattern."
+    },
+    {
+        "id": 595,
+        "code": "package main\n\nimport (\n\t\"runtime\"\n)\n\nfunc GOROOT() string {\n\treturn runtime.GOROOT()\n}",
+        "summary": "Returns the root of the Go tree."
+    },
+    {
+        "id": 596,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc Float64s(x []float64) {\n\tsort.Float64s(x)\n}",
+        "summary": "Sorts a slice of float64s in increasing order."
+    },
+    {
+        "id": 597,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc FormatUint(i uint64, base int) string {\n\treturn strconv.FormatUint(i, base)\n}",
+        "summary": "Returns the string representation of i in the given base."
+    },
+    {
+        "id": 598,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc ToUpper(s string) string {\n\treturn strings.ToUpper(s)\n}",
+        "summary": "Returns s with all Unicode letters mapped to their upper case."
+    },
+    {
+        "id": 599,
+        "code": "package main\n\nimport (\n\t\"sync\"\n)\n\nfunc NewCond(l sync.Locker) *sync.Cond {\n\treturn sync.NewCond(l)\n}",
+        "summary": "Returns a new Cond with Locker l."
+    },
+    {
+        "id": 600,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc Main(m *testing.M) {\n\tos.Exit(m.Run())\n}",
+        "summary": "Main runs the test binary."
+    },
+    {
+        "id": 601,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc Now() time.Time {\n\treturn time.Now()\n}",
+        "summary": "Returns the current local time."
+    },
+    {
+        "id": 602,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsSpace(r rune) bool {\n\treturn unicode.IsSpace(r)\n}",
+        "summary": "Reports whether the rune is a white space character."
+    },
+    {
+        "id": 603,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc DecodeLastRune(p []byte) (r rune, size int) {\n\treturn utf8.DecodeLastRune(p)\n}",
+        "summary": "Unpacks the last UTF-8 encoding in p and returns the rune and its width in bytes."
+    },
+    {
+        "id": 604,
+        "code": "package main\n\nimport (\n\t\"archive/tar\"\n)\n\nfunc NewReader(r io.Reader) *tar.Reader {\n\treturn tar.NewReader(r)\n}",
+        "summary": "Creates a new Reader reading from r."
+    },
+    {
+        "id": 605,
+        "code": "package main\n\nimport (\n\t\"compress/lzw\"\n)\n\nfunc NewWriter(w io.Writer, order lzw.Order, litWidth int) io.WriteCloser {\n\treturn lzw.NewWriter(w, order, litWidth)\n}",
+        "summary": "Creates a new LZW writer."
+    },
+    {
+        "id": 606,
+        "code": "package main\n\nimport (\n\t\"crypto/md5\"\n)\n\nfunc New() hash.Hash {\n\treturn md5.New()\n}",
+        "summary": "Returns a new hash.Hash computing the MD5 checksum."
+    },
+    {
+        "id": 607,
+        "code": "package main\n\nimport (\n\t\"encoding/base32\"\n)\n\nfunc NewEncoder(enc *base32.Encoding, w io.Writer) io.WriteCloser {\n\treturn base32.NewEncoder(enc, w)\n}",
+        "summary": "Returns a new base32 stream encoder."
+    },
+    {
+        "id": 608,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc Write(w io.Writer, order binary.ByteOrder, data any) error {\n\treturn binary.Write(w, order, data)\n}",
+        "summary": "Writes the binary representation of data into w."
+    },
+    {
+        "id": 609,
+        "code": "package main\n\nimport (\n\t\"encoding/hex\"\n)\n\nfunc EncodeToString(src []byte) string {\n\treturn hex.EncodeToString(src)\n}",
+        "summary": "Returns the hexadecimal encoding of src."
+    },
+    {
+        "id": 610,
+        "code": "package main\n\nimport (\n\t\"encoding/xml\"\n)\n\nfunc Marshal(v any) ([]byte, error) {\n\treturn xml.Marshal(v)\n}",
+        "summary": "Returns the XML encoding of v."
+    },
+    {
+        "id": 611,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc Parse() {\n\tflag.Parse()\n}",
+        "summary": "Parses the command-line flags from os.Args[1:]."
+    },
+    {
+        "id": 612,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Sprintf(format string, a ...any) string {\n\treturn fmt.Sprintf(format, a...)\n}",
+        "summary": "Formats according to a format specifier and returns the resulting string."
+    },
+    {
+        "id": 613,
+        "code": "package main\n\nimport (\n\t\"hash/crc64\"\n)\n\nfunc MakeTable(poly uint64) *crc64.Table {\n\treturn crc64.MakeTable(poly)\n}",
+        "summary": "Returns a Table constructed from the specified polynomial."
+    },
+    {
+        "id": 614,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc NewPaletted(r image.Rectangle, p color.Palette) *image.Paletted {\n\treturn image.NewPaletted(r, p)\n}",
+        "summary": "Creates a new Paletted image with the given width, height and palette."
+    },
+    {
+        "id": 615,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc MultiReader(readers ...io.Reader) io.Reader {\n\treturn io.MultiReader(readers...)\n}",
+        "summary": "Returns a Reader that's the logical concatenation of the provided input readers."
+    },
+    {
+        "id": 616,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc SetPrefix(prefix string) {\n\tlog.SetPrefix(prefix)\n}",
+        "summary": "Sets the output prefix for the standard logger."
+    },
+    {
+        "id": 617,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Sqrt(x float64) float64 {\n\treturn math.Sqrt(x)\n}",
+        "summary": "Returns the square root of x."
+    },
+    {
+        "id": 618,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc JoinHostPort(host, port string) string {\n\treturn net.JoinHostPort(host, port)\n}",
+        "summary": "Combines host and port into a network address of the form \"host:port\"."
+    },
+    {
+        "id": 619,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc SetCookie(w http.ResponseWriter, cookie *http.Cookie) {\n\thttp.SetCookie(w, cookie)\n}",
+        "summary": "Adds a Set-Cookie header to the provided ResponseWriter's headers."
+    },
+    {
+        "id": 620,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc TempDir() string {\n\treturn os.TempDir()\n}",
+        "summary": "Returns the default directory for temporary files."
+    },
+    {
+        "id": 621,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc Clean(path string) string {\n\treturn filepath.Clean(path)\n}",
+        "summary": "Returns the shortest path name equivalent to path by purely lexical processing."
+    },
+    {
+        "id": 622,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc TypeOf(i any) reflect.Type {\n\treturn reflect.TypeOf(i)\n}",
+        "summary": "Returns the reflection Type that represents the dynamic type of i."
+    },
+    {
+        "id": 623,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc MustCompile(str string) *regexp.Regexp {\n\treturn regexp.MustCompile(str)\n}",
+        "summary": "Compiles a regular expression and panics if the expression cannot be parsed."
+    },
+    {
+        "id": 624,
+        "code": "package main\n\nimport (\n\t\"runtime/trace\"\n)\n\nfunc Start(w io.Writer) error {\n\treturn trace.Start(w)\n}",
+        "summary": "Enables tracing for the current process."
+    },
+    {
+        "id": 625,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc StringsAreSorted(x []string) bool {\n\treturn sort.StringsAreSorted(x)\n}",
+        "summary": "Reports whether the slice x is sorted in increasing order."
+    },
+    {
+        "id": 626,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc ParseFloat(s string, bitSize int) (float64, error) {\n\treturn strconv.ParseFloat(s, bitSize)\n}",
+        "summary": "Converts the string s to a floating-point number with the precision specified by bitSize."
+    },
+    {
+        "id": 627,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc Split(s, sep string) []string {\n\treturn strings.Split(s, sep)\n}",
+        "summary": "Slices s into all substrings separated by sep and returns a slice of the substrings."
+    },
+    {
+        "id": 628,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicCompareAndSwapInt32(addr *int32, old, new int32) bool {\n\treturn atomic.CompareAndSwapInt32(addr, old, new)\n}",
+        "summary": "Executes the compare-and-swap operation for an int32 value."
+    },
+    {
+        "id": 629,
+        "code": "package main\n\nimport (\n\t\"testing/quick\"\n)\n\nfunc Check(f any, config *quick.Config) error {\n\treturn quick.Check(f, config)\n}",
+        "summary": "Checks that f is true for generated arguments."
+    },
+    {
+        "id": 630,
+        "code": "package main\n\nimport (\n\t\"text/tabwriter\"\n)\n\nfunc NewWriter(output io.Writer, minwidth, tabwidth, padding int, padchar byte, flags uint) *tabwriter.Writer {\n\treturn tabwriter.NewWriter(output, minwidth, tabwidth, padding, padchar, flags)\n}",
+        "summary": "Creates a new tabwriter.Writer."
+    },
+    {
+        "id": 631,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc Parse(layout, value string) (time.Time, error) {\n\treturn time.Parse(layout, value)\n}",
+        "summary": "Parses a formatted string and returns the time value it represents."
+    },
+    {
+        "id": 632,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsTitle(r rune) bool {\n\treturn unicode.IsTitle(r)\n}",
+        "summary": "Reports whether the rune is a title case letter."
+    },
+    {
+        "id": 633,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc RuneCountInString(s string) int {\n\treturn utf8.RuneCountInString(s)\n}",
+        "summary": "Returns the number of runes in s."
+    },
+    {
+        "id": 634,
+        "code": "package main\n\nimport (\n\t\"compress/gzip\"\n)\n\nfunc NewReader(r io.Reader) (*gzip.Reader, error) {\n\treturn gzip.NewReader(r)\n}",
+        "summary": "Creates a new gzip Reader reading from r."
+    },
+    {
+        "id": 635,
+        "code": "package main\n\nimport (\n\t\"crypto/sha1\"\n)\n\nfunc New() hash.Hash {\n\treturn sha1.New()\n}",
+        "summary": "Returns a new hash.Hash computing the SHA1 checksum."
+    },
+    {
+        "id": 636,
+        "code": "package main\n\nimport (\n\t\"encoding/base64\"\n)\n\nfunc NewEncoding(encoder string) *base64.Encoding {\n\treturn base64.NewEncoding(encoder)\n}",
+        "summary": "Returns a new Encoding defined by the given alphabet."
+    },
+    {
+        "id": 637,
+        "code": "package main\n\nimport (\n\t\"encoding/csv\"\n)\n\nfunc NewReader(r io.Reader) *csv.Reader {\n\treturn csv.NewReader(r)\n}",
+        "summary": "Returns a new CSV Reader reading from r."
+    },
+    {
+        "id": 638,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n)\n\nfunc Unmarshal(data []byte, v any) error {\n\treturn json.Unmarshal(data, v)\n}",
+        "summary": "Parses the JSON-encoded data and stores the result in the value pointed to by v."
+    },
+    {
+        "id": 639,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Errorf(format string, a ...any) error {\n\treturn fmt.Errorf(format, a...)\n}",
+        "summary": "Formats according to a format specifier and returns the string as a value that satisfies error."
+    },
+    {
+        "id": 640,
+        "code": "package main\n\nimport (\n\t\"hash/fnv\"\n)\n\nfunc New64() hash.Hash64 {\n\treturn fnv.New64()\n}",
+        "summary": "Returns a new 64-bit FNV-1 hash.Hash."
+    },
+    {
+        "id": 641,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc NewRGBA64(r image.Rectangle) *image.RGBA64 {\n\treturn image.NewRGBA64(r)\n}",
+        "summary": "Creates a new RGBA64 image with the given bounds."
+    },
+    {
+        "id": 642,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc MultiWriter(writers ...io.Writer) io.Writer {\n\treturn io.MultiWriter(writers...)\n}",
+        "summary": "Returns a Writer that duplicates its writes to all the provided writers."
+    },
+    {
+        "id": 643,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc Printf(format string, v ...any) {\n\tlog.Printf(format, v...)\n}",
+        "summary": "Calls Output to print to the standard logger."
+    },
+    {
+        "id": 644,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Abs(x float64) float64 {\n\treturn math.Abs(x)\n}",
+        "summary": "Returns the absolute value of x."
+    },
+    {
+        "id": 645,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc LookupHost(host string) ([]string, error) {\n\treturn net.LookupHost(host)\n}",
+        "summary": "Looks up the given host using the local resolver."
+    },
+    {
+        "id": 646,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc Error(w http.ResponseWriter, error string, code int) {\n\thttp.Error(w, error, code)\n}",
+        "summary": "Replies to the request with the specified error message and HTTP code."
+    },
+    {
+        "id": 647,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc Getwd() (dir string, err error) {\n\treturn os.Getwd()\n}",
+        "summary": "Returns a rooted path name corresponding to the current directory."
+    },
+    {
+        "id": 648,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc Dir(path string) string {\n\treturn filepath.Dir(path)\n}",
+        "summary": "Returns all but the last element of path, typically the path's directory."
+    },
+    {
+        "id": 649,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc ValueOf(i any) reflect.Value {\n\treturn reflect.ValueOf(i)\n}",
+        "summary": "Returns a new Value initialized to the concrete value stored in the interface i."
+    },
+    {
+        "id": 650,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc MatchReader(pattern string, r io.RuneReader) (bool, error) {\n\treturn regexp.MatchReader(pattern, r)\n}",
+        "summary": "Reports whether the text returned by the RuneReader contains any match of the regular expression pattern."
+    },
+    {
+        "id": 651,
+        "code": "package main\n\nimport (\n\t\"runtime/debug\"\n)\n\nfunc Stack() []byte {\n\treturn debug.Stack()\n}",
+        "summary": "Returns a formatted stack trace of the goroutine that calls it."
+    },
+    {
+        "id": 652,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc Reverse(data sort.Interface) sort.Interface {\n\treturn sort.Reverse(data)\n}",
+        "summary": "Returns the reverse order for data."
+    },
+    {
+        "id": 653,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc IsPrint(r rune) bool {\n\treturn strconv.IsPrint(r)\n}",
+        "summary": "Reports whether the rune is defined as printable by Go."
+    },
+    {
+        "id": 654,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc TrimSpace(s string) string {\n\treturn strings.TrimSpace(s)\n}",
+        "summary": "Returns a slice of the string s, with all leading and trailing white space removed."
+    },
+    {
+        "id": 655,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicStoreUint64(addr *uint64, val uint64) {\n\tatomic.StoreUint64(addr, val)\n}",
+        "summary": "Atomically stores val into *addr."
+    },
+    {
+        "id": 656,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc RunBenchmarks(matchString func(pat, str string) (bool, error), benchmarks []testing.InternalBenchmark) {\n\ttesting.RunBenchmarks(matchString, benchmarks)\n}",
+        "summary": "Runs the benchmarks."
+    },
+    {
+        "id": 657,
+        "code": "package main\n\nimport (\n\t\"text/scanner\"\n)\n\nfunc Init(s *scanner.Scanner, src io.Reader) *scanner.Scanner {\n\treturn s.Init(src)\n}",
+        "summary": "Initializes a scanner with a new source and returns s."
+    },
+    {
+        "id": 658,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc Unix(sec int64, nsec int64) time.Time {\n\treturn time.Unix(sec, nsec)\n}",
+        "summary": "Returns the local Time corresponding to the given Unix time."
+    },
+    {
+        "id": 659,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsLower(r rune) bool {\n\treturn unicode.IsLower(r)\n}",
+        "summary": "Reports whether the rune is a lower case letter."
+    },
+    {
+        "id": 660,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc EncodeRune(p []byte, r rune) int {\n\treturn utf8.EncodeRune(p, r)\n}",
+        "summary": "Writes into p (which must be large enough) the UTF-8 encoding of the rune."
+    },
+    {
+        "id": 661,
+        "code": "package main\n\nimport (\n\t\"archive/zip\"\n)\n\nfunc FileInfoHeader(fi os.FileInfo) (*zip.FileHeader, error) {\n\treturn zip.FileInfoHeader(fi)\n}",
+        "summary": "Creates a partially-populated FileHeader from an os.FileInfo."
+    },
+    {
+        "id": 662,
+        "code": "package main\n\nimport (\n\t\"compress/gzip\"\n)\n\nfunc NewReader(r io.Reader) (*gzip.Reader, error) {\n\treturn gzip.NewReader(r)\n}",
+        "summary": "Creates a new gzip Reader reading from r."
+    },
+    {
+        "id": 663,
+        "code": "package main\n\nimport (\n\t\"crypto/sha256\"\n)\n\nfunc New() hash.Hash {\n\treturn sha256.New()\n}",
+        "summary": "Returns a new hash.Hash computing the SHA256 checksum."
+    },
+    {
+        "id": 664,
+        "code": "package main\n\nimport (\n\t\"encoding/ascii85\"\n)\n\nfunc NewEncoder(w io.Writer) io.WriteCloser {\n\treturn ascii85.NewEncoder(w)\n}",
+        "summary": "Returns a new ascii85 stream encoder."
+    },
+    {
+        "id": 665,
+        "code": "package main\n\nimport (\n\t\"encoding/csv\"\n)\n\nfunc NewWriter(w io.Writer) *csv.Writer {\n\treturn csv.NewWriter(w)\n}",
+        "summary": "Returns a new Writer that writes to w."
+    },
+    {
+        "id": 666,
+        "code": "package main\n\nimport (\n\t\"encoding/hex\"\n)\n\nfunc NewEncoder(w io.Writer) io.Writer {\n\treturn hex.NewEncoder(w)\n}",
+        "summary": "Returns an io.Writer that writes lowercase hexadecimal characters to w."
+    },
+    {
+        "id": 667,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc Int(name string, value int, usage string) *int {\n\treturn flag.Int(name, value, usage)\n}",
+        "summary": "Defines an int flag with specified name, default value, and usage string."
+    },
+    {
+        "id": 668,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Sprint(a ...any) string {\n\treturn fmt.Sprint(a...)\n}",
+        "summary": "Formats using the default formats for its operands and returns the resulting string."
+    },
+    {
+        "id": 669,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc NewNRGBA(r image.Rectangle) *image.NRGBA {\n\treturn image.NewNRGBA(r)\n}",
+        "summary": "Creates a new NRGBA image with the given bounds."
+    },
+    {
+        "id": 670,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc CopyN(dst io.Writer, src io.Reader, n int64) (int64, error) {\n\treturn io.CopyN(dst, src, n)\n}",
+        "summary": "Copies n bytes (or until an error) from src to dst."
+    },
+    {
+        "id": 671,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc SetFlags(flag int) {\n\tlog.SetFlags(flag)\n}",
+        "summary": "Sets the output flags for the standard logger."
+    },
+    {
+        "id": 672,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Max(x, y float64) float64 {\n\treturn math.Max(x, y)\n}",
+        "summary": "Returns the larger of x or y."
+    },
+    {
+        "id": 673,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc ResolveIPAddr(network, address string) (*net.IPAddr, error) {\n\treturn net.ResolveIPAddr(network, address)\n}",
+        "summary": "Returns an address of IP end point."
+    },
+    {
+        "id": 674,
+        "code": "package main\n\nimport (\n\t\"net/http\"\n)\n\nfunc NotFound(w http.ResponseWriter, r *http.Request) {\n\thttp.NotFound(w, r)\n}",
+        "summary": "Replies to the request with an HTTP 404 not found error."
+    },
+    {
+        "id": 675,
+        "code": "package main\n\nimport (\n\t\"os\"\n)\n\nfunc ReadFile(name string) ([]byte, error) {\n\treturn os.ReadFile(name)\n}",
+        "summary": "Reads the named file and returns the contents."
+    },
+    {
+        "id": 676,
+        "code": "package main\n\nimport (\n\t\"path/filepath\"\n)\n\nfunc Ext(path string) string {\n\treturn filepath.Ext(path)\n}",
+        "summary": "Returns the file name extension used by path."
+    },
+    {
+        "id": 677,
+        "code": "package main\n\nimport (\n\t\"reflect\"\n)\n\nfunc New(typ reflect.Type) reflect.Value {\n\treturn reflect.New(typ)\n}",
+        "summary": "Returns a Value representing a pointer to a new zero value for the specified type."
+    },
+    {
+        "id": 678,
+        "code": "package main\n\nimport (\n\t\"regexp\"\n)\n\nfunc QuoteMeta(s string) string {\n\treturn regexp.QuoteMeta(s)\n}",
+        "summary": "Returns a string that escapes all regular expression metacharacters inside the argument text."
+    },
+    {
+        "id": 679,
+        "code": "package main\n\nimport (\n\t\"runtime/debug\"\n)\n\nfunc ReadBuildInfo() (*debug.BuildInfo, bool) {\n\treturn debug.ReadBuildInfo()\n}",
+        "summary": "Returns the build information embedded in the running binary."
+    },
+    {
+        "id": 680,
+        "code": "package main\n\nimport (\n\t\"sort\"\n)\n\nfunc IntsAreSorted(x []int) bool {\n\treturn sort.IntsAreSorted(x)\n}",
+        "summary": "Reports whether the slice x is sorted in increasing order."
+    },
+    {
+        "id": 681,
+        "code": "package main\n\nimport (\n\t\"strconv\"\n)\n\nfunc ParseInt(s string, base int, bitSize int) (int64, error) {\n\treturn strconv.ParseInt(s, base, bitSize)\n}",
+        "summary": "Interprets a string s in the given base (0, 2 to 36) and bit size (0 to 64) and returns the corresponding value i."
+    },
+    {
+        "id": 682,
+        "code": "package main\n\nimport (\n\t\"strings\"\n)\n\nfunc Join(elems []string, sep string) string {\n\treturn strings.Join(elems, sep)\n}",
+        "summary": "Concatenates the elements of its first argument to create a single string."
+    },
+    {
+        "id": 683,
+        "code": "package main\n\nimport (\n\t\"sync/atomic\"\n)\n\nfunc AtomicAddInt32(addr *int32, delta int32) int32 {\n\treturn atomic.AddInt32(addr, delta)\n}",
+        "summary": "Atomically adds delta to *addr and returns the new value."
+    },
+    {
+        "id": 684,
+        "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc RunTests(matchString func(pat, str string) (bool, error), tests []testing.InternalTest) (bool, error) {\n\treturn testing.RunTests(matchString, tests)\n}",
+        "summary": "Runs the tests."
+    },
+    {
+        "id": 685,
+        "code": "package main\n\nimport (\n\t\"text/template\"\n)\n\nfunc ParseFiles(filenames ...string) (*template.Template, error) {\n\treturn template.ParseFiles(filenames...)\n}",
+        "summary": "Creates a new Template and parses the template definitions from the named files."
+    },
+    {
+        "id": 686,
+        "code": "package main\n\nimport (\n\t\"time\"\n)\n\nfunc Date(year int, month time.Month, day, hour, min, sec, nsec int, loc *time.Location) time.Time {\n\treturn time.Date(year, month, day, hour, min, sec, nsec, loc)\n}",
+        "summary": "Returns the Time corresponding to yyyy-mm-dd hh:mm:ss + nsec nanoseconds in the appropriate zone."
+    },
+    {
+        "id": 687,
+        "code": "package main\n\nimport (\n\t\"unicode\"\n)\n\nfunc IsUpper(r rune) bool {\n\treturn unicode.IsUpper(r)\n}",
+        "summary": "Reports whether the rune is an upper case letter."
+    },
+    {
+        "id": 688,
+        "code": "package main\n\nimport (\n\t\"unicode/utf8\"\n)\n\nfunc ValidString(s string) bool {\n\treturn utf8.ValidString(s)\n}",
+        "summary": "Reports whether s consists entirely of valid UTF-8-encoded runes."
+    },
+    {
+        "id": 689,
+        "code": "package main\n\nimport (\n\t\"archive/zip\"\n)\n\nfunc NewReader(r io.ReaderAt, size int64) (*zip.Reader, error) {\n\treturn zip.NewReader(r, size)\n}",
+        "summary": "Returns a new Reader reading from r, which is assumed to have the given size in bytes."
+    },
+    {
+        "id": 690,
+        "code": "package main\n\nimport (\n\t\"compress/flate\"\n)\n\nfunc NewReader(r io.Reader) io.ReadCloser {\n\treturn flate.NewReader(r)\n}",
+        "summary": "Returns a new ReadCloser that can be used to read the uncompressed version of r."
+    },
+    {
+        "id": 691,
+        "code": "package main\n\nimport (\n\t\"crypto/sha512\"\n)\n\nfunc New() hash.Hash {\n\treturn sha512.New()\n}",
+        "summary": "Returns a new hash.Hash computing the SHA-512 checksum."
+    },
+    {
+        "id": 692,
+        "code": "package main\n\nimport (\n\t\"encoding/binary\"\n)\n\nfunc PutUvarint(buf []byte, x uint64) int {\n\treturn binary.PutUvarint(buf, x)\n}",
+        "summary": "Encodes a uint64 into buf and returns the number of bytes written."
+    },
+    {
+        "id": 693,
+        "code": "package main\n\nimport (\n\t\"encoding/json\"\n)\n\nfunc HTMLEscape(dst *bytes.Buffer, src []byte) {\n\tjson.HTMLEscape(dst, src)\n}",
+        "summary": "Appends to dst the JSON-encoded src with <, >, &, U+2028 and U+2029 characters inside string literals changed to \\u003c, \\u003e, \\u0026, \\u2028, \\u2029 so that the JSON will be safe to embed inside HTML <script> tags."
+    },
+    {
+        "id": 694,
+        "code": "package main\n\nimport (\n\t\"flag\"\n)\n\nfunc Parsed() bool {\n\treturn flag.Parsed()\n}",
+        "summary": "Reports whether the command-line flags have been parsed."
+    },
+    {
+        "id": 695,
+        "code": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Sscan(str string, a ...any) (n int, err error) {\n\treturn fmt.Sscan(str, a...)\n}",
+        "summary": "Scans the argument string, storing successive space-separated values into successive arguments."
+    },
+    {
+        "id": 696,
+        "code": "package main\n\nimport (\n\t\"image\"\n)\n\nfunc NewNYCbCrA(r image.Rectangle, subsampleRatio image.YCbCrSubsampleRatio) *image.NYCbCrA {\n\treturn image.NewNYCbCrA(r, subsampleRatio)\n}",
+        "summary": "Creates a new NYCbCrA image with the given bounds and subsample ratio."
+    },
+    {
+        "id": 697,
+        "code": "package main\n\nimport (\n\t\"io\"\n)\n\nfunc ReadFull(r io.Reader, buf []byte) (n int, err error) {\n\treturn io.ReadFull(r, buf)\n}",
+        "summary": "Reads exactly len(buf) bytes from r into buf."
+    },
+    {
+        "id": 698,
+        "code": "package main\n\nimport (\n\t\"log\"\n)\n\nfunc Flags() int {\n\treturn log.Flags()\n}",
+        "summary": "Returns the output flags for the standard logger."
+    },
+    {
+        "id": 699,
+        "code": "package main\n\nimport (\n\t\"math\"\n)\n\nfunc Min(x, y float64) float64 {\n\treturn math.Min(x, y)\n}",
+        "summary": "Returns the smaller of x or y."
+    },
+    {
+        "id": 700,
+        "code": "package main\n\nimport (\n\t\"net\"\n)\n\nfunc ParseMAC(s string) (net.HardwareAddr, error) {\n\treturn net.ParseMAC(s)\n}",
+        "summary": "Parses s as an IEEE 802 MAC-48, EUI-48, EUI-64, or a 20-octet IPMI or InfiniBand link-layer address."
+    }
+]

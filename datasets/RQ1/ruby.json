@@ -1,0 +1,3502 @@
+[
+    {
+        "id": 1,
+        "code": "def read_file_contents(file_path)\n  File.read(file_path)\nrescue Errno::ENOENT\n  nil\nend",
+        "summary": "Reads the entire content of a file at the specified path and returns it as a string, returning nil if the file is not found."
+    },
+    {
+        "id": 2,
+        "code": "def write_text_to_file(file_path, text)\n  File.open(file_path, 'w') { |file| file.write(text) }\nend",
+        "summary": "Writes the specified text to a file, creating it or overwriting it if it already exists."
+    },
+    {
+        "id": 3,
+        "code": "def append_text_to_file(file_path, text)\n  File.open(file_path, 'a') { |file| file.write(text) }\nend",
+        "summary": "Appends the given text to the end of the file at the specified path."
+    },
+    {
+        "id": 4,
+        "code": "def read_lines_from_file(file_path)\n  File.readlines(file_path, chomp: true)\nend",
+        "summary": "Reads a file line by line and returns an array of strings, removing the newline character from each line."
+    },
+    {
+        "id": 5,
+        "code": "def file_exists?(file_path)\n  File.exist?(file_path)\nend",
+        "summary": "Checks if a file exists at the specified path and returns true or false."
+    },
+    {
+        "id": 6,
+        "code": "def delete_file(file_path)\n  File.delete(file_path) if File.exist?(file_path)\nend",
+        "summary": "Deletes the file at the specified path if it exists."
+    },
+    {
+        "id": 7,
+        "code": "def rename_file(old_path, new_path)\n  File.rename(old_path, new_path)\nend",
+        "summary": "Renames or moves a file from the old path to the new path."
+    },
+    {
+        "id": 8,
+        "code": "def copy_file(source_path, destination_path)\n  FileUtils.cp(source_path, destination_path)\nend",
+        "summary": "Copies a file from the source path to the destination path using FileUtils."
+    },
+    {
+        "id": 9,
+        "code": "def count_lines(file_path)\n  File.foreach(file_path).count\nend",
+        "summary": "Counts and returns the total number of lines in the specified file."
+    },
+    {
+        "id": 10,
+        "code": "def list_files_in_directory(dir_path)\n  Dir.entries(dir_path).select { |f| !File.directory? f }\nend",
+        "summary": "Returns a list of filenames in the specified directory, excluding subdirectories."
+    },
+    {
+        "id": 11,
+        "code": "def make_directory(dir_path)\n  Dir.mkdir(dir_path) unless Dir.exist?(dir_path)\nend",
+        "summary": "Creates a new directory at the specified path if it does not already exist."
+    },
+    {
+        "id": 12,
+        "code": "def get_file_extension(file_path)\n  File.extname(file_path)\nend",
+        "summary": "Returns the extension of the file at the specified path (e.g., '.txt')."
+    },
+    {
+        "id": 13,
+        "code": "def get_file_size(file_path)\n  File.size(file_path)\nend",
+        "summary": "Returns the size of the file at the specified path in bytes."
+    },
+    {
+        "id": 14,
+        "code": "def read_json_file(file_path)\n  require 'json'\n  file = File.read(file_path)\n  JSON.parse(file)\nend",
+        "summary": "Reads a JSON file and parses its content into a Ruby hash or array."
+    },
+    {
+        "id": 15,
+        "code": "def write_json_to_file(file_path, data)\n  require 'json'\n  File.open(file_path, 'w') { |f| f.write(JSON.pretty_generate(data)) }\nend",
+        "summary": "Writes a Ruby hash or array to a file in pretty-printed JSON format."
+    },
+    {
+        "id": 16,
+        "code": "def read_csv_file(file_path)\n  require 'csv'\n  CSV.read(file_path, headers: true)\nend",
+        "summary": "Reads a CSV file and returns a CSV::Table object, treating the first row as headers."
+    },
+    {
+        "id": 17,
+        "code": "def search_string_in_file(file_path, search_term)\n  File.foreach(file_path).grep(/#{search_term}/)\nend",
+        "summary": "Searches for a specific string in a file and returns an array of lines containing that string."
+    },
+    {
+        "id": 18,
+        "code": "def replace_text_in_file(file_path, old_text, new_text)\n  text = File.read(file_path)\n  new_content = text.gsub(old_text, new_text)\n  File.open(file_path, 'w') { |file| file.write(new_content) }\nend",
+        "summary": "Replaces all occurrences of a specified text with new text within a file."
+    },
+    {
+        "id": 19,
+        "code": "def is_directory?(path)\n  File.directory?(path)\nend",
+        "summary": "Checks if the given path corresponds to a directory."
+    },
+    {
+        "id": 20,
+        "code": "def read_first_line(file_path)\n  File.open(file_path, &:readline)\nend",
+        "summary": "Reads and returns only the first line of the specified file."
+    },
+    {
+        "id": 21,
+        "code": "def touch_file(file_path)\n  FileUtils.touch(file_path)\nend",
+        "summary": "Updates the access and modification times of a file, or creates it if it doesn't exist."
+    },
+    {
+        "id": 22,
+        "code": "def get_absolute_path(relative_path)\n  File.expand_path(relative_path)\nend",
+        "summary": "Converts a relative file path to an absolute path."
+    },
+    {
+        "id": 23,
+        "code": "def change_file_permissions(file_path, permission_octal)\n  File.chmod(permission_octal, file_path)\nend",
+        "summary": "Changes the permissions of a file using the specified octal mode (e.g., 0644)."
+    },
+    {
+        "id": 24,
+        "code": "def empty_directory?(dir_path)\n  Dir.empty?(dir_path)\nend",
+        "summary": "Returns true if the specified directory is empty, false otherwise."
+    },
+    {
+        "id": 25,
+        "code": "def glob_files(pattern)\n  Dir.glob(pattern)\nend",
+        "summary": "Returns an array of filenames matching the specified glob pattern (e.g., '*.rb')."
+    },
+    {
+        "id": 26,
+        "code": "def read_binary_file(file_path)\n  File.binread(file_path)\nend",
+        "summary": "Reads the contents of a file in binary mode."
+    },
+    {
+        "id": 27,
+        "code": "def write_binary_file(file_path, data)\n  File.binwrite(file_path, data)\nend",
+        "summary": "Writes binary data to a file at the specified path."
+    },
+    {
+        "id": 28,
+        "code": "def current_working_directory\n  Dir.pwd\nend",
+        "summary": "Returns the path of the current working directory."
+    },
+    {
+        "id": 29,
+        "code": "def each_line_with_index(file_path)\n  File.foreach(file_path).with_index do |line, line_num|\n    puts \"#{line_num}: #{line}\"\n  end\nend",
+        "summary": "Iterates through a file line by line, providing both the line content and the line number."
+    },
+    {
+        "id": 30,
+        "code": "def temp_file_create\n  require 'tempfile'\n  Tempfile.create('foo') do |f|\n    f.write('Hello')\n    f.path\n  end\nend",
+        "summary": "Creates a temporary file, writes data to it, and returns its path."
+    },
+    {
+        "id": 31,
+        "code": "def reverse_string(str)\n  str.reverse\nend",
+        "summary": "Reverses the characters in a given string."
+    },
+    {
+        "id": 32,
+        "code": "def capitalize_words(sentence)\n  sentence.split.map(&:capitalize).join(' ')\nend",
+        "summary": "Capitalizes the first letter of each word in a sentence."
+    },
+    {
+        "id": 33,
+        "code": "def palindrome?(str)\n  normalized = str.downcase.gsub(/[^a-z0-9]/, '')\n  normalized == normalized.reverse\nend",
+        "summary": "Checks if a string is a palindrome, ignoring case and non-alphanumeric characters."
+    },
+    {
+        "id": 34,
+        "code": "def count_vowels(str)\n  str.count('aeiouAEIOU')\nend",
+        "summary": "Counts the number of vowels in a string."
+    },
+    {
+        "id": 35,
+        "code": "def snake_case(str)\n  str.gsub(/::/, '/').\n  gsub(/([A-Z]+)([A-Z][a-z])/, '\\1_\\2').\n  gsub(/([a-z\\d])([A-Z])/, '\\1_\\2').\n  tr(\"-\", \"_\").\n  downcase\nend",
+        "summary": "Converts a CamelCase or other formatted string into snake_case."
+    },
+    {
+        "id": 36,
+        "code": "def truncate_string(str, max_length)\n  str.length > max_length ? \"#{str[0...max_length]}...\" : str\nend",
+        "summary": "Truncates a string to a maximum length and appends an ellipsis if it exceeds that length."
+    },
+    {
+        "id": 37,
+        "code": "def string_contains?(str, substring)\n  str.include?(substring)\nend",
+        "summary": "Checks if a string contains a specific substring."
+    },
+    {
+        "id": 38,
+        "code": "def remove_whitespace(str)\n  str.gsub(/\\s+/, '')\nend",
+        "summary": "Removes all whitespace characters from a string."
+    },
+    {
+        "id": 39,
+        "code": "def string_to_integer(str)\n  str.to_i\nend",
+        "summary": "Converts a string representation of a number to an integer."
+    },
+    {
+        "id": 40,
+        "code": "def split_string_by_delimiter(str, delimiter)\n  str.split(delimiter)\nend",
+        "summary": "Splits a string into an array of substrings based on a specified delimiter."
+    },
+    {
+        "id": 41,
+        "code": "def sum_array(arr)\n  arr.sum\nend",
+        "summary": "Calculates the sum of all elements in an array."
+    },
+    {
+        "id": 42,
+        "code": "def filter_even_numbers(arr)\n  arr.select { |n| n.even? }\nend",
+        "summary": "Returns a new array containing only the even numbers from the original array."
+    },
+    {
+        "id": 43,
+        "code": "def remove_duplicates(arr)\n  arr.uniq\nend",
+        "summary": "Removes duplicate elements from an array."
+    },
+    {
+        "id": 44,
+        "code": "def flatten_array(arr)\n  arr.flatten\nend",
+        "summary": "Converts a multi-dimensional array into a one-dimensional array."
+    },
+    {
+        "id": 45,
+        "code": "def array_max(arr)\n  arr.max\nend",
+        "summary": "Finds the maximum value in an array."
+    },
+    {
+        "id": 46,
+        "code": "def array_min(arr)\n  arr.min\nend",
+        "summary": "Finds the minimum value in an array."
+    },
+    {
+        "id": 47,
+        "code": "def sort_array_descending(arr)\n  arr.sort.reverse\nend",
+        "summary": "Sorts an array in descending order."
+    },
+    {
+        "id": 48,
+        "code": "def check_element_exists(arr, element)\n  arr.include?(element)\nend",
+        "summary": "Checks if a specific element exists within an array."
+    },
+    {
+        "id": 49,
+        "code": "def map_array_to_string(arr)\n  arr.map(&:to_s)\nend",
+        "summary": "Converts every element in an array to its string representation."
+    },
+    {
+        "id": 50,
+        "code": "def remove_nil_values(arr)\n  arr.compact\nend",
+        "summary": "Removes all nil values from an array."
+    },
+    {
+        "id": 51,
+        "code": "def merge_hashes(hash1, hash2)\n  hash1.merge(hash2)\nend",
+        "summary": "Merges two hashes, with values in the second hash overwriting those in the first if keys collide."
+    },
+    {
+        "id": 52,
+        "code": "def get_hash_keys(hash)\n  hash.keys\nend",
+        "summary": "Returns an array containing all the keys of a hash."
+    },
+    {
+        "id": 53,
+        "code": "def get_hash_values(hash)\n  hash.values\nend",
+        "summary": "Returns an array containing all the values of a hash."
+    },
+    {
+        "id": 54,
+        "code": "def invert_hash(hash)\n  hash.invert\nend",
+        "summary": "Returns a new hash created by using the original hash's values as keys, and keys as values."
+    },
+    {
+        "id": 55,
+        "code": "def check_key_exists(hash, key)\n  hash.key?(key)\nend",
+        "summary": "Checks if a specific key exists in a hash."
+    },
+    {
+        "id": 56,
+        "code": "def transform_hash_values(hash)\n  hash.transform_values { |v| v.to_s }\nend",
+        "summary": "Returns a new hash with the results of running a block once for every value."
+    },
+    {
+        "id": 57,
+        "code": "def filter_hash_by_value(hash, value)\n  hash.select { |k, v| v == value }\nend",
+        "summary": "Returns a new hash consisting of entries for which the block returns true."
+    },
+    {
+        "id": 58,
+        "code": "def symbol_keys_to_string(hash)\n  hash.transform_keys(&:to_s)\nend",
+        "summary": "Converts all symbol keys in a hash to strings."
+    },
+    {
+        "id": 59,
+        "code": "def safe_dig(hash, key1, key2)\n  hash.dig(key1, key2)\nend",
+        "summary": "Retrieves a nested value from a hash without raising an error if an intermediate key is missing."
+    },
+    {
+        "id": 60,
+        "code": "def delete_key(hash, key)\n  hash.delete(key)\nend",
+        "summary": "Deletes a key-value pair from a hash by key."
+    },
+    {
+        "id": 61,
+        "code": "def current_timestamp\n  Time.now.to_i\nend",
+        "summary": "Returns the current time as a Unix timestamp (integer)."
+    },
+    {
+        "id": 62,
+        "code": "def format_date(date, format_string)\n  date.strftime(format_string)\nend",
+        "summary": "Formats a Time or Date object according to the directives in the given format string."
+    },
+    {
+        "id": 63,
+        "code": "def parse_date_string(date_string)\n  require 'date'\n  Date.parse(date_string)\nend",
+        "summary": "Parses a string representation of a date into a Date object."
+    },
+    {
+        "id": 64,
+        "code": "def days_between(date1, date2)\n  (date2 - date1).to_i\nend",
+        "summary": "Calculates the number of days between two Date objects."
+    },
+    {
+        "id": 65,
+        "code": "def add_days(date, days)\n  date + days\nend",
+        "summary": "Returns a new Date object representing the date a specified number of days in the future."
+    },
+    {
+        "id": 66,
+        "code": "def leap_year?(year)\n  require 'date'\n  Date.leap?(year)\nend",
+        "summary": "Checks if a given year is a leap year."
+    },
+    {
+        "id": 67,
+        "code": "def current_date\n  require 'date'\n  Date.today\nend",
+        "summary": "Returns a Date object representing the current date."
+    },
+    {
+        "id": 68,
+        "code": "def time_difference_seconds(start_time, end_time)\n  end_time - start_time\nend",
+        "summary": "Calculates the difference in seconds between two Time objects."
+    },
+    {
+        "id": 69,
+        "code": "def day_of_week(date)\n  date.strftime('%A')\nend",
+        "summary": "Returns the full name of the day of the week for a given date (e.g., 'Monday')."
+    },
+    {
+        "id": 70,
+        "code": "def utc_time\n  Time.now.utc\nend",
+        "summary": "Returns the current time in UTC."
+    },
+    {
+        "id": 71,
+        "code": "def random_number(max)\n  rand(max)\nend",
+        "summary": "Generates a random integer greater than or equal to 0 and less than the specified max."
+    },
+    {
+        "id": 72,
+        "code": "def round_float(number, precision)\n  number.round(precision)\nend",
+        "summary": "Rounds a floating-point number to a specified number of decimal places."
+    },
+    {
+        "id": 73,
+        "code": "def factorial(n)\n  (1..n).inject(1, :*)\nend",
+        "summary": "Calculates the factorial of a non-negative integer."
+    },
+    {
+        "id": 74,
+        "code": "def prime?(n)\n  require 'prime'\n  Prime.prime?(n)\nend",
+        "summary": "Checks if a number is prime using the Prime library."
+    },
+    {
+        "id": 75,
+        "code": "def gcd(a, b)\n  a.gcd(b)\nend",
+        "summary": "Calculates the greatest common divisor of two integers."
+    },
+    {
+        "id": 76,
+        "code": "def absolute_value(n)\n  n.abs\nend",
+        "summary": "Returns the absolute value of a number."
+    },
+    {
+        "id": 77,
+        "code": "def square_root(n)\n  Math.sqrt(n)\nend",
+        "summary": "Calculates the square root of a number."
+    },
+    {
+        "id": 78,
+        "code": "def power(base, exponent)\n  base ** exponent\nend",
+        "summary": "Raises a base number to the power of an exponent."
+    },
+    {
+        "id": 79,
+        "code": "def string_to_float(str)\n  str.to_f\nend",
+        "summary": "Converts a string to a floating-point number."
+    },
+    {
+        "id": 80,
+        "code": "def formatted_currency(amount)\n  \"$%.2f\" % amount\nend",
+        "summary": "Formats a number as a currency string with two decimal places."
+    },
+    {
+        "id": 81,
+        "code": "def loop_times(n)\n  n.times do |i|\n    puts i\n  end\nend",
+        "summary": "Executes a block of code a specified number of times."
+    },
+    {
+        "id": 82,
+        "code": "def iterate_range(start_num, end_num)\n  (start_num..end_num).each do |i|\n    puts i\n  end\nend",
+        "summary": "Iterates through a range of numbers from start to end, inclusive."
+    },
+    {
+        "id": 83,
+        "code": "def while_loop_example(max)\n  i = 0\n  while i < max do\n    puts i\n    i += 1\n  end\nend",
+        "summary": "Executes a block of code repeatedly while a condition is true."
+    },
+    {
+        "id": 84,
+        "code": "def handle_exception\n  begin\n    1 / 0\n  rescue ZeroDivisionError => e\n    puts \"Error: #{e.message}\"\n  end\nend",
+        "summary": "Demonstrates basic exception handling using begin, rescue, and end."
+    },
+    {
+        "id": 85,
+        "code": "def each_with_object_example(arr)\n  arr.each_with_object({}) do |item, hash|\n    hash[item] = item.length\n  end\nend",
+        "summary": "Iterates over a collection, passing a memo object to the block."
+    },
+    {
+        "id": 86,
+        "code": "def case_statement(grade)\n  case grade\n  when 'A' then 'Excellent'\n  when 'B' then 'Good'\n  else 'Keep trying'\n  end\nend",
+        "summary": "Uses a case statement to execute different code based on the value of a variable."
+    },
+    {
+        "id": 87,
+        "code": "def ternary_operator(a, b)\n  a > b ? a : b\nend",
+        "summary": "Uses the ternary operator to return one of two values based on a condition."
+    },
+    {
+        "id": 88,
+        "code": "def break_loop(arr)\n  arr.each do |item|\n    break if item == 'stop'\n    puts item\n  end\nend",
+        "summary": "Terminates the execution of a loop when a condition is met."
+    },
+    {
+        "id": 89,
+        "code": "def next_iteration(arr)\n  arr.each do |item|\n    next if item.nil?\n    puts item\n  end\nend",
+        "summary": "Skips the rest of the current iteration and moves to the next one."
+    },
+    {
+        "id": 90,
+        "code": "def unless_example(condition)\n  puts \"Condition is false\" unless condition\nend",
+        "summary": "Executes code only if the condition is false."
+    },
+    {
+        "id": 91,
+        "code": "def dynamic_method_call(obj, method_name)\n  obj.send(method_name)\nend",
+        "summary": "Invokes a method identified by a symbol or string on an object dynamically."
+    },
+    {
+        "id": 92,
+        "code": "def define_method_dynamically(name)\n  self.class.send(:define_method, name) do\n    puts \"Method #{name} called\"\n  end\nend",
+        "summary": "Dynamically defines a new method on a class at runtime."
+    },
+    {
+        "id": 93,
+        "code": "def respond_to_method?(obj, method_name)\n  obj.respond_to?(method_name)\nend",
+        "summary": "Checks if an object responds to a specific method."
+    },
+    {
+        "id": 94,
+        "code": "def get_object_class(obj)\n  obj.class\nend",
+        "summary": "Returns the class of an object."
+    },
+    {
+        "id": 95,
+        "code": "def singleton_class_example(obj)\n  obj.singleton_class\nend",
+        "summary": "Returns the singleton class of an object."
+    },
+    {
+        "id": 96,
+        "code": "def variable_defined?(var_name)\n  defined?(var_name)\nend",
+        "summary": "Checks if a variable or constant is defined."
+    },
+    {
+        "id": 97,
+        "code": "def list_instance_variables(obj)\n  obj.instance_variables\nend",
+        "summary": "Returns an array of instance variable names for an object."
+    },
+    {
+        "id": 98,
+        "code": "def set_instance_variable(obj, name, value)\n  obj.instance_variable_set(\"@#{name}\", value)\nend",
+        "summary": "Sets the value of an instance variable dynamically."
+    },
+    {
+        "id": 99,
+        "code": "def get_instance_variable(obj, name)\n  obj.instance_variable_get(\"@#{name}\")\nend",
+        "summary": "Gets the value of an instance variable dynamically."
+    },
+    {
+        "id": 100,
+        "code": "def alias_method_example\n  class Example\n    def old_name; \"Old\"; end\n    alias_method :new_name, :old_name\n  end\nend",
+        "summary": "Creates an alias for an existing method, allowing it to be called by a new name."
+    },
+    {
+        "id": 101,
+        "code": "def yield_example\n  yield if block_given?\nend",
+        "summary": "Yields control to the block given to the method, if one exists."
+    },
+    {
+        "id": 102,
+        "code": "def proc_example\n  my_proc = Proc.new { |x| puts x }\n  my_proc.call(10)\nend",
+        "summary": "Creates and calls a Proc object, which stores a block of code to be executed later."
+    },
+    {
+        "id": 103,
+        "code": "def lambda_example\n  my_lambda = ->(x) { x * 2 }\n  my_lambda.call(5)\nend",
+        "summary": "Creates and calls a lambda, a specific type of Proc with stricter argument checking."
+    },
+    {
+        "id": 104,
+        "code": "def struct_example\n  Person = Struct.new(:name, :age)\n  person = Person.new(\"Alice\", 30)\nend",
+        "summary": "Defines a simple class using Struct with specific attributes."
+    },
+    {
+        "id": 105,
+        "code": "def open_struct_example\n  require 'ostruct'\n  person = OpenStruct.new(name: \"Bob\", age: 40)\nend",
+        "summary": "Creates an OpenStruct object which allows setting arbitrary attributes."
+    },
+    {
+        "id": 106,
+        "code": "def reduce_array(arr)\n  arr.reduce(0) { |sum, n| sum + n }\nend",
+        "summary": "Accumulates a value by applying a block to each element of the array (e.g., summing elements)."
+    },
+    {
+        "id": 107,
+        "code": "def group_by_length(words)\n  words.group_by { |word| word.length }\nend",
+        "summary": "Groups elements of a collection by the result of the given block."
+    },
+    {
+        "id": 108,
+        "code": "def zip_arrays(arr1, arr2)\n  arr1.zip(arr2)\nend",
+        "summary": "Merges elements from two arrays into corresponding pairs."
+    },
+    {
+        "id": 109,
+        "code": "def partition_array(arr)\n  arr.partition { |n| n.even? }\nend",
+        "summary": "Returns two arrays, the first containing elements for which the block is true, the second for false."
+    },
+    {
+        "id": 110,
+        "code": "def all_true?(arr)\n  arr.all? { |word| word.length >= 3 }\nend",
+        "summary": "Returns true if the block never returns false or nil for any element."
+    },
+    {
+        "id": 111,
+        "code": "def any_true?(arr)\n  arr.any? { |word| word.length >= 5 }\nend",
+        "summary": "Returns true if the block returns true for at least one element."
+    },
+    {
+        "id": 112,
+        "code": "def none_true?(arr)\n  arr.none? { |n| n > 10 }\nend",
+        "summary": "Returns true if the block never returns true for any element."
+    },
+    {
+        "id": 113,
+        "code": "def one_true?(arr)\n  arr.one? { |n| n == 0 }\nend",
+        "summary": "Returns true if the block returns true for exactly one element."
+    },
+    {
+        "id": 114,
+        "code": "def find_first_match(arr)\n  arr.find { |n| n % 5 == 0 }\nend",
+        "summary": "Returns the first element for which the block is not false."
+    },
+    {
+        "id": 115,
+        "code": "def reject_elements(arr)\n  arr.reject { |n| n.odd? }\nend",
+        "summary": "Returns a new array containing the items for which the block is not true."
+    },
+    {
+        "id": 116,
+        "code": "def take_elements(arr, n)\n  arr.take(n)\nend",
+        "summary": "Returns the first n elements from the array."
+    },
+    {
+        "id": 117,
+        "code": "def drop_elements(arr, n)\n  arr.drop(n)\nend",
+        "summary": "Returns elements after the first n elements have been dropped."
+    },
+    {
+        "id": 118,
+        "code": "def first_element(arr)\n  arr.first\nend",
+        "summary": "Returns the first element of the array."
+    },
+    {
+        "id": 119,
+        "code": "def last_element(arr)\n  arr.last\nend",
+        "summary": "Returns the last element of the array."
+    },
+    {
+        "id": 120,
+        "code": "def sample_element(arr)\n  arr.sample\nend",
+        "summary": "Returns a random element from the array."
+    },
+    {
+        "id": 121,
+        "code": "def shuffle_array(arr)\n  arr.shuffle\nend",
+        "summary": "Returns a new array with elements of the original array shuffled."
+    },
+    {
+        "id": 122,
+        "code": "def rotate_array(arr, count)\n  arr.rotate(count)\nend",
+        "summary": "Returns a new array by rotating the original array so that the element at count becomes the first element."
+    },
+    {
+        "id": 123,
+        "code": "def array_combinations(arr, n)\n  arr.combination(n).to_a\nend",
+        "summary": "Returns all combinations of length n of elements from the array."
+    },
+    {
+        "id": 124,
+        "code": "def array_permutations(arr, n)\n  arr.permutation(n).to_a\nend",
+        "summary": "Returns all permutations of length n of elements from the array."
+    },
+    {
+        "id": 125,
+        "code": "def repeated_permutation(arr, n)\n  arr.repeated_permutation(n).to_a\nend",
+        "summary": "Returns all repeated permutations of length n of elements from the array."
+    },
+    {
+        "id": 126,
+        "code": "def repeated_combination(arr, n)\n  arr.repeated_combination(n).to_a\nend",
+        "summary": "Returns all repeated combinations of length n of elements from the array."
+    },
+    {
+        "id": 127,
+        "code": "def transpose_matrix(matrix)\n  matrix.transpose\nend",
+        "summary": "Transposes the rows and columns of a 2D array (matrix)."
+    },
+    {
+        "id": 128,
+        "code": "def cartesian_product(arr1, arr2)\n  arr1.product(arr2)\nend",
+        "summary": "Returns an array of all combinations of elements from both arrays."
+    },
+    {
+        "id": 129,
+        "code": "def uniq_with_block(arr)\n  arr.uniq { |s| s.first }\nend",
+        "summary": "Returns a new array by removing duplicate values based on the return value of the block."
+    },
+    {
+        "id": 130,
+        "code": "def binary_search(arr, target)\n  arr.bsearch { |x| target <=> x }\nend",
+        "summary": "Performs a binary search on a sorted array to find the target element."
+    },
+    {
+        "id": 131,
+        "code": "def sort_by_length(arr)\n  arr.sort_by { |word| word.length }\nend",
+        "summary": "Sorts the array using a set of keys generated by mapping the values through the block."
+    },
+    {
+        "id": 132,
+        "code": "def minmax_array(arr)\n  arr.minmax\nend",
+        "summary": "Returns a two-element array containing the minimum and maximum values."
+    },
+    {
+        "id": 133,
+        "code": "def min_by_length(arr)\n  arr.min_by { |word| word.length }\nend",
+        "summary": "Returns the object in the array that gives the minimum value from the block."
+    },
+    {
+        "id": 134,
+        "code": "def max_by_length(arr)\n  arr.max_by { |word| word.length }\nend",
+        "summary": "Returns the object in the array that gives the maximum value from the block."
+    },
+    {
+        "id": 135,
+        "code": "def grep_strings(arr, pattern)\n  arr.grep(pattern)\nend",
+        "summary": "Returns an array of every element for which the pattern match returns true."
+    },
+    {
+        "id": 136,
+        "code": "def grep_v_strings(arr, pattern)\n  arr.grep_v(pattern)\nend",
+        "summary": "Returns an array of every element for which the pattern match returns false."
+    },
+    {
+        "id": 137,
+        "code": "def cycle_array(arr, n)\n  arr.cycle(n) { |x| puts x }\nend",
+        "summary": "Calls the block for each element n times, or forever if nil is given."
+    },
+    {
+        "id": 138,
+        "code": "def chunk_array(arr)\n  arr.chunk { |n| n.even? }.each { |even, nums| p [even, nums] }\nend",
+        "summary": "Enumerates over the items, chunking them together based on the return value of the block."
+    },
+    {
+        "id": 139,
+        "code": "def slice_before_pattern(arr, pattern)\n  arr.slice_before(pattern).to_a\nend",
+        "summary": "Splits the array into subarrays, starting a new chunk whenever the pattern matches."
+    },
+    {
+        "id": 140,
+        "code": "def slice_after_pattern(arr, pattern)\n  arr.slice_after(pattern).to_a\nend",
+        "summary": "Splits the array into subarrays, ending a chunk whenever the pattern matches."
+    },
+    {
+        "id": 141,
+        "code": "def slice_when_condition(arr)\n  arr.slice_when { |i, j| i + 1 != j }.to_a\nend",
+        "summary": "Splits the array into subarrays based on a boolean condition between adjacent elements."
+    },
+    {
+        "id": 142,
+        "code": "def flat_map_example(arr)\n  arr.flat_map { |x| [x, -x] }\nend",
+        "summary": "Returns a new array with the concatenated results of running the block once for every element."
+    },
+    {
+        "id": 143,
+        "code": "def lazy_enumeration(range)\n  range.lazy.select { |x| x % 3 == 0 }.first(10)\nend",
+        "summary": "Creates a lazy enumerator to avoid processing the entire collection at once."
+    },
+    {
+        "id": 144,
+        "code": "def scan_string(str, regex)\n  str.scan(regex)\nend",
+        "summary": "Returns an array of all matches of a regex in a string."
+    },
+    {
+        "id": 145,
+        "code": "def match_string(str, regex)\n  str.match(regex)\nend",
+        "summary": "Returns a MatchData object if the regex matches the string, otherwise returns nil."
+    },
+    {
+        "id": 146,
+        "code": "def global_substitution(str, pattern, replacement)\n  str.gsub(pattern, replacement)\nend",
+        "summary": "Returns a copy of the string with all occurrences of the pattern replaced."
+    },
+    {
+        "id": 147,
+        "code": "def center_string(str, width)\n  str.center(width)\nend",
+        "summary": "Centers the string in a field of the given width."
+    },
+    {
+        "id": 148,
+        "code": "def squeeze_string(str)\n  str.squeeze\nend",
+        "summary": "Returns a new string where runs of the same character are replaced by a single character."
+    },
+    {
+        "id": 149,
+        "code": "def chomp_string(str)\n  str.chomp\nend",
+        "summary": "Returns a new string with the given record separator removed from the end."
+    },
+    {
+        "id": 150,
+        "code": "def strip_whitespace(str)\n  str.strip\nend",
+        "summary": "Returns a new string with leading and trailing whitespace removed."
+    },
+    {
+        "id": 151,
+        "code": "def start_with_prefix?(str, prefix)\n  str.start_with?(prefix)\nend",
+        "summary": "Returns true if the string starts with one of the prefixes given."
+    },
+    {
+        "id": 152,
+        "code": "def count_upto(start_num, end_num)\n  start_num.upto(end_num) { |i| puts i }\nend",
+        "summary": "Iterates from the start number up to the end number."
+    },
+    {
+        "id": 153,
+        "code": "def step_range(range, step_val)\n  range.step(step_val).to_a\nend",
+        "summary": "Iterates over the range, incrementing by the step value."
+    },
+    {
+        "id": 154,
+        "code": "class Dog\n  def bark\n    puts \"Woof!\"\n  end\nend",
+        "summary": "Defines a simple class with a single instance method."
+    },
+    {
+        "id": 155,
+        "code": "module Greeting\n  def hello\n    puts \"Hello!\"\n  end\nend",
+        "summary": "Defines a module that can be mixed into classes."
+    },
+    {
+        "id": 156,
+        "code": "class Person\n  include Greeting\nend",
+        "summary": "Includes a module in a class, adding the module's methods as instance methods."
+    },
+    {
+        "id": 157,
+        "code": "class Calculator\n  extend MathFunctions\nend",
+        "summary": "Extends a class with a module, adding the module's methods as class methods."
+    },
+    {
+        "id": 158,
+        "code": "class Payment\n  prepend AuditLog\nend",
+        "summary": "Prepends a module, adding methods to the method lookup chain before the class itself."
+    },
+    {
+        "id": 159,
+        "code": "class User\n  attr_reader :name\n  def initialize(name)\n    @name = name\n  end\nend",
+        "summary": "Creates a reader method for an instance variable using attr_reader."
+    },
+    {
+        "id": 160,
+        "code": "class User\n  attr_writer :name\nend",
+        "summary": "Creates a writer method for an instance variable using attr_writer."
+    },
+    {
+        "id": 161,
+        "code": "class User\n  attr_accessor :name\nend",
+        "summary": "Creates both reader and writer methods for an instance variable using attr_accessor."
+    },
+    {
+        "id": 162,
+        "code": "class Product\n  def initialize(name, price)\n    @name = name\n    @price = price\n  end\nend",
+        "summary": "Defines an initialize method to set up the object's initial state."
+    },
+    {
+        "id": 163,
+        "code": "class Employee < Person\n  def initialize(name, salary)\n    super(name)\n    @salary = salary\n  end\nend",
+        "summary": "Calls the parent class's method of the same name using super."
+    },
+    {
+        "id": 164,
+        "code": "def self.create\n  new\nend",
+        "summary": "Defines a class method using self."
+    },
+    {
+        "id": 165,
+        "code": "class Secret\n  def reveal; secret_code; end\n  private\n  def secret_code; \"1234\"; end\nend",
+        "summary": "Defines a private method that cannot be called with an explicit receiver."
+    },
+    {
+        "id": 166,
+        "code": "class Widget\n  protected\n  def internal_id; 42; end\nend",
+        "summary": "Defines a protected method that can be called by objects of the same class."
+    },
+    {
+        "id": 167,
+        "code": "class Config\n  @@settings = {}\nend",
+        "summary": "Defines a class variable shared among all instances of the class."
+    },
+    {
+        "id": 168,
+        "code": "class MathConstants\n  PI = 3.14159\nend",
+        "summary": "Defines a constant within a class."
+    },
+    {
+        "id": 169,
+        "code": "def freeze_object(obj)\n  obj.freeze\nend",
+        "summary": "Prevents further modifications to an object."
+    },
+    {
+        "id": 170,
+        "code": "def clone_object(obj)\n  obj.clone\nend",
+        "summary": "Creates a copy of an object, copying its frozen state and singleton class."
+    },
+    {
+        "id": 171,
+        "code": "def dup_object(obj)\n  obj.dup\nend",
+        "summary": "Creates a shallow copy of an object, without copying frozen state or singleton class."
+    },
+    {
+        "id": 172,
+        "code": "class Router\n  def method_missing(m, *args, &block)\n    puts \"Called #{m} with #{args}\"\n  end\nend",
+        "summary": "Intercepts calls to undefined methods using method_missing."
+    },
+    {
+        "id": 173,
+        "code": "def add_method_to_instance(obj)\n  obj.define_singleton_method(:hello) { \"Hello!\" }\nend",
+        "summary": "Defines a method on a single object instance."
+    },
+    {
+        "id": 174,
+        "code": "def get_env_variable(key)\n  ENV[key]\nend",
+        "summary": "Retrieves the value of an environment variable."
+    },
+    {
+        "id": 175,
+        "code": "def set_env_variable(key, value)\n  ENV[key] = value\nend",
+        "summary": "Sets the value of an environment variable."
+    },
+    {
+        "id": 176,
+        "code": "def execute_shell_backticks\n  `ls -la`\nend",
+        "summary": "Executes a shell command using backticks and returns the output."
+    },
+    {
+        "id": 177,
+        "code": "def execute_system_command(cmd)\n  system(cmd)\nend",
+        "summary": "Executes a shell command using system, returning true if successful."
+    },
+    {
+        "id": 178,
+        "code": "def replace_process(cmd)\n  exec(cmd)\nend",
+        "summary": "Replaces the current process by running the given command."
+    },
+    {
+        "id": 179,
+        "code": "def get_home_directory\n  Dir.home\nend",
+        "summary": "Returns the path to the current user's home directory."
+    },
+    {
+        "id": 180,
+        "code": "def join_file_paths(*parts)\n  File.join(*parts)\nend",
+        "summary": "Joins multiple path components into a single path string."
+    },
+    {
+        "id": 181,
+        "code": "def parse_uri(url)\n  require 'uri'\n  URI.parse(url)\nend",
+        "summary": "Parses a URL string into a URI object."
+    },
+    {
+        "id": 182,
+        "code": "def encode_uri_component(str)\n  require 'uri'\n  URI.encode_www_form_component(str)\nend",
+        "summary": "Encodes a string for use in a URL query component."
+    },
+    {
+        "id": 183,
+        "code": "def decode_uri_component(str)\n  require 'uri'\n  URI.decode_www_form_component(str)\nend",
+        "summary": "Decodes a URL-encoded string."
+    },
+    {
+        "id": 184,
+        "code": "def http_get_request(url)\n  require 'net/http'\n  Net::HTTP.get(URI(url))\nend",
+        "summary": "Performs a basic HTTP GET request and returns the response body."
+    },
+    {
+        "id": 185,
+        "code": "def json_to_hash(json_string)\n  require 'json'\n  JSON.parse(json_string)\nend",
+        "summary": "Parses a JSON string into a Ruby hash."
+    },
+    {
+        "id": 186,
+        "code": "def hash_to_json(hash)\n  require 'json'\n  hash.to_json\nend",
+        "summary": "Converts a Ruby hash into a JSON string."
+    },
+    {
+        "id": 187,
+        "code": "def base64_encode(str)\n  require 'base64'\n  Base64.encode64(str)\nend",
+        "summary": "Encodes a string into Base64 format."
+    },
+    {
+        "id": 188,
+        "code": "def base64_decode(str)\n  require 'base64'\n  Base64.decode64(str)\nend",
+        "summary": "Decodes a Base64 encoded string."
+    },
+    {
+        "id": 189,
+        "code": "def generate_uuid\n  require 'securerandom'\n  SecureRandom.uuid\nend",
+        "summary": "Generates a random v4 UUID."
+    },
+    {
+        "id": 190,
+        "code": "def random_hex(n)\n  require 'securerandom'\n  SecureRandom.hex(n)\nend",
+        "summary": "Generates a random hexadecimal string of length 2*n."
+    },
+    {
+        "id": 191,
+        "code": "def benchmark_block\n  require 'benchmark'\n  Benchmark.measure { yield }\nend",
+        "summary": "Measures and returns the time taken to execute a block of code."
+    },
+    {
+        "id": 192,
+        "code": "def sleep_execution(seconds)\n  sleep(seconds)\nend",
+        "summary": "Pauses execution for the specified number of seconds."
+    },
+    {
+        "id": 193,
+        "code": "def get_pid\n  Process.pid\nend",
+        "summary": "Returns the process ID of the current process."
+    },
+    {
+        "id": 194,
+        "code": "def get_ppid\n  Process.ppid\nend",
+        "summary": "Returns the process ID of the parent process."
+    },
+    {
+        "id": 195,
+        "code": "def exit_program\n  exit\nend",
+        "summary": "Terminates the current Ruby program."
+    },
+    {
+        "id": 196,
+        "code": "def abort_program(message)\n  abort(message)\nend",
+        "summary": "Terminates the program and prints a message to standard error."
+    },
+    {
+        "id": 197,
+        "code": "def catch_throw_example\n  catch(:exit) do\n    puts \"Start\"\n    throw :exit\n    puts \"End\" # Will not be executed\n  end\nend",
+        "summary": "Demonstrates flow control using catch and throw."
+    },
+    {
+        "id": 198,
+        "code": "def caller_locations_example\n  caller_locations\nend",
+        "summary": "Returns the current execution stack as an array of Thread::Backtrace::Location objects."
+    },
+    {
+        "id": 199,
+        "code": "def warn_message(msg)\n  warn(msg)\nend",
+        "summary": "Prints a warning message to standard error."
+    },
+    {
+        "id": 200,
+        "code": "def object_id_example(obj)\n  obj.object_id\nend",
+        "summary": "Returns the unique integer identifier for an object."
+    },
+    {
+        "id": 201,
+        "code": "def hash_fetch_with_default(hash, key, default)\n  hash.fetch(key, default)\nend",
+        "summary": "Retrieves a value from a hash by key, returning a default value if the key is missing."
+    },
+    {
+        "id": 202,
+        "code": "def hash_fetch_with_block(hash, key)\n  hash.fetch(key) { |k| \"Key #{k} not found\" }\nend",
+        "summary": "Retrieves a value from a hash, executing a block if the key is missing."
+    },
+    {
+        "id": 203,
+        "code": "def hash_dig(hash, *keys)\n  hash.dig(*keys)\nend",
+        "summary": "Retrieves a value from a nested hash by a sequence of keys."
+    },
+    {
+        "id": 204,
+        "code": "def hash_compact(hash)\n  hash.compact\nend",
+        "summary": "Returns a new hash with all nil values removed."
+    },
+    {
+        "id": 205,
+        "code": "def hash_slice(hash, *keys)\n  hash.slice(*keys)\nend",
+        "summary": "Returns a new hash containing only the given keys."
+    },
+    {
+        "id": 206,
+        "code": "def hash_except(hash, *keys)\n  hash.reject { |k, _| keys.include?(k) }\nend",
+        "summary": "Returns a new hash excluding the given keys."
+    },
+    {
+        "id": 207,
+        "code": "def array_wrap(obj)\n  Array(obj)\nend",
+        "summary": "Wraps an object in an array unless it is already an array."
+    },
+    {
+        "id": 208,
+        "code": "def array_intersection(arr1, arr2)\n  arr1 & arr2\nend",
+        "summary": "Returns a new array containing elements common to both arrays."
+    },
+    {
+        "id": 209,
+        "code": "def array_union(arr1, arr2)\n  arr1 | arr2\nend",
+        "summary": "Returns a new array by joining arrays and removing duplicates."
+    },
+    {
+        "id": 210,
+        "code": "def array_difference(arr1, arr2)\n  arr1 - arr2\nend",
+        "summary": "Returns a new array consisting of elements in the first array not present in the second."
+    },
+    {
+        "id": 211,
+        "code": "def string_lines(str)\n  str.lines\nend",
+        "summary": "Splits a string into an array of lines."
+    },
+    {
+        "id": 212,
+        "code": "def string_chars(str)\n  str.chars\nend",
+        "summary": "Returns an array of characters from the string."
+    },
+    {
+        "id": 213,
+        "code": "def string_bytes(str)\n  str.bytes\nend",
+        "summary": "Returns an array of bytes from the string."
+    },
+    {
+        "id": 214,
+        "code": "def string_codepoints(str)\n  str.codepoints\nend",
+        "summary": "Returns an array of the integer ordinals of the characters in the string."
+    },
+    {
+        "id": 215,
+        "code": "def string_encoding(str)\n  str.encoding\nend",
+        "summary": "Returns the Encoding object representing the encoding of the string."
+    },
+    {
+        "id": 216,
+        "code": "def force_string_encoding(str, encoding)\n  str.force_encoding(encoding)\nend",
+        "summary": "Changes the encoding of the string without changing the underlying bytes."
+    },
+    {
+        "id": 217,
+        "code": "def encode_string(str, encoding)\n  str.encode(encoding)\nend",
+        "summary": "Transcodes the string to a specified encoding."
+    },
+    {
+        "id": 218,
+        "code": "def string_valid_encoding?(str)\n  str.valid_encoding?\nend",
+        "summary": "Checks if the string contains valid bytes for its encoding."
+    },
+    {
+        "id": 219,
+        "code": "def string_scrub(str)\n  str.scrub('?')\nend",
+        "summary": "Replaces invalid byte sequences in the string with a specified replacement."
+    },
+    {
+        "id": 220,
+        "code": "def integer_even?(n)\n  n.even?\nend",
+        "summary": "Returns true if the integer is even."
+    },
+    {
+        "id": 221,
+        "code": "def integer_odd?(n)\n  n.odd?\nend",
+        "summary": "Returns true if the integer is odd."
+    },
+    {
+        "id": 222,
+        "code": "def integer_digits(n)\n  n.digits\nend",
+        "summary": "Returns an array of the digits of the integer in reverse order."
+    },
+    {
+        "id": 223,
+        "code": "def float_ceil(f)\n  f.ceil\nend",
+        "summary": "Returns the smallest integer greater than or equal to the float."
+    },
+    {
+        "id": 224,
+        "code": "def float_floor(f)\n  f.floor\nend",
+        "summary": "Returns the largest integer less than or equal to the float."
+    },
+    {
+        "id": 225,
+        "code": "def numeric_clamp(n, min, max)\n  n.clamp(min, max)\nend",
+        "summary": "Returns the number clamped between a minimum and maximum value."
+    },
+    {
+        "id": 226,
+        "code": "def numeric_divmod(n, divisor)\n  n.divmod(divisor)\nend",
+        "summary": "Returns an array containing the quotient and modulus from dividing by the divisor."
+    },
+    {
+        "id": 227,
+        "code": "def complex_number(real, imaginary)\n  Complex(real, imaginary)\nend",
+        "summary": "Creates a complex number from real and imaginary parts."
+    },
+    {
+        "id": 228,
+        "code": "def rational_number(numerator, denominator)\n  Rational(numerator, denominator)\nend",
+        "summary": "Creates a rational number."
+    },
+    {
+        "id": 229,
+        "code": "def range_include?(range, value)\n  range.include?(value)\nend",
+        "summary": "Checks if a value is included in the range."
+    },
+    {
+        "id": 230,
+        "code": "def range_cover?(range, value)\n  range.cover?(value)\nend",
+        "summary": "Checks if a value is within the range's start and end points efficiently."
+    },
+    {
+        "id": 231,
+        "code": "def range_to_array(range)\n  range.to_a\nend",
+        "summary": "Converts a range into an array of its elements."
+    },
+    {
+        "id": 232,
+        "code": "def method_arity(obj, method_name)\n  obj.method(method_name).arity\nend",
+        "summary": "Returns the number of arguments accepted by a method."
+    },
+    {
+        "id": 233,
+        "code": "def method_source_location(obj, method_name)\n  obj.method(method_name).source_location\nend",
+        "summary": "Returns the source file and line number where a method is defined."
+    },
+    {
+        "id": 234,
+        "code": "def class_superclass(cls)\n  cls.superclass\nend",
+        "summary": "Returns the parent class of a given class."
+    },
+    {
+        "id": 235,
+        "code": "def class_ancestors(cls)\n  cls.ancestors\nend",
+        "summary": "Returns an array of the class's ancestors, including modules."
+    },
+    {
+        "id": 236,
+        "code": "def module_included_modules(mod)\n  mod.included_modules\nend",
+        "summary": "Returns an array of modules included in the specified module."
+    },
+    {
+        "id": 237,
+        "code": "def object_is_a?(obj, cls)\n  obj.is_a?(cls)\nend",
+        "summary": "Returns true if the object is an instance of the class or one of its subclasses."
+    },
+    {
+        "id": 238,
+        "code": "def object_instance_of?(obj, cls)\n  obj.instance_of?(cls)\nend",
+        "summary": "Returns true if the object is a direct instance of the class."
+    },
+    {
+        "id": 239,
+        "code": "def object_tainted?(obj)\n  obj.tainted?\nend",
+        "summary": "Checks if an object is marked as tainted (deprecated in newer Ruby versions)."
+    },
+    {
+        "id": 240,
+        "code": "def object_frozen?(obj)\n  obj.frozen?\nend",
+        "summary": "Checks if an object is frozen (immutable)."
+    },
+    {
+        "id": 241,
+        "code": "def file_realpath(path)\n  File.realpath(path)\nend",
+        "summary": "Returns the canonical absolute path, resolving symlinks."
+    },
+    {
+        "id": 242,
+        "code": "def file_basename(path, ext=\"\")\n  File.basename(path, ext)\nend",
+        "summary": "Returns the last component of the filename, optionally removing a suffix."
+    },
+    {
+        "id": 243,
+        "code": "def file_dirname(path)\n  File.dirname(path)\nend",
+        "summary": "Returns the directory component of the file path."
+    },
+    {
+        "id": 244,
+        "code": "def file_extname(path)\n  File.extname(path)\nend",
+        "summary": "Returns the extension of the file path."
+    },
+    {
+        "id": 245,
+        "code": "def file_mtime(path)\n  File.mtime(path)\nend",
+        "summary": "Returns the modification time of the file."
+    },
+    {
+        "id": 246,
+        "code": "def file_atime(path)\n  File.atime(path)\nend",
+        "summary": "Returns the last access time of the file."
+    },
+    {
+        "id": 247,
+        "code": "def file_ctime(path)\n  File.ctime(path)\nend",
+        "summary": "Returns the change time (creation or metadata change) of the file."
+    },
+    {
+        "id": 248,
+        "code": "def file_zero?(path)\n  File.zero?(path)\nend",
+        "summary": "Returns true if the file exists and has zero size."
+    },
+    {
+        "id": 249,
+        "code": "def file_readable?(path)\n  File.readable?(path)\nend",
+        "summary": "Returns true if the file is readable by the effective user."
+    },
+    {
+        "id": 250,
+        "code": "def file_writable?(path)\n  File.writable?(path)\nend",
+        "summary": "Returns true if the file is writable by the effective user."
+    },
+    {
+        "id": 251,
+        "code": "def file_executable?(path)\n  File.executable?(path)\nend",
+        "summary": "Returns true if the file is executable by the effective user."
+    },
+    {
+        "id": 252,
+        "code": "def dir_children(path)\n  Dir.children(path)\nend",
+        "summary": "Returns an array of filenames in the directory, excluding '.' and '..'."
+    },
+    {
+        "id": 253,
+        "code": "def dir_each_child(path)\n  Dir.each_child(path) { |f| puts f }\nend",
+        "summary": "Iterates over each filename in the directory, excluding '.' and '..'."
+    },
+    {
+        "id": 254,
+        "code": "def dir_home\n  Dir.home\nend",
+        "summary": "Returns the home directory of the current user."
+    },
+    {
+        "id": 255,
+        "code": "def dir_tmpdir\n  Dir.tmpdir\nend",
+        "summary": "Returns the temporary directory path."
+    },
+    {
+        "id": 256,
+        "code": "def thread_new\n  Thread.new { puts \"In new thread\" }\nend",
+        "summary": "Creates and runs a new thread."
+    },
+    {
+        "id": 257,
+        "code": "def thread_current\n  Thread.current\nend",
+        "summary": "Returns the currently executing thread."
+    },
+    {
+        "id": 258,
+        "code": "def thread_join(t)\n  t.join\nend",
+        "summary": "Suspends the current thread until the specified thread terminates."
+    },
+    {
+        "id": 259,
+        "code": "def thread_list\n  Thread.list\nend",
+        "summary": "Returns an array of all Thread objects that are currently alive."
+    },
+    {
+        "id": 260,
+        "code": "def thread_kill(t)\n  Thread.kill(t)\nend",
+        "summary": "Terminates the specified thread."
+    },
+    {
+        "id": 261,
+        "code": "def mutex_synchronize\n  mutex = Mutex.new\n  mutex.synchronize do\n    # Critical section\n  end\nend",
+        "summary": "Executes a block of code strictly sequentially using a Mutex."
+    },
+    {
+        "id": 262,
+        "code": "def fiber_example\n  f = Fiber.new do\n    Fiber.yield 1\n    2\n  end\n  puts f.resume\n  puts f.resume\nend",
+        "summary": "Demonstrates creating a Fiber, yielding a value, and resuming execution."
+    },
+    {
+        "id": 263,
+        "code": "def enumerator_example\n  enum = [1, 2, 3].each\n  enum.next\nend",
+        "summary": "Creates an external iterator (Enumerator) and advances it."
+    },
+    {
+        "id": 264,
+        "code": "def regexp_match?(str, pattern)\n  pattern.match?(str)\nend",
+        "summary": "Returns true if the string matches the pattern, without setting global variables."
+    },
+    {
+        "id": 265,
+        "code": "def regexp_escape(str)\n  Regexp.escape(str)\nend",
+        "summary": "Escapes any special characters in the string for use in a regular expression."
+    },
+    {
+        "id": 266,
+        "code": "def regexp_union(patterns)\n  Regexp.union(patterns)\nend",
+        "summary": "Creates a regular expression that matches any of the given patterns."
+    },
+    {
+        "id": 267,
+        "code": "def struct_keyword_init\n  User = Struct.new(:name, :age, keyword_init: true)\n  User.new(name: \"Alice\", age: 30)\nend",
+        "summary": "Creates a Struct that accepts keyword arguments in its constructor."
+    },
+    {
+        "id": 268,
+        "code": "def data_define_example\n  Point = Data.define(:x, :y)\n  p = Point.new(x: 10, y: 20)\nend",
+        "summary": "Defines an immutable value object (Ruby 3.2+)."
+    },
+    {
+        "id": 269,
+        "code": "def pattern_matching_array(arr)\n  case arr\n  in [1, 2, a]\n    puts a\n  else\n    puts \"No match\"\n  end\nend",
+        "summary": "Uses pattern matching to deconstruct an array."
+    },
+    {
+        "id": 270,
+        "code": "def pattern_matching_hash(hash)\n  case hash\n  in { name: n, age: a }\n    puts \"#{n} is #{a}\"\n  else\n    puts \"No match\"\n  end\nend",
+        "summary": "Uses pattern matching to deconstruct a hash."
+    },
+    {
+        "id": 271,
+        "code": "def endless_method_definition(x) = x * 2",
+        "summary": "Defines a single-line method without an explicit end (Ruby 3.0+)."
+    },
+    {
+        "id": 272,
+        "code": "def numbered_parameters(arr)\n  arr.map { _1 * 2 }\nend",
+        "summary": "Uses numbered block parameters (_1, _2) instead of named block variables."
+    },
+    {
+        "id": 273,
+        "code": "def safe_navigation(obj)\n  obj&.name\nend",
+        "summary": "Uses the safe navigation operator (&.) to call a method only if the receiver is not nil."
+    },
+    {
+        "id": 274,
+        "code": "def squiggly_heredoc\n  <<~HEREDOC\n    This is a\n    multi-line string\n    with indentation removed.\n  HEREDOC\nend",
+        "summary": "Creates a heredoc string that strips leading indentation."
+    },
+    {
+        "id": 275,
+        "code": "def percent_string_array\n  %w[apple banana cherry]\nend",
+        "summary": "Creates an array of strings using the %w literal syntax."
+    },
+    {
+        "id": 276,
+        "code": "def percent_symbol_array\n  %i[apple banana cherry]\nend",
+        "summary": "Creates an array of symbols using the %i literal syntax."
+    },
+    {
+        "id": 277,
+        "code": "def range_infinite\n  (1..)\nend",
+        "summary": "Creates an endless range starting from 1."
+    },
+    {
+        "id": 278,
+        "code": "def argument_forwarding(a, ...)\n  other_method(...)\nend",
+        "summary": "Forwards all remaining arguments to another method using the ... operator."
+    },
+    {
+        "id": 279,
+        "code": "def keyword_arguments(a:, b: 1)\n  puts a, b\nend",
+        "summary": "Defines a method with required and optional keyword arguments."
+    },
+    {
+        "id": 280,
+        "code": "def double_splat_args(**options)\n  puts options\nend",
+        "summary": "Captures all keyword arguments into a hash using the double splat operator."
+    },
+    {
+        "id": 281,
+        "code": "def single_splat_args(*args)\n  puts args\nend",
+        "summary": "Captures all positional arguments into an array using the single splat operator."
+    },
+    {
+        "id": 282,
+        "code": "def method_alias\n  alias new_name old_name\nend",
+        "summary": "Aliases a method name using the alias keyword."
+    },
+    {
+        "id": 283,
+        "code": "def refine_class\n  module StringExtensions\n    refine String do\n      def shout; upcase + \"!\"; end\n    end\n  end\nend",
+        "summary": "Defines a refinement to patch a class within a specific scope."
+    },
+    {
+        "id": 284,
+        "code": "def use_refinement\n  using StringExtensions\n  \"hello\".shout\nend",
+        "summary": "Activates a refinement in the current lexical scope."
+    },
+    {
+        "id": 285,
+        "code": "def module_function_example\n  module MathHelpers\n    def double(x); x * 2; end\n    module_function :double\n  end\nend",
+        "summary": "Makes a method both an instance method and a module method."
+    },
+    {
+        "id": 286,
+        "code": "def private_class_method_example\n  class Factory\n    def self.internal; end\n    private_class_method :internal\n  end\nend",
+        "summary": "Makes a class method private."
+    },
+    {
+        "id": 287,
+        "code": "def autoload_example\n  autoload :MyClass, 'my_class'\nend",
+        "summary": "Registers a class or module to be loaded only when it is first accessed."
+    },
+    {
+        "id": 288,
+        "code": "def require_relative_example\n  require_relative 'lib/my_lib'\nend",
+        "summary": "Loads a file relative to the current file's path."
+    },
+    {
+        "id": 289,
+        "code": "def load_file_example\n  load 'config.rb'\nend",
+        "summary": "Loads and executes a Ruby program file every time it is called."
+    },
+    {
+        "id": 290,
+        "code": "def binding_irb\n  binding.irb\nend",
+        "summary": "Starts an IRB session at the current execution point for debugging."
+    },
+    {
+        "id": 291,
+        "code": "def eval_code(str)\n  eval(str)\nend",
+        "summary": "Evaluates a string as Ruby code."
+    },
+    {
+        "id": 292,
+        "code": "def instance_eval_example(obj)\n  obj.instance_eval { @secret = 123 }\nend",
+        "summary": "Evaluates a block in the context of an object."
+    },
+    {
+        "id": 293,
+        "code": "def class_eval_example(cls)\n  cls.class_eval { def new_method; end }\nend",
+        "summary": "Evaluates a block in the context of a class, allowing method definition."
+    },
+    {
+        "id": 294,
+        "code": "def define_singleton_method_example(obj)\n  obj.define_singleton_method(:foo) { \"bar\" }\nend",
+        "summary": "Defines a method on a single object instance dynamically."
+    },
+    {
+        "id": 295,
+        "code": "def remove_method_example\n  class A\n    remove_method :foo\n  end\nend",
+        "summary": "Removes a method from the current class, allowing parent methods to be called."
+    },
+    {
+        "id": 296,
+        "code": "def undef_method_example\n  class A\n    undef_method :foo\n  end\nend",
+        "summary": "Undefined a method, preventing it from being called even if defined in a parent."
+    },
+    {
+        "id": 297,
+        "code": "def const_get_example(name)\n  Object.const_get(name)\nend",
+        "summary": "Gets a constant's value by its name as a string or symbol."
+    },
+    {
+        "id": 298,
+        "code": "def const_set_example(name, value)\n  Object.const_set(name, value)\nend",
+        "summary": "Sets a constant's value dynamically."
+    },
+    {
+        "id": 299,
+        "code": "def const_missing_example\n  def self.const_missing(name)\n    puts \"Constant #{name} missing\"\n  end\nend",
+        "summary": "Hook method called when a referenced constant is not found."
+    },
+    {
+        "id": 300,
+        "code": "def method_missing_delegation\n  def method_missing(m, *args)\n    @delegate.send(m, *args)\n  end\nend",
+        "summary": "Delegates missing method calls to another object."
+    },
+    {
+        "id": 301,
+        "code": "def set_trace_func_example\n  set_trace_func proc { |event, file, line, id, binding, classname|\n    printf \"%8s %s:%-2d %10s %8s\\n\", event, file, line, id, classname\n  }\nend",
+        "summary": "Sets a procedure to be called at various events in the program (debugging)."
+    },
+    {
+        "id": 302,
+        "code": "def trace_point_example\n  trace = TracePoint.new(:call) do |tp|\n    p [tp.lineno, tp.defined_class, tp.method_id]\n  end\n  trace.enable\nend",
+        "summary": "Uses TracePoint to trace program execution events."
+    },
+    {
+        "id": 303,
+        "code": "def garbage_collect\n  GC.start\nend",
+        "summary": "Initiates a garbage collection cycle."
+    },
+    {
+        "id": 304,
+        "code": "def gc_stat\n  GC.stat\nend",
+        "summary": "Returns a hash containing garbage collection statistics."
+    },
+    {
+        "id": 305,
+        "code": "def object_finalizer\n  ObjectSpace.define_finalizer(obj, proc { puts \"Object destroyed\" })\nend",
+        "summary": "Defines a finalizer to be called when an object is garbage collected."
+    },
+    {
+        "id": 306,
+        "code": "def weak_ref_example(obj)\n  require 'weakref'\n  WeakRef.new(obj)\nend",
+        "summary": "Creates a weak reference to an object, allowing it to be garbage collected."
+    },
+    {
+        "id": 307,
+        "code": "def string_io_read\n  require 'stringio'\n  io = StringIO.new(\"Hello\")\n  io.read\nend",
+        "summary": "Uses StringIO to treat a string like an IO object."
+    },
+    {
+        "id": 308,
+        "code": "def string_io_write\n  require 'stringio'\n  io = StringIO.new\n  io.write(\"Hello\")\n  io.string\nend",
+        "summary": "Writes to a StringIO object and retrieves the resulting string."
+    },
+    {
+        "id": 309,
+        "code": "def temp_dir_create\n  require 'tmpdir'\n  Dir.mktmpdir do |dir|\n    # use dir\n  end\nend",
+        "summary": "Creates a temporary directory and yields its path."
+    },
+    {
+        "id": 310,
+        "code": "def path_join(*args)\n  File.join(*args)\nend",
+        "summary": "Joins path components using the system's separator."
+    },
+    {
+        "id": 311,
+        "code": "def path_expand(path)\n  File.expand_path(path)\nend",
+        "summary": "Converts a relative path to an absolute path."
+    },
+    {
+        "id": 312,
+        "code": "def file_fnmatch(pattern, path)\n  File.fnmatch(pattern, path)\nend",
+        "summary": "Checks if a path matches a shell-style pattern (glob)."
+    },
+    {
+        "id": 313,
+        "code": "def file_lstat(path)\n  File.lstat(path)\nend",
+        "summary": "Returns a File::Stat object for the named file, not following symlinks."
+    },
+    {
+        "id": 314,
+        "code": "def file_ftype(path)\n  File.ftype(path)\nend",
+        "summary": "Returns a string describing the type of the file (file, directory, link, etc.)."
+    },
+    {
+        "id": 315,
+        "code": "def file_truncate(path, size)\n  File.truncate(path, size)\nend",
+        "summary": "Truncates the file at path to be at most size bytes."
+    },
+    {
+        "id": 316,
+        "code": "def file_utime(atime, mtime, path)\n  File.utime(atime, mtime, path)\nend",
+        "summary": "Updates the access and modification times of the file."
+    },
+    {
+        "id": 317,
+        "code": "def dir_glob(pattern)\n  Dir.glob(pattern)\nend",
+        "summary": "Returns filenames matching the pattern."
+    },
+    {
+        "id": 318,
+        "code": "def dir_chdir(path)\n  Dir.chdir(path)\nend",
+        "summary": "Changes the current working directory."
+    },
+    {
+        "id": 319,
+        "code": "def dir_pwd\n  Dir.pwd\nend",
+        "summary": "Returns the path of the current working directory."
+    },
+    {
+        "id": 320,
+        "code": "def dir_empty?(path)\n  Dir.empty?(path)\nend",
+        "summary": "Returns true if the directory is empty."
+    },
+    {
+        "id": 321,
+        "code": "def dir_mkdir(path)\n  Dir.mkdir(path)\nend",
+        "summary": "Creates a new directory."
+    },
+    {
+        "id": 322,
+        "code": "def dir_rmdir(path)\n  Dir.rmdir(path)\nend",
+        "summary": "Removes a directory (must be empty)."
+    },
+    {
+        "id": 323,
+        "code": "def shell_words_escape(str)\n  require 'shellwords'\n  Shellwords.escape(str)\nend",
+        "summary": "Escapes a string so it can be safely used in a command line."
+    },
+    {
+        "id": 324,
+        "code": "def shell_words_split(line)\n  require 'shellwords'\n  Shellwords.split(line)\nend",
+        "summary": "Splits a string into an array of tokens like a shell."
+    },
+    {
+        "id": 325,
+        "code": "def csv_parse(string)\n  require 'csv'\n  CSV.parse(string)\nend",
+        "summary": "Parses a CSV string into an array of arrays."
+    },
+    {
+        "id": 326,
+        "code": "def csv_generate\n  require 'csv'\n  CSV.generate do |csv|\n    csv << [\"row\", \"of\", \"CSV\", \"data\"]\n  end\nend",
+        "summary": "Generates a CSV string from arrays."
+    },
+    {
+        "id": 327,
+        "code": "def csv_foreach(path)\n  require 'csv'\n  CSV.foreach(path) { |row| puts row }\nend",
+        "summary": "Iterates over each row of a CSV file."
+    },
+    {
+        "id": 328,
+        "code": "def yaml_dump(obj)\n  require 'yaml'\n  YAML.dump(obj)\nend",
+        "summary": "Serializes a Ruby object to YAML format."
+    },
+    {
+        "id": 329,
+        "code": "def yaml_load(string)\n  require 'yaml'\n  YAML.load(string)\nend",
+        "summary": "Deserializes a YAML string into a Ruby object."
+    },
+    {
+        "id": 330,
+        "code": "def logger_example\n  require 'logger'\n  logger = Logger.new(STDOUT)\n  logger.info(\"This is an info message\")\nend",
+        "summary": "Creates a Logger and logs an info message."
+    },
+    {
+        "id": 331,
+        "code": "def logger_level\n  require 'logger'\n  logger = Logger.new(STDOUT)\n  logger.level = Logger::WARN\nend",
+        "summary": "Sets the minimum severity level for the logger."
+    },
+    {
+        "id": 332,
+        "code": "def optparse_example\n  require 'optparse'\n  options = {}\n  OptionParser.new do |opts|\n    opts.on(\"-v\", \"--verbose\", \"Run verbosely\") { |v| options[:verbose] = v }\n  end.parse!\nend",
+        "summary": "Parses command-line options using OptionParser."
+    },
+    {
+        "id": 333,
+        "code": "def erb_template\n  require 'erb'\n  template = ERB.new(\"Hello <%= name %>\")\n  template.result_with_hash(name: \"World\")\nend",
+        "summary": "Renders a string template using ERB."
+    },
+    {
+        "id": 334,
+        "code": "def cgi_escape(str)\n  require 'cgi'\n  CGI.escape(str)\nend",
+        "summary": "URL-encodes a string using the CGI library."
+    },
+    {
+        "id": 335,
+        "code": "def cgi_unescape(str)\n  require 'cgi'\n  CGI.unescape(str)\nend",
+        "summary": "Decodes a URL-encoded string using the CGI library."
+    },
+    {
+        "id": 336,
+        "code": "def cgi_escape_html(str)\n  require 'cgi'\n  CGI.escapeHTML(str)\nend",
+        "summary": "Escapes HTML special characters in a string."
+    },
+    {
+        "id": 337,
+        "code": "def cgi_unescape_html(str)\n  require 'cgi'\n  CGI.unescapeHTML(str)\nend",
+        "summary": "Unescapes HTML special characters in a string."
+    },
+    {
+        "id": 338,
+        "code": "def digest_md5(str)\n  require 'digest'\n  Digest::MD5.hexdigest(str)\nend",
+        "summary": "Calculates the MD5 hash of a string."
+    },
+    {
+        "id": 339,
+        "code": "def digest_sha1(str)\n  require 'digest'\n  Digest::SHA1.hexdigest(str)\nend",
+        "summary": "Calculates the SHA1 hash of a string."
+    },
+    {
+        "id": 340,
+        "code": "def digest_sha256(str)\n  require 'digest'\n  Digest::SHA256.hexdigest(str)\nend",
+        "summary": "Calculates the SHA256 hash of a string."
+    },
+    {
+        "id": 341,
+        "code": "def openssl_encrypt\n  require 'openssl'\n  cipher = OpenSSL::Cipher.new('AES-128-CBC')\n  cipher.encrypt\n  key = cipher.random_key\n  iv = cipher.random_iv\n  encrypted = cipher.update('data') + cipher.final\nend",
+        "summary": "Encrypts data using OpenSSL and AES-128-CBC."
+    },
+    {
+        "id": 342,
+        "code": "def zlib_deflate(str)\n  require 'zlib'\n  Zlib::Deflate.deflate(str)\nend",
+        "summary": "Compresses a string using zlib."
+    },
+    {
+        "id": 343,
+        "code": "def zlib_inflate(str)\n  require 'zlib'\n  Zlib::Inflate.inflate(str)\nend",
+        "summary": "Decompresses a zlib-compressed string."
+    },
+    {
+        "id": 344,
+        "code": "def observable_example\n  require 'observer'\n  class Ticker\n    include Observable\n    def run\n      changed\n      notify_observers(Time.now)\n    end\n  end\nend",
+        "summary": "Implements the Observer pattern using the Observable module."
+    },
+    {
+        "id": 345,
+        "code": "def singleton_example\n  require 'singleton'\n  class Config\n    include Singleton\n  end\n  Config.instance\nend",
+        "summary": "Implements the Singleton pattern using the Singleton module."
+    },
+    {
+        "id": 346,
+        "code": "def forwardable_example\n  require 'forwardable'\n  class Wrapper\n    extend Forwardable\n    def_delegator :@obj, :name\n  end\nend",
+        "summary": "Delegates methods to a wrapped object using Forwardable."
+    },
+    {
+        "id": 347,
+        "code": "def set_example\n  require 'set'\n  s = Set.new([1, 2, 2])\nend",
+        "summary": "Creates a Set (collection of unique elements)."
+    },
+    {
+        "id": 348,
+        "code": "def set_add(set, elem)\n  set.add(elem)\nend",
+        "summary": "Adds an element to a Set."
+    },
+    {
+        "id": 349,
+        "code": "def set_delete(set, elem)\n  set.delete(elem)\nend",
+        "summary": "Removes an element from a Set."
+    },
+    {
+        "id": 350,
+        "code": "def set_include?(set, elem)\n  set.include?(elem)\nend",
+        "summary": "Checks if a Set includes an element."
+    },
+    {
+        "id": 351,
+        "code": "def pstore_write\n  require 'pstore'\n  store = PStore.new(\"data.pstore\")\n  store.transaction do\n    store[:my_key] = \"value\"\n  end\nend",
+        "summary": "Persists data to a file using PStore."
+    },
+    {
+        "id": 352,
+        "code": "def pstore_read\n  require 'pstore'\n  store = PStore.new(\"data.pstore\")\n  store.transaction(true) do\n    store[:my_key]\n  end\nend",
+        "summary": "Reads persisted data from a PStore file."
+    },
+    {
+        "id": 353,
+        "code": "def big_decimal_example\n  require 'bigdecimal'\n  BigDecimal(\"1.2\") + BigDecimal(\"3.4\")\nend",
+        "summary": "Performs arbitrary-precision decimal arithmetic."
+    },
+    {
+        "id": 354,
+        "code": "def math_constants\n  Math::PI\nend",
+        "summary": "Accesses mathematical constants like PI."
+    },
+    {
+        "id": 355,
+        "code": "def math_sin(x)\n  Math.sin(x)\nend",
+        "summary": "Calculates the sine of x (in radians)."
+    },
+    {
+        "id": 356,
+        "code": "def math_cos(x)\n  Math.cos(x)\nend",
+        "summary": "Calculates the cosine of x (in radians)."
+    },
+    {
+        "id": 357,
+        "code": "def math_log(x)\n  Math.log(x)\nend",
+        "summary": "Calculates the natural logarithm of x."
+    },
+    {
+        "id": 358,
+        "code": "def math_log10(x)\n  Math.log10(x)\nend",
+        "summary": "Calculates the base-10 logarithm of x."
+    },
+    {
+        "id": 359,
+        "code": "def open_uri_read(url)\n  require 'open-uri'\n  URI.open(url).read\nend",
+        "summary": "Reads content from a URL as if it were a file."
+    },
+    {
+        "id": 360,
+        "code": "def ipaddr_example\n  require 'ipaddr'\n  ip = IPAddr.new(\"192.168.0.1\")\nend",
+        "summary": "Manipulates IP addresses using the IPAddr library."
+    },
+    {
+        "id": 361,
+        "code": "def socket_tcp_server\n  require 'socket'\n  server = TCPServer.new(2000)\n  loop do\n    client = server.accept\n    client.puts \"Hello!\"\n    client.close\n  end\nend",
+        "summary": "Creates a simple TCP server that sends a greeting."
+    },
+    {
+        "id": 362,
+        "code": "def socket_tcp_client\n  require 'socket'\n  s = TCPSocket.new('localhost', 2000)\n  line = s.gets\n  s.close\nend",
+        "summary": "Creates a TCP client that connects to a server and reads a line."
+    },
+    {
+        "id": 363,
+        "code": "def string_scanner_example\n  require 'strscan'\n  s = StringScanner.new(\"This is a test\")\n  s.scan(/\\w+/)\nend",
+        "summary": "Scans a string using StringScanner for lexical analysis."
+    },
+    {
+        "id": 364,
+        "code": "def ripper_lex(code)\n  require 'ripper'\n  Ripper.lex(code)\nend",
+        "summary": "Tokenizes Ruby code using the Ripper parser."
+    },
+    {
+        "id": 365,
+        "code": "def pp_example(obj)\n  require 'pp'\n  pp obj\nend",
+        "summary": "Pretty-prints an object to standard output."
+    },
+    {
+        "id": 366,
+        "code": "def pretty_print_string(obj)\n  require 'pp'\n  obj.pretty_inspect\nend",
+        "summary": "Returns a pretty-printed string representation of an object."
+    },
+    {
+        "id": 367,
+        "code": "def time_now\n  Time.now\nend",
+        "summary": "Returns the current time."
+    },
+    {
+        "id": 368,
+        "code": "def time_at(seconds)\n  Time.at(seconds)\nend",
+        "summary": "Creates a Time object from a Unix timestamp."
+    },
+    {
+        "id": 369,
+        "code": "def time_utc\n  Time.now.utc\nend",
+        "summary": "Returns the current time in UTC."
+    },
+    {
+        "id": 370,
+        "code": "def time_parse(str)\n  require 'time'\n  Time.parse(str)\nend",
+        "summary": "Parses a date/time string into a Time object."
+    },
+    {
+        "id": 371,
+        "code": "def date_today\n  require 'date'\n  Date.today\nend",
+        "summary": "Returns the current date."
+    },
+    {
+        "id": 372,
+        "code": "def date_new(year, month, day)\n  require 'date'\n  Date.new(year, month, day)\nend",
+        "summary": "Creates a Date object for a specific date."
+    },
+    {
+        "id": 373,
+        "code": "def datetime_now\n  require 'date'\n  DateTime.now\nend",
+        "summary": "Returns the current date and time as a DateTime object."
+    },
+    {
+        "id": 374,
+        "code": "def time_strftime(time, format)\n  time.strftime(format)\nend",
+        "summary": "Formats a Time object as a string."
+    },
+    {
+        "id": 375,
+        "code": "def array_bsearch_index(arr, target)\n  arr.bsearch_index { |x| target <=> x }\nend",
+        "summary": "Finds the index of a value in a sorted array using binary search."
+    },
+    {
+        "id": 376,
+        "code": "def array_rotate!(arr, count=1)\n  arr.rotate!(count)\nend",
+        "summary": "Rotates the array in place."
+    },
+    {
+        "id": 377,
+        "code": "def array_shuffle!(arr)\n  arr.shuffle!\nend",
+        "summary": "Shuffles the array in place."
+    },
+    {
+        "id": 378,
+        "code": "def array_sort_by!(arr)\n  arr.sort_by! { |x| x.length }\nend",
+        "summary": "Sorts the array in place using a block."
+    },
+    {
+        "id": 379,
+        "code": "def hash_merge!(hash1, hash2)\n  hash1.merge!(hash2)\nend",
+        "summary": "Merges the second hash into the first, modifying the first hash."
+    },
+    {
+        "id": 380,
+        "code": "def hash_transform_values!(hash)\n  hash.transform_values! { |v| v.to_s }\nend",
+        "summary": "Modifies the hash values in place based on the block."
+    },
+    {
+        "id": 381,
+        "code": "def string_gsub_block(str)\n  str.gsub(/\\w+/) { |match| match.capitalize }\nend",
+        "summary": "Replaces matches in a string using a block to determine the replacement."
+    },
+    {
+        "id": 382,
+        "code": "def string_sub(str, pattern, replacement)\n  str.sub(pattern, replacement)\nend",
+        "summary": "Replaces only the first occurrence of a pattern in a string."
+    },
+    {
+        "id": 383,
+        "code": "def string_scan_block(str)\n  str.scan(/\\w+/) { |w| puts w }\nend",
+        "summary": "Iterates through all matches of a regex in a string."
+    },
+    {
+        "id": 384,
+        "code": "def string_unicode_normalize(str)\n  str.unicode_normalize\nend",
+        "summary": "Normalizes a string to Unicode NFC form."
+    },
+    {
+        "id": 385,
+        "code": "def string_dump(str)\n  str.dump\nend",
+        "summary": "Returns a string with all non-printing characters escaped."
+    },
+    {
+        "id": 386,
+        "code": "def string_undump(str)\n  str.undump\nend",
+        "summary": "Unescapes a dumped string."
+    },
+    {
+        "id": 387,
+        "code": "def regex_named_captures(str)\n  /^(?<name>\\w+)\\s(?<age>\\d+)$/.match(str)\nend",
+        "summary": "Matches a string against a regex with named capture groups."
+    },
+    {
+        "id": 388,
+        "code": "def match_data_names(match_data)\n  match_data.names\nend",
+        "summary": "Returns the names of the capture groups in a MatchData object."
+    },
+    {
+        "id": 389,
+        "code": "def match_data_captures(match_data)\n  match_data.captures\nend",
+        "summary": "Returns an array of the captured strings."
+    },
+    {
+        "id": 390,
+        "code": "def match_data_pre_match(match_data)\n  match_data.pre_match\nend",
+        "summary": "Returns the part of the string preceding the match."
+    },
+    {
+        "id": 391,
+        "code": "def match_data_post_match(match_data)\n  match_data.post_match\nend",
+        "summary": "Returns the part of the string following the match."
+    },
+    {
+        "id": 392,
+        "code": "def array_select_with_index(arr)\n  arr.select.with_index { |x, i| i.even? }\nend",
+        "summary": "Filters elements based on their value and index."
+    },
+    {
+        "id": 393,
+        "code": "def array_map_with_index(arr)\n  arr.map.with_index { |x, i| \"#{i}:#{x}\" }\nend",
+        "summary": "Maps elements using their value and index."
+    },
+    {
+        "id": 394,
+        "code": "def array_reverse_each(arr)\n  arr.reverse_each { |x| puts x }\nend",
+        "summary": "Iterates through the array in reverse order."
+    },
+    {
+        "id": 395,
+        "code": "def array_index(arr, val)\n  arr.index(val)\nend",
+        "summary": "Returns the index of the first object equal to val."
+    },
+    {
+        "id": 396,
+        "code": "def array_rindex(arr, val)\n  arr.rindex(val)\nend",
+        "summary": "Returns the index of the last object equal to val."
+    },
+    {
+        "id": 397,
+        "code": "def array_replace(arr, new_arr)\n  arr.replace(new_arr)\nend",
+        "summary": "Replaces the contents of the array with the contents of another array."
+    },
+    {
+        "id": 398,
+        "code": "def array_fill(arr, val)\n  arr.fill(val)\nend",
+        "summary": "Sets the selected elements of the array to val."
+    },
+    {
+        "id": 399,
+        "code": "def array_clear(arr)\n  arr.clear\nend",
+        "summary": "Removes all elements from the array."
+    },
+    {
+        "id": 400,
+        "code": "def array_insert(arr, index, *vals)\n  arr.insert(index, *vals)\nend",
+        "summary": "Inserts values before the element at the given index."
+    },
+    {
+        "id": 401,
+        "code": "def hash_default_value\n  h = Hash.new(\"default\")\n  h[:missing_key]\nend",
+        "summary": "Creates a hash with a default value for missing keys."
+    },
+    {
+        "id": 402,
+        "code": "def hash_default_proc\n  h = Hash.new { |hash, key| hash[key] = [] }\n  h[:a] << 1\nend",
+        "summary": "Creates a hash with a default block, useful for initializing nested structures."
+    },
+    {
+        "id": 403,
+        "code": "def hash_values_at(hash, *keys)\n  hash.values_at(*keys)\nend",
+        "summary": "Returns an array containing the values associated with the given keys."
+    },
+    {
+        "id": 404,
+        "code": "def hash_assoc(hash, key)\n  hash.assoc(key)\nend",
+        "summary": "Searches for a key-value pair and returns it as a two-element array."
+    },
+    {
+        "id": 405,
+        "code": "def hash_rassoc(hash, value)\n  hash.rassoc(value)\nend",
+        "summary": "Searches for a key-value pair by value and returns it as a two-element array."
+    },
+    {
+        "id": 406,
+        "code": "def hash_flatten(hash)\n  hash.flatten\nend",
+        "summary": "Returns a new array that is a one-dimensional flattening of the hash."
+    },
+    {
+        "id": 407,
+        "code": "def hash_rehash(hash)\n  hash.rehash\nend",
+        "summary": "Rebuilds the hash based on the current hash values of each key."
+    },
+    {
+        "id": 408,
+        "code": "def hash_compare_by_identity(hash)\n  hash.compare_by_identity\nend",
+        "summary": "Makes the hash compare keys by their object identity."
+    },
+    {
+        "id": 409,
+        "code": "def enumerator_with_index(enum)\n  enum.with_index(1) { |val, idx| puts \"#{idx}: #{val}\" }\nend",
+        "summary": "Iterates with an index, optionally starting from a specified number."
+    },
+    {
+        "id": 410,
+        "code": "def enumerator_with_object(enum)\n  enum.each_with_object([]) { |i, a| a << i*2 }\nend",
+        "summary": "Iterates while carrying an arbitrary object."
+    },
+    {
+        "id": 411,
+        "code": "def enum_slice_after(enum, pattern)\n  enum.slice_after(pattern)\nend",
+        "summary": "Creates an enumerator for each chunked elements."
+    },
+    {
+        "id": 412,
+        "code": "def enum_slice_before(enum, pattern)\n  enum.slice_before(pattern)\nend",
+        "summary": "Creates an enumerator for each chunked elements."
+    },
+    {
+        "id": 413,
+        "code": "def enum_slice_when(enum)\n  enum.slice_when { |i, j| i > j }\nend",
+        "summary": "Creates an enumerator for each chunked elements."
+    },
+    {
+        "id": 414,
+        "code": "def enum_chunk_while(enum)\n  enum.chunk_while { |i, j| i + 1 == j }\nend",
+        "summary": "Creates an enumerator for each chunked elements."
+    },
+    {
+        "id": 415,
+        "code": "def enum_minmax_by(enum)\n  enum.minmax_by { |x| x.length }\nend",
+        "summary": "Returns a two-element array containing the objects with the minimum and maximum values."
+    },
+    {
+        "id": 416,
+        "code": "def enum_tally(enum)\n  enum.tally\nend",
+        "summary": "Counts the occurrences of each element."
+    },
+    {
+        "id": 417,
+        "code": "def date_parse_strptime(str, format)\n  require 'date'\n  Date.strptime(str, format)\nend",
+        "summary": "Parses a date string according to a format."
+    },
+    {
+        "id": 418,
+        "code": "def time_parse_strptime(str, format)\n  require 'time'\n  Time.strptime(str, format)\nend",
+        "summary": "Parses a time string according to a format."
+    },
+    {
+        "id": 419,
+        "code": "def date_next_day(date)\n  date.next_day\nend",
+        "summary": "Returns a new Date object representing the next day."
+    },
+    {
+        "id": 420,
+        "code": "def date_prev_day(date)\n  date.prev_day\nend",
+        "summary": "Returns a new Date object representing the previous day."
+    },
+    {
+        "id": 421,
+        "code": "def date_next_month(date)\n  date.next_month\nend",
+        "summary": "Returns a new Date object representing the next month."
+    },
+    {
+        "id": 422,
+        "code": "def date_prev_month(date)\n  date.prev_month\nend",
+        "summary": "Returns a new Date object representing the previous month."
+    },
+    {
+        "id": 423,
+        "code": "def date_next_year(date)\n  date.next_year\nend",
+        "summary": "Returns a new Date object representing the next year."
+    },
+    {
+        "id": 424,
+        "code": "def date_prev_year(date)\n  date.prev_year\nend",
+        "summary": "Returns a new Date object representing the previous year."
+    },
+    {
+        "id": 425,
+        "code": "def date_start_of_year(year)\n  require 'date'\n  Date.new(year, 1, 1)\nend",
+        "summary": "Returns the first day of the given year."
+    },
+    {
+        "id": 426,
+        "code": "def date_end_of_year(year)\n  require 'date'\n  Date.new(year, 12, 31)\nend",
+        "summary": "Returns the last day of the given year."
+    },
+    {
+        "id": 427,
+        "code": "def time_to_date(time)\n  time.to_date\nend",
+        "summary": "Converts a Time object to a Date object."
+    },
+    {
+        "id": 428,
+        "code": "def date_to_time(date)\n  date.to_time\nend",
+        "summary": "Converts a Date object to a Time object."
+    },
+    {
+        "id": 429,
+        "code": "def time_monday?(time)\n  time.monday?\nend",
+        "summary": "Returns true if the time represents a Monday."
+    },
+    {
+        "id": 430,
+        "code": "def time_sunday?(time)\n  time.sunday?\nend",
+        "summary": "Returns true if the time represents a Sunday."
+    },
+    {
+        "id": 431,
+        "code": "def file_open_mode(path, mode)\n  File.open(path, mode) { |f| f.write \"data\" }\nend",
+        "summary": "Opens a file with a specific mode (e.g., 'w', 'r', 'a+')."
+    },
+    {
+        "id": 432,
+        "code": "def file_flock(file)\n  file.flock(File::LOCK_EX)\nend",
+        "summary": "Locks a file for exclusive access."
+    },
+    {
+        "id": 433,
+        "code": "def file_stat_size(path)\n  File.stat(path).size\nend",
+        "summary": "Returns the size of the file from the File::Stat object."
+    },
+    {
+        "id": 434,
+        "code": "def file_stat_mode(path)\n  File.stat(path).mode\nend",
+        "summary": "Returns the mode (permissions) of the file from the File::Stat object."
+    },
+    {
+        "id": 435,
+        "code": "def dir_mktmpdir\n  require 'tmpdir'\n  Dir.mktmpdir\nend",
+        "summary": "Creates a temporary directory."
+    },
+    {
+        "id": 436,
+        "code": "def dir_foreach(path)\n  Dir.foreach(path) { |f| puts f }\nend",
+        "summary": "Iterates over the entries in a directory."
+    },
+    {
+        "id": 437,
+        "code": "def path_dirname(path)\n  Pathname.new(path).dirname\nend",
+        "summary": "Returns the directory name using Pathname."
+    },
+    {
+        "id": 438,
+        "code": "def path_basename(path)\n  Pathname.new(path).basename\nend",
+        "summary": "Returns the base name using Pathname."
+    },
+    {
+        "id": 439,
+        "code": "def path_extname(path)\n  Pathname.new(path).extname\nend",
+        "summary": "Returns the extension using Pathname."
+    },
+    {
+        "id": 440,
+        "code": "def path_children(path)\n  Pathname.new(path).children\nend",
+        "summary": "Returns the children of the directory using Pathname."
+    },
+    {
+        "id": 441,
+        "code": "def numeric_step(start, limit, step)\n  start.step(limit, step) { |i| puts i }\nend",
+        "summary": "Iterates from start to limit with a specified step."
+    },
+    {
+        "id": 442,
+        "code": "def integer_chr(int)\n  int.chr\nend",
+        "summary": "Returns the string character corresponding to the integer."
+    },
+    {
+        "id": 443,
+        "code": "def integer_pred(int)\n  int.pred\nend",
+        "summary": "Returns the integer predecessor."
+    },
+    {
+        "id": 444,
+        "code": "def integer_succ(int)\n  int.succ\nend",
+        "summary": "Returns the integer successor."
+    },
+    {
+        "id": 445,
+        "code": "def float_finite?(float)\n  float.finite?\nend",
+        "summary": "Returns true if the float is a valid finite number."
+    },
+    {
+        "id": 446,
+        "code": "def float_infinite?(float)\n  float.infinite?\nend",
+        "summary": "Returns 1, -1, or nil depending on if the float is infinite."
+    },
+    {
+        "id": 447,
+        "code": "def float_nan?(float)\n  float.nan?\nend",
+        "summary": "Returns true if the float is Not a Number (NaN)."
+    },
+    {
+        "id": 448,
+        "code": "def rational_numerator(rat)\n  rat.numerator\nend",
+        "summary": "Returns the numerator of a rational number."
+    },
+    {
+        "id": 449,
+        "code": "def rational_denominator(rat)\n  rat.denominator\nend",
+        "summary": "Returns the denominator of a rational number."
+    },
+    {
+        "id": 450,
+        "code": "def complex_real(comp)\n  comp.real\nend",
+        "summary": "Returns the real part of a complex number."
+    },
+    {
+        "id": 451,
+        "code": "def complex_imaginary(comp)\n  comp.imaginary\nend",
+        "summary": "Returns the imaginary part of a complex number."
+    },
+    {
+        "id": 452,
+        "code": "def complex_conjugate(comp)\n  comp.conjugate\nend",
+        "summary": "Returns the complex conjugate."
+    },
+    {
+        "id": 453,
+        "code": "def proc_curry(proc)\n  proc.curry\nend",
+        "summary": "Returns a curried version of the proc."
+    },
+    {
+        "id": 454,
+        "code": "def method_super_method(method)\n  method.super_method\nend",
+        "summary": "Returns the method that would be called by super."
+    },
+    {
+        "id": 455,
+        "code": "def method_unbind(method)\n  method.unbind\nend",
+        "summary": "Dissociates a method from its receiver, creating an UnboundMethod."
+    },
+    {
+        "id": 456,
+        "code": "def unbound_method_bind(unbound, obj)\n  unbound.bind(obj)\nend",
+        "summary": "Binds an UnboundMethod to an object."
+    },
+    {
+        "id": 457,
+        "code": "def fiber_yield(val)\n  Fiber.yield(val)\nend",
+        "summary": "Yields control back to the caller of the fiber."
+    },
+    {
+        "id": 458,
+        "code": "def fiber_resume(fiber, val)\n  fiber.resume(val)\nend",
+        "summary": "Resumes the execution of the fiber."
+    },
+    {
+        "id": 459,
+        "code": "def thread_stop\n  Thread.stop\nend",
+        "summary": "Suspends the current thread."
+    },
+    {
+        "id": 460,
+        "code": "def thread_wakeup(thread)\n  thread.wakeup\nend",
+        "summary": "Wakes up a sleeping thread."
+    },
+    {
+        "id": 461,
+        "code": "def thread_value(thread)\n  thread.value\nend",
+        "summary": "Waits for the thread to finish and returns its value."
+    },
+    {
+        "id": 462,
+        "code": "def thread_local_get(key)\n  Thread.current[key]\nend",
+        "summary": "Gets a thread-local variable."
+    },
+    {
+        "id": 463,
+        "code": "def thread_local_set(key, val)\n  Thread.current[key] = val\nend",
+        "summary": "Sets a thread-local variable."
+    },
+    {
+        "id": 464,
+        "code": "def mutex_lock(mutex)\n  mutex.lock\nend",
+        "summary": "Locks the mutex."
+    },
+    {
+        "id": 465,
+        "code": "def mutex_unlock(mutex)\n  mutex.unlock\nend",
+        "summary": "Unlocks the mutex."
+    },
+    {
+        "id": 466,
+        "code": "def mutex_try_lock(mutex)\n  mutex.try_lock\nend",
+        "summary": "Attempts to lock the mutex, returning false if already locked."
+    },
+    {
+        "id": 467,
+        "code": "def condition_variable_wait(cv, mutex)\n  cv.wait(mutex)\nend",
+        "summary": "Waits for the condition variable, releasing the mutex."
+    },
+    {
+        "id": 468,
+        "code": "def condition_variable_signal(cv)\n  cv.signal\nend",
+        "summary": "Wakes up one thread waiting on the condition variable."
+    },
+    {
+        "id": 469,
+        "code": "def condition_variable_broadcast(cv)\n  cv.broadcast\nend",
+        "summary": "Wakes up all threads waiting on the condition variable."
+    },
+    {
+        "id": 470,
+        "code": "def queue_push(queue, item)\n  queue.push(item)\nend",
+        "summary": "Pushes an item onto a Queue."
+    },
+    {
+        "id": 471,
+        "code": "def queue_pop(queue)\n  queue.pop\nend",
+        "summary": "Retrieves an item from a Queue."
+    },
+    {
+        "id": 472,
+        "code": "def sized_queue_new(size)\n  SizedQueue.new(size)\nend",
+        "summary": "Creates a queue with a maximum size."
+    },
+    {
+        "id": 473,
+        "code": "def process_pid\n  Process.pid\nend",
+        "summary": "Returns the process ID."
+    },
+    {
+        "id": 474,
+        "code": "def process_wait(pid)\n  Process.wait(pid)\nend",
+        "summary": "Waits for a child process to exit."
+    },
+    {
+        "id": 475,
+        "code": "def process_fork\n  fork do\n    # child process code\n  end\nend",
+        "summary": "Creates a child process using fork."
+    },
+    {
+        "id": 476,
+        "code": "def process_kill(signal, pid)\n  Process.kill(signal, pid)\nend",
+        "summary": "Sends a signal to a process."
+    },
+    {
+        "id": 477,
+        "code": "def signal_trap(signal)\n  Signal.trap(signal) do\n    # handle signal\n  end\nend",
+        "summary": "Sets a handler for a signal."
+    },
+    {
+        "id": 478,
+        "code": "def regexp_options(regex)\n  regex.options\nend",
+        "summary": "Returns the options used to create the regex."
+    },
+    {
+        "id": 479,
+        "code": "def regexp_source(regex)\n  regex.source\nend",
+        "summary": "Returns the source string of the regex."
+    },
+    {
+        "id": 480,
+        "code": "def regexp_casefold?(regex)\n  regex.casefold?\nend",
+        "summary": "Returns true if the regex is case-insensitive."
+    },
+    {
+        "id": 481,
+        "code": "def struct_members(struct)\n  struct.members\nend",
+        "summary": "Returns the member names of the struct."
+    },
+    {
+        "id": 482,
+        "code": "def struct_to_h(struct)\n  struct.to_h\nend",
+        "summary": "Converts a Struct to a Hash."
+    },
+    {
+        "id": 483,
+        "code": "def struct_values(struct)\n  struct.values\nend",
+        "summary": "Returns the values of the struct."
+    },
+    {
+        "id": 484,
+        "code": "def module_constants(mod)\n  mod.constants\nend",
+        "summary": "Returns an array of constant names defined in the module."
+    },
+    {
+        "id": 485,
+        "code": "def module_instance_methods(mod)\n  mod.instance_methods\nend",
+        "summary": "Returns an array of instance methods defined in the module."
+    },
+    {
+        "id": 486,
+        "code": "def module_class_variables(mod)\n  mod.class_variables\nend",
+        "summary": "Returns an array of class variable names defined in the module."
+    },
+    {
+        "id": 487,
+        "code": "def module_attr_reader(mod, name)\n  mod.attr_reader(name)\nend",
+        "summary": "Defines a reader method."
+    },
+    {
+        "id": 488,
+        "code": "def module_attr_writer(mod, name)\n  mod.attr_writer(name)\nend",
+        "summary": "Defines a writer method."
+    },
+    {
+        "id": 489,
+        "code": "def module_attr_accessor(mod, name)\n  mod.attr_accessor(name)\nend",
+        "summary": "Defines reader and writer methods."
+    },
+    {
+        "id": 490,
+        "code": "def class_new\n  Class.new\nend",
+        "summary": "Creates a new anonymous class."
+    },
+    {
+        "id": 491,
+        "code": "def class_allocate(cls)\n  cls.allocate\nend",
+        "summary": "Allocates memory for an object without calling initialize."
+    },
+    {
+        "id": 492,
+        "code": "def basic_object_new\n  BasicObject.new\nend",
+        "summary": "Creates a new instance of BasicObject."
+    },
+    {
+        "id": 493,
+        "code": "def kernel_puts(obj)\n  puts obj\nend",
+        "summary": "Prints the object to stdout with a newline."
+    },
+    {
+        "id": 494,
+        "code": "def kernel_print(obj)\n  print obj\nend",
+        "summary": "Prints the object to stdout without a newline."
+    },
+    {
+        "id": 495,
+        "code": "def kernel_p(obj)\n  p obj\nend",
+        "summary": "Prints the object's inspect string to stdout."
+    },
+    {
+        "id": 496,
+        "code": "def kernel_raise(msg)\n  raise msg\nend",
+        "summary": "Raises a RuntimeError with the given message."
+    },
+    {
+        "id": 497,
+        "code": "def kernel_fail(msg)\n  fail msg\nend",
+        "summary": "Synonym for raise."
+    },
+    {
+        "id": 498,
+        "code": "def kernel_block_given?\n  block_given?\nend",
+        "summary": "Returns true if a block was supplied to the current method."
+    },
+    {
+        "id": 499,
+        "code": "def kernel_local_variables\n  local_variables\nend",
+        "summary": "Returns the names of the current local variables."
+    },
+    {
+        "id": 500,
+        "code": "def kernel_global_variables\n  global_variables\nend",
+        "summary": "Returns the names of all global variables."
+    },
+    {
+        "id": 501,
+        "code": "def string_start_with(str, prefix)\n  str.start_with?(prefix)\nend",
+        "summary": "Checks if the string starts with the prefix."
+    },
+    {
+        "id": 502,
+        "code": "def string_end_with(str, suffix)\n  str.end_with?(suffix)\nend",
+        "summary": "Checks if the string ends with the suffix."
+    },
+    {
+        "id": 503,
+        "code": "def string_delete_prefix(str, prefix)\n  str.delete_prefix(prefix)\nend",
+        "summary": "Returns a copy of the string with the prefix deleted."
+    },
+    {
+        "id": 504,
+        "code": "def string_delete_suffix(str, suffix)\n  str.delete_suffix(suffix)\nend",
+        "summary": "Returns a copy of the string with the suffix deleted."
+    },
+    {
+        "id": 505,
+        "code": "def string_partition(str, pattern)\n  str.partition(pattern)\nend",
+        "summary": "Splits the string into head, match, and tail."
+    },
+    {
+        "id": 506,
+        "code": "def string_rpartition(str, pattern)\n  str.rpartition(pattern)\nend",
+        "summary": "Splits the string into head, match, and tail, searching from the end."
+    },
+    {
+        "id": 507,
+        "code": "def string_hash(str)\n  str.hash\nend",
+        "summary": "Returns a hash code for the string."
+    },
+    {
+        "id": 508,
+        "code": "def string_replace(str, other)\n  str.replace(other)\nend",
+        "summary": "Replaces the contents of the string with the other string."
+    },
+    {
+        "id": 509,
+        "code": "def string_insert(str, idx, other)\n  str.insert(idx, other)\nend",
+        "summary": "Inserts the other string at the given index."
+    },
+    {
+        "id": 510,
+        "code": "def string_ljust(str, width)\n  str.ljust(width)\nend",
+        "summary": "Left-justifies the string."
+    },
+    {
+        "id": 511,
+        "code": "def string_rjust(str, width)\n  str.rjust(width)\nend",
+        "summary": "Right-justifies the string."
+    },
+    {
+        "id": 512,
+        "code": "def string_swapcase(str)\n  str.swapcase\nend",
+        "summary": "Swaps the case of the characters in the string."
+    },
+    {
+        "id": 513,
+        "code": "def string_hex(str)\n  str.hex\nend",
+        "summary": "Treats the string as a hex number and returns the integer."
+    },
+    {
+        "id": 514,
+        "code": "def string_oct(str)\n  str.oct\nend",
+        "summary": "Treats the string as an octal number and returns the integer."
+    },
+    {
+        "id": 515,
+        "code": "def array_concat(arr, other)\n  arr.concat(other)\nend",
+        "summary": "Appends the elements of the other array."
+    },
+    {
+        "id": 516,
+        "code": "def array_push(arr, *vals)\n  arr.push(*vals)\nend",
+        "summary": "Appends values to the end of the array."
+    },
+    {
+        "id": 517,
+        "code": "def array_pop(arr)\n  arr.pop\nend",
+        "summary": "Removes and returns the last element."
+    },
+    {
+        "id": 518,
+        "code": "def array_shift(arr)\n  arr.shift\nend",
+        "summary": "Removes and returns the first element."
+    },
+    {
+        "id": 519,
+        "code": "def array_unshift(arr, *vals)\n  arr.unshift(*vals)\nend",
+        "summary": "Prepends values to the start of the array."
+    },
+    {
+        "id": 520,
+        "code": "def array_delete(arr, val)\n  arr.delete(val)\nend",
+        "summary": "Deletes all items equal to val."
+    },
+    {
+        "id": 521,
+        "code": "def array_delete_at(arr, index)\n  arr.delete_at(index)\nend",
+        "summary": "Deletes the element at the specified index."
+    },
+    {
+        "id": 522,
+        "code": "def array_delete_if(arr)\n  arr.delete_if { |x| x.odd? }\nend",
+        "summary": "Deletes every element for which the block evaluates to true."
+    },
+    {
+        "id": 523,
+        "code": "def array_keep_if(arr)\n  arr.keep_if { |x| x.even? }\nend",
+        "summary": "Deletes every element for which the block evaluates to false."
+    },
+    {
+        "id": 524,
+        "code": "def array_compact!(arr)\n  arr.compact!\nend",
+        "summary": "Removes nil values in place."
+    },
+    {
+        "id": 525,
+        "code": "def array_flatten!(arr)\n  arr.flatten!\nend",
+        "summary": "Flattens the array in place."
+    },
+    {
+        "id": 526,
+        "code": "def array_reverse!(arr)\n  arr.reverse!\nend",
+        "summary": "Reverses the array in place."
+    },
+    {
+        "id": 527,
+        "code": "def array_map!(arr)\n  arr.map! { |x| x * 2 }\nend",
+        "summary": "Replaces array elements with the block result."
+    },
+    {
+        "id": 528,
+        "code": "def array_select!(arr)\n  arr.select! { |x| x.even? }\nend",
+        "summary": "Filters array elements in place."
+    },
+    {
+        "id": 529,
+        "code": "def array_reject!(arr)\n  arr.reject! { |x| x.odd? }\nend",
+        "summary": "Removes array elements in place."
+    },
+    {
+        "id": 530,
+        "code": "def hash_store(hash, key, val)\n  hash.store(key, val)\nend",
+        "summary": "Associates the value with the key."
+    },
+    {
+        "id": 531,
+        "code": "def hash_clear(hash)\n  hash.clear\nend",
+        "summary": "Removes all key-value pairs."
+    },
+    {
+        "id": 532,
+        "code": "def hash_shift(hash)\n  hash.shift\nend",
+        "summary": "Removes and returns a key-value pair."
+    },
+    {
+        "id": 533,
+        "code": "def hash_replace(hash, other)\n  hash.replace(other)\nend",
+        "summary": "Replaces the hash contents with another hash."
+    },
+    {
+        "id": 534,
+        "code": "def hash_invert(hash)\n  hash.invert\nend",
+        "summary": "Inverts keys and values."
+    },
+    {
+        "id": 535,
+        "code": "def hash_update(hash, other)\n  hash.update(other)\nend",
+        "summary": "Updates the hash with the contents of another."
+    },
+    {
+        "id": 536,
+        "code": "def hash_has_key?(hash, key)\n  hash.has_key?(key)\nend",
+        "summary": "Checks if the key is present."
+    },
+    {
+        "id": 537,
+        "code": "def hash_has_value?(hash, val)\n  hash.has_value?(val)\nend",
+        "summary": "Checks if the value is present."
+    },
+    {
+        "id": 538,
+        "code": "def hash_empty?(hash)\n  hash.empty?\nend",
+        "summary": "Checks if the hash is empty."
+    },
+    {
+        "id": 539,
+        "code": "def hash_size(hash)\n  hash.size\nend",
+        "summary": "Returns the number of key-value pairs."
+    },
+    {
+        "id": 540,
+        "code": "def hash_to_a(hash)\n  hash.to_a\nend",
+        "summary": "Converts the hash to an array of [key, value] arrays."
+    },
+    {
+        "id": 541,
+        "code": "def hash_to_s(hash)\n  hash.to_s\nend",
+        "summary": "Converts the hash to a string."
+    },
+    {
+        "id": 542,
+        "code": "def hash_inspect(hash)\n  hash.inspect\nend",
+        "summary": "Returns a string representation of the hash."
+    },
+    {
+        "id": 543,
+        "code": "def integer_times(n)\n  n.times { puts \"x\" }\nend",
+        "summary": "Iterates n times."
+    },
+    {
+        "id": 544,
+        "code": "def integer_upto(n, limit)\n  n.upto(limit) { |i| puts i }\nend",
+        "summary": "Iterates from n up to limit."
+    },
+    {
+        "id": 545,
+        "code": "def integer_downto(n, limit)\n  n.downto(limit) { |i| puts i }\nend",
+        "summary": "Iterates from n down to limit."
+    },
+    {
+        "id": 546,
+        "code": "def integer_gcdlcm(a, b)\n  a.gcdlcm(b)\nend",
+        "summary": "Returns an array with the GCD and LCM."
+    },
+    {
+        "id": 547,
+        "code": "def float_round(f, ndigits)\n  f.round(ndigits)\nend",
+        "summary": "Rounds the float to ndigits."
+    },
+    {
+        "id": 548,
+        "code": "def float_to_i(f)\n  f.to_i\nend",
+        "summary": "Truncates the float to an integer."
+    },
+    {
+        "id": 549,
+        "code": "def float_abs(f)\n  f.abs\nend",
+        "summary": "Returns the absolute value."
+    },
+    {
+        "id": 550,
+        "code": "def float_zero?(f)\n  f.zero?\nend",
+        "summary": "Returns true if the float is 0.0."
+    },
+    {
+        "id": 551,
+        "code": "def numeric_real?(n)\n  n.real?\nend",
+        "summary": "Returns true if the number is real."
+    },
+    {
+        "id": 552,
+        "code": "def numeric_integer?(n)\n  n.integer?\nend",
+        "summary": "Returns true if the number is an integer."
+    },
+    {
+        "id": 553,
+        "code": "def numeric_nonzero?(n)\n  n.nonzero?\nend",
+        "summary": "Returns self if not zero, else nil."
+    },
+    {
+        "id": 554,
+        "code": "def numeric_positive?(n)\n  n.positive?\nend",
+        "summary": "Returns true if greater than 0."
+    },
+    {
+        "id": 555,
+        "code": "def numeric_negative?(n)\n  n.negative?\nend",
+        "summary": "Returns true if less than 0."
+    },
+    {
+        "id": 556,
+        "code": "def range_begin(range)\n  range.begin\nend",
+        "summary": "Returns the start object of the range."
+    },
+    {
+        "id": 557,
+        "code": "def range_end(range)\n  range.end\nend",
+        "summary": "Returns the end object of the range."
+    },
+    {
+        "id": 558,
+        "code": "def range_exclude_end?(range)\n  range.exclude_end?\nend",
+        "summary": "Returns true if the range excludes the end value."
+    },
+    {
+        "id": 559,
+        "code": "def range_step(range, n)\n  range.step(n).to_a\nend",
+        "summary": "Iterates over the range by step n."
+    },
+    {
+        "id": 560,
+        "code": "def range_size(range)\n  range.size\nend",
+        "summary": "Returns the size of the range."
+    },
+    {
+        "id": 561,
+        "code": "def symbol_to_s(sym)\n  sym.to_s\nend",
+        "summary": "Converts the symbol to a string."
+    },
+    {
+        "id": 562,
+        "code": "def symbol_id2name(sym)\n  sym.id2name\nend",
+        "summary": "Returns the name of the symbol as a string."
+    },
+    {
+        "id": 563,
+        "code": "def symbol_inspect(sym)\n  sym.inspect\nend",
+        "summary": "Returns the representation of the symbol."
+    },
+    {
+        "id": 564,
+        "code": "def symbol_all_symbols\n  Symbol.all_symbols\nend",
+        "summary": "Returns an array of all defined symbols."
+    },
+    {
+        "id": 565,
+        "code": "def exception_message(e)\n  e.message\nend",
+        "summary": "Returns the exception message."
+    },
+    {
+        "id": 566,
+        "code": "def exception_backtrace(e)\n  e.backtrace\nend",
+        "summary": "Returns the backtrace array."
+    },
+    {
+        "id": 567,
+        "code": "def exception_full_message(e)\n  e.full_message\nend",
+        "summary": "Returns the formatted full message."
+    },
+    {
+        "id": 568,
+        "code": "def io_read(io)\n  io.read\nend",
+        "summary": "Reads all data from the IO."
+    },
+    {
+        "id": 569,
+        "code": "def io_write(io, data)\n  io.write(data)\nend",
+        "summary": "Writes data to the IO."
+    },
+    {
+        "id": 570,
+        "code": "def io_puts(io, *args)\n  io.puts(*args)\nend",
+        "summary": "Writes lines to the IO."
+    },
+    {
+        "id": 571,
+        "code": "def io_gets(io)\n  io.gets\nend",
+        "summary": "Reads the next line from the IO."
+    },
+    {
+        "id": 572,
+        "code": "def io_flush(io)\n  io.flush\nend",
+        "summary": "Flushes the IO buffer."
+    },
+    {
+        "id": 573,
+        "code": "def io_close(io)\n  io.close\nend",
+        "summary": "Closes the IO stream."
+    },
+    {
+        "id": 574,
+        "code": "def io_closed?(io)\n  io.closed?\nend",
+        "summary": "Returns true if the IO is closed."
+    },
+    {
+        "id": 575,
+        "code": "def io_eof?(io)\n  io.eof?\nend",
+        "summary": "Returns true if at end of file."
+    },
+    {
+        "id": 576,
+        "code": "def io_rewind(io)\n  io.rewind\nend",
+        "summary": "Positions the IO to the beginning."
+    },
+    {
+        "id": 577,
+        "code": "def io_pos(io)\n  io.pos\nend",
+        "summary": "Returns the current offset."
+    },
+    {
+        "id": 578,
+        "code": "def io_pos_set(io, offset)\n  io.pos = offset\nend",
+        "summary": "Sets the current offset."
+    },
+    {
+        "id": 579,
+        "code": "def io_seek(io, amount, whence)\n  io.seek(amount, whence)\nend",
+        "summary": "Seeks to a given offset."
+    },
+    {
+        "id": 580,
+        "code": "def io_pipe\n  IO.pipe\nend",
+        "summary": "Creates a pair of connected IO objects."
+    },
+    {
+        "id": 581,
+        "code": "def io_popen(cmd)\n  IO.popen(cmd) { |io| puts io.read }\nend",
+        "summary": "Runs a command as a subprocess and opens an IO pipe to it."
+    },
+    {
+        "id": 582,
+        "code": "def io_select(read_array)\n  IO.select(read_array, nil, nil, 1)\nend",
+        "summary": "Waits for I/O readiness on a list of IO objects with a timeout."
+    },
+    {
+        "id": 583,
+        "code": "def socket_gethostname\n  require 'socket'\n  Socket.gethostname\nend",
+        "summary": "Returns the hostname of the current machine."
+    },
+    {
+        "id": 584,
+        "code": "def net_http_post_form(uri, params)\n  require 'net/http'\n  Net::HTTP.post_form(URI(uri), params)\nend",
+        "summary": "Posts HTML form data to the specified URI."
+    },
+    {
+        "id": 585,
+        "code": "def net_http_start(host, port)\n  require 'net/http'\n  Net::HTTP.start(host, port) do |http|\n    http.get('/')\n  end\nend",
+        "summary": "Starts a new Net::HTTP session and executes a block."
+    },
+    {
+        "id": 586,
+        "code": "def uri_join(*args)\n  require 'uri'\n  URI.join(*args)\nend",
+        "summary": "Joins URIs into a single URI object."
+    },
+    {
+        "id": 587,
+        "code": "def uri_split(url)\n  require 'uri'\n  URI.split(url)\nend",
+        "summary": "Splits a URI string into its component parts."
+    },
+    {
+        "id": 588,
+        "code": "def cgi_parse_query(query_string)\n  require 'cgi'\n  CGI.parse(query_string)\nend",
+        "summary": "Parses a URL query string into a hash."
+    },
+    {
+        "id": 589,
+        "code": "def fileutils_rm_rf(path)\n  require 'fileutils'\n  FileUtils.rm_rf(path)\nend",
+        "summary": "Recursively removes files and directories (like 'rm -rf')."
+    },
+    {
+        "id": 590,
+        "code": "def fileutils_mkdir_p(path)\n  require 'fileutils'\n  FileUtils.mkdir_p(path)\nend",
+        "summary": "Creates a directory and all its parent directories (like 'mkdir -p')."
+    },
+    {
+        "id": 591,
+        "code": "def fileutils_chown(user, group, path)\n  require 'fileutils'\n  FileUtils.chown(user, group, path)\nend",
+        "summary": "Changes the owner and group of a file."
+    },
+    {
+        "id": 592,
+        "code": "def fileutils_chmod_r(mode, path)\n  require 'fileutils'\n  FileUtils.chmod_R(mode, path)\nend",
+        "summary": "Recursively changes file permissions."
+    },
+    {
+        "id": 593,
+        "code": "def securerandom_urlsafe_base64(n)\n  require 'securerandom'\n  SecureRandom.urlsafe_base64(n)\nend",
+        "summary": "Generates a random URL-safe Base64 string."
+    },
+    {
+        "id": 594,
+        "code": "def securerandom_alphanumeric(n)\n  require 'securerandom'\n  SecureRandom.alphanumeric(n)\nend",
+        "summary": "Generates a random alphanumeric string."
+    },
+    {
+        "id": 595,
+        "code": "def openssl_digest(algo, data)\n  require 'openssl'\n  OpenSSL::Digest.digest(algo, data)\nend",
+        "summary": "Computes the digest of data using the specified algorithm."
+    },
+    {
+        "id": 596,
+        "code": "def openssl_hmac(key, data)\n  require 'openssl'\n  OpenSSL::HMAC.hexdigest('SHA256', key, data)\nend",
+        "summary": "Computes the HMAC-SHA256 of data using a key."
+    },
+    {
+        "id": 597,
+        "code": "def zlib_gzip_writer(file)\n  require 'zlib'\n  Zlib::GzipWriter.open(file) do |gz|\n    gz.write 'data'\n  end\nend",
+        "summary": "Writes compressed data to a file using Gzip."
+    },
+    {
+        "id": 598,
+        "code": "def zlib_gzip_reader(file)\n  require 'zlib'\n  Zlib::GzipReader.open(file) { |gz| gz.read }\nend",
+        "summary": "Reads uncompressed data from a Gzip file."
+    },
+    {
+        "id": 599,
+        "code": "def csv_append(path, row)\n  require 'csv'\n  CSV.open(path, 'a') { |csv| csv << row }\nend",
+        "summary": "Appends a row to an existing CSV file."
+    },
+    {
+        "id": 600,
+        "code": "def csv_generate_line(row)\n  require 'csv'\n  CSV.generate_line(row)\nend",
+        "summary": "Converts an array into a CSV string line."
+    },
+    {
+        "id": 601,
+        "code": "def yaml_load_file(path)\n  require 'yaml'\n  YAML.load_file(path)\nend",
+        "summary": "Loads a YAML document from a file."
+    },
+    {
+        "id": 602,
+        "code": "def json_generate(obj)\n  require 'json'\n  JSON.generate(obj)\nend",
+        "summary": "Generates a JSON string from a Ruby object (similar to to_json)."
+    },
+    {
+        "id": 603,
+        "code": "def set_intersection(s1, s2)\n  s1.intersection(s2)\nend",
+        "summary": "Returns a new Set containing elements common to both sets."
+    },
+    {
+        "id": 604,
+        "code": "def set_union(s1, s2)\n  s1.union(s2)\nend",
+        "summary": "Returns a new Set containing all elements from both sets."
+    },
+    {
+        "id": 605,
+        "code": "def set_difference(s1, s2)\n  s1.difference(s2)\nend",
+        "summary": "Returns a new Set containing elements in s1 but not in s2."
+    },
+    {
+        "id": 606,
+        "code": "def set_subset?(s1, s2)\n  s1.subset?(s2)\nend",
+        "summary": "Returns true if s1 is a subset of s2."
+    },
+    {
+        "id": 607,
+        "code": "def date_gregorian_leap?(year)\n  require 'date'\n  Date.gregorian_leap?(year)\nend",
+        "summary": "Returns true if the year is a leap year in the Gregorian calendar."
+    },
+    {
+        "id": 608,
+        "code": "def time_at_micros(seconds, micros)\n  Time.at(seconds, micros)\nend",
+        "summary": "Creates a Time object with microsecond precision."
+    },
+    {
+        "id": 609,
+        "code": "def math_hypot(x, y)\n  Math.hypot(x, y)\nend",
+        "summary": "Calculates the hypotenuse of a right-angled triangle with sides x and y."
+    },
+    {
+        "id": 610,
+        "code": "def math_erf(x)\n  Math.erf(x)\nend",
+        "summary": "Calculates the error function of x."
+    },
+    {
+        "id": 611,
+        "code": "def etc_getlogin\n  require 'etc'\n  Etc.getlogin\nend",
+        "summary": "Returns the name of the user currently logged in."
+    },
+    {
+        "id": 612,
+        "code": "def etc_getpwuid(uid)\n  require 'etc'\n  Etc.getpwuid(uid)\nend",
+        "summary": "Returns user information for the given user ID."
+    },
+    {
+        "id": 613,
+        "code": "def rbconfig_config\n  require 'rbconfig'\n  RbConfig::CONFIG\nend",
+        "summary": "Accesses the hash containing Ruby configuration information."
+    },
+    {
+        "id": 614,
+        "code": "def objectspace_count_objects\n  ObjectSpace.count_objects\nend",
+        "summary": "Counts objects for each type."
+    },
+    {
+        "id": 615,
+        "code": "def objectspace_memsize(obj)\n  require 'objspace'\n  ObjectSpace.memsize_of(obj)\nend",
+        "summary": "Returns the memory size of an object."
+    },
+    {
+        "id": 616,
+        "code": "def gc_start_full\n  GC.start(full_mark: true, immediate_sweep: true)\nend",
+        "summary": "Forces a full garbage collection."
+    },
+    {
+        "id": 617,
+        "code": "def process_clock_gettime\n  Process.clock_gettime(Process::CLOCK_MONOTONIC)\nend",
+        "summary": "Returns the current time from a monotonic clock."
+    },
+    {
+        "id": 618,
+        "code": "def process_setproctitle(title)\n  Process.setproctitle(title)\nend",
+        "summary": "Sets the process title visible in ps/top."
+    },
+    {
+        "id": 619,
+        "code": "def signal_list\n  Signal.list\nend",
+        "summary": "Returns a hash of signal names and their corresponding numbers."
+    },
+    {
+        "id": 620,
+        "code": "def thread_backtrace\n  Thread.current.backtrace\nend",
+        "summary": "Returns the backtrace of the current thread."
+    },
+    {
+        "id": 621,
+        "code": "def thread_abort_on_exception\n  Thread.abort_on_exception = true\nend",
+        "summary": "Sets whether all threads abort when an exception is raised in any thread."
+    },
+    {
+        "id": 622,
+        "code": "def fiber_current\n  Fiber.current\nend",
+        "summary": "Returns the currently executing Fiber."
+    },
+    {
+        "id": 623,
+        "code": "def enumerator_lazy(range)\n  range.lazy.map { |x| x * 2 }\nend",
+        "summary": "Creates a lazy enumerator for the range."
+    },
+    {
+        "id": 624,
+        "code": "def array_sample_n(arr, n)\n  arr.sample(n)\nend",
+        "summary": "Returns n random elements from the array."
+    },
+    {
+        "id": 625,
+        "code": "def array_permutation_block(arr)\n  arr.permutation { |p| p p }\nend",
+        "summary": "Yields each permutation of the array to the block."
+    },
+    {
+        "id": 626,
+        "code": "def array_combination_block(arr, n)\n  arr.combination(n) { |c| p c }\nend",
+        "summary": "Yields each combination of length n to the block."
+    },
+    {
+        "id": 627,
+        "code": "def array_bsearch_range(arr, min, max)\n  arr.bsearch { |x| x >= min && x <= max }\nend",
+        "summary": "Uses binary search to find an element within a range condition."
+    },
+    {
+        "id": 628,
+        "code": "def hash_transform_keys(hash)\n  hash.transform_keys { |k| k.to_s }\nend",
+        "summary": "Returns a new hash with all keys transformed by the block."
+    },
+    {
+        "id": 629,
+        "code": "def hash_transform_keys!(hash)\n  hash.transform_keys!(&:to_sym)\nend",
+        "summary": "Transforms the keys of the hash in place."
+    },
+    {
+        "id": 630,
+        "code": "def hash_new_block\n  Hash.new { |h, k| h[k] = k * k }\nend",
+        "summary": "Creates a hash where accessing a missing key dynamically calculates its value."
+    },
+    {
+        "id": 631,
+        "code": "def string_unpack(str, format)\n  str.unpack(format)\nend",
+        "summary": "Decodes the string (packed data) according to the format string."
+    },
+    {
+        "id": 632,
+        "code": "def array_pack(arr, format)\n  arr.pack(format)\nend",
+        "summary": "Packs the array contents into a binary sequence according to the format."
+    },
+    {
+        "id": 633,
+        "code": "def string_crypt(str, salt)\n  str.crypt(salt)\nend",
+        "summary": "Applies a one-way cryptographic hash to the string."
+    },
+    {
+        "id": 634,
+        "code": "def string_force_encoding_utf8(str)\n  str.force_encoding('UTF-8')\nend",
+        "summary": "Forces the string encoding to UTF-8 without changing bytes."
+    },
+    {
+        "id": 635,
+        "code": "def string_encode_options(str)\n  str.encode('UTF-8', invalid: :replace, undef: :replace)\nend",
+        "summary": "Encodes the string, replacing invalid or undefined characters."
+    },
+    {
+        "id": 636,
+        "code": "def string_valid_encoding_check(str)\n  str.valid_encoding?\nend",
+        "summary": "Returns true if the string consists of valid bytes for its encoding."
+    },
+    {
+        "id": 637,
+        "code": "def regexp_last_match\n  Regexp.last_match\nend",
+        "summary": "Returns the MatchData object for the last successful match."
+    },
+    {
+        "id": 638,
+        "code": "def regexp_quote(str)\n  Regexp.quote(str)\nend",
+        "summary": "Escapes characters in the string so it can be used as a literal in a regex."
+    },
+    {
+        "id": 639,
+        "code": "def regexp_try_convert(obj)\n  Regexp.try_convert(obj)\nend",
+        "summary": "Tries to convert the object to a Regexp, returning nil if not possible."
+    },
+    {
+        "id": 640,
+        "code": "def match_data_begin(md, n)\n  md.begin(n)\nend",
+        "summary": "Returns the offset of the start of the nth capture."
+    },
+    {
+        "id": 641,
+        "code": "def match_data_end(md, n)\n  md.end(n)\nend",
+        "summary": "Returns the offset of the end of the nth capture."
+    },
+    {
+        "id": 642,
+        "code": "def match_data_offset(md, n)\n  md.offset(n)\nend",
+        "summary": "Returns the [start, end] offsets of the nth capture."
+    },
+    {
+        "id": 643,
+        "code": "def range_cover_fast(range, val)\n  range.cover?(val)\nend",
+        "summary": "Returns true if the object is between the begin and end of the range."
+    },
+    {
+        "id": 644,
+        "code": "def range_bsearch(range, target)\n  range.bsearch { |x| x >= target }\nend",
+        "summary": "Performs a binary search on the range."
+    },
+    {
+        "id": 645,
+        "code": "def proc_source_location(proc)\n  proc.source_location\nend",
+        "summary": "Returns the source file and line number of the proc."
+    },
+    {
+        "id": 646,
+        "code": "def proc_parameters(proc)\n  proc.parameters\nend",
+        "summary": "Returns the parameter information for the proc."
+    },
+    {
+        "id": 647,
+        "code": "def method_owner(method)\n  method.owner\nend",
+        "summary": "Returns the class or module that defined the method."
+    },
+    {
+        "id": 648,
+        "code": "def method_name_sym(method)\n  method.name\nend",
+        "summary": "Returns the name of the method as a symbol."
+    },
+    {
+        "id": 649,
+        "code": "def module_const_defined?(mod, sym)\n  mod.const_defined?(sym)\nend",
+        "summary": "Checks if the constant is defined in the module."
+    },
+    {
+        "id": 650,
+        "code": "def module_const_get_inherit(mod, sym)\n  mod.const_get(sym, true)\nend",
+        "summary": "Gets a constant, searching ancestors if the second argument is true."
+    },
+    {
+        "id": 651,
+        "code": "def module_private_instance_methods(mod)\n  mod.private_instance_methods\nend",
+        "summary": "Returns a list of the private instance methods defined in the module."
+    },
+    {
+        "id": 652,
+        "code": "def module_protected_instance_methods(mod)\n  mod.protected_instance_methods\nend",
+        "summary": "Returns a list of the protected instance methods defined in the module."
+    },
+    {
+        "id": 653,
+        "code": "def module_public_instance_methods(mod)\n  mod.public_instance_methods\nend",
+        "summary": "Returns a list of the public instance methods defined in the module."
+    },
+    {
+        "id": 654,
+        "code": "def class_superclass_check(cls)\n  cls.superclass\nend",
+        "summary": "Returns the superclass of the class, or nil."
+    },
+    {
+        "id": 655,
+        "code": "def object_ivar_defined?(obj, name)\n  obj.instance_variable_defined?(name)\nend",
+        "summary": "Returns true if the instance variable is defined."
+    },
+    {
+        "id": 656,
+        "code": "def object_remove_ivar(obj, name)\n  obj.remove_instance_variable(name)\nend",
+        "summary": "Removes the named instance variable from the object."
+    },
+    {
+        "id": 657,
+        "code": "def object_public_send(obj, method, *args)\n  obj.public_send(method, *args)\nend",
+        "summary": "Invokes the method only if it is public."
+    },
+    {
+        "id": 658,
+        "code": "def object_tap(obj)\n  obj.tap { |o| puts o.inspect }\nend",
+        "summary": "Yields the object to the block and returns the object."
+    },
+    {
+        "id": 659,
+        "code": "def object_then(obj)\n  obj.then { |o| o * 2 }\nend",
+        "summary": "Yields the object to the block and returns the result of the block."
+    },
+    {
+        "id": 660,
+        "code": "def object_display(obj)\n  obj.display\nend",
+        "summary": "Prints the object to $stdout."
+    },
+    {
+        "id": 661,
+        "code": "def kernel_sprintf(fmt, *args)\n  sprintf(fmt, *args)\nend",
+        "summary": "Formats a string according to the format specification."
+    },
+    {
+        "id": 662,
+        "code": "def kernel_caller\n  caller\nend",
+        "summary": "Returns the current execution stack."
+    },
+    {
+        "id": 663,
+        "code": "def kernel_dir\n  __dir__\nend",
+        "summary": "Returns the absolute path of the directory containing the current file."
+    },
+    {
+        "id": 664,
+        "code": "def kernel_file\n  __FILE__\nend",
+        "summary": "Returns the name of the current file."
+    },
+    {
+        "id": 665,
+        "code": "def kernel_line\n  __LINE__\nend",
+        "summary": "Returns the current line number in the source file."
+    },
+    {
+        "id": 666,
+        "code": "def kernel_at_exit\n  at_exit { puts \"Exiting\" }\nend",
+        "summary": "Registers a block to be executed when the program exits."
+    },
+    {
+        "id": 667,
+        "code": "def kernel_binding\n  binding\nend",
+        "summary": "Returns a Binding object representing the current execution context."
+    },
+    {
+        "id": 668,
+        "code": "def kernel_warn_msg(msg)\n  warn(msg)\nend",
+        "summary": "Displays a warning message to standard error."
+    },
+    {
+        "id": 669,
+        "code": "def kernel_rand_range(range)\n  rand(range)\nend",
+        "summary": "Returns a random number within the specified range."
+    },
+    {
+        "id": 670,
+        "code": "def kernel_srand(seed)\n  srand(seed)\nend",
+        "summary": "Seeds the pseudo-random number generator."
+    },
+    {
+        "id": 671,
+        "code": "def comparable_clamp(val, min, max)\n  val.clamp(min, max)\nend",
+        "summary": "Clamps the value within the specified range."
+    },
+    {
+        "id": 672,
+        "code": "def comparable_between?(val, min, max)\n  val.between?(min, max)\nend",
+        "summary": "Returns true if the value is between min and max."
+    },
+    {
+        "id": 673,
+        "code": "def enumerable_grep_v(enum, pattern)\n  enum.grep_v(pattern)\nend",
+        "summary": "Returns an array of elements that do not match the pattern."
+    },
+    {
+        "id": 674,
+        "code": "def enumerable_each_cons(enum, n)\n  enum.each_cons(n) { |cons| p cons }\nend",
+        "summary": "Iterates the block for each array of consecutive n elements."
+    },
+    {
+        "id": 675,
+        "code": "def enumerable_each_slice(enum, n)\n  enum.each_slice(n) { |slice| p slice }\nend",
+        "summary": "Iterates the block for each slice of n elements."
+    },
+    {
+        "id": 676,
+        "code": "def enumerable_each_entry(enum)\n  enum.each_entry { |entry| p entry }\nend",
+        "summary": "Calls the block once for each element, yielding the element."
+    },
+    {
+        "id": 677,
+        "code": "def enumerable_detect(enum)\n  enum.detect { |x| x > 5 }\nend",
+        "summary": "Returns the first element for which the block is true."
+    },
+    {
+        "id": 678,
+        "code": "def enumerable_find_all(enum)\n  enum.find_all { |x| x.even? }\nend",
+        "summary": "Returns an array containing all elements for which the block is true."
+    },
+    {
+        "id": 679,
+        "code": "def enumerable_find_index(enum, val)\n  enum.find_index(val)\nend",
+        "summary": "Returns the index of the first element equal to val."
+    },
+    {
+        "id": 680,
+        "code": "def enumerable_flat_map(enum)\n  enum.flat_map { |x| [x, x] }\nend",
+        "summary": "Returns a new array with the concatenated results of the block."
+    },
+    {
+        "id": 681,
+        "code": "def enumerable_inject(enum, initial)\n  enum.inject(initial) { |sum, n| sum + n }\nend",
+        "summary": "Combines all elements of the enum by applying a binary operation."
+    },
+    {
+        "id": 682,
+        "code": "def enumerable_max_by(enum)\n  enum.max_by { |x| x.length }\nend",
+        "summary": "Returns the element that gives the maximum value from the block."
+    },
+    {
+        "id": 683,
+        "code": "def enumerable_min_by(enum)\n  enum.min_by { |x| x.length }\nend",
+        "summary": "Returns the element that gives the minimum value from the block."
+    },
+    {
+        "id": 684,
+        "code": "def enumerable_minmax(enum)\n  enum.minmax\nend",
+        "summary": "Returns a two-element array containing the min and max values."
+    },
+    {
+        "id": 685,
+        "code": "def enumerable_partition(enum)\n  enum.partition { |x| x.even? }\nend",
+        "summary": "Returns two arrays: one where the block is true, one where it is false."
+    },
+    {
+        "id": 686,
+        "code": "def enumerable_reject(enum)\n  enum.reject { |x| x.nil? }\nend",
+        "summary": "Returns a new array containing items for which the block is not true."
+    },
+    {
+        "id": 687,
+        "code": "def enumerable_sort_by(enum)\n  enum.sort_by { |x| x.name }\nend",
+        "summary": "Sorts the enum using the values returned by the block."
+    },
+    {
+        "id": 688,
+        "code": "def enumerable_take_while(enum)\n  enum.take_while { |x| x < 10 }\nend",
+        "summary": "Passes elements to the block until the block returns nil or false."
+    },
+    {
+        "id": 689,
+        "code": "def enumerable_drop_while(enum)\n  enum.drop_while { |x| x < 10 }\nend",
+        "summary": "Drops elements up to, but not including, the first element for which the block returns nil or false."
+    },
+    {
+        "id": 690,
+        "code": "def enumerable_zip(enum1, enum2)\n  enum1.zip(enum2)\nend",
+        "summary": "Merges elements from the enum with corresponding elements from others."
+    },
+    {
+        "id": 691,
+        "code": "def integer_ceil_digits(int, ndigits)\n  int.ceil(ndigits)\nend",
+        "summary": "Returns the smallest number greater than or equal to int with precision."
+    },
+    {
+        "id": 692,
+        "code": "def integer_floor_digits(int, ndigits)\n  int.floor(ndigits)\nend",
+        "summary": "Returns the largest number less than or equal to int with precision."
+    },
+    {
+        "id": 693,
+        "code": "def integer_round_digits(int, ndigits)\n  int.round(ndigits)\nend",
+        "summary": "Rounds int to a given precision."
+    },
+    {
+        "id": 694,
+        "code": "def integer_truncate_digits(int, ndigits)\n  int.truncate(ndigits)\nend",
+        "summary": "Truncates int to a given precision."
+    },
+    {
+        "id": 695,
+        "code": "def integer_next(int)\n  int.next\nend",
+        "summary": "Returns the successor of the integer."
+    },
+    {
+        "id": 696,
+        "code": "def integer_to_s_radix(int, base)\n  int.to_s(base)\nend",
+        "summary": "Returns a string representation of the integer in the specified base."
+    },
+    {
+        "id": 697,
+        "code": "def float_to_i_truncate(float)\n  float.to_i\nend",
+        "summary": "Returns the integer part of the float (truncates)."
+    },
+    {
+        "id": 698,
+        "code": "def float_to_r(float)\n  float.to_r\nend",
+        "summary": "Converts the float to a rational number."
+    },
+    {
+        "id": 699,
+        "code": "def float_to_s(float)\n  float.to_s\nend",
+        "summary": "Returns a string containing the representation of the float."
+    },
+    {
+        "id": 700,
+        "code": "def float_divmod(float, val)\n  float.divmod(val)\nend",
+        "summary": "Returns an array containing quotient and modulus."
+    }
+]
