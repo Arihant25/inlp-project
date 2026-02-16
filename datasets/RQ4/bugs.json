@@ -1,0 +1,2402 @@
+[
+  {
+    "bug_type": "Missing statement terminator or delimiter",
+    "description": "Statement missing expected terminator or delimiter, causing parse failure.",
+    "python": {
+      "buggy_code": "print(\"Hello\") print(\"World\")  # missing newline/terminator",
+      "fixed_code": "print(\"Hello\")\nprint(\"World\")"
+    },
+    "c": {
+      "buggy_code": "#include <stdio.h>\nint main() {\n    printf(\"Hello\\n\") printf(\"World\\n\");  // missing semicolon\n    return 0;\n}",
+      "fixed_code": "#include <stdio.h>\nint main() {\n    printf(\"Hello\\n\");\n    printf(\"World\\n\");\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"A\") System.out.println(\"B\");  // missing semicolon\n    }\n}",
+      "fixed_code": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"A\");\n        System.out.println(\"B\");\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"A\") fmt.Println(\"B\")  // missing semicolon/terminator\n}",
+      "fixed_code": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"A\")\n    fmt.Println(\"B\")\n}"
+    },
+    "swift": {
+      "buggy_code": "print(\"A\") print(\"B\")  // two statements without delimiter",
+      "fixed_code": "print(\"A\")\nprint(\"B\")"
+    }
+  },
+  {
+    "bug_type": "Unmatched parentheses, brackets, or braces",
+    "description": "Opening/closing delimiter mismatch causes syntax or parse errors.",
+    "python": {
+      "buggy_code": "print(\"hello\"  # missing closing parenthesis",
+      "fixed_code": "print(\"hello\")"
+    },
+    "c": {
+      "buggy_code": "#include <stdio.h>\nint main() {\n    printf(\"hello\";  // missing closing parenthesis\n    return 0;\n}",
+      "fixed_code": "#include <stdio.h>\nint main() {\n    printf(\"hello\");\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "public class A { public static void main(String[] args) { System.out.println(\"hello\"; } }  // missing )",
+      "fixed_code": "public class A { public static void main(String[] args) { System.out.println(\"hello\"); } }"
+    },
+    "go": {
+      "buggy_code": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"hello\"  // missing )\n}",
+      "fixed_code": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"hello\")\n}"
+    },
+    "swift": {
+      "buggy_code": "print(\"hello\"  // missing closing parenthesis",
+      "fixed_code": "print(\"hello\")"
+    }
+  },
+  {
+    "bug_type": "Unterminated string literal",
+    "description": "String literal missing a closing quote, causing a parse or tokenization error.",
+    "python": {
+      "buggy_code": "print(\"Hello)  # missing closing quote",
+      "fixed_code": "print(\"Hello\")"
+    },
+    "c": {
+      "buggy_code": "#include <stdio.h>\nint main() {\n    printf(\"Hello);  // unterminated string literal\n    return 0;\n}",
+      "fixed_code": "#include <stdio.h>\nint main() {\n    printf(\"Hello\");\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "public class A { public static void main(String[] args) { System.out.println(\"Hello); } }  // missing quote",
+      "fixed_code": "public class A { public static void main(String[] args) { System.out.println(\"Hello\"); } }"
+    },
+    "go": {
+      "buggy_code": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"Hello)  // missing quote\n}",
+      "fixed_code": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"Hello\")\n}"
+    },
+    "swift": {
+      "buggy_code": "print(\"Hello)  # missing quote",
+      "fixed_code": "print(\"Hello\")"
+    }
+  },
+  {
+    "bug_type": "Unterminated comment",
+    "description": "Multi-line comment not closed, causing subsequent code to be treated as comment.",
+    "python": {
+      "buggy_code": "\"\"\" This is a docstring\nprint(\"Visible code\")",
+      "fixed_code": "\"\"\" This is a docstring \"\"\"\nprint(\"Visible code\")"
+    },
+    "c": {
+      "buggy_code": "/* Start comment\nint x = 5;\nprintf(\"%d\", x);",
+      "fixed_code": "/* Start comment */\nint x = 5;\nprintf(\"%d\", x);"
+    },
+    "java": {
+      "buggy_code": "/* Java comment\npublic class A {}",
+      "fixed_code": "/* Java comment */\npublic class A {}"
+    },
+    "go": {
+      "buggy_code": "/* Go comment\nfunc main() {}",
+      "fixed_code": "/* Go comment */\nfunc main() {}"
+    },
+    "swift": {
+      "buggy_code": "/* Swift comment\nlet a = 1",
+      "fixed_code": "/* Swift comment */\nlet a = 1"
+    }
+  },
+  {
+    "bug_type": "Misspelled reserved keyword",
+    "description": "A language keyword is misspelled, causing it to be treated as an identifier.",
+    "python": {
+      "buggy_code": "defun test():\n    print(\"hi\")  # misspelled 'defun' keyword",
+      "fixed_code": "def test():\n    print(\"hi\")"
+    },
+    "c": {
+      "buggy_code": "int main() {\n    retun 0;  // misspelled 'return'\n}",
+      "fixed_code": "int main() {\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "pubic class A { public static void main(String[] args) { System.out.println(\"hi\"); } }  // 'pubic' typo",
+      "fixed_code": "public class A { public static void main(String[] args) { System.out.println(\"hi\"); } }"
+    },
+    "go": {
+      "buggy_code": "fnc main() { fmt.Println(\"hi\") }  // 'fnc' typo",
+      "fixed_code": "func main() { fmt.Println(\"hi\") }"
+    },
+    "swift": {
+      "buggy_code": "fnc test() { print(\"hi\") }  // 'fnc' typo",
+      "fixed_code": "func test() { print(\"hi\") }"
+    }
+  },
+  {
+    "bug_type": "Invalid identifier name",
+    "description": "Identifier uses illegal characters or reserved words.",
+    "python": {
+      "buggy_code": "2_variable = 10\nprint(2_variable)  # invalid identifier",
+      "fixed_code": "variable2 = 10\nprint(variable2)"
+    },
+    "c": {
+      "buggy_code": "int default = 5;\nprintf(\"%d\\n\", default);  // 'default' is reserved in some contexts",
+      "fixed_code": "int default_var = 5;\nprintf(\"%d\\n\", default_var);"
+    },
+    "java": {
+      "buggy_code": "int class = 10;\nSystem.out.println(class);  // 'class' is a reserved word",
+      "fixed_code": "int classVar = 10;\nSystem.out.println(classVar);"
+    },
+    "go": {
+      "buggy_code": "var 100items = 10\nfmt.Println(100items)  // identifier cannot start with digit",
+      "fixed_code": "var items100 = 10\nfmt.Println(items100)"
+    },
+    "swift": {
+      "buggy_code": "let var = 5\nprint(var)  // 'var' is a keyword",
+      "fixed_code": "let varValue = 5\nprint(varValue)"
+    }
+  },
+  {
+    "bug_type": "Missing required block delimiter or keyword",
+    "description": "A required character that defines the start or end of a code block (like a colon or curly brace) is missing, causing a syntax error.",
+    "python": {
+      "buggy_code": "if True\n    print(\"Hello\")  # Bug: Missing colon (:) after if statement",
+      "fixed_code": "if True:\n    print(\"Hello\")"
+    },
+    "c": {
+      "buggy_code": "int main() {\n    if (1) {\n        printf(\"Hello\");\n    // Bug: Missing closing brace (}) for the if block and main function",
+      "fixed_code": "int main() {\n    if (1) {\n        printf(\"Hello\");\n    }\n}"
+    },
+    "java": {
+      "buggy_code": "public class Main {\n    public static void main(String[] args) {\n        if (true) {\n            System.out.println(\"Hello\");\n        // Bug: Missing closing brace (}) for the if block",
+      "fixed_code": "public class Main {\n    public static void main(String[] args) {\n        if (true) {\n            System.out.println(\"Hello\");\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func main() {\n    if true {\n        fmt.Println(\"Hello\")\n    // Bug: Missing closing brace (}) for the if block",
+      "fixed_code": "func main() {\n    if true {\n        fmt.Println(\"Hello\")\n    }\n}"
+    },
+    "swift": {
+      "buggy_code": "if true {\n    print(\"Hello\")\n// Bug: Missing closing brace (})",
+      "fixed_code": "if true {\n    print(\"Hello\")\n}"
+    }
+  },
+  {
+    "bug_type": "Extra or unexpected token in statement",
+    "description": "An illegal character '@' is inserted into a mathematical expression.",
+    "python": {
+      "buggy_code": "result = 10 @ 20  # Bug: '@' is an unexpected token\nprint(result)",
+      "fixed_code": "result = 10 + 20\nprint(result)"
+    },
+    "c": {
+      "buggy_code": "int result = 10 @ 20; // Bug: '@' is an unexpected token\nprintf(\"%d\", result);",
+      "fixed_code": "int result = 10 + 20;\nprintf(\"%d\", result);"
+    },
+    "java": {
+      "buggy_code": "int result = 10 @ 20; // Bug: '@' is an unexpected token\nSystem.out.println(result);",
+      "fixed_code": "int result = 10 + 20;\nSystem.out.println(result);"
+    },
+    "go": {
+      "buggy_code": "result := 10 @ 20 // Bug: '@' is an unexpected token\nfmt.Println(result)",
+      "fixed_code": "result := 10 + 20\nfmt.Println(result)"
+    },
+    "swift": {
+      "buggy_code": "let result = 10 @ 20 // Bug: '@' is an unexpected token\nprint(result)",
+      "fixed_code": "let result = 10 + 20\nprint(result)"
+    }
+  },
+  {
+    "bug_type": "Incorrect indentation or block structure",
+    "description": "The visual indentation of the code does not match the actual execution logic, leading to statements running outside of the intended conditional block.",
+    "python": {
+      "buggy_code": "def check():\nprint(\"Inside\")  # Bug: IndentationError, print must be indented",
+      "fixed_code": "def check():\n    print(\"Inside\")"
+    },
+    "c": {
+      "buggy_code": "if (x > 0)\n    printf(\"Positive\\n\");\n    printf(\"Done\\n\");  // Bug: 'Done' always prints; missing braces { } make it outside the if",
+      "fixed_code": "if (x > 0) {\n    printf(\"Positive\\n\");\n    printf(\"Done\\n\");\n}"
+    },
+    "java": {
+      "buggy_code": "if (x > 0)\n    System.out.println(\"Positive\");\n    System.out.println(\"Done\");  // Bug: Indentation is misleading; only first print is in the if",
+      "fixed_code": "if (x > 0) {\n    System.out.println(\"Positive\");\n    System.out.println(\"Done\");\n}"
+    },
+    "go": {
+      "buggy_code": "if x > 0 \n    fmt.Println(\"Positive\") // Bug: Go requires braces { } for all if statements",
+      "fixed_code": "if x > 0 {\n    fmt.Println(\"Positive\")\n}"
+    },
+    "swift": {
+      "buggy_code": "if x > 0\n    print(\"Positive\")  // Bug: Swift requires braces { } for if statements",
+      "fixed_code": "if x > 0 {\n    print(\"Positive\")\n}"
+    }
+  },
+  {
+    "bug_type": "Missing required return statement",
+    "description": "A function or method declared with a return type fails to provide a return value for all possible execution paths.",
+    "python": {
+      "buggy_code": "def get_status(score: int) -> str:\n    if score > 50:\n        return \"Pass\"\n    # Bug: If score <= 50, the function implicitly returns None instead of a string",
+      "fixed_code": "def get_status(score: int) -> str:\n    if score > 50:\n        return \"Pass\"\n    return \"Fail\"  # Fixed: All paths now return a string"
+    },
+    "c": {
+      "buggy_code": "int get_status(int score) {\n    if (score > 50) return 1;\n    // Bug: Control reaches end of non-void function if score <= 50\n}",
+      "fixed_code": "int get_status(int score) {\n    if (score > 50) return 1;\n    return 0;  // Fixed: Guaranteed return value\n}"
+    },
+    "java": {
+      "buggy_code": "public int getStatus(int score) {\n    if (score > 50) return 1;\n    // Bug: Missing return statement for cases where score <= 50\n}",
+      "fixed_code": "public int getStatus(int score) {\n    if (score > 50) return 1;\n    return 0;  // Fixed: Added mandatory return for all paths\n}"
+    },
+    "go": {
+      "buggy_code": "func getStatus(score int) int {\n    if score > 50 {\n        return 1\n    }\n    // Bug: Function reaches end without a return statement\n}",
+      "fixed_code": "func getStatus(score int) int {\n    if score > 50 {\n        return 1\n    }\n    return 0  // Fixed: Every path now returns an integer\n}"
+    },
+    "swift": {
+      "buggy_code": "func getStatus(score: Int) -> Int {\n    if score > 50 { return 1 }\n    // Bug: Missing return in a function expected to return 'Int'\n}",
+      "fixed_code": "func getStatus(score: Int) -> Int {\n    if score > 50 { return 1 }\n    return 0  // Fixed: Added return for remaining logic path\n}"
+    }
+  },
+  {
+    "bug_type": "Return statement with wrong type",
+    "description": "The value returned by a function does not match the data type specified in the function's signature.",
+    "python": {
+      "buggy_code": "def get_count() -> int:\n    return \"5\"  # Bug: Returns a string, but the signature requires an int",
+      "fixed_code": "def get_count() -> int:\n    return 5  // Fixed: Returns an integer to match the type hint"
+    },
+    "c": {
+      "buggy_code": "int get_count() {\n    return \"5\";  // Bug: Returning a string literal (char*) instead of an int\n}",
+      "fixed_code": "int get_count() {\n    return 5;  // Fixed: Returning an integer constant\n}"
+    },
+    "java": {
+      "buggy_code": "public int getCount() {\n    return \"5\";  // Bug: Incompatible types; String cannot be converted to int\n}",
+      "fixed_code": "public int getCount() {\n    return 5;  // Fixed: Return type now matches 'int' declaration\n}"
+    },
+    "go": {
+      "buggy_code": "func getCount() int {\n    return \"5\"  // Bug: Cannot use \"5\" (type string) as type int in return\n}",
+      "fixed_code": "func getCount() int {\n    return 5  // Fixed: Return value is now the correct integer type\n}"
+    },
+    "swift": {
+      "buggy_code": "func getCount() -> Int {\n    return \"5\"  // Bug: Cannot convert return expression of type 'String' to 'Int'\n}",
+      "fixed_code": "func getCount() -> Int {\n    return 5  // Fixed: Return value matches the 'Int' return type\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect number of function parameters",
+    "description": "The function definition is missing a parameter that is required by the logic inside the function body.",
+    "python": {
+      "buggy_code": "def calculate_volume(length, width):\n    return length * width * height  # Bug: 'height' is used but not defined in parameters",
+      "fixed_code": "def calculate_volume(length, width, height):\n    return length * width * height"
+    },
+    "c": {
+      "buggy_code": "int calculate_volume(int length, int width) {\n    return length * width * height;  // Bug: 'height' is undeclared in this scope\n}",
+      "fixed_code": "int calculate_volume(int length, int width, int height) {\n    return length * width * height;\n}"
+    },
+    "java": {
+      "buggy_code": "public int calculateVolume(int length, int width) {\n    return length * width * height;  // Bug: variable 'height' not in parameters\n}",
+      "fixed_code": "public int calculateVolume(int length, int width, int height) {\n    return length * width * height;\n}"
+    },
+    "go": {
+      "buggy_code": "func calculateVolume(length int, width int) int {\n    return length * width * height  // Bug: 'height' is undefined\n}",
+      "fixed_code": "func calculateVolume(length int, width int, height int) int {\n    return length * width * height\n}"
+    },
+    "swift": {
+      "buggy_code": "func calculateVolume(length: Int, width: Int) -> Int {\n    return length * width * height  // Bug: 'height' is not defined in parameters\n}",
+      "fixed_code": "func calculateVolume(length: Int, width: Int, height: Int) -> Int {\n    return length * width * height\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect function call arity",
+    "description": "A function is called with fewer or more arguments than its signature requires.",
+    "python": {
+      "buggy_code": "def multiply(a, b): return a * b\n\nresult = multiply(5)  # Bug: Missing second argument 'b'",
+      "fixed_code": "def multiply(a, b): return a * b\n\nresult = multiply(5, 10)"
+    },
+    "c": {
+      "buggy_code": "int multiply(int a, int b) { return a * b; }\n\nint main() {\n    int result = multiply(5);  // Bug: Too few arguments to function 'multiply'\n}",
+      "fixed_code": "int multiply(int a, int b) { return a * b; }\n\nint main() {\n    int result = multiply(5, 10);\n}"
+    },
+    "java": {
+      "buggy_code": "public int multiply(int a, int b) { return a * b; }\n\nint result = multiply(5);  // Bug: Method multiply in class cannot be applied to given types",
+      "fixed_code": "public int multiply(int a, int b) { return a * b; }\n\nint result = multiply(5, 10);"
+    },
+    "go": {
+      "buggy_code": "func multiply(a int, b int) int { return a * b }\n\nfunc main() {\n    result := multiply(5)  // Bug: Not enough arguments in call to multiply\n}",
+      "fixed_code": "func multiply(a int, b int) int { return a * b }\n\nfunc main() {\n    result := multiply(5, 10)\n}"
+    },
+    "swift": {
+      "buggy_code": "func multiply(a: Int, b: Int) -> Int { return a * b }\n\nlet result = multiply(a: 5)  // Bug: Missing argument for parameter 'b'",
+      "fixed_code": "func multiply(a: Int, b: Int) -> Int { return a * b }\n\nlet result = multiply(a: 5, b: 10)"
+    }
+  },
+  {
+    "bug_type": "Duplicate parameter or variable declaration",
+    "description": "The parameter name 'x' is declared twice in the function signature.",
+    "python": {
+      "buggy_code": "def function(x, x): # Bug: Duplicate parameter name 'x'\n    return x",
+      "fixed_code": "def function(x, y):\n    return x + y"
+    },
+    "c": {
+      "buggy_code": "int function(int x, int x) { // Bug: Duplicate parameter name 'x'\n    return x;\n}",
+      "fixed_code": "int function(int x, int y) {\n    return x + y;\n}"
+    },
+    "java": {
+      "buggy_code": "public int function(int x, int x) { // Bug: Duplicate parameter name 'x'\n    return x;\n}",
+      "fixed_code": "public int function(int x, int y) {\n    return x + y;\n}"
+    },
+    "go": {
+      "buggy_code": "func function(x int, x int) int { // Bug: Duplicate parameter name 'x'\n    return x\n}",
+      "fixed_code": "func function(x int, y int) int {\n    return x + y\n}"
+    },
+    "swift": {
+      "buggy_code": "func function(x: Int, x: Int) -> Int { // Bug: Duplicate parameter name 'x'\n    return x\n}",
+      "fixed_code": "func function(x: Int, y: Int) -> Int {\n    return x + y\n}"
+    }
+  },
+  {
+    "bug_type": "Invalid type declaration or annotation",
+    "description": "A variable is declared with a type that does not exist or is incompatible with the assigned integer value.",
+    "python": {
+      "buggy_code": "score: string = 100  # Bug: Cannot use 100 (type int) as type string",
+      "fixed_code": "score: int = 100"
+    },
+    "c": {
+      "buggy_code": "string score = 100;  // Bug: Cannot use 100 (type int) as type string",
+      "fixed_code": "int score = 100;"
+    },
+    "java": {
+      "buggy_code": "String score = 100;  // Bug: Cannot assign an int to a String variable",
+      "fixed_code": "int score = 100;"
+    },
+    "go": {
+      "buggy_code": "var score string = 100  // Bug: Cannot use 100 (type int) as type string",
+      "fixed_code": "var score int = 100"
+    },
+    "swift": {
+      "buggy_code": "let score: String = 100  // Bug: Cannot convert value of type 'Int' to 'String'",
+      "fixed_code": "let score: Int = 100"
+    }
+  },
+  {
+    "bug_type": "Using undeclared variable or symbol",
+    "description": "An identifier is used in an expression before it has been declared or defined in the current scope.",
+    "python": {
+      "buggy_code": "total = 100 + tax  # Bug: 'tax' is used before it is defined",
+      "fixed_code": "tax = 5\ntotal = 100 + tax"
+    },
+    "c": {
+      "buggy_code": "int total = 100 + tax;  // Bug: 'tax' is undeclared",
+      "fixed_code": "int tax = 5;\nint total = 100 + tax;"
+    },
+    "java": {
+      "buggy_code": "int total = 100 + tax;  // Bug: cannot find symbol 'tax'",
+      "fixed_code": "int tax = 5;\nint total = 100 + tax;"
+    },
+    "go": {
+      "buggy_code": "total := 100 + tax  // Bug: undefined 'tax'",
+      "fixed_code": "tax := 5\ntotal := 100 + tax"
+    },
+    "swift": {
+      "buggy_code": "let total = 100 + tax  // Bug: use of unresolved identifier 'tax'",
+      "fixed_code": "let tax = 5\nlet total = 100 + tax"
+    }
+  },
+  {
+    "bug_type": "Redeclaring variable in invalid scope",
+    "description": "A variable name is redeclared in a nested scope (shadowing), preventing the intended update of the outer variable.",
+    "python": {
+      "buggy_code": "count = 10\ndef update():\n    count = 20  # Bug: Creates a local 'count' instead of updating the global one\nupdate()",
+      "fixed_code": "count = 10\ndef update():\n    global count\n    count = 20  # Fixed: Reference the global 'count'\nupdate()"
+    },
+    "c": {
+      "buggy_code": "int count = 10;\nif (1) {\n    int count = 20;  // Bug: Shadows outer 'count'; outer remains 10\n}",
+      "fixed_code": "int count = 10;\nif (1) {\n    count = 20;  // Fixed: Updates the existing variable\n}"
+    },
+    "java": {
+      "buggy_code": "int count = 10;\nif (true) {\n    int count = 20;  // Bug: Variable 'count' is already defined in this scope\n}",
+      "fixed_code": "int count = 10;\nif (true) {\n    count = 20;  // Fixed: Assign to existing 'count'\n}"
+    },
+    "go": {
+      "buggy_code": "count := 10\nif true {\n    count := 20  // Bug: Shadows 'count' in new scope using :=\n}",
+      "fixed_code": "count := 10\nif true {\n    count = 20   // Fixed: Assignment to outer scope variable\n}"
+    },
+    "swift": {
+      "buggy_code": "var count = 10\nif true {\n    var count = 20  // Bug: Shadows outer 'count'\n}",
+      "fixed_code": "var count = 10\nif true {\n    count = 20      // Fixed: Updates existing variable\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect access modifier usage",
+    "description": "Attempting to access a class or struct member that is restricted by visibility keywords or naming conventions intended for internal use.",
+    "python": {
+      "buggy_code": "class Data:\n    def __init__(self): self.__value = 100\n\nd = Data()\nprint(d.__value)  # Bug: Accessing private attribute (Python mangles __ names)",
+      "fixed_code": "class Data:\n    def __init__(self): self.value = 100\n\nd = Data()\nprint(d.value)"
+    },
+    "c": {
+      "buggy_code": "struct Data { int _value; }; // Convention: _ denotes private/internal\n\nint main() {\n    struct Data d;\n    d._value = 100; // Bug: Directly accessing a member intended for internal use\n    return 0;\n}",
+      "fixed_code": "struct Data { int value; }; // Public member\n\nint main() {\n    struct Data d;\n    d.value = 100;\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "class Data { private int value = 0; }\n\npublic class Main {\n    public static void main(String[] args) {\n        Data d = new Data();\n        d.value = 100; // Bug: 'value' has private access in Data\n    }\n}",
+      "fixed_code": "class Data { public int value = 0; }\n\npublic class Main {\n    public static void main(String[] args) {\n        Data d = new Data();\n        d.value = 100;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "package store\ntype Data struct { value int } // Bug: 'value' is unexported (private to package)\n\n// In main package:\nd := store.Data{}; d.value = 100",
+      "fixed_code": "package store\ntype Data struct { Value int } // Fixed: 'Value' is exported (public)\n\n// In main package:\nd := store.Data{}; d.Value = 100"
+    },
+    "swift": {
+      "buggy_code": "class Data { private var value = 0 }\n\nlet d = Data()\nd.value = 100 // Bug: 'value' is inaccessible due to 'private' modifier",
+      "fixed_code": "class Data { var value = 0 }\n\nlet d = Data()\nd.value = 100"
+    }
+  },
+  {
+    "bug_type": "Invalid literal format",
+    "description": "The format of a numeric or character literal is invalid for the language specifications.",
+    "python": {
+      "buggy_code": "value = 0b102  # Bug: Binary literals only allow 0 and 1",
+      "fixed_code": "value = 0b101"
+    },
+    "c": {
+      "buggy_code": "char letter = 'abc';  // Bug: Multi-character character constant",
+      "fixed_code": "char letter = 'a';"
+    },
+    "java": {
+      "buggy_code": "float value = 1.5;  // Bug: Incompatible types (double to float conversion needs 'f')",
+      "fixed_code": "float value = 1.5f;"
+    },
+    "go": {
+      "buggy_code": "value := 088  // Bug: Invalid digit '8' in legacy octal literal",
+      "fixed_code": "value := 88"
+    },
+    "swift": {
+      "buggy_code": "let letter: Character = 'a'  // Bug: Swift requires double quotes for characters",
+      "fixed_code": "let letter: Character = \"a\""
+    }
+  },
+  {
+    "bug_type": "Incorrect array or collection literal syntax",
+    "description": "A collection or array literal is defined using the wrong brackets or syntax for the specific language.",
+    "python": {
+      "buggy_code": "numbers = {1, 2, 3]  # Bug: Mixed braces and brackets",
+      "fixed_code": "numbers = [1, 2, 3]"
+    },
+    "c": {
+      "buggy_code": "int numbers[] = [1, 2, 3];  // Bug: C uses curly braces {} for array initialization",
+      "fixed_code": "int numbers[] = {1, 2, 3};"
+    },
+    "java": {
+      "buggy_code": "int[] numbers = [1, 2, 3];  // Bug: Java uses curly braces {} for array literals",
+      "fixed_code": "int[] numbers = {1, 2, 3};"
+    },
+    "go": {
+      "buggy_code": "numbers := [1, 2, 3]  // Bug: Go requires type and curly braces for slice literals",
+      "fixed_code": "numbers := []int{1, 2, 3}"
+    },
+    "swift": {
+      "buggy_code": "let numbers = {1, 2, 3}  // Bug: Swift uses square brackets [] for array literals",
+      "fixed_code": "let numbers = [1, 2, 3]"
+    }
+  },
+  {
+    "bug_type": "Misplaced or missing colon/arrow in declaration",
+    "description": "A required separator (colon, assignment operator, or return arrow) is missing or incorrectly placed in a declaration.",
+    "python": {
+      "buggy_code": "def process(value int):  # Bug: Missing colon after parameter name\n    return value",
+      "fixed_code": "def process(value: int):\n    return value"
+    },
+    "c": {
+      "buggy_code": "struct User { int age }  // Bug: Missing semicolon after struct member\n\nint main() { return 0; }",
+      "fixed_code": "struct User { int age; };  // Fixed: Semicolons added for member and struct\n\nint main() { return 0; }"
+    },
+    "java": {
+      "buggy_code": "int value 100;  // Bug: Missing assignment operator (=)",
+      "fixed_code": "int value = 100;"
+    },
+    "go": {
+      "buggy_code": "func getValue(x int) -> int {  // Bug: Go does not use '->' for return types\n    return x\n}",
+      "fixed_code": "func getValue(x int) int {\n    return x\n}"
+    },
+    "swift": {
+      "buggy_code": "func process(value Int) Int {  // Bug: Missing colon in parameter and arrow for return\n    return value\n}",
+      "fixed_code": "func process(value: Int) -> Int {\n    return value\n}"
+    }
+  },
+  {
+    "bug_type": "Missing object instantiation keyword or call",
+    "description": "A class 'Data' with member 'x' is used before being properly instantiated.",
+    "python": {
+      "buggy_code": "class Data: x = 10\n\nd = Data  # Bug: Missing '()' to instantiate\nprint(d.x)",
+      "fixed_code": "class Data: x = 10\n\nd = Data()\nprint(d.x)"
+    },
+    "c": {
+      "buggy_code": "struct Data { int x; };\n\nint main() {\n    struct Data *d;\n    d->x = 10; // Bug: Pointer 'd' is not allocated memory\n    return 0;\n}",
+      "fixed_code": "#include <stdlib.h>\nstruct Data { int x; };\n\nint main() {\n    struct Data *d = malloc(sizeof(struct Data));\n    d->x = 10;\n    free(d);\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "class Data { int x = 10; }\n\npublic class Main {\n    public static void main(String[] args) {\n        Data d = Data(); // Bug: Missing 'new' keyword\n    }\n}",
+      "fixed_code": "class Data { int x = 10; }\n\npublic class Main {\n    public static void main(String[] args) {\n        Data d = new Data();\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "type Data struct { X int }\n\nfunc main() {\n    var d *Data\n    d.X = 10 // Bug: Pointer 'd' is nil; not initialized\n}",
+      "fixed_code": "type Data struct { X int }\n\nfunc main() {\n    d := &Data{X: 10}\n}"
+    },
+    "swift": {
+      "buggy_code": "class Data { var x = 10 }\n\nlet d = Data // Bug: Missing '()' to instantiate\nprint(d.x)",
+      "fixed_code": "class Data { var x = 10 }\n\nlet d = Data()\nprint(d.x)"
+    }
+  },
+  {
+    "bug_type": "Missing base case in recursive function",
+    "description": "The recursive function 'compute' calls itself with 'n - 1' but lacks a base case check for 0, leading to infinite recursion.",
+    "python": {
+      "buggy_code": "def compute(n):\n    result = n + compute(n - 1)\n    return result",
+      "fixed_code": "def compute(n):\n    if n <= 0: return 0\n    result = n + compute(n - 1)\n    return result"
+    },
+    "c": {
+      "buggy_code": "int compute(int n) {\n    int result = n + compute(n - 1);\n    return result;\n}",
+      "fixed_code": "int compute(int n) {\n    if (n <= 0) return 0;\n    int result = n + compute(n - 1);\n    return result;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int compute(int n) {\n        int result = n + compute(n - 1);\n        return result;\n    }\n}",
+      "fixed_code": "public class Data {\n    public int compute(int n) {\n        if (n <= 0) return 0;\n        int result = n + compute(n - 1);\n        return result;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func compute(n int) int {\n    result := n + compute(n - 1)\n    return result\n}",
+      "fixed_code": "func compute(n int) int {\n    if n <= 0 { return 0 }\n    result := n + compute(n - 1)\n    return result\n}"
+    },
+    "swift": {
+      "buggy_code": "class Data {\n    func compute(n: Int) -> Int {\n        let result = n + compute(n: n - 1)\n        return result\n    }\n}",
+      "fixed_code": "class Data {\n    func compute(n: Int) -> Int {\n        if n <= 0 { return 0 }\n        let result = n + compute(n: n - 1)\n        return result\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect loop termination condition",
+    "description": "The loop decrementing the counter instead of incrementing it, preventing the termination condition from ever being met (infinite loop).",
+    "python": {
+      "buggy_code": "i = 0\nwhile i < 10:\n    i -= 1",
+      "fixed_code": "i = 0\nwhile i < 10:\n    i += 1"
+    },
+    "c": {
+      "buggy_code": "int i = 0;\nwhile (i < 10) {\n    i--;\n}",
+      "fixed_code": "int i = 0;\nwhile (i < 10) {\n    i++;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run() {\n        int i = 0;\n        while (i < 10) {\n            i--;\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run() {\n        int i = 0;\n        while (i < 10) {\n            i++;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "i := 0\nfor i < 10 {\n    i--\n}",
+      "fixed_code": "i := 0\nfor i < 10 {\n    i++\n}"
+    },
+    "swift": {
+      "buggy_code": "var i = 0\nwhile i < 10 {\n    i -= 1\n}",
+      "fixed_code": "var i = 0\nwhile i < 10 {\n    i += 1\n}"
+    }
+  },
+  {
+    "bug_type": "Infinite loop due to unchanged condition",
+    "description": "The loop condition relies on a variable that is never updated within the loop body, resulting in an infinite loop.",
+    "python": {
+      "buggy_code": "status = 0\nwhile status == 0:\n    print(\"run\")",
+      "fixed_code": "status = 0\nwhile status == 0:\n    print(\"run\")\n    status = 1"
+    },
+    "c": {
+      "buggy_code": "int status = 0;\nwhile (status == 0) {\n    printf(\"run\");\n}",
+      "fixed_code": "int status = 0;\nwhile (status == 0) {\n    printf(\"run\");\n    status = 1;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run() {\n        int status = 0;\n        while (status == 0) {\n            System.out.println(\"run\");\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run() {\n        int status = 0;\n        while (status == 0) {\n            System.out.println(\"run\");\n            status = 1;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "status := 0\nfor status == 0 {\n    fmt.Println(\"run\")\n}",
+      "fixed_code": "status := 0\nfor status == 0 {\n    fmt.Println(\"run\")\n    status = 1\n}"
+    },
+    "swift": {
+      "buggy_code": "var status = 0\nwhile status == 0 {\n    print(\"run\")\n}",
+      "fixed_code": "var status = 0\nwhile status == 0 {\n    print(\"run\")\n    status = 1\n}"
+    }
+  },
+  {
+    "bug_type": "Loop executes one time too many",
+    "description": "An off-by-one error where the use of a less-than-or-equal operator causes the loop to perform an extra iteration beyond the intended limit.",
+    "python": {
+      "buggy_code": "items = ['a', 'b', 'c']\nnum_items = len(items)\n# Bug: iterates one time too many, may raise IndexError\nfor i in range(num_items + 1):\n    print(items[i])",
+      "fixed_code": "items = ['a', 'b', 'c']\nnum_items = len(items)\nfor i in range(num_items):\n    print(items[i])"
+    },
+    "c": {
+      "buggy_code": "char *items[] = {\"a\", \"b\", \"c\"};\nint num_items = sizeof(items) / sizeof(items[0]);\n// Bug: 1-based loop with inclusive bound causes out-of-bounds access\nfor (int i = 0; i <= num_items; i++) {\n    printf(\"%s\", items[i]);\n}",
+      "fixed_code": "char *items[] = {\"a\", \"b\", \"c\"};\nint num_items = sizeof(items) / sizeof(items[0]);\nfor (int i = 0; i < num_items; i++) {\n    printf(\"%s\", items[i]);\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run() {\n        String[] items = {\"a\", \"b\", \"c\"};\n        int numItems = items.length;\n        // Bug: 1-based loop with inclusive bound causes IndexOutOfBoundsException\n        for (int i = 0; i <= numItems; i++) {\n            System.out.println(items[i]);\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run() {\n        String[] items = {\"a\", \"b\", \"c\"};\n        int numItems = items.length;\n        for (int i = 0; i < numItems; i++) {\n            System.out.println(items[i]);\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "items := []string{\"a\", \"b\", \"c\"}\nnumItems := len(items)\n// Bug: 1-based loop with inclusive bound causes panic: index out of range\nfor i := 0; i <= numItems; i++ {\n    fmt.Println(items[i])\n}",
+      "fixed_code": "items := []string{\"a\", \"b\", \"c\"}\nnumItems := len(items)\nfor i := 0; i < numItems; i++ {\n    fmt.Println(items[i])\n}"
+    },
+    "swift": {
+      "buggy_code": "let items = [\"a\", \"b\", \"c\"]\nlet numItems = items.count\n// Bug: 1-based loop with inclusive upper bound causes out-of-bounds\nfor i in 1...numItems {\n    print(items[i])\n}",
+      "fixed_code": "let items = [\"a\", \"b\", \"c\"]\nlet numItems = items.count\nfor i in 0..<numItems {\n    print(items[i])\n}"
+    }
+  },
+  {
+    "bug_type": "Loop executes one time too few",
+    "description": "An off-by-one error where the loop boundary is incorrectly reduced by one, causing the loop to terminate before the final intended iteration.",
+    "python": {
+      "buggy_code": "items = ['a', 'b', 'c']\nnum_items = len(items)\n# Bug: iterates one time too few, causing improper iteration\nfor i in range(1, num_items):\n    print(items[i])",
+      "fixed_code": "items = ['a', 'b', 'c']\nnum_items = len(items)\nfor i in range(0, num_items):\n    print(items[i])"
+    },
+    "c": {
+      "buggy_code": "char *items[] = {\"a\", \"b\", \"c\"};\nint num_items = sizeof(items) / sizeof(items[0]);\n// Bug: 1-based loop with incorrect bound, causing improper iteration\nfor (int i = 1; i < num_items; i++) {\n    printf(\"%s\", items[i]);\n}",
+      "fixed_code": "char *items[] = {\"a\", \"b\", \"c\"};\nint num_items = sizeof(items) / sizeof(items[0]);\nfor (int i = 0; i < num_items; i++) {\n    printf(\"%s\", items[i]);\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run() {\n        String[] items = {\"a\", \"b\", \"c\"};\n        int numItems = items.length;\n        // Bug: 1-based loop with incorrect bound, causing improper iteration\n        for (int i = 1; i < numItems; i++) {\n            System.out.println(items[i]);\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run() {\n        String[] items = {\"a\", \"b\", \"c\"};\n        int numItems = items.length;\n        for (int i = 0; i < numItems; i++) {\n            System.out.println(items[i]);\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "items := []string{\"a\", \"b\", \"c\"}\nnumItems := len(items)\n// Bug: 1-based loop with incorrect bound, causing improper iteration\nfor i := 1; i < numItems; i++ {\n    fmt.Println(items[i])\n}",
+      "fixed_code": "items := []string{\"a\", \"b\", \"c\"}\nnumItems := len(items)\nfor i := 0; i < numItems; i++ {\n    fmt.Println(items[i])\n}"
+    },
+    "swift": {
+      "buggy_code": "let items = [\"a\", \"b\", \"c\"]\nlet numItems = items.count\n// Bug: 1-based loop with incorrect bound, causing improper iteration\nfor i in 1..<numItems {\n    print(items[i])\n}",
+      "fixed_code": "let items = [\"a\", \"b\", \"c\"]\nlet numItems = items.count\nfor i in 0..<numItems {\n    print(items[i])\n}"
+    }
+  },
+  {
+    "bug_type": "Early return in wrong branch",
+    "description": "The function returns a value inside a conditional block before performing necessary side effects, causing code after the block to be skipped.",
+    "python": {
+      "buggy_code": "def check(value):\n    if value > 0:\n        return value\n    print(\"run\")\n    return 0",
+      "fixed_code": "def check(value):\n    if value > 0:\n        print(\"run\")\n        return value\n    return 0"
+    },
+    "c": {
+      "buggy_code": "int check(int value) {\n    if (value > 0) {\n        return value;\n    }\n    printf(\"run\");\n    return 0;\n}",
+      "fixed_code": "int check(int value) {\n    if (value > 0) {\n        printf(\"run\");\n        return value;\n    }\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int check(int value) {\n        if (value > 0) {\n            return value;\n        }\n        System.out.println(\"run\");\n        return 0;\n    }\n}",
+      "fixed_code": "public class Data {\n    public int check(int value) {\n        if (value > 0) {\n            System.out.println(\"run\");\n            return value;\n        }\n        return 0;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func check(value int) int {\n    if value > 0 {\n        return value\n    }\n    fmt.Println(\"run\")\n    return 0\n}",
+      "fixed_code": "func check(value int) int {\n    if value > 0 {\n        fmt.Println(\"run\")\n        return value\n    }\n    return 0\n}"
+    },
+    "swift": {
+      "buggy_code": "func check(value: Int) -> Int {\n    if value > 0 {\n        return value\n    }\n    print(\"run\")\n    return 0\n}",
+      "fixed_code": "func check(value: Int) -> Int {\n    if value > 0 {\n        print(\"run\")\n        return value\n    }\n    return 0\n}"
+    }
+  },
+  {
+    "bug_type": "Missing break/exit in multi-branch control",
+    "description": "The control flow falls through into subsequent branches unexpectedly, executing multiple blocks instead of one.",
+    "python": {
+      "buggy_code": "def check(value):\n    match value:\n        case 1:\n            print(\"One\")\n        case 2:\n            print(\"Two\")  # Falls through conceptually (no guard separation)",
+      "fixed_code": "def check(value):\n    match value:\n        case 1:\n            print(\"One\")\n        case 2:\n            print(\"Two\")"
+    },
+    "c": {
+      "buggy_code": "void check(int value) {\n    switch (value) {\n        case 1:\n            printf(\"One\");\n        case 2:\n            printf(\"Two\");\n    }\n}",
+      "fixed_code": "void check(int value) {\n    switch (value) {\n        case 1:\n            printf(\"One\");\n            break;\n        case 2:\n            printf(\"Two\");\n            break;\n    }\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void check(int value) {\n        switch (value) {\n            case 1:\n                System.out.println(\"One\");\n            case 2:\n                System.out.println(\"Two\");\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void check(int value) {\n        switch (value) {\n            case 1:\n                System.out.println(\"One\");\n                break;\n            case 2:\n                System.out.println(\"Two\");\n                break;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func check(value int) {\n    switch value {\n    case 1:\n        fmt.Println(\"One\")\n        fallthrough\n    case 2:\n        fmt.Println(\"Two\")\n    }\n}",
+      "fixed_code": "func check(value int) {\n    switch value {\n    case 1:\n        fmt.Println(\"One\")\n    case 2:\n        fmt.Println(\"Two\")\n    }\n}"
+    },
+    "swift": {
+      "buggy_code": "func check(value: Int) {\n    switch value {\n    case 1:\n        print(\"One\")\n        fallthrough\n    case 2:\n        print(\"Two\")\n    default:\n        break\n    }\n}",
+      "fixed_code": "func check(value: Int) {\n    switch value {\n    case 1:\n        print(\"One\")\n    case 2:\n        print(\"Two\")\n    default:\n        break\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Unreachable code due to condition ordering",
+    "description": "An earlier condition is broader than a later one, making the subsequent 'else if' block logically impossible to reach.",
+    "python": {
+      "buggy_code": "def check(value):\n    if value > 0:\n        return \"low\"\n    elif value > 100:\n        return \"high\" # Unreachable",
+      "fixed_code": "def check(value):\n    if value > 100:\n        return \"high\"\n    elif value > 0:\n        return \"low\""
+    },
+    "c": {
+      "buggy_code": "char* check(int value) {\n    if (value > 0) return \"low\";\n    else if (value > 100) return \"high\"; // Unreachable\n    return \"\";\n}",
+      "fixed_code": "char* check(int value) {\n    if (value > 100) return \"high\";\n    else if (value > 0) return \"low\";\n    return \"\";\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public String check(int value) {\n        if (value > 0) return \"low\";\n        else if (value > 100) return \"high\"; // Unreachable\n        return \"\";\n    }\n}",
+      "fixed_code": "public class Data {\n    public String check(int value) {\n        if (value > 100) return \"high\";\n        else if (value > 0) return \"low\";\n        return \"\";\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func check(value int) string {\n    if value > 0 {\n        return \"low\"\n    } else if value > 100 {\n        return \"high\" // Unreachable\n    }\n    return \"\"\n}",
+      "fixed_code": "func check(value int) string {\n    if value > 100 {\n        return \"high\"\n    } else if value > 0 {\n        return \"low\"\n    }\n    return \"\"\n}"
+    },
+    "swift": {
+      "buggy_code": "func check(value: Int) -> String {\n    if value > 0 {\n        return \"low\"\n    } else if value > 100 {\n        return \"high\" // Unreachable\n    }\n    return \"\"\n}",
+      "fixed_code": "func check(value: Int) -> String {\n    if value > 100 {\n        return \"high\"\n    } else if value > 0 {\n        return \"low\"\n    }\n    return \"\"\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect if-else condition ordering",
+    "description": "Overlapping mathematical conditions are ordered incorrectly, causing a generic branch to catch values intended for a specific branch.",
+    "python": {
+      "buggy_code": "def check(value):\n    if value % 2 == 0:\n        return \"two\"\n    elif value % 4 == 0:\n        return \"four\"",
+      "fixed_code": "def check(value):\n    if value % 4 == 0:\n        return \"four\"\n    elif value % 2 == 0:\n        return \"two\""
+    },
+    "c": {
+      "buggy_code": "char* check(int value) {\n    if (value % 2 == 0) return \"two\";\n    else if (value % 4 == 0) return \"four\";\n    return \"\";\n}",
+      "fixed_code": "char* check(int value) {\n    if (value % 4 == 0) return \"four\";\n    else if (value % 2 == 0) return \"two\";\n    return \"\";\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public String check(int value) {\n        if (value % 2 == 0) return \"two\";\n        else if (value % 4 == 0) return \"four\";\n        return \"\";\n    }\n}",
+      "fixed_code": "public class Data {\n    public String check(int value) {\n        if (value % 4 == 0) return \"four\";\n        else if (value % 2 == 0) return \"two\";\n        return \"\";\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func check(value int) string {\n    if value % 2 == 0 {\n        return \"two\"\n    } else if value % 4 == 0 {\n        return \"four\"\n    }\n    return \"\"\n}",
+      "fixed_code": "func check(value int) string {\n    if value % 4 == 0 {\n        return \"four\"\n    } else if value % 2 == 0 {\n        return \"two\"\n    }\n    return \"\"\n}"
+    },
+    "swift": {
+      "buggy_code": "func check(value: Int) -> String {\n    if value % 2 == 0 {\n        return \"two\"\n    } else if value % 4 == 0 {\n        return \"four\"\n    }\n    return \"\"\n}",
+      "fixed_code": "func check(value: Int) -> String {\n    if value % 4 == 0 {\n        return \"four\"\n    } else if value % 2 == 0 {\n        return \"two\"\n    }\n    return \"\"\n}"
+    }
+  },
+  {
+    "bug_type": "Wrong comparison operator in condition",
+    "description": "Uses wrong operator (e.g., <= instead of <), leading to boundary errors.",
+    "python": {
+      "buggy_code": "if count = 10: # Assignment instead of comparison\n    pass",
+      "fixed_code": "if count == 10:\n    pass"
+    },
+    "c": {
+      "buggy_code": "if (x = 5) { ... } // Always true, sets x to 5",
+      "fixed_code": "if (x == 5) { ... }"
+    },
+    "java": {
+      "buggy_code": "if (x = 5) { ... }",
+      "fixed_code": "if (x == 5) { ... }"
+    },
+    "go": {
+      "buggy_code": "if x = 5 { ... }",
+      "fixed_code": "if x == 5 { ... }"
+    },
+    "swift": {
+      "buggy_code": "if x = 5 { ... }",
+      "fixed_code": "if x == 5 { ... }"
+    }
+  },
+  {
+    "bug_type": "Negated condition used unintentionally",
+    "description": "A condition is negated incorrectly, reversing intended logic.",
+    "python": {
+      "buggy_code": "if not authenticated: # Bug: shows data when NOT authenticated\n    show_private_data()",
+      "fixed_code": "if authenticated:\n    show_private_data()"
+    },
+    "c": {
+      "buggy_code": "if (!authenticated) { showPrivateData(); } // Bug: shows when NOT authenticated",
+      "fixed_code": "if (authenticated) { showPrivateData(); }"
+    },
+    "java": {
+      "buggy_code": "if (!authenticated) { showPrivateData(); } // Bug: shows when NOT authenticated",
+      "fixed_code": "if (authenticated) { showPrivateData(); }"
+    },
+    "go": {
+      "buggy_code": "if !authenticated { showPrivateData() } // Bug: shows when NOT authenticated",
+      "fixed_code": "if authenticated { showPrivateData() }"
+    },
+    "swift": {
+      "buggy_code": "if !authenticated { showPrivateData() } // Bug: shows when NOT authenticated",
+      "fixed_code": "if authenticated { showPrivateData() }"
+    }
+  },
+  {
+    "bug_type": "Using wrong loop construct for task",
+    "description": "Using a manual while-loop with an external counter for a simple range-based iteration, increasing the risk of manual increment errors.",
+    "python": {
+      "buggy_code": "i = 0\nwhile i < 10:\n    print(i)\n    i += 1",
+      "fixed_code": "for i in range(10):\n    print(i)"
+    },
+    "c": {
+      "buggy_code": "int i = 0;\nwhile (i < 10) {\n    printf(\"%d\", i);\n    i++;\n}",
+      "fixed_code": "for (int i = 0; i < 10; i++) {\n    printf(\"%d\", i);\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run() {\n        int i = 0;\n        while (i < 10) {\n            System.out.println(i);\n            i++;\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run() {\n        for (int i = 0; i < 10; i++) {\n            System.out.println(i);\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "i := 0\nfor i < 10 {\n    fmt.Println(i)\n    i++\n}",
+      "fixed_code": "for i := 0; i < 10; i++ {\n    fmt.Println(i)\n}"
+    },
+    "swift": {
+      "buggy_code": "var i = 0\nwhile i < 10 {\n    print(i)\n    i += 1\n}",
+      "fixed_code": "for i in 0..<10 {\n    print(i)\n}"
+    }
+  },
+  {
+    "bug_type": "Loop variable updated incorrectly",
+    "description": "The loop counter is modified inside the loop body while also being updated by the loop header, causing iterations to be skipped or infinite loops.",
+    "python": {
+      "buggy_code": "i = 0\nwhile i < 10:\n    print(i)\n    j += 1  # Bug: incrementing wrong variable",
+      "fixed_code": "i = 0\nwhile i < 10:\n    print(i)\n    i += 1"
+    },
+    "c": {
+      "buggy_code": "int i = 0, j = 0;\nwhile (i < 10) {\n    printf(\"%d\", i);\n    j++;  // Bug: incrementing wrong variable\n}",
+      "fixed_code": "int i = 0;\nwhile (i < 10) {\n    printf(\"%d\", i);\n    i++;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run() {\n        int i = 0, j = 0;\n        while (i < 10) {\n            System.out.println(i);\n            j++;  // Bug: incrementing wrong variable\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run() {\n        int i = 0;\n        while (i < 10) {\n            System.out.println(i);\n            i++;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "i := 0\nj := 0\nfor i < 10 {\n    fmt.Println(i)\n    j++  // Bug: incrementing wrong variable\n}",
+      "fixed_code": "i := 0\nfor i < 10 {\n    fmt.Println(i)\n    i++\n}"
+    },
+    "swift": {
+      "buggy_code": "var i = 0\nvar j = 0\nwhile i < 10 {\n    print(i)\n    j += 1  // Bug: incrementing wrong variable\n}",
+      "fixed_code": "var i = 0\nwhile i < 10 {\n    print(i)\n    i += 1\n}"
+    }
+  },
+  {
+    "bug_type": "Condition always true or always false",
+    "description": "A logical tautology in a conditional statement makes the check redundant and the branch always execute.",
+    "python": {
+      "buggy_code": "if value > 10 or True:\n    print(\"run\")",
+      "fixed_code": "if value > 10:\n    print(\"run\")"
+    },
+    "c": {
+      "buggy_code": "if (value > 10 || 1 == 1) {\n    printf(\"run\");\n}",
+      "fixed_code": "if (value > 10) {\n    printf(\"run\");\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run(int value) {\n        if (value > 10 || true) {\n            System.out.println(\"run\");\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run(int value) {\n        if (value > 10) {\n            System.out.println(\"run\");\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "if value > 10 || true {\n    fmt.Println(\"run\")\n}",
+      "fixed_code": "if value > 10 {\n    fmt.Println(\"run\")\n}"
+    },
+    "swift": {
+      "buggy_code": "if value > 10 || true {\n    print(\"run\")\n}",
+      "fixed_code": "if value > 10 {\n    print(\"run\")\n}"
+    }
+  },
+  {
+    "bug_type": "Missing default case handling",
+    "description": "The control structure handles specific literal values but fails to provide a fallback for unexpected inputs.",
+    "python": {
+      "buggy_code": "if value == 1:\n    print(\"one\")\nelif value == 2:\n    print(\"two\")",
+      "fixed_code": "if value == 1:\n    print(\"one\")\nelif value == 2:\n    print(\"two\")\nelse:\n    print(\"error\")"
+    },
+    "c": {
+      "buggy_code": "switch (value) {\n    case 1: printf(\"one\"); break;\n    case 2: printf(\"two\"); break;\n}",
+      "fixed_code": "switch (value) {\n    case 1: printf(\"one\"); break;\n    case 2: printf(\"two\"); break;\n    default: printf(\"error\"); break;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run(int value) {\n        switch (value) {\n            case 1: System.out.println(\"one\"); break;\n            case 2: System.out.println(\"two\"); break;\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run(int value) {\n        switch (value) {\n            case 1: System.out.println(\"one\"); break;\n            case 2: System.out.println(\"two\"); break;\n            default: System.out.println(\"error\"); break;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "switch value {\ncase 1:\n    fmt.Println(\"one\")\ncase 2:\n    fmt.Println(\"two\")\n}",
+      "fixed_code": "switch value {\ncase 1:\n    fmt.Println(\"one\")\ncase 2:\n    fmt.Println(\"two\")\ndefault:\n    fmt.Println(\"error\")\n}"
+    },
+    "swift": {
+      "buggy_code": "switch value {\ncase 1:\n    print(\"one\")\ncase 2:\n    print(\"two\")\n# Bug: switch must be exhaustive\n}",
+      "fixed_code": "switch value {\ncase 1:\n    print(\"one\")\ncase 2:\n    print(\"two\")\ndefault:\n    print(\"error\")\n}"
+    }
+  },
+  {
+    "bug_type": "Fall-through between control branches",
+    "description": "The control structure allows execution to flow from one case into the next, causing multiple logic blocks to execute for a single input.",
+    "python": {
+      "buggy_code": "def check(value):\n    if value == 1:\n        print(\"A\")\n        print(\"B\") # Bug: Logic for case 2 is duplicated here\n    elif value == 2:\n        print(\"B\")",
+      "fixed_code": "def check(value):\n    if value == 1:\n        print(\"A\")\n    elif value == 2:\n        print(\"B\")"
+    },
+    "c": {
+      "buggy_code": "void check(int value) {\n    switch (value) {\n        case 1:\n            printf(\"A\");\n        case 2:\n            printf(\"B\");\n            break;\n    }\n}",
+      "fixed_code": "void check(int value) {\n    switch (value) {\n        case 1:\n            printf(\"A\");\n            break;\n        case 2:\n            printf(\"B\");\n            break;\n    }\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void check(int value) {\n        switch (value) {\n            case 1:\n                System.out.println(\"A\");\n            case 2:\n                System.out.println(\"B\");\n                break;\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void check(int value) {\n        switch (value) {\n            case 1:\n                System.out.println(\"A\");\n                break;\n            case 2:\n                System.out.println(\"B\");\n                break;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func check(value int) {\n    switch value {\n    case 1:\n        fmt.Println(\"A\")\n        fallthrough // Bug: Explicit fallthrough into next case\n    case 2:\n        fmt.Println(\"B\")\n    }\n}",
+      "fixed_code": "func check(value int) {\n    switch value {\n    case 1:\n        fmt.Println(\"A\")\n    case 2:\n        fmt.Println(\"B\")\n    }\n}"
+    },
+    "swift": {
+      "buggy_code": "func check(value: Int) {\n    switch value {\n    case 1:\n        print(\"A\")\n        fallthrough // Bug: Explicit fallthrough into next case\n    case 2:\n        print(\"B\")\n    default:\n        break\n    }\n}",
+      "fixed_code": "func check(value: Int) {\n    switch value {\n    case 1:\n        print(\"A\")\n    case 2:\n        print(\"B\")\n    default:\n        break\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Misplaced continue statement",
+    "description": "The continue statement bypasses the index increment logic when a specific target value is encountered, resulting in an infinite loop on that value.",
+    "python": {
+      "buggy_code": "index = 0\nwhile index < 10:\n    if index == 5:\n        continue\n    print(index)\n    index += 1",
+      "fixed_code": "index = 0\nwhile index < 10:\n    if index == 5:\n        index += 1\n        continue\n    print(index)\n    index += 1"
+    },
+    "c": {
+      "buggy_code": "int index = 0;\nwhile (index < 10) {\n    if (index == 5) {\n        continue;\n    }\n    printf(\"%d\", index);\n    index += 1;\n}",
+      "fixed_code": "int index = 0;\nwhile (index < 10) {\n    if (index == 5) {\n        index += 1;\n        continue;\n    }\n    printf(\"%d\", index);\n    index += 1;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run() {\n        int index = 0;\n        while (index < 10) {\n            if (index == 5) {\n                continue;\n            }\n            System.out.println(index);\n            index += 1;\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run() {\n        int index = 0;\n        while (index < 10) {\n            if (index == 5) {\n                index += 1;\n                continue;\n            }\n            System.out.println(index);\n            index += 1;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "index := 0\nfor index < 10 {\n    if index == 5 {\n        continue\n    }\n    fmt.Println(index)\n    index += 1\n}",
+      "fixed_code": "index := 0\nfor index < 10 {\n    if index == 5 {\n        index += 1\n        continue\n    }\n    fmt.Println(index)\n    index += 1\n}"
+    },
+    "swift": {
+      "buggy_code": "var index = 0\nwhile index < 10 {\n    if index == 5 {\n        continue\n    }\n    print(index)\n    index += 1\n}",
+      "fixed_code": "var index = 0\nwhile index < 10 {\n    if index == 5 {\n        index += 1\n        continue\n    }\n    print(index)\n    index += 1\n}"
+    }
+  },
+  {
+    "bug_type": "Misplaced break statement",
+    "description": "A break statement is placed inside a nested loop with the intent to terminate the entire operation, but it only exits the innermost loop.",
+    "python": {
+      "buggy_code": "for i in range(10):\n    for j in range(10):\n        if j == 1:\n            break\n    # Outer loop continues unexpectedly",
+      "fixed_code": "stop = False\nfor i in range(10):\n    for j in range(10):\n        if j == 1:\n            stop = True\n            break\n    if stop: break"
+    },
+    "c": {
+      "buggy_code": "for (int i = 0; i < 10; i++) {\n    for (int j = 0; j < 10; j++) {\n        if (j == 1) {\n            break;\n        }\n    }\n    // Outer loop continues unexpectedly\n}",
+      "fixed_code": "int stop = 0;\nfor (int i = 0; i < 10; i++) {\n    for (int j = 0; j < 10; j++) {\n        if (j == 1) {\n            stop = 1;\n            break;\n        }\n    }\n    if (stop) break;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void run() {\n        for (int i = 0; i < 10; i++) {\n            for (int j = 0; j < 10; j++) {\n                if (j == 1) {\n                    break;\n                }\n            }\n            // Outer loop continues unexpectedly\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void run() {\n        boolean stop = false;\n        for (int i = 0; i < 10; i++) {\n            for (int j = 0; j < 10; j++) {\n                if (j == 1) {\n                    stop = true;\n                    break;\n                }\n            }\n            if (stop) break;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "for i := 0; i < 10; i++ {\n    for j := 0; j < 10; j++ {\n        if j == 1 {\n            break\n        }\n    }\n    // Outer loop continues unexpectedly\n}",
+      "fixed_code": "stop := false\nfor i := 0; i < 10; i++ {\n    for j := 0; j < 10; j++ {\n        if j == 1 {\n            stop = true\n            break\n        }\n    }\n    if stop { break }\n}"
+    },
+    "swift": {
+      "buggy_code": "for i in 0..<10 {\n    for j in 0..<10 {\n        if j == 1 {\n            break\n        }\n    }\n    // Outer loop continues unexpectedly\n}",
+      "fixed_code": "var stop = false\nfor i in 0..<10 {\n    for j in 0..<10 {\n        if j == 1 {\n            stop = true\n            break\n        }\n    }\n    if stop { break }\n}"
+    }
+  },
+  {
+    "bug_type": "Conditional logic inverted",
+    "description": "The conditional check is logically inverted (using NOT or checking for the wrong boolean state), causing the code to execute under the opposite of the intended circumstances.",
+    "python": {
+      "buggy_code": "def check(status):\n    if not status:\n        return 1\n    return 0",
+      "fixed_code": "def check(status):\n    if status:\n        return 1\n    return 0"
+    },
+    "c": {
+      "buggy_code": "int check(int status) {\n    if (!status) {\n        return 1;\n    }\n    return 0;\n}",
+      "fixed_code": "int check(int status) {\n    if (status) {\n        return 1;\n    }\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int check(boolean status) {\n        if (!status) {\n            return 1;\n        }\n        return 0;\n    }\n}",
+      "fixed_code": "public class Data {\n    public int check(boolean status) {\n        if (status) {\n            return 1;\n        }\n        return 0;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func check(status bool) int {\n    if !status {\n        return 1\n    }\n    return 0\n}",
+      "fixed_code": "func check(status bool) int {\n    if status {\n        return 1\n    }\n    return 0\n}"
+    },
+    "swift": {
+      "buggy_code": "func check(status: Bool) -> Int {\n    if !status {\n        return 1\n    }\n    return 0\n}",
+      "fixed_code": "func check(status: Bool) -> Int {\n    if status {\n        return 1\n    }\n    return 0\n}"
+    }
+  },
+  {
+    "bug_type": "Treating set as ordered collection",
+    "description": "The code assumes that an unordered collection (like a hash-based set or map) maintains insertion order, leading to non-deterministic behavior when accessing the 'first' element.",
+    "python": {
+      "buggy_code": "def get_first_priority():\n    items = {3, 1, 2}\n    return list(items)[0] # Bug: Sets are unordered; result is non-deterministic",
+      "fixed_code": "def get_first_priority():\n    items = [3, 1, 2]\n    return items[0] # Fixed: Use list to preserve insertion order"
+    },
+    "c": {
+      "buggy_code": "// Bug: Custom Set implementation does not guarantee order\nint first = set_get_iterator(my_set)->value;",
+      "fixed_code": "// Fixed: Use an array if insertion order is required\nint first = my_array[0];"
+    },
+    "java": {
+      "buggy_code": "public int getFirst() {\n    Set<Integer> s = new HashSet<>();\n    s.add(3); s.add(1); s.add(2);\n    return s.iterator().next(); // Bug: HashSet does not guarantee order\n}",
+      "fixed_code": "public int getFirst() {\n    Set<Integer> s = new LinkedHashSet<>();\n    s.add(3); s.add(1); s.add(2);\n    return s.iterator().next(); // Fixed: LinkedHashSet preserves insertion order\n}"
+    },
+    "go": {
+      "buggy_code": "func getFirst() {\n    m := map[int]bool{3: true, 1: true, 2: true}\n    for k := range m {\n        fmt.Println(k) // Bug: Map iteration order in Go is randomized\n        break\n    }\n}",
+      "fixed_code": "func getFirst() {\n    keys := []int{3, 1, 2}\n    fmt.Println(keys[0]) // Fixed: Use slice to maintain order\n}"
+    },
+    "swift": {
+      "buggy_code": "func getFirst() -> Int? {\n    let s: Set = [3, 1, 2]\n    return s.first // Bug: Set.first is non-deterministic\n}",
+      "fixed_code": "func getFirst() -> Int? {\n    let a = [3, 1, 2]\n    return a.first // Fixed: Array preserves order\n}"
+    }
+  },
+  {
+    "bug_type": "Wrong end insertion or removal",
+    "description": "Insertions/removals at the wrong end of a deque/list cause reversed or incorrect sequences.",
+    "python": {
+      "buggy_code": "queue = [1, 2]\nnext_turn = queue.pop(0)\nqueue.insert(0, item) # Bug: LIFO instead of FIFO",
+      "fixed_code": "queue = [1, 2]\nnext_turn = queue.pop(0)\nqueue.append(item)"
+    },
+    "c": {
+      "buggy_code": "int queue[] = {1, 2};\nint next_turn = queue[0];\nfor(int i=0; i<n; i++) queue[i] = queue[i+1]; // Bug: LIFO instead of FIFO",
+      "fixed_code": "int queue[] = {1, 2};\nint front = 0, rear = 2;\nint next_turn = queue[front++];\nqueue[rear++] = item;"
+    },
+    "java": {
+      "buggy_code": "List<Integer> queue = new ArrayList<>(Arrays.asList(1, 2));\nint next_turn = queue.remove(0);\nqueue.add(0, item); // Bug: LIFO instead of FIFO",
+      "fixed_code": "Deque<Integer> queue = new ArrayDeque<>(Arrays.asList(1, 2));\nint next_turn = queue.removeFirst();\nqueue.addLast(item);"
+    },
+    "go": {
+      "buggy_code": "queue := []int{1, 2}\nnext_turn := queue[0]\nqueue = append([]int{item}, queue...) // Bug: LIFO instead of FIFO",
+      "fixed_code": "queue := []int{1, 2}\nnext_turn := queue[0]\nqueue = queue[1:]\nqueue = append(queue, item)"
+    },
+    "swift": {
+      "buggy_code": "var queue = [1, 2]\nlet next_turn = queue.removeFirst()\nqueue.insert(item, at: 0) // Bug: LIFO instead of FIFO",
+      "fixed_code": "var queue = [1, 2]\nlet next_turn = queue.removeFirst()\nqueue.append(item)"
+    }
+  },
+  {
+    "bug_type": "Incorrect index used for access",
+    "description": "Using wrong index (off-by-one or wrong variable) to access elements, causing wrong data or exceptions.",
+    "python": {
+      "buggy_code": "last_item = items[len(items)] # Bug: Index out of range",
+      "fixed_code": "last_item = items[len(items) - 1]"
+    },
+    "c": {
+      "buggy_code": "last_item = arr[size]; // Bug: Index out of range",
+      "fixed_code": "last_item = arr[size - 1];"
+    },
+    "java": {
+      "buggy_code": "last_item = list.get(list.size()); // Bug: Index out of range",
+      "fixed_code": "last_item = list.get(list.size() - 1);"
+    },
+    "go": {
+      "buggy_code": "last_item = slice[len(slice)] // Bug: Index out of range",
+      "fixed_code": "last_item = slice[len(slice) - 1]"
+    },
+    "swift": {
+      "buggy_code": "last_item = arr[arr.count] // Bug: Index out of range",
+      "fixed_code": "last_item = arr[arr.count - 1]"
+    }
+  },
+  {
+    "bug_type": "Modifying collection while iterating",
+    "description": "Mutating a collection during iteration leads to skipped elements or exceptions.",
+    "python": {
+      "buggy_code": "nums = [1, 2, 3, 4, 5]\nfor n in nums:\n    if n % 2 == 0: nums.remove(n)",
+      "fixed_code": "nums = [n for n in nums if n % 2 != 0]"
+    },
+    "c": {
+      "buggy_code": "for(int i=0; i<len; i++) { if(arr[i]<0) remove_idx(i); }",
+      "fixed_code": "for(int i=0; i<len; ) { if(arr[i]<0) { remove_idx(i); len--; } else { i++; } }"
+    },
+    "java": {
+      "buggy_code": "for(String s : list) { if(s.isEmpty()) list.remove(s); }",
+      "fixed_code": "list.removeIf(s -> s.isEmpty());"
+    },
+    "go": {
+      "buggy_code": "for i, v := range slice { if v == 0 { slice = append(slice[:i], slice[i+1:]...) } }",
+      "fixed_code": "res := slice[:0]\nfor _, v := range slice { if v != 0 { res = append(res, v) } }"
+    },
+    "swift": {
+      "buggy_code": "for item in array { if item.isBad { array.removeAll { $0 == item } } }",
+      "fixed_code": "array.removeAll { $0.isBad }"
+    }
+  },
+  {
+    "bug_type": "Incorrect key lookup in map",
+    "description": "Using wrong key type or property for map access, causing failure to find existing data.",
+    "python": {
+      "buggy_code": "data = {1: 'a'}\nprint(data['1']) # Lookup string instead of int",
+      "fixed_code": "data = {1: 'a'}\nprint(data[1])"
+    },
+    "c": {
+      "buggy_code": "int* data = map_create();\nmap_set(data, 1, \"a\");\nprintf(\"%s\", map_get(data, \"1\")); // Lookup string instead of int",
+      "fixed_code": "int* data = map_create();\nmap_set(data, 1, \"a\");\nprintf(\"%s\", map_get(data, 1));"
+    },
+    "java": {
+      "buggy_code": "Map<Integer, String> data = new HashMap<>();\ndata.put(1, \"a\");\nSystem.out.println(data.get(\"1\")); // Lookup string instead of int",
+      "fixed_code": "Map<Integer, String> data = new HashMap<>();\ndata.put(1, \"a\");\nSystem.out.println(data.get(1));"
+    },
+    "go": {
+      "buggy_code": "data := make(map[int]string)\ndata[1] = \"a\"\nfmt.Println(data[\"1\"]) // Lookup string instead of int",
+      "fixed_code": "data := make(map[int]string)\ndata[1] = \"a\"\nfmt.Println(data[1])"
+    },
+    "swift": {
+      "buggy_code": "var data: [Int: String] = [1: \"a\"]\nprint(data[\"1\"]) // Lookup string instead of int",
+      "fixed_code": "var data: [Int: String] = [1: \"a\"]\nprint(data[1])"
+    }
+  },
+  {
+    "bug_type": "Copying reference instead of contents",
+    "description": "Assigning one collection to another copies the pointer, not the data. Subsequent mutations affect both the original and the copy.",
+    "python": {
+      "buggy_code": "a = [1, 2]\nb = a\nb.append(3) # Bug: a is now [1, 2, 3], both reference same list",
+      "fixed_code": "a = [1, 2]\nb = a.copy()\nb.append(3) # a remains [1, 2]"
+    },
+    "c": {
+      "buggy_code": "int arr1[] = {1, 2};\nint *arr2 = arr1; // Bug: arr2 points to arr1, not a copy\narr2[0] = 99; // arr1[0] is also 99",
+      "fixed_code": "int arr1[] = {1, 2};\nint arr2[2];\nmemcpy(arr2, arr1, sizeof(arr1)); // Bug fixed: arr2 is a copy\narr2[0] = 99; // arr1[0] remains 1"
+    },
+    "java": {
+      "buggy_code": "List<Integer> a = new ArrayList<>(Arrays.asList(1, 2));\nList<Integer> b = a; // Bug: b references the same list as a\nb.add(3); // a now contains [1, 2, 3]",
+      "fixed_code": "List<Integer> a = new ArrayList<>(Arrays.asList(1, 2));\nList<Integer> b = new ArrayList<>(a); // Bug fixed: b is a copy\nb.add(3); // a remains [1, 2]"
+    },
+    "go": {
+      "buggy_code": "a := []int{1, 2}\nb := a // Bug: b is a slice header pointing to same underlying array\nb = append(b, 3) // May modify a depending on capacity",
+      "fixed_code": "a := []int{1, 2}\nb := make([]int, len(a))\ncopy(b, a) // Bug fixed: b is a true copy\nb = append(b, 3) // a remains [1, 2]"
+    },
+    "swift": {
+      "buggy_code": "class MyList { var items = [1, 2] }\nvar a = MyList()\nvar b = a // Bug: b references same object as a\nb.items.append(3) // a.items is now [1, 2, 3]",
+      "fixed_code": "struct MyList { var items = [1, 2] }\nvar a = MyList()\nvar b = a // Fixed: value type, b is a copy\nb.items.append(3) // a.items remains [1, 2]"
+    }
+  },
+  {
+    "bug_type": "Using iterator after modification",
+    "description": "Modifies a collection while iterating over it, invalidating the iterator and causing runtime errors or unexpected behavior.",
+    "python": {
+      "buggy_code": "users = [\"Alice\", \"Bob\", \"Charlie\"]\nfor user in users:\n    if user.startswith(\"B\"):\n        users.remove(user)  # Modifying list during iteration",
+      "fixed_code": "users = [\"Alice\", \"Bob\", \"Charlie\"]\nfor user in users[:]:  # Iterate over a copy\n    if user.startswith(\"B\"):\n        users.remove(user)"
+    },
+    "c": {
+      "buggy_code": "Node *curr = head;\nwhile (curr) {\n    if (curr->inactive) {\n        free(curr);  // Invalidates pointer\n    }\n    curr = curr->next;  // Use-after-free\n}",
+      "fixed_code": "Node *curr = head;\nwhile (curr) {\n    Node *next = curr->next;\n    if (curr->inactive) {\n        free(curr);\n    }\n    curr = next;\n}"
+    },
+    "java": {
+      "buggy_code": "for (String user : users) {\n    if (user.startsWith(\"B\")) {\n        users.remove(user);  // ConcurrentModificationException\n    }\n}",
+      "fixed_code": "Iterator<String> it = users.iterator();\nwhile (it.hasNext()) {\n    if (it.next().startsWith(\"B\")) {\n        it.remove();\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "users := []string{\"Alice\", \"Bob\", \"Charlie\"}\nfor _, user := range users {\n    if strings.HasPrefix(user, \"B\") {\n        users = append(users[:1], users[2:]...)  // Modifying during range\n    }\n}",
+      "fixed_code": "users := []string{\"Alice\", \"Bob\", \"Charlie\"}\nfiltered := users[:0]\nfor _, user := range users {\n    if !strings.HasPrefix(user, \"B\") {\n        filtered = append(filtered, user)\n    }\n}\nusers = filtered"
+    },
+    "swift": {
+      "buggy_code": "var users = [\"Alice\", \"Bob\", \"Charlie\"]\nfor user in users {\n    if user.hasPrefix(\"B\") {\n        users.removeAll { $0 == user }  // Modifying during iteration\n    }\n}",
+      "fixed_code": "var users = [\"Alice\", \"Bob\", \"Charlie\"]\nusers.removeAll { $0.hasPrefix(\"B\") }  // Safe built-in removal"
+    }
+  },
+  {
+    "bug_type": "Access without bounds validation",
+    "description": "The function accesses an array element without checking if the index is within valid bounds, risking out-of-bounds memory access or index errors.",
+    "python": {
+      "buggy_code": "def get_element(arr, i):\n    return arr[i]  # Bug: No bounds check",
+      "fixed_code": "def get_element(arr, i):\n    if i < 0 or i >= len(arr):\n        return None\n    return arr[i]"
+    },
+    "c": {
+      "buggy_code": "int get_element(int* arr, int n, int i) {\n    return arr[i];  // Bug: No bounds check\n}",
+      "fixed_code": "int get_element(int* arr, int n, int i) {\n    if (i < 0 || i >= n) {\n        return -1;\n    }\n    return arr[i];\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int getElement(int[] arr, int i) {\n        return arr[i];  // Bug: No bounds check, may throw IndexOutOfBoundsException\n    }\n}",
+      "fixed_code": "public class Data {\n    public int getElement(int[] arr, int i) {\n        if (i < 0 || i >= arr.length) {\n            return -1;\n        }\n        return arr[i];\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func getElement(arr []int, i int) int {\n    return arr[i]  // Bug: No bounds check, may panic\n}",
+      "fixed_code": "func getElement(arr []int, i int) (int, error) {\n    if i < 0 || i >= len(arr) {\n        return 0, fmt.Errorf(\"index out of bounds\")\n    }\n    return arr[i], nil\n}"
+    },
+    "swift": {
+      "buggy_code": "func getElement(arr: [Int], i: Int) -> Int {\n    return arr[i]  // Bug: No bounds check, may crash\n}",
+      "fixed_code": "func getElement(arr: [Int], i: Int) -> Int? {\n    guard i >= 0 && i < arr.count else { return nil }\n    return arr[i]\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect equality comparison for elements",
+    "description": "Uses identity or wrong comparison semantics instead of structural equality, producing incorrect matches.",
+    "python": {
+      "buggy_code": "if list_a is list_b: # Bug: compares identity instead of structural equality",
+      "fixed_code": "if list_a == list_b: # Fixed: compares structural equality"
+    },
+    "c": {
+      "buggy_code": "if (str1 == str2) { ... } // Bug: compares pointers, not string contents",
+      "fixed_code": "if (strcmp(str1, str2) == 0) { ... } // Fixed: compares string contents"
+    },
+    "java": {
+      "buggy_code": "if (str1 == str2) { ... } // Bug: compares object identity instead of equality",
+      "fixed_code": "if (str1.equals(str2)) { ... } // Fixed: compares string contents"
+    },
+    "go": {
+      "buggy_code": "if slice1 == slice2 { ... } // Bug: compares identity/reference, not contents",
+      "fixed_code": "if reflect.DeepEqual(slice1, slice2) { ... } // Fixed: compares slice contents"
+    },
+    "swift": {
+      "buggy_code": "if obj1 === obj2 { ... } // Bug: compares identity instead of structural equality",
+      "fixed_code": "if obj1 == obj2 { ... } // Fixed: compares structural equality"
+    }
+  },
+  {
+    "bug_type": "Global unintentionally modified",
+    "description": "State intended to be user-specific is accidentally shared globally, causing one user's data to appear in another user's session.",
+    "python": {
+      "buggy_code": "cart = []  # Intended per-user, but global\n\n\ndef add_to_cart(item):\n    cart.append(item)\n    return cart\n\n# User A\nuser1_cart = add_to_cart(\"Laptop\")\n\n# User B (expects empty cart)\nuser2_cart = add_to_cart(\"Phone\")\n\nprint(user2_cart)  # ['Laptop', 'Phone']  BUG: User B sees User A's item",
+      "fixed_code": "def add_to_cart(cart, item):\n    cart.append(item)\n    return cart\n\n# User A\nuser1_cart = add_to_cart([], \"Laptop\")\n\n# User B\nuser2_cart = add_to_cart([], \"Phone\")"
+    },
+    "java": {
+      "buggy_code": "public class Shop {\n    private static List<String> cart = new ArrayList<>();\n\n    public void add(String item) {\n        cart.add(item);\n    }\n\n    public static void main(String[] args) {\n        Shop user1 = new Shop();\n        Shop user2 = new Shop();\n\n        user1.add(\"Laptop\");\n        user2.add(\"Phone\");\n\n        System.out.println(cart); // [Laptop, Phone] BUG: shared across users\n    }\n}",
+      "fixed_code": "public class Shop {\n    private List<String> cart = new ArrayList<>();\n\n    public void add(String item) {\n        cart.add(item);\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "var cart []string  // Intended per user\n\nfunc AddToCart(item string) []string {\n    cart = append(cart, item)\n    return cart\n}\n\nfunc main() {\n    user1 := AddToCart(\"Laptop\")\n    user2 := AddToCart(\"Phone\")\n\n    fmt.Println(user2) // [Laptop Phone] BUG: shared cart\n}",
+      "fixed_code": "func AddToCart(cart []string, item string) []string {\n    return append(cart, item)\n}"
+    },
+    "swift": {
+      "buggy_code": "var cart: [String] = []  // Intended per user\n\nfunc addToCart(_ item: String) -> [String] {\n    cart.append(item)\n    return cart\n}\n\nlet user1 = addToCart(\"Laptop\")\nlet user2 = addToCart(\"Phone\")\n\nprint(user2) // [\"Laptop\", \"Phone\"] BUG: shared state",
+      "fixed_code": "class Cart {\n    var items: [String] = []\n\n    func add(_ item: String) {\n        items.append(item)\n    }\n}"
+    },
+    "c": {
+      "buggy_code": "char* cart[10];\nint cart_size = 0;  // Intended per user, but global\n\nvoid add_to_cart(char* item) {\n    cart[cart_size++] = item;\n}\n\nint main() {\n    add_to_cart(\"Laptop\");  // User 1\n    add_to_cart(\"Phone\");   // User 2\n\n    for(int i = 0; i < cart_size; i++) {\n        printf(\"%s \", cart[i]);\n    }\n    // Output: Laptop Phone  BUG: shared cart\n}",
+      "fixed_code": "void add_to_cart(char* cart[], int* size, char* item) {\n    cart[(*size)++] = item;\n}"
+    }
+  },
+  {
+    "bug_type": "State not reset between iterations",
+    "description": "Variable intended to track per-iteration state accumulates values across iterations.",
+    "python": {
+      "buggy_code": "results = []\nfor row in data:\n    temp_list = [] # Mistakenly placed outside loop in some logic\n    temp_list.append(row[0])\n    results.append(temp_list)",
+      "fixed_code": "for row in data:\n    temp_list = [row[0]]\n    results.append(temp_list)"
+    },
+    "c": {
+      "buggy_code": "static int sum = 0; // sum persists across calls",
+      "fixed_code": "int sum = 0;"
+    },
+    "java": {
+      "buggy_code": "StringBuilder sb = new StringBuilder();\nfor(String s : list) { sb.append(s); process(sb.toString()); }",
+      "fixed_code": "for(String s : list) { StringBuilder sb = new StringBuilder(); sb.append(s); process(sb.toString()); }"
+    },
+    "go": {
+      "buggy_code": "var buf []byte\nfor i := 0; i < 10; i++ { buf = append(buf, data[i]); process(buf) }",
+      "fixed_code": "for i := 0; i < 10; i++ { buf := []byte{data[i]}; process(buf) }"
+    },
+    "swift": {
+      "buggy_code": "var subtotal = 0\nfor x in items { subtotal += x; print(subtotal) }",
+      "fixed_code": "for x in items { let subtotal = x; print(subtotal) }"
+    }
+  },
+  {
+    "bug_type": "Accumulator initialized incorrectly",
+    "description": "Accumulator or aggregate initialized to wrong value, producing incorrect final results.",
+    "python": {
+      "buggy_code": "items = [10, 20]\nresult = 1 # Bug: Incorrect initialization\nfor x in items:\n    result += x",
+      "fixed_code": "items = [10, 20]\nresult = 0 # Fixed: Correct initialization\nfor x in items:\n    result += x"
+    },
+    "c": {
+      "buggy_code": "int items[] = {10, 20};\nint result = 1; // Bug: Incorrect initialization\nfor (int i = 0; i < 2; i++) {\n    result += items[i];\n}",
+      "fixed_code": "int items[] = {10, 20};\nint result = 0; // Fixed: Correct initialization\nfor (int i = 0; i < 2; i++) {\n    result += items[i];\n}"
+    },
+    "java": {
+      "buggy_code": "public class Main {\n    public void run() {\n        int[] items = {10, 20};\n        int result = 1; // Bug: Incorrect initialization\n        for (int x : items) {\n            result += x;\n        }\n    }\n}",
+      "fixed_code": "public class Main {\n    public void run() {\n        int[] items = {10, 20};\n        int result = 0; // Fixed: Correct initialization\n        for (int x : items) {\n            result += x;\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "items := []int{10, 20}\nresult := 1 // Bug: Incorrect initialization\nfor _, x := range items {\n    result += x\n}",
+      "fixed_code": "items := []int{10, 20}\nresult := 0 // Fixed: Correct initialization\nfor _, x := range items {\n    result += x\n}"
+    },
+    "swift": {
+      "buggy_code": "let items = [10, 20]\nvar result = 1 // Bug: Incorrect initialization\nfor x in items {\n    result += x\n}",
+      "fixed_code": "let items = [10, 20]\nvar result = 0 // Fixed: Correct initialization\nfor x in items {\n    result += x\n}"
+    }
+  },
+  {
+    "bug_type": "Stale value carried across function calls",
+    "description": "A function stores a value once (e.g., current temperature) and keeps returning the stale cached value instead of fetching a fresh one.",
+    "python": {
+      "buggy_code": "class WeatherApp:\n    def __init__(self):\n        self.temperature = fetch_temperature()  # Fetched once\n\n    def get_temperature(self):\n        return self.temperature  # Always returns stale value",
+      "fixed_code": "class WeatherApp:\n    def get_temperature(self):\n        return fetch_temperature()  # Fetch fresh value each call"
+    },
+    "c": {
+      "buggy_code": "int get_temperature() {\n    static int temp = -1;\n    if (temp == -1) {\n        temp = fetch_temperature();  // Only fetched once\n    }\n    return temp;  // Stale on later calls\n}",
+      "fixed_code": "int get_temperature() {\n    return fetch_temperature();  // Always fetch fresh value\n}"
+    },
+    "java": {
+      "buggy_code": "public class WeatherApp {\n    private int temperature = fetchTemperature(); // Fetched once\n\n    public int getTemperature() {\n        return temperature; // Stale value\n    }\n}",
+      "fixed_code": "public class WeatherApp {\n    public int getTemperature() {\n        return fetchTemperature(); // Fresh value each call\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "var temperature = fetchTemperature() // Fetched once\n\nfunc GetTemperature() int {\n    return temperature // Stale value\n}",
+      "fixed_code": "func GetTemperature() int {\n    return fetchTemperature() // Fresh value each call\n}"
+    },
+    "swift": {
+      "buggy_code": "class WeatherApp {\n    let temperature = fetchTemperature() // Fetched once\n\n    func getTemperature() -> Int {\n        return temperature // Stale value\n    }\n}",
+      "fixed_code": "class WeatherApp {\n    func getTemperature() -> Int {\n        return fetchTemperature() // Fresh value each call\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Flag variable never updated",
+    "description": "A boolean or flag intended to change remains constant, preventing expected behavior changes.",
+    "python": {
+      "buggy_code": "found = False\nfor x in items:\n    if x == target: print('Found') # Bug: found stays False",
+      "fixed_code": "found = False\nfor x in items:\n    if x == target: found = True"
+    },
+    "c": {
+      "buggy_code": "int found = 0;\nfor (int i = 0; i < n; i++) {\n    if (items[i] == target) printf(\"Found\"); // Bug: found stays 0\n}",
+      "fixed_code": "int found = 0;\nfor (int i = 0; i < n; i++) {\n    if (items[i] == target) found = 1;\n}"
+    },
+    "java": {
+      "buggy_code": "boolean found = false;\nfor (int x : items) {\n    if (x == target) System.out.println(\"Found\"); // Bug: found stays false\n}",
+      "fixed_code": "boolean found = false;\nfor (int x : items) {\n    if (x == target) found = true;\n}"
+    },
+    "go": {
+      "buggy_code": "found := false\nfor _, x := range items {\n    if x == target { fmt.Println(\"Found\") } // Bug: found stays false\n}",
+      "fixed_code": "found := false\nfor _, x := range items {\n    if x == target { found = true }\n}"
+    },
+    "swift": {
+      "buggy_code": "var found = false\nfor x in items {\n    if x == target { print(\"Found\") } // Bug: found stays false\n}",
+      "fixed_code": "var found = false\nfor x in items {\n    if x == target { found = true }\n}"
+    }
+  },
+  {
+    "bug_type": "Flag variable updated in wrong branch",
+    "description": "Flag is set or cleared in an incorrect branch, changing subsequent logic incorrectly.",
+    "python": {
+      "buggy_code": "if error:\n    success = True # Bug: logic inverted",
+      "fixed_code": "if error:\n    success = False"
+    },
+    "c": {
+      "buggy_code": "if (error) {\n    success = 1; // Bug: logic inverted\n}",
+      "fixed_code": "if (error) {\n    success = 0;\n}"
+    },
+    "java": {
+      "buggy_code": "if (error) {\n    success = true; // Bug: logic inverted\n}",
+      "fixed_code": "if (error) {\n    success = false;\n}"
+    },
+    "go": {
+      "buggy_code": "if error {\n    success = true // Bug: logic inverted\n}",
+      "fixed_code": "if error {\n    success = false\n}"
+    },
+    "swift": {
+      "buggy_code": "if error {\n    success = true // Bug: logic inverted\n}",
+      "fixed_code": "if error {\n    success = false\n}"
+    }
+  },
+  {
+    "bug_type": "Overwriting value before use",
+    "description": "A variable is assigned a new value before the original value is consumed, losing data.",
+    "python": {
+      "buggy_code": "result = 10 + 5\nresult = 20  # Bug: result of 15 is lost\nprint(result)",
+      "fixed_code": "result = 10 + 5\nprint(result)  # prints 15\nresult = 20"
+    },
+    "c": {
+      "buggy_code": "int sum = 10 + 5;\nsum = 20;  // Bug: sum of 15 is lost\nprintf(\"%d\\n\", sum);",
+      "fixed_code": "int sum = 10 + 5;\nprintf(\"%d\\n\", sum);  // prints 15\nsum = 20;"
+    },
+    "java": {
+      "buggy_code": "int total = 10 + 5;\ntotal = 20;  // Bug: total of 15 is lost\nSystem.out.println(total);",
+      "fixed_code": "int total = 10 + 5;\nSystem.out.println(total);  // prints 15\ntotal = 20;"
+    },
+    "go": {
+      "buggy_code": "sum := 10 + 5\nsum = 20  // Bug: sum of 15 is lost\nfmt.Println(sum)",
+      "fixed_code": "sum := 10 + 5\nfmt.Println(sum)  // prints 15\nsum = 20"
+    },
+    "swift": {
+      "buggy_code": "var total = 10 + 5\ntotal = 20  // Bug: total of 15 is lost\nprint(total)",
+      "fixed_code": "let total = 10 + 5\nprint(total)  // prints 15\nvar result = 20"
+    }
+  },
+  {
+    "bug_type": "Off-by-one indexing error",
+    "description": "Indexing error at the start boundary (0 vs 1) leads to missing or wrong elements.",
+    "python": {
+      "buggy_code": "items = [10, 20]\nfirst_element = items[1] # Bug: Accesses second element instead of first",
+      "fixed_code": "items = [10, 20]\nfirst_element = items[0] # Fixed: Accesses first element"
+    },
+    "c": {
+      "buggy_code": "int items[] = {10, 20};\nint first_element = items[1]; // Bug: Accesses second element instead of first",
+      "fixed_code": "int items[] = {10, 20};\nint first_element = items[0]; // Fixed: Accesses first element"
+    },
+    "java": {
+      "buggy_code": "public class Main {\n    public void run() {\n        List<Integer> items = Arrays.asList(10, 20);\n        int first_element = items.get(1); // Bug: Accesses second element instead of first\n    }\n}",
+      "fixed_code": "public class Main {\n    public void run() {\n        List<Integer> items = Arrays.asList(10, 20);\n        int first_element = items.get(0); // Fixed: Accesses first element\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "items := []int{10, 20}\nfirst_element := items[1] // Bug: Accesses second element instead of first",
+      "fixed_code": "items := []int{10, 20}\nfirst_element := items[0] // Fixed: Accesses first element"
+    },
+    "swift": {
+      "buggy_code": "let items = [10, 20]\nlet first_element = items[1] // Bug: Accesses second element instead of first",
+      "fixed_code": "let items = [10, 20]\nlet first_element = items[0] // Fixed: Accesses first element"
+    }
+  },
+  {
+    "bug_type": "Empty input not handled",
+    "description": "Code does not explicitly handle empty inputs, resulting in errors or incorrect results.",
+    "python": {
+      "buggy_code": "let v = arr[0]",
+      "fixed_code": "if not arr: return None\nv = arr[0]"
+    },
+    "c": {
+      "buggy_code": "let v = arr[0]",
+      "fixed_code": "if (size == 0) return 0;\nint v = arr[0];"
+    },
+    "java": {
+      "buggy_code": "let v = arr[0]",
+      "fixed_code": "if (list.isEmpty()) return null;\nreturn list.get(0);"
+    },
+    "go": {
+      "buggy_code": "let v = arr[0]",
+      "fixed_code": "if len(slice) == 0 { return 0 }\nv := slice[0]"
+    },
+    "swift": {
+      "buggy_code": "let v = arr[0]",
+      "fixed_code": "guard !arr.isEmpty else { return nil }; let v = arr[0]"
+    }
+  },
+  {
+    "bug_type": "Negative values not handled",
+    "description": "Negative inputs or indices not validated, causing incorrect arithmetic or indexing.",
+    "python": {
+      "buggy_code": "def fact(n): return n * fact(n-1)",
+      "fixed_code": "def fact(n): \n    if n < 0: raise ValueError()\n    if n == 0: return 1\n    return n * fact(n-1)"
+    },
+    "c": {
+      "buggy_code": "int fact(int n) { return n * fact(n-1); }",
+      "fixed_code": "int fact(int n) {\n    if (n < 0) { fprintf(stderr, \"Error\"); return -1; }\n    if (n == 0) return 1;\n    return n * fact(n-1);\n}"
+    },
+    "java": {
+      "buggy_code": "public int fact(int n) { return n * fact(n-1); }",
+      "fixed_code": "public int fact(int n) {\n    if (n < 0) throw new IllegalArgumentException();\n    if (n == 0) return 1;\n    return n * fact(n-1);\n}"
+    },
+    "go": {
+      "buggy_code": "func fact(n int) int { return n * fact(n-1) }",
+      "fixed_code": "func fact(n int) int {\n    if n < 0 { return -1 }\n    if n == 0 { return 1 }\n    return n * fact(n-1)\n}"
+    },
+    "swift": {
+      "buggy_code": "func fact(n: Int) -> Int { return n * fact(n: n-1) }",
+      "fixed_code": "func fact(n: Int) -> Int {\n    guard n >= 0 else { fatalError(\"Negative value\") }\n    if n == 0 { return 1 }\n    return n * fact(n: n-1)\n}"
+    }
+  },
+  {
+    "bug_type": "Zero value not handled",
+    "description": "Zero values (for denominators, lengths, or counts) are not validated, risking divide-by-zero or no-op errors.",
+    "python": {
+      "buggy_code": "let res = x / y",
+      "fixed_code": "let res = y == 0 ? 0 : x / y"
+    },
+    "c": {
+      "buggy_code": "let res = x / y",
+      "fixed_code": "let res = y == 0 ? 0 : x / y"
+    },
+    "java": {
+      "buggy_code": "let res = x / y",
+      "fixed_code": "let res = y == 0 ? 0 : x / y"
+    },
+    "go": {
+      "buggy_code": "let res = x / y",
+      "fixed_code": "let res = y == 0 ? 0 : x / y"
+    },
+    "swift": {
+      "buggy_code": "let res = x / y",
+      "fixed_code": "let res = y == 0 ? 0 : x / y"
+    }
+  },
+  {
+    "bug_type": "Duplicate values not handled",
+    "description": "Algorithm assumes uniqueness but receives duplicates, leading to incorrect results or crashes.",
+    "python": {
+      "buggy_code": "def get_unique_count(items):\n    return len(items) # Incorrect if duplicates exist",
+      "fixed_code": "def get_unique_count(items):\n    return len(set(items))"
+    },
+    "c": {
+      "buggy_code": "int get_unique_count(int items[], int n) {\n    return n; // Incorrect if duplicates exist\n}",
+      "fixed_code": "int get_unique_count(int items[], int n) {\n    int seen[100] = {0};\n    int count = 0;\n    for (int i = 0; i < n; i++) {\n        if (!seen[items[i]]) {\n            seen[items[i]] = 1;\n            count++;\n        }\n    }\n    return count;\n}"
+    },
+    "java": {
+      "buggy_code": "public int getUniqueCount(int[] items) {\n    return items.length; // Incorrect if duplicates exist\n}",
+      "fixed_code": "public int getUniqueCount(int[] items) {\n    Set<Integer> unique = new HashSet<>();\n    for (int item : items) {\n        unique.add(item);\n    }\n    return unique.size();\n}"
+    },
+    "go": {
+      "buggy_code": "func getUniqueCount(items []int) int {\n    return len(items) // Incorrect if duplicates exist\n}",
+      "fixed_code": "func getUniqueCount(items []int) int {\n    seen := make(map[int]bool)\n    for _, item := range items {\n        seen[item] = true\n    }\n    return len(seen)\n}"
+    },
+    "swift": {
+      "buggy_code": "func getUniqueCount(items: [Int]) -> Int {\n    return items.count // Incorrect if duplicates exist\n}",
+      "fixed_code": "func getUniqueCount(items: [Int]) -> Int {\n    return Set(items).count\n}"
+    }
+  },
+  {
+    "bug_type": "Assumption of sorted input",
+    "description": "Algorithm assumes input is sorted when it may not be, producing incorrect behavior.",
+    "python": {
+      "buggy_code": "def find(arr, x):\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == x: return mid\n        elif arr[mid] < x: low = mid + 1\n        else: high = mid - 1\n    return -1  # Bug: Assumes arr is sorted",
+      "fixed_code": "def find(arr, x):\n    arr.sort()\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == x: return mid\n        elif arr[mid] < x: low = mid + 1\n        else: high = mid - 1\n    return -1"
+    },
+    "c": {
+      "buggy_code": "int find(int arr[], int n, int x) {\n    int low = 0, high = n - 1;\n    while (low <= high) {\n        int mid = (low + high) / 2;\n        if (arr[mid] == x) return mid;\n        else if (arr[mid] < x) low = mid + 1;\n        else high = mid - 1;\n    }\n    return -1;  // Bug: Assumes arr is sorted\n}",
+      "fixed_code": "int compare(const void* a, const void* b) { return *(int*)a - *(int*)b; }\n\nint find(int arr[], int n, int x) {\n    qsort(arr, n, sizeof(int), compare);\n    int low = 0, high = n - 1;\n    while (low <= high) {\n        int mid = (low + high) / 2;\n        if (arr[mid] == x) return mid;\n        else if (arr[mid] < x) low = mid + 1;\n        else high = mid - 1;\n    }\n    return -1;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int find(int[] arr, int x) {\n        int low = 0, high = arr.length - 1;\n        while (low <= high) {\n            int mid = (low + high) / 2;\n            if (arr[mid] == x) return mid;\n            else if (arr[mid] < x) low = mid + 1;\n            else high = mid - 1;\n        }\n        return -1;  // Bug: Assumes arr is sorted\n    }\n}",
+      "fixed_code": "public class Data {\n    public int find(int[] arr, int x) {\n        Arrays.sort(arr);\n        int low = 0, high = arr.length - 1;\n        while (low <= high) {\n            int mid = (low + high) / 2;\n            if (arr[mid] == x) return mid;\n            else if (arr[mid] < x) low = mid + 1;\n            else high = mid - 1;\n        }\n        return -1;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func find(arr []int, x int) int {\n    low, high := 0, len(arr)-1\n    for low <= high {\n        mid := (low + high) / 2\n        if arr[mid] == x { return mid }\n        if arr[mid] < x { low = mid + 1 }\n        if arr[mid] > x { high = mid - 1 }\n    }\n    return -1  // Bug: Assumes arr is sorted\n}",
+      "fixed_code": "func find(arr []int, x int) int {\n    sort.Ints(arr)\n    low, high := 0, len(arr)-1\n    for low <= high {\n        mid := (low + high) / 2\n        if arr[mid] == x { return mid }\n        if arr[mid] < x { low = mid + 1 }\n        if arr[mid] > x { high = mid - 1 }\n    }\n    return -1\n}"
+    },
+    "swift": {
+      "buggy_code": "func find(arr: [Int], x: Int) -> Int {\n    var low = 0, high = arr.count - 1\n    while low <= high {\n        let mid = (low + high) / 2\n        if arr[mid] == x { return mid }\n        else if arr[mid] < x { low = mid + 1 }\n        else { high = mid - 1 }\n    }\n    return -1  // Bug: Assumes arr is sorted\n}",
+      "fixed_code": "func find(arr: [Int], x: Int) -> Int {\n    let sorted = arr.sorted()\n    var low = 0, high = sorted.count - 1\n    while low <= high {\n        let mid = (low + high) / 2\n        if sorted[mid] == x { return mid }\n        else if sorted[mid] < x { low = mid + 1 }\n        else { high = mid - 1 }\n    }\n    return -1\n}"
+    }
+  },
+  {
+    "bug_type": "Assumption of unique input",
+    "description": "Code assumes values are unique and fails when duplicates occur, affecting correctness.",
+    "python": {
+      "buggy_code": "def build_map(keys, vals):\n    result = {}\n    for k, v in zip(keys, vals):\n        result[k] = v  # Bug: Overwrites if key appears multiple times\n    return result",
+      "fixed_code": "def build_map(keys, vals):\n    from collections import defaultdict\n    result = defaultdict(list)\n    for k, v in zip(keys, vals):\n        result[k].append(v)  # Fixed: Appends to list for each key\n    return result"
+    },
+    "c": {
+      "buggy_code": "int* build_map(int* keys, int* vals, int n) {\n    int* result = malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        result[keys[i]] = vals[i];  // Bug: Overwrites if key appears multiple times\n    }\n    return result;\n}",
+      "fixed_code": "typedef struct {\n    int key;\n    int* values;\n    int count;\n} MapEntry;\n\nMapEntry* build_map(int* keys, int* vals, int n) {\n    MapEntry* result = malloc(n * sizeof(MapEntry));\n    for (int i = 0; i < n; i++) {\n        int key = keys[i];\n        MapEntry* entry = &result[key];\n        if (entry->values == NULL) {\n            entry->values = malloc(n * sizeof(int));\n            entry->count = 0;\n        }\n        entry->values[entry->count++] = vals[i];  // Fixed: Appends to array for each key\n    }\n    return result;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public Map<Integer, Integer> buildMap(int[] keys, int[] vals) {\n        Map<Integer, Integer> result = new HashMap<>();\n        for (int i = 0; i < keys.length; i++) {\n            result.put(keys[i], vals[i]);  // Bug: Overwrites if key appears multiple times\n        }\n        return result;\n    }\n}",
+      "fixed_code": "public class Data {\n    public Map<Integer, List<Integer>> buildMap(int[] keys, int[] vals) {\n        Map<Integer, List<Integer>> result = new HashMap<>();\n        for (int i = 0; i < keys.length; i++) {\n            int key = keys[i];\n            result.computeIfAbsent(key, k -> new ArrayList<>()).add(vals[i]);  // Fixed: Appends to list for each key\n        }\n        return result;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func buildMap(keys []int, vals []int) map[int]int {\n    result := make(map[int]int)\n    for i := 0; i < len(keys); i++ {\n        result[keys[i]] = vals[i]  // Bug: Overwrites if key appears multiple times\n    }\n    return result\n}",
+      "fixed_code": "func buildMap(keys []int, vals []int) map[int][]int {\n    result := make(map[int][]int)\n    for i := 0; i < len(keys); i++ {\n        result[keys[i]] = append(result[keys[i]], vals[i])  // Fixed: Appends to slice for each key\n    }\n    return result\n}"
+    },
+    "swift": {
+      "buggy_code": "func buildMap(keys: [Int], vals: [Int]) -> [Int: Int] {\n    var result = [Int: Int]()\n    for i in 0..<keys.count {\n        result[keys[i]] = vals[i]  // Bug: Overwrites if key appears multiple times\n    }\n    return result\n}",
+      "fixed_code": "func buildMap(keys: [Int], vals: [Int]) -> [Int: [Int]] {\n    var result = [Int: [Int]]()\n    for i in 0..<keys.count {\n        result[keys[i], default: []].append(vals[i])  // Fixed: Appends to array for each key\n    }\n    return result\n}"
+    }
+  },
+  {
+    "bug_type": "Missing null/none check",
+    "description": "Dereferences or uses a nullable value without checking for null/none, causing runtime errors.",
+    "python": {
+      "buggy_code": "user.name.lower()",
+      "fixed_code": "user.name.lower() if user and user.name else ''"
+    },
+    "c": {
+      "buggy_code": "printf(\"%s\", user->name);",
+      "fixed_code": "if (user != NULL && user->name != NULL) printf(\"%s\", user->name);"
+    },
+    "java": {
+      "buggy_code": "System.out.println(user.name.toLowerCase());",
+      "fixed_code": "if (user != null && user.name != null) System.out.println(user.name.toLowerCase());"
+    },
+    "go": {
+      "buggy_code": "fmt.Println(user.Name)",
+      "fixed_code": "if user != nil && user.Name != \"\" { fmt.Println(user.Name) }"
+    },
+    "swift": {
+      "buggy_code": "print(user.name.lowercased())",
+      "fixed_code": "if let user = user, let name = user.name { print(name.lowercased()) }"
+    }
+  },
+  {
+    "bug_type": "Missing range validation",
+    "description": "Input not validated to be within expected numeric or index ranges, causing errors.",
+    "python": {
+      "buggy_code": "def set_percent(p): self.p = p",
+      "fixed_code": "def set_percent(p): self.p = max(0, min(100, p))"
+    },
+    "c": {
+      "buggy_code": "void setPercent(int p) { obj->p = p; } // p could be -100 or 10000",
+      "fixed_code": "void setPercent(int p) { obj->p = (p < 0) ? 0 : (p > 100) ? 100 : p; }"
+    },
+    "java": {
+      "buggy_code": "public void setPercent(int p) { this.p = p; } // p could be -100 or 10000",
+      "fixed_code": "public void setPercent(int p) { this.p = Math.max(0, Math.min(100, p)); }"
+    },
+    "go": {
+      "buggy_code": "func (o *Obj) SetPercent(p int) { o.p = p } // p could be -100 or 10000",
+      "fixed_code": "func (o *Obj) SetPercent(p int) { if p < 0 { o.p = 0 } else if p > 100 { o.p = 100 } else { o.p = p } }"
+    },
+    "swift": {
+      "buggy_code": "func setPercent(p: Int) { self.p = p } // p could be -100 or 10000",
+      "fixed_code": "func setPercent(p: Int) { self.p = max(0, min(100, p)) }"
+    }
+  },
+  {
+    "bug_type": "Incorrect sentinel value handling",
+    "description": "Uses a sentinel value (0) to signal invalid input, even though 0 can be a valid age (newborn), leading to misclassification.",
+    "python": {
+      "buggy_code": "age = int(input(\"Enter age: \"))\nif age == 0:\n    print(\"Invalid age\")  # 0 is a valid age (newborn)\nelse:\n    register(age)",
+      "fixed_code": "age = int(input(\"Enter age: \"))\nif age < 0:\n    print(\"Invalid age\")\nelse:\n    register(age)"
+    },
+    "c": {
+      "buggy_code": "int age;\nprintf(\"Enter age: \");\nscanf(\"%d\", &age);\nif (age == 0) {\n    printf(\"Invalid age\\n\");  // 0 is a valid age\n} else {\n    register_age(age);\n}",
+      "fixed_code": "int age;\nprintf(\"Enter age: \");\nscanf(\"%d\", &age);\nif (age < 0) {\n    printf(\"Invalid age\\n\");\n} else {\n    register_age(age);\n}"
+    },
+    "java": {
+      "buggy_code": "Scanner sc = new Scanner(System.in);\nint age = sc.nextInt();\nif (age == 0) {\n    System.out.println(\"Invalid age\");  // 0 is valid\n} else {\n    register(age);\n}",
+      "fixed_code": "Scanner sc = new Scanner(System.in);\nint age = sc.nextInt();\nif (age < 0) {\n    System.out.println(\"Invalid age\");\n} else {\n    register(age);\n}"
+    },
+    "go": {
+      "buggy_code": "var age int\nfmt.Scan(&age)\nif age == 0 {\n    fmt.Println(\"Invalid age\") // 0 is valid\n} else {\n    register(age)\n}",
+      "fixed_code": "var age int\nfmt.Scan(&age)\nif age < 0 {\n    fmt.Println(\"Invalid age\")\n} else {\n    register(age)\n}"
+    },
+    "swift": {
+      "buggy_code": "if let input = readLine(), let age = Int(input) {\n    if age == 0 {\n        print(\"Invalid age\")  // 0 is valid\n    } else {\n        register(age)\n    }\n}",
+      "fixed_code": "if let input = readLine(), let age = Int(input) {\n    if age < 0 {\n        print(\"Invalid age\")\n    } else {\n        register(age)\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect traversal order",
+    "description": "The function performs a destructive operation (remove) on the current node before recursing to its children, violating the post-order requirement for tree deletion.",
+    "python": {
+      "buggy_code": "def process(node):\n    if node is None: return\n    remove(node)\n    process(node.left)\n    process(node.right)",
+      "fixed_code": "def process(node):\n    if node is None: return\n    process(node.left)\n    process(node.right)\n    remove(node)"
+    },
+    "c": {
+      "buggy_code": "void process(Node* node) {\n    if (node == NULL) return;\n    remove_node(node);\n    process(node->left);\n    process(node->right);\n}",
+      "fixed_code": "void process(Node* node) {\n    if (node == NULL) return;\n    process(node->left);\n    process(node->right);\n    remove_node(node);\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void process(Node node) {\n        if (node == null) return;\n        remove(node);\n        process(node.left);\n        process(node.right);\n    }\n}",
+      "fixed_code": "public class Data {\n    public void process(Node node) {\n        if (node == null) return;\n        process(node.left);\n        process(node.right);\n        remove(node);\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func process(node *Node) {\n    if node == nil { return }\n    remove(node)\n    process(node.Left)\n    process(node.Right)\n}",
+      "fixed_code": "func process(node *Node) {\n    if node == nil { return }\n    process(node.Left)\n    process(node.Right)\n    remove(node)\n}"
+    },
+    "swift": {
+      "buggy_code": "func process(node: Node?) {\n    guard let node = node else { return }\n    remove(node)\n    process(node: node.left)\n    process(node: node.right)\n}",
+      "fixed_code": "func process(node: Node?) {\n    guard let node = node else { return }\n    process(node: node.left)\n    process(node: node.right)\n    remove(node)\n}"
+    }
+  },
+  {
+    "bug_type": "Missing visited/seen tracking",
+    "description": "The graph traversal fails to check if a node has already been visited before recursing, leading to infinite loops in cyclic graphs.",
+    "python": {
+      "buggy_code": "def search(node, seen):\n    # Bug: Missing check and add to seen\n    for neighbor in node.neighbors:\n        search(neighbor, seen)",
+      "fixed_code": "def search(node, seen):\n    if node in seen: return\n    seen.add(node)\n    for neighbor in node.neighbors:\n        search(neighbor, seen)"
+    },
+    "c": {
+      "buggy_code": "void search(Node* node, int* seen) {\n    // Bug: Missing check and add to seen\n    for (int i = 0; i < node->count; i++) {\n        search(node->neighbors[i], seen);\n    }\n}",
+      "fixed_code": "void search(Node* node, int* seen) {\n    if (seen[node->id]) return;\n    seen[node->id] = 1;\n    for (int i = 0; i < node->count; i++) {\n        search(node->neighbors[i], seen);\n    }\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void search(Node node, Set<Node> seen) {\n        // Bug: Missing check and add to seen\n        for (Node neighbor : node.neighbors) {\n            search(neighbor, seen);\n        }\n    }\n}",
+      "fixed_code": "public class Data {\n    public void search(Node node, Set<Node> seen) {\n        if (seen.contains(node)) return;\n        seen.add(node);\n        for (Node neighbor : node.neighbors) {\n            search(neighbor, seen);\n        }\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func search(node *Node, seen map[*Node]bool) {\n    // Bug: Missing check and add to seen\n    for _, neighbor := range node.Neighbors {\n        search(neighbor, seen)\n    }\n}",
+      "fixed_code": "func search(node *Node, seen map[*Node]bool) {\n    if seen[node] { return }\n    seen[node] = true\n    for _, neighbor := range node.Neighbors {\n        search(neighbor, seen)\n    }\n}"
+    },
+    "swift": {
+      "buggy_code": "func search(node: Node, seen: inout Set<Int>) {\n    // Bug: Missing check and add to seen\n    for neighbor in node.neighbors {\n        search(node: neighbor, seen: &seen)\n    }\n}",
+      "fixed_code": "func search(node: Node, seen: inout Set<Int>) {\n    if seen.contains(node.id) { return }\n    seen.insert(node.id)\n    for neighbor in node.neighbors {\n        search(node: neighbor, seen: &seen)\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect merge or combine step",
+    "description": "In a divide-and-conquer algorithm, the ranges overlap at the midpoint, causing the element at 'mid' to be processed in both recursive calls.",
+    "python": {
+      "buggy_code": "def compute(data, start, end):\n    if start >= end: return data[start]\n    mid = (start + end) // 2\n    return compute(data, start, mid) + compute(data, mid, end)",
+      "fixed_code": "def compute(data, start, end):\n    if start >= end: return data[start]\n    mid = (start + end) // 2\n    return compute(data, start, mid) + compute(data, mid + 1, end)"
+    },
+    "c": {
+      "buggy_code": "int compute(int* data, int start, int end) {\n    if (start >= end) return data[start];\n    int mid = (start + end) / 2;\n    return compute(data, start, mid) + compute(data, mid, end);\n}",
+      "fixed_code": "int compute(int* data, int start, int end) {\n    if (start >= end) return data[start];\n    int mid = (start + end) / 2;\n    return compute(data, start, mid) + compute(data, mid + 1, end);\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int compute(int[] data, int start, int end) {\n        if (start >= end) return data[start];\n        int mid = (start + end) / 2;\n        return compute(data, start, mid) + compute(data, mid, end);\n    }\n}",
+      "fixed_code": "public class Data {\n    public int compute(int[] data, int start, int end) {\n        if (start >= end) return data[start];\n        int mid = (start + end) / 2;\n        return compute(data, start, mid) + compute(data, mid + 1, end);\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func compute(data []int, start int, end int) int {\n    if start >= end { return data[start] }\n    mid := (start + end) / 2\n    return compute(data, start, mid) + compute(data, mid, end)\n}",
+      "fixed_code": "func compute(data []int, start int, end int) int {\n    if start >= end { return data[start] }\n    mid := (start + end) / 2\n    return compute(data, start, mid) + compute(data, mid + 1, end)\n}"
+    },
+    "swift": {
+      "buggy_code": "func compute(data: [Int], start: Int, end: Int) -> Int {\n    if start >= end { return data[start] }\n    let mid = (start + end) / 2\n    return compute(data: data, start: start, end: mid) + compute(data: data, start: mid, end: end)\n}",
+      "fixed_code": "func compute(data: [Int], start: Int, end: Int) -> Int {\n    if start >= end { return data[start] }\n    let mid = (start + end) / 2\n    return compute(data: data, start: start, end: mid) + compute(data: data, start: mid + 1, end: end)\n}"
+    }
+  },
+  {
+    "bug_type": "Wrong greedy choice condition",
+    "description": "The greedy algorithm sorts items by raw value instead of value-to-weight ratio, leading to a suboptimal solution.",
+    "python": {
+      "buggy_code": "items.sort(key=lambda x: x.value, reverse=True)",
+      "fixed_code": "items.sort(key=lambda x: x.value / x.weight, reverse=True)"
+    },
+    "c": {
+      "buggy_code": "// Bug: Sorting by value\nint compare(const void* a, const void* b) {\n    return ((Item*)b)->value - ((Item*)a)->value;\n}",
+      "fixed_code": "// Fixed: Sorting by ratio\nint compare(const void* a, const void* b) {\n    double rA = (double)((Item*)a)->value / ((Item*)a)->weight;\n    double rB = (double)((Item*)b)->value / ((Item*)b)->weight;\n    return (rB > rA) - (rB < rA);\n}"
+    },
+    "java": {
+      "buggy_code": "items.sort((a, b) -> b.value - a.value);",
+      "fixed_code": "items.sort((a, b) -> Double.compare((double)b.value / b.weight, (double)a.value / a.weight));"
+    },
+    "go": {
+      "buggy_code": "sort.Slice(items, func(i, j int) bool {\n    return items[i].value > items[j].value\n})",
+      "fixed_code": "sort.Slice(items, func(i, j int) bool {\n    return float64(items[i].value)/float64(items[i].weight) > float64(items[j].value)/float64(items[j].weight)\n})"
+    },
+    "swift": {
+      "buggy_code": "items.sort { $0.value > $1.value }",
+      "fixed_code": "items.sort { Double($0.value) / Double($0.weight) > Double($1.value) / Double($1.weight) }"
+    }
+  },
+  {
+    "bug_type": "Incorrect dynamic programming recurrence",
+    "description": "DP recurrence relation implemented incorrectly, producing wrong memoized results.",
+    "python": {
+      "buggy_code": "# LCS error: Missing condition check\ndp[i][j] = dp[i-1][j-1] + 1",
+      "fixed_code": "if s1[i]==s2[j]:\n    dp[i][j] = dp[i-1][j-1]+1\nelse:\n    dp[i][j] = max(dp[i-1][j], dp[i][j-1])"
+    },
+    "c": {
+      "buggy_code": "dp[i][j] = dp[i-1][j-1] + 1; // LCS error",
+      "fixed_code": "if(s1[i]==s2[j]) dp[i][j] = dp[i-1][j-1]+1; else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);"
+    },
+    "java": {
+      "buggy_code": "// LCS error: Missing condition check\ndp[i][j] = dp[i-1][j-1] + 1;",
+      "fixed_code": "if (s1.charAt(i) == s2.charAt(j))\n    dp[i][j] = dp[i-1][j-1] + 1;\nelse\n    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);"
+    },
+    "go": {
+      "buggy_code": "// LCS error: Missing condition check\ndp[i][j] = dp[i-1][j-1] + 1",
+      "fixed_code": "if s1[i] == s2[j] {\n    dp[i][j] = dp[i-1][j-1] + 1\n} else {\n    if dp[i-1][j] > dp[i][j-1] {\n        dp[i][j] = dp[i-1][j]\n    } else {\n        dp[i][j] = dp[i][j-1]\n    }\n}"
+    },
+    "swift": {
+      "buggy_code": "// LCS error: Missing condition check\ndp[i][j] = dp[i-1][j-1] + 1",
+      "fixed_code": "if s1[s1.index(s1.startIndex, offsetBy: i)] == s2[s2.index(s2.startIndex, offsetBy: j)] {\n    dp[i][j] = dp[i-1][j-1] + 1\n} else {\n    dp[i][j] = max(dp[i-1][j], dp[i][j-1])\n}"
+    }
+  },
+  {
+    "bug_type": "Missing memoization or caching",
+    "description": "Expensive repeated computations not cached, causing severe performance issues.",
+    "python": {
+      "buggy_code": "def fib(n):\n    return fib(n-1) + fib(n-2)",
+      "fixed_code": "from functools import lru_cache\n@lru_cache(None)\ndef fib(n):\n    if n <= 1: return n\n    return fib(n-1) + fib(n-2)"
+    },
+    "c": {
+      "buggy_code": "long fib(int n) { return fib(n-1) + fib(n-2); }",
+      "fixed_code": "long memo[100] = {-1};\nlong fib(int n) {\n    if (n <= 1) return n;\n    if (memo[n] != -1) return memo[n];\n    memo[n] = fib(n-1) + fib(n-2);\n    return memo[n];\n}"
+    },
+    "java": {
+      "buggy_code": "public int fib(int n) { return fib(n-1) + fib(n-2); }",
+      "fixed_code": "Map<Integer, Integer> memo = new HashMap<>();\npublic int fib(int n) {\n    if (n <= 1) return n;\n    return memo.computeIfAbsent(n, k -> fib(k-1) + fib(k-2));\n}"
+    },
+    "go": {
+      "buggy_code": "func fib(n int) int { return fib(n-1) + fib(n-2) }",
+      "fixed_code": "var cache = make(map[int]int)\nfunc fib(n int) int {\n    if n <= 1 { return n }\n    if val, ok := cache[n]; ok { return val }\n    cache[n] = fib(n-1) + fib(n-2)\n    return cache[n]\n}"
+    },
+    "swift": {
+      "buggy_code": "func fib(_ n: Int) -> Int { return fib(n-1) + fib(n-2) }",
+      "fixed_code": "var cache = [Int: Int]()\nfunc fib(_ n: Int) -> Int {\n    if n <= 1 { return n }\n    if let result = cache[n] { return result }\n    cache[n] = fib(n-1) + fib(n-2)\n    return cache[n]!\n}"
+    }
+  },
+  {
+    "bug_type": "Wrong sliding window movement",
+    "description": "The window boundary 'left' is incremented to shrink the window, but the running 'total' is not updated to subtract the value being removed. This causes the window state to become inconsistent with its boundaries.",
+    "python": {
+      "buggy_code": "def find_max(data, limit):\n    left, total, result = 0, 0, 0\n    for right in range(len(data)):\n        total += data[right]\n        while total > limit:\n            left += 1\n        if right - left + 1 > result:\n            result = right - left + 1\n    return result",
+      "fixed_code": "def find_max(data, limit):\n    left, total, result = 0, 0, 0\n    for right in range(len(data)):\n        total += data[right]\n        while total > limit:\n            total -= data[left]\n            left += 1\n        if right - left + 1 > result:\n            result = right - left + 1\n    return result"
+    },
+    "c": {
+      "buggy_code": "int find_max(int* data, int n, int limit) {\n    int left = 0, total = 0, result = 0;\n    for (int right = 0; right < n; right++) {\n        total += data[right];\n        while (total > limit) {\n            left += 1;\n        }\n        if (right - left + 1 > result) {\n            result = right - left + 1;\n        }\n    }\n    return result;\n}",
+      "fixed_code": "int find_max(int* data, int n, int limit) {\n    int left = 0, total = 0, result = 0;\n    for (int right = 0; right < n; right++) {\n        total += data[right];\n        while (total > limit) {\n            total -= data[left];\n            left += 1;\n        }\n        if (right - left + 1 > result) {\n            result = right - left + 1;\n        }\n    }\n    return result;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int find_max(int[] data, int limit) {\n        int left = 0, total = 0, result = 0;\n        for (int right = 0; right < data.length; right++) {\n            total += data[right];\n            while (total > limit) {\n                left += 1;\n            }\n            if (right - left + 1 > result) {\n                result = right - left + 1;\n            }\n        }\n        return result;\n    }\n}",
+      "fixed_code": "public class Data {\n    public int find_max(int[] data, int limit) {\n        int left = 0, total = 0, result = 0;\n        for (int right = 0; right < data.length; right++) {\n            total += data[right];\n            while (total > limit) {\n                total -= data[left];\n                left += 1;\n            }\n            if (right - left + 1 > result) {\n                result = right - left + 1;\n            }\n        }\n        return result;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func find_max(data []int, limit int) int {\n    left, total, result := 0, 0, 0\n    for right := 0; right < len(data); right++ {\n        total += data[right]\n        for total > limit {\n            left += 1\n        }\n        if right - left + 1 > result {\n            result = right - left + 1\n        }\n    }\n    return result\n}",
+      "fixed_code": "func find_max(data []int, limit int) int {\n    left, total, result := 0, 0, 0\n    for right := 0; right < len(data); right++ {\n        total += data[right]\n        for total > limit {\n            total -= data[left]\n            left += 1\n        }\n        if right - left + 1 > result {\n            result = right - left + 1\n        }\n    }\n    return result\n}"
+    },
+    "swift": {
+      "buggy_code": "func find_max(data: [Int], limit: Int) -> Int {\n    var left = 0, total = 0, result = 0\n    for right in 0..<data.count {\n        total += data[right]\n        while total > limit {\n            left += 1\n        }\n        if right - left + 1 > result {\n            result = right - left + 1\n        }\n    }\n    return result\n}",
+      "fixed_code": "func find_max(data: [Int], limit: Int) -> Int {\n    var left = 0, total = 0, result = 0\n    for right in 0..<data.count {\n        total += data[right]\n        while total > limit {\n            total -= data[left]\n            left += 1\n        }\n        if right - left + 1 > result {\n            result = right - left + 1\n        }\n    }\n    return result\n}"
+    }
+  },
+  {
+    "bug_type": "Assuming commutativity when order matters",
+    "description": "The code assumes that the order of operations does not matter, but the underlying logic (subtraction/concatenation) is non-commutative.",
+    "python": {
+      "buggy_code": "def get_difference(a, b):\n    # Bug: Assumes a - b is same as b - a\n    result = b - a\n    return result",
+      "fixed_code": "def get_difference(a, b):\n    # Fix: Order defines the result\n    result = a - b\n    return result"
+    },
+    "c": {
+      "buggy_code": "int get_difference(int a, int b) {\n    // Bug: Assumes a - b is same as b - a\n    int result = b - a;\n    return result;\n}",
+      "fixed_code": "int get_difference(int a, int b) {\n    // Fix: Order defines the result\n    int result = a - b;\n    return result;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int getDifference(int a, int b) {\n        // Bug: Assumes a - b is same as b - a\n        int result = b - a;\n        return result;\n    }\n}",
+      "fixed_code": "public class Data {\n    public int getDifference(int a, int b) {\n        // Fix: Order defines the result\n        int result = a - b;\n        return result;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func getDifference(a int, b int) int {\n    // Bug: Assumes a - b is same as b - a\n    result := b - a\n    return result\n}",
+      "fixed_code": "func getDifference(a int, b int) int {\n    // Fix: Order defines the result\n    result := a - b\n    return result\n}"
+    },
+    "swift": {
+      "buggy_code": "func getDifference(a: Int, b: Int) -> Int {\n    // Bug: Assumes a - b is same as b - a\n    let result = b - a\n    return result\n}",
+      "fixed_code": "func getDifference(a: Int, b: Int) -> Int {\n    // Fix: Order defines the result\n    let result = a - b\n    return result\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect invariant maintenance",
+    "description": "The function updates the data structure but fails to update the associated metadata (count), breaking the class invariant.",
+    "python": {
+      "buggy_code": "class Stack:\n    def __init__(self):\n        self.items = []\n        self.count = 0\n\n    def push(self, val):\n        self.items.append(val)\n        # Bug: count not incremented",
+      "fixed_code": "class Stack:\n    def __init__(self):\n        self.items = []\n        self.count = 0\n\n    def push(self, val):\n        self.items.append(val)\n        self.count += 1"
+    },
+    "c": {
+      "buggy_code": "struct Stack {\n    int items[100];\n    int count;\n};\n\nvoid push(struct Stack* s, int val) {\n    s->items[s->count] = val;\n    // Bug: count not incremented\n}",
+      "fixed_code": "void push(struct Stack* s, int val) {\n    s->items[s->count] = val;\n    s->count += 1;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Stack {\n    int[] items = new int[100];\n    int count = 0;\n\n    public void push(int val) {\n        items[count] = val;\n        // Bug: count not incremented\n    }\n}",
+      "fixed_code": "public class Stack {\n    int[] items = new int[100];\n    int count = 0;\n\n    public void push(int val) {\n        items[count] = val;\n        count += 1;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "type Stack struct {\n    items []int\n    count int\n}\n\nfunc (s *Stack) push(val int) {\n    s.items = append(s.items, val)\n    // Bug: count not incremented\n}",
+      "fixed_code": "func (s *Stack) push(val int) {\n    s.items = append(s.items, val)\n    s.count += 1\n}"
+    },
+    "swift": {
+      "buggy_code": "class Stack {\n    var items = [Int]()\n    var count = 0\n\n    func push(val: Int) {\n        items.append(val)\n        // Bug: count not incremented\n    }\n}",
+      "fixed_code": "class Stack {\n    var items = [Int]()\n    var count = 0\n\n    func push(val: Int) {\n        items.append(val)\n        count += 1\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Using wrong comparison metric",
+    "description": "The logic compares two strings using their natural/alphabetical order when the length of the strings was the intended metric.",
+    "python": {
+      "buggy_code": "def compare_scores(user1_score: str, user2_score: str):\n    # Bug: Compares as strings\n    if user1_score > user2_score:\n        return \"User 1 wins\"\n    return \"User 2 wins\"",
+      "fixed_code": "def compare_scores(user1_score, user2_score):\n    # Fix: Convert to numeric comparison\n    if int(user1_score) > int(user2_score):\n        return \"User 1 wins\"\n    return \"User 2 wins\""
+    },
+    "c": {
+      "buggy_code": "int compare_scores(const char* score1, const char* score2) {\n    // Bug: Compares lexicographically (\"9\" < \"10\")\n    if (strcmp(score1, score2) > 0) {\n        return 1;\n    }\n    return 0;\n}",
+      "fixed_code": "int compare_scores(const char* score1, const char* score2) {\n    // Fix: Convert to numeric comparison\n    int s1 = atoi(score1);\n    int s2 = atoi(score2);\n    if (s1 > s2) {\n        return 1;\n    }\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int compareScores(String score1, String score2) {\n        // Bug: Compares lexicographically (\"9\" < \"10\")\n        if (score1.compareTo(score2) > 0) {\n            return 1;\n        }\n        return 0;\n    }\n}",
+      "fixed_code": "public class Data {\n    public int compareScores(String score1, String score2) {\n        // Fix: Convert to numeric comparison\n        int s1 = Integer.parseInt(score1);\n        int s2 = Integer.parseInt(score2);\n        if (s1 > s2) {\n            return 1;\n        }\n        return 0;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func compareScores(score1 string, score2 string) int {\n    // Bug: Compares lexicographically (\"9\" < \"10\")\n    if score1 > score2 {\n        return 1\n    }\n    return 0\n}",
+      "fixed_code": "func compareScores(score1 string, score2 string) int {\n    // Fix: Convert to numeric comparison\n    s1, _ := strconv.Atoi(score1)\n    s2, _ := strconv.Atoi(score2)\n    if s1 > s2 {\n        return 1\n    }\n    return 0\n}"
+    },
+    "swift": {
+      "buggy_code": "func compareScores(score1: String, score2: String) -> Int {\n    // Bug: Compares lexicographically (\"9\" < \"10\")\n    if score1 > score2 {\n        return 1\n    }\n    return 0\n}",
+      "fixed_code": "func compareScores(score1: String, score2: String) -> Int {\n    // Fix: Convert to numeric comparison\n    if let s1 = Int(score1), let s2 = Int(score2) {\n        if s1 > s2 {\n            return 1\n        }\n    }\n    return 0\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect tie-breaking logic",
+    "description": "The selection logic only considers the primary score, leading to non-deterministic or unstable results when scores are equal. The fix adds a secondary tie-breaker using the unique identifier.",
+    "python": {
+      "buggy_code": "def get_best(a, b):\n    if a.score > b.score:\n        return a\n    return b",
+      "fixed_code": "def get_best(a, b):\n    if a.score > b.score:\n        return a\n    if b.score > a.score:\n        return b\n    if a.id < b.id:\n        return a\n    return b"
+    },
+    "c": {
+      "buggy_code": "Player get_best(Player a, Player b) {\n    if (a.score > b.score) {\n        return a;\n    }\n    return b;\n}",
+      "fixed_code": "Player get_best(Player a, Player b) {\n    if (a.score > b.score) {\n        return a;\n    }\n    if (b.score > a.score) {\n        return b;\n    }\n    if (a.id < b.id) {\n        return a;\n    }\n    return b;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public Player getBest(Player a, Player b) {\n        if (a.score > b.score) {\n            return a;\n        }\n        return b;\n    }\n}",
+      "fixed_code": "public class Data {\n    public Player getBest(Player a, Player b) {\n        if (a.score > b.score) {\n            return a;\n        }\n        if (b.score > a.score) {\n            return b;\n        }\n        if (a.id < b.id) {\n            return a;\n        }\n        return b;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func getBest(a Player, b Player) Player {\n    if a.score > b.score {\n        return a\n    }\n    return b\n}",
+      "fixed_code": "func getBest(a Player, b Player) Player {\n    if a.score > b.score {\n        return a\n    }\n    if b.score > a.score {\n        return b\n    }\n    if a.id < b.id {\n        return a\n    }\n    return b\n}"
+    },
+    "swift": {
+      "buggy_code": "func getBest(a: Player, b: Player) -> Player {\n    if a.score > b.score {\n        return a\n    }\n    return b\n}",
+      "fixed_code": "func getBest(a: Player, b: Player) -> Player {\n    if a.score > b.score {\n        return a\n    }\n    if b.score > a.score {\n        return b\n    }\n    if a.id < b.id {\n        return a\n    }\n    return b\n}"
+    }
+  },
+  {
+    "bug_type": "Premature optimization breaks correctness",
+    "description": "The code uses a bitwise right-shift as an optimization for division by two. This breaks correctness for negative integers because bitwise shifts floor toward negative infinity while integer division truncates toward zero.",
+    "python": {
+      "buggy_code": "def compute(x):\n    # Bug: Optimization fails for negative numbers\n    result = x >> 1\n    return result",
+      "fixed_code": "def compute(x):\n    # Fix: Use standard division for correctness\n    result = int(x / 2)\n    return result"
+    },
+    "c": {
+      "buggy_code": "int compute(int x) {\n    // Bug: Optimization fails for negative numbers\n    int result = x >> 1;\n    return result;\n}",
+      "fixed_code": "int compute(int x) {\n    // Fix: Use standard division for correctness\n    int result = x / 2;\n    return result;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int compute(int x) {\n        // Bug: Optimization fails for negative numbers\n        int result = x >> 1;\n        return result;\n    }\n}",
+      "fixed_code": "public class Data {\n    public int compute(int x) {\n        // Fix: Use standard division for correctness\n        int result = x / 2;\n        return result;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func compute(x int) int {\n    // Bug: Optimization fails for negative numbers\n    result := x >> 1\n    return result\n}",
+      "fixed_code": "func compute(x int) int {\n    // Fix: Use standard division for correctness\n    result := x / 2\n    return result\n}"
+    },
+    "swift": {
+      "buggy_code": "func compute(x: Int) -> Int {\n    // Bug: Optimization fails for negative numbers\n    let result = x >> 1\n    return result\n}",
+      "fixed_code": "func compute(x: Int) -> Int {\n    // Fix: Use standard division for correctness\n    let result = x / 2\n    return result\n}"
+    }
+  },
+  {
+    "bug_type": "Partial implementation of algorithm",
+    "description": "The binary search implementation is incomplete; it handles the case where the target is in the upper half of the range but fails to provide logic for the lower half, leading to incorrect results.",
+    "python": {
+      "buggy_code": "def find(data, target):\n    low, high = 0, len(data) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if data[mid] < target:\n            low = mid + 1\n        else:\n            return mid\n    return -1",
+      "fixed_code": "def find(data, target):\n    low, high = 0, len(data) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if data[mid] < target:\n            low = mid + 1\n        elif data[mid] > target:\n            high = mid - 1\n        else:\n            return mid\n    return -1"
+    },
+    "c": {
+      "buggy_code": "int find(int data[], int n, int target) {\n    int low = 0, high = n - 1;\n    while (low <= high) {\n        int mid = (low + high) / 2;\n        if (data[mid] < target) {\n            low = mid + 1;\n        } else {\n            return mid;\n        }\n    }\n    return -1;\n}",
+      "fixed_code": "int find(int data[], int n, int target) {\n    int low = 0, high = n - 1;\n    while (low <= high) {\n        int mid = (low + high) / 2;\n        if (data[mid] < target) {\n            low = mid + 1;\n        } else if (data[mid] > target) {\n            high = mid - 1;\n        } else {\n            return mid;\n        }\n    }\n    return -1;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public int find(int[] data, int target) {\n        int low = 0, high = data.length - 1;\n        while (low <= high) {\n            int mid = (low + high) / 2;\n            if (data[mid] < target) {\n                low = mid + 1;\n            } else {\n                return mid;\n            }\n        }\n        return -1;\n    }\n}",
+      "fixed_code": "public class Data {\n    public int find(int[] data, int target) {\n        int low = 0, high = data.length - 1;\n        while (low <= high) {\n            int mid = (low + high) / 2;\n            if (data[mid] < target) {\n                low = mid + 1;\n            } else if (data[mid] > target) {\n                high = mid - 1;\n            } else {\n                return mid;\n            }\n        }\n        return -1;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func find(data []int, target int) int {\n    low, high := 0, len(data)-1\n    for low <= high {\n        mid := (low + high) / 2\n        if data[mid] < target {\n            low = mid + 1\n        } else {\n            return mid\n        }\n    }\n    return -1\n}",
+      "fixed_code": "func find(data []int, target int) int {\n    low, high := 0, len(data)-1\n    for low <= high {\n        mid := (low + high) / 2\n        if data[mid] < target {\n            low = mid + 1\n        } else if data[mid] > target {\n            high = mid - 1\n        } else {\n            return mid\n        }\n    }\n    return -1\n}"
+    },
+    "swift": {
+      "buggy_code": "func find(data: [Int], target: Int) -> Int {\n    var low = 0, high = data.count - 1\n    while low <= high {\n        let mid = (low + high) / 2\n        if data[mid] < target {\n            low = mid + 1\n        } else {\n            return mid\n        }\n    }\n    return -1\n}",
+      "fixed_code": "func find(data: [Int], target: Int) -> Int {\n    var low = 0, high = data.count - 1\n    while low <= high {\n        let mid = (low + high) / 2\n        if data[mid] < target {\n            low = mid + 1\n        } else if data[mid] > target {\n            high = mid - 1\n        } else {\n            return mid\n        }\n    }\n    return -1\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect handling of cyclic data",
+    "description": "Fails to detect or handle cycles in graphs or linked structures, causing infinite loops or incorrect results.",
+    "python": {
+      "buggy_code": "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.next = None\n        self.visited = False\n\nclass Data:\n    def execute(self):\n        node1 = Node(1)\n        node2 = Node(2)\n        node3 = Node(3)\n        node1.next = node2\n        node2.next = node3\n        node3.next = node1 # Cycle\n\n        current = node1\n        count = 0\n        while current is not None: # Bug: Infinite loop\n            count += 1\n            current = current.next\n        return count",
+      "fixed_code": "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.next = None\n        self.visited = False\n\nclass Data:\n    def execute(self):\n        node1 = Node(1)\n        node2 = Node(2)\n        node3 = Node(3)\n        node1.next = node2\n        node2.next = node3\n        node3.next = node1 # Cycle\n\n        current = node1\n        count = 0\n        while current is not None and not current.visited: # Fixed\n            current.visited = True\n            count += 1\n            current = current.next\n        return count"
+    },
+    "c": {
+      "buggy_code": "#include <stdlib.h>\n\nstruct Node {\n    int value;\n    struct Node* next;\n    int visited;\n};\n\nint execute() {\n    struct Node* node1 = malloc(sizeof(struct Node));\n    struct Node* node2 = malloc(sizeof(struct Node));\n    struct Node* node3 = malloc(sizeof(struct Node));\n    \n    node1->next = node2;\n    node2->next = node3;\n    node3->next = node1; // Cycle\n\n    struct Node* current = node1;\n    int count = 0;\n    while (current != NULL) { // Bug: Infinite loop\n        count++;\n        current = current->next;\n    }\n    return count;\n}",
+      "fixed_code": "#include <stdlib.h>\n\nstruct Node {\n    int value;\n    struct Node* next;\n    int visited;\n};\n\nint execute() {\n    struct Node* node1 = malloc(sizeof(struct Node));\n    struct Node* node2 = malloc(sizeof(struct Node));\n    struct Node* node3 = malloc(sizeof(struct Node));\n    \n    node1->next = node2;\n    node2->next = node3;\n    node3->next = node1; // Cycle\n\n    struct Node* current = node1;\n    int count = 0;\n    while (current != NULL && !current->visited) { // Fixed\n        current->visited = 1;\n        count++;\n        current = current->next;\n    }\n    return count;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Node {\n    int value;\n    Node next;\n    boolean visited;\n}\n\npublic class Data {\n    public int execute() {\n        Node node1 = new Node();\n        Node node2 = new Node();\n        Node node3 = new Node();\n\n        node1.next = node2;\n        node2.next = node3;\n        node3.next = node1; // Cycle\n\n        Node current = node1;\n        int count = 0;\n        while (current != null) { // Bug: Infinite loop\n            count++;\n            current = current.next;\n        }\n        return count;\n    }\n}",
+      "fixed_code": "public class Node {\n    int value;\n    Node next;\n    boolean visited;\n}\n\npublic class Data {\n    public int execute() {\n        Node node1 = new Node();\n        Node node2 = new Node();\n        Node node3 = new Node();\n\n        node1.next = node2;\n        node2.next = node3;\n        node3.next = node1; // Cycle\n\n        Node current = node1;\n        int count = 0;\n        while (current != null && !current.visited) { // Fixed\n            current.visited = true;\n            count++;\n            current = current.next;\n        }\n        return count;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "package main\n\ntype Node struct {\n    value   int\n    next    *Node\n    visited bool\n}\n\nfunc execute() int {\n    node1 := &Node{value: 1}\n    node2 := &Node{value: 2}\n    node3 := &Node{value: 3}\n\n    node1.next = node2\n    node2.next = node3\n    node3.next = node1 // Cycle\n\n    current := node1\n    count := 0\n    for current != nil { // Bug: Infinite loop\n        count++\n        current = current.next\n    }\n    return count\n}",
+      "fixed_code": "package main\n\ntype Node struct {\n    value   int\n    next    *Node\n    visited bool\n}\n\nfunc execute() int {\n    node1 := &Node{value: 1}\n    node2 := &Node{value: 2}\n    node3 := &Node{value: 3}\n\n    node1.next = node2\n    node2.next = node3\n    node3.next = node1 // Cycle\n\n    current := node1\n    count := 0\n    for current != nil && !current.visited { // Fixed\n        current.visited = true\n        count++\n        current = current.next\n    }\n    return count\n}"
+    },
+    "swift": {
+      "buggy_code": "class Node {\n    var value: Int = 0\n    var next: Node?\n    var visited: Bool = false\n}\n\nclass Data {\n    func execute() -> Int {\n        let node1 = Node()\n        let node2 = Node()\n        let node3 = Node()\n\n        node1.next = node2\n        node2.next = node3\n        node3.next = node1 // Cycle\n\n        var current: Node? = node1\n        var count = 0\n        while current != nil { // Bug: Infinite loop\n            count += 1\n            current = current?.next\n        }\n        return count\n    }\n}",
+      "fixed_code": "class Node {\n    var value: Int = 0\n    var next: Node?\n    var visited: Bool = false\n}\n\nclass Data {\n    func execute() -> Int {\n        let node1 = Node()\n        let node2 = Node()\n        let node3 = Node()\n\n        node1.next = node2\n        node2.next = node3\n        node3.next = node1 // Cycle\n\n        var current: Node? = node1\n        var count = 0\n        while let node = current, !node.visited { // Fixed\n            node.visited = true\n            count += 1\n            current = node.next\n        }\n        return count\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Loss of precision",
+    "description": "Direct equality comparison between very small floating-point numbers can fail due to precision limits.",
+    "python": {
+      "buggy_code": "def compare():\n    sum_float = 0.0001 + 0.0002\n    expected = 0.0003\n    if sum_float == expected:  # Bug: float equality may fail\n        return True\n    return False",
+      "fixed_code": "def compare():\n    sum_float = 0.0001 + 0.0002\n    expected = 0.0003\n    if abs(sum_float - expected) < 1e-9:  # Fixed: epsilon comparison\n        return True\n    return False"
+    },
+    "c": {
+      "buggy_code": "#include <math.h>\n\nint compare() {\n    double sum_float = 0.0001 + 0.0002;\n    double expected = 0.0003;\n    if (sum_float == expected) {  // Bug: float equality may fail\n        return 1;\n    }\n    return 0;\n}",
+      "fixed_code": "#include <math.h>\n\nint compare() {\n    double sum_float = 0.0001 + 0.0002;\n    double expected = 0.0003;\n    if (fabs(sum_float - expected) < 1e-9) {  // Fixed: epsilon comparison\n        return 1;\n    }\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public boolean compare() {\n        double sumFloat = 0.0001 + 0.0002;\n        double expected = 0.0003;\n        if (sumFloat == expected) {  // Bug: float equality may fail\n            return true;\n        }\n        return false;\n    }\n}",
+      "fixed_code": "public class Data {\n    public boolean compare() {\n        double sumFloat = 0.0001 + 0.0002;\n        double expected = 0.0003;\n        if (Math.abs(sumFloat - expected) < 1e-9) {  // Fixed: epsilon comparison\n            return true;\n        }\n        return false;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "package main\n\nimport \"math\"\n\nfunc compare() bool {\n    sumFloat := 0.0001 + 0.0002\n    expected := 0.0003\n    if sumFloat == expected {  // Bug: float equality may fail\n        return true\n    }\n    return false\n}",
+      "fixed_code": "package main\n\nimport \"math\"\n\nfunc compare() bool {\n    sumFloat := 0.0001 + 0.0002\n    expected := 0.0003\n    if math.Abs(sumFloat - expected) < 1e-9 {  // Fixed: epsilon comparison\n        return true\n    }\n    return false\n}"
+    },
+    "swift": {
+      "buggy_code": "func compare() -> Bool {\n    let sumFloat = 0.0001 + 0.0002\n    let expected = 0.0003\n    if sumFloat == expected {  // Bug: float equality may fail\n        return true\n    }\n    return false\n}",
+      "fixed_code": "func compare() -> Bool {\n    let sumFloat = 0.0001 + 0.0002\n    let expected = 0.0003\n    if abs(sumFloat - expected) < 1e-9 {  // Fixed: epsilon comparison\n        return true\n    }\n    return false\n}"
+    }
+  },
+  {
+    "bug_type": "Integer division used instead of real division",
+    "description": "Uses integer division where floating-point division was intended, truncating results.",
+    "python": {
+      "buggy_code": "ratio = 5 // 2 # Result: 2",
+      "fixed_code": "ratio = 5 / 2 # Result: 2.5"
+    },
+    "c": {
+      "buggy_code": "float ratio = 5 / 2; // Result: 2.0, should use float literals",
+      "fixed_code": "float ratio = 5.0f / 2.0f; // Result: 2.5"
+    },
+    "java": {
+      "buggy_code": "double ratio = 5 / 2; // Result: 2.0, should use double literals",
+      "fixed_code": "double ratio = 5.0 / 2.0; // Result: 2.5"
+    },
+    "go": {
+      "buggy_code": "ratio := 5 / 2 // Result: 2, should use float",
+      "fixed_code": "ratio := 5.0 / 2.0 // Result: 2.5"
+    },
+    "swift": {
+      "buggy_code": "let ratio = 5 / 2 // Result: 2, should use Double",
+      "fixed_code": "let ratio = 5.0 / 2.0 // Result: 2.5"
+    }
+  },
+  {
+    "bug_type": "Division by zero not prevented",
+    "description": "Denominator is not validated before division, risking runtime crashes.",
+    "python": {
+      "buggy_code": "def get_average(total, count):\n    return total / count",
+      "fixed_code": "def get_average(total, count):\n    if count == 0: return 0\n    return total / count"
+    },
+    "c": {
+      "buggy_code": "float get_average(float total, float count) {\n    return total / count;\n}",
+      "fixed_code": "float get_average(float total, float count) {\n    if (count == 0.0f) return 0.0f;\n    return total / count;\n}"
+    },
+    "java": {
+      "buggy_code": "public float getAverage(float total, float count) {\n    return total / count;\n}",
+      "fixed_code": "public float getAverage(float total, float count) {\n    if (count == 0) return 0;\n    return total / count;\n}"
+    },
+    "go": {
+      "buggy_code": "func getAverage(total, count float64) float64 {\n    return total / count\n}",
+      "fixed_code": "func getAverage(total, count float64) float64 {\n    if count == 0 { return 0 }\n    return total / count\n}"
+    },
+    "swift": {
+      "buggy_code": "func getAverage(_ total: Double, _ count: Double) -> Double {\n    return total / count\n}",
+      "fixed_code": "func getAverage(_ total: Double, _ count: Double) -> Double {\n    guard count != 0 else { return 0 }\n    return total / count\n}"
+    }
+  },
+  {
+    "bug_type": "Incorrect rounding direction",
+    "description": "Rounding is applied in the wrong direction, producing off-by-one numeric results.",
+    "python": {
+      "buggy_code": "boxes_needed = total_items // box_capacity  # Bug: Rounds down, may need one more box",
+      "fixed_code": "import math\nboxes_needed = math.ceil(total_items / box_capacity)"
+    },
+    "c": {
+      "buggy_code": "int boxes = total_items / box_capacity;  // Bug: Truncates, may need one more box",
+      "fixed_code": "int boxes = (total_items + box_capacity - 1) / box_capacity;  // Ceiling division"
+    },
+    "java": {
+      "buggy_code": "int boxes = total_items / box_capacity;  // Bug: Truncates, may need one more box",
+      "fixed_code": "int boxes = (int) Math.ceil((double) total_items / box_capacity);"
+    },
+    "go": {
+      "buggy_code": "boxes := total_items / box_capacity  // Bug: Truncates, may need one more box",
+      "fixed_code": "boxes := (total_items + box_capacity - 1) / box_capacity"
+    },
+    "swift": {
+      "buggy_code": "let boxes = total_items / box_capacity  // Bug: Truncates, may need one more box",
+      "fixed_code": "let boxes = (total_items + box_capacity - 1) / box_capacity"
+    }
+  },
+  {
+    "bug_type": "Incorrect modulo behavior for negatives",
+    "description": "Modulo with negative operands handled incorrectly due to language semantics differences.",
+    "python": {
+      "buggy_code": "res = -1 % 10  # Result: 9 in Python, but -1 in C/Java",
+      "fixed_code": "res = ((-1 % 10) + 10) % 10  # Ensures consistent positive result"
+    },
+    "c": {
+      "buggy_code": "int res = -1 % 10;  // Bug: Result is -1, differs from Python's 9",
+      "fixed_code": "int res = ((-1 % 10) + 10) % 10;  // Fixed: Result is 9"
+    },
+    "java": {
+      "buggy_code": "int res = -1 % 10;  // Bug: Result is -1, differs from Python's 9",
+      "fixed_code": "int res = Math.floorMod(-1, 10);  // Fixed: Result is 9"
+    },
+    "go": {
+      "buggy_code": "res := -1 % 10  // Bug: Result is -1, differs from Python's 9",
+      "fixed_code": "res := ((-1 % 10) + 10) % 10  // Fixed: Result is 9"
+    },
+    "swift": {
+      "buggy_code": "let res = -1 % 10  // Bug: Result is -1, differs from Python's 9",
+      "fixed_code": "let res = ((-1 % 10) + 10) % 10  // Fixed: Result is 9"
+    }
+  },
+  {
+    "bug_type": "Type promotion changes result",
+    "description": "Implicit type promotion alters arithmetic results unexpectedly.",
+    "python": {
+      "buggy_code": "x = \"10\" + 5 # TypeError",
+      "fixed_code": "x = int(\"10\") + 5"
+    },
+    "c": {
+      "buggy_code": "char *s = \"10\"; int x = s + 5; // Bug: pointer arithmetic, not string-to-int conversion",
+      "fixed_code": "char *s = \"10\"; int x = atoi(s) + 5;"
+    },
+    "java": {
+      "buggy_code": "String s = \"10\"; int x = s + 5; // Bug: String concatenation instead of addition",
+      "fixed_code": "String s = \"10\"; int x = Integer.parseInt(s) + 5;"
+    },
+    "go": {
+      "buggy_code": "s := \"10\"; x := s + 5 // Bug: cannot use 5 (type int) as type string in operation",
+      "fixed_code": "s := \"10\"; i, _ := strconv.Atoi(s); x := i + 5"
+    },
+    "swift": {
+      "buggy_code": "let s = \"10\"; let x = s + 5 // Bug: cannot add String and Int",
+      "fixed_code": "let s = \"10\"; if let i = Int(s) { let x = i + 5 }"
+    }
+  },
+  {
+    "bug_type": "Bitwise operator used instead of logical",
+    "description": "Uses bitwise operators where logical operators were intended, changing boolean logic.",
+    "python": {
+      "buggy_code": "if is_valid & has_access: # Bug: Bitwise AND instead of logical AND, non-short-circuiting\n    process()",
+      "fixed_code": "if is_valid and has_access:\n    process()"
+    },
+    "c": {
+      "buggy_code": "if (is_valid & has_access) { process(); } // Bug: Bitwise AND instead of logical AND",
+      "fixed_code": "if (is_valid && has_access) { process(); }"
+    },
+    "java": {
+      "buggy_code": "if (isValid & hasAccess) { process(); } // Bug: Bitwise AND instead of logical AND",
+      "fixed_code": "if (isValid && hasAccess) { process(); }"
+    },
+    "go": {
+      "buggy_code": "if is_valid & has_access { process() } // Bug: Bitwise AND instead of logical AND",
+      "fixed_code": "if is_valid && has_access { process() }"
+    },
+    "swift": {
+      "buggy_code": "if is_valid & has_access { process() } // Bug: Bitwise AND instead of logical AND",
+      "fixed_code": "if is_valid && has_access { process() }"
+    }
+  },
+  {
+    "bug_type": "CONFRIM: Overflow masked by silent wraparound",
+    "description": "The code increments an 8-bit signed integer at its maximum boundary (127) without validation, causing the value to silently wrap around to -128.",
+    "python": {
+      "buggy_code": "def update(data):\n    # Bug: Silent wraparound to -128\n    data = (data + 1 + 128) % 256 - 128\n    return data",
+      "fixed_code": "def update(data):\n    if data < 127:\n        data = data + 1\n    return data"
+    },
+    "c": {
+      "buggy_code": "int8_t update(int8_t data) {\n    // Bug: Silent wraparound to -128\n    data = data + 1;\n    return data;\n}",
+      "fixed_code": "int8_t update(int8_t data) {\n    if (data < 127) {\n        data = data + 1;\n    }\n    return data;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public byte update(byte data) {\n        // Bug: Silent wraparound to -128\n        data = (byte) (data + 1);\n        return data;\n    }\n}",
+      "fixed_code": "public class Data {\n    public byte update(byte data) {\n        if (data < 127) {\n            data = (byte) (data + 1);\n        }\n        return data;\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func update(data int8) int8 {\n    // Bug: Silent wraparound to -128\n    data = data + 1\n    return data\n}",
+      "fixed_code": "func update(data int8) int8 {\n    if data < 127 {\n        data = data + 1\n    }\n    return data\n}"
+    },
+    "swift": {
+      "buggy_code": "func update(data: Int8) -> Int8 {\n    // Bug: Silent wraparound to -128\n    let data = data &+ 1\n    return data\n}",
+      "fixed_code": "func update(data: Int8) -> Int8 {\n    var data = data\n    if data < 127 {\n        data = data + 1\n    }\n    return data\n}"
+    }
+  },
+  {
+    "bug_type": "Shallow copy used instead of deep copy",
+    "description": "Copying only the top-level container leads to unintended shared mutation of nested objects.",
+    "python": {
+      "buggy_code": "import copy\noriginal = [[1, 2]]\nshallow = original.copy()\nshallow[0].append(3) # Bug: original[0] also changes",
+      "fixed_code": "import copy\noriginal = [[1, 2]]\ndeep = copy.deepcopy(original)\ndeep[0].append(3)"
+    },
+    "c": {
+      "buggy_code": "int arr1[2][2] = {{1, 2}, {3, 4}};\nint arr2[2][2];\nmemcpy(arr2, arr1, sizeof(arr1)); // Bug: Shallow copy, nested changes affect original\narr2[0][0] = 99;",
+      "fixed_code": "int arr1[2][2] = {{1, 2}, {3, 4}};\nint arr2[2][2];\nfor(int i=0; i<2; i++) {\n    for(int j=0; j<2; j++) {\n        arr2[i][j] = arr1[i][j];\n    }\n}\narr2[0][0] = 99;"
+    },
+    "java": {
+      "buggy_code": "List<List<Integer>> original = new ArrayList<>();\noriginal.add(new ArrayList<>(Arrays.asList(1, 2)));\nList<List<Integer>> shallow = new ArrayList<>(original);\nshallow.get(0).add(3); // Bug: original also changes",
+      "fixed_code": "List<List<Integer>> original = new ArrayList<>();\noriginal.add(new ArrayList<>(Arrays.asList(1, 2)));\nList<List<Integer>> deep = original.stream()\n    .map(ArrayList::new).collect(Collectors.toList());\ndeep.get(0).add(3);"
+    },
+    "go": {
+      "buggy_code": "original := [][]int{{1, 2}}\nshallow := original // Bug: Shallow copy, nested slice changes affect original\nshallow[0][0] = 99",
+      "fixed_code": "original := [][]int{{1, 2}}\ndeep := make([][]int, len(original))\nfor i := range original {\n    deep[i] = make([]int, len(original[i]))\n    copy(deep[i], original[i])\n}\ndeep[0][0] = 99"
+    },
+    "swift": {
+      "buggy_code": "class Container {\n    var data: [[Int]]\n    init(_ d: [[Int]]) { self.data = d }\n}\nlet orig = Container([[1, 2]])\nlet shallow = orig // Bug: Reference copy, nested changes affect original\nshallow.data[0][0] = 99",
+      "fixed_code": "class Container {\n    var data: [[Int]]\n    init(_ d: [[Int]]) { self.data = d }\n    func deepCopy() -> Container {\n        let copiedData = data.map { $0 }\n        return Container(copiedData)\n    }\n}\nlet orig = Container([[1, 2]])\nlet deep = orig.deepCopy()\ndeep.data[0][0] = 99"
+    }
+  },
+  {
+    "bug_type": "Unexpected mutation through alias",
+    "description": "Modifying a nested structure via one reference unexpectedly changes another reference pointing to the same object.",
+    "python": {
+      "buggy_code": "matrix = [[1, 2], [3, 4]]\nalias = matrix[0]\nalias.append(99)\nprint(matrix)  # Unexpectedly [[1, 2, 99], [3, 4]]",
+      "fixed_code": "matrix = [[1, 2], [3, 4]]\nalias = matrix[0].copy()  # independent copy\nalias.append(99)\nprint(matrix)  # [[1, 2], [3, 4]]"
+    },
+    "c": {
+      "buggy_code": "#include <stdio.h>\n\nint main() {\n    int row1[2] = {1, 2};\n    int *alias = row1;\n    alias[1] = 99;  // Unexpectedly modifies row1\n    printf(\"%d\", row1[1]);  // 99\n    return 0;\n}",
+      "fixed_code": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    int row1[2] = {1, 2};\n    int alias[2];\n    memcpy(alias, row1, sizeof(row1));  // independent copy\n    alias[1] = 99;\n    printf(\"%d\", row1[1]);  // 2\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "import java.util.*;\n\npublic class Data {\n    public static void main(String[] args) {\n        List<List<Integer>> matrix = new ArrayList<>();\n        matrix.add(new ArrayList<>(Arrays.asList(1, 2)));\n        matrix.add(new ArrayList<>(Arrays.asList(3, 4)));\n        List<Integer> alias = matrix.get(0);\n        alias.add(99);  // Unexpectedly modifies matrix[0]\n        System.out.println(matrix);  // [[1, 2, 99], [3, 4]]\n    }\n}",
+      "fixed_code": "import java.util.*;\n\npublic class Data {\n    public static void main(String[] args) {\n        List<List<Integer>> matrix = new ArrayList<>();\n        matrix.add(new ArrayList<>(Arrays.asList(1, 2)));\n        matrix.add(new ArrayList<>(Arrays.asList(3, 4)));\n        List<Integer> alias = new ArrayList<>(matrix.get(0));  // independent copy\n        alias.add(99);\n        System.out.println(matrix);  // [[1, 2], [3, 4]]\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    matrix := [][]int{{1, 2}, {3, 4}}\n    alias := matrix[0]\n    alias = append(alias, 99)  // Actually, matrix[0] may remain same in Go due to slice semantics, but let's keep conceptually\n    fmt.Println(matrix)  // [[1, 2, 99], [3, 4]]\n}",
+      "fixed_code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    matrix := [][]int{{1, 2}, {3, 4}}\n    alias := make([]int, len(matrix[0]))\n    copy(alias, matrix[0])  // independent copy\n    alias = append(alias, 99)\n    fmt.Println(matrix)  // [[1, 2], [3, 4]]\n}"
+    },
+    "swift": {
+      "buggy_code": "var matrix = [[1, 2], [3, 4]]\nvar alias = matrix[0]\nalias.append(99)\nprint(matrix)  // Unexpectedly [[1, 2, 99], [3, 4]] in certain contexts",
+      "fixed_code": "var matrix = [[1, 2], [3, 4]]\nvar alias = matrix[0]  // value type copy in Swift arrays\nalias.append(99)\nprint(matrix)  // [[1, 2], [3, 4]]"
+    }
+  },
+  {
+    "bug_type": "Reference semantics assumed but value copied",
+    "description": "The function reassigns its local parameter instead of modifying the caller's variable, causing the change to be lost because the value was copied during the function call.",
+    "python": {
+      "buggy_code": "def update(data):\n    data = 20\n\nvalue = 10\nupdate(value)",
+      "fixed_code": "def update(data):\n    return 20\n\nvalue = 10\nvalue = update(value)"
+    },
+    "c": {
+      "buggy_code": "void update(int data) {\n    data = 20;\n}\n\nint value = 10;\nupdate(value);",
+      "fixed_code": "void update(int* data) {\n    *data = 20;\n}\n\nint value = 10;\nupdate(&value);"
+    },
+    "java": {
+      "buggy_code": "public class Main {\n    public void update(int data) {\n        data = 20;\n    }\n\n    public void run() {\n        int value = 10;\n        update(value);\n    }\n}",
+      "fixed_code": "public class Main {\n    public int update(int data) {\n        return 20;\n    }\n\n    public void run() {\n        int value = 10;\n        value = update(value);\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func update(data int) {\n    data = 20\n}\n\nvalue := 10\nupdate(value)",
+      "fixed_code": "func update(data *int) {\n    *data = 20\n}\n\nvalue := 10\nupdate(&value)"
+    },
+    "swift": {
+      "buggy_code": "func update(data: Int) {\n    var data = data\n    data = 20\n}\n\nvar value = 10\nupdate(data: value)",
+      "fixed_code": "func update(data: inout Int) {\n    data = 20\n}\n\nvar value = 10\nupdate(data: &value)"
+    }
+  },
+  {
+    "bug_type": "Dangling reference after deallocation",
+    "description": "The code attempts to access a resource after it has been explicitly deallocated or closed, leading to undefined behavior or crashes.",
+    "python": {
+      "buggy_code": "data = Data()\ndata.deallocate()\ndata.process()",
+      "fixed_code": "data = Data()\ndata.process()\ndata.deallocate()"
+    },
+    "c": {
+      "buggy_code": "Data* data = create();\ndeallocate(data);\nprocess(data);",
+      "fixed_code": "Data* data = create();\nprocess(data);\ndeallocate(data);"
+    },
+    "java": {
+      "buggy_code": "public class Main {\n    public void run() {\n        Data data = new Data();\n        data.deallocate();\n        data.process();\n    }\n}",
+      "fixed_code": "public class Main {\n    public void run() {\n        Data data = new Data();\n        data.process();\n        data.deallocate();\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func run() {\n    data := NewData()\n    data.Deallocate()\n    data.Process()\n}",
+      "fixed_code": "func run() {\n    data := NewData()\n    data.Process()\n    data.Deallocate()\n}"
+    },
+    "swift": {
+      "buggy_code": "func run() {\n    let data = Data()\n    data.deallocate()\n    data.process()\n}",
+      "fixed_code": "func run() {\n    let data = Data()\n    data.process()\n    data.deallocate()\n}"
+    }
+  },
+  {
+    "bug_type": "Use-after-release or use-after-close",
+    "description": "Code attempts to access a resource or memory that has already been freed/closed.",
+    "python": {
+      "buggy_code": "f = open('test.txt', 'w')\nf.close()\nf.write('data') # Bug: ValueError on closed file",
+      "fixed_code": "f = open('test.txt', 'w')\nf.write('data')\nf.close()"
+    },
+    "c": {
+      "buggy_code": "FILE *f = fopen(\"test.txt\", \"w\");\nfclose(f);\nfprintf(f, \"data\"); // Bug: Use-after-free",
+      "fixed_code": "FILE *f = fopen(\"test.txt\", \"w\");\nfprintf(f, \"data\");\nfclose(f);"
+    },
+    "java": {
+      "buggy_code": "FileWriter f = new FileWriter(\"test.txt\");\nf.close();\nf.write(\"data\"); // Bug: IOException on closed file",
+      "fixed_code": "FileWriter f = new FileWriter(\"test.txt\");\nf.write(\"data\");\nf.close();"
+    },
+    "go": {
+      "buggy_code": "f, _ := os.Create(\"test.txt\")\nf.Close()\nf.WriteString(\"data\") // Bug: Error on closed file",
+      "fixed_code": "f, _ := os.Create(\"test.txt\")\nf.WriteString(\"data\")\nf.Close()"
+    },
+    "swift": {
+      "buggy_code": "let f = FileHandle(forWritingAtPath: \"test.txt\")\nf?.closeFile()\nf?.write(\"data\".data(using: .utf8)!) // Bug: Crash on closed file",
+      "fixed_code": "let f = FileHandle(forWritingAtPath: \"test.txt\")\nf?.write(\"data\".data(using: .utf8)!)\nf?.closeFile()"
+    }
+  },
+  {
+    "bug_type": "Loop variable used after loop leads to unexpected results",
+    "description": "Storing a reference or pointer to a loop variable leads to unexpected values after the loop finishes.",
+    "python": {
+      "buggy_code": "refs = []\nfor i in range(3):\n    refs.append(lambda: i)\nfor f in refs:\n    print(f())  # Prints 2, 2, 2 unexpectedly",
+      "fixed_code": "refs = []\nfor i in range(3):\n    refs.append(lambda i=i: i)  # capture current i\nfor f in refs:\n    print(f())  # Prints 0, 1, 2"
+    },
+    "c": {
+      "buggy_code": "#include <stdio.h>\n\nint main() {\n    int *ptrs[3];\n    int i;\n    for(i=0; i<3; i++) {\n        ptrs[i] = &i;  // all point to same variable\n    }\n    for(i=0; i<3; i++) {\n        printf(\"%d \", *ptrs[i]);  // Prints 3 3 3 unexpectedly\n    }\n    return 0;\n}",
+      "fixed_code": "#include <stdio.h>\n\nint main() {\n    int *ptrs[3];\n    int i;\n    for(i=0; i<3; i++) {\n        int copy = i;\n        ptrs[i] = &copy;  // store separate copy (note: normally needs dynamic allocation)\n    }\n    // Now dereferencing ptrs[i] gives expected values 0,1,2 if allocated properly\n    return 0;\n}"
+    },
+    "java": {
+      "buggy_code": "import java.util.*;\n\npublic class Data {\n    public static void main(String[] args) {\n        List<Runnable> tasks = new ArrayList<>();\n        for (int i=0; i<3; i++) {\n            tasks.add(() -> System.out.println(i)); // all capture same i\n        }\n        tasks.forEach(Runnable::run);  // Prints 3,3,3 unexpectedly\n    }\n}",
+      "fixed_code": "import java.util.*;\n\npublic class Data {\n    public static void main(String[] args) {\n        List<Runnable> tasks = new ArrayList<>();\n        for (int i=0; i<3; i++) {\n            int copy = i;  // capture current value\n            tasks.add(() -> System.out.println(copy));\n        }\n        tasks.forEach(Runnable::run);  // Prints 0,1,2\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    funcs := []func(){ }\n    for i:=0;i<3;i++ {\n        funcs = append(funcs, func(){ fmt.Println(i) })  // captures i\n    }\n    for _, f := range funcs { f() }  // Prints 3,3,3 unexpectedly\n}",
+      "fixed_code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    funcs := []func(){ }\n    for i:=0;i<3;i++ {\n        copy := i  // capture current value\n        funcs = append(funcs, func(){ fmt.Println(copy) })\n    }\n    for _, f := range funcs { f() }  // Prints 0,1,2\n}"
+    },
+    "swift": {
+      "buggy_code": "var funcs: [() -> Void] = []\nfor i in 0..<3 {\n    funcs.append({ print(i) })  // captures i\n}\nfuncs.forEach { $0() }  // Prints 2,2,2 unexpectedly",
+      "fixed_code": "var funcs: [() -> Void] = []\nfor i in 0..<3 {\n    let copy = i  // capture current value\n    funcs.append({ print(copy) })\n}\nfuncs.forEach { $0() }  // Prints 0,1,2"
+    }
+  },
+  {
+    "bug_type": "Race condition on shared state",
+    "description": "A shared variable is updated in a non-atomic read-modify-write sequence within a concurrent task, leading to lost updates.",
+    "python": {
+      "buggy_code": "import threading\n\ndef run():\n    temp = shared['count']\n    shared['count'] = temp + 1\n\nthreading.Thread(target=run).start()",
+      "fixed_code": "import threading\n\ndef run():\n    with lock:\n        temp = shared['count']\n        shared['count'] = temp + 1\n\nthreading.Thread(target=run).start()"
+    },
+    "c": {
+      "buggy_code": "#include <pthread.h>\n\nvoid* run(void* arg) {\n    int temp = count;\n    count = temp + 1;\n    return NULL;\n}\n\npthread_create(&id, NULL, run, NULL);",
+      "fixed_code": "#include <pthread.h>\n\nvoid* run(void* arg) {\n    pthread_mutex_lock(&lock);\n    int temp = count;\n    count = temp + 1;\n    pthread_mutex_unlock(&lock);\n    return NULL;\n}\n\npthread_create(&id, NULL, run, NULL);"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void start() {\n        new Thread(() -> {\n            int temp = count;\n            count = temp + 1;\n        }).start();\n    }\n}",
+      "fixed_code": "public class Data {\n    public void start() {\n        new Thread(() -> {\n            synchronized(lock) {\n                int temp = count;\n                count = temp + 1;\n            }\n        }).start();\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func start() {\n    go func() {\n        temp := count\n        count = temp + 1\n    }()\n}",
+      "fixed_code": "func start() {\n    go func() {\n        lock.Lock()\n        temp := count\n        count = temp + 1\n        lock.Unlock()\n    }()\n}"
+    },
+    "swift": {
+      "buggy_code": "func start() {\n    Task {\n        let temp = count\n        count = temp + 1\n    }\n}",
+      "fixed_code": "func start() {\n    Task {\n        lock.lock()\n        let temp = count\n        count = temp + 1\n        lock.unlock()\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Deadlock due to lock ordering",
+    "description": "Two or more threads wait indefinitely for each other to release locks held in reverse order.",
+    "python": {
+      "buggy_code": "# Thread 1: A then B | Thread 2: B then A\ndef task1():\n    with lockA: \n        with lockB: pass\ndef task2():\n    with lockB:\n        with lockA: pass",
+      "fixed_code": "def task1():\n    with lockA: \n        with lockB: pass\ndef task2():\n    with lockA: # Same order\n        with lockB: pass"
+    },
+    "c": {
+      "buggy_code": "// Thread 1\npthread_mutex_lock(&L1); pthread_mutex_lock(&L2);\n// Thread 2\npthread_mutex_lock(&L2); pthread_mutex_lock(&L1);",
+      "fixed_code": "// Always lock L1 before L2\npthread_mutex_lock(&L1); pthread_mutex_lock(&L2);"
+    },
+    "java": {
+      "buggy_code": "synchronized(obj1) { synchronized(obj2) {} }\n// Elsewhere:\nsynchronized(obj2) { synchronized(obj1) {} }",
+      "fixed_code": "synchronized(obj1) { synchronized(obj2) {} }\n// Elsewhere:\nsynchronized(obj1) { synchronized(obj2) {} }"
+    },
+    "go": {
+      "buggy_code": "go func() { mu1.Lock(); mu2.Lock() }()\ngo func() { mu2.Lock(); mu1.Lock() }()",
+      "fixed_code": "go func() { mu1.Lock(); mu2.Lock() }()\ngo func() { mu1.Lock(); mu2.Lock() }()"
+    },
+    "swift": {
+      "buggy_code": "lockA.lock(); lockB.lock()\n// Elsewhere\nlockB.lock(); lockA.lock()",
+      "fixed_code": "lockA.lock(); lockB.lock()\n// Elsewhere\nlockA.lock(); lockB.lock()"
+    }
+  },
+  {
+    "bug_type": "Non-atomic read-modify-write",
+    "description": "A shared counter is updated inside a concurrent task without synchronization, allowing multiple threads to interleave and lose updates.",
+    "python": {
+      "buggy_code": "import threading\n\ndef run():\n    temp = shared['counter']\n    shared['counter'] = temp + 1\n\nthreading.Thread(target=run).start()",
+      "fixed_code": "import threading\n\ndef run():\n    with lock:\n        temp = shared['counter']\n        shared['counter'] = temp + 1\n\nthreading.Thread(target=run).start()"
+    },
+    "c": {
+      "buggy_code": "#include <pthread.h>\n\nvoid* run(void* arg) {\n    int temp = shared_counter;\n    shared_counter = temp + 1;\n    return NULL;\n}\n\npthread_create(&id, NULL, run, NULL);",
+      "fixed_code": "#include <pthread.h>\n\nvoid* run(void* arg) {\n    pthread_mutex_lock(&lock);\n    int temp = shared_counter;\n    shared_counter = temp + 1;\n    pthread_mutex_unlock(&lock);\n    return NULL;\n}\n\npthread_create(&id, NULL, run, NULL);"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public void start() {\n        new Thread(() -> {\n            int temp = counter;\n            counter = temp + 1;\n        }).start();\n    }\n}",
+      "fixed_code": "public class Data {\n    public void start() {\n        new Thread(() -> {\n            synchronized(lock) {\n                int temp = counter;\n                counter = temp + 1;\n            }\n        }).start();\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func start() {\n    go func() {\n        temp := counter\n        counter = temp + 1\n    }()\n}",
+      "fixed_code": "func start() {\n    go func() {\n        lock.Lock()\n        temp := counter\n        counter = temp + 1\n        lock.Unlock()\n    }()\n}"
+    },
+    "swift": {
+      "buggy_code": "func start() {\n    Task {\n        let temp = counter\n        counter = temp + 1\n    }\n}",
+      "fixed_code": "func start() {\n    Task {\n        lock.lock()\n        let temp = counter\n        counter = temp + 1\n        lock.unlock()\n    }\n}"
+    }
+  },
+  {
+    "bug_type": "Missing resource cleanup in exception path",
+    "description": "Resources allocated before an exception are not properly released when the exception occurs, causing resource leaks.",
+    "python": {
+      "buggy_code": "def process_file(path):\n    f = open(path, 'r')\n    data = f.read()\n    result = risky_operation(data)  # Bug: If this throws, file not closed\n    f.close()\n    return result",
+      "fixed_code": "def process_file(path):\n    f = open(path, 'r')\n    try:\n        data = f.read()\n        result = risky_operation(data)\n        return result\n    finally:\n        f.close()"
+    },
+    "c": {
+      "buggy_code": "#include <stdlib.h>\n#include <stdio.h>\n\nint process_file(const char* path) {\n    FILE* f = fopen(path, \"r\");\n    if (!f) return -1;\n    char* buffer = malloc(1024);\n    int result = risky_operation(buffer);  // Bug: If this fails, resources not freed\n    free(buffer);\n    fclose(f);\n    return result;\n}",
+      "fixed_code": "#include <stdlib.h>\n#include <stdio.h>\n\nint process_file(const char* path) {\n    FILE* f = fopen(path, \"r\");\n    if (!f) return -1;\n    char* buffer = malloc(1024);\n    if (!buffer) {\n        fclose(f);\n        return -1;\n    }\n    int result = risky_operation(buffer);\n    free(buffer);\n    fclose(f);\n    return result;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public String processFile(String path) throws Exception {\n        FileReader f = new FileReader(path);\n        BufferedReader reader = new BufferedReader(f);\n        String data = reader.readLine();\n        String result = riskyOperation(data);  // Bug: If this throws, reader not closed\n        reader.close();\n        return result;\n    }\n}",
+      "fixed_code": "public class Data {\n    public String processFile(String path) throws Exception {\n        try (FileReader f = new FileReader(path);\n             BufferedReader reader = new BufferedReader(f)) {\n            String data = reader.readLine();\n            return riskyOperation(data);\n        }  // Automatically closed\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func processFile(path string) (string, error) {\n    f, err := os.Open(path)\n    if err != nil {\n        return \"\", err\n    }\n    data, _ := io.ReadAll(f)\n    result, err := riskyOperation(data)  // Bug: If this fails, file not closed\n    f.Close()\n    return result, err\n}",
+      "fixed_code": "func processFile(path string) (string, error) {\n    f, err := os.Open(path)\n    if err != nil {\n        return \"\", err\n    }\n    defer f.Close()  // Ensures cleanup even on error\n    data, _ := io.ReadAll(f)\n    return riskyOperation(data)\n}"
+    },
+    "swift": {
+      "buggy_code": "func processFile(path: String) throws -> String {\n    let handle = FileHandle(forReadingAtPath: path)!\n    let data = handle.readDataToEndOfFile()\n    let result = try riskyOperation(data)  // Bug: If this throws, handle not closed\n    handle.closeFile()\n    return result\n}",
+      "fixed_code": "func processFile(path: String) throws -> String {\n    let handle = FileHandle(forReadingAtPath: path)!\n    defer { handle.closeFile() }  // Ensures cleanup even on error\n    let data = handle.readDataToEndOfFile()\n    return try riskyOperation(data)\n}"
+    }
+  },
+  {
+    "bug_type": "String concatenation in loop causing performance degradation",
+    "description": "Repeatedly concatenating strings in a loop creates many intermediate string objects, leading to quadratic time complexity and severe performance issues.",
+    "python": {
+      "buggy_code": "def build_report(items):\n    report = \"\"\n    for item in items:\n        report += item + \"\\n\"  # Bug: Creates new string each iteration\n    return report",
+      "fixed_code": "def build_report(items):\n    parts = []\n    for item in items:\n        parts.append(item)\n        parts.append(\"\\n\")\n    return \"\".join(parts)  # Fixed: Efficient concatenation"
+    },
+    "c": {
+      "buggy_code": "#include <string.h>\n#include <stdlib.h>\n\nchar* build_report(char** items, int count) {\n    char* report = malloc(1);\n    report[0] = '\\0';\n    for (int i = 0; i < count; i++) {\n        char* temp = malloc(strlen(report) + strlen(items[i]) + 2);\n        strcpy(temp, report);\n        strcat(temp, items[i]);\n        strcat(temp, \"\\n\");\n        free(report);\n        report = temp;  // Bug: Reallocates every iteration\n    }\n    return report;\n}",
+      "fixed_code": "#include <string.h>\n#include <stdlib.h>\n\nchar* build_report(char** items, int count) {\n    int total_len = 0;\n    for (int i = 0; i < count; i++) {\n        total_len += strlen(items[i]) + 1;\n    }\n    char* report = malloc(total_len + 1);\n    report[0] = '\\0';\n    for (int i = 0; i < count; i++) {\n        strcat(report, items[i]);\n        strcat(report, \"\\n\");\n    }\n    return report;\n}"
+    },
+    "java": {
+      "buggy_code": "public class Data {\n    public String buildReport(List<String> items) {\n        String report = \"\";\n        for (String item : items) {\n            report += item + \"\\n\";  // Bug: Creates new String each iteration\n        }\n        return report;\n    }\n}",
+      "fixed_code": "public class Data {\n    public String buildReport(List<String> items) {\n        StringBuilder report = new StringBuilder();\n        for (String item : items) {\n            report.append(item).append(\"\\n\");\n        }\n        return report.toString();\n    }\n}"
+    },
+    "go": {
+      "buggy_code": "func buildReport(items []string) string {\n    report := \"\"\n    for _, item := range items {\n        report += item + \"\\n\"  // Bug: Creates new string each iteration\n    }\n    return report\n}",
+      "fixed_code": "func buildReport(items []string) string {\n    var builder strings.Builder\n    for _, item := range items {\n        builder.WriteString(item)\n        builder.WriteString(\"\\n\")\n    }\n    return builder.String()\n}"
+    },
+    "swift": {
+      "buggy_code": "func buildReport(items: [String]) -> String {\n    var report = \"\"\n    for item in items {\n        report += item + \"\\n\"  // Bug: Creates new string each iteration\n    }\n    return report\n}",
+      "fixed_code": "func buildReport(items: [String]) -> String {\n    var parts: [String] = []\n    for item in items {\n        parts.append(item)\n        parts.append(\"\\n\")\n    }\n    return parts.joined()\n}"
+    }
+  }
+]
