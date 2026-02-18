@@ -1,0 +1,101 @@
+{
+    "problem_name": "Two Sum",
+    "problem_slug": "two-sum",
+    "difficulty": "easy",
+    "topic_tags": [
+        "array",
+        "hashing"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      vector<int> twoSum(vector<int>& nums, int target) {\n          int n = nums.size();\n          unordered_map<int, int> prevMap;\n\n          for (int i = 0; i < n; i++) {\n              int diff = target - nums[i];\n              if (prevMap.find(diff) != prevMap.end()) {\n                  return {prevMap[diff], i};\n              }\n              prevMap.insert({nums[i], i});\n          }\n          return {};\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def twoSum(self, nums: List[int], target: int) -> List[int]:\n      prevMap = {}  # val -> index\n\n      for i, n in enumerate(nums):\n          diff = target - n\n          if diff in prevMap:\n              return [prevMap[diff], i]\n          prevMap[n] = i\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int[] twoSum(int[] nums, int target) {\n      HashMap<Integer, Integer> prevMap = new HashMap<>();\n\n      for (int i = 0; i < nums.length; i++) {\n          int num = nums[i];\n          int diff = target - num;\n\n          if (prevMap.containsKey(diff)) {\n              return new int[] { prevMap.get(diff), i };\n          }\n\n          prevMap.put(num, i);\n      }\n\n      return new int[] {};\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func twoSum(_ nums: [Int], _ target: Int) -> [Int] {\n      var prevMap = [Int: Int]() // val -> index\n\n      for (i, n) in nums.enumerated() {\n          let diff = target - n\n          if let index = prevMap[diff] {\n              return [index, i]\n          }\n          prevMap[n] = i\n      }\n\n      return []\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func twoSum(nums []int, target int) []int {\n  prevMap := make(map[int]int)\n\n  for i, n := range nums {\n      diff := target - n\n      if j, found := prevMap[diff]; found {\n          return []int{j, i}\n      }\n      prevMap[n] = i\n  }\n  return []int{}\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      vector<int> twoSum(vector<int>& nums, int target) {\n          vector<pair<int, int>> A;\n          for (int i = 0; i < nums.size(); i++) {\n              A.push_back({nums[i], i});\n          }\n\n          sort(A.begin(), A.end());\n\n          int i = 0, j = nums.size() - 1;\n          while (i < j) {\n              int cur = A[i].first + A[j].first;\n              if (cur == target) {\n                  return {min(A[i].second, A[j].second),\n                          max(A[i].second, A[j].second)};\n              } else if (cur < target) {\n                  i++;\n              } else {\n                  j--;\n              }\n          }\n          return {};\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def twoSum(self, nums: List[int], target: int) -> List[int]:\n      A = []\n      for i, num in enumerate(nums):\n          A.append([num, i])\n\n      A.sort()\n      i, j = 0, len(nums) - 1\n      while i < j:\n          cur = A[i][0] + A[j][0]\n          if cur == target:\n              return [min(A[i][1], A[j][1]),\n                      max(A[i][1], A[j][1])]\n          elif cur < target:\n              i += 1\n          else:\n              j -= 1\n      return []\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int[] twoSum(int[] nums, int target) {\n      int[][] A = new int[nums.length][2];\n      for (int i = 0; i < nums.length; i++) {\n          A[i][0] = nums[i];\n          A[i][1] = i;\n      }\n\n      Arrays.sort(A, Comparator.comparingInt(a -> a[0]));\n\n      int i = 0, j = nums.length - 1;\n      while (i < j) {\n          int cur = A[i][0] + A[j][0];\n          if (cur == target) {\n              return new int[]{Math.min(A[i][1], A[j][1]),\n                               Math.max(A[i][1], A[j][1])};\n          } else if (cur < target) {\n              i++;\n          } else {\n              j--;\n          }\n      }\n      return new int[0];\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func twoSum(_ nums: [Int], _ target: Int) -> [Int] {\n      var A = [(Int, Int)]()\n      for (i, num) in nums.enumerated() {\n          A.append((num, i))\n      }\n\n      A.sort { $0.0 < $1.0 }\n      var i = 0\n      var j = nums.count - 1\n\n      while i < j {\n          let cur = A[i].0 + A[j].0\n          if cur == target {\n              return [min(A[i].1, A[j].1),\n                      max(A[i].1, A[j].1)]\n          } else if cur < target {\n              i += 1\n          } else {\n              j -= 1\n          }\n      }\n      return []\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func twoSum(nums []int, target int) []int {\n  A := make([][2]int, len(nums))\n  for i, num := range nums {\n      A[i] = [2]int{num, i}\n  }\n\n  sort.Slice(A, func(i, j int) bool {\n      return A[i][0] < A[j][0]\n  })\n\n  i, j := 0, len(nums)-1\n  for i < j {\n      cur := A[i][0] + A[j][0]\n      if cur == target {\n          if A[i][1] < A[j][1] {\n              return []int{A[i][1], A[j][1]}\n          } else {\n              return []int{A[j][1], A[i][1]}\n          }\n      } else if cur < target {\n          i++\n      } else {\n          j--\n      }\n  }\n  return []int{}\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "cclass Solution {\n  public:\n      vector<int> twoSum(vector<int>& nums, int target) {\n          for (int i = 0; i < nums.size(); i++) {\n              for (int j = i + 1; j < nums.size(); j++) {\n                  if (nums[i] + nums[j] == target) {\n                      return {i, j};\n                  }\n              }\n          }\n          return {};\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n  def twoSum(self, nums: List[int], target: int) -> List[int]:\n      for i in range(len(nums)):\n          for j in range(i + 1, len(nums)):\n              if nums[i] + nums[j] == target:\n                  return [i, j]\n      return []\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n  public int[] twoSum(int[] nums, int target) {\n      for (int i = 0; i < nums.length; i++) {\n          for (int j = i + 1; j < nums.length; j++) {\n              if (nums[i] + nums[j] == target) {\n                  return new int[]{i, j};\n              }\n          }\n      }\n      return new int[0];\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  func twoSum(_ nums: [Int], _ target: Int) -> [Int] {\n      for i in 0..<nums.count {\n          for j in (i + 1)..<nums.count {\n              if nums[i] + nums[j] == target {\n                  return [i, j]\n              }\n          }\n      }\n      return []\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "func twoSum(nums []int, target int) []int {\n  for i := 0; i < len(nums); i++ {\n      for j := i + 1; j < len(nums); j++ {\n          if nums[i] + nums[j] == target {\n              return []int{i, j}\n          }\n      }\n  }\n  return []int{}\n}\n"
+        }
+    ]
+}
