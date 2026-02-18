@@ -1,0 +1,41 @@
+{
+    "problem_name": "Encode and Decode String",
+    "problem_slug": "encode-and-decode-string",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "string"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n  public:\n      string encode(vector<string>& strs) {\n          if (strs.empty()) return \"\";\n          vector<int> sizes;\n          string res = \"\";\n          for (string& s : strs) {\n              sizes.push_back(s.size());\n          }\n          for (int sz : sizes) {\n              res += to_string(sz) + ',';\n          }\n          res += '#';\n          for (string& s : strs) {\n              res += s;\n          }\n          return res;\n      }\n\n      vector<string> decode(string s) {\n          if (s.empty()) return {};\n          vector<int> sizes;\n          vector<string> res;\n          int i = 0;\n          while (s[i] != '#') {\n              string cur = \"\";\n              while (s[i] != ',') {\n                  cur += s[i];\n                  i++;\n              }\n              sizes.push_back(stoi(cur));\n              i++;\n          }\n          i++;\n          for (int sz : sizes) {\n              res.push_back(s.substr(i, sz));\n              i += sz;\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution:\n  def encode(self, strs: List[str]) -> str:\n      if not strs:\n          return \"\"\n      sizes, res = [], \"\"\n      for s in strs:\n          sizes.append(len(s))\n      for sz in sizes:\n          res += str(sz)\n          res += ','\n      res += '#'\n      for s in strs:\n          res += s\n      return res\n\n  def decode(self, s: str) -> List[str]:\n      if not s:\n          return []\n      sizes, res, i = [], [], 0\n      while s[i] != '#':\n          cur = \"\"\n          while s[i] != ',':\n              cur += s[i]\n              i += 1\n          sizes.append(int(cur))\n          i += 1\n      i += 1\n      for sz in sizes:\n          res.append(s[i:i + sz])\n          i += sz\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(m + n)",
+            "code": "public class Solution {\n\n  public String encode(List<String> strs) {\n      if (strs.isEmpty()) return \"\";\n      StringBuilder res = new StringBuilder();\n      List<Integer> sizes = new ArrayList<>();\n      for (String str : strs) {\n          sizes.add(str.length());\n      }\n      for (int size : sizes) {\n          res.append(size).append(',');\n      }\n      res.append('#');\n      for (String str : strs) {\n          res.append(str);\n      }\n      return res.toString();\n  }\n\n  public List<String> decode(String str) {\n      if (str.length() == 0) {\n          return new ArrayList<>();\n      }\n      List<String> res = new ArrayList<>();\n      List<Integer> sizes = new ArrayList<>();\n      int i = 0;\n      while (str.charAt(i) != '#') {\n          StringBuilder cur = new StringBuilder();\n          while (str.charAt(i) != ',') {\n              cur.append(str.charAt(i));\n              i++;\n          }\n          sizes.add(Integer.parseInt(cur.toString()));\n          i++;\n      }\n      i++;\n      for (int sz : sizes) {\n          res.add(str.substring(i, i + sz));\n          i += sz;\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n  func encode(_ strs: [String]) -> String {\n      if strs.isEmpty { return \"\" }\n\n      var sizes: [Int] = []\n      var res = \"\"\n      for s in strs {\n          sizes.append(s.count)\n      }\n      for sz in sizes {\n          res += String(sz)\n          res += \",\"\n      }\n\n      res += \"#\"\n      for s in strs {\n          res += s\n      }\n      return res\n  }\n\n  func decode(_ s: String) -> [String] {\n      if s.isEmpty { return [] }\n      let sArr = Array(s)\n      var sizes: [Int] = []\n      var res: [String] = []\n      var i = 0\n\n      while sArr[i] != \"#\" {\n          var cur = \"\"\n          while sArr[i] != \",\" {\n              cur.append(sArr[i])\n              i += 1\n          }\n          sizes.append(Int(cur)!)\n          i += 1\n      }\n\n      i += 1\n      for sz in sizes {\n          let substring = String(sArr[i..<i+sz])\n          res.append(substring)\n          i += sz\n      }\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(m + n)",
+            "code": "type Solution struct{}\n\n  func (s *Solution) Encode(strs []string) string {\n  \tif len(strs) == 0 {\n  \t\treturn \"\"\n  \t}\n  \tvar sizes []string\n  \tfor _, str := range strs {\n  \t\tsizes = append(sizes, strconv.Itoa(len(str)))\n  \t}\n  \treturn strings.Join(sizes, \",\") + \"#\" + strings.Join(strs, \"\")\n  }\n\n  func (s *Solution) Decode(encoded string) []string {\n  \tif encoded == \"\" {\n  \t\treturn []string{}\n  \t}\n  \tparts := strings.SplitN(encoded, \"#\", 2)\n  \tsizes := strings.Split(parts[0], \",\")\n  \tvar res []string\n  \ti := 0\n  \tfor _, sz := range sizes {\n  \t\tif sz == \"\" {\n  \t\t\tcontinue\n  \t\t}\n  \t\tlength, _ := strconv.Atoi(sz)\n  \t\tres = append(res, parts[1][i:i+length])\n  \t\ti += length\n  \t}\n  \treturn res\n  }\n"
+        }
+    ]
+}

@@ -1,0 +1,101 @@
+{
+    "problem_name": "Products of Array Except Self",
+    "problem_slug": "product-of-array-except-self",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "prefix sum"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  public:\n      vector<int> productExceptSelf(vector<int>& nums) {\n          int n = nums.size();\n          vector<int> res(n);\n\n          for (int i = 0; i < n; i++) {\n              int prod = 1;\n              for (int j = 0; j < n; j++) {\n                  if (i != j) {\n                      prod *= nums[j];\n                  }\n              }\n              res[i] = prod;\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n  def productExceptSelf(self, nums: List[int]) -> List[int]:\n      n = len(nums)\n      res = [0] * n\n\n      for i in range(n):\n          prod = 1\n          for j in range(n):\n              if i == j:\n                  continue\n              prod *= nums[j]\n\n          res[i] = prod\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n  public int[] productExceptSelf(int[] nums) {\n      int n = nums.length;\n      int[] res = new int[n];\n\n      for (int i = 0; i < n; i++) {\n          int prod = 1;\n          for (int j = 0; j < n; j++) {\n              if (i != j) {\n                  prod *= nums[j];\n              }\n          }\n          res[i] = prod;\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  func productExceptSelf(_ nums: [Int]) -> [Int] {\n      let n = nums.count\n      var res = [Int](repeating: 0, count: n)\n\n      for i in 0..<n {\n          var prod = 1\n          for j in 0..<n {\n              if i == j {\n                  continue\n              }\n              prod *= nums[j]\n          }\n          res[i] = prod\n      }\n\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "func productExceptSelf(nums []int) []int {\n  n := len(nums)\n  res := make([]int, n)\n\n  for i := 0; i < n; i++ {\n      prod := 1\n      for j := 0; j < n; j++ {\n          if i == j {\n              continue\n          }\n          prod *= nums[j]\n      }\n      res[i] = prod\n  }\n  return res\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  public:\n      vector<int> productExceptSelf(vector<int>& nums) {\n          int prod = 1, zeroCount = 0;\n          for (int num : nums) {\n              if (num != 0) {\n                  prod *= num;\n              } else {\n                  zeroCount++;\n              }\n          }\n\n          if (zeroCount > 1) {\n              return vector<int>(nums.size(), 0);\n          }\n\n          vector<int> res(nums.size());\n          for (size_t i = 0; i < nums.size(); i++) {\n              if (zeroCount > 0) {\n                  res[i] = (nums[i] == 0) ? prod : 0;\n              } else {\n                  res[i] = prod / nums[i];\n              }\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n  def productExceptSelf(self, nums: List[int]) -> List[int]:\n      prod, zero_cnt = 1, 0\n      for num in nums:\n          if num:\n              prod *= num\n          else:\n              zero_cnt +=  1\n      if zero_cnt > 1: return [0] * len(nums)\n\n      res = [0] * len(nums)\n      for i, c in enumerate(nums):\n          if zero_cnt: res[i] = 0 if c else prod\n          else: res[i] = prod // c\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n  public int[] productExceptSelf(int[] nums) {\n      int prod = 1, zeroCount = 0;\n      for (int num : nums) {\n          if (num != 0) {\n              prod *= num;\n          } else {\n              zeroCount++;\n          }\n      }\n\n      if (zeroCount > 1) {\n          return new int[nums.length];\n      }\n\n      int[] res = new int[nums.length];\n      for (int i = 0; i < nums.length; i++) {\n          if (zeroCount > 0) {\n              res[i] = (nums[i] == 0) ? prod : 0;\n          } else {\n              res[i] = prod / nums[i];\n          }\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  func productExceptSelf(_ nums: [Int]) -> [Int] {\n      var prod = 1\n      var zeroCount = 0\n\n      for num in nums {\n          if num != 0 {\n              prod *= num\n          } else {\n              zeroCount += 1\n          }\n      }\n\n      if zeroCount > 1 {\n          return [Int](repeating: 0, count: nums.count)\n      }\n\n      var res = [Int](repeating: 0, count: nums.count)\n      for (i, num) in nums.enumerated() {\n          if zeroCount > 0 {\n              res[i] = num == 0 ? prod : 0\n          } else {\n              res[i] = prod / num\n          }\n      }\n\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func productExceptSelf(nums []int) []int {\n  prod := 1\n  zeroCount := 0\n\n  for _, num := range nums {\n      if num != 0 {\n          prod *= num\n      } else {\n          zeroCount++\n      }\n  }\n\n  res := make([]int, len(nums))\n  if zeroCount > 1 {\n      return res\n  }\n\n  for i, num := range nums {\n      if zeroCount > 0 {\n          if num == 0 {\n              res[i] = prod\n          } else {\n              res[i] = 0\n          }\n      } else {\n          res[i] = prod / num\n      }\n  }\n  return res\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      vector<int> productExceptSelf(vector<int>& nums) {\n          int n = nums.size();\n          vector<int> res(n);\n          vector<int> pref(n);\n          vector<int> suff(n);\n\n          pref[0] = 1;\n          suff[n - 1] = 1;\n          for (int i = 1; i < n; i++) {\n              pref[i] = nums[i - 1] * pref[i - 1];\n          }\n          for (int i = n - 2; i >= 0; i--) {\n              suff[i] = nums[i + 1] * suff[i + 1];\n          }\n          for (int i = 0; i < n; i++) {\n              res[i] = pref[i] * suff[i];\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def productExceptSelf(self, nums: List[int]) -> List[int]:\n      n = len(nums)\n      res = [0] * n\n      pref = [0] * n\n      suff = [0] * n\n\n      pref[0] = suff[n - 1] = 1\n      for i in range(1, n):\n          pref[i] = nums[i - 1] * pref[i - 1]\n      for i in range(n - 2, -1, -1):\n          suff[i] = nums[i + 1] * suff[i + 1]\n      for i in range(n):\n          res[i] = pref[i] * suff[i]\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int[] productExceptSelf(int[] nums) {\n      int n = nums.length;\n      int[] res = new int[n];\n      int[] pref = new int[n];\n      int[] suff = new int[n];\n\n      pref[0] = 1;\n      suff[n - 1] = 1;\n      for (int i = 1; i < n; i++) {\n          pref[i] = nums[i - 1] * pref[i - 1];\n      }\n      for (int i = n - 2; i >= 0; i--) {\n          suff[i] = nums[i + 1] * suff[i + 1];\n      }\n      for (int i = 0; i < n; i++) {\n          res[i] = pref[i] * suff[i];\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func productExceptSelf(_ nums: [Int]) -> [Int] {\n      let n = nums.count\n      var res = [Int](repeating: 0, count: n)\n      var pref = [Int](repeating: 0, count: n)\n      var suff = [Int](repeating: 0, count: n)\n\n      pref[0] = 1\n      suff[n - 1] = 1\n\n      for i in 1..<n {\n          pref[i] = nums[i - 1] * pref[i - 1]\n      }\n\n      for i in stride(from: n - 2, through: 0, by: -1) {\n          suff[i] = nums[i + 1] * suff[i + 1]\n      }\n\n      for i in 0..<n {\n          res[i] = pref[i] * suff[i]\n      }\n\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func productExceptSelf(nums []int) []int {\n  n := len(nums)\n  res := make([]int, n)\n  pref := make([]int, n)\n  suff := make([]int, n)\n\n  pref[0], suff[n-1] = 1, 1\n  for i := 1; i < n; i++ {\n      pref[i] = nums[i-1] * pref[i-1]\n  }\n  for i := n - 2; i >= 0; i-- {\n      suff[i] = nums[i+1] * suff[i+1]\n  }\n  for i := 0; i < n; i++ {\n      res[i] = pref[i] * suff[i]\n  }\n  return res\n}\n"
+        }
+    ]
+}

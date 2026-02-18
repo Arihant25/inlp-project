@@ -1,0 +1,74 @@
+{
+    "problem_name": "Top k Frequent Elements",
+    "problem_slug": "Top-k-frequent-elements",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "hashing",
+        "string",
+        "sorting",
+        "priority queue"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      vector<int> topKFrequent(vector<int>& nums, int k) {\n          unordered_map<int, int> count;\n          for (int num : nums) {\n              count[num]++;\n          }\n\n          vector<pair<int, int>> arr;\n          for (const auto& p : count) {\n              arr.push_back({p.second, p.first});\n          }\n          sort(arr.rbegin(), arr.rend());\n\n          vector<int> res;\n          for (int i = 0; i < k; ++i) {\n              res.push_back(arr[i].second);\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n      count = {}\n      for num in nums:\n          count[num] = 1 + count.get(num, 0)\n\n      arr = []\n      for num, cnt in count.items():\n          arr.append([cnt, num])\n      arr.sort()\n\n      res = []\n      while len(res) < k:\n          res.append(arr.pop()[1])\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int[] topKFrequent(int[] nums, int k) {\n      Map<Integer, Integer> count = new HashMap<>();\n      for (int num : nums) {\n          count.put(num, count.getOrDefault(num, 0) + 1);\n      }\n\n      List<int[]> arr = new ArrayList<>();\n      for (Map.Entry<Integer, Integer> entry : count.entrySet()) {\n          arr.add(new int[] {entry.getValue(), entry.getKey()});\n      }\n      arr.sort((a, b) -> b[0] - a[0]);\n\n      int[] res = new int[k];\n      for (int i = 0; i < k; i++) {\n          res[i] = arr.get(i)[1];\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func topKFrequent(_ nums: [Int], _ k: Int) -> [Int] {\n      var count = [Int: Int]()\n      for num in nums {\n          count[num, default: 0] += 1\n      }\n\n      var arr = [(Int, Int)]()\n      for (num, cnt) in count {\n          arr.append((cnt, num))\n      }\n      arr.sort { $0.0 < $1.0 }\n\n      var res = [Int]()\n      while res.count < k {\n          res.append(arr.removeLast().1)\n      }\n\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func topKFrequent(nums []int, k int) []int {\n  count := make(map[int]int)\n  for _, num := range nums {\n      count[num]++\n  }\n\n  arr := make([][2]int, 0, len(count))\n  for num, cnt := range count {\n      arr = append(arr, [2]int{cnt, num})\n  }\n\n  sort.Slice(arr, func(i, j int) bool {\n      return arr[i][0] > arr[j][0]\n  })\n\n  res := make([]int, k)\n  for i := 0; i < k; i++ {\n      res[i] = arr[i][1]\n  }\n  return res\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log k)",
+            "space_complexity": "O(n + k)",
+            "code": "class Solution {\n  public:\n      vector<int> topKFrequent(vector<int>& nums, int k) {\n          unordered_map<int, int> count;\n          for (int num : nums) {\n              count[num]++;\n          }\n\n          priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> heap;\n          for (auto& entry : count) {\n              heap.push({entry.second, entry.first});\n              if (heap.size() > k) {\n                  heap.pop();\n              }\n          }\n\n          vector<int> res;\n          for (int i = 0; i < k; i++) {\n              res.push_back(heap.top().second);\n              heap.pop();\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log k)",
+            "space_complexity": "O(n + k)",
+            "code": "class Solution:\n  def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n      count = {}\n      for num in nums:\n          count[num] = 1 + count.get(num, 0)\n\n      heap = []\n      for num in count.keys():\n          heapq.heappush(heap, (count[num], num))\n          if len(heap) > k:\n              heapq.heappop(heap)\n\n      res = []\n      for i in range(k):\n          res.append(heapq.heappop(heap)[1])\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log k)",
+            "space_complexity": "O(n + k)",
+            "code": "public class Solution {\n  public int[] topKFrequent(int[] nums, int k) {\n      Map<Integer, Integer> count = new HashMap<>();\n      for (int num : nums) {\n          count.put(num, count.getOrDefault(num, 0) + 1);\n      }\n\n      PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] - b[0]);\n      for (Map.Entry<Integer, Integer> entry : count.entrySet()) {\n          heap.offer(new int[]{entry.getValue(), entry.getKey()});\n          if (heap.size() > k) {\n              heap.poll();\n          }\n      }\n\n      int[] res = new int[k];\n      for (int i = 0; i < k; i++) {\n          res[i] = heap.poll()[1];\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log k)",
+            "space_complexity": "O(n + k)",
+            "code": "struct NumFreq: Comparable {\n  let num: Int\n  let freq: Int\n\n  static func < (lhs: NumFreq, rhs: NumFreq) -> Bool {\n      return lhs.freq < rhs.freq\n  }\n}\n\nclass Solution {\n    func topKFrequent(_ nums: [Int], _ k: Int) -> [Int] {\n        var count = [Int: Int]()\n        for num in nums {\n            count[num, default: 0] += 1\n        }\n\n        var heap: Heap<NumFreq> = []\n        for (num, freq) in count {\n            heap.insert(NumFreq(num: num, freq: freq))\n            if heap.count > k {\n                heap.removeMin()\n            }\n        }\n\n        var res = [Int]()\n        while !heap.isEmpty {\n            res.append(heap.removeMin().num)\n        }\n\n        return res\n    }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log k)",
+            "space_complexity": "O(n + k)",
+            "code": "func topKFrequent(nums []int, k int) []int {\n  count := make(map[int]int)\n  for _, num := range nums {\n      count[num]++\n  }\n\n  heap := priorityqueue.NewWith(func(a, b interface{}) int {\n      freqA := a.([2]int)[0]\n      freqB := b.([2]int)[0]\n      return utils.IntComparator(freqA, freqB)\n  })\n\n  for num, freq := range count {\n      heap.Enqueue([2]int{freq, num})\n      if heap.Size() > k {\n          heap.Dequeue()\n      }\n  }\n\n  res := make([]int, k)\n  for i := k - 1; i >= 0; i-- {\n      value, _ := heap.Dequeue()\n      res[i] = value.([2]int)[1]\n  }\n  return res\n}\n"
+        }
+    ]
+}

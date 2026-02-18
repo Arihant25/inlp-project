@@ -1,293 +1,387 @@
-problem_name: Group Anagram
-problem_slug: group-anagram
-difficulty: medium
+problem_name: Valid Palindrome
+problem_slug: valid-palindrome
+difficulty: easy
 topic_tags:
-  - array
-  - hashing
+  - two-pointers
   - string
-  - sorting
 
 solutions:
 
   # ---------------- first ----------------
 
   - language: cpp
-    time_complexity: O(m * n log n)
-    space_complexity: O(m * n)
+    time_complexity: O(n^2)
+    space_complexity: O(n)
     code: |
       class Solution {
         public:
-            vector<vector<string>> groupAnagrams(vector<string>& strs) {
-                unordered_map<string, vector<string>> res;
-                for (const auto& s : strs) {
-                    string sortedS = s;
-                    sort(sortedS.begin(), sortedS.end());
-                    res[sortedS].push_back(s);
+            int longestConsecutive(vector<int>& nums) {
+                int res = 0;
+                unordered_set<int> store(nums.begin(), nums.end());
+
+                for (int num : nums) {
+                    int streak = 0, curr = num;
+                    while (store.find(curr) != store.end()) {
+                        streak++;
+                        curr++;
+                    }
+                    res = max(res, streak);
                 }
-                vector<vector<string>> result;
-                for (auto& pair : res) {
-                    result.push_back(pair.second);
-                }
-                return result;
+                return res;
             }
         };
 
   - language: python
-    time_complexity: O(m * n log n)
-    space_complexity: O(m * n)
+    time_complexity: O(n^2)
+    space_complexity: O(n)
     code: |
       class Solution:
-        def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-            res = defaultdict(list)
-            for s in strs:
-                sortedS = ''.join(sorted(s))
-                res[sortedS].append(s)
-            return list(res.values())
+        def longestConsecutive(self, nums: List[int]) -> int:
+            res = 0
+            store = set(nums)
+
+            for num in nums:
+                streak, curr = 0, num
+                while curr in store:
+                    streak += 1
+                    curr += 1
+                res = max(res, streak)
+            return res
 
   - language: java
-    time_complexity: O(m * n log n)
-    space_complexity: O(m * n)
+    time_complexity: O(n^2)
+    space_complexity: O(n)
     code: |
       public class Solution {
-        public List<List<String>> groupAnagrams(String[] strs) {
-            Map<String, List<String>> res = new HashMap<>();
-            for (String s : strs) {
-                char[] charArray = s.toCharArray();
-                Arrays.sort(charArray);
-                String sortedS = new String(charArray);
-                res.putIfAbsent(sortedS, new ArrayList<>());
-                res.get(sortedS).add(s);
+        public int longestConsecutive(int[] nums) {
+            int res = 0;
+            Set<Integer> store = new HashSet<>();
+            for (int num : nums) {
+                store.add(num);
             }
-            return new ArrayList<>(res.values());
+
+            for (int num : nums) {
+                int streak = 0, curr = num;
+                while (store.contains(curr)) {
+                    streak++;
+                    curr++;
+                }
+                res = Math.max(res, streak);
+            }
+            return res;
         }
       }
 
   - language: swift
-    time_complexity: O(m * n log n)
-    space_complexity: O(m * n)
+    time_complexity: O(n^2)
+    space_complexity: O(n)
     code: |
       class Solution {
-        func groupAnagrams(_ strs: [String]) -> [[String]] {
-            var res = [String: [String]]()
+        func longestConsecutive(_ nums: [Int]) -> Int {
+            var res = 0
+            let store = Set(nums)
 
-            for s in strs {
-                let sortedS = String(s.sorted())
-                res[sortedS, default: []].append(s)
+            for num in nums {
+                var streak = 0
+                var curr = num
+
+                while store.contains(curr) {
+                    streak += 1
+                    curr += 1
+                }
+
+                res = max(res, streak)
             }
 
-            return Array(res.values)
+            return res
         }
       }
 
   - language: go
-    time_complexity: O(m * n log n)
-    space_complexity: O(m * n)
+    time_complexity: O(n^2)
+    space_complexity: O(n)
     code: |
-      func groupAnagrams(strs []string) [][]string {
-        res := make(map[string][]string)
-
-        for _, s := range strs {
-            sortedS := sortString(s)
-            res[sortedS] = append(res[sortedS], s)
+      func longestConsecutive(nums []int) int {
+        res := 0
+        store := make(map[int]struct{})
+        for _, num := range nums {
+            store[num] = struct{}{}
         }
 
-        var result [][]string
-        for _, group := range res {
-            result = append(result, group)
+        for _, num := range nums {
+            streak, curr := 0, num
+            for _, ok := store[curr]; ok; _, ok = store[curr] {
+                streak++
+                curr++
+            }
+            if streak > res {
+                res = streak
+            }
         }
-        return result
-      }
-
-      func sortString(s string) string {
-      	characters := []rune(s)
-      	sort.Slice(characters, func(i, j int) bool {
-      		return characters[i] < characters[j]
-      	})
-      	return string(characters)
+        return res
       }
 
   # ---------------- second ----------------
 
   - language: cpp
-    time_complexity: O(m * m)
-    space_complexity: O(m * n)
+    time_complexity: O(n log n)
+    space_complexity: O(n)
     code: |
       class Solution {
         public:
-            vector<vector<string>> groupAnagrams(vector<string>& strs) {
-                unordered_map<string, vector<string>> res;
-                for (const auto& s : strs) {
-                    vector<int> count(26, 0);
-                    for (char c : s) {
-                        count[c - 'a']++;
+            int longestConsecutive(vector<int>& nums) {
+                if (nums.empty()) return 0;
+                sort(nums.begin(), nums.end());
+
+                int res = 0, curr = nums[0], streak = 0, i = 0;
+
+                while (i < nums.size()) {
+                    if (curr != nums[i]) {
+                        curr = nums[i];
+                        streak = 0;
                     }
-                    string key = to_string(count[0]);
-                    for (int i = 1; i < 26; ++i) {
-                        key += ',' + to_string(count[i]);
+                    while (i < nums.size() && nums[i] == curr) {
+                        i++;
                     }
-                    res[key].push_back(s);
+                    streak++;
+                    curr++;
+                    res = max(res, streak);
                 }
-                vector<vector<string>> result;
-                for (const auto& pair : res) {
-                    result.push_back(pair.second);
-                }
-                return result;
+                return res;
             }
         };
 
   - language: python
-    time_complexity: O(m * m)
-    space_complexity: O(m * n)
+    time_complexity: O(n log n)
+    space_complexity: O(n)
     code: |
       class Solution:
-        def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-            res = defaultdict(list)
-            for s in strs:
-                count = [0] * 26
-                for c in s:
-                    count[ord(c) - ord('a')] += 1
-                res[tuple(count)].append(s)
-            return list(res.values())
+        def longestConsecutive(self, nums: List[int]) -> int:
+            if not nums:
+                return 0
+            res = 0
+            nums.sort()
+
+            curr, streak = nums[0], 0
+            i = 0
+            while i < len(nums):
+                if curr != nums[i]:
+                    curr = nums[i]
+                    streak = 0
+                while i < len(nums) and nums[i] == curr:
+                    i += 1
+                streak += 1
+                curr += 1
+                res = max(res, streak)
+            return res
 
   - language: java
-    time_complexity: O(m * m)
-    space_complexity: O(m * n)
+    time_complexity: O(n log n)
+    space_complexity: O(n)
     code: |
       public class Solution {
-        public List<List<String>> groupAnagrams(String[] strs) {
-            Map<String, List<String>> res = new HashMap<>();
-            for (String s : strs) {
-                int[] count = new int[26];
-                for (char c : s.toCharArray()) {
-                    count[c - 'a']++;
-                }
-                String key = Arrays.toString(count);
-                res.putIfAbsent(key, new ArrayList<>());
-                res.get(key).add(s);
+        public int longestConsecutive(int[] nums) {
+            if (nums.length == 0) {
+                return 0;
             }
-            return new ArrayList<>(res.values());
+            Arrays.sort(nums);
+            int res = 0, curr = nums[0], streak = 0, i = 0;
+
+            while (i < nums.length) {
+                if (curr != nums[i]) {
+                    curr = nums[i];
+                    streak = 0;
+                }
+                while (i < nums.length && nums[i] == curr) {
+                    i++;
+                }
+                streak++;
+                curr++;
+                res = Math.max(res, streak);
+            }
+            return res;
         }
       }
 
   - language: swift
-    time_complexity: O(m * m)
-    space_complexity: O(m * n)
+    time_complexity: O(n log n)
+    space_complexity: O(n)
     code: |
       class Solution {
-        func groupAnagrams(_ strs: [String]) -> [[String]] {
-            var res = [Array<Int>: [String]]()
-
-            for s in strs {
-                var count = [Int](repeating: 0, count: 26)
-                for c in s {
-                    count[Int(c.asciiValue!) - 97] += 1
-                }
-                res[count, default: []].append(s)
+        func longestConsecutive(_ nums: [Int]) -> Int {
+            if nums.isEmpty {
+                return 0
             }
 
-            return Array(res.values)
+            var res = 0
+            var nums = nums.sorted()
+
+            var curr = nums[0]
+            var streak = 0
+            var i = 0
+
+            while i < nums.count {
+                if curr != nums[i] {
+                    curr = nums[i]
+                    streak = 0
+                }
+                while i < nums.count && nums[i] == curr {
+                    i += 1
+                }
+                streak += 1
+                curr += 1
+                res = max(res, streak)
+            }
+
+            return res
         }
       }
 
   - language: go
-    time_complexity: O(m * m)
-    space_complexity: O(m * n)
+    time_complexity: O(n log n)
+    space_complexity: O(n)
     code: |
-      func groupAnagrams(strs []string) [][]string {
-        res := make(map[[26]int][]string)
+      func longestConsecutive(nums []int) int {
+        if len(nums) == 0 {
+            return 0
+        }
+        sort.Ints(nums)
 
-        for _, s := range strs {
-            var count [26]int
-            for _, c := range s {
-                count[c-'a']++
+        res := 0
+        curr, streak := nums[0], 0
+        i := 0
+        for i < len(nums) {
+            if curr != nums[i] {
+                curr = nums[i]
+                streak = 0
             }
-            res[count] = append(res[count], s)
+            for i < len(nums) && nums[i] == curr {
+                i++
+            }
+            streak++
+            curr++
+            if streak > res {
+                res = streak
+            }
         }
-
-        var result [][]string
-        for _, group := range res {
-            result = append(result, group)
-        }
-        return result
+        return res
       }
 
   # ---------------- third ----------------
 
   - language: cpp
-    time_complexity: O(n^2)
-    space_complexity: O(1)
+    time_complexity: O(n)
+    space_complexity: O(n)
     code: |
-      cclass Solution {
+      class Solution {
         public:
-            vector<int> twoSum(vector<int>& nums, int target) {
-                for (int i = 0; i < nums.size(); i++) {
-                    for (int j = i + 1; j < nums.size(); j++) {
-                        if (nums[i] + nums[j] == target) {
-                            return {i, j};
+            int longestConsecutive(vector<int>& nums) {
+                unordered_set<int> numSet(nums.begin(), nums.end());
+                int longest = 0;
+
+                for (int num : numSet) {
+                    if (numSet.find(num - 1) == numSet.end()) {
+                        int length = 1;
+                        while (numSet.find(num + length) != numSet.end()) {
+                            length++;
                         }
+                        longest = max(longest, length);
                     }
                 }
-                return {};
+                return longest;
             }
         };
 
   - language: python
-    time_complexity: O(n^2)
-    space_complexity: O(1)
+    time_complexity: O(n)
+    space_complexity: O(n)
     code: |
       class Solution:
-        def twoSum(self, nums: List[int], target: int) -> List[int]:
-            for i in range(len(nums)):
-                for j in range(i + 1, len(nums)):
-                    if nums[i] + nums[j] == target:
-                        return [i, j]
-            return []
+        def longestConsecutive(self, nums: List[int]) -> int:
+            numSet = set(nums)
+            longest = 0
+
+            for num in numSet:
+                if (num - 1) not in numSet:
+                    length = 1
+                    while (num + length) in numSet:
+                        length += 1
+                    longest = max(length, longest)
+            return longest
 
   - language: java
-    time_complexity: O(n^2)
-    space_complexity: O(1)
+    time_complexity: O(n)
+    space_complexity: O(n)
     code: |
       public class Solution {
-        public int[] twoSum(int[] nums, int target) {
-            for (int i = 0; i < nums.length; i++) {
-                for (int j = i + 1; j < nums.length; j++) {
-                    if (nums[i] + nums[j] == target) {
-                        return new int[]{i, j};
+        public int longestConsecutive(int[] nums) {
+            Set<Integer> numSet = new HashSet<>();
+            for (int num : nums) {
+                numSet.add(num);
+            }
+            int longest = 0;
+
+            for (int num : numSet) {
+                if (!numSet.contains(num - 1)) {
+                    int length = 1;
+                    while (numSet.contains(num + length)) {
+                        length++;
                     }
+                    longest = Math.max(longest, length);
                 }
             }
-            return new int[0];
+            return longest;
         }
       }
 
   - language: swift
-    time_complexity: O(n^2)
-    space_complexity: O(1)
+    time_complexity: O(n)
+    space_complexity: O(n)
     code: |
       class Solution {
-        func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-            for i in 0..<nums.count {
-                for j in (i + 1)..<nums.count {
-                    if nums[i] + nums[j] == target {
-                        return [i, j]
+        func longestConsecutive(_ nums: [Int]) -> Int {
+            let numSet = Set(nums)
+            var longest = 0
+
+            for num in numSet {
+                if !numSet.contains(num - 1) {
+                    var length = 1
+                    while numSet.contains(num + length) {
+                        length += 1
                     }
+                    longest = max(length, longest)
                 }
             }
-            return []
+
+            return longest
         }
       }
 
   - language: go
-    time_complexity: O(n^2)
-    space_complexity: O(1)
+    time_complexity: O(n)
+    space_complexity: O(n)
     code: |
-      func twoSum(nums []int, target int) []int {
-        for i := 0; i < len(nums); i++ {
-            for j := i + 1; j < len(nums); j++ {
-                if nums[i] + nums[j] == target {
-                    return []int{i, j}
+      func longestConsecutive(nums []int) int {
+        numSet := make(map[int]struct{})
+        for _, num := range nums {
+            numSet[num] = struct{}{}
+        }
+
+        longest := 0
+        for num := range numSet {
+            if _, found := numSet[num-1]; !found {
+                length := 1
+                for {
+                    if _, exists := numSet[num+length]; exists {
+                        length++
+                    } else {
+                        break
+                    }
+                }
+                if length > longest {
+                    longest = length
                 }
             }
         }
-        return []int{}
+        return longest
       }

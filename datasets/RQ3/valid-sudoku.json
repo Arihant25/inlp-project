@@ -1,0 +1,42 @@
+{
+    "problem_name": "Valid Sudoku",
+    "problem_slug": "valid-sudoko",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "hashing",
+        "matrix"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      bool isValidSudoku(vector<vector<char>>& board) {\n          for (int row = 0; row < 9; row++) {\n              unordered_set<char> seen;\n              for (int i = 0; i < 9; i++) {\n                  if (board[row][i] == '.') continue;\n                  if (seen.count(board[row][i])) return false;\n                  seen.insert(board[row][i]);\n              }\n          }\n\n          for (int col = 0; col < 9; col++) {\n              unordered_set<char> seen;\n              for (int i = 0; i < 9; i++) {\n                  if (board[i][col] == '.') continue;\n                  if (seen.count(board[i][col])) return false;\n                  seen.insert(board[i][col]);\n              }\n          }\n\n          for (int square = 0; square < 9; square++) {\n              unordered_set<char> seen;\n              for (int i = 0; i < 3; i++) {\n                  for (int j = 0; j < 3; j++) {\n                      int row = (square / 3) * 3 + i;\n                      int col = (square % 3) * 3 + j;\n                      if (board[row][col] == '.') continue;\n                      if (seen.count(board[row][col])) return false;\n                      seen.insert(board[row][col]);\n                  }\n              }\n          }\n\n          return true;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def isValidSudoku(self, board: List[List[str]]) -> bool:\n      for row in range(9):\n          seen = set()\n          for i in range(9):\n              if board[row][i] == \".\":\n                  continue\n              if board[row][i] in seen:\n                  return False\n              seen.add(board[row][i])\n\n      for col in range(9):\n          seen = set()\n          for i in range(9):\n              if board[i][col] == \".\":\n                  continue\n              if board[i][col] in seen:\n                  return False\n              seen.add(board[i][col])\n\n      for square in range(9):\n          seen = set()\n          for i in range(3):\n              for j in range(3):\n                  row = (square//3) * 3 + i\n                  col = (square % 3) * 3 + j\n                  if board[row][col] == \".\":\n                      continue\n                  if board[row][col] in seen:\n                      return False\n                  seen.add(board[row][col])\n      return True\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isValidSudoku(char[][] board) {\n        for (int row = 0; row < 9; row++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 9; i++) {\n                if (board[row][i] == '.') continue;\n                if (seen.contains(board[row][i])) return false;\n                seen.add(board[row][i]);\n            }\n        }\n\n        for (int col = 0; col < 9; col++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 9; i++) {\n                if (board[i][col] == '.') continue;\n                if (seen.contains(board[i][col])) return false;\n                seen.add(board[i][col]);\n            }\n        }\n\n        for (int square = 0; square < 9; square++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 3; i++) {\n                for (int j = 0; j < 3; j++) {\n                    int row = (square / 3) * 3 + i;\n                    int col = (square % 3) * 3 + j;\n                    if (board[row][col] == '.') continue;\n                    if (seen.contains(board[row][col])) return false;\n                    seen.add(board[row][col]);\n                }\n            }\n        }\n\n        return true;\n    }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func isValidSudoku(_ board: [[Character]]) -> Bool {\n      for row in 0..<9 {\n          var seen = Set<Character>()\n          for i in 0..<9 {\n              if board[row][i] == \".\" { continue }\n              if seen.contains(board[row][i]) { return false }\n              seen.insert(board[row][i])\n          }\n      }\n\n      for col in 0..<9 {\n          var seen = Set<Character>()\n          for i in 0..<9 {\n              if board[i][col] == \".\" { continue }\n              if seen.contains(board[i][col]) { return false }\n              seen.insert(board[i][col])\n          }\n      }\n\n      for square in 0..<9 {\n          var seen = Set<Character>()\n          for i in 0..<3 {\n              for j in 0..<3 {\n                  let row = (square / 3) * 3 + i\n                  let col = (square % 3) * 3 + j\n                  if board[row][col] == \".\" { continue }\n                  if seen.contains(board[row][col]) { return false }\n                  seen.insert(board[row][col])\n              }\n          }\n      }\n\n      return true\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func isValidSudoku(board [][]byte) bool {\n  for row := 0; row < 9; row++ {\n      seen := make(map[byte]bool)\n      for i := 0; i < 9; i++ {\n          if board[row][i] == '.' {\n              continue\n          }\n          if seen[board[row][i]] {\n              return false\n          }\n          seen[board[row][i]] = true\n      }\n  }\n\n  for col := 0; col < 9; col++ {\n      seen := make(map[byte]bool)\n      for i := 0; i < 9; i++ {\n          if board[i][col] == '.' {\n              continue\n          }\n          if seen[board[i][col]] {\n              return false\n          }\n          seen[board[i][col]] = true\n      }\n  }\n\n  for square := 0; square < 9; square++ {\n      seen := make(map[byte]bool)\n      for i := 0; i < 3; i++ {\n          for j := 0; j < 3; j++ {\n              row := (square / 3) * 3 + i\n              col := (square % 3) * 3 + j\n              if board[row][col] == '.' {\n                  continue\n              }\n              if seen[board[row][col]] {\n                  return false\n              }\n              seen[board[row][col]] = true\n          }\n      }\n  }\n  return true\n}\n"
+        }
+    ]
+}

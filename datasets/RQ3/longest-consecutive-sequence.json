@@ -1,0 +1,102 @@
+{
+    "problem_name": "Longest Consecutive Sequence",
+    "problem_slug": "longest-consecutive-sequence",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "hashing",
+        "union-find"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      int longestConsecutive(vector<int>& nums) {\n          int res = 0;\n          unordered_set<int> store(nums.begin(), nums.end());\n\n          for (int num : nums) {\n              int streak = 0, curr = num;\n              while (store.find(curr) != store.end()) {\n                  streak++;\n                  curr++;\n              }\n              res = max(res, streak);\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def longestConsecutive(self, nums: List[int]) -> int:\n      res = 0\n      store = set(nums)\n\n      for num in nums:\n          streak, curr = 0, num\n          while curr in store:\n              streak += 1\n              curr += 1\n          res = max(res, streak)\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int longestConsecutive(int[] nums) {\n      int res = 0;\n      Set<Integer> store = new HashSet<>();\n      for (int num : nums) {\n          store.add(num);\n      }\n\n      for (int num : nums) {\n          int streak = 0, curr = num;\n          while (store.contains(curr)) {\n              streak++;\n              curr++;\n          }\n          res = Math.max(res, streak);\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func longestConsecutive(_ nums: [Int]) -> Int {\n      var res = 0\n      let store = Set(nums)\n\n      for num in nums {\n          var streak = 0\n          var curr = num\n\n          while store.contains(curr) {\n              streak += 1\n              curr += 1\n          }\n\n          res = max(res, streak)\n      }\n\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func longestConsecutive(nums []int) int {\n  res := 0\n  store := make(map[int]struct{})\n  for _, num := range nums {\n      store[num] = struct{}{}\n  }\n\n  for _, num := range nums {\n      streak, curr := 0, num\n      for _, ok := store[curr]; ok; _, ok = store[curr] {\n          streak++\n          curr++\n      }\n      if streak > res {\n          res = streak\n      }\n  }\n  return res\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      int longestConsecutive(vector<int>& nums) {\n          if (nums.empty()) return 0;\n          sort(nums.begin(), nums.end());\n\n          int res = 0, curr = nums[0], streak = 0, i = 0;\n\n          while (i < nums.size()) {\n              if (curr != nums[i]) {\n                  curr = nums[i];\n                  streak = 0;\n              }\n              while (i < nums.size() && nums[i] == curr) {\n                  i++;\n              }\n              streak++;\n              curr++;\n              res = max(res, streak);\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def longestConsecutive(self, nums: List[int]) -> int:\n      if not nums:\n          return 0\n      res = 0\n      nums.sort()\n\n      curr, streak = nums[0], 0\n      i = 0\n      while i < len(nums):\n          if curr != nums[i]:\n              curr = nums[i]\n              streak = 0\n          while i < len(nums) and nums[i] == curr:\n              i += 1\n          streak += 1\n          curr += 1\n          res = max(res, streak)\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int longestConsecutive(int[] nums) {\n      if (nums.length == 0) {\n          return 0;\n      }\n      Arrays.sort(nums);\n      int res = 0, curr = nums[0], streak = 0, i = 0;\n\n      while (i < nums.length) {\n          if (curr != nums[i]) {\n              curr = nums[i];\n              streak = 0;\n          }\n          while (i < nums.length && nums[i] == curr) {\n              i++;\n          }\n          streak++;\n          curr++;\n          res = Math.max(res, streak);\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func longestConsecutive(_ nums: [Int]) -> Int {\n      if nums.isEmpty {\n          return 0\n      }\n\n      var res = 0\n      var nums = nums.sorted()\n\n      var curr = nums[0]\n      var streak = 0\n      var i = 0\n\n      while i < nums.count {\n          if curr != nums[i] {\n              curr = nums[i]\n              streak = 0\n          }\n          while i < nums.count && nums[i] == curr {\n              i += 1\n          }\n          streak += 1\n          curr += 1\n          res = max(res, streak)\n      }\n\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func longestConsecutive(nums []int) int {\n  if len(nums) == 0 {\n      return 0\n  }\n  sort.Ints(nums)\n\n  res := 0\n  curr, streak := nums[0], 0\n  i := 0\n  for i < len(nums) {\n      if curr != nums[i] {\n          curr = nums[i]\n          streak = 0\n      }\n      for i < len(nums) && nums[i] == curr {\n          i++\n      }\n      streak++\n      curr++\n      if streak > res {\n          res = streak\n      }\n  }\n  return res\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      int longestConsecutive(vector<int>& nums) {\n          unordered_set<int> numSet(nums.begin(), nums.end());\n          int longest = 0;\n\n          for (int num : numSet) {\n              if (numSet.find(num - 1) == numSet.end()) {\n                  int length = 1;\n                  while (numSet.find(num + length) != numSet.end()) {\n                      length++;\n                  }\n                  longest = max(longest, length);\n              }\n          }\n          return longest;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def longestConsecutive(self, nums: List[int]) -> int:\n      numSet = set(nums)\n      longest = 0\n\n      for num in numSet:\n          if (num - 1) not in numSet:\n              length = 1\n              while (num + length) in numSet:\n                  length += 1\n              longest = max(length, longest)\n      return longest\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int longestConsecutive(int[] nums) {\n      Set<Integer> numSet = new HashSet<>();\n      for (int num : nums) {\n          numSet.add(num);\n      }\n      int longest = 0;\n\n      for (int num : numSet) {\n          if (!numSet.contains(num - 1)) {\n              int length = 1;\n              while (numSet.contains(num + length)) {\n                  length++;\n              }\n              longest = Math.max(longest, length);\n          }\n      }\n      return longest;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func longestConsecutive(_ nums: [Int]) -> Int {\n      let numSet = Set(nums)\n      var longest = 0\n\n      for num in numSet {\n          if !numSet.contains(num - 1) {\n              var length = 1\n              while numSet.contains(num + length) {\n                  length += 1\n              }\n              longest = max(length, longest)\n          }\n      }\n\n      return longest\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func longestConsecutive(nums []int) int {\n  numSet := make(map[int]struct{})\n  for _, num := range nums {\n      numSet[num] = struct{}{}\n  }\n\n  longest := 0\n  for num := range numSet {\n      if _, found := numSet[num-1]; !found {\n          length := 1\n          for {\n              if _, exists := numSet[num+length]; exists {\n                  length++\n              } else {\n                  break\n              }\n          }\n          if length > longest {\n              longest = length\n          }\n      }\n  }\n  return longest\n}\n"
+        }
+    ]
+}
