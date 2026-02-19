@@ -1,121 +1,97 @@
-problem_name: Valid Palindrome
-problem_slug: valid-palindrome
-difficulty: easy
+problem_name: Longest Substring Without Repeating Characters
+problem_slug: longest-substring-without-repeating-characters
+difficulty: medium
 topic_tags:
-  - two-pointers
+  - hashing
   - string
+  - sliding-window
 
 solutions:
 
   # ---------------- first ----------------
 
   - language: cpp
-    time_complexity: O(n^2)
-    space_complexity: O(n)
+    time_complexity: O(n*m)
+    space_complexity: O(m)
     code: |
       class Solution {
         public:
-            int longestConsecutive(vector<int>& nums) {
+            int lengthOfLongestSubstring(string s) {
                 int res = 0;
-                unordered_set<int> store(nums.begin(), nums.end());
-
-                for (int num : nums) {
-                    int streak = 0, curr = num;
-                    while (store.find(curr) != store.end()) {
-                        streak++;
-                        curr++;
+                for (int i = 0; i < s.size(); i++) {
+                    unordered_set<char> charSet;
+                    for (int j = i; j < s.size(); j++) {
+                        if (charSet.find(s[j]) != charSet.end()) {
+                            break;
+                        }
+                        charSet.insert(s[j]);
                     }
-                    res = max(res, streak);
+                    res = max(res, (int)charSet.size());
                 }
                 return res;
             }
         };
 
   - language: python
-    time_complexity: O(n^2)
-    space_complexity: O(n)
+    time_complexity: O(n*m)
+    space_complexity: O(m)
     code: |
       class Solution:
-        def longestConsecutive(self, nums: List[int]) -> int:
+        def lengthOfLongestSubstring(self, s: str) -> int:
             res = 0
-            store = set(nums)
-
-            for num in nums:
-                streak, curr = 0, num
-                while curr in store:
-                    streak += 1
-                    curr += 1
-                res = max(res, streak)
+            for i in range(len(s)):
+                charSet = set()
+                for j in range(i, len(s)):
+                    if s[j] in charSet:
+                        break
+                    charSet.add(s[j])
+                res = max(res, len(charSet))
             return res
 
   - language: java
-    time_complexity: O(n^2)
-    space_complexity: O(n)
+    time_complexity: O(n*m)
+    space_complexity: O(m)
     code: |
       public class Solution {
-        public int longestConsecutive(int[] nums) {
+        public int lengthOfLongestSubstring(String s) {
             int res = 0;
-            Set<Integer> store = new HashSet<>();
-            for (int num : nums) {
-                store.add(num);
-            }
-
-            for (int num : nums) {
-                int streak = 0, curr = num;
-                while (store.contains(curr)) {
-                    streak++;
-                    curr++;
+            for (int i = 0; i < s.length(); i++) {
+                Set<Character> charSet = new HashSet<>();
+                for (int j = i; j < s.length(); j++) {
+                    if (charSet.contains(s.charAt(j))) {
+                        break;
+                    }
+                    charSet.add(s.charAt(j));
                 }
-                res = Math.max(res, streak);
+                res = Math.max(res, charSet.size());
             }
             return res;
         }
       }
 
-  - language: swift
-    time_complexity: O(n^2)
-    space_complexity: O(n)
-    code: |
-      class Solution {
-        func longestConsecutive(_ nums: [Int]) -> Int {
-            var res = 0
-            let store = Set(nums)
-
-            for num in nums {
-                var streak = 0
-                var curr = num
-
-                while store.contains(curr) {
-                    streak += 1
-                    curr += 1
-                }
-
-                res = max(res, streak)
-            }
-
-            return res
-        }
-      }
+  #- language: swift
+  #  time_complexity: O(n*m)
+  #  space_complexity: O(m)
+  #  code: |
+      
 
   - language: go
-    time_complexity: O(n^2)
-    space_complexity: O(n)
+    time_complexity: O(n*m)
+    space_complexity: O(m)
     code: |
-      func longestConsecutive(nums []int) int {
+      func lengthOfLongestSubstring(s string) int {
         res := 0
-        store := make(map[int]struct{})
-        for _, num := range nums {
-            store[num] = struct{}{}
-        }
 
-        for _, num := range nums {
-            streak, curr := 0, num
-            for _, ok := store[curr]; ok; _, ok = store[curr] {
-                streak++
-                curr++
+        for i := 0; i < len(s); i++ {
+            charSet := make(map[byte]bool)
+            for j := i; j < len(s); j++ {
+                if charSet[s[j]] {
+                    break
+                }
+                charSet[s[j]] = true
             }
-            if streak > res {
-                res = streak
+            if len(charSet) > res {
+                res = len(charSet)
             }
         }
         return res
@@ -124,144 +100,99 @@ solutions:
   # ---------------- second ----------------
 
   - language: cpp
-    time_complexity: O(n log n)
-    space_complexity: O(n)
+    time_complexity: O(n)
+    space_complexity: O(m)
     code: |
       class Solution {
         public:
-            int longestConsecutive(vector<int>& nums) {
-                if (nums.empty()) return 0;
-                sort(nums.begin(), nums.end());
+            int lengthOfLongestSubstring(string s) {
+                unordered_map<char, int> mp;
+                int l = 0, res = 0;
 
-                int res = 0, curr = nums[0], streak = 0, i = 0;
-
-                while (i < nums.size()) {
-                    if (curr != nums[i]) {
-                        curr = nums[i];
-                        streak = 0;
+                for (int r = 0; r < s.size(); r++) {
+                    if (mp.find(s[r]) != mp.end()) {
+                        l = max(mp[s[r]] + 1, l);
                     }
-                    while (i < nums.size() && nums[i] == curr) {
-                        i++;
-                    }
-                    streak++;
-                    curr++;
-                    res = max(res, streak);
+                    mp[s[r]] = r;
+                    res = max(res, r - l + 1);
                 }
                 return res;
             }
         };
 
   - language: python
-    time_complexity: O(n log n)
-    space_complexity: O(n)
+    time_complexity: O(n)
+    space_complexity: O(m)
     code: |
       class Solution:
-        def longestConsecutive(self, nums: List[int]) -> int:
-            if not nums:
-                return 0
+        def lengthOfLongestSubstring(self, s: str) -> int:
+            mp = {}
+            l = 0
             res = 0
-            nums.sort()
 
-            curr, streak = nums[0], 0
-            i = 0
-            while i < len(nums):
-                if curr != nums[i]:
-                    curr = nums[i]
-                    streak = 0
-                while i < len(nums) and nums[i] == curr:
-                    i += 1
-                streak += 1
-                curr += 1
-                res = max(res, streak)
+            for r in range(len(s)):
+                if s[r] in mp:
+                    l = max(mp[s[r]] + 1, l)
+                mp[s[r]] = r
+                res = max(res, r - l + 1)
             return res
 
   - language: java
-    time_complexity: O(n log n)
-    space_complexity: O(n)
+    time_complexity: O(n)
+    space_complexity: O(m)
     code: |
       public class Solution {
-        public int longestConsecutive(int[] nums) {
-            if (nums.length == 0) {
-                return 0;
-            }
-            Arrays.sort(nums);
-            int res = 0, curr = nums[0], streak = 0, i = 0;
+        public int lengthOfLongestSubstring(String s) {
+            HashMap<Character, Integer> mp = new HashMap<>();
+            int l = 0, res = 0;
 
-            while (i < nums.length) {
-                if (curr != nums[i]) {
-                    curr = nums[i];
-                    streak = 0;
+            for (int r = 0; r < s.length(); r++) {
+                if (mp.containsKey(s.charAt(r))) {
+                    l = Math.max(mp.get(s.charAt(r)) + 1, l);
                 }
-                while (i < nums.length && nums[i] == curr) {
-                    i++;
-                }
-                streak++;
-                curr++;
-                res = Math.max(res, streak);
+                mp.put(s.charAt(r), r);
+                res = Math.max(res, r - l + 1);
             }
             return res;
         }
-      }
+      }      
 
   - language: swift
-    time_complexity: O(n log n)
-    space_complexity: O(n)
+    time_complexity: O(n)
+    space_complexity: O(m)
     code: |
       class Solution {
-        func longestConsecutive(_ nums: [Int]) -> Int {
-            if nums.isEmpty {
-                return 0
-            }
+        func lengthOfLongestSubstring(_ s: String) -> Int {
+            var mp = [Character: Int]()
+            var l = 0, res = 0
+            let chars = Array(s)
 
-            var res = 0
-            var nums = nums.sorted()
-
-            var curr = nums[0]
-            var streak = 0
-            var i = 0
-
-            while i < nums.count {
-                if curr != nums[i] {
-                    curr = nums[i]
-                    streak = 0
+            for r in 0..<chars.count {
+                if let index = mp[chars[r]] {
+                    l = max(index + 1, l)
                 }
-                while i < nums.count && nums[i] == curr {
-                    i += 1
-                }
-                streak += 1
-                curr += 1
-                res = max(res, streak)
+                mp[chars[r]] = r
+                res = max(res, r - l + 1)
             }
-
             return res
         }
       }
 
   - language: go
-    time_complexity: O(n log n)
-    space_complexity: O(n)
+    time_complexity: O(n)
+    space_complexity: O(m)
     code: |
-      func longestConsecutive(nums []int) int {
-        if len(nums) == 0 {
-            return 0
-        }
-        sort.Ints(nums)
+      func lengthOfLongestSubstring(s string) int {
+        mp := make(map[byte]int)
+        l, res := 0, 0
 
-        res := 0
-        curr, streak := nums[0], 0
-        i := 0
-        for i < len(nums) {
-            if curr != nums[i] {
-                curr = nums[i]
-                streak = 0
+        for r := 0; r < len(s); r++ {
+            if idx, found := mp[s[r]]; found {
+                l = max(idx+1, l)
             }
-            for i < len(nums) && nums[i] == curr {
-                i++
-            }
-            streak++
-            curr++
-            if streak > res {
-                res = streak
+            mp[s[r]] = r
+            if r - l + 1 > res {
+                res = r - l + 1
             }
         }
         return res
@@ -271,117 +202,85 @@ solutions:
 
   - language: cpp
     time_complexity: O(n)
-    space_complexity: O(n)
+    space_complexity: O(1)
     code: |
       class Solution {
         public:
-            int longestConsecutive(vector<int>& nums) {
-                unordered_set<int> numSet(nums.begin(), nums.end());
-                int longest = 0;
+            int maxProfit(vector<int>& prices) {
+                int maxP = 0;
+                int minBuy = prices[0];
 
-                for (int num : numSet) {
-                    if (numSet.find(num - 1) == numSet.end()) {
-                        int length = 1;
-                        while (numSet.find(num + length) != numSet.end()) {
-                            length++;
-                        }
-                        longest = max(longest, length);
-                    }
+                for (int& sell : prices) {
+                    maxP = max(maxP, sell - minBuy);
+                    minBuy = min(minBuy, sell);
                 }
-                return longest;
+                return maxP;
             }
         };
 
   - language: python
     time_complexity: O(n)
-    space_complexity: O(n)
+    space_complexity: O(1)
     code: |
       class Solution:
-        def longestConsecutive(self, nums: List[int]) -> int:
-            numSet = set(nums)
-            longest = 0
+        def maxProfit(self, prices: List[int]) -> int:
+            maxP = 0
+            minBuy = prices[0]
 
-            for num in numSet:
-                if (num - 1) not in numSet:
-                    length = 1
-                    while (num + length) in numSet:
-                        length += 1
-                    longest = max(length, longest)
-            return longest
+            for sell in prices:
+                maxP = max(maxP, sell - minBuy)
+                minBuy = min(minBuy, sell)
+            return maxP
 
   - language: java
     time_complexity: O(n)
-    space_complexity: O(n)
+    space_complexity: O(1)
     code: |
       public class Solution {
-        public int longestConsecutive(int[] nums) {
-            Set<Integer> numSet = new HashSet<>();
-            for (int num : nums) {
-                numSet.add(num);
-            }
-            int longest = 0;
+        public int maxProfit(int[] prices) {
+            int maxP = 0;
+            int minBuy = prices[0];
 
-            for (int num : numSet) {
-                if (!numSet.contains(num - 1)) {
-                    int length = 1;
-                    while (numSet.contains(num + length)) {
-                        length++;
-                    }
-                    longest = Math.max(longest, length);
-                }
+            for (int sell : prices) {
+                maxP = Math.max(maxP, sell - minBuy);
+                minBuy = Math.min(minBuy, sell);
             }
-            return longest;
+            return maxP;
         }
       }
 
   - language: swift
     time_complexity: O(n)
-    space_complexity: O(n)
+    space_complexity: O(1)
     code: |
       class Solution {
-        func longestConsecutive(_ nums: [Int]) -> Int {
-            let numSet = Set(nums)
-            var longest = 0
+        func maxProfit(_ prices: [Int]) -> Int {
+            var maxP = 0
+            var minBuy = prices[0]
 
-            for num in numSet {
-                if !numSet.contains(num - 1) {
-                    var length = 1
-                    while numSet.contains(num + length) {
-                        length += 1
-                    }
-                    longest = max(length, longest)
-                }
+            for sell in prices {
+                maxP = max(maxP, sell - minBuy)
+                minBuy = min(minBuy, sell)
             }
-
-            return longest
+            return maxP
         }
       }
 
   - language: go
     time_complexity: O(n)
-    space_complexity: O(n)
+    space_complexity: O(1)
     code: |
-      func longestConsecutive(nums []int) int {
-        numSet := make(map[int]struct{})
-        for _, num := range nums {
-            numSet[num] = struct{}{}
-        }
+      func maxProfit(prices []int) int {
+        maxP := 0
+        minBuy := math.MaxInt32
 
-        longest := 0
-        for num := range numSet {
-            if _, found := numSet[num-1]; !found {
-                length := 1
-                for {
-                    if _, exists := numSet[num+length]; exists {
-                        length++
-                    } else {
-                        break
-                    }
-                }
-                if length > longest {
-                    longest = length
-                }
+        for _, sell := range prices {
+            if sell - minBuy > maxP {
+                maxP = sell - minBuy
+            }
+            if sell < minBuy {
+                minBuy = sell
             }
         }
-        return longest
+        return maxP
       }

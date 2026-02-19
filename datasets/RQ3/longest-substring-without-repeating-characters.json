@@ -1,0 +1,66 @@
+{
+    "problem_name": "Longest Substring Without Repeating Characters",
+    "problem_slug": "longest-substring-without-repeating-characters",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hashing",
+        "string",
+        "sliding-window"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n*m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n  public:\n      int lengthOfLongestSubstring(string s) {\n          int res = 0;\n          for (int i = 0; i < s.size(); i++) {\n              unordered_set<char> charSet;\n              for (int j = i; j < s.size(); j++) {\n                  if (charSet.find(s[j]) != charSet.end()) {\n                      break;\n                  }\n                  charSet.insert(s[j]);\n              }\n              res = max(res, (int)charSet.size());\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n*m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n  def lengthOfLongestSubstring(self, s: str) -> int:\n      res = 0\n      for i in range(len(s)):\n          charSet = set()\n          for j in range(i, len(s)):\n              if s[j] in charSet:\n                  break\n              charSet.add(s[j])\n          res = max(res, len(charSet))\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n*m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n  public int lengthOfLongestSubstring(String s) {\n      int res = 0;\n      for (int i = 0; i < s.length(); i++) {\n          Set<Character> charSet = new HashSet<>();\n          for (int j = i; j < s.length(); j++) {\n              if (charSet.contains(s.charAt(j))) {\n                  break;\n              }\n              charSet.add(s.charAt(j));\n          }\n          res = Math.max(res, charSet.size());\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n*m)",
+            "space_complexity": "O(m)",
+            "code": "func lengthOfLongestSubstring(s string) int {\n  res := 0\n\n  for i := 0; i < len(s); i++ {\n      charSet := make(map[byte]bool)\n      for j := i; j < len(s); j++ {\n          if charSet[s[j]] {\n              break\n          }\n          charSet[s[j]] = true\n      }\n      if len(charSet) > res {\n          res = len(charSet)\n      }\n  }\n  return res\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n  public:\n      int lengthOfLongestSubstring(string s) {\n          unordered_map<char, int> mp;\n          int l = 0, res = 0;\n\n          for (int r = 0; r < s.size(); r++) {\n              if (mp.find(s[r]) != mp.end()) {\n                  l = max(mp[s[r]] + 1, l);\n              }\n              mp[s[r]] = r;\n              res = max(res, r - l + 1);\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n  def lengthOfLongestSubstring(self, s: str) -> int:\n      mp = {}\n      l = 0\n      res = 0\n\n      for r in range(len(s)):\n          if s[r] in mp:\n              l = max(mp[s[r]] + 1, l)\n          mp[s[r]] = r\n          res = max(res, r - l + 1)\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n  public int lengthOfLongestSubstring(String s) {\n      HashMap<Character, Integer> mp = new HashMap<>();\n      int l = 0, res = 0;\n\n      for (int r = 0; r < s.length(); r++) {\n          if (mp.containsKey(s.charAt(r))) {\n              l = Math.max(mp.get(s.charAt(r)) + 1, l);\n          }\n          mp.put(s.charAt(r), r);\n          res = Math.max(res, r - l + 1);\n      }\n      return res;\n  }\n}      \n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n  func lengthOfLongestSubstring(_ s: String) -> Int {\n      var mp = [Character: Int]()\n      var l = 0, res = 0\n      let chars = Array(s)\n\n      for r in 0..<chars.count {\n          if let index = mp[chars[r]] {\n              l = max(index + 1, l)\n          }\n          mp[chars[r]] = r\n          res = max(res, r - l + 1)\n      }\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "func lengthOfLongestSubstring(s string) int {\n  mp := make(map[byte]int)\n  l, res := 0, 0\n\n  for r := 0; r < len(s); r++ {\n      if idx, found := mp[s[r]]; found {\n          l = max(idx+1, l)\n      }\n      mp[s[r]] = r\n      if r - l + 1 > res {\n          res = r - l + 1\n      }\n  }\n  return res\n}\n"
+        }
+    ]
+}

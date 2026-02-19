@@ -1,0 +1,102 @@
+{
+    "problem_name": "3sum",
+    "problem_slug": "3sum",
+    "difficulty": "medium",
+    "topic_tags": [
+        "two-pointers",
+        "array",
+        "sorting"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n  public:\n      vector<vector<int>> threeSum(vector<int>& nums) {\n          set<vector<int>> res;\n          sort(nums.begin(), nums.end());\n          for (int i = 0; i < nums.size(); i++) {\n              for (int j = i + 1; j < nums.size(); j++) {\n                  for (int k = j + 1; k < nums.size(); k++) {\n                      if (nums[i] + nums[j] + nums[k] == 0) {\n                          res.insert({nums[i], nums[j], nums[k]});\n                      }\n                  }\n              }\n          }\n          return vector<vector<int>>(res.begin(), res.end());\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n  def threeSum(self, nums: List[int]) -> List[List[int]]:\n      res = set()\n      nums.sort()\n      for i in range(len(nums)):\n          for j in range(i + 1, len(nums)):\n              for k in range(j + 1, len(nums)):\n                  if nums[i] + nums[j] + nums[k] == 0:\n                      tmp = [nums[i], nums[j], nums[k]]\n                      res.add(tuple(tmp))\n      return [list(i) for i in res]\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n  public List<List<Integer>> threeSum(int[] nums) {\n      Set<List<Integer>> res = new HashSet<>();\n      Arrays.sort(nums);\n      for (int i = 0; i < nums.length; i++) {\n          for (int j = i + 1; j < nums.length; j++) {\n              for (int k = j + 1; k < nums.length; k++) {\n                  if (nums[i] + nums[j] + nums[k] == 0) {\n                      List<Integer> tmp = Arrays.asList(nums[i], nums[j], nums[k]);\n                      res.add(tmp);\n                  }\n              }\n          }\n      }\n      return new ArrayList<>(res);\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n  func threeSum(_ nums: [Int]) -> [[Int]] {\n      var res = Set<[Int]>()\n      let nums = nums.sorted()\n\n      for i in 0..<nums.count {\n          for j in (i + 1)..<nums.count {\n              for k in (j + 1)..<nums.count {\n                  if nums[i] + nums[j] + nums[k] == 0 {\n                      let tmp = [nums[i], nums[j], nums[k]]\n                      res.insert(tmp)\n                  }\n              }\n          }\n      }\n      return Array(res)\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(m)",
+            "code": "func threeSum(nums []int) [][]int {\n  res := map[[3]int]struct{}{}\n  sort.Ints(nums)\n  for i := 0; i < len(nums); i++ {\n      for j := i + 1; j < len(nums); j++ {\n          for k := j + 1; k < len(nums); k++ {\n              if nums[i]+nums[j]+nums[k] == 0 {\n                  res[[3]int{nums[i], nums[j], nums[k]}] = struct{}{}\n              }\n          }\n      }\n  }\n  var result [][]int\n  for triplet := range res {\n      result = append(result, []int{triplet[0], triplet[1], triplet[2]})\n  }\n  return result\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      vector<vector<int>> threeSum(vector<int>& nums) {\n          sort(nums.begin(), nums.end());\n          unordered_map<int, int> count;\n          for (int num : nums) {\n              count[num]++;\n          }\n\n          vector<vector<int>> res;\n          for (int i = 0; i < nums.size(); i++) {\n              count[nums[i]]--;\n              if (i > 0 && nums[i] == nums[i - 1]) continue;\n\n              for (int j = i + 1; j < nums.size(); j++) {\n                  count[nums[j]]--;\n                  if (j > i + 1 && nums[j] == nums[j - 1]) continue;\n\n                  int target = -(nums[i] + nums[j]);\n                  if (count[target] > 0) {\n                      res.push_back({nums[i], nums[j], target});\n                  }\n              }\n\n              for (int j = i + 1; j < nums.size(); j++) {\n                  count[nums[j]]++;\n              }\n          }\n\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def threeSum(self, nums: List[int]) -> List[List[int]]:\n      nums.sort()\n      count = defaultdict(int)\n      for num in nums:\n          count[num] += 1\n\n      res = []\n      for i in range(len(nums)):\n          count[nums[i]] -= 1\n          if i and nums[i] == nums[i - 1]:\n              continue\n\n          for j in range(i + 1, len(nums)):\n              count[nums[j]] -= 1\n              if j - 1 > i and nums[j] == nums[j - 1]:\n                  continue\n              target = -(nums[i] + nums[j])\n              if count[target] > 0:\n                  res.append([nums[i], nums[j], target])\n\n          for j in range(i + 1, len(nums)):\n              count[nums[j]] += 1\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public List<List<Integer>> threeSum(int[] nums) {\n      Arrays.sort(nums);\n      Map<Integer, Integer> count = new HashMap<>();\n      for (int num : nums) {\n          count.put(num, count.getOrDefault(num, 0) + 1);\n      }\n\n      List<List<Integer>> res = new ArrayList<>();\n      for (int i = 0; i < nums.length; i++) {\n          count.put(nums[i], count.get(nums[i]) - 1);\n          if (i > 0 && nums[i] == nums[i - 1]) continue;\n\n          for (int j = i + 1; j < nums.length; j++) {\n              count.put(nums[j], count.get(nums[j]) - 1);\n              if (j > i + 1 && nums[j] == nums[j - 1]) continue;\n\n              int target = -(nums[i] + nums[j]);\n              if (count.getOrDefault(target, 0) > 0) {\n                  res.add(Arrays.asList(nums[i], nums[j], target));\n              }\n          }\n\n          for (int j = i + 1; j < nums.length; j++) {\n              count.put(nums[j], count.get(nums[j]) + 1);\n          }\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func threeSum(_ nums: [Int]) -> [[Int]] {\n      var nums = nums.sorted()\n      var count = [Int: Int]()\n      for num in nums {\n          count[num, default: 0] += 1\n      }\n\n      var res = [[Int]]()\n      for i in 0..<nums.count {\n          count[nums[i]]! -= 1\n          if i > 0 && nums[i] == nums[i - 1] {\n              continue\n          }\n\n          for j in (i + 1)..<nums.count {\n              count[nums[j]]! -= 1\n              if j > i + 1 && nums[j] == nums[j - 1] {\n                  continue\n              }\n              let target = -(nums[i] + nums[j])\n              if let cnt = count[target], cnt > 0 {\n                  res.append([nums[i], nums[j], target])\n              }\n          }\n\n          for j in (i + 1)..<nums.count {\n              count[nums[j]]! += 1\n          }\n      }\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func threeSum(nums []int) [][]int {\n  sort.Ints(nums)\n  count := make(map[int]int)\n  for _, num := range nums {\n      count[num]++\n  }\n\n  var res [][]int\n  for i := 0; i < len(nums); i++ {\n      count[nums[i]]--\n      if i > 0 && nums[i] == nums[i-1] {\n          continue\n      }\n\n      for j := i + 1; j < len(nums); j++ {\n          count[nums[j]]--\n          if j > i+1 && nums[j] == nums[j-1] {\n              continue\n          }\n          target := -(nums[i] + nums[j])\n          if count[target] > 0 {\n              res = append(res, []int{nums[i], nums[j], target})\n          }\n      }\n\n      for j := i + 1; j < len(nums); j++ {\n          count[nums[j]]++\n      }\n  }\n\n  return res\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      vector<vector<int>> threeSum(vector<int>& nums) {\n          sort(nums.begin(), nums.end());\n          vector<vector<int>> res;\n\n          for (int i = 0; i < nums.size(); i++) {\n              if (nums[i] > 0) break;\n              if (i > 0 && nums[i] == nums[i - 1]) continue;\n\n              int l = i + 1, r = nums.size() - 1;\n              while (l < r) {\n                  int sum = nums[i] + nums[l] + nums[r];\n                  if (sum > 0) {\n                      r--;\n                  } else if (sum < 0) {\n                      l++;\n                  } else {\n                      res.push_back({nums[i], nums[l], nums[r]});\n                      l++;\n                      r--;\n                      while (l < r && nums[l] == nums[l - 1]) {\n                          l++;\n                      }\n                  }\n              }\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def threeSum(self, nums: List[int]) -> List[List[int]]:\n      res = []\n      nums.sort()\n\n      for i, a in enumerate(nums):\n          if a > 0:\n              break\n\n          if i > 0 and a == nums[i - 1]:\n              continue\n\n          l, r = i + 1, len(nums) - 1\n          while l < r:\n              threeSum = a + nums[l] + nums[r]\n              if threeSum > 0:\n                  r -= 1\n              elif threeSum < 0:\n                  l += 1\n              else:\n                  res.append([a, nums[l], nums[r]])\n                  l += 1\n                  r -= 1\n                  while nums[l] == nums[l - 1] and l < r:\n                      l += 1\n\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public List<List<Integer>> threeSum(int[] nums) {\n      Arrays.sort(nums);\n      List<List<Integer>> res = new ArrayList<>();\n\n      for (int i = 0; i < nums.length; i++) {\n          if (nums[i] > 0) break;\n          if (i > 0 && nums[i] == nums[i - 1]) continue;\n\n          int l = i + 1, r = nums.length - 1;\n          while (l < r) {\n              int sum = nums[i] + nums[l] + nums[r];\n              if (sum > 0) {\n                  r--;\n              } else if (sum < 0) {\n                  l++;\n              } else {\n                  res.add(Arrays.asList(nums[i], nums[l], nums[r]));\n                  l++;\n                  r--;\n                  while (l < r && nums[l] == nums[l - 1]) {\n                      l++;\n                  }\n              }\n          }\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func threeSum(_ nums: [Int]) -> [[Int]] {\n      var res = [[Int]]()\n      var nums = nums.sorted()\n\n      for i in 0..<nums.count {\n          let a = nums[i]\n          if a > 0 {\n              break\n          }\n          if i > 0 && a == nums[i - 1] {\n              continue\n          }\n\n          var l = i + 1, r = nums.count - 1\n          while l < r {\n              let threeSum = a + nums[l] + nums[r]\n              if threeSum > 0 {\n                  r -= 1\n              } else if threeSum < 0 {\n                  l += 1\n              } else {\n                  res.append([a, nums[l], nums[r]])\n                  l += 1\n                  r -= 1\n                  while l < r && nums[l] == nums[l - 1] {\n                      l += 1\n                  }\n              }\n          }\n      }\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func threeSum(nums []int) [][]int {\n  res := [][]int{}\n  sort.Ints(nums)\n\n  for i := 0; i < len(nums); i++ {\n      a := nums[i]\n      if a > 0 {\n          break\n      }\n      if i > 0 && a == nums[i-1] {\n          continue\n      }\n\n      l, r := i+1, len(nums)-1\n      for l < r {\n          threeSum := a + nums[l] + nums[r]\n          if threeSum > 0 {\n              r--\n          } else if threeSum < 0 {\n              l++\n          } else {\n              res = append(res, []int{a, nums[l], nums[r]})\n              l++\n              r--\n              for l < r && nums[l] == nums[l-1] {\n                  l++\n              }\n          }\n      }\n  }\n\n  return res\n}\n"
+        }
+    ]
+}

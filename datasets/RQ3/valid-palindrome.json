@@ -1,0 +1,71 @@
+{
+    "problem_name": "Valid Palindrome",
+    "problem_slug": "valid-palindrome",
+    "difficulty": "easy",
+    "topic_tags": [
+        "two-pointers",
+        "string"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      bool isPalindrome(string s) {\n          string newStr = \"\";\n          for (char c : s) {\n              if (isalnum(c)) {\n                  newStr += tolower(c);\n              }\n          }\n          return newStr == string(newStr.rbegin(), newStr.rend());\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def isPalindrome(self, s: str) -> bool:\n      newStr = ''\n      for c in s:\n          if c.isalnum():\n              newStr += c.lower()\n      return newStr == newStr[::-1]\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public boolean isPalindrome(String s) {\n      StringBuilder newStr = new StringBuilder();\n      for (char c : s.toCharArray()) {\n          if (Character.isLetterOrDigit(c)) {\n              newStr.append(Character.toLowerCase(c));\n          }\n      }\n      return newStr.toString().equals(newStr.reverse().toString());\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func isPalindrome(_ s: String) -> Bool {\n      var newStr = \"\"\n\n      for c in s {\n          if c.isLetter || c.isNumber {\n              newStr.append(c.lowercased())\n          }\n      }\n\n      return newStr == String(newStr.reversed())\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func isPalindrome(s string) bool {\n  newStr := \"\"\n  for _, c := range s {\n      if ('a' <= c && c <= 'z') || ('0' <= c && c <= '9') {\n          newStr += string(c)\n      } else if 'A' <= c && c <= 'Z' {\n          newStr += string(c + 'a' - 'A')\n      }\n  }\n\n  reversedStr := reverse(newStr)\n  return newStr == reversedStr\n}\n\nfunc reverse(s string) string {\n    runes := []rune(s)\n    n := len(runes)\n    for i := 0; i < n/2; i++ {\n        runes[i], runes[n-1-i] = runes[n-1-i], runes[i]\n    }\n    return string(runes)\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  public:\n      bool isPalindrome(string s) {\n          int l = 0, r = s.length() - 1;\n\n          while (l < r) {\n              while (l < r && !alphaNum(s[l])) {\n                  l++;\n              }\n              while (r > l && !alphaNum(s[r])) {\n                  r--;\n              }\n              if (tolower(s[l]) != tolower(s[r])) {\n                  return false;\n              }\n              l++; r--;\n          }\n          return true;\n      }\n\n      bool alphaNum(char c) {\n          return (c >= 'A' && c <= 'Z' ||\n                  c >= 'a' && c <= 'z' ||\n                  c >= '0' && c <= '9');\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n  def isPalindrome(self, s: str) -> bool:\n      l, r = 0, len(s) - 1\n\n      while l < r:\n          while l < r and not self.alphaNum(s[l]):\n              l += 1\n          while r > l and not self.alphaNum(s[r]):\n              r -= 1\n          if s[l].lower() != s[r].lower():\n              return False\n          l, r = l + 1, r - 1\n      return True\n\n  def alphaNum(self, c):\n      return (ord('A') <= ord(c) <= ord('Z') or\n              ord('a') <= ord(c) <= ord('z') or\n              ord('0') <= ord(c) <= ord('9'))\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n  public boolean isPalindrome(String s) {\n      int l = 0, r = s.length() - 1;\n\n      while (l < r) {\n          while (l < r && !alphaNum(s.charAt(l))) {\n              l++;\n          }\n          while (r > l && !alphaNum(s.charAt(r))) {\n              r--;\n          }\n          if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) {\n              return false;\n          }\n          l++; r--;\n      }\n      return true;\n  }\n\n  public boolean alphaNum(char c) {\n      return (c >= 'A' && c <= 'Z' ||\n              c >= 'a' && c <= 'z' ||\n              c >= '0' && c <= '9');\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  func isPalindrome(_ s: String) -> Bool {\n      let chars = Array(s)\n      var l = 0, r = chars.count - 1\n\n      while l < r {\n          while l < r && !isAlphaNum(chars[l]) {\n              l += 1\n          }\n          while r > l && !isAlphaNum(chars[r]) {\n              r -= 1\n          }\n          if chars[l].lowercased() != chars[r].lowercased() {\n              return false\n          }\n          l += 1\n          r -= 1\n      }\n      return true\n  }\n\n  private func isAlphaNum(_ c: Character) -> Bool {\n      return c.isLetter || c.isNumber\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func isPalindrome(s string) bool {\n  l, r := 0, len(s)-1\n\n  for l < r {\n      for l < r && !isAlphaNum(rune(s[l])) {\n          l++\n      }\n      for r > l && !isAlphaNum(rune(s[r])) {\n          r--\n      }\n      if unicode.ToLower(rune(s[l])) != unicode.ToLower(rune(s[r])) {\n          return false\n      }\n      l++\n      r--\n  }\n  return true\n}\n\nfunc isAlphaNum(c rune) bool {\n    return unicode.IsLetter(c) || unicode.IsDigit(c)\n}\n"
+        }
+    ]
+}

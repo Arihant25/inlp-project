@@ -1,0 +1,103 @@
+{
+    "problem_name": "Trapping Rain Water",
+    "problem_slug": "trapping-rain-water",
+    "difficulty": "hard",
+    "topic_tags": [
+        "two-pointers",
+        "array",
+        "dynamic-programming",
+        "stack"
+    ],
+    "solutions": [
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  public:\n      int trap(vector<int>& height) {\n          if (height.empty()) {\n              return 0;\n          }\n          int n = height.size();\n          int res = 0;\n\n          for (int i = 0; i < n; i++) {\n              int leftMax = height[i];\n              int rightMax = height[i];\n\n              for (int j = 0; j < i; j++) {\n                  leftMax = max(leftMax, height[j]);\n              }\n              for (int j = i + 1; j < n; j++) {\n                  rightMax = max(rightMax, height[j]);\n              }\n\n              res += min(leftMax, rightMax) - height[i];\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n  def trap(self, height: List[int]) -> int:\n      if not height:\n          return 0\n      n = len(height)\n      res = 0\n\n      for i in range(n):\n          leftMax = rightMax = height[i]\n\n          for j in range(i):\n              leftMax = max(leftMax, height[j])\n          for j in range(i + 1, n):\n              rightMax = max(rightMax, height[j])\n\n          res += min(leftMax, rightMax) - height[i]\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n  public int trap(int[] height) {\n      if (height == null || height.length == 0) {\n          return 0;\n      }\n      int n = height.length;\n      int res = 0;\n\n      for (int i = 0; i < n; i++) {\n          int leftMax = height[i];\n          int rightMax = height[i];\n\n          for (int j = 0; j < i; j++) {\n              leftMax = Math.max(leftMax, height[j]);\n          }\n          for (int j = i + 1; j < n; j++) {\n              rightMax = Math.max(rightMax, height[j]);\n          }\n\n          res += Math.min(leftMax, rightMax) - height[i];\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n  func trap(_ height: [Int]) -> Int {\n      if height.isEmpty {\n          return 0\n      }\n      let n = height.count\n      var res = 0\n\n      for i in 0..<n {\n          var leftMax = height[i]\n          var rightMax = height[i]\n\n          for j in 0..<i {\n              leftMax = max(leftMax, height[j])\n          }\n          for j in (i + 1)..<n {\n              rightMax = max(rightMax, height[j])\n          }\n\n          res += min(leftMax, rightMax) - height[i]\n      }\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "func trap(height []int) int {\n  if len(height) == 0 {\n      return 0\n  }\n  n := len(height)\n  res := 0\n\n  for i := 0; i < n; i++ {\n      leftMax := height[i]\n      rightMax := height[i]\n\n      for j := 0; j < i; j++ {\n          if height[j] > leftMax {\n              leftMax = height[j]\n          }\n      }\n      for j := i + 1; j < n; j++ {\n          if height[j] > rightMax {\n              rightMax = height[j]\n          }\n      }\n\n      res += min(leftMax, rightMax) - height[i]\n  }\n  return res\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      int trap(vector<int>& height) {\n          int n = height.size();\n          if (n == 0) {\n              return 0;\n          }\n\n          vector<int> leftMax(n);\n          vector<int> rightMax(n);\n\n          leftMax[0] = height[0];\n          for (int i = 1; i < n; i++) {\n              leftMax[i] = max(leftMax[i - 1], height[i]);\n          }\n\n          rightMax[n - 1] = height[n - 1];\n          for (int i = n - 2; i >= 0; i--) {\n              rightMax[i] = max(rightMax[i + 1], height[i]);\n          }\n\n          int res = 0;\n          for (int i = 0; i < n; i++) {\n              res += min(leftMax[i], rightMax[i]) - height[i];\n          }\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def trap(self, height: List[int]) -> int:\n      n = len(height)\n      if n == 0:\n          return 0\n\n      leftMax = [0] * n\n      rightMax = [0] * n\n\n      leftMax[0] = height[0]\n      for i in range(1, n):\n          leftMax[i] = max(leftMax[i - 1], height[i])\n\n      rightMax[n - 1] = height[n - 1]\n      for i in range(n - 2, -1, -1):\n          rightMax[i] = max(rightMax[i + 1], height[i])\n\n      res = 0\n      for i in range(n):\n          res += min(leftMax[i], rightMax[i]) - height[i]\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int trap(int[] height) {\n      int n = height.length;\n      if (n == 0) {\n          return 0;\n      }\n\n      int[] leftMax = new int[n];\n      int[] rightMax = new int[n];\n\n      leftMax[0] = height[0];\n      for (int i = 1; i < n; i++) {\n          leftMax[i] = Math.max(leftMax[i - 1], height[i]);\n      }\n\n      rightMax[n - 1] = height[n - 1];\n      for (int i = n - 2; i >= 0; i--) {\n          rightMax[i] = Math.max(rightMax[i + 1], height[i]);\n      }\n\n      int res = 0;\n      for (int i = 0; i < n; i++) {\n          res += Math.min(leftMax[i], rightMax[i]) - height[i];\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func trap(_ height: [Int]) -> Int {\n      let n = height.count\n      if n == 0 {\n          return 0\n      }\n\n      var leftMax = [Int](repeating: 0, count: n)\n      var rightMax = [Int](repeating: 0, count: n)\n\n      leftMax[0] = height[0]\n      for i in 1..<n {\n          leftMax[i] = max(leftMax[i - 1], height[i])\n      }\n\n      rightMax[n - 1] = height[n - 1]\n      for i in stride(from: n - 2, through: 0, by: -1) {\n          rightMax[i] = max(rightMax[i + 1], height[i])\n      }\n\n      var res = 0\n      for i in 0..<n {\n          res += min(leftMax[i], rightMax[i]) - height[i]\n      }\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func trap(height []int) int {\n  n := len(height)\n  if n == 0 {\n      return 0\n  }\n\n  leftMax := make([]int, n)\n  rightMax := make([]int, n)\n\n  leftMax[0] = height[0]\n  for i := 1; i < n; i++ {\n      leftMax[i] = max(leftMax[i-1], height[i])\n  }\n\n  rightMax[n-1] = height[n-1]\n  for i := n - 2; i >= 0; i-- {\n      rightMax[i] = max(rightMax[i+1], height[i])\n  }\n\n  res := 0\n  for i := 0; i < n; i++ {\n      res += min(leftMax[i], rightMax[i]) - height[i]\n  }\n  return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}\n"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  public:\n      int trap(vector<int>& height) {\n          if (height.empty()) {\n              return 0;\n          }\n\n          stack<int> stk;\n          int res = 0;\n\n          for (int i = 0; i < height.size(); i++) {\n              while (!stk.empty() && height[i] >= height[stk.top()]) {\n                  int mid = height[stk.top()];\n                  stk.pop();\n                  if (!stk.empty()) {\n                      int right = height[i];\n                      int left = height[stk.top()];\n                      int h = min(right, left) - mid;\n                      int w = i - stk.top() - 1;\n                      res += h * w;\n                  }\n              }\n              stk.push(i);\n          }\n\n          return res;\n      }\n  };\n"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n  def trap(self, height: List[int]) -> int:\n      if not height:\n          return 0\n      stack = []\n      res = 0\n\n      for i in range(len(height)):\n          while stack and height[i] >= height[stack[-1]]:\n              mid = height[stack.pop()]\n              if stack:\n                  right = height[i]\n                  left = height[stack[-1]]\n                  h = min(right, left) - mid\n                  w = i - stack[-1] - 1\n                  res += h * w\n          stack.append(i)\n      return res\n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n  public int trap(int[] height) {\n      if (height.length == 0) {\n          return 0;\n      }\n\n      Stack<Integer> stack = new Stack<>();\n      int res = 0;\n\n      for (int i = 0; i < height.length; i++) {\n          while (!stack.isEmpty() && height[i] >= height[stack.peek()]) {\n              int mid = height[stack.pop()];\n              if (!stack.isEmpty()) {\n                  int right = height[i];\n                  int left = height[stack.peek()];\n                  int h = Math.min(right, left) - mid;\n                  int w = i - stack.peek() - 1;\n                  res += h * w;\n              }\n          }\n          stack.push(i);\n      }\n      return res;\n  }\n}\n"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n  func trap(_ height: [Int]) -> Int {\n      if height.isEmpty {\n          return 0\n      }\n      var stack = [Int]()\n      var res = 0\n\n      for i in 0..<height.count {\n          while !stack.isEmpty && height[i] >= height[stack.last!] {\n              let mid = height[stack.removeLast()]\n              if !stack.isEmpty {\n                  let right = height[i]\n                  let left = height[stack.last!]\n                  let h = min(right, left) - mid\n                  let w = i - stack.last! - 1\n                  res += h * w\n              }\n          }\n          stack.append(i)\n      }\n      return res\n  }\n}\n"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func trap(height []int) int {\n  if len(height) == 0 {\n      return 0\n  }\n\n  stack := linkedliststack.New()\n  res := 0\n\n  for i := 0; i < len(height); i++ {\n      for !stack.Empty() {\n          topIndex, _ := stack.Peek()\n          if height[i] >= height[topIndex.(int)] {\n              midIndex, _ := stack.Pop()\n              mid := height[midIndex.(int)]\n              if !stack.Empty() {\n                  topIndex, _ := stack.Peek()\n                  right := height[i]\n                  left := height[topIndex.(int)]\n                  h := min(right, left) - mid\n                  w := i - topIndex.(int) - 1\n                  res += h * w\n              }\n          } else {\n              break\n          }\n      }\n      stack.Push(i)\n  }\n  return res\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        }
+    ]
+}
