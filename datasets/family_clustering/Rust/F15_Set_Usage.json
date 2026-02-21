@@ -1,0 +1,370 @@
+[
+  {
+    "task": "Create a set to store unique usernames and demonstrate adding new ones.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut usernames = HashSet::new();\n\n    usernames.insert(\"alice\");\n    usernames.insert(\"bob\");\n    usernames.insert(\"carol\");\n\n    // Attempt to add duplicate username\n    usernames.insert(\"alice\");\n\n    // Display the unique usernames\n    for username in &usernames {\n        println!(\"{}\", username);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that returns the union of two sets of integers.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn union_of_sets(set1: &HashSet<i32>, set2: &HashSet<i32>) -> HashSet<i32> {\n    set1.union(set2).cloned().collect()\n}\n```"
+  },
+  {
+    "task": "Given two sets of strings, find their intersection.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set1: HashSet<&str> = [\"apple\", \"banana\", \"cherry\"].iter().cloned().collect();\n    let set2: HashSet<&str> = [\"banana\", \"kiwi\", \"apple\"].iter().cloned().collect();\n\n    let intersection: HashSet<_> = set1.intersection(&set2).cloned().collect();\n\n    println!(\"{:?}\", intersection);\n}\n```"
+  },
+  {
+    "task": "Implement a set to track visited web pages and check if a page has been visited.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nstruct WebTracker {\n    visited_pages: HashSet<String>,\n}\n\nimpl WebTracker {\n    fn new() -> Self {\n        WebTracker {\n            visited_pages: HashSet::new(),\n        }\n    }\n\n    fn visit_page(&mut self, url: &str) {\n        self.visited_pages.insert(url.to_string());\n    }\n\n    fn has_visited(&self, url: &str) -> bool {\n        self.visited_pages.contains(url)\n    }\n}\n\nfn main() {\n    let mut tracker = WebTracker::new();\n    tracker.visit_page(\"https://example.com\");\n    println!(\"Visited example.com: {}\", tracker.has_visited(\"https://example.com\"));\n    println!(\"Visited rust-lang.org: {}\", tracker.has_visited(\"https://rust-lang.org\"));\n}\n```"
+  },
+  {
+    "task": "Create a set from a list of numbers and remove duplicates.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let numbers = vec![1, 2, 3, 2, 4, 1, 5];\n    let unique_numbers: HashSet<_> = numbers.into_iter().collect();\n    \n    for number in &unique_numbers {\n        println!(\"{}\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Check if a set is a subset of another set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn is_subset<T: Eq + std::hash::Hash>(set1: &HashSet<T>, set2: &HashSet<T>) -> bool {\n    set1.is_subset(set2)\n}\n\nfn main() {\n    let set1: HashSet<i32> = [1, 2].iter().cloned().collect();\n    let set2: HashSet<i32> = [1, 2, 3, 4].iter().cloned().collect();\n\n    if is_subset(&set1, &set2) {\n        println!(\"set1 is a subset of set2\");\n    } else {\n        println!(\"set1 is not a subset of set2\");\n    }\n}\n```"
+  },
+  {
+    "task": "Demonstrate adding and removing elements from a set of book titles.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut book_titles = HashSet::new();\n\n    // Adding elements to the set\n    book_titles.insert(\"1984\");\n    book_titles.insert(\"Brave New World\");\n    book_titles.insert(\"Fahrenheit 451\");\n\n    // Removing an element from the set\n    book_titles.remove(\"1984\");\n\n    // Display the remaining titles\n    for title in &book_titles {\n        println!(\"{}\", title);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and show how to clear all its elements.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut my_set: HashSet<i32> = HashSet::new();\n    my_set.insert(1);\n    my_set.insert(2);\n    my_set.insert(3);\n\n    // Clear all elements from the set\n    my_set.clear();\n\n    // Print the set to show it is empty\n    println!(\"{:?}\", my_set);\n}\n```"
+  },
+  {
+    "task": "Write a program to find the difference between two sets of employee IDs.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set_a: HashSet<&str> = [\"emp1\", \"emp2\", \"emp3\", \"emp4\"].iter().cloned().collect();\n    let set_b: HashSet<&str> = [\"emp3\", \"emp4\", \"emp5\", \"emp6\"].iter().cloned().collect();\n\n    let difference: HashSet<_> = set_a.difference(&set_b).cloned().collect();\n\n    println!(\"Difference between sets: {:?}\", difference);\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique email addresses and check membership.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut email_set: HashSet<String> = HashSet::new();\n\n    // Add email addresses to the set\n    email_set.insert(\"example1@example.com\".to_string());\n    email_set.insert(\"example2@example.com\".to_string());\n    email_set.insert(\"example3@example.com\".to_string());\n\n    // Check if an email address is in the set\n    let email_to_check = \"example2@example.com\".to_string();\n    if email_set.contains(&email_to_check) {\n        println!(\"{} is in the set.\", email_to_check);\n    } else {\n        println!(\"{} is not in the set.\", email_to_check);\n    }\n}\n```"
+  },
+  {
+    "task": "Use a set to determine if two lists have any common elements.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn have_common_elements<T: Eq + std::hash::Hash>(list1: &[T], list2: &[T]) -> bool {\n    let set1: HashSet<_> = list1.iter().collect();\n    list2.iter().any(|item| set1.contains(item))\n}\n\nfn main() {\n    let list1 = vec![1, 2, 3, 4];\n    let list2 = vec![3, 5, 6, 7];\n    \n    if have_common_elements(&list1, &list2) {\n        println!(\"The lists have common elements.\");\n    } else {\n        println!(\"The lists do not have common elements.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set to represent a group of students and update it with new entries.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut students: HashSet<&str> = HashSet::new();\n\n    // Initial set of students\n    students.insert(\"Alice\");\n    students.insert(\"Bob\");\n    students.insert(\"Charlie\");\n\n    // Update set with new entries\n    students.insert(\"David\");\n    students.insert(\"Eve\");\n\n    for student in &students {\n        println!(\"{}\", student);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to find symmetric difference between two sets of colors.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn symmetric_difference(set1: &HashSet<&str>, set2: &HashSet<&str>) -> HashSet<&str> {\n    set1.symmetric_difference(set2).cloned().collect()\n}\n\nfn main() {\n    let colors1: HashSet<&str> = [\"red\", \"green\", \"blue\"].iter().cloned().collect();\n    let colors2: HashSet<&str> = [\"yellow\", \"blue\", \"pink\"].iter().cloned().collect();\n\n    let result = symmetric_difference(&colors1, &colors2);\n    for color in &result {\n        println!(\"{}\", color);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique product codes and demonstrate iteration over it.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut product_codes: HashSet<&str> = HashSet::new();\n\n    // Adding unique product codes\n    product_codes.insert(\"P001\");\n    product_codes.insert(\"P002\");\n    product_codes.insert(\"P003\");\n    product_codes.insert(\"P004\");\n\n    // Iterating over the set\n    for code in &product_codes {\n        println!(\"Product Code: {}\", code);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `discard` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut set: HashSet<i32> = HashSet::new();\n    \n    set.insert(1);\n    set.insert(2);\n    set.insert(3);\n\n    // Discard (remove) an element\n    set.remove(&2);\n\n    println!(\"{:?}\", set);\n}\n```"
+  },
+  {
+    "task": "Given a list of numbers, create a set and check if a specific number is present.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let numbers = vec![1, 2, 3, 4, 5];\n    let num_to_check = 3;\n\n    let number_set: HashSet<_> = numbers.into_iter().collect();\n\n    if number_set.contains(&num_to_check) {\n        println!(\"Number {} is present in the set.\", num_to_check);\n    } else {\n        println!(\"Number {} is not present in the set.\", num_to_check);\n    }\n}\n```"
+  },
+  {
+    "task": "Use a set to find all unique words in a sentence.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn unique_words(sentence: &str) -> HashSet<&str> {\n    sentence.split_whitespace().collect()\n}\n\nfn main() {\n    let sentence = \"This is a test sentence with some test words\";\n    let unique = unique_words(sentence);\n    for word in &unique {\n        println!(\"{}\", word);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set from a sequence of characters and demonstrate set operations.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let sequence1 = \"abcd\";\n    let sequence2 = \"bcdef\";\n\n    // Create sets from sequences\n    let set1: HashSet<char> = sequence1.chars().collect();\n    let set2: HashSet<char> = sequence2.chars().collect();\n\n    // Union of sets\n    let union: HashSet<_> = set1.union(&set2).cloned().collect();\n    println!(\"Union: {:?}\", union);\n\n    // Intersection of sets\n    let intersection: HashSet<_> = set1.intersection(&set2).cloned().collect();\n    println!(\"Intersection: {:?}\", intersection);\n\n    // Difference of sets\n    let difference: HashSet<_> = set1.difference(&set2).cloned().collect();\n    println!(\"Difference (set1 - set2): {:?}\", difference);\n\n    // Symmetric Difference of sets\n    let symmetric_difference: HashSet<_> = set1.symmetric_difference(&set2).cloned().collect();\n    println!(\"Symmetric Difference: {:?}\", symmetric_difference);\n}\n```"
+  },
+  {
+    "task": "Write a function to merge two sets and return the result.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn merge_sets<T: Clone + std::hash::Hash + Eq>(set1: &HashSet<T>, set2: &HashSet<T>) -> HashSet<T> {\n    set1.union(set2).cloned().collect()\n}\n```"
+  },
+  {
+    "task": "Implement a set to hold unique IP addresses and demonstrate basic operations.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut ip_set = HashSet::new();\n\n    // Adding IP addresses\n    ip_set.insert(\"192.168.1.1\");\n    ip_set.insert(\"10.0.0.1\");\n    ip_set.insert(\"172.16.0.1\");\n\n    // Attempt to add a duplicate IP address\n    ip_set.insert(\"192.168.1.1\");\n\n    // Check presence of an IP address\n    let ip_to_check = \"10.0.0.1\";\n    if ip_set.contains(ip_to_check) {\n        println!(\"IP address {} is in the set.\", ip_to_check);\n    } else {\n        println!(\"IP address {} is not in the set.\", ip_to_check);\n    }\n\n    // Remove an IP address\n    ip_set.remove(\"172.16.0.1\");\n\n    // Print all IP addresses\n    println!(\"Current IP addresses in the set:\");\n    for ip in &ip_set {\n        println!(\"{}\", ip);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to find the size of the set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut my_set = HashSet::new();\n    my_set.insert(\"apple\");\n    my_set.insert(\"banana\");\n    my_set.insert(\"orange\");\n\n    let set_size = my_set.len();\n    println!(\"The size of the set is: {}\", set_size);\n}\n```"
+  },
+  {
+    "task": "Write a program to check if two sets of dates are disjoint.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn are_disjoint(set1: &HashSet<&str>, set2: &HashSet<&str>) -> bool {\n    set1.is_disjoint(set2)\n}\n\nfn main() {\n    let dates1: HashSet<&str> = [\"2023-10-01\", \"2023-10-02\", \"2023-10-03\"].iter().cloned().collect();\n    let dates2: HashSet<&str> = [\"2023-10-04\", \"2023-10-05\", \"2023-10-06\"].iter().cloned().collect();\n\n    if are_disjoint(&dates1, &dates2) {\n        println!(\"The sets are disjoint.\");\n    } else {\n        println!(\"The sets are not disjoint.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set to manage a collection of tags and demonstrate addition and removal.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut tags: HashSet<&str> = HashSet::new();\n\n    // Add tags\n    tags.insert(\"rust\");\n    tags.insert(\"programming\");\n    tags.insert(\"coding\");\n\n    // Remove a tag\n    tags.remove(\"coding\");\n\n    // Display remaining tags\n    for tag in &tags {\n        println!(\"{}\", tag);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a set to track unique inventory items in a store.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut inventory: HashSet<String> = HashSet::new();\n\n    // Add items to the inventory\n    inventory.insert(\"Apple\".to_string());\n    inventory.insert(\"Banana\".to_string());\n    inventory.insert(\"Orange\".to_string());\n\n    // Check if an item is in the inventory\n    if inventory.contains(\"Apple\") {\n        println!(\"Apple is in the inventory.\");\n    }\n\n    // Remove an item from the inventory\n    inventory.remove(\"Banana\");\n\n    // Print the inventory\n    for item in &inventory {\n        println!(\"{}\", item);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of numbers and demonstrate conversion to a list.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut numbers_set: HashSet<i32> = HashSet::new();\n    numbers_set.insert(1);\n    numbers_set.insert(2);\n    numbers_set.insert(3);\n    \n    let numbers_list: Vec<i32> = numbers_set.iter().cloned().collect();\n    \n    println!(\"{:?}\", numbers_list);\n}\n```"
+  },
+  {
+    "task": "Write a function that returns all elements present in either of two sets but not both.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn symmetric_difference<T: std::cmp::Eq + std::hash::Hash + Clone>(\n    set1: &HashSet<T>,\n    set2: &HashSet<T>,\n) -> HashSet<T> {\n    set1.symmetric_difference(set2).cloned().collect()\n}\n```"
+  },
+  {
+    "task": "Use a set to manage a collection of unique transaction IDs.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut transaction_ids: HashSet<u32> = HashSet::new();\n\n    // Add transaction IDs\n    transaction_ids.insert(1001);\n    transaction_ids.insert(1002);\n    transaction_ids.insert(1003);\n\n    // Check if a transaction ID exists\n    if transaction_ids.contains(&1002) {\n        println!(\"Transaction ID 1002 exists.\");\n    }\n\n    // Remove a transaction ID\n    transaction_ids.remove(&1003);\n\n    // List all transaction IDs\n    for id in &transaction_ids {\n        println!(\"Transaction ID: {}\", id);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate the `pop` operation.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut numbers = HashSet::new();\n    numbers.insert(1);\n    numbers.insert(2);\n    numbers.insert(3);\n\n    if let Some(val) = numbers.iter().next().cloned() {\n        numbers.remove(&val);\n        println!(\"Popped value: {}\", val);\n    }\n\n    println!(\"Remaining set: {:?}\", numbers);\n}\n```"
+  },
+  {
+    "task": "Write a program to find the maximum element in a set of floating-point numbers.",
+    "code": "```rust\nfn main() {\n    let numbers: std::collections::HashSet<f64> = [3.2, 7.1, 4.8, 9.5, 2.4].iter().cloned().collect();\n    if let Some(max_value) = numbers.iter().cloned().max_by(|a, b| a.partial_cmp(b).unwrap()) {\n        println!(\"The maximum element is: {}\", max_value);\n    } else {\n        println!(\"The set is empty.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `update` method with another set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut set1: HashSet<i32> = [1, 2, 3].iter().cloned().collect();\n    let set2: HashSet<i32> = [3, 4, 5].iter().cloned().collect();\n\n    set1.extend(&set2);\n\n    for item in &set1 {\n        println!(\"{}\", item);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a set to keep track of unique file extensions in a directory.",
+    "code": "```rust\nuse std::collections::HashSet;\nuse std::fs;\nuse std::path::Path;\n\nfn main() -> std::io::Result<()> {\n    let directory_path = \"./your_directory_path\";\n    let mut extensions_set: HashSet<String> = HashSet::new();\n\n    for entry in fs::read_dir(directory_path)? {\n        let entry = entry?;\n        if let Some(extension) = entry.path().extension() {\n            if let Some(ext_str) = extension.to_str() {\n                extensions_set.insert(ext_str.to_string());\n            }\n        }\n    }\n\n    for extension in &extensions_set {\n        println!(\"{}\", extension);\n    }\n\n    Ok(())\n}\n```"
+  },
+  {
+    "task": "Create a set of strings and demonstrate how to iterate over it in reverse order.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut my_set: HashSet<&str> = HashSet::new();\n    my_set.insert(\"apple\");\n    my_set.insert(\"banana\");\n    my_set.insert(\"cherry\");\n\n    let mut vec: Vec<&str> = my_set.iter().cloned().collect();\n    vec.sort();\n    vec.reverse();\n\n    for item in vec {\n        println!(\"{}\", item);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to check if a set is empty.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn is_set_empty<T>(set: &HashSet<T>) -> bool {\n    set.is_empty()\n}\n\nfn main() {\n    let mut set: HashSet<i32> = HashSet::new();\n    println!(\"{}\", is_set_empty(&set)); // true\n\n    set.insert(1);\n    println!(\"{}\", is_set_empty(&set)); // false\n}\n```"
+  },
+  {
+    "task": "Use a set to filter out duplicate entries from a list of participants.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn filter_duplicates(participants: Vec<&str>) -> Vec<&str> {\n    let unique_participants: HashSet<&str> = participants.into_iter().collect();\n    unique_participants.into_iter().collect()\n}\n\nfn main() {\n    let participants = vec![\"Alice\", \"Bob\", \"Alice\", \"Charlie\", \"Bob\"];\n    let unique_participants = filter_duplicates(participants);\n    for participant in unique_participants {\n        println!(\"{}\", participant);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of tuples and demonstrate basic set operations.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    // Create a set of tuples\n    let mut set: HashSet<(i32, i32)> = HashSet::new();\n\n    // Add tuples to the set\n    set.insert((1, 2));\n    set.insert((3, 4));\n    set.insert((5, 6));\n\n    // Demonstrate basic set operations\n\n    // Check if a tuple is in the set\n    let contains = set.contains(&(1, 2));\n    println!(\"Set contains (1, 2): {}\", contains);\n\n    // Remove a tuple from the set\n    set.remove(&(3, 4));\n\n    // Check the size of the set\n    let size = set.len();\n    println!(\"Set size: {}\", size);\n\n    // Iterate over tuples in the set\n    for tuple in &set {\n        println!(\"Tuple: {:?}\", tuple);\n    }\n\n    // Check if the set is empty\n    let is_empty = set.is_empty();\n    println!(\"Set is empty: {}\", is_empty);\n}\n```"
+  },
+  {
+    "task": "Write a program to find the common elements between two sets of country names.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set1: HashSet<&str> = [\"USA\", \"Canada\", \"Mexico\", \"Brazil\"].iter().cloned().collect();\n    let set2: HashSet<&str> = [\"Brazil\", \"Argentina\", \"Canada\", \"Chile\"].iter().cloned().collect();\n\n    let common_elements: HashSet<_> = set1.intersection(&set2).cloned().collect();\n\n    for country in &common_elements {\n        println!(\"{}\", country);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of characters and demonstrate the use of the `issubset` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set_a: HashSet<char> = ['a', 'b', 'c', 'd'].iter().cloned().collect();\n    let set_b: HashSet<char> = ['a', 'b'].iter().cloned().collect();\n\n    if set_b.is_subset(&set_a) {\n        println!(\"set_b is a subset of set_a\");\n    } else {\n        println!(\"set_b is not a subset of set_a\");\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique hashtags from social media posts.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut hashtags: HashSet<String> = HashSet::new();\n\n    // Example hashtags\n    let posts = vec![\n        \"Check out my new blog post! #RustLang #Programming\",\n        \"Just finished a run! #Fitness #Health\",\n        \"Loving the new tech trends #Innovation #Tech\",\n    ];\n\n    for post in posts {\n        for word in post.split_whitespace() {\n            if word.starts_with('#') {\n                hashtags.insert(word.to_string());\n            }\n        }\n    }\n\n    // Display unique hashtags\n    for hashtag in &hashtags {\n        println!(\"{}\", hashtag);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to copy it to another set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let original_set: HashSet<i32> = [1, 2, 3, 4, 5].iter().cloned().collect();\n    let copied_set: HashSet<i32> = original_set.clone();\n\n    println!(\"Original Set: {:?}\", original_set);\n    println!(\"Copied Set: {:?}\", copied_set);\n}\n```"
+  },
+  {
+    "task": "Write a function that accepts two sets and returns a new set with elements found in both.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn intersection<T: std::hash::Hash + Eq + Clone>(set1: &HashSet<T>, set2: &HashSet<T>) -> HashSet<T> {\n    set1.intersection(set2).cloned().collect()\n}\n```"
+  },
+  {
+    "task": "Use a set to determine the unique items purchased in a day.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let purchases = vec![\n        \"apple\", \"banana\", \"orange\", \"apple\", \"banana\", \"kiwi\",\n    ];\n\n    let unique_items: HashSet<_> = purchases.into_iter().collect();\n\n    for item in &unique_items {\n        println!(\"{}\", item);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of student IDs and demonstrate set comprehension to filter IDs.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let student_ids: HashSet<u32> = vec![101, 102, 103, 104, 105].into_iter().collect();\n\n    let filtered_ids: HashSet<u32> = student_ids\n        .iter()\n        .filter(|&&id| id % 2 == 0)\n        .cloned()\n        .collect();\n\n    println!(\"{:?}\", filtered_ids);\n}\n```"
+  },
+  {
+    "task": "Write a program to check if a set of strings is a superset of another set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn is_superset(superset: &HashSet<&str>, subset: &HashSet<&str>) -> bool {\n    superset.is_superset(subset)\n}\n\nfn main() {\n    let set1: HashSet<&str> = [\"apple\", \"banana\", \"cherry\"].iter().cloned().collect();\n    let set2: HashSet<&str> = [\"banana\", \"cherry\"].iter().cloned().collect();\n\n    if is_superset(&set1, &set2) {\n        println!(\"set1 is a superset of set2\");\n    } else {\n        println!(\"set1 is not a superset of set2\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of unique words from a text file.",
+    "code": "```rust\nuse std::collections::HashSet;\nuse std::fs::File;\nuse std::io::{self, BufRead};\nuse std::path::Path;\n\nfn main() -> io::Result<()> {\n    let path = \"textfile.txt\";\n    let file = File::open(&path)?;\n    let mut unique_words = HashSet::new();\n\n    for line in io::BufReader::new(file).lines() {\n        if let Ok(line) = line {\n            for word in line.split_whitespace() {\n                unique_words.insert(word.to_string());\n            }\n        }\n    }\n\n    for word in &unique_words {\n        println!(\"{}\", word);\n    }\n\n    Ok(())\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique project identifiers and demonstrate membership testing.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut project_ids = HashSet::new();\n\n    // Adding some project identifiers\n    project_ids.insert(\"project_001\");\n    project_ids.insert(\"project_002\");\n    project_ids.insert(\"project_003\");\n\n    // Check membership\n    let test_id = \"project_002\";\n    if project_ids.contains(test_id) {\n        println!(\"{} is in the set of project identifiers.\", test_id);\n    } else {\n        println!(\"{} is not in the set of project identifiers.\", test_id);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `symmetric_difference_update` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut set1: HashSet<i32> = [1, 2, 3, 4, 5].iter().cloned().collect();\n    let set2: HashSet<i32> = [4, 5, 6, 7, 8].iter().cloned().collect();\n    \n    // Symmetric difference update (set1 becomes the symmetric difference of set1 and set2)\n    set1 = set1.symmetric_difference(&set2).cloned().collect();\n    \n    // Output the resulting set\n    for value in &set1 {\n        println!(\"{}\", value);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to remove all elements from a set that are also in another set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn remove_elements_from_set(set1: &mut HashSet<i32>, set2: &HashSet<i32>) {\n    set1.retain(|item| !set2.contains(item));\n}\n\nfn main() {\n    let mut set1: HashSet<i32> = [1, 2, 3, 4, 5].iter().cloned().collect();\n    let set2: HashSet<i32> = [3, 4].iter().cloned().collect();\n    remove_elements_from_set(&mut set1, &set2);\n    println!(\"{:?}\", set1);\n}\n```"
+  },
+  {
+    "task": "Use a set to keep track of unique error codes from server logs.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut error_codes: HashSet<String> = HashSet::new();\n\n    // Simulated server log entries with error codes\n    let logs = vec![\n        \"Error 404: Not Found\",\n        \"Error 500: Internal Server Error\",\n        \"Error 404: Not Found\",\n        \"Error 403: Forbidden\",\n        \"Error 500: Internal Server Error\",\n    ];\n\n    for log in logs {\n        if let Some(code) = log.split_whitespace().nth(1) {\n            error_codes.insert(code.to_string());\n        }\n    }\n\n    // Print unique error codes\n    for code in &error_codes {\n        println!(\"Unique error code: {}\", code);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to find all unique pairs of elements.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let elements = vec![1, 2, 3, 4];\n    let mut unique_pairs = HashSet::new();\n\n    for i in 0..elements.len() {\n        for j in (i + 1)..elements.len() {\n            let pair = (elements[i], elements[j]);\n            unique_pairs.insert(pair);\n        }\n    }\n\n    for pair in &unique_pairs {\n        println!(\"{:?}\", pair);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to find the smallest element in a set of integers.",
+    "code": "```rust\nfn main() {\n    let numbers: std::collections::HashSet<i32> = [10, 20, 3, 25, 5].iter().cloned().collect();\n    if let Some(&min) = numbers.iter().min() {\n        println!(\"The smallest element is: {}\", min);\n    } else {\n        println!(\"The set is empty.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `add` method with multiple elements.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut my_set = HashSet::new();\n    \n    my_set.insert(\"element1\");\n    my_set.insert(\"element2\");\n    my_set.insert(\"element3\");\n    \n    for element in &my_set {\n        println!(\"{}\", element);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique author names.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut authors: HashSet<String> = HashSet::new();\n\n    // Example usage:\n    authors.insert(String::from(\"Jane Austen\"));\n    authors.insert(String::from(\"Mark Twain\"));\n    authors.insert(String::from(\"George Orwell\"));\n\n    // Attempting to add a duplicate\n    authors.insert(String::from(\"Jane Austen\"));\n\n    // Display the set of unique author names\n    for author in &authors {\n        println!(\"{}\", author);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate converting it to a sorted list.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut set = HashSet::new();\n    set.insert(5);\n    set.insert(1);\n    set.insert(3);\n\n    let mut vec: Vec<_> = set.into_iter().collect();\n    vec.sort();\n\n    println!(\"{:?}\", vec);\n}\n```"
+  },
+  {
+    "task": "Write a function that returns the union of multiple sets.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn union_of_sets<T: Eq + std::hash::Hash + Clone>(sets: &[HashSet<T>]) -> HashSet<T> {\n    let mut union_set = HashSet::new();\n    for set in sets {\n        union_set.extend(set.iter().cloned());\n    }\n    union_set\n}\n```"
+  },
+  {
+    "task": "Use a set to identify unique characters in a string.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn unique_characters(s: &str) -> HashSet<char> {\n    s.chars().collect()\n}\n\nfn main() {\n    let input = \"hello world\";\n    let unique_chars = unique_characters(input);\n    println!(\"{:?}\", unique_chars);\n}\n```"
+  },
+  {
+    "task": "Create a set of prime numbers and demonstrate basic set operations.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    // Create a set of prime numbers\n    let primes: HashSet<u32> = vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29].into_iter().collect();\n\n    // Another set to demonstrate set operations\n    let other_numbers: HashSet<u32> = vec![5, 10, 15, 20, 25, 30].into_iter().collect();\n\n    // Union of two sets\n    let union: HashSet<_> = primes.union(&other_numbers).cloned().collect();\n    println!(\"Union: {:?}\", union);\n\n    // Intersection of two sets\n    let intersection: HashSet<_> = primes.intersection(&other_numbers).cloned().collect();\n    println!(\"Intersection: {:?}\", intersection);\n\n    // Difference of two sets\n    let difference: HashSet<_> = primes.difference(&other_numbers).cloned().collect();\n    println!(\"Difference: {:?}\", difference);\n\n    // Symmetric difference of two sets\n    let symmetric_difference: HashSet<_> = primes.symmetric_difference(&other_numbers).cloned().collect();\n    println!(\"Symmetric Difference: {:?}\", symmetric_difference);\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to check for non-membership.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut my_set = HashSet::new();\n\n    my_set.insert(\"apple\");\n    my_set.insert(\"banana\");\n    my_set.insert(\"orange\");\n\n    let item = \"grape\";\n\n    if !my_set.contains(item) {\n        println!(\"{} is not in the set.\", item);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to find the largest element in a set of numbers.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let numbers: HashSet<i32> = vec![3, 1, 4, 1, 5, 9, 2, 6, 5].into_iter().collect();\n    let largest = numbers.iter().max();\n    if let Some(max_value) = largest {\n        println!(\"The largest element is: {}\", max_value);\n    } else {\n        println!(\"The set is empty.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of unique movie titles and demonstrate membership testing.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut movies: HashSet<&str> = HashSet::new();\n    \n    // Adding unique movie titles to the set\n    movies.insert(\"Inception\");\n    movies.insert(\"The Matrix\");\n    movies.insert(\"Interstellar\");\n    movies.insert(\"Parasite\");\n    \n    // Demonstrating membership testing\n    let movie_to_check = \"Inception\";\n    if movies.contains(movie_to_check) {\n        println!(\"{} is in the set of movies.\", movie_to_check);\n    } else {\n        println!(\"{} is not in the set of movies.\", movie_to_check);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique keys from a dictionary.",
+    "code": "```rust\nuse std::collections::{HashMap, HashSet};\n\nfn unique_keys_from_dict<K, V>(dict: HashMap<K, V>) -> HashSet<K>\nwhere\n    K: std::hash::Hash + Eq + Clone,\n{\n    dict.keys().cloned().collect()\n}\n\nfn main() {\n    let mut dictionary = HashMap::new();\n    dictionary.insert(\"key1\", \"value1\");\n    dictionary.insert(\"key2\", \"value2\");\n    dictionary.insert(\"key3\", \"value3\");\n\n    let unique_keys = unique_keys_from_dict(dictionary);\n    for key in unique_keys {\n        println!(\"{}\", key);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `difference_update` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut set1: HashSet<i32> = [1, 2, 3, 4, 5].iter().cloned().collect();\n    let set2: HashSet<i32> = [3, 4, 5, 6, 7].iter().cloned().collect();\n\n    set1.retain(|x| !set2.contains(x));\n\n    println!(\"{:?}\", set1);\n}\n```"
+  },
+  {
+    "task": "Write a function to merge multiple sets into a single set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn merge_sets<T: Eq + std::hash::Hash + Clone>(sets: Vec<HashSet<T>>) -> HashSet<T> {\n    sets.into_iter().fold(HashSet::new(), |mut acc, set| {\n        acc.extend(set);\n        acc\n    })\n}\n\nfn main() {\n    let set1: HashSet<i32> = [1, 2, 3].iter().cloned().collect();\n    let set2: HashSet<i32> = [3, 4, 5].iter().cloned().collect();\n    let set3: HashSet<i32> = [5, 6, 7].iter().cloned().collect();\n\n    let merged_set = merge_sets(vec![set1, set2, set3]);\n    println!(\"{:?}\", merged_set);\n}\n```"
+  },
+  {
+    "task": "Use a set to filter out duplicate letters from a word.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn filter_unique_letters(word: &str) -> String {\n    let mut unique_letters = HashSet::new();\n    word.chars()\n        .filter(|&c| unique_letters.insert(c))\n        .collect()\n}\n\nfn main() {\n    let word = \"programming\";\n    let unique_word = filter_unique_letters(word);\n    println!(\"{}\", unique_word);\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `isdisjoint` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set_a: HashSet<i32> = [1, 2, 3].iter().cloned().collect();\n    let set_b: HashSet<i32> = [4, 5, 6].iter().cloned().collect();\n\n    let are_disjoint = set_a.is_disjoint(&set_b);\n\n    println!(\"Are the sets disjoint? {}\", are_disjoint);\n}\n```"
+  },
+  {
+    "task": "Write a program to find all elements that are only in one of two sets.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set1: HashSet<i32> = [1, 2, 3, 4].iter().cloned().collect();\n    let set2: HashSet<i32> = [3, 4, 5, 6].iter().cloned().collect();\n\n    let only_in_one: HashSet<_> = set1.symmetric_difference(&set2).cloned().collect();\n\n    for element in only_in_one {\n        println!(\"{}\", element);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of unique book authors and demonstrate basic set operations.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut authors: HashSet<&str> = HashSet::new();\n\n    // Adding authors to the set\n    authors.insert(\"J.K. Rowling\");\n    authors.insert(\"George R.R. Martin\");\n    authors.insert(\"J.R.R. Tolkien\");\n    authors.insert(\"Agatha Christie\");\n\n    // Attempting to add a duplicate author\n    authors.insert(\"J.K. Rowling\");\n\n    // Display the set of authors\n    println!(\"Authors: {:?}\", authors);\n\n    // Check if an author is in the set\n    if authors.contains(\"Agatha Christie\") {\n        println!(\"Agatha Christie is in the set.\");\n    }\n\n    // Remove an author from the set\n    authors.remove(\"George R.R. Martin\");\n\n    // Display the set of authors after removal\n    println!(\"Authors after removal: {:?}\", authors);\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique phone numbers and check for duplicates.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut phone_numbers = HashSet::new();\n\n    let numbers_to_add = vec![\n        \"123-456-7890\",\n        \"234-567-8901\",\n        \"345-678-9012\",\n        \"123-456-7890\", // duplicate\n    ];\n\n    for number in numbers_to_add {\n        if phone_numbers.contains(&number) {\n            println!(\"Duplicate found: {}\", number);\n        } else {\n            phone_numbers.insert(number);\n        }\n    }\n\n    println!(\"Unique phone numbers: {:?}\", phone_numbers);\n}\n```"
+  },
+  {
+    "task": "Create a set of floating-point numbers and demonstrate rounding each element.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let numbers: HashSet<f64> = vec![1.1, 2.5, 3.75, 4.4].into_iter().collect();\n    let rounded_numbers: HashSet<i64> = numbers.iter().map(|&num| num.round() as i64).collect();\n\n    for num in &rounded_numbers {\n        println!(\"{}\", num);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that returns a set of all vowels present in a given sentence.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn vowels_in_sentence(sentence: &str) -> HashSet<char> {\n    let vowels = ['a', 'e', 'i', 'o', 'u'];\n    sentence\n        .to_lowercase()\n        .chars()\n        .filter(|&c| vowels.contains(&c))\n        .collect()\n}\n\nfn main() {\n    let sentence = \"Example sentence to test vowels.\";\n    let vowel_set = vowels_in_sentence(sentence);\n    println!(\"{:?}\", vowel_set);\n}\n```"
+  },
+  {
+    "task": "Use a set to track unique session IDs for a web application.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut session_ids: HashSet<String> = HashSet::new();\n\n    // Example of adding session IDs\n    session_ids.insert(String::from(\"session1\"));\n    session_ids.insert(String::from(\"session2\"));\n    session_ids.insert(String::from(\"session3\"));\n\n    // Check if a session ID is unique\n    let new_session_id = String::from(\"session4\");\n    if session_ids.insert(new_session_id.clone()) {\n        println!(\"Session ID '{}' is unique and has been added.\", new_session_id);\n    } else {\n        println!(\"Session ID '{}' already exists.\", new_session_id);\n    }\n\n    // Iterate over session IDs\n    for session_id in &session_ids {\n        println!(\"Active session: {}\", session_id);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of unique city names and demonstrate set operations with it.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    // Create a set of unique city names\n    let mut cities = HashSet::new();\n    cities.insert(\"New York\");\n    cities.insert(\"Los Angeles\");\n    cities.insert(\"Chicago\");\n    cities.insert(\"Houston\");\n    cities.insert(\"Phoenix\");\n\n    // Demonstrate set operations\n\n    // Check if a city is in the set\n    let is_in_set = cities.contains(\"Chicago\");\n    println!(\"Is Chicago in the set? {}\", is_in_set);\n\n    // Add a new city\n    cities.insert(\"San Francisco\");\n    println!(\"Added San Francisco to the set.\");\n\n    // Remove a city\n    cities.remove(\"Houston\");\n    println!(\"Removed Houston from the set.\");\n\n    // Create another set of cities\n    let other_cities: HashSet<&str> = [\"Seattle\", \"Boston\", \"Chicago\"].iter().cloned().collect();\n\n    // Union of two sets\n    let union: HashSet<_> = cities.union(&other_cities).cloned().collect();\n    println!(\"Union of both sets: {:?}\", union);\n\n    // Intersection of two sets\n    let intersection: HashSet<_> = cities.intersection(&other_cities).cloned().collect();\n    println!(\"Intersection of both sets: {:?}\", intersection);\n\n    // Difference of two sets\n    let difference: HashSet<_> = cities.difference(&other_cities).cloned().collect();\n    println!(\"Difference of both sets: {:?}\", difference);\n}\n```"
+  },
+  {
+    "task": "Write a program to find the common elements in three sets.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set1: HashSet<i32> = [1, 2, 3, 4, 5].iter().cloned().collect();\n    let set2: HashSet<i32> = [3, 4, 5, 6, 7].iter().cloned().collect();\n    let set3: HashSet<i32> = [5, 6, 7, 8, 9].iter().cloned().collect();\n    \n    let common_elements: HashSet<_> = set1.intersection(&set2).cloned().collect();\n    let common_elements: HashSet<_> = common_elements.intersection(&set3).cloned().collect();\n    \n    println!(\"{:?}\", common_elements);\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to remove an element by its value.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut set = HashSet::new();\n    \n    // Add some elements to the set\n    set.insert(\"apple\");\n    set.insert(\"banana\");\n    set.insert(\"cherry\");\n    \n    // Remove an element by its value\n    set.remove(\"banana\");\n    \n    // Print the set to show the remaining elements\n    for item in &set {\n        println!(\"{}\", item);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a set to store a collection of unique ISBN numbers.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut isbn_set: HashSet<String> = HashSet::new();\n\n    // Example of adding ISBN numbers\n    isbn_set.insert(\"978-3-16-148410-0\".to_string());\n    isbn_set.insert(\"978-1-4028-9462-6\".to_string());\n    isbn_set.insert(\"978-0-306-40615-7\".to_string());\n\n    // Example of checking if an ISBN is in the set\n    if isbn_set.contains(\"978-3-16-148410-0\") {\n        println!(\"ISBN 978-3-16-148410-0 is in the set.\");\n    }\n\n    // Example of removing an ISBN\n    isbn_set.remove(\"978-1-4028-9462-6\");\n\n    // Display all unique ISBN numbers\n    for isbn in &isbn_set {\n        println!(\"ISBN: {}\", isbn);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `intersection_update` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut set_a: HashSet<i32> = [1, 2, 3, 4, 5].iter().cloned().collect();\n    let set_b: HashSet<i32> = [3, 4, 5, 6, 7].iter().cloned().collect();\n\n    set_a.retain(|item| set_b.contains(item));\n\n    println!(\"{:?}\", set_a);\n}\n```"
+  },
+  {
+    "task": "Write a function to generate a set of all unique elements in a list.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn unique_elements<T: std::hash::Hash + Eq + Clone>(list: &[T]) -> HashSet<T> {\n    list.iter().cloned().collect()\n}\n```"
+  },
+  {
+    "task": "Use a set to determine the unique characters in two strings.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn unique_characters(s1: &str, s2: &str) -> HashSet<char> {\n    let set1: HashSet<char> = s1.chars().collect();\n    let set2: HashSet<char> = s2.chars().collect();\n    &set1 | &set2\n}\n\nfn main() {\n    let string1 = \"hello\";\n    let string2 = \"world\";\n    let unique_chars = unique_characters(string1, string2);\n    println!(\"{:?}\", unique_chars);\n}\n```"
+  },
+  {
+    "task": "Create a set of unique animal names and demonstrate the `discard` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut animals: HashSet<&str> = HashSet::new();\n    \n    animals.insert(\"lion\");\n    animals.insert(\"tiger\");\n    animals.insert(\"bear\");\n    \n    animals.remove(\"lion\");\n    \n    for animal in &animals {\n        println!(\"{}\", animal);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to find all elements present in the first set but not in the second.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set1: HashSet<i32> = [1, 2, 3, 4, 5].iter().cloned().collect();\n    let set2: HashSet<i32> = [4, 5, 6, 7, 8].iter().cloned().collect();\n\n    let difference: HashSet<_> = set1.difference(&set2).cloned().collect();\n\n    for element in &difference {\n        println!(\"{}\", element);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate using it to eliminate duplicates from a list.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let numbers = vec![1, 2, 3, 4, 5, 3, 2, 1];\n    let unique_numbers: HashSet<_> = numbers.into_iter().collect();\n    \n    for number in unique_numbers {\n        println!(\"{}\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique car models.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut car_models: HashSet<&str> = HashSet::new();\n\n    // Adding car models to the set\n    car_models.insert(\"Toyota Camry\");\n    car_models.insert(\"Honda Accord\");\n    car_models.insert(\"Ford Mustang\");\n\n    // Attempting to add a duplicate model\n    car_models.insert(\"Toyota Camry\");\n\n    // Removing a car model\n    car_models.remove(\"Honda Accord\");\n\n    // Checking if a model is in the set\n    if car_models.contains(\"Ford Mustang\") {\n        println!(\"Ford Mustang is in the set.\");\n    }\n\n    // Iterating over the set\n    for model in &car_models {\n        println!(\"Car model: {}\", model);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `clear` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut my_set: HashSet<i32> = HashSet::new();\n    my_set.insert(1);\n    my_set.insert(2);\n    my_set.insert(3);\n\n    println!(\"Set before clear: {:?}\", my_set);\n\n    my_set.clear();\n\n    println!(\"Set after clear: {:?}\", my_set);\n}\n```"
+  },
+  {
+    "task": "Write a function that finds the intersection of multiple sets.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn intersection_of_sets<T: Clone + std::hash::Hash + Eq>(sets: Vec<HashSet<T>>) -> HashSet<T> {\n    if let Some(first_set) = sets.get(0) {\n        sets.iter().skip(1).fold(first_set.clone(), |acc, set| {\n            acc.intersection(set).cloned().collect()\n        })\n    } else {\n        HashSet::new()\n    }\n}\n\nfn main() {\n    let set1: HashSet<i32> = [1, 2, 3].iter().cloned().collect();\n    let set2: HashSet<i32> = [2, 3, 4].iter().cloned().collect();\n    let set3: HashSet<i32> = [3, 4, 5].iter().cloned().collect();\n\n    let sets = vec![set1, set2, set3];\n    let result = intersection_of_sets(sets);\n\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Use a set to identify unique words in a paragraph.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn unique_words(paragraph: &str) -> HashSet<&str> {\n    paragraph.split_whitespace().collect()\n}\n\nfn main() {\n    let paragraph = \"This is a sample paragraph with some sample words and some unique words\";\n    let unique = unique_words(paragraph);\n    println!(\"{:?}\", unique);\n}\n```"
+  },
+  {
+    "task": "Create a set of unique country codes and demonstrate membership testing.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut country_codes = HashSet::new();\n\n    // Add some country codes\n    country_codes.insert(\"US\");\n    country_codes.insert(\"CA\");\n    country_codes.insert(\"MX\");\n\n    // Test membership\n    let test_code = \"US\";\n    if country_codes.contains(test_code) {\n        println!(\"{} is in the set.\", test_code);\n    } else {\n        println!(\"{} is not in the set.\", test_code);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to find the union of two sets and return it as a list.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn union_of_sets(set1: &[i32], set2: &[i32]) -> Vec<i32> {\n    let set1: HashSet<_> = set1.iter().cloned().collect();\n    let set2: HashSet<_> = set2.iter().cloned().collect();\n    let union_set: HashSet<_> = set1.union(&set2).cloned().collect();\n    union_set.into_iter().collect()\n}\n\nfn main() {\n    let set1 = vec![1, 2, 3, 4];\n    let set2 = vec![3, 4, 5, 6];\n    let union_list = union_of_sets(&set1, &set2);\n    println!(\"{:?}\", union_list);\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate using it to check if all elements of another set are present.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let set_a: HashSet<i32> = [1, 2, 3, 4, 5].iter().cloned().collect();\n    let set_b: HashSet<i32> = [2, 3].iter().cloned().collect();\n\n    let is_subset = set_b.is_subset(&set_a);\n    println!(\"Set B is a subset of Set A: {}\", is_subset);\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique coupon codes and demonstrate adding new codes.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let mut coupon_codes: HashSet<String> = HashSet::new();\n\n    // Add new coupon codes\n    coupon_codes.insert(String::from(\"SAVE10\"));\n    coupon_codes.insert(String::from(\"WELCOME20\"));\n    coupon_codes.insert(String::from(\"FREESHIP\"));\n    \n    // Attempt to add a duplicate code\n    coupon_codes.insert(String::from(\"SAVE10\"));\n\n    // Print out the unique coupon codes\n    for code in &coupon_codes {\n        println!(\"{}\", code);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `copy` method.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    let original_set: HashSet<i32> = [1, 2, 3].iter().cloned().collect();\n    let copied_set = original_set.clone();\n    \n    println!(\"Original Set: {:?}\", original_set);\n    println!(\"Copied Set: {:?}\", copied_set);\n}\n```"
+  },
+  {
+    "task": "Write a function to remove duplicates from a list using a set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn remove_duplicates(input: Vec<i32>) -> Vec<i32> {\n    let set: HashSet<_> = input.into_iter().collect();\n    set.into_iter().collect()\n}\n```"
+  },
+  {
+    "task": "Use a set to identify unique numbers in a sequence.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn unique_numbers(sequence: &[i32]) -> HashSet<i32> {\n    sequence.iter().cloned().collect()\n}\n\nfn main() {\n    let numbers = [1, 2, 2, 3, 4, 4, 5];\n    let unique = unique_numbers(&numbers);\n    for number in &unique {\n        println!(\"{}\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of unique fruit names and demonstrate set operations with it.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn main() {\n    // Create a set of unique fruit names\n    let mut fruits = HashSet::new();\n    fruits.insert(\"Apple\");\n    fruits.insert(\"Banana\");\n    fruits.insert(\"Orange\");\n\n    // Demonstrate some set operations\n    // Add a new fruit\n    fruits.insert(\"Grapes\");\n\n    // Check if a fruit is in the set\n    if fruits.contains(\"Banana\") {\n        println!(\"Banana is in the set\");\n    }\n\n    // Remove a fruit\n    fruits.remove(\"Apple\");\n\n    // Iterate over the set and print each fruit\n    for fruit in &fruits {\n        println!(\"{}\", fruit);\n    }\n}\n```"
+  }
+]

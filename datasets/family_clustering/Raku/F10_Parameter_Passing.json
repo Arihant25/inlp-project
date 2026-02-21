@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```raku\nsub modify-first-element(@array is rw) {\n    @array[0] = 'modified';\n}\n\nmy @original = <one two three>;\nmodify-first-element(@original);\nsay @original; # Output: modified two three\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```raku\nsub swap(\\a, \\b) {\n    my $temp = a;\n    a = b;\n    b = $temp;\n}\n\nmy $x = 10;\nmy $y = 20;\nsay \"Before swap: x = $x, y = $y\";\n\nswap($x, $y);\nsay \"After swap: x = $x, y = $y\";\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```raku\nuse Telemetry;\n\n# Create a large data structure\nmy @large-array = (^1_000_000).map({ rand });\n\nsub process-by-value(@data) {\n    @data[0]++;\n}\n\nsub process-by-reference(@data is rw) {\n    @data[0]++;\n}\n\n# Measure memory and time for passing by value\nTelemetry.new-for(<time memory>), :name<by-value>;\nprocess-by-value(@large-array);\nTelemetry.stop('by-value');\n\n# Measure memory and time for passing by reference\nTelemetry.new-for(<time memory>), :name<by-reference>;\nprocess-by-reference(@large-array);\nTelemetry.stop('by-reference');\n\n# Output the performance data\nsay Telemetry.report('by-value');\nsay Telemetry.report('by-reference');\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```raku\nsub double-value($x) {\n    $x *= 2;\n    return $x;\n}\n\nsub double-value-ref($x is rw) {\n    $x *= 2;\n}\n\nmy $value = 10;\nsay \"Original value: $value\";\n\n# Pass-by-value\nmy $doubled = double-value($value);\nsay \"Doubled (pass-by-value): $doubled\";\nsay \"After pass-by-value call, original value: $value\";\n\n# Pass-by-reference\ndouble-value-ref($value);\nsay \"After pass-by-reference call, original value: $value\";\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```raku\nsub double-elements(@list) {\n    return @list.map({ $_ * 2 });\n}\n\nmy @original = (1, 2, 3, 4);\nmy @doubled = double-elements(@original);\nsay @original;  # Output: (1 2 3 4)\nsay @doubled;   # Output: (2 4 6 8)\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```raku\nsub append-char(Str $s is copy, Str $char) {\n    $s ~= $char;\n    return $s;\n}\n\nmy $original = \"Hello\";\nmy $modified = append-char($original, '!');\nsay \"Original: $original\";  # Original: Hello\nsay \"Modified: $modified\";  # Modified: Hello!\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```raku\nsub increment-counter(\\counter) {\n    counter++;\n}\n\nmy $counter = 0;\nincrement-counter($counter);\nsay $counter; # Output will be 1\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```raku\nsub remove-item(%dict is rw, $key) {\n    %dict{$key}:delete if %dict{$key}:exists;\n}\n\n# Demonstration\nmy %inventory = a => 10, b => 20, c => 30;\nsay %inventory; # Output before removal\nremove-item(%inventory, 'b');\nsay %inventory; # Output after removal\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```raku\nsub transpose-matrix(@matrix is rw) {\n    my @transposed = map { [@matrix.map(*[$_])] }, 0..@matrix.elems - 1;\n    @matrix = @transposed;\n}\n\nmy @matrix = [\n    [1, 2, 3],\n    [4, 5, 6],\n    [7, 8, 9]\n];\n\nsay \"Original matrix:\";\nsay @matrix;\n\ntranspose-matrix(@matrix);\n\nsay \"Transposed matrix:\";\nsay @matrix;\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```raku\nsub round-number($num is copy) {\n    return $num.round;\n}\n\nmy $float = 3.14159;\nsay round-number($float); # Output: 3\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```raku\nsub add-key-value-pair(%hash is rw, $key, $value) {\n    %hash{$key} = $value;\n}\n\nmy %dictionary = 'apple' => 'fruit', 'carrot' => 'vegetable';\nsay %dictionary; # Original dictionary\n\nadd-key-value-pair(%dictionary, 'banana', 'fruit');\nsay %dictionary; # Dictionary after modification\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```raku\nsub to-uppercase(Str $original is copy) {\n    $original = $original.uc;\n    return $original;\n}\n\nmy $text = \"hello, world\";\nmy $converted = to-uppercase($text);\n\nsay \"Original string: $text\";       # Outputs: Original string: hello, world\nsay \"Converted string: $converted\"; # Outputs: Converted string: HELLO, WORLD\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```raku\nsub modify-tuple(\\t is copy) {\n    t[0] = 'modified';\n}\n\nmy \\original-tuple = ('original', 2, 3);\nmodify-tuple(original-tuple);\nsay original-tuple;\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```raku\nclass MyObject {\n    has $.attribute is rw;\n}\n\nsub modify-object($obj) {\n    $obj.attribute = 'Modified!';\n}\n\nmy $object = MyObject.new(attribute => 'Original');\nsay \"Before: \" ~ $object.attribute;\nmodify-object($object);\nsay \"After: \" ~ $object.attribute;\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```raku\nsub sum_array(@array is copy) {\n    return [+] @array;\n}\n\nmy @original = 1, 2, 3, 4, 5;\nsay sum_array(@original); # Output: 15\nsay @original;            # Output: (1 2 3 4 5)\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```raku\nsub toggle-flag(\\flag is rw) {\n    flag = !flag;\n}\n\nmy $flag = True;\nsay \"Original flag: $flag\";  # Output: Original flag: True\n\ntoggle-flag($flag);\nsay \"Toggled flag: $flag\";   # Output: Toggled flag: False\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```raku\nclass MyObject {\n    has $.attribute;\n}\n\nsub clone-and-modify(MyObject $original) {\n    my $clone = $original.clone;\n    $clone.attribute = $clone.attribute ~ \" modified\";\n    return $clone;\n}\n\nmy $obj = MyObject.new(attribute => \"original\");\nmy $cloned_obj = clone-and-modify($obj);\n\nsay \"Original: \" ~ $obj.attribute;\nsay \"Cloned: \" ~ $cloned_obj.attribute;\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```raku\n# Pass-by-value example\nsub remove-evens-pass-by-value(@numbers) {\n    @numbers .= grep(* %% 2 == 0);\n    return @numbers;\n}\n\n# Pass-by-reference example\nsub remove-evens-pass-by-reference(\\@numbers is rw) {\n    @numbers .= grep(* %% 2 == 0);\n}\n\nmy @original = 1..10;\n\n# Pass-by-value\nmy @result-value = remove-evens-pass-by-value(@original);\nsay \"Original after pass-by-value: @original\";     # Original list remains unchanged\nsay \"Result after pass-by-value: @result-value\";   # New list with evens removed\n\n# Pass-by-reference\nremove-evens-pass-by-reference(@original);\nsay \"Original after pass-by-reference: @original\"; # Original list is altered\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```raku\nsub complex-conjugate(Complex $z) {\n    return Complex.new($z.re, -$z.im);\n}\n\nmy $original = Complex.new(3, 4);\nmy $conjugate = complex-conjugate($original);\n\nsay \"Original: $original\";\nsay \"Conjugate: $conjugate\";\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```raku\nclass TreeNode {\n    has $.value;\n    has TreeNode $.left;\n    has TreeNode $.right;\n}\n\nsub invert-tree(TreeNode $node) {\n    return unless $node;\n    \n    ($node.left, $node.right) = ($node.right, $node.left);\n    \n    invert-tree($node.left);\n    invert-tree($node.right);\n}\n\n# Example usage\nmy $root = TreeNode.new(value => 1, left => TreeNode.new(value => 2), right => TreeNode.new(value => 3));\ninvert-tree($root);\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```raku\nsub add-to-set($set is rw, $element) {\n    $set{$element} = True;\n}\n\nmy %original-set = a => True, b => True;\nsay %original-set; # OUTPUT: {a => True, b => True}\n\nadd-to-set(%original-set, 'c');\nsay %original-set; # OUTPUT: {a => True, b => True, c => True}\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```raku\nsub sort-array(@array) {\n    return @array.sort;\n}\n\nmy @original = 5, 3, 8, 1, 4;\nmy @sorted = sort-array(@original);\n\nsay \"Original array: \", @original;  # Output: Original array: 5 3 8 1 4\nsay \"Sorted array: \", @sorted;      # Output: Sorted array: 1 3 4 5 8\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```raku\nclass Configuration {\n    has Bool $.setting is rw;\n}\n\nsub toggle-setting(Configuration $config) {\n    $config.setting = !$config.setting;\n}\n\nmy $config = Configuration.new(setting => True);\nsay \"Before toggle: \" ~ $config.setting;\ntoggle-setting($config);\nsay \"After toggle: \" ~ $config.setting;\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```raku\nsub read-file-content(Str $file-path) {\n    given $file-path.IO {\n        return .slurp;\n    }\n}\n\nmy $content = read-file-content('example.txt');\nsay $content;\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```raku\nsub reverse-stack(@stack is rw) {\n    my @reversed;\n    @reversed.push(@stack.pop) while @stack;\n    @stack.append(@reversed);\n}\n\nmy @stack = <1 2 3 4 5>;\nreverse-stack(@stack);\nsay @stack; # Output: [5 4 3 2 1]\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```raku\nclass Queue {\n    has @.elements;\n\n    method dequeue() {\n        return @!elements.shift;\n    }\n}\n\nsub dequeue-element(Queue $queue is rw) {\n    say 'Dequeued: ', $queue.dequeue;\n}\n\nmy $queue = Queue.new(elements => [1, 2, 3, 4, 5]);\ndequeue-element($queue);\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```raku\nsub update-value(%hash is rw, $key, $new-value) {\n    %hash{$key} = $new-value;\n}\n\nmy %data = a => 1, b => 2, c => 3;\nsay %data; # Before update\n\nupdate-value(%data, 'b', 42);\nsay %data; # After update\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```raku\nuse JSON::Fast;\n\nsub add-property($json-str, $key, $value) {\n    my $json-object = from-json $json-str;\n    $json-object{$key} = $value;\n    return to-json $json-object;\n}\n\nmy $json-str = '{\"name\": \"Alice\"}';\nmy $new-json-str = add-property($json-str, \"age\", 30);\nsay $new-json-str;\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```raku\nclass Graph {\n    has @.nodes;\n\n    method add-node(Graph $graph is rw, $node) {\n        $graph.nodes.push($node);\n    }\n}\n\nmy $graph = Graph.new(nodes => ['A', 'B', 'C']);\n$graph.add-node($graph, 'D');\n\nsay $graph.nodes; # Output: [A B C D]\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```raku\nsub shift-coordinates(@coords, $shift-x, $shift-y) {\n    @coords.map({ $_[0] += $shift-x; $_[1] += $shift-y });\n}\n\nmy @original-coords = ([1, 2], [3, 4], [5, 6]);\nmy @shifted-coords = shift-coordinates(@original-coords, 2, 3);\n\nsay \"Original: {@original-coords.perl}\";\nsay \"Shifted: {@shifted-coords.perl}\";\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```raku\nclass Date {\n    has $.year;\n    has $.month;\n    has $.day;\n    \n    method next-day() {\n        my @days-in-month = <31 28 31 30 31 30 31 31 30 31 30 31>;\n        @days-in-month[1] = 29 if self.year %% 4 && (!(self.year %% 100) || self.year %% 400);\n        \n        if self.day < @days-in-month[self.month - 1] {\n            self.day++;\n        } else {\n            self.day = 1;\n            if self.month < 12 {\n                self.month++;\n            } else {\n                self.month = 1;\n                self.year++;\n            }\n        }\n    }\n}\n\nsub set-next-day(Date $date) is rw {\n    $date.next-day();\n}\n\nmy $date = Date.new(year => 2023, month => 10, day => 31);\nset-next-day($date);\nsay \"Year: {$date.year}, Month: {$date.month}, Day: {$date.day}\";\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```raku\nsub differentiate(@coefficients) {\n    my @differentiated;\n    for @coefficients.kv -> $i, $coeff {\n        @differentiated.push: $i * $coeff if $i > 0;\n    }\n    return @differentiated;\n}\n\nmy @polynomial = (3, 2, 1); # 3 + 2x + x^2\nmy @derivative = differentiate(@polynomial);\n\nsay \"Original polynomial coefficients: \", @polynomial;\nsay \"Differentiated polynomial coefficients: \", @derivative;\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```raku\nsub clear-stack(|c) {\n    c.clear;\n}\n\nmy @stack = 1, 2, 3, 4, 5;\nclear-stack(@stack);\n\nsay @stack; # Output: []\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```raku\nclass Node {\n    has $.value;\n    has Node $.next is rw;\n}\n\nsub append-node(Node $head is rw, $value) {\n    my $current = $head;\n    while $current.next.defined {\n        $current = $current.next;\n    }\n    $current.next = Node.new(value => $value);\n}\n\n# Demonstration\nmy $head = Node.new(value => 1);\n$head.next = Node.new(value => 2);\n$head.next.next = Node.new(value => 3);\n\nsay \"Before append:\";\nmy $node = $head;\nsay $node.value while $node = $node.next;\n\nappend-node($head, 4);\n\nsay \"After append:\";\n$node = $head;\nsay $node.value while $node = $node.next;\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```raku\nsub extract-domain(Str $url) {\n    if $url ~~ m{:\\/\\/([<-[\\/]>]+)} {\n        return ~$0;\n    }\n    return \"\";\n}\n\nmy $url = 'https://www.example.com/path/to/resource';\nmy $domain = extract-domain($url);\nsay \"Domain: $domain\";\nsay \"Original URL: $url\";\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```raku\nclass PriorityQueue {\n    has @.elements;\n\n    method new() {\n        self.bless(*, :elements([]));\n    }\n\n    method add($element, $priority) {\n        @!elements.push: { element => $element, priority => $priority };\n        @!elements.sort: { $^b<priority> <=> $^a<priority> };\n    }\n\n    method change-priority($element, $new-priority) {\n        for @!elements -> $entry {\n            if $entry<element> eq $element {\n                $entry<priority> = $new-priority;\n            }\n        }\n        @!elements.sort: { $^b<priority> <=> $^a<priority> };\n    }\n\n    method show() {\n        for @!elements -> $entry {\n            say \"Element: $entry<element>, Priority: $entry<priority>\";\n        }\n    }\n}\n\nsub change-priority-of-element(PriorityQueue $pq, $element, $new-priority) {\n    $pq.change-priority($element, $new-priority);\n}\n\nmy $pq = PriorityQueue.new;\n$pq.add('task1', 1);\n$pq.add('task2', 3);\n$pq.add('task3', 2);\n\nsay \"Before priority change:\";\n$pq.show();\n\nchange-priority-of-element($pq, 'task1', 5);\n\nsay \"After priority change:\";\n$pq.show();\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```raku\nclass CircularBuffer {\n    has @.buffer;\n    has $.head = 0;\n\n    method new(@buffer) {\n        self.bless(:@buffer);\n    }\n\n    method read-element() {\n        my $element = @!buffer[$!head];\n        $!head = ($!head + 1) % @!buffer.elems;\n        return $element;\n    }\n}\n\nsub read-from-buffer(CircularBuffer $buf is rw) {\n    say \"Reading element: \", $buf.read-element();\n}\n\nmy $circular-buffer = CircularBuffer.new(<a b c d>);\nread-from-buffer($circular-buffer);\nread-from-buffer($circular-buffer);\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```raku\nclass Record {\n    has $.field is rw;\n}\n\nsub update-field(Record $record, $new-value) {\n    $record.field = $new-value;\n}\n\nmy $record = Record.new(field => 'Old Value');\nsay \"Before update: \" ~ $record.field; # Output: Old Value\n\nupdate-field($record, 'New Value');\nsay \"After update: \" ~ $record.field;  # Output: New Value\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```raku\nsub normalize-frequency(@frequencies) {\n    my $total = [+] @frequencies;\n    return @frequencies.map({ $_ / $total });\n}\n\n# Usage example\nmy @original-list = (4, 6, 10, 5);\nmy @normalized-list = normalize-frequency(@original-list);\nsay @original-list;    # Original list remains unchanged\nsay @normalized-list;  # Normalized list\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```raku\nsub make-move($chessboard is rw, $from, $to) {\n    $chessboard[$to] = $chessboard[$from];\n    $chessboard[$from] = Nil;\n}\n\n# Example setup and move\nmy @chessboard = [<R N B Q K B N R>, <P P P P P P P P>, (Nil xx 32), <p p p p p p p p>, <r n b q k b n r>];\n\nmake-move(@chessboard, 8, 16);\n\nsay @chessboard;\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```raku\nsub decimal-to-binary(Int $decimal) {\n    my $binary = '';\n    my $num = $decimal;\n\n    while $num > 0 {\n        $binary = ($num % 2).Str ~ $binary;\n        $num = $num div 2;\n    }\n\n    return $binary;\n}\n\nmy $original-number = 42;\nmy $binary-representation = decimal-to-binary($original-number);\nsay \"Original number: $original-number\";\nsay \"Binary representation: $binary-representation\";\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```raku\nsub count-nucleotides(Str $dna-sequence) {\n    my %nucleotide-count;\n    \n    for $dna-sequence.comb -> $nucleotide {\n        %nucleotide-count{$nucleotide}++;\n    }\n    \n    return %nucleotide-count;\n}\n\nmy $original-sequence = 'AGCTTAGCTA';\nmy %counted-nucleotides = count-nucleotides($original-sequence);\n\nsay %counted-nucleotides;\nsay $original-sequence;\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```raku\nclass ShoppingCart {\n    has %.items;\n    has $.total is rw;\n}\n\nsub apply-discount(ShoppingCart $cart is rw, Num $discount) {\n    $cart.total *= (1 - $discount);\n}\n\nmy $cart = ShoppingCart.new(\n    items => { 'apple' => 3, 'banana' => 2 },\n    total => 50.0\n);\n\nsay \"Before discount: \" ~ $cart.total;\napply-discount($cart, 0.1);\nsay \"After discount: \" ~ $cart.total;\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```raku\nsub add-song($playlist is rw, $song) {\n    $playlist.push: $song;\n}\n\nmy @playlist = <Song1 Song2 Song3>;\nsay \"Original Playlist: @playlist\";\n\nadd-song(@playlist, 'NewSong');\n\nsay \"Updated Playlist: @playlist\";\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```raku\nclass Sprite {\n    has $.x is rw;\n    has $.y is rw;\n}\n\nsub move-sprite($sprite, $dx, $dy) {\n    $sprite.x += $dx;\n    $sprite.y += $dy;\n}\n\nmy $sprite = Sprite.new(x => 5, y => 10);\nsay \"Before move: ($sprite.x, $sprite.y)\";\nmove-sprite($sprite, 3, -2);\nsay \"After move: ($sprite.x, $sprite.y)\";\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```raku\nclass Book {\n    has Str $.title is rw;\n}\n\nsub update-title(Book $book, Str $new-title) {\n    $book.title = $new-title;\n}\n\nmy $original-book = Book.new(title => 'Original Title');\nsay \"Before update: \", $original-book.title;\n\nupdate-title($original-book, 'Updated Title');\nsay \"After update: \", $original-book.title;\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```raku\nsub normalize-sound(@sound-wave) {\n    my $max-value = @sound-wave.max;\n    my @normalized-wave = @sound-wave.map({ $_ / $max-value });\n    return @normalized-wave;\n}\n\nmy @original-sound-wave = (0.5, 0.8, -0.3, 0.9, -0.7);\nmy @normalized-sound-wave = normalize-sound(@original-sound-wave);\n\nsay \"Original Sound Wave: @original-sound-wave\";\nsay \"Normalized Sound Wave: @normalized-sound-wave\";\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```raku\nclass BankAccount {\n    has $.balance is rw;\n\n    method credit($amount) {\n        $!balance += $amount;\n    }\n}\n\nsub credit_account(BankAccount $account, $amount) {\n    $account.credit($amount);\n}\n\nmy $account = BankAccount.new(balance => 100);\ncredit_account($account, 50);\nsay $account.balance; # Output will be 150\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```raku\nsub is-valid-email(Str $email) {\n    return $email ~~ /^<-[ ]>+ '@' <-[ ]>+ '.' <-[ ]>+$/;\n}\n\nsub filter-emails-pass-by-value(@emails) {\n    my @filtered = @emails.grep(&is-valid-email);\n    return @filtered;\n}\n\nmy @email-list = <test@example.com invalid-email.com another@test.org>;\nmy @filtered-list = filter-emails-pass-by-value(@email-list);\n\nsay \"Original List: {@email-list}\";\nsay \"Filtered List: {@filtered-list}\";\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```raku\nclass Model3D {\n    has $.scale = 1;\n}\n\nsub scale-model($model is rw, $factor) {\n    $model.scale *= $factor;\n}\n\nmy $model = Model3D.new(scale => 1);\nsay \"Original scale: \", $model.scale;\n\nscale-model($model, 2);\nsay \"Scaled scale: \", $model.scale;\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```raku\nsub redact-sensitive-info(\\document) {\n    # Assume some sensitive patterns\n    my @sensitive-patterns = rx:g/<\\w+@\\w+\\.\\w+>/, rx:g/\\b\\d{3}-\\d{2}-\\d{4}\\b/;\n    \n    # Redact sensitive information\n    for @sensitive-patterns -> $pattern {\n        document ~~ s:g/$pattern/<REDACTED>/;\n    }\n}\n\nmy $text-document = \"Contact: john.doe@example.com, SSN: 123-45-6789\";\nredact-sensitive-info($text-document);\nsay $text-document; # Output: \"Contact: <REDACTED>, SSN: <REDACTED>\"\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```raku\nsub adjust-temperature($reading, $calibration-factor) {\n    return $reading + $calibration-factor;\n}\n\nmy $original-reading = 25.0;\nmy $calibration-factor = 1.5;\n\nmy $adjusted-reading = adjust-temperature($original-reading, $calibration-factor);\n\nsay \"Original Reading: $original-reading\"; # Output: Original Reading: 25.0\nsay \"Adjusted Reading: $adjusted-reading\"; # Output: Adjusted Reading: 26.5\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```raku\nclass BugReport {\n    has Str $.status is rw;\n    method new(Str $status) {\n        self.bless(:$status);\n    }\n}\n\nsub update-status(BugReport $report is rw, Str $new-status) {\n    $report.status = $new-status;\n}\n\nmy $bug = BugReport.new('open');\nsay \"Before update: \" ~ $bug.status;\nupdate-status($bug, 'closed');\nsay \"After update: \" ~ $bug.status;\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```raku\nsub calibrate-sensor-array(@sensor-array is rw) {\n    @sensor-array .= map(* + 10);\n}\n\nmy @sensors = 1, 2, 3, 4, 5;\nsay \"Original sensor array: @sensors\";\ncalibrate-sensor-array(@sensors);\nsay \"Calibrated sensor array: @sensors\";\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```raku\nsub rotate-vector(@vector is copy) {\n    return @vector[1..*], @vector[0];\n}\n\nmy @original-vector = <1 2 3 4 5>;\nmy @rotated-vector = rotate-vector(@original-vector);\n\nsay \"Original vector: @original-vector[]\";\nsay \"Rotated vector: @rotated-vector[]\";\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```raku\nsub compress-log(@log is rw) {\n    my %operation-count;\n    \n    for @log -> $entry {\n        %operation-count{$entry}++;\n    }\n    \n    @log = %operation-count.kv.map({ \"$^key: $^value\" });\n}\n\nmy @operation-log = <add delete add update add delete>;\ncompress-log(@operation-log);\nsay @operation-log;\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```raku\nclass NeuralNetwork {\n    has @.weights;\n\n    method update-weights(@new-weights) {\n        @.weights = @new-weights;\n    }\n}\n\nsub update-neural-network-weights(NeuralNetwork $model, @new-weights) {\n    $model.update-weights(@new-weights);\n}\n\n# Example usage\nmy $nn = NeuralNetwork.new(weights => [0.1, 0.2, 0.3]);\nsay \"Before update: \" ~ $nn.weights.join(', ');\n\nupdate-neural-network-weights($nn, [0.4, 0.5, 0.6]);\nsay \"After update: \" ~ $nn.weights.join(', ');\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```raku\nsub revert-last-command(@history is rw) {\n    @history.pop;\n}\n\nmy @command-history = <open save edit delete>;\n\nsay \"Before revert: @command-history\";\nrevert-last-command(@command-history);\nsay \"After revert: @command-history\";\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```raku\nsub anonymize-profile(UserProfile $profile is rw) {\n    $profile.name = 'Anonymous';\n    $profile.email = 'anon@example.com';\n    $profile.phone = '000-000-0000';\n}\n\nclass UserProfile {\n    has Str $.name;\n    has Str $.email;\n    has Str $.phone;\n}\n\nmy $user = UserProfile.new(name => 'John Doe', email => 'john.doe@example.com', phone => '123-456-7890');\nanonymize-profile($user);\nsay $user; # The original profile is modified due to pass-by-reference\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```raku\nsub evaluate-polynomial(@coefficients, $x) {\n    my $result = 0;\n    for @coefficients.kv -> $index, $coefficient {\n        $result += $coefficient * ($x ** $index);\n    }\n    return $result;\n}\n\nmy @polynomial = (3, 2, 1); # Represents 3 + 2x + x^2\nmy $x = 5;\nsay evaluate-polynomial(@polynomial, $x); # Outputs the value of the polynomial at x = 5\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```raku\nsub apply-filter($video-stream is rw) {\n    # Example filter: inverting the stream (for demonstration purposes)\n    $video-stream .= map({ 255 - $_ });\n}\n\nmy @video-stream = 0..255; # Example video stream with pixel values\nsay \"Original Stream: @video-stream\";\n\napply-filter(@video-stream);\nsay \"Filtered Stream: @video-stream\";\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```raku\nsub reorder-tasks($queue is rw) {\n    $queue .= sort({ $^b<priority> <=> $^a<priority> });\n}\n\nmy @tasks = (\n    { task => 'Task 1', priority => 3 },\n    { task => 'Task 2', priority => 1 },\n    { task => 'Task 3', priority => 2 },\n);\n\nsay \"Before reorder: \", @tasks;\nreorder-tasks(@tasks);\nsay \"After reorder: \", @tasks;\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```raku\nclass Transaction {\n    has Str $.id;\n    has Num $.amount;\n}\n\nclass Blockchain {\n    has @.transactions;\n}\n\nsub verify-transaction(Blockchain $blockchain, Transaction $transaction is rw) {\n    # Assuming some verification logic here\n    if $transaction.amount > 0 {\n        $blockchain.transactions.append($transaction);\n        say \"Transaction verified and added to blockchain.\";\n    } else {\n        say \"Transaction verification failed.\";\n    }\n}\n\n# Example usage\nmy $blockchain = Blockchain.new(transactions => []);\nmy $transaction = Transaction.new(id => 'tx123', amount => 50);\n\nverify-transaction($blockchain, $transaction);\n\n# Output the blockchain state\nsay $blockchain.transactions;\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```raku\nsub update-scores($leaderboard is rw, %new-scores) {\n    for %new-scores.kv -> $player, $score {\n        if $leaderboard{$player}:exists {\n            $leaderboard{$player} += $score;\n        } else {\n            $leaderboard{$player} = $score;\n        }\n    }\n}\n\nmy %leaderboard = 'Alice' => 100, 'Bob' => 150;\nmy %new-scores = 'Alice' => 10, 'Charlie' => 50;\n\nupdate-scores(%leaderboard, %new-scores);\n\nsay %leaderboard;  # Output should show the updated leaderboard\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```raku\nsub adjust-timeline($timeline is rw, Int $delay) {\n    $timeline += $delay;\n}\n\nmy $project-timeline = 10;\nsay \"Original timeline: $project-timeline days\";\n\nadjust-timeline($project-timeline, 5);\nsay \"Adjusted timeline: $project-timeline days\";\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```raku\nsub complete-task(\\to-do-list, $task) {\n    to-do-list .= grep({ $_ ne $task });\n}\n\nmy @to-do-list = <buy-milk clean-room write-code>;\n\nsay \"Before completing task: @to-do-list[]\";\ncomplete-task(@to-do-list, 'buy-milk');\nsay \"After completing task: @to-do-list[]\";\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```raku\nclass Canvas {\n    has @.layers;\n}\n\nsub add-layer(Canvas $canvas, $layer) {\n    $canvas.layers.push($layer);\n}\n\nmy $canvas = Canvas.new(layers => []);\nadd-layer($canvas, \"Sky Layer\");\nsay $canvas.layers;\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```raku\nuse HTTP::UserAgent;\n\nsub fetch-content(@urls) {\n    my $ua = HTTP::UserAgent.new;\n    my @contents;\n    for @urls -> $url {\n        my $response = $ua.get($url);\n        if $response.is-success {\n            @contents.push: $response.content;\n        }\n        else {\n            @contents.push: \"Failed to fetch\";\n        }\n    }\n    return @contents;\n}\n\nmy @url-list = <http://example.com http://example.org>;\nsay \"Original URL list: @url-list\";\nmy @fetched-contents = fetch-content(@url-list);\nsay \"Fetched contents: @fetched-contents\";\nsay \"URL list after function call: @url-list\";\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```raku\nsub reset-board(Array $board is rw) {\n    $board .= map({ [0 xx $_.elems] }, $board);\n}\n\nmy @game-board = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];\nsay \"Before reset: {@game-board}\";\nreset-board(@game-board);\nsay \"After reset: {@game-board}\";\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```raku\nsub increase-volume(SoundEffect $sound is rw, Int $amount) {\n    $sound.volume += $amount;\n}\n\nmy $original-sound = SoundEffect.new(volume => 5);\nsay \"Original volume: \", $original-sound.volume;\n\nincrease-volume($original-sound, 3);\nsay \"Increased volume: \", $original-sound.volume;\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```raku\nclass WeatherForecast {\n    has $.temperature is rw;\n}\n\nsub update-temperature-prediction(WeatherForecast $forecast, Int $new-temperature) {\n    $forecast.temperature = $new-temperature;\n}\n\nmy $forecast = WeatherForecast.new(temperature => 20);\nsay \"Original temperature: \", $forecast.temperature;\n\nupdate-temperature-prediction($forecast, 25);\nsay \"Updated temperature: \", $forecast.temperature;\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```raku\nsub extract-errors($log) {\n    my @errors = $log.grep(/ERROR/);\n    return @errors;\n}\n\nmy $system-log = \"INFO: System started\\nERROR: Disk not found\\nINFO: Update complete\\nERROR: Out of memory\";\nmy @extracted-errors = extract-errors($system-log);\n\nsay \"Original Log:\\n$system-log\";\nsay \"Extracted Errors:\\n@extracted-errors.join(\"\\n\")\";\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```raku\n# Define a function that accepts a data packet and encrypts it\nsub encrypt-packet($packet) {\n    # A simple encryption by reversing the string\n    my $encrypted-packet = $packet.flip;\n    return $encrypted-packet;\n}\n\n# Main block\nmy $original-packet = \"DataPacket123\";\nmy $encrypted = encrypt-packet($original-packet);\n\n# Output the results\nsay \"Original Packet: $original-packet\";\nsay \"Encrypted Packet: $encrypted\";\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```raku\nclass Theme {\n    has Str $.color;\n}\n\nsub apply-color-change(Theme $theme is rw, Str $new-color) {\n    $theme.color = $new-color;\n}\n\nmy $website-theme = Theme.new(color => 'blue');\nsay \"Original color: {$website-theme.color}\";\n\napply-color-change($website-theme, 'green');\nsay \"Updated color: {$website-theme.color}\";\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```raku\nsub verify-signature($signature) {\n    # Simulating signature verification\n    my $verified = $signature eq 'valid-signature';\n    return $verified;\n}\n\nmy $signature = 'valid-signature';\nsay verify-signature($signature); # Output: True\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```raku\nsub optimize-path($path is rw) {\n    my %direction = ('N' => [0, 1], 'S' => [0, -1], 'E' => [1, 0], 'W' => [-1, 0]);\n    my $current-pos = [0, 0];\n    my @optimized;\n\n    for $path.list -> $step {\n        $current-pos[0] += %direction{$step}[0];\n        $current-pos[1] += %direction{$step}[1];\n    }\n\n    my @keys = %direction.keys;\n    my @values = %direction.values;\n    for @values.kv -> $i, $value {\n        while $current-pos[0] != 0 || $current-pos[1] != 0 {\n            if $current-pos[0] > 0 && $value[0] == 1) {\n                @optimized.push(@keys[$i]);\n                $current-pos[0]--;\n            }\n            elsif $current-pos[0] < 0 && $value[0] == -1) {\n                @optimized.push(@keys[$i]);\n                $current-pos[0]++;\n            }\n            elsif $current-pos[1] > 0 && $value[1] == 1) {\n                @optimized.push(@keys[$i]);\n                $current-pos[1]--;\n            }\n            elsif $current-pos[1] < 0 && $value[1] == -1) {\n                @optimized.push(@keys[$i]);\n                $current-pos[1]++;\n            }\n            else {\n                last;\n            }\n        }\n    }\n\n    $path = @optimized.join('');\n}\n\nmy $robot-path = 'NNESW';\noptimize-path($robot-path);\nsay $robot-path;  # Illustrates the effect of pass-by-reference\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```raku\nsub shuffle-playlist(\\playlist is rw) {\n    playlist = playlist.sort({(-1, 1).pick});\n}\n\nmy @playlist = <Song1 Song2 Song3 Song4 Song5>;\nsay \"Original playlist: {@playlist}\";\n\nshuffle-playlist(@playlist);\nsay \"Shuffled playlist: {@playlist}\";\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```raku\nsub remove-duplicates(\\feed is rw) {\n    my %seen;\n    feed .= grep: { %seen{$_}++ == 0 };\n}\n\nmy @social_media_feed = <post1 post2 post3 post1 post4 post2>;\nremove-duplicates(@social_media_feed);\nsay @social_media_feed;\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```raku\nsub add-test-cases($challenge is rw) {\n    $challenge<test-cases> = [\n        { say \"Test Case 1: \", $challenge<function>().(1, 2, 3); },\n        { say \"Test Case 2: \", $challenge<function>().(4, 5, 6); },\n    ];\n}\n\nmy %coding-challenge = (\n    name => 'Sum Numbers',\n    function => sub ($a, $b, $c) { return $a + $b + $c; },\n);\n\nadd-test-cases(%coding-challenge);\n\nfor %coding-challenge<test-cases> -> $test-case {\n    $test-case();\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```raku\nsub reverse-animation-sequence(@sequence) {\n    return @sequence.reverse;\n}\n\nmy @animation-sequence = <frame1 frame2 frame3 frame4>;\nmy @reversed-sequence = reverse-animation-sequence(@animation-sequence);\n\nsay \"Original Sequence: @animation-sequence[]\";\nsay \"Reversed Sequence: @reversed-sequence[]\";\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```raku\nsub recalculate-route(\\route) {\n    route.append: 'Recalculated';\n}\n\nmy @gps-route = <Start Point A B C D End>;\nsay \"Original Route: @gps-route\";\n\nrecalculate-route(@gps-route);\nsay \"Recalculated Route: @gps-route\";\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```raku\nmy @chat-history = (\n    \"This is a darn message.\",\n    \"What the heck are you doing?\",\n    \"Everything is fine here.\"\n);\n\nsub censor-chat-history(\\history) {\n    my %censor-words = (\n        'darn' => 'd***',\n        'heck' => 'h***'\n    );\n    history .= map({ \n        my $line = $_;\n        for %censor-words.kv -> $bad, $censored {\n            $line ~~ s:g/$bad/$censored/;\n        }\n        $line\n    });\n}\n\ncensor-chat-history(@chat-history);\n\nsay @chat-history;\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```raku\nclass LightingSetup {\n    has $.brightness is rw;\n}\n\nsub adjust-brightness($setup is rw, $change) {\n    $setup.brightness += $change;\n}\n\nmy $lighting = LightingSetup.new(brightness => 50);\nsay \"Before: \", $lighting.brightness;\n\nadjust-brightness($lighting, 10);\nsay \"After: \", $lighting.brightness;\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```raku\nclass VREnvironment {\n    has Str $.scenery is rw;\n}\n\nsub change-scenery(VREnvironment $env, Str $new-scenery) {\n    $env.scenery = $new-scenery;\n}\n\nmy $env = VREnvironment.new(scenery => 'Forest');\nsay \"Before: \", $env.scenery;\n\nchange-scenery($env, 'Beach');\nsay \"After: \", $env.scenery;\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```raku\nclass Block {\n    has $.data;\n    has $.previous_hash;\n    has $.hash;\n\n    method new-block($data, $previous_hash) {\n        self.bless(:$data, :$previous_hash, :hash(self.compute-hash($data, $previous_hash)));\n    }\n\n    method compute-hash($data, $previous_hash) {\n        return 0x5A5A5A5A + $data.hash + $previous_hash.hash;\n    }\n}\n\nsub add-block(Block @ledger is rw, $data) {\n    my $previous_hash = @ledger[*-1].hash;\n    my $new_block = Block.new-block($data, $previous_hash);\n    @ledger.push($new_block);\n}\n\nmy @ledger = Block.new-block('Genesis block', 0);\nadd-block(@ledger, 'Second block data');\nadd-block(@ledger, 'Third block data');\n\nsay @ledger;\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```raku\nsub alter-headers(%packet) {\n    # Modify headers\n    %packet<header> = 'Modified-Header';\n    return %packet;\n}\n\nmy %network-packet = (\n    header => 'Original-Header',\n    data   => 'Payload',\n);\n\nmy %altered-packet = alter-headers(%network-packet);\n\nsay \"Original packet header: \", %network-packet<header>;\nsay \"Altered packet header: \", %altered-packet<header>;\n```"
+  }
+]

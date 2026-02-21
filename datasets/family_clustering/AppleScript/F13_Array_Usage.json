@@ -1,0 +1,378 @@
+[
+  {
+    "task": "Create a function that initializes an array with the first ten prime numbers.",
+    "code": "```applescript\non initializePrimeArray()\n    set primeArray to {2, 3, 5, 7, 11, 13, 17, 19, 23, 29}\n    return primeArray\nend initializePrimeArray\n```"
+  },
+  {
+    "task": "Write a program to reverse the elements of a given array.",
+    "code": "```applescript\nset originalArray to {1, 2, 3, 4, 5}\nset reversedArray to {}\n\nrepeat with i from (count originalArray) to 1 by -1\n    set end of reversedArray to item i of originalArray\nend repeat\n\nreversedArray\n```"
+  },
+  {
+    "task": "Implement an algorithm that finds the maximum value in an array of integers.",
+    "code": "```applescript\nset integerArray to {3, 5, 1, 8, 2}\nset maxValue to item 1 of integerArray\n\nrepeat with i from 2 to count of integerArray\n    if item i of integerArray > maxValue then\n        set maxValue to item i of integerArray\n    end if\nend repeat\n\nreturn maxValue\n```"
+  },
+  {
+    "task": "Design a routine to rotate an array to the right by a given number of steps.",
+    "code": "```applescript\non rotateArrayRight(theArray, steps)\n    set arrayLength to length of theArray\n    set steps to steps mod arrayLength\n    if steps is 0 then return theArray\n    \n    set splitPoint to arrayLength - steps\n    set firstPart to items 1 thru splitPoint of theArray\n    set secondPart to items (splitPoint + 1) thru arrayLength of theArray\n    \n    return secondPart & firstPart\nend rotateArrayRight\n\n-- Example usage\nset myArray to {1, 2, 3, 4, 5}\nset rotatedArray to rotateArrayRight(myArray, 2)\n```"
+  },
+  {
+    "task": "Develop a function to merge two sorted arrays into one sorted array.",
+    "code": "```applescript\non mergeSortedArrays(array1, array2)\n\tset mergedArray to {}\n\tset i to 1\n\tset j to 1\n\tset len1 to length of array1\n\tset len2 to length of array2\n\t\n\trepeat while i \u2264 len1 and j \u2264 len2\n\t\tif item i of array1 \u2264 item j of array2 then\n\t\t\tset end of mergedArray to item i of array1\n\t\t\tset i to i + 1\n\t\telse\n\t\t\tset end of mergedArray to item j of array2\n\t\t\tset j to j + 1\n\t\tend if\n\tend repeat\n\t\n\trepeat while i \u2264 len1\n\t\tset end of mergedArray to item i of array1\n\t\tset i to i + 1\n\tend repeat\n\t\n\trepeat while j \u2264 len2\n\t\tset end of mergedArray to item j of array2\n\t\tset j to j + 1\n\tend repeat\n\t\n\treturn mergedArray\nend mergeSortedArrays\n\n-- Example usage:\nset sortedArray1 to {1, 3, 5, 7}\nset sortedArray2 to {2, 4, 6, 8}\nset resultArray to mergeSortedArrays(sortedArray1, sortedArray2)\ndisplay dialog (resultArray as string)\n```"
+  },
+  {
+    "task": "Create a method to remove duplicate values from an array.",
+    "code": "```applescript\non removeDuplicatesFromArray(theArray)\n\tset uniqueArray to {}\n\trepeat with anItem in theArray\n\t\tif anItem is not in uniqueArray then\n\t\t\tset end of uniqueArray to anItem\n\t\tend if\n\tend repeat\n\treturn uniqueArray\nend removeDuplicatesFromArray\n```"
+  },
+  {
+    "task": "Write a script to calculate the sum of all elements in an array.",
+    "code": "```applescript\nset myArray to {5, 10, 15, 20, 25}\nset totalSum to 0\n\nrepeat with anItem in myArray\n    set totalSum to totalSum + anItem\nend repeat\n\nreturn totalSum\n```"
+  },
+  {
+    "task": "Construct a function that finds the second largest element in an array.",
+    "code": "```applescript\non findSecondLargest(theArray)\n\tset sortedArray to sortArrayDescending(theArray)\n\tif (count of sortedArray) < 2 then\n\t\treturn missing value\n\telse\n\t\treturn item 2 of sortedArray\n\tend if\nend findSecondLargest\n\non sortArrayDescending(theArray)\n\tset sortedArray to {}\n\trepeat with anItem in theArray\n\t\tset end of sortedArray to anItem\n\tend repeat\n\tset sortedArray to my sortListDescending(sortedArray)\n\treturn sortedArray\nend sortArrayDescending\n\non sortListDescending(theList)\n\tset {TID, text item delimiters} to {text item delimiters, \", \"}\n\tset sortedList to do shell script \"python3 -c \\\"print(sorted([\" & (theList as text) & \"], reverse=True))\\\"\"\n\tset text item delimiters to TID\n\tset sortedList to run script sortedList\n\treturn sortedList\nend sortListDescending\n```"
+  },
+  {
+    "task": "Design a program to check if an array contains a specific value.",
+    "code": "```applescript\nset myArray to {\"apple\", \"banana\", \"orange\", \"grape\"}\nset valueToFind to \"banana\"\nset valueFound to false\n\nrepeat with item in myArray\n    if item is equal to valueToFind then\n        set valueFound to true\n        exit repeat\n    end if\nend repeat\n\nreturn valueFound\n```"
+  },
+  {
+    "task": "Implement a function to sort an array of strings alphabetically.",
+    "code": "```applescript\non sortArrayOfStrings(theArray)\n\ttell (current application's NSArray's arrayWithArray:theArray) to set sortedArray to its sortedArrayUsingSelector:\"caseInsensitiveCompare:\"\n\treturn sortedArray as list\nend sortArrayOfStrings\n```"
+  },
+  {
+    "task": "Create a method to search for a value in an array using binary search.",
+    "code": "```applescript\non binarySearch(theArray, searchValue)\n\tset low to 1\n\tset high to length of theArray\n\trepeat while low \u2264 high\n\t\tset mid to (low + high) div 2\n\t\tset midValue to item mid of theArray\n\t\tif midValue is searchValue then\n\t\t\treturn mid\n\t\telse if midValue < searchValue then\n\t\t\tset low to mid + 1\n\t\telse\n\t\t\tset high to mid - 1\n\t\tend if\n\tend repeat\n\treturn -1\nend binarySearch\n\n-- Example usage\nset myArray to {1, 3, 5, 7, 9, 11, 13, 15}\nset searchResult to binarySearch(myArray, 7)\n```"
+  },
+  {
+    "task": "Write a routine to calculate the average of numbers in an array.",
+    "code": "```applescript\nset numbersArray to {3, 7, 8, 15, 22}\nset total to 0\nset count to count of numbersArray\n\nrepeat with i from 1 to count\n    set total to total + item i of numbersArray\nend repeat\n\nset average to total / count\nreturn average\n```"
+  },
+  {
+    "task": "Develop a function to find the intersection of two arrays.",
+    "code": "```applescript\non findIntersection(array1, array2)\n\tset intersectionArray to {}\n\trepeat with i from 1 to count of array1\n\t\tset currentElement to item i of array1\n\t\tif currentElement is in array2 then\n\t\t\tset end of intersectionArray to currentElement\n\t\tend if\n\tend repeat\n\treturn intersectionArray\nend findIntersection\n\n-- Example usage\nset array1 to {1, 2, 3, 4, 5}\nset array2 to {3, 4, 5, 6, 7}\nset result to findIntersection(array1, array2)\ndisplay dialog (result as text)\n```"
+  },
+  {
+    "task": "Implement a method to find the union of two arrays without duplicates.",
+    "code": "```applescript\non unionOfArrays(array1, array2)\n\tset combinedArray to array1 & array2\n\tset unionArray to {}\n\trepeat with item in combinedArray\n\t\tif item is not in unionArray then\n\t\t\tcopy item to end of unionArray\n\t\tend if\n\tend repeat\n\treturn unionArray\nend unionOfArrays\n\n-- Example usage\nset arrayA to {1, 2, 3, 4}\nset arrayB to {3, 4, 5, 6}\nset result to unionOfArrays(arrayA, arrayB)\ndisplay dialog (result as string)\n```"
+  },
+  {
+    "task": "Create a program that shifts all zeroes in an array to the end.",
+    "code": "```applescript\nset inputArray to {0, 1, 0, 3, 12, 0, 4}\nset nonZeroArray to {}\nset zeroCount to 0\n\nrepeat with i from 1 to length of inputArray\n    set currentItem to item i of inputArray\n    if currentItem is not 0 then\n        set end of nonZeroArray to currentItem\n    else\n        set zeroCount to zeroCount + 1\n    end if\nend repeat\n\nrepeat zeroCount times\n    set end of nonZeroArray to 0\nend repeat\n\nreturn nonZeroArray\n```"
+  },
+  {
+    "task": "Write a function to split an array into two parts at a given index.",
+    "code": "```applescript\non splitArray(theArray, splitIndex)\n\tset firstPart to {}\n\tset secondPart to {}\n\t\n\trepeat with i from 1 to count of theArray\n\t\tif i \u2264 splitIndex then\n\t\t\tset end of firstPart to item i of theArray\n\t\telse\n\t\t\tset end of secondPart to item i of theArray\n\t\tend if\n\tend repeat\n\t\n\treturn {firstPart, secondPart}\nend splitArray\n```"
+  },
+  {
+    "task": "Design a script to find all pairs in an array that sum up to a specific target.",
+    "code": "```applescript\nset theArray to {2, 4, 3, 5, 7, 8, 1}\nset target to 9\nset result to {}\n\nrepeat with i from 1 to (count of theArray) - 1\n    set currentNumber to item i of theArray\n    repeat with j from i + 1 to count of theArray\n        set nextNumber to item j of theArray\n        if (currentNumber + nextNumber) is equal to target then\n            set end of result to {currentNumber, nextNumber}\n        end if\n    end repeat\nend repeat\n\nresult\n```"
+  },
+  {
+    "task": "Construct a method to remove all occurrences of a specific value from an array.",
+    "code": "```applescript\non removeOccurrences(theArray, valueToRemove)\n\tset newArray to {}\n\trepeat with anItem in theArray\n\t\tif anItem is not equal to valueToRemove then\n\t\t\tset end of newArray to anItem\n\t\tend if\n\tend repeat\n\treturn newArray\nend removeOccurrences\n```"
+  },
+  {
+    "task": "Write a function to find the longest increasing subsequence in an array.",
+    "code": "```applescript\non longestIncreasingSubsequence(arr)\n\tset n to (count of arr)\n\tset lis to {}\n\t\n\trepeat with i from 1 to n\n\t\tset end of lis to 1\n\tend repeat\n\t\n\trepeat with i from 2 to n\n\t\trepeat with j from 1 to (i - 1)\n\t\t\tif item i of arr > item j of arr and item i of lis < item j of lis + 1 then\n\t\t\t\tset item i of lis to item j of lis + 1\n\t\t\tend if\n\t\tend repeat\n\tend repeat\n\t\n\tset maxLis to 0\n\trepeat with i from 1 to n\n\t\tif item i of lis > maxLis then\n\t\t\tset maxLis to item i of lis\n\t\tend if\n\tend repeat\n\t\n\treturn maxLis\nend longestIncreasingSubsequence\n\n-- Example usage\nset exampleArray to {10, 22, 9, 33, 21, 50, 41, 60, 80}\nset result to longestIncreasingSubsequence(exampleArray)\ndisplay dialog \"Longest Increasing Subsequence Length: \" & result\n```"
+  },
+  {
+    "task": "Develop an algorithm to find the missing number in a sequential array.",
+    "code": "```applescript\nset inputArray to {1, 2, 3, 5, 6} -- Example array with a missing number\n\non findMissingNumber(arr)\n\tset n to (count arr) + 1\n\tset total to n * (n + 1) / 2\n\tset sumArr to 0\n\t\n\trepeat with num in arr\n\t\tset sumArr to sumArr + num\n\tend repeat\n\t\n\treturn total - sumArr\nend findMissingNumber\n\nset missingNumber to findMissingNumber(inputArray)\nmissingNumber\n```"
+  },
+  {
+    "task": "Create a program to find the common elements between two arrays.",
+    "code": "```applescript\nset array1 to {1, 2, 3, 4, 5}\nset array2 to {3, 4, 5, 6, 7}\nset commonElements to {}\n\nrepeat with i from 1 to count of array1\n    set currentElement to item i of array1\n    if currentElement is in array2 then\n        set end of commonElements to currentElement\n    end if\nend repeat\n\nreturn commonElements\n```"
+  },
+  {
+    "task": "Implement a function to move all negative numbers to the beginning of an array.",
+    "code": "```applescript\non moveNegativeToFront(arr)\n\tset negativeArray to {}\n\tset nonNegativeArray to {}\n\trepeat with num in arr\n\t\tif num < 0 then\n\t\t\tset end of negativeArray to num\n\t\telse\n\t\t\tset end of nonNegativeArray to num\n\t\tend if\n\tend repeat\n\treturn negativeArray & nonNegativeArray\nend moveNegativeToFront\n\n-- Example usage:\nset originalArray to {-3, 5, -1, 7, -4, 2, 0}\nset resultArray to moveNegativeToFront(originalArray)\nlog resultArray\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a palindrome.",
+    "code": "```applescript\non isPalindromeArray(theArray)\n\tset arrayLength to length of theArray\n\trepeat with i from 1 to (arrayLength div 2)\n\t\tif item i of theArray is not equal to item (arrayLength - i + 1) of theArray then\n\t\t\treturn false\n\t\tend if\n\tend repeat\n\treturn true\nend isPalindromeArray\n```"
+  },
+  {
+    "task": "Design a routine to create a new array that is the element-wise sum of two input arrays.",
+    "code": "```applescript\non elementWiseSum(array1, array2)\n\tset sumArray to {}\n\tset arrayLength to count of array1\n\trepeat with i from 1 to arrayLength\n\t\tset end of sumArray to (item i of array1) + (item i of array2)\n\tend repeat\n\treturn sumArray\nend elementWiseSum\n\n-- Example usage\nset arrayA to {1, 2, 3}\nset arrayB to {4, 5, 6}\nset resultArray to elementWiseSum(arrayA, arrayB)\nresultArray\n```"
+  },
+  {
+    "task": "Create a function to find the product of all elements in an array, excluding the current element.",
+    "code": "```applescript\non productExcludingCurrent(arr)\n\tset result to {}\n\trepeat with i from 1 to count of arr\n\t\tset product to 1\n\t\trepeat with j from 1 to count of arr\n\t\t\tif i is not j then\n\t\t\t\tset product to product * item j of arr\n\t\t\tend if\n\t\tend repeat\n\t\tset end of result to product\n\tend repeat\n\treturn result\nend productExcludingCurrent\n\n-- Example usage:\nset myArray to {1, 2, 3, 4}\nset output to productExcludingCurrent(myArray)\ndisplay dialog (output as text)\n```"
+  },
+  {
+    "task": "Develop a script to remove elements from an array that are smaller than a given threshold.",
+    "code": "```applescript\nset inputArray to {5, 8, 2, 9, 3, 7}\nset threshold to 4\nset resultArray to {}\n\nrepeat with anItem in inputArray\n    if anItem \u2265 threshold then\n        set end of resultArray to anItem\n    end if\nend repeat\n\nresultArray\n```"
+  },
+  {
+    "task": "Implement a method to clone an array without using built-in functions.",
+    "code": "```applescript\non cloneArray(originalArray)\n\tset clonedArray to {}\n\trepeat with i from 1 to count of originalArray\n\t\tset end of clonedArray to item i of originalArray\n\tend repeat\n\treturn clonedArray\nend cloneArray\n```"
+  },
+  {
+    "task": "Create a program that rotates a 2D array (matrix) 90 degrees clockwise.",
+    "code": "```applescript\nset originalMatrix to {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}\nset numRows to count of originalMatrix\nset numCols to count of item 1 of originalMatrix\nset rotatedMatrix to {}\n\nrepeat with col from 1 to numCols\n    set newRow to {}\n    repeat with row from numRows to 1 by -1\n        set end of newRow to item col of item row of originalMatrix\n    end repeat\n    set end of rotatedMatrix to newRow\nend repeat\n\nreturn rotatedMatrix\n```"
+  },
+  {
+    "task": "Write a function to find the kth smallest element in an unsorted array.",
+    "code": "```applescript\non kthSmallest(array, k)\n\ttell application \"System Events\"\n\t\tset sortedArray to sort array\n\tend tell\n\treturn item k of sortedArray\nend kthSmallest\n```"
+  },
+  {
+    "task": "Design a routine to partition an array into even and odd numbers.",
+    "code": "```applescript\nset inputArray to {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\nset evenNumbers to {}\nset oddNumbers to {}\n\nrepeat with i from 1 to count of inputArray\n    set currentNumber to item i of inputArray\n    if currentNumber mod 2 is equal to 0 then\n        set end of evenNumbers to currentNumber\n    else\n        set end of oddNumbers to currentNumber\n    end if\nend repeat\n\nreturn {evenNumbers, oddNumbers}\n```"
+  },
+  {
+    "task": "Create a method to merge overlapping intervals in an array.",
+    "code": "```applescript\non mergeIntervals(intervals)\n    if (count of intervals) is 0 then return intervals\n\n    set sortedIntervals to my sortIntervals(intervals)\n    set merged to {item 1 of sortedIntervals}\n    \n    repeat with currentInterval in (items 2 thru -1 of sortedIntervals)\n        set lastMergedInterval to item -1 of merged\n        set lastMergedEnd to item 2 of lastMergedInterval\n        set currentStart to item 1 of currentInterval\n        set currentEnd to item 2 of currentInterval\n        \n        if currentStart \u2264 lastMergedEnd then\n            set lastMergedInterval's end to (currentEnd's max of lastMergedEnd)\n        else\n            copy currentInterval to end of merged\n        end if\n    end repeat\n    return merged\nend mergeIntervals\n\non sortIntervals(intervals)\n    set sortedIntervals to intervals\n    repeat with i from 1 to (count of sortedIntervals) - 1\n        repeat with j from i + 1 to count of sortedIntervals\n            if (item 1 of item i of sortedIntervals) > (item 1 of item j of sortedIntervals) then\n                set temp to item i of sortedIntervals\n                set item i of sortedIntervals to item j of sortedIntervals\n                set item j of sortedIntervals to temp\n            end if\n        end repeat\n    end repeat\n    return sortedIntervals\nend sortIntervals\n```"
+  },
+  {
+    "task": "Develop a function to count the frequency of each unique element in an array.",
+    "code": "```applescript\non countFrequencies(inputArray)\n\tset frequencyDict to {}\n\trepeat with element in inputArray\n\t\tif frequencyDict's containsKey(element) then\n\t\t\tset frequencyDict's item element to (frequencyDict's item element) + 1\n\t\telse\n\t\t\tset frequencyDict's item element to 1\n\t\tend if\n\tend repeat\n\treturn frequencyDict\nend countFrequencies\n\n-- Example usage\nset myArray to {\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\"}\nset result to countFrequencies(myArray)\ndisplay dialog (result as string)\n```"
+  },
+  {
+    "task": "Write a program to generate all possible subsets of an array.",
+    "code": "```applescript\nset inputArray to {1, 2, 3}\n\non generateSubsets(arr)\n\tset subsets to {{}}\n\trepeat with elem in arr\n\t\tset tempSubsets to {}\n\t\trepeat with subset in subsets\n\t\t\tcopy subset to tempSubset\n\t\t\tset end of tempSubset to elem\n\t\t\tset end of tempSubsets to tempSubset\n\t\tend repeat\n\t\tset subsets to subsets & tempSubsets\n\tend repeat\n\treturn subsets\nend generateSubsets\n\nset result to generateSubsets(inputArray)\nrepeat with subset in result\n\tlog subset\nend repeat\n```"
+  },
+  {
+    "task": "Implement a routine to cyclically permute the elements of an array.",
+    "code": "```applescript\non cyclicPermute(theList)\n\ttell application \"System Events\"\n\t\tif (count of theList) is greater than 1 then\n\t\t\tset lastItem to item -1 of theList\n\t\t\trepeat with i from (count of theList) - 1 to 1 by -1\n\t\t\t\tset item (i + 1) of theList to item i of theList\n\t\t\tend repeat\n\t\t\tset item 1 of theList to lastItem\n\t\tend if\n\tend tell\n\treturn theList\nend cyclicPermute\n\n-- Example usage\nset myArray to {1, 2, 3, 4, 5}\nset myArray to cyclicPermute(myArray)\n```"
+  },
+  {
+    "task": "Create a function that checks if two arrays are equal regardless of element order.",
+    "code": "```applescript\non arraysAreEqual(array1, array2)\n    if (count of array1) is not equal to (count of array2) then\n        return false\n    end if\n    \n    set array1Sorted to sortArray(array1)\n    set array2Sorted to sortArray(array2)\n    \n    repeat with i from 1 to count of array1Sorted\n        if item i of array1Sorted is not equal to item i of array2Sorted then\n            return false\n        end if\n    end repeat\n    \n    return true\nend arraysAreEqual\n\non sortArray(anArray)\n    set sortedArray to {}\n    repeat with i from 1 to count of anArray\n        set end of sortedArray to item i of anArray\n    end repeat\n    set AppleScript's text item delimiters to \",\"\n    set sortedArray to paragraphs of (do shell script \"echo {\" & sortedArray as string & \"} | tr ',' '\\n' | sort\")\n    return sortedArray\nend sortArray\n```"
+  },
+  {
+    "task": "Design a script to initialize an array with random integers within a specified range.",
+    "code": "```applescript\nset minValue to 1\nset maxValue to 100\nset arraySize to 10\n\nset randomArray to {}\n\nrepeat arraySize times\n    set end of randomArray to (random number from minValue to maxValue)\nend repeat\n\nreturn randomArray\n```"
+  },
+  {
+    "task": "Write a method to convert an array of integers to a single concatenated number.",
+    "code": "```applescript\non concatArrayToNumber(intArray)\n    set concatenatedNumber to \"\"\n    repeat with eachNumber in intArray\n        set concatenatedNumber to concatenatedNumber & eachNumber as string\n    end repeat\n    return concatenatedNumber as integer\nend concatArrayToNumber\n```"
+  },
+  {
+    "task": "Develop a function to find the median value of an unsorted array.",
+    "code": "```applescript\non findMedianValue(inputArray)\n\tset sortedArray to my sortArray(inputArray)\n\tset arrayLength to length of sortedArray\n\tif (arrayLength mod 2 = 0) then\n\t\tset midIndex to arrayLength / 2\n\t\tset medianValue to (item midIndex of sortedArray + item (midIndex + 1) of sortedArray) / 2\n\telse\n\t\tset midIndex to (arrayLength + 1) / 2\n\t\tset medianValue to item midIndex of sortedArray\n\tend if\n\treturn medianValue\nend findMedianValue\n\non sortArray(inputArray)\n\tset sortedArray to inputArray\n\trepeat with i from 1 to length of sortedArray\n\t\trepeat with j from (i + 1) to length of sortedArray\n\t\t\tif (item j of sortedArray < item i of sortedArray) then\n\t\t\t\tset temp to item i of sortedArray\n\t\t\t\tset item i of sortedArray to item j of sortedArray\n\t\t\t\tset item j of sortedArray to temp\n\t\t\tend if\n\t\tend repeat\n\tend repeat\n\treturn sortedArray\nend sortArray\n```"
+  },
+  {
+    "task": "Create a routine to determine if an array is sorted in ascending order.",
+    "code": "```applescript\non isSortedAscending(theArray)\n\trepeat with i from 1 to (count of theArray) - 1\n\t\tif item i of theArray > item (i + 1) of theArray then\n\t\t\treturn false\n\t\tend if\n\tend repeat\n\treturn true\nend isSortedAscending\n```"
+  },
+  {
+    "task": "Implement a method to find the longest contiguous subarray with equal number of 0s and 1s.",
+    "code": "```applescript\nset inputArray to {0, 0, 1, 0, 1, 1, 0}\nset positionMap to {0: -1}\nset maxLength to 0\nset count to 0\n\nrepeat with i from 1 to count of inputArray\n\tset count to count + (item i of inputArray * 2 - 1)\n\tif positionMap's containsKey(count) then\n\t\tset maxLength to max(maxLength, i - (positionMap's item count))\n\telse\n\t\tset positionMap's item count to i\n\tend if\nend repeat\n\non max(a, b)\n\tif a \u2265 b then\n\t\treturn a\n\telse\n\t\treturn b\n\tend if\nend max\n```"
+  },
+  {
+    "task": "Write a function to interleave two arrays of equal length.",
+    "code": "```applescript\non interleaveArrays(array1, array2)\n\tset interleavedArray to {}\n\trepeat with i from 1 to count of array1\n\t\tset end of interleavedArray to item i of array1\n\t\tset end of interleavedArray to item i of array2\n\tend repeat\n\treturn interleavedArray\nend interleaveArrays\n```"
+  },
+  {
+    "task": "Design a program to replace each element in an array with the next greatest element.",
+    "code": "```applescript\nset myArray to {3, 5, 2, 9, 7}\nset newArray to {}\n\nrepeat with i from 1 to (count myArray)\n\tset maxVal to -1\n\trepeat with j from (i + 1) to (count myArray)\n\t\tif item j of myArray > maxVal then\n\t\t\tset maxVal to item j of myArray\n\t\tend if\n\tend repeat\n\tset end of newArray to maxVal\nend repeat\n\nreturn newArray\n```"
+  },
+  {
+    "task": "Create a function to calculate the dot product of two numeric arrays.",
+    "code": "```applescript\non dotProduct(array1, array2)\n\tset dotProductResult to 0\n\trepeat with i from 1 to (count of array1)\n\t\tset dotProductResult to dotProductResult + (item i of array1) * (item i of array2)\n\tend repeat\n\treturn dotProductResult\nend dotProduct\n```"
+  },
+  {
+    "task": "Develop a script to find the first recurring element in an array.",
+    "code": "```applescript\nset myArray to {\"apple\", \"orange\", \"banana\", \"apple\", \"grape\", \"banana\"}\nset recurringElement to missing value\n\nrepeat with i from 1 to count of myArray\n    set currentElement to item i of myArray\n    if currentElement is in (items 1 thru (i - 1) of myArray) then\n        set recurringElement to currentElement\n        exit repeat\n    end if\nend repeat\n\nrecurringElement\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a subset of another array.",
+    "code": "```applescript\non isSubset(smallArray, largeArray)\n    repeat with item in smallArray\n        if item is not in largeArray then\n            return false\n        end if\n    end repeat\n    return true\nend isSubset\n```"
+  },
+  {
+    "task": "Implement a function to add a specific value to each element in an array.",
+    "code": "```applescript\non addValueToArray(theArray, theValue)\n\tset newArray to {}\n\trepeat with anItem in theArray\n\t\tset end of newArray to (anItem + theValue)\n\tend repeat\n\treturn newArray\nend addValueToArray\n\n-- Example usage:\nset myArray to {1, 2, 3, 4, 5}\nset valueToAdd to 10\nset resultArray to addValueToArray(myArray, valueToAdd)\n```"
+  },
+  {
+    "task": "Create a program that finds the largest product of three numbers in an array.",
+    "code": "```applescript\nset numbersArray to {4, 7, 1, 3, 9, 5}\n\nset maxProduct to -1\nset arrayLength to (count numbersArray)\n\nrepeat with i from 1 to (arrayLength - 2)\n    repeat with j from (i + 1) to (arrayLength - 1)\n        repeat with k from (j + 1) to arrayLength\n            set currentProduct to (item i of numbersArray) * (item j of numbersArray) * (item k of numbersArray)\n            if currentProduct > maxProduct then\n                set maxProduct to currentProduct\n            end if\n        end repeat\n    end repeat\nend repeat\n\nreturn maxProduct\n```"
+  },
+  {
+    "task": "Design a routine to find all unique permutations of an array.",
+    "code": "```applescript\non permutations(arr)\n\tscript PermutationsScript\n\t\tproperty allPermutations : {}\n\t\tproperty currentArray : arr\n\t\t\n\t\ton swap(i, j)\n\t\t\tset temp to item i of currentArray\n\t\t\tset item i of currentArray to item j of currentArray\n\t\t\tset item j of currentArray to temp\n\t\tend swap\n\t\t\n\t\ton backtrack(start, end)\n\t\t\tif start = end then\n\t\t\t\tcopy currentArray to end of my allPermutations\n\t\t\telse\n\t\t\t\trepeat with i from start to end\n\t\t\t\t\tif not (currentArray contains (item i of currentArray)) then\n\t\t\t\t\t\tmy swap(start, i)\n\t\t\t\t\t\tmy backtrack(start + 1, end)\n\t\t\t\t\t\tmy swap(start, i)\n\t\t\t\t\tend if\n\t\t\t\tend repeat\n\t\t\tend if\n\t\tend backtrack\n\t\t\n\t\ton getResult()\n\t\t\tset endIndex to length of currentArray\n\t\t\tmy backtrack(1, endIndex)\n\t\t\treturn my allPermutations\n\t\tend getResult\n\tend script\n\t\n\ttell PermutationsScript\n\t\treturn getResult()\n\tend tell\nend permutations\n\n-- Example usage:\nset myArray to {\"a\", \"b\", \"c\"}\nset result to permutations(myArray)\nreturn result\n```"
+  },
+  {
+    "task": "Write a function to transpose a square matrix represented as a 2D array.",
+    "code": "```applescript\non transposeMatrix(matrix)\n\tset n to length of matrix\n\tset transposed to {}\n\trepeat with i from 1 to n\n\t\tset newRow to {}\n\t\trepeat with j from 1 to n\n\t\t\tset end of newRow to item i of item j of matrix\n\t\tend repeat\n\t\tset end of transposed to newRow\n\tend repeat\n\treturn transposed\nend transposeMatrix\n```"
+  },
+  {
+    "task": "Develop a method to find the longest common prefix in an array of strings.",
+    "code": "```applescript\non longestCommonPrefix(arr)\n    if (count of arr) = 0 then return \"\"\n    set prefix to item 1 of arr\n    repeat with str in rest of arr\n        set prefix to commonPrefix(prefix, str)\n        if prefix is \"\" then exit repeat\n    end repeat\n    return prefix\nend longestCommonPrefix\n\non commonPrefix(str1, str2)\n    set minLength to (count of str1) min (count of str2)\n    set commonPrefix to \"\"\n    repeat with i from 1 to minLength\n        if (character i of str1) is not (character i of str2) then exit repeat\n        set commonPrefix to commonPrefix & (character i of str1)\n    end repeat\n    return commonPrefix\nend commonPrefix\n\n-- Test the function\nset testArray to {\"flower\", \"flow\", \"flight\"}\nset result to longestCommonPrefix(testArray)\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Implement a function to flatten a multi-dimensional array into a single array.",
+    "code": "```applescript\non flattenArray(inputArray)\n\tset flatArray to {}\n\trepeat with item in inputArray\n\t\tif class of item is list then\n\t\t\tset flatArray to flatArray & (flattenArray(item))\n\t\telse\n\t\t\tset end of flatArray to item\n\t\tend if\n\tend repeat\n\treturn flatArray\nend flattenArray\n```"
+  },
+  {
+    "task": "Create a script to shift elements of an array to the left by a given number of positions.",
+    "code": "```applescript\non shiftArrayLeft(theArray, shiftCount)\n\tset arraySize to length of theArray\n\tset shiftCount to shiftCount mod arraySize\n\t\n\tif shiftCount is 0 then return theArray\n\t\n\tset shiftedArray to {}\n\tset shiftedArray to (items (shiftCount + 1) thru -1 of theArray) & (items 1 thru shiftCount of theArray)\n\treturn shiftedArray\nend shiftArrayLeft\n\n-- Example usage:\nset myArray to {1, 2, 3, 4, 5}\nset shifted to shiftArrayLeft(myArray, 2)\nshifted\n```"
+  },
+  {
+    "task": "Write a routine to sort an array of objects based on a specific property.",
+    "code": "```applescript\non sortArray(arr, propertyName)\n\tscript arraySorter\n\t\tproperty propertyName : propertyName\n\t\ton compare(a, b)\n\t\t\tset valueA to a's propertyName\n\t\t\tset valueB to b's propertyName\n\t\t\tif valueA < valueB then\n\t\t\t\treturn -1\n\t\t\telse if valueA > valueB then\n\t\t\t\treturn 1\n\t\t\telse\n\t\t\t\treturn 0\n\t\t\tend if\n\t\tend compare\n\tend script\n\t\n\tset sortedArray to {}\n\trepeat with obj in arr\n\t\tset insertionIndex to 1\n\t\trepeat with sortedObj in sortedArray\n\t\t\tif arraySorter's compare(obj, sortedObj) < 0 then\n\t\t\t\texit repeat\n\t\t\tend if\n\t\t\tset insertionIndex to insertionIndex + 1\n\t\tend repeat\n\t\tset end of sortedArray to missing value\n\t\trepeat with i from (count sortedArray) to insertionIndex by -1\n\t\t\tset item i of sortedArray to item (i - 1) of sortedArray\n\t\tend repeat\n\t\tset item insertionIndex of sortedArray to obj\n\tend repeat\n\t\n\treturn sortedArray\nend sortArray\n```"
+  },
+  {
+    "task": "Design a program to find the smallest missing positive integer in an array.",
+    "code": "```applescript\nset inputArray to {3, 4, -1, 1}\nset smallestMissingPositive to 1\n\nrepeat\n    if smallestMissingPositive is not in inputArray then\n        exit repeat\n    end if\n    set smallestMissingPositive to smallestMissingPositive + 1\nend repeat\n\nsmallestMissingPositive\n```"
+  },
+  {
+    "task": "Create a function to calculate the cumulative sum of an array.",
+    "code": "```applescript\non cumulativeSum(arr)\n\tset result to {}\n\tset sum to 0\n\trepeat with num in arr\n\t\tset sum to sum + num\n\t\tcopy sum to the end of result\n\tend repeat\n\treturn result\nend cumulativeSum\n```"
+  },
+  {
+    "task": "Develop a function to remove consecutive duplicate elements in an array.",
+    "code": "```applescript\non removeConsecutiveDuplicates(inputArray)\n\tset cleanedArray to {}\n\tset previousItem to missing value\n\t\n\trepeat with currentItem in inputArray\n\t\tif currentItem is not equal to previousItem then\n\t\t\tset end of cleanedArray to currentItem\n\t\tend if\n\t\tset previousItem to currentItem\n\tend repeat\n\t\n\treturn cleanedArray\nend removeConsecutiveDuplicates\n\n-- Example usage\nset myArray to {\"a\", \"a\", \"b\", \"b\", \"c\", \"a\", \"a\"}\nset resultArray to removeConsecutiveDuplicates(myArray)\n```"
+  },
+  {
+    "task": "Implement a method to find the majority element in an array, if any.",
+    "code": "```applescript\non findMajorityElement(theArray)\n    set elementCount to (count theArray)\n    set counter to {}\n    set majorityElement to missing value\n    \n    repeat with i from 1 to elementCount\n        set currentElement to item i of theArray\n        if currentElement is not in counter then\n            set end of counter to {currentElement, 0}\n        end if\n        repeat with j from 1 to (count counter)\n            if item 1 of item j of counter is currentElement then\n                set item 2 of item j of counter to (item 2 of item j of counter) + 1\n            end if\n        end repeat\n    end repeat\n    \n    repeat with i from 1 to (count counter)\n        if item 2 of item i of counter > (elementCount div 2) then\n            set majorityElement to item 1 of item i of counter\n            exit repeat\n        end if\n    end repeat\n    \n    return majorityElement\nend findMajorityElement\n\n-- Example usage:\nset myArray to {1, 2, 3, 2, 2}\nfindMajorityElement(myArray)\n```"
+  },
+  {
+    "task": "Write a script to split an array into chunks of a given size.",
+    "code": "```applescript\non splitArrayIntoChunks(theArray, chunkSize)\n\tset chunkedArray to {}\n\tset arrayCount to (count of theArray)\n\trepeat with i from 1 to arrayCount by chunkSize\n\t\tset endIndex to (i + chunkSize - 1)\n\t\tif endIndex > arrayCount then set endIndex to arrayCount\n\t\tset end of chunkedArray to items i thru endIndex of theArray\n\tend repeat\n\treturn chunkedArray\nend splitArrayIntoChunks\n\n-- Example usage:\nset myArray to {1, 2, 3, 4, 5, 6, 7, 8, 9}\nset chunkSize to 3\nset result to splitArrayIntoChunks(myArray, chunkSize)\n```"
+  },
+  {
+    "task": "Create a program to calculate the difference between the largest and smallest values in an array.",
+    "code": "```applescript\nset theArray to {3, 7, 2, 8, 5}\n\nset maxValue to item 1 of theArray\nset minValue to item 1 of theArray\n\nrepeat with i from 2 to count of theArray\n    if item i of theArray > maxValue then\n        set maxValue to item i of theArray\n    end if\n    if item i of theArray < minValue then\n        set minValue to item i of theArray\n    end if\nend repeat\n\nset difference to maxValue - minValue\ndifference\n```"
+  },
+  {
+    "task": "Design a routine to find the starting index of a target subarray in a larger array.",
+    "code": "```applescript\non findSubarrayIndex(mainArray, targetArray)\n\tset targetLength to length of targetArray\n\tset mainLength to length of mainArray\n\t\n\trepeat with i from 1 to (mainLength - targetLength + 1)\n\t\tset found to true\n\t\trepeat with j from 1 to targetLength\n\t\t\tif item (i + j - 1) of mainArray is not equal to item j of targetArray then\n\t\t\t\tset found to false\n\t\t\t\texit repeat\n\t\t\tend if\n\t\tend repeat\n\t\tif found is true then\n\t\t\treturn i\n\t\tend if\n\tend repeat\n\t\n\treturn -1\nend findSubarrayIndex\n```"
+  },
+  {
+    "task": "Write a function to compress an array by eliminating zero values.",
+    "code": "```applescript\non compressArray(theArray)\n\tset compressedArray to {}\n\trepeat with anItem in theArray\n\t\tif anItem is not 0 then\n\t\t\tcopy anItem to end of compressedArray\n\t\tend if\n\tend repeat\n\treturn compressedArray\nend compressArray\n```"
+  },
+  {
+    "task": "Develop a method to determine if an array can be split into two parts with equal sums.",
+    "code": "```applescript\non canSplitArrayWithEqualSums(theArray)\n\tset totalSum to 0\n\trepeat with eachNumber in theArray\n\t\tset totalSum to totalSum + eachNumber\n\tend repeat\n\t\n\tif (totalSum mod 2) is not 0 then\n\t\treturn false\n\tend if\n\t\n\tset target to totalSum / 2\n\tset currentSum to 0\n\t\n\trepeat with eachNumber in theArray\n\t\tset currentSum to currentSum + eachNumber\n\t\tif currentSum = target then\n\t\t\treturn true\n\t\tend if\n\tend repeat\n\t\n\treturn false\nend canSplitArrayWithEqualSums\n\n-- Example usage\nset exampleArray to {1, 5, 11, 5}\nset result to canSplitArrayWithEqualSums(exampleArray)\ndisplay dialog \"Can the array be split into two equal sum parts? \" & result\n```"
+  },
+  {
+    "task": "Implement a function to round each element in an array to the nearest integer.",
+    "code": "```applescript\non roundArrayElements(theArray)\n\tset roundedArray to {}\n\trepeat with eachElement in theArray\n\t\tset roundedElement to round eachElement\n\t\tcopy roundedElement to end of roundedArray\n\tend repeat\n\treturn roundedArray\nend roundArrayElements\n```"
+  },
+  {
+    "task": "Create a routine to generate an array of the Fibonacci sequence up to a given number.",
+    "code": "```applescript\non fibonacciSequence(upTo)\n\tset fibonacciArray to {0, 1}\n\tset i to 2\n\trepeat while item (i - 1) of fibonacciArray + item (i - 2) of fibonacciArray \u2264 upTo\n\t\tset end of fibonacciArray to item (i - 1) of fibonacciArray + item (i - 2) of fibonacciArray\n\t\tset i to i + 1\n\tend repeat\n\treturn fibonacciArray\nend fibonacciSequence\n\nset result to fibonacciSequence(100)\n```"
+  },
+  {
+    "task": "Write a program to find the longest repeating sequence in an array.",
+    "code": "```applescript\nset myArray to {1, 2, 2, 3, 3, 3, 4, 5, 5, 6}\nset longestSequence to {}\nset currentSequence to {}\nset previousItem to missing value\n\nrepeat with i from 1 to count of myArray\n\tset currentItem to item i of myArray\n\tif currentItem is equal to previousItem then\n\t\tset end of currentSequence to currentItem\n\telse\n\t\tif (count of currentSequence) > (count of longestSequence) then\n\t\t\tset longestSequence to currentSequence\n\t\tend if\n\t\tset currentSequence to {currentItem}\n\tend if\n\tset previousItem to currentItem\nend repeat\n\nif (count of currentSequence) > (count of longestSequence) then\n\tset longestSequence to currentSequence\nend if\n\nreturn longestSequence\n```"
+  },
+  {
+    "task": "Design a function to multiply each element of an array by its index.",
+    "code": "```applescript\non multiplyArrayElementsByIndex(inputArray)\n\tset outputArray to {}\n\tset arrayLength to (count of inputArray)\n\trepeat with i from 1 to arrayLength\n\t\tset the end of outputArray to (item i of inputArray) * (i - 1)\n\tend repeat\n\treturn outputArray\nend multiplyArrayElementsByIndex\n\n-- Example usage\nset myArray to {10, 20, 30, 40}\nset result to multiplyArrayElementsByIndex(myArray)\n```"
+  },
+  {
+    "task": "Create a method to convert an array of characters into a single string.",
+    "code": "```applescript\non arrayToString(charArray)\n\ttell charArray to set combinedString to its items as string\n\treturn combinedString\nend arrayToString\n```"
+  },
+  {
+    "task": "Develop a function to fill an array with a specified value.",
+    "code": "```applescript\non fillArrayWith(array, value)\n\tset newArray to {}\n\tset arrayLength to count of array\n\trepeat with i from 1 to arrayLength\n\t\tset end of newArray to value\n\tend repeat\n\treturn newArray\nend fillArrayWith\n\n-- Example usage\nset myArray to {1, 2, 3, 4, 5}\nset filledArray to fillArrayWith(myArray, \"x\")\n```"
+  },
+  {
+    "task": "Implement a routine to determine if an array has any duplicate elements.",
+    "code": "```applescript\non hasDuplicates(theArray)\n    set seenItems to {}\n    repeat with anItem in theArray\n        if anItem is in seenItems then\n            return true\n        else\n            set end of seenItems to anItem\n        end if\n    end repeat\n    return false\nend hasDuplicates\n\n-- Example usage\nset sampleArray to {1, 2, 3, 4, 5, 6, 7, 8, 9, 1}\nset result to hasDuplicates(sampleArray)\ndisplay dialog \"Array has duplicates: \" & result\n```"
+  },
+  {
+    "task": "Write a script to reverse the order of words in an array of strings.",
+    "code": "```applescript\nset wordsArray to {\"apple\", \"banana\", \"cherry\", \"date\"}\nset reversedArray to {}\nrepeat with i from (count of wordsArray) to 1 by -1\n    set end of reversedArray to item i of wordsArray\nend repeat\nreturn reversedArray\n```"
+  },
+  {
+    "task": "Create a function to calculate the total number of distinct elements in an array.",
+    "code": "```applescript\non countDistinctElements(theArray)\n\tset distinctElements to {}\n\trepeat with anElement in theArray\n\t\tif anElement is not in distinctElements then\n\t\t\tcopy anElement to end of distinctElements\n\t\tend if\n\tend repeat\n\treturn (count of distinctElements)\nend countDistinctElements\n```"
+  },
+  {
+    "task": "Design a program to find the largest gap between consecutive elements in a sorted array.",
+    "code": "```applescript\nset sortedArray to {3, 5, 9, 14, 18, 21}\nset largestGap to 0\n\nrepeat with i from 2 to (count sortedArray)\n\tset gap to item i of sortedArray - item (i - 1) of sortedArray\n\tif gap > largestGap then\n\t\tset largestGap to gap\n\tend if\nend repeat\n\nreturn largestGap\n```"
+  },
+  {
+    "task": "Write a routine to perform element-wise multiplication of two arrays.",
+    "code": "```applescript\non elementWiseMultiplication(array1, array2)\n\tset resultArray to {}\n\tset arrayLength to length of array1\n\trepeat with i from 1 to arrayLength\n\t\tset end of resultArray to (item i of array1) * (item i of array2)\n\tend repeat\n\treturn resultArray\nend elementWiseMultiplication\n\n-- Example usage\nset arrayA to {1, 2, 3, 4}\nset arrayB to {5, 6, 7, 8}\nset multipliedArray to elementWiseMultiplication(arrayA, arrayB)\n```"
+  },
+  {
+    "task": "Develop a method to split a string into an array of words.",
+    "code": "```applescript\non splitStringToWords(inputString)\n\tset AppleScript's text item delimiters to space\n\tset wordArray to text items of inputString\n\tset AppleScript's text item delimiters to \"\"\n\treturn wordArray\nend splitStringToWords\n```"
+  },
+  {
+    "task": "Implement a function to find the longest contiguous subarray with a sum less than a target.",
+    "code": "```applescript\non longestSubarrayWithSumLessThanTarget(arr, target)\n\tset maxLength to 0\n\tset currentSum to 0\n\tset start to 1\n\t\n\trepeat with end from 1 to length of arr\n\t\tset currentSum to currentSum + item end of arr\n\t\t\n\t\trepeat while currentSum >= target and start \u2264 end\n\t\t\tset currentSum to currentSum - item start of arr\n\t\t\tset start to start + 1\n\t\tend repeat\n\t\t\n\t\tset maxLength to max(maxLength, end - start + 1)\n\tend repeat\n\t\n\treturn maxLength\nend longestSubarrayWithSumLessThanTarget\n\non max(a, b)\n\tif a > b then\n\t\treturn a\n\telse\n\t\treturn b\n\tend if\nend max\n```"
+  },
+  {
+    "task": "Create a script to rotate a 2D array (matrix) 180 degrees.",
+    "code": "```applescript\non rotateMatrix180(matrix)\n\tset rotatedMatrix to {}\n\tset rowCount to (count of matrix)\n\tset colCount to (count of item 1 of matrix)\n\t\n\trepeat with i from rowCount to 1 by -1\n\t\tset row to item i of matrix\n\t\tset newRow to {}\n\t\trepeat with j from colCount to 1 by -1\n\t\t\tset end of newRow to item j of row\n\t\tend repeat\n\t\tset end of rotatedMatrix to newRow\n\tend repeat\n\t\n\treturn rotatedMatrix\nend rotateMatrix180\n\n-- Example usage:\nset originalMatrix to {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}\nset newMatrix to rotateMatrix180(originalMatrix)\n```"
+  },
+  {
+    "task": "Write a program to convert an array of binary digits to its decimal equivalent.",
+    "code": "```applescript\nset binaryArray to {1, 0, 1, 1}\n\nset decimalValue to 0\nset exponent to (length of binaryArray) - 1\n\nrepeat with i from 1 to (length of binaryArray)\n    set decimalValue to decimalValue + (item i of binaryArray) * (2 ^ exponent)\n    set exponent to exponent - 1\nend repeat\n\nreturn decimalValue\n```"
+  },
+  {
+    "task": "Design a function to return a new array with elements squared from the input array.",
+    "code": "```applescript\non squareArray(inputArray)\n    set outputArray to {}\n    repeat with anElement in inputArray\n        set end of outputArray to (anElement * anElement)\n    end repeat\n    return outputArray\nend squareArray\n```"
+  },
+  {
+    "task": "Create a method to check if all elements in an array are unique.",
+    "code": "```applescript\non areAllElementsUnique(theArray)\n\tset seenElements to {}\n\trepeat with element in theArray\n\t\tif element is in seenElements then\n\t\t\treturn false\n\t\telse\n\t\t\tset end of seenElements to element\n\t\tend if\n\tend repeat\n\treturn true\nend areAllElementsUnique\n```"
+  },
+  {
+    "task": "Develop a routine to find the indices of all occurrences of a specific element in an array.",
+    "code": "```applescript\nset targetElement to \"yourElement\" -- replace \"yourElement\" with the element you are searching for\nset myArray to {\"element1\", \"yourElement\", \"element2\", \"yourElement\", \"element3\"} -- replace with your array\n\nset indices to {}\nrepeat with i from 1 to count of myArray\n    if item i of myArray is targetElement then\n        set end of indices to i\n    end if\nend repeat\n\nreturn indices\n```"
+  },
+  {
+    "task": "Implement a function to merge multiple arrays into one.",
+    "code": "```applescript\non mergeArrays(arrayList)\n\tset mergedArray to {}\n\trepeat with eachArray in arrayList\n\t\tset mergedArray to mergedArray & eachArray\n\tend repeat\n\treturn mergedArray\nend mergeArrays\n\n-- Example usage\nset array1 to {\"apple\", \"banana\"}\nset array2 to {\"cherry\", \"date\"}\nset array3 to {\"fig\", \"grape\"}\n\nset merged to mergeArrays({array1, array2, array3})\n```"
+  },
+  {
+    "task": "Write a script to convert an array of integers into a formatted string.",
+    "code": "```applescript\nset integerArray to {1, 2, 3, 4, 5}\nset formattedString to \"\"\nrepeat with i from 1 to count of integerArray\n    set formattedString to formattedString & (item i of integerArray) as string\n    if i is not equal to count of integerArray then\n        set formattedString to formattedString & \", \"\n    end if\nend repeat\nreturn formattedString\n```"
+  },
+  {
+    "task": "Create a program to find the largest sum of any contiguous subarray.",
+    "code": "```applescript\nset theArray to {34, -50, 42, 14, -5, 86}\nset maxSum to item 1 of theArray\nset currentSum to item 1 of theArray\n\nrepeat with i from 2 to count of theArray\n\tset currentSum to max(currentSum + item i of theArray, item i of theArray)\n\tset maxSum to max(maxSum, currentSum)\nend repeat\n\nreturn maxSum\n```"
+  },
+  {
+    "task": "Design a function to compare two arrays and return the differences.",
+    "code": "```applescript\non compareArrays(array1, array2)\n    set differences to {}\n    \n    repeat with item1 in array1\n        if item1 is not in array2 then\n            set end of differences to item1\n        end if\n    end repeat\n    \n    repeat with item2 in array2\n        if item2 is not in array1 then\n            set end of differences to item2\n        end if\n    end repeat\n    \n    return differences\nend compareArrays\n```"
+  },
+  {
+    "task": "Write a method to find the longest subarray with elements in arithmetic progression.",
+    "code": "```applescript\non longestAPSubarray(arr)\n\tset n to length of arr\n\tif n is less than 2 then return arr\n\t\n\tset longestAP to {}\n\tset maxLength to 0\n\t\n\trepeat with i from 1 to n - 1\n\t\tset currentAP to {item i of arr}\n\t\tset d to (item (i + 1) of arr) - (item i of arr)\n\t\tset currentLength to 2\n\t\t\n\t\trepeat with j from i + 2 to n\n\t\t\tif (item j of arr) - (item (j - 1) of arr) is equal to d then\n\t\t\t\tset end of currentAP to item j of arr\n\t\t\t\tset currentLength to currentLength + 1\n\t\t\telse\n\t\t\t\texit repeat\n\t\t\tend if\n\t\tend repeat\n\t\t\n\t\tif currentLength is greater than maxLength then\n\t\t\tset longestAP to currentAP\n\t\t\tset maxLength to currentLength\n\t\tend if\n\tend repeat\n\t\n\treturn longestAP\nend longestAPSubarray\n\n-- Example usage:\nset arr to {1, 7, 10, 13, 14, 19}\nlongestAPSubarray(arr)\n```"
+  },
+  {
+    "task": "Develop a routine to remove elements from an array based on a predicate function.",
+    "code": "```applescript\non removeElementsFromArray(theArray, predicateFunction)\n\tset resultArray to {}\n\trepeat with anElement in theArray\n\t\tset shouldRemove to my predicateFunction(anElement)\n\t\tif not shouldRemove then\n\t\t\tset end of resultArray to anElement\n\t\tend if\n\tend repeat\n\treturn resultArray\nend removeElementsFromArray\n\n-- Example predicate function: remove even numbers\non isEven(n)\n\treturn (n mod 2 = 0)\nend isEven\n\n-- Example usage\nset originalArray to {1, 2, 3, 4, 5, 6}\nset filteredArray to removeElementsFromArray(originalArray, isEven)\n```"
+  },
+  {
+    "task": "Implement a function to determine if two arrays have any common elements.",
+    "code": "```applescript\non arraysHaveCommonElements(array1, array2)\n    repeat with element1 in array1\n        if element1 is in array2 then\n            return true\n        end if\n    end repeat\n    return false\nend arraysHaveCommonElements\n\n-- Example usage\nset array1 to {1, 2, 3, 4}\nset array2 to {3, 5, 6}\nset result to arraysHaveCommonElements(array1, array2)\ndisplay dialog \"Do the arrays have common elements? \" & result\n```"
+  },
+  {
+    "task": "Create a script to initialize an empty array and populate it with user input.",
+    "code": "```applescript\nset myArray to {}\nrepeat\n    display dialog \"Enter a value to add to the array (or type 'done' to finish):\" default answer \"\"\n    set userInput to text returned of result\n    if userInput is equal to \"done\" then\n        exit repeat\n    end if\n    set end of myArray to userInput\nend repeat\n```"
+  },
+  {
+    "task": "Write a program to find the maximum sum of non-adjacent elements in an array.",
+    "code": "```applescript\non maxSumNonAdjacent(numbers)\n\tset n to (count numbers)\n\tif n is 0 then return 0\n\tif n is 1 then return item 1 of numbers\n\t\n\tset prevMax to item 1 of numbers\n\tset currMax to (item 1 of numbers) max (item 2 of numbers)\n\t\n\trepeat with i from 3 to n\n\t\tset temp to currMax\n\t\tset currMax to (currMax) max (prevMax + (item i of numbers))\n\t\tset prevMax to temp\n\tend repeat\n\t\n\treturn currMax\nend maxSumNonAdjacent\n\nset myArray to {3, 2, 5, 10, 7}\nset result to maxSumNonAdjacent(myArray)\ndisplay dialog \"Maximum sum of non-adjacent elements: \" & result\n```"
+  },
+  {
+    "task": "Design a function to shuffle an array randomly.",
+    "code": "```applescript\non shuffleArray(theArray)\n\tset newArray to {}\n\tset arrayCopy to theArray\n\trepeat while (count of arrayCopy) > 0\n\t\tset randomIndex to (random number from 1 to (count of arrayCopy))\n\t\tset end of newArray to item randomIndex of arrayCopy\n\t\tset arrayCopy to (items 1 thru (randomIndex - 1) of arrayCopy) & (items (randomIndex + 1) thru -1 of arrayCopy)\n\tend repeat\n\treturn newArray\nend shuffleArray\n```"
+  },
+  {
+    "task": "Create a method to generate a new array where each element is the cumulative product of the input array.",
+    "code": "```applescript\non cumulativeProduct(inputArray)\n\tset cumulativeArray to {}\n\tset product to 1\n\trepeat with eachElement in inputArray\n\t\tset product to product * eachElement\n\t\tcopy product to the end of cumulativeArray\n\tend repeat\n\treturn cumulativeArray\nend cumulativeProduct\n```"
+  },
+  {
+    "task": "Develop a routine to find the largest element in each row of a 2D array.",
+    "code": "```applescript\nset inputArray to {{3, 5, 2, 8}, {7, 1, 9, 3}, {6, 4, 5, 0}}\nset largestElements to {}\n\nrepeat with i from 1 to count of inputArray\n\tset currentRow to item i of inputArray\n\tset maxElement to item 1 of currentRow\n\t\n\trepeat with j from 2 to count of currentRow\n\t\tset currentElement to item j of currentRow\n\t\tif currentElement > maxElement then\n\t\t\tset maxElement to currentElement\n\t\tend if\n\tend repeat\n\t\n\tcopy maxElement to end of largestElements\nend repeat\n\nreturn largestElements\n```"
+  },
+  {
+    "task": "Implement a function to count the number of negative numbers in an array.",
+    "code": "```applescript\non countNegativeNumbers(inputArray)\n\tset negativeCount to 0\n\trepeat with num in inputArray\n\t\tif num < 0 then\n\t\t\tset negativeCount to negativeCount + 1\n\t\tend if\n\tend repeat\n\treturn negativeCount\nend countNegativeNumbers\n```"
+  },
+  {
+    "task": "Write a script to find the longest subarray with all distinct elements.",
+    "code": "```applescript\nset inputArray to {1, 2, 3, 2, 4, 5, 3, 4, 5, 6, 7}\nset maxLength to 0\nset longestSubarray to {}\nset currentSubarray to {}\n\nrepeat with i from 1 to length of inputArray\n\tset currentElement to item i of inputArray\n\tif currentElement is in currentSubarray then\n\t\tset currentSubarray to items ((my indexOfItem(currentElement, currentSubarray) + 1) through end) of currentSubarray\n\tend if\n\tcopy currentElement to end of currentSubarray\n\tif (length of currentSubarray) > maxLength then\n\t\tset maxLength to length of currentSubarray\n\t\tset longestSubarray to currentSubarray\n\tend if\nend repeat\n\non indexOfItem(anItem, aList)\n\trepeat with i from 1 to length of aList\n\t\tif item i of aList is anItem then return i\n\tend repeat\n\treturn 0\nend indexOfItem\n\nreturn longestSubarray\n```"
+  }
+]

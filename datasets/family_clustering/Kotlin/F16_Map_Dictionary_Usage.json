@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```kotlin\nfun main() {\n    val studentGrades = mapOf(\n        \"Alice\" to 85,\n        \"Bob\" to 92,\n        \"Charlie\" to 78,\n        \"Diana\" to 90\n    )\n\n    val averageGrade = studentGrades.values.average()\n    println(\"Average Grade: $averageGrade\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```kotlin\nfun totalCost(products: Map<String, Double>): Double {\n    return products.values.sum()\n}\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```kotlin\nfun countWordFrequencies(text: String): Map<String, Int> {\n    val wordFrequency = mutableMapOf<String, Int>()\n    val words = text.split(\"\\\\s+\".toRegex())\n    for (word in words) {\n        val normalizedWord = word.lowercase()\n        wordFrequency[normalizedWord] = wordFrequency.getOrDefault(normalizedWord, 0) + 1\n    }\n    return wordFrequency\n}\n\nfun main() {\n    val text = \"This is a sample text with sample words and some words repeated\"\n    val frequencies = countWordFrequencies(text)\n    println(frequencies)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```kotlin\nfun employeeWithMostHours(workHours: Map<String, Int>): String? {\n    return workHours.maxByOrNull { it.value }?.key\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```kotlin\nimport java.time.LocalDateTime\n\ndata class LoginAttempt(val count: Int, val timestamp: LocalDateTime)\n\nclass UserLoginSystem {\n    private val loginAttempts: MutableMap<String, LoginAttempt> = mutableMapOf()\n    private val lockThreshold = 3\n\n    fun recordLoginAttempt(username: String, success: Boolean) {\n        if (!success) {\n            val currentTime = LocalDateTime.now()\n            val attempt = loginAttempts[username]\n            if (attempt == null) {\n                loginAttempts[username] = LoginAttempt(1, currentTime)\n            } else {\n                val newCount = attempt.count + 1\n                loginAttempts[username] = LoginAttempt(newCount, currentTime)\n                if (newCount >= lockThreshold) {\n                    lockAccount(username)\n                }\n            }\n        } else {\n            // Clear attempts on successful login\n            loginAttempts.remove(username)\n        }\n    }\n\n    private fun lockAccount(username: String) {\n        println(\"Account for $username is locked due to too many failed login attempts.\")\n        // Additional logic to handle account locking\n    }\n\n    fun isAccountLocked(username: String): Boolean {\n        val attempt = loginAttempts[username]\n        return attempt?.count ?: 0 >= lockThreshold\n    }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```kotlin\nfun main() {\n    val phonebook = mutableMapOf<String, String>()\n\n    fun addContact(name: String, number: String) {\n        phonebook[name] = number\n        println(\"Contact added: $name -> $number\")\n    }\n\n    fun removeContact(name: String) {\n        if (phonebook.remove(name) != null) {\n            println(\"Contact removed: $name\")\n        } else {\n            println(\"Contact not found: $name\")\n        }\n    }\n\n    fun lookupContact(name: String) {\n        val number = phonebook[name]\n        if (number != null) {\n            println(\"Contact found: $name -> $number\")\n        } else {\n            println(\"Contact not found: $name\")\n        }\n    }\n\n    // Usage examples\n    addContact(\"Alice\", \"123-456-7890\")\n    addContact(\"Bob\", \"987-654-3210\")\n    lookupContact(\"Alice\")\n    removeContact(\"Alice\")\n    lookupContact(\"Alice\")\n}\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```kotlin\nfun main() {\n    val cityPopulationMap = mapOf(\n        \"New York\" to 8419600,\n        \"Los Angeles\" to 3980400,\n        \"Chicago\" to 2716000,\n        \"Houston\" to 2328000,\n        \"Phoenix\" to 1690000\n    )\n\n    val cityWithHighestPopulation = cityPopulationMap.maxByOrNull { it.value }?.key\n\n    println(\"City with the highest population: $cityWithHighestPopulation\")\n}\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```kotlin\nfun main() {\n    val dictionary = mapOf(\n        \"hello\" to \"hola\",\n        \"world\" to \"mundo\",\n        \"good\" to \"bueno\",\n        \"morning\" to \"ma\u00f1ana\"\n    )\n\n    val sentence = \"hello world good morning\"\n    val translatedSentence = sentence.split(\" \").map { word ->\n        dictionary[word] ?: word\n    }.joinToString(\" \")\n\n    println(translatedSentence)\n}\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```kotlin\nfun main() {\n    val books = mapOf(\n        \"To Kill a Mockingbird\" to \"Harper Lee\",\n        \"1984\" to \"George Orwell\",\n        \"Pride and Prejudice\" to \"Jane Austen\",\n        \"The Great Gatsby\" to \"F. Scott Fitzgerald\",\n        \"Animal Farm\" to \"George Orwell\"\n    )\n\n    val author = \"George Orwell\"\n    val booksByAuthor = findBooksByAuthor(books, author)\n    println(\"Books by $author: $booksByAuthor\")\n}\n\nfun findBooksByAuthor(books: Map<String, String>, author: String): List<String> {\n    return books.filter { it.value == author }.keys.toList()\n}\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```kotlin\nfun main() {\n    val productStock: MutableMap<String, Int> = mutableMapOf(\n        \"P001\" to 50,\n        \"P002\" to 30,\n        \"P003\" to 20\n    )\n\n    updateStockAfterSale(productStock, \"P001\", 5)\n    updateStockAfterSale(productStock, \"P002\", 10)\n    \n    println(productStock)\n}\n\nfun updateStockAfterSale(stock: MutableMap<String, Int>, productId: String, quantitySold: Int) {\n    if (productId in stock) {\n        stock[productId] = stock[productId]!! - quantitySold\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```kotlin\nfun main() {\n    val countryCodes = mapOf(\n        \"US\" to \"United States\",\n        \"CA\" to \"Canada\",\n        \"MX\" to \"Mexico\",\n        \"FR\" to \"France\",\n        \"DE\" to \"Germany\"\n    )\n\n    val givenCode = \"CA\"\n    val countryName = countryCodes[givenCode]\n\n    println(countryName ?: \"Country code not found\")\n}\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```kotlin\nfun main() {\n    val studentMap = mapOf(\n        101 to \"Alice\",\n        102 to \"Bob\",\n        103 to \"Charlie\"\n    )\n\n    fun getNameById(id: Int): String? {\n        return studentMap[id]\n    }\n\n    val studentId = 102\n    val studentName = getNameById(studentId)\n    println(\"Student ID: $studentId, Name: ${studentName ?: \"Not Found\"}\")\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```kotlin\nclass ConfigurationSettings {\n    private val settings: MutableMap<String, Any> = mutableMapOf()\n\n    fun updateSetting(key: String, value: Any) {\n        settings[key] = value\n    }\n\n    fun getSetting(key: String): Any? {\n        return settings[key]\n    }\n}\n\nfun main() {\n    val config = ConfigurationSettings()\n    config.updateSetting(\"theme\", \"dark\")\n    config.updateSetting(\"timeout\", 30)\n\n    println(config.getSetting(\"theme\")) // Output: dark\n    println(config.getSetting(\"timeout\")) // Output: 30\n}\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```kotlin\nfun main() {\n    val dictionary = mapOf(\n        \"apple\" to \"A fruit that is typically red, green, or yellow.\",\n        \"banana\" to \"A long curved fruit that grows in clusters and has soft pulpy flesh.\",\n        \"cherry\" to \"A small, round stone fruit that is typically bright or dark red.\",\n        \"date\" to \"The sweet fruit of a small palm tree.\",\n        \"apricot\" to \"A small orange fruit with velvety skin and a stone.\",\n        \"blueberry\" to \"A small sweet blue-black edible berry.\",\n        \"avocado\" to \"A pear-shaped fruit with a rough leathery skin and smooth, oily edible flesh.\"\n    )\n\n    displayWordsStartingWith(dictionary, 'a')\n}\n\nfun displayWordsStartingWith(dictionary: Map<String, String>, letter: Char) {\n    for (entry in dictionary) {\n        if (entry.key.startsWith(letter, ignoreCase = true)) {\n            println(\"${entry.key}: ${entry.value}\")\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```kotlin\nfun main() {\n    val credentials = mapOf(\n        \"user1\" to \"password123\",\n        \"user2\" to \"mypassword\",\n        \"admin\" to \"adminpass\"\n    )\n\n    fun verifyLogin(username: String, password: String): Boolean {\n        return credentials[username] == password\n    }\n\n    // Example usage\n    val username = \"user1\"\n    val password = \"password123\"\n\n    if (verifyLogin(username, password)) {\n        println(\"Login successful!\")\n    } else {\n        println(\"Login failed!\")\n    }\n}\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```kotlin\nfun main() {\n    val purchases = listOf(\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\")\n    val purchaseCount = mutableMapOf<String, Int>()\n\n    for (item in purchases) {\n        purchaseCount[item] = purchaseCount.getOrDefault(item, 0) + 1\n    }\n\n    val mostPopularItem = purchaseCount.maxByOrNull { it.value }?.key\n    println(\"Most popular item: $mostPopularItem\")\n}\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```kotlin\nfun main() {\n    val fileAssociations = mapOf(\n        \"txt\" to \"Text Editor\",\n        \"jpg\" to \"Image Viewer\",\n        \"png\" to \"Image Viewer\",\n        \"pdf\" to \"PDF Reader\",\n        \"docx\" to \"Word Processor\",\n        \"xlsx\" to \"Spreadsheet\",\n        \"mp3\" to \"Music Player\"\n    )\n\n    fun openFile(filename: String): String {\n        val extension = filename.substringAfterLast('.', \"\")\n        return fileAssociations[extension] ?: \"Unknown Application\"\n    }\n\n    val fileToOpen = \"example.docx\"\n    println(\"Open '$fileToOpen' with ${openFile(fileToOpen)}\")\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```kotlin\nfun main() {\n    val menu = mapOf(\n        \"Burger\" to 5.99,\n        \"Fries\" to 2.99,\n        \"Soda\" to 1.49,\n        \"Salad\" to 4.99\n    )\n\n    val order = listOf(\"Burger\", \"Fries\", \"Soda\")\n    val totalBill = calculateTotal(order, menu)\n\n    println(\"Total Bill: $$totalBill\")\n}\n\nfun calculateTotal(order: List<String>, menu: Map<String, Double>): Double {\n    var total = 0.0\n    for (item in order) {\n        menu[item]?.let {\n            total += it\n        }\n    }\n    return total\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```kotlin\nclass WarehouseInventory {\n    private val inventory = mutableMapOf<String, Int>()\n\n    fun addItem(item: String, quantity: Int) {\n        inventory[item] = inventory.getOrDefault(item, 0) + quantity\n    }\n\n    fun removeItem(item: String, quantity: Int) {\n        val currentQuantity = inventory.getOrDefault(item, 0)\n        if (currentQuantity >= quantity) {\n            inventory[item] = currentQuantity - quantity\n            if (inventory[item] == 0) {\n                inventory.remove(item)\n            }\n        }\n    }\n\n    fun checkInventory(item: String): Int {\n        return inventory.getOrDefault(item, 0)\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```kotlin\nfun romanToInt(s: String): Int {\n    val romanMap = mapOf(\n        'I' to 1,\n        'V' to 5,\n        'X' to 10,\n        'L' to 50,\n        'C' to 100,\n        'D' to 500,\n        'M' to 1000\n    )\n    \n    var result = 0\n    var i = 0\n    while (i < s.length) {\n        val current = romanMap[s[i]] ?: 0\n        val next = if (i + 1 < s.length) romanMap[s[i + 1]] ?: 0 else 0\n        \n        if (current < next) {\n            result += (next - current)\n            i += 2\n        } else {\n            result += current\n            i++\n        }\n    }\n    return result\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```kotlin\nfun countLetterOccurrences(input: String): Map<Char, Int> {\n    val letterCount = mutableMapOf<Char, Int>()\n    for (char in input) {\n        if (char.isLetter()) {\n            val lowerChar = char.lowercaseChar()\n            letterCount[lowerChar] = letterCount.getOrDefault(lowerChar, 0) + 1\n        }\n    }\n    return letterCount\n}\n\nfun main() {\n    val inputString = \"Example String\"\n    val occurrences = countLetterOccurrences(inputString)\n    println(occurrences)\n}\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```kotlin\nfun main() {\n    val teamScores = mapOf(\n        \"Team A\" to 85,\n        \"Team B\" to 92,\n        \"Team C\" to 78,\n        \"Team D\" to 88\n    )\n\n    val highestScoringTeam = teamScores.maxByOrNull { it.value }?.key\n    println(\"The team with the highest score is: $highestScoringTeam\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```kotlin\nfun calculateTotalWeight(itemWeights: Map<String, Double>): Double {\n    return itemWeights.values.sum()\n}\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```kotlin\nfun main() {\n    val websiteVisits = mutableMapOf(\n        \"https://example.com\" to 120,\n        \"https://another-site.com\" to 300,\n        \"https://yetanother.com\" to 250\n    )\n\n    val mostVisitedWebsite = websiteVisits.maxByOrNull { it.value }?.key\n\n    println(\"The most visited website is: $mostVisitedWebsite\")\n}\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```kotlin\nfun main() {\n    val errorCodeMap = mapOf(\n        404 to \"Not Found\",\n        500 to \"Internal Server Error\",\n        403 to \"Forbidden\",\n        401 to \"Unauthorized\"\n    )\n    \n    val givenCode = 404\n    val message = errorCodeMap[givenCode] ?: \"Unknown Error\"\n    \n    println(message)\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```kotlin\nfun main() {\n    val contacts = mutableMapOf<String, String>()\n\n    // Add or update a contact\n    fun addOrUpdateContact(name: String, phoneNumber: String) {\n        contacts[name] = phoneNumber\n    }\n\n    // Lookup a contact\n    fun lookupContact(name: String): String? {\n        return contacts[name]\n    }\n\n    // Example usage\n    addOrUpdateContact(\"Alice\", \"123-456-7890\")\n    addOrUpdateContact(\"Bob\", \"987-654-3210\")\n\n    println(\"Alice's phone number: ${lookupContact(\"Alice\")}\")\n    println(\"Bob's phone number: ${lookupContact(\"Bob\")}\")\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```kotlin\nfun main() {\n    val tasks = mapOf(\n        \"Alice\" to \"Database Design\",\n        \"Bob\" to \"Frontend Development\",\n        \"Charlie\" to \"Backend Development\",\n        \"Diana\" to \"Project Management\"\n    )\n\n    tasks.forEach { (employee, task) ->\n        println(\"$employee is assigned to $task\")\n    }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```kotlin\nfun main() {\n    val airportMap = mapOf(\n        \"LAX\" to \"Los Angeles\",\n        \"JFK\" to \"New York\",\n        \"ORD\" to \"Chicago\",\n        \"ATL\" to \"Atlanta\",\n        \"DFW\" to \"Dallas\"\n    )\n\n    val airportCode = \"JFK\"\n    val cityName = airportMap[airportCode]\n    println(\"The city for airport code $airportCode is $cityName.\")\n}\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```kotlin\nfun main() {\n    val movies = mapOf(\n        \"The Shawshank Redemption\" to 1994,\n        \"The Godfather\" to 1972,\n        \"The Dark Knight\" to 2008,\n        \"Pulp Fiction\" to 1994,\n        \"Schindler's List\" to 1993\n    )\n\n    val decadeStart = 1990\n    val decadeEnd = decadeStart + 9\n\n    val moviesInDecade = movies.filter { it.value in decadeStart..decadeEnd }\n\n    println(\"Movies released in the ${decadeStart}s:\")\n    for ((title, year) in moviesInDecade) {\n        println(\"$title ($year)\")\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```kotlin\nfun groupStudentsByGrades(students: List<Pair<String, String>>): Map<String, List<String>> {\n    return students.groupBy({ it.second }, { it.first })\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```kotlin\nfun main() {\n    val visitorCount = mapOf(\n        \"Home\" to 1500,\n        \"About\" to 300,\n        \"Blog\" to 1200,\n        \"Contact\" to 600\n    )\n\n    val mostVisitedSection = visitorCount.maxByOrNull { it.value }?.key\n    println(\"The most visited section is: $mostVisitedSection\")\n}\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```kotlin\nfun main() {\n    val projectDeadlines = mutableMapOf<String, String>()\n\n    // Assign project deadlines to team members\n    projectDeadlines[\"Alice\"] = \"2023-12-01\"\n    projectDeadlines[\"Bob\"] = \"2023-12-15\"\n    projectDeadlines[\"Charlie\"] = \"2023-12-20\"\n\n    // Print initial deadlines\n    println(\"Initial deadlines: $projectDeadlines\")\n\n    // Function to extend deadline\n    fun extendDeadline(member: String, newDeadline: String) {\n        if (projectDeadlines.containsKey(member)) {\n            projectDeadlines[member] = newDeadline\n            println(\"Deadline for $member extended to $newDeadline\")\n        } else {\n            println(\"No deadline found for $member\")\n        }\n    }\n\n    // Extend deadlines\n    extendDeadline(\"Alice\", \"2023-12-10\")\n    extendDeadline(\"Charlie\", \"2023-12-25\")\n\n    // Print updated deadlines\n    println(\"Updated deadlines: $projectDeadlines\")\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```kotlin\nfun main() {\n    val library = mutableMapOf(\n        \"1984\" to true,\n        \"To Kill a Mockingbird\" to true,\n        \"The Great Gatsby\" to true,\n        \"The Catcher in the Rye\" to true\n    )\n\n    fun isBookAvailable(bookTitle: String): Boolean {\n        return library[bookTitle] ?: false\n    }\n\n    fun borrowBook(bookTitle: String): Boolean {\n        return if (isBookAvailable(bookTitle)) {\n            library[bookTitle] = false\n            true\n        } else {\n            false\n        }\n    }\n\n    fun returnBook(bookTitle: String) {\n        library[bookTitle] = true\n    }\n\n    // Example usage\n    println(isBookAvailable(\"1984\")) // true\n    println(borrowBook(\"1984\")) // true\n    println(isBookAvailable(\"1984\")) // false\n    returnBook(\"1984\")\n    println(isBookAvailable(\"1984\")) // true\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```kotlin\nfun main() {\n    val planetDistances = mapOf(\n        \"Mercury\" to 57.91,\n        \"Venus\" to 108.2,\n        \"Earth\" to 149.6,\n        \"Mars\" to 227.9,\n        \"Jupiter\" to 778.5,\n        \"Saturn\" to 1434.0,\n        \"Uranus\" to 2871.0,\n        \"Neptune\" to 4495.1\n    )\n\n    val closestPlanet = planetDistances\n        .filterKeys { it != \"Earth\" }\n        .minByOrNull { (_, distance) -> Math.abs(distance - planetDistances[\"Earth\"]!!) }\n        ?.key\n\n    println(\"The closest planet to Earth is: $closestPlanet\")\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```kotlin\nfun main() {\n    val morseCodeMap = mapOf(\n        \".-\" to \"A\", \"-...\" to \"B\", \"-.-.\" to \"C\", \"-..\" to \"D\", \".\" to \"E\",\n        \"..-.\" to \"F\", \"--.\" to \"G\", \"....\" to \"H\", \"..\" to \"I\", \".---\" to \"J\",\n        \"-.-\" to \"K\", \".-..\" to \"L\", \"--\" to \"M\", \"-.\" to \"N\", \"---\" to \"O\",\n        \".--.\" to \"P\", \"--.-\" to \"Q\", \".-.\" to \"R\", \"...\" to \"S\", \"-\" to \"T\",\n        \"..-\" to \"U\", \"...-\" to \"V\", \".--\" to \"W\", \"-..-\" to \"X\", \"-.--\" to \"Y\",\n        \"--..\" to \"Z\", \"-----\" to \"0\", \".----\" to \"1\", \"..---\" to \"2\", \"...--\" to \"3\",\n        \"....-\" to \"4\", \".....\" to \"5\", \"-....\" to \"6\", \"--...\" to \"7\", \"---..\" to \"8\",\n        \"----.\" to \"9\"\n    )\n\n    val morseCodeMessage = \"... --- ...\"\n    val translatedMessage = morseCodeMessage\n        .split(\" \")\n        .map { morseCodeMap[it] ?: \"\" }\n        .joinToString(\"\")\n\n    println(translatedMessage)\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```kotlin\nfun main() {\n    val vehicleRegistry = mutableMapOf<String, String>()\n\n    // Adding some entries to the map\n    vehicleRegistry[\"ABC123\"] = \"John Doe\"\n    vehicleRegistry[\"XYZ789\"] = \"Jane Smith\"\n    vehicleRegistry[\"LMN456\"] = \"Alice Johnson\"\n\n    // Accessing and printing the entries\n    for ((registrationNumber, owner) in vehicleRegistry) {\n        println(\"Registration Number: $registrationNumber, Owner: $owner\")\n    }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```kotlin\nfun main() {\n    val teamRecords = mapOf(\n        \"Lions\" to Pair(10, 2),\n        \"Tigers\" to Pair(8, 4),\n        \"Bears\" to Pair(11, 1),\n        \"Wolves\" to Pair(9, 3)\n    )\n\n    val bestTeam = teamRecords.maxByOrNull { it.value.first.toDouble() / (it.value.first + it.value.second) }\n    println(\"Team with the best record: ${bestTeam?.key} with record ${bestTeam?.value?.first}-${bestTeam?.value?.second}\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```kotlin\nfun getCurrencyName(currencyCode: String): String? {\n    val currencyMap = mapOf(\n        \"USD\" to \"United States Dollar\",\n        \"EUR\" to \"Euro\",\n        \"JPY\" to \"Japanese Yen\",\n        \"GBP\" to \"British Pound Sterling\",\n        \"AUD\" to \"Australian Dollar\",\n        \"CAD\" to \"Canadian Dollar\",\n        \"CHF\" to \"Swiss Franc\",\n        \"CNY\" to \"Chinese Yuan\",\n        \"SEK\" to \"Swedish Krona\",\n        \"NZD\" to \"New Zealand Dollar\"\n    )\n    return currencyMap[currencyCode]\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```kotlin\nfun main() {\n    val attendanceMap = mapOf(\n        \"Alice\" to 15,\n        \"Bob\" to 20,\n        \"Charlie\" to 18,\n        \"David\" to 22,\n        \"Eva\" to 19\n    )\n\n    val maxAttendanceStudent = attendanceMap.maxByOrNull { it.value }?.key\n\n    println(\"Student with the highest attendance: $maxAttendanceStudent\")\n}\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```kotlin\nfun main() {\n    val countryCapitals = mapOf(\n        \"United States\" to \"Washington, D.C.\",\n        \"Canada\" to \"Ottawa\",\n        \"United Kingdom\" to \"London\",\n        \"France\" to \"Paris\",\n        \"Germany\" to \"Berlin\"\n    )\n\n    val country = \"France\"\n    val capital = countryCapitals[country]\n    println(\"The capital of $country is $capital.\")\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```kotlin\nfun main() {\n    val recipeIngredients = mapOf(\n        \"Flour\" to \"2 cups\",\n        \"Sugar\" to \"1 cup\",\n        \"Eggs\" to \"3\",\n        \"Milk\" to \"1.5 cups\",\n        \"Butter\" to \"100g\"\n    )\n\n    for ((ingredient, quantity) in recipeIngredients) {\n        println(\"$ingredient: $quantity\")\n    }\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```kotlin\ndata class UserProfile(val name: String, val age: Int, val email: String)\n\nfun main() {\n    val userProfiles = mutableMapOf<String, UserProfile>()\n\n    userProfiles[\"user123\"] = UserProfile(\"Alice Smith\", 30, \"alice@example.com\")\n    userProfiles[\"johndoe\"] = UserProfile(\"John Doe\", 25, \"john@example.com\")\n\n    val username = \"user123\"\n    val profile = userProfiles[username]\n    if (profile != null) {\n        println(\"Username: $username, Name: ${profile.name}, Age: ${profile.age}, Email: ${profile.email}\")\n    } else {\n        println(\"User profile not found for username: $username\")\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```kotlin\nfun listProductsInCategory(products: Map<String, List<String>>, category: String): List<String> {\n    return products[category] ?: emptyList()\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```kotlin\nfun main() {\n    val shoppingList = mutableMapOf<String, Int>()\n\n    fun updateQuantity(item: String, quantity: Int) {\n        shoppingList[item] = quantity\n    }\n\n    // Example usage\n    updateQuantity(\"Apples\", 5)\n    updateQuantity(\"Bananas\", 2)\n    updateQuantity(\"Apples\", 10)\n\n    println(shoppingList)\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```kotlin\nfun main() {\n    val historicalEvents = mapOf(\n        \"Moon Landing\" to 1969,\n        \"Fall of Berlin Wall\" to 1989,\n        \"World War II End\" to 1945,\n        \"Declaration of Independence\" to 1776\n    )\n\n    val yearToFind = 1989\n    val eventsInYear = historicalEvents.filter { it.value == yearToFind }.keys\n\n    if (eventsInYear.isNotEmpty()) {\n        println(\"Events in $yearToFind:\")\n        eventsInYear.forEach { println(it) }\n    } else {\n        println(\"No events found in $yearToFind.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```kotlin\nfun main() {\n    val userRoles: MutableMap<String, MutableList<String>> = mutableMapOf()\n\n    // Function to add a role with permissions\n    fun addRole(role: String, permissions: List<String>) {\n        userRoles[role] = permissions.toMutableList()\n    }\n\n    // Function to add a permission to an existing role\n    fun addPermissionToRole(role: String, permission: String) {\n        userRoles[role]?.add(permission)\n    }\n\n    // Function to remove a permission from a role\n    fun removePermissionFromRole(role: String, permission: String) {\n        userRoles[role]?.remove(permission)\n    }\n\n    // Function to get permissions of a role\n    fun getPermissions(role: String): List<String>? {\n        return userRoles[role]\n    }\n\n    // Function to check if a role has a specific permission\n    fun hasPermission(role: String, permission: String): Boolean {\n        return userRoles[role]?.contains(permission) ?: false\n    }\n\n    // Example usage\n    addRole(\"admin\", listOf(\"read\", \"write\", \"delete\"))\n    addRole(\"user\", listOf(\"read\"))\n\n    addPermissionToRole(\"user\", \"comment\")\n    removePermissionFromRole(\"admin\", \"delete\")\n\n    println(\"Admin Permissions: ${getPermissions(\"admin\")}\")\n    println(\"User Permissions: ${getPermissions(\"user\")}\")\n    println(\"Does admin have write permission? ${hasPermission(\"admin\", \"write\")}\")\n    println(\"Does user have delete permission? ${hasPermission(\"user\", \"delete\")}\")\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```kotlin\nfun convertGradeToLetter(numericGrade: Int): String {\n    val gradeMap = mapOf(\n        90..100 to \"A\",\n        80..89 to \"B\",\n        70..79 to \"C\",\n        60..69 to \"D\",\n        0..59 to \"F\"\n    )\n    \n    for ((range, letter) in gradeMap) {\n        if (numericGrade in range) {\n            return letter\n        }\n    }\n    return \"Invalid grade\"\n}\n\nfun main() {\n    val grades = listOf(95, 82, 67, 73, 58)\n    val letterGrades = grades.map { convertGradeToLetter(it) }\n    println(letterGrades)\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```kotlin\nfun main() {\n    val holidays = mapOf(\n        \"New Year's Day\" to \"January 1\",\n        \"Independence Day\" to \"July 4\",\n        \"Christmas Day\" to \"December 25\"\n    )\n\n    val holidayName = \"Christmas Day\"\n    val date = holidays[holidayName]\n\n    println(\"The date for $holidayName is $date.\")\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```kotlin\nfun main() {\n    val orderStatusMap = mutableMapOf<String, String>()\n\n    // Add new orders with initial status\n    orderStatusMap[\"order1\"] = \"Processing\"\n    orderStatusMap[\"order2\"] = \"Shipped\"\n    orderStatusMap[\"order3\"] = \"Delivered\"\n\n    // Function to update the status of an order\n    fun updateOrderStatus(orderId: String, newStatus: String) {\n        if (orderStatusMap.containsKey(orderId)) {\n            orderStatusMap[orderId] = newStatus\n            println(\"Order $orderId updated to $newStatus\")\n        } else {\n            println(\"Order $orderId not found\")\n        }\n    }\n\n    // Example updates\n    updateOrderStatus(\"order1\", \"Shipped\")\n    updateOrderStatus(\"order2\", \"Delivered\")\n    updateOrderStatus(\"order4\", \"Processing\")\n\n    // Print current status of all orders\n    for ((orderId, status) in orderStatusMap) {\n        println(\"Order $orderId: $status\")\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```kotlin\nfun main() {\n    val foodNutrition = mapOf(\n        \"Apple\" to mapOf(\"Calories\" to 52, \"Carbs\" to 14, \"Fiber\" to 2.4),\n        \"Banana\" to mapOf(\"Calories\" to 89, \"Carbs\" to 23, \"Fiber\" to 2.6),\n        \"Carrot\" to mapOf(\"Calories\" to 41, \"Carbs\" to 10, \"Fiber\" to 2.8),\n        \"Broccoli\" to mapOf(\"Calories\" to 55, \"Carbs\" to 11, \"Fiber\" to 3.8)\n    )\n\n    for ((food, nutrition) in foodNutrition) {\n        println(\"$food: $nutrition\")\n    }\n}\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```kotlin\nfun main() {\n    val bookGenres: Map<String, List<String>> = mapOf(\n        \"Science Fiction\" to listOf(\"Dune\", \"Neuromancer\", \"Snow Crash\"),\n        \"Fantasy\" to listOf(\"The Hobbit\", \"Harry Potter\", \"The Name of the Wind\"),\n        \"Mystery\" to listOf(\"The Girl with the Dragon Tattoo\", \"Gone Girl\", \"Big Little Lies\")\n    )\n\n    fun getBooksByGenre(genre: String): List<String>? {\n        return bookGenres[genre]\n    }\n\n    val genre = \"Fantasy\"\n    val books = getBooksByGenre(genre)\n    println(\"Books in the genre '$genre': $books\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```kotlin\nfun convertStateAbbreviationToFullName(abbreviation: String): String? {\n    val stateMap = mapOf(\n        \"AL\" to \"Alabama\",\n        \"AK\" to \"Alaska\",\n        \"AZ\" to \"Arizona\",\n        \"AR\" to \"Arkansas\",\n        \"CA\" to \"California\",\n        \"CO\" to \"Colorado\",\n        \"CT\" to \"Connecticut\",\n        \"DE\" to \"Delaware\",\n        \"FL\" to \"Florida\",\n        \"GA\" to \"Georgia\",\n        \"HI\" to \"Hawaii\",\n        \"ID\" to \"Idaho\",\n        \"IL\" to \"Illinois\",\n        \"IN\" to \"Indiana\",\n        \"IA\" to \"Iowa\",\n        \"KS\" to \"Kansas\",\n        \"KY\" to \"Kentucky\",\n        \"LA\" to \"Louisiana\",\n        \"ME\" to \"Maine\",\n        \"MD\" to \"Maryland\",\n        \"MA\" to \"Massachusetts\",\n        \"MI\" to \"Michigan\",\n        \"MN\" to \"Minnesota\",\n        \"MS\" to \"Mississippi\",\n        \"MO\" to \"Missouri\",\n        \"MT\" to \"Montana\",\n        \"NE\" to \"Nebraska\",\n        \"NV\" to \"Nevada\",\n        \"NH\" to \"New Hampshire\",\n        \"NJ\" to \"New Jersey\",\n        \"NM\" to \"New Mexico\",\n        \"NY\" to \"New York\",\n        \"NC\" to \"North Carolina\",\n        \"ND\" to \"North Dakota\",\n        \"OH\" to \"Ohio\",\n        \"OK\" to \"Oklahoma\",\n        \"OR\" to \"Oregon\",\n        \"PA\" to \"Pennsylvania\",\n        \"RI\" to \"Rhode Island\",\n        \"SC\" to \"South Carolina\",\n        \"SD\" to \"South Dakota\",\n        \"TN\" to \"Tennessee\",\n        \"TX\" to \"Texas\",\n        \"UT\" to \"Utah\",\n        \"VT\" to \"Vermont\",\n        \"VA\" to \"Virginia\",\n        \"WA\" to \"Washington\",\n        \"WV\" to \"West Virginia\",\n        \"WI\" to \"Wisconsin\",\n        \"WY\" to \"Wyoming\"\n    )\n    return stateMap[abbreviation]\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```kotlin\nfun main() {\n    val customerOrderHistory: MutableMap<String, List<String>> = mutableMapOf()\n\n    customerOrderHistory[\"Alice\"] = listOf(\"Order1\", \"Order2\")\n    customerOrderHistory[\"Bob\"] = listOf(\"Order3\")\n    customerOrderHistory[\"Charlie\"] = listOf(\"Order4\", \"Order5\", \"Order6\")\n\n    println(customerOrderHistory)\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```kotlin\nfun main() {\n    val parkingLot: MutableMap<Int, Boolean> = mutableMapOf()\n\n    // Example: Initialize parking spaces 1 to 10 as unoccupied\n    for (space in 1..10) {\n        parkingLot[space] = false\n    }\n\n    // Function to occupy a space\n    fun occupySpace(spaceNumber: Int) {\n        parkingLot[spaceNumber] = true\n    }\n\n    // Function to free a space\n    fun freeSpace(spaceNumber: Int) {\n        parkingLot[spaceNumber] = false\n    }\n\n    // Function to check if a space is occupied\n    fun isSpaceOccupied(spaceNumber: Int): Boolean {\n        return parkingLot[spaceNumber] ?: false\n    }\n\n    // Example usage\n    occupySpace(3)\n    println(\"Space 3 occupied: ${isSpaceOccupied(3)}\")\n    freeSpace(3)\n    println(\"Space 3 occupied: ${isSpaceOccupied(3)}\")\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```kotlin\nfun main() {\n    val playerScores = mutableMapOf<String, Int>()\n\n    // Adding some player scores\n    playerScores[\"Alice\"] = 10\n    playerScores[\"Bob\"] = 15\n    playerScores[\"Charlie\"] = 20\n\n    // Update score for a player\n    playerScores[\"Alice\"] = playerScores[\"Alice\"]!! + 5\n\n    // Display scores\n    for ((player, score) in playerScores) {\n        println(\"$player: $score\")\n    }\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```kotlin\nfun main() {\n    val scientificTerms: Map<String, String> = mapOf(\n        \"Atom\" to \"The basic unit of a chemical element.\",\n        \"Photosynthesis\" to \"The process by which green plants use sunlight to synthesize foods.\",\n        \"Gravity\" to \"The force that attracts a body toward the center of the earth.\",\n        \"Evolution\" to \"The process by which different kinds of living organisms are thought to have developed.\"\n    )\n\n    println(\"Enter a scientific term to look up its definition:\")\n    val term = readLine()\n    \n    val definition = scientificTerms[term]\n    if (definition != null) {\n        println(\"Definition of $term: $definition\")\n    } else {\n        println(\"Term not found.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```kotlin\nfun convertTemperature(value: Double, fromScale: String, toScale: String): Double? {\n    val conversionMap = mapOf(\n        \"CelsiusToFahrenheit\" to { c: Double -> c * 9/5 + 32 },\n        \"FahrenheitToCelsius\" to { f: Double -> (f - 32) * 5/9 },\n        \"CelsiusToKelvin\" to { c: Double -> c + 273.15 },\n        \"KelvinToCelsius\" to { k: Double -> k - 273.15 },\n        \"FahrenheitToKelvin\" to { f: Double -> (f - 32) * 5/9 + 273.15 },\n        \"KelvinToFahrenheit\" to { k: Double -> (k - 273.15) * 9/5 + 32 }\n    )\n\n    val conversionKey = \"${fromScale}To${toScale}\"\n    return conversionMap[conversionKey]?.invoke(value)\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```kotlin\nval employeeDepartments = mapOf(\n    \"Alice\" to \"Human Resources\",\n    \"Bob\" to \"Engineering\",\n    \"Charlie\" to \"Marketing\"\n)\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```kotlin\nfun main() {\n    val touristAttractions = mapOf(\n        \"Eiffel Tower\" to \"Paris, France\",\n        \"Great Wall of China\" to \"China\",\n        \"Statue of Liberty\" to \"New York, USA\",\n        \"Colosseum\" to \"Rome, Italy\",\n        \"Machu Picchu\" to \"Cusco Region, Peru\"\n    )\n\n    for ((attraction, location) in touristAttractions) {\n        println(\"$attraction is located in $location\")\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```kotlin\nfun main() {\n    val albums = mutableMapOf<String, String>()\n\n    // Function to add an album\n    fun addAlbum(title: String, artist: String) {\n        albums[title] = artist\n    }\n\n    // Function to remove an album\n    fun removeAlbum(title: String) {\n        albums.remove(title)\n    }\n\n    // Example usage\n    addAlbum(\"The Dark Side of the Moon\", \"Pink Floyd\")\n    addAlbum(\"Thriller\", \"Michael Jackson\")\n    println(\"Albums: $albums\")\n    \n    removeAlbum(\"Thriller\")\n    println(\"Albums after removal: $albums\")\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```kotlin\nfun main() {\n    val inventory = mutableMapOf(\n        \"Apples\" to 50,\n        \"Bananas\" to 30,\n        \"Oranges\" to 20\n    )\n\n    // Adding new item\n    inventory[\"Grapes\"] = 40\n\n    // Updating inventory\n    inventory[\"Apples\"] = inventory[\"Apples\"]!! - 5\n\n    // Removing an item\n    inventory.remove(\"Bananas\")\n\n    // Display inventory\n    for ((item, count) in inventory) {\n        println(\"$item: $count\")\n    }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```kotlin\nfun main() {\n    val riverLengths = mapOf(\n        \"Nile\" to 6650,\n        \"Amazon\" to 6400,\n        \"Yangtze\" to 6300,\n        \"Mississippi\" to 3730,\n        \"Yenisei\" to 5539\n    )\n\n    val riverName = \"Amazon\"\n    val length = riverLengths[riverName]\n    println(\"The length of the $riverName is $length kilometers.\")\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```kotlin\nfun main() {\n    val conferenceRooms = mutableMapOf<String, Boolean>(\n        \"Room A\" to true,\n        \"Room B\" to false,\n        \"Room C\" to true,\n        \"Room D\" to false\n    )\n\n    // Example usage\n    println(\"Initial availability: $conferenceRooms\")\n\n    // Book a room\n    bookRoom(conferenceRooms, \"Room A\")\n    println(\"After booking Room A: $conferenceRooms\")\n\n    // Release a room\n    releaseRoom(conferenceRooms, \"Room B\")\n    println(\"After releasing Room B: $conferenceRooms\")\n}\n\nfun bookRoom(conferenceRooms: MutableMap<String, Boolean>, roomName: String) {\n    if (conferenceRooms[roomName] == true) {\n        conferenceRooms[roomName] = false\n        println(\"$roomName has been booked.\")\n    } else {\n        println(\"$roomName is already booked.\")\n    }\n}\n\nfun releaseRoom(conferenceRooms: MutableMap<String, Boolean>, roomName: String) {\n    if (conferenceRooms[roomName] == false) {\n        conferenceRooms[roomName] = true\n        println(\"$roomName has been released.\")\n    } else {\n        println(\"$roomName was not booked.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```kotlin\nfun main() {\n    val habitatMap: Map<String, String> = mapOf(\n        \"Lion\" to \"Savannah\",\n        \"Penguin\" to \"Antarctic\",\n        \"Kangaroo\" to \"Australian Bush\",\n        \"Polar Bear\" to \"Arctic\",\n        \"Panda\" to \"Temperate Forest\"\n    )\n\n    for ((species, habitat) in habitatMap) {\n        println(\"The $species lives in the $habitat.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```kotlin\nfun main() {\n    val mountains = mapOf(\n        \"Everest\" to 8848,\n        \"K2\" to 8611,\n        \"Kangchenjunga\" to 8586,\n        \"Lhotse\" to 8516,\n        \"Makalu\" to 8485\n    )\n\n    val tallestMountain = mountains.maxByOrNull { it.value }\n    println(\"Tallest Mountain: ${tallestMountain?.key}, Elevation: ${tallestMountain?.value}\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```kotlin\nfun getUtcOffset(timeZone: String): String? {\n    val timeZoneOffsets = mapOf(\n        \"GMT\" to \"+00:00\",\n        \"EST\" to \"-05:00\",\n        \"CST\" to \"-06:00\",\n        \"MST\" to \"-07:00\",\n        \"PST\" to \"-08:00\",\n        \"CET\" to \"+01:00\",\n        \"EET\" to \"+02:00\",\n        \"IST\" to \"+05:30\",\n        \"CST\" to \"+08:00\" // China Standard Time\n    )\n    return timeZoneOffsets[timeZone]\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```kotlin\nfun main() {\n    val programmingLanguages = mapOf(\n        \"Python\" to \"Guido van Rossum\",\n        \"Java\" to \"James Gosling\",\n        \"C++\" to \"Bjarne Stroustrup\",\n        \"JavaScript\" to \"Brendan Eich\",\n        \"Ruby\" to \"Yukihiro Matsumoto\"\n    )\n\n    println(programmingLanguages)\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```kotlin\nfun main() {\n    val subscribers = mutableMapOf<String, Boolean>()\n\n    fun subscribe(email: String) {\n        subscribers[email] = true\n        println(\"$email subscribed.\")\n    }\n\n    fun cancelSubscription(email: String) {\n        if (subscribers.remove(email) != null) {\n            println(\"$email subscription cancelled.\")\n        } else {\n            println(\"$email not found.\")\n        }\n    }\n\n    // Example usage:\n    subscribe(\"user1@example.com\")\n    subscribe(\"user2@example.com\")\n    cancelSubscription(\"user1@example.com\")\n    cancelSubscription(\"user3@example.com\")\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```kotlin\nfun main() {\n    val postLikes = mutableMapOf<String, Int>()\n\n    // Example posts and likes\n    postLikes[\"Post1\"] = 0\n    postLikes[\"Post2\"] = 0\n    postLikes[\"Post3\"] = 0\n\n    // Function to add likes to a post\n    fun likePost(post: String) {\n        if (postLikes.containsKey(post)) {\n            postLikes[post] = postLikes[post]!! + 1\n        } else {\n            println(\"Post not found.\")\n        }\n    }\n\n    // Liking some posts\n    likePost(\"Post1\")\n    likePost(\"Post2\")\n    likePost(\"Post3\")\n    likePost(\"Post1\")\n\n    // Displaying the likes for each post\n    for ((post, likes) in postLikes) {\n        println(\"$post has $likes likes.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```kotlin\nfun main() {\n    val elements = mapOf(\n        \"Hydrogen\" to 1,\n        \"Helium\" to 2,\n        \"Lithium\" to 3,\n        \"Beryllium\" to 4,\n        \"Boron\" to 5,\n        \"Carbon\" to 6,\n        \"Nitrogen\" to 7,\n        \"Oxygen\" to 8,\n        \"Fluorine\" to 9,\n        \"Neon\" to 10\n    )\n\n    val elementName = \"Oxygen\"\n    val atomicNumber = elements[elementName]\n    println(\"The atomic number of $elementName is $atomicNumber\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```kotlin\nfun groupMoviesByDirector(movies: List<Pair<String, String>>): Map<String, List<String>> {\n    return movies.groupBy({ it.second }, { it.first })\n}\n\n// Example usage:\n// val movies = listOf(\n//     \"Inception\" to \"Christopher Nolan\",\n//     \"The Dark Knight\" to \"Christopher Nolan\",\n//     \"Interstellar\" to \"Christopher Nolan\",\n//     \"Pulp Fiction\" to \"Quentin Tarantino\",\n//     \"Django Unchained\" to \"Quentin Tarantino\"\n// )\n// val groupedMovies = groupMoviesByDirector(movies)\n// println(groupedMovies)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```kotlin\nval historicalFigures = mapOf(\n    \"Albert Einstein\" to 1879,\n    \"Isaac Newton\" to 1643,\n    \"Marie Curie\" to 1867,\n    \"Leonardo da Vinci\" to 1452,\n    \"Galileo Galilei\" to 1564\n)\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```kotlin\nfun main() {\n    val planets = mapOf(\n        \"Mercury\" to 4879,\n        \"Venus\" to 12104,\n        \"Earth\" to 12742,\n        \"Mars\" to 6779,\n        \"Jupiter\" to 139820,\n        \"Saturn\" to 116460,\n        \"Uranus\" to 50724,\n        \"Neptune\" to 49244\n    )\n\n    for ((planet, diameter) in planets) {\n        println(\"The diameter of $planet is $diameter kilometers.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```kotlin\nfun main() {\n    val restaurantRatings = mutableMapOf<String, Int>()\n\n    fun addOrUpdateRating(restaurant: String, rating: Int) {\n        restaurantRatings[restaurant] = rating\n    }\n\n    fun getRating(restaurant: String): Int? {\n        return restaurantRatings[restaurant]\n    }\n\n    // Example usage\n    addOrUpdateRating(\"Big Burger\", 4)\n    addOrUpdateRating(\"Pasta Palace\", 5)\n    addOrUpdateRating(\"Big Burger\", 5) // Update rating\n\n    println(restaurantRatings) // Output: {Big Burger=5, Pasta Palace=5}\n    println(getRating(\"Big Burger\")) // Output: 5\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```kotlin\nfun main() {\n    val binaryToDecimalMap = mapOf(\n        \"0\" to 0,\n        \"1\" to 1,\n        \"10\" to 2,\n        \"11\" to 3,\n        \"100\" to 4,\n        \"101\" to 5,\n        \"110\" to 6,\n        \"111\" to 7,\n        \"1000\" to 8,\n        \"1001\" to 9,\n        \"1010\" to 10,\n        \"1011\" to 11,\n        \"1100\" to 12,\n        \"1101\" to 13,\n        \"1110\" to 14,\n        \"1111\" to 15\n    )\n\n    val binaryNumbers = listOf(\"101\", \"110\", \"1111\", \"1000\", \"10\")\n    val decimalNumbers = binaryNumbers.map { binaryToDecimalMap[it] }\n\n    println(decimalNumbers)\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```kotlin\nfun main() {\n    val artistWorks = mapOf(\n        \"Leonardo da Vinci\" to \"Mona Lisa\",\n        \"Vincent van Gogh\" to \"Starry Night\",\n        \"Pablo Picasso\" to \"Guernica\",\n        \"Claude Monet\" to \"Water Lilies\",\n        \"Rembrandt\" to \"The Night Watch\"\n    )\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```kotlin\nfun main() {\n    val maintenanceSchedules = mutableMapOf<String, String>()\n\n    // Add maintenance schedules\n    maintenanceSchedules[\"Car1\"] = \"2023-11-01\"\n    maintenanceSchedules[\"Car2\"] = \"2023-12-15\"\n    maintenanceSchedules[\"Truck1\"] = \"2024-01-20\"\n\n    // Update a schedule\n    maintenanceSchedules[\"Car1\"] = \"2023-11-05\"\n\n    // Retrieve a schedule\n    val car1Schedule = maintenanceSchedules[\"Car1\"]\n    println(\"Car1 Maintenance Schedule: $car1Schedule\")\n\n    // Remove a schedule\n    maintenanceSchedules.remove(\"Truck1\")\n\n    // Display all schedules\n    for ((vehicle, schedule) in maintenanceSchedules) {\n        println(\"$vehicle: $schedule\")\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```kotlin\nfun main() {\n    val languagesSpeakers = mapOf(\n        \"English\" to 1500,\n        \"Mandarin Chinese\" to 1117,\n        \"Hindi\" to 615,\n        \"Spanish\" to 534,\n        \"French\" to 280\n    )\n\n    for ((language, speakers) in languagesSpeakers) {\n        println(\"$language: $speakers million speakers worldwide\")\n    }\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```kotlin\nfun main() {\n    val cityTemperatures = mapOf(\n        \"New York\" to 12.7,\n        \"Los Angeles\" to 18.5,\n        \"Chicago\" to 10.3,\n        \"Houston\" to 20.8,\n        \"Phoenix\" to 22.3\n    )\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```kotlin\nfun convertMetricToImperial(unit: String, value: Double): Double? {\n    val conversionMap = mapOf(\n        \"meters\" to 3.28084,\n        \"kilograms\" to 2.20462,\n        \"liters\" to 0.264172\n    )\n    \n    return conversionMap[unit]?.let { conversionFactor ->\n        value * conversionFactor\n    }\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```kotlin\nfun main() {\n    val worldRecords = mapOf(\n        \"100m Dash\" to \"9.58s by Usain Bolt\",\n        \"Marathon\" to \"2:01:09 by Eliud Kipchoge\",\n        \"High Jump\" to \"2.45m by Javier Sotomayor\",\n        \"Long Jump\" to \"8.95m by Mike Powell\",\n        \"Pole Vault\" to \"6.18m by Armand Duplantis\"\n    )\n\n    println(worldRecords)\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```kotlin\nfun main() {\n    val favoriteMovies = mutableMapOf<String, String>()\n\n    // Add a movie to the map\n    fun addMovie(title: String, director: String) {\n        favoriteMovies[title] = director\n    }\n\n    // Remove a movie from the map\n    fun removeMovie(title: String) {\n        favoriteMovies.remove(title)\n    }\n\n    // Sample usage\n    addMovie(\"Inception\", \"Christopher Nolan\")\n    addMovie(\"The Matrix\", \"Lana Wachowski, Lilly Wachowski\")\n    println(\"Favorite Movies: $favoriteMovies\")\n\n    removeMovie(\"Inception\")\n    println(\"Favorite Movies after removal: $favoriteMovies\")\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```kotlin\nfun main() {\n    val cityDistances: MutableMap<Pair<String, String>, Int> = mutableMapOf()\n\n    // Adding distances between pairs of cities\n    cityDistances[Pair(\"New York\", \"Los Angeles\")] = 2445\n    cityDistances[Pair(\"New York\", \"Chicago\")] = 790\n    cityDistances[Pair(\"Los Angeles\", \"Chicago\")] = 2015\n    cityDistances[Pair(\"New York\", \"Houston\")] = 1628\n\n    // Accessing and printing the distance between New York and Los Angeles\n    val distance = cityDistances[Pair(\"New York\", \"Los Angeles\")]\n    println(\"Distance between New York and Los Angeles: $distance miles\")\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```kotlin\nfun main() {\n    val planetOrbitalPeriods = mapOf(\n        \"Mercury\" to 88,\n        \"Venus\" to 225,\n        \"Earth\" to 365,\n        \"Mars\" to 687,\n        \"Jupiter\" to 4333,\n        \"Saturn\" to 10759,\n        \"Uranus\" to 30687,\n        \"Neptune\" to 60190\n    )\n\n    println(planetOrbitalPeriods)\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```kotlin\nfun getColorNameFromCode(code: String): String? {\n    val colorMap = mapOf(\n        \"#FFFFFF\" to \"White\",\n        \"#000000\" to \"Black\",\n        \"#FF0000\" to \"Red\",\n        \"#00FF00\" to \"Green\",\n        \"#0000FF\" to \"Blue\",\n        \"#FFFF00\" to \"Yellow\",\n        \"#FFA500\" to \"Orange\",\n        \"#800080\" to \"Purple\"\n    )\n    return colorMap[code]\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```kotlin\nfun main() {\n    val composers = mapOf(\n        \"Ludwig van Beethoven\" to \"Symphony No. 9\",\n        \"Wolfgang Amadeus Mozart\" to \"The Magic Flute\",\n        \"Johann Sebastian Bach\" to \"Toccata and Fugue in D minor\",\n        \"Pyotr Ilyich Tchaikovsky\" to \"The Nutcracker\",\n        \"Fr\u00e9d\u00e9ric Chopin\" to \"Nocturne in E-flat major, Op. 9, No. 2\"\n    )\n    \n    println(composers)\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```kotlin\nfun main() {\n    val bridgeLengths: Map<String, Int> = mapOf(\n        \"Golden Gate Bridge\" to 2737,\n        \"Brooklyn Bridge\" to 1595,\n        \"Tower Bridge\" to 800,\n        \"Sydney Harbour Bridge\" to 1149\n    )\n\n    for ((name, length) in bridgeLengths) {\n        println(\"The $name is $length meters long.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```kotlin\nfun main() {\n    val goals = mutableMapOf<String, String>()\n\n    // Add goals\n    goals[\"Fitness\"] = \"Run 5km daily\"\n    goals[\"Learning\"] = \"Finish Kotlin book\"\n    goals[\"Career\"] = \"Get a promotion\"\n\n    // Update a goal\n    goals[\"Fitness\"] = \"Run 10km daily\"\n\n    // Print all goals\n    for ((category, goal) in goals) {\n        println(\"$category: $goal\")\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```kotlin\nfun main() {\n    val hexToBinaryMap = mapOf(\n        '0' to \"0000\", '1' to \"0001\", '2' to \"0010\", '3' to \"0011\",\n        '4' to \"0100\", '5' to \"0101\", '6' to \"0110\", '7' to \"0111\",\n        '8' to \"1000\", '9' to \"1001\", 'A' to \"1010\", 'B' to \"1011\",\n        'C' to \"1100\", 'D' to \"1101\", 'E' to \"1110\", 'F' to \"1111\"\n    )\n\n    fun convertHexToBinary(hex: String): String {\n        return hex.toUpperCase().map { hexToBinaryMap[it] ?: \"\" }.joinToString(\"\")\n    }\n\n    val hexNumber = \"1A3F\"\n    val binaryRepresentation = convertHexToBinary(hexNumber)\n    println(\"Hex: $hexNumber -> Binary: $binaryRepresentation\")\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```kotlin\nval treeHeights: Map<String, Double> = mapOf(\n    \"Oak\" to 70.0,\n    \"Pine\" to 80.0,\n    \"Maple\" to 50.0,\n    \"Birch\" to 40.0,\n    \"Redwood\" to 300.0\n)\n```"
+  }
+]

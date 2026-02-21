@@ -1,0 +1,390 @@
+[
+  {
+    "task": "Write a function that reads a file and handles the exception if the file is not found.",
+    "code": "```applescript\non readFile(filePath)\n\ttry\n\t\tset fileContents to read file filePath\n\t\treturn fileContents\n\ton error\n\t\treturn \"Error: File not found.\"\n\tend try\nend readFile\n```"
+  },
+  {
+    "task": "Create a program that divides two numbers and catches any division by zero errors.",
+    "code": "```applescript\ntry\n    set numerator to 10\n    set denominator to 0\n    set result to numerator / denominator\non error errMsg number errNum\n    if errNum is -2700 then\n        display dialog \"Error: Division by zero is not allowed.\"\n    else\n        display dialog \"An unexpected error occurred: \" & errMsg\n    end if\nend try\n```"
+  },
+  {
+    "task": "Design a function to parse an integer from a string and manage invalid input exceptions.",
+    "code": "```applescript\non parseIntegerFromString(inputString)\n\ttry\n\t\tset parsedInteger to inputString as integer\n\t\treturn parsedInteger\n\ton error\n\t\treturn \"Invalid input: Not an integer\"\n\tend try\nend parseIntegerFromString\n```"
+  },
+  {
+    "task": "Implement an API call and catch exceptions related to network errors or timeouts.",
+    "code": "```applescript\ntry\n    set apiURL to \"https://api.example.com/data\"\n    set jsonData to do shell script \"curl -s -X GET \" & apiURL\non error errMsg number errNum\n    if errNum is equal to -1009 then\n        display dialog \"Network error: The Internet connection appears to be offline.\"\n    else if errNum is equal to -1001 then\n        display dialog \"Timeout error: The request timed out.\"\n    else\n        display dialog \"An unexpected error occurred: \" & errMsg\n    end if\nend try\n```"
+  },
+  {
+    "task": "Develop a program that opens a database connection and handles any connection failure exceptions.",
+    "code": "```applescript\ntry\n    tell application \"Database Application\"\n        set dbConnection to open connection \"DatabaseName\"\n    end tell\non error errMsg number errNum\n    display dialog \"Failed to connect to the database.\" & return & \"Error: \" & errMsg & \" (Code: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Write a function that accesses an array by index and catches out-of-bounds exceptions.",
+    "code": "```applescript\non accessArrayByIndex(theArray, index)\n\ttry\n\t\tset theValue to item index of theArray\n\t\treturn theValue\n\ton error errMsg number errNum\n\t\tif errNum is -1728 then\n\t\t\treturn \"Index out of bounds error\"\n\t\telse\n\t\t\treturn \"An unexpected error occurred: \" & errMsg\n\t\tend if\n\tend try\nend accessArrayByIndex\n\n-- Example usage\nset myList to {\"apple\", \"banana\", \"cherry\"}\nset result to accessArrayByIndex(myList, 4)\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Create a function that converts a string to a date object and manages format exceptions.",
+    "code": "```applescript\non stringToDate(dateString)\n\ttry\n\t\tset theDate to date dateString\n\t\treturn theDate\n\ton error errMsg number errNum\n\t\treturn \"Error: \" & errMsg\n\tend try\nend stringToDate\n```"
+  },
+  {
+    "task": "Design a program that writes data to a file and catches any file permission exceptions.",
+    "code": "```applescript\ntry\n\tset filePath to (POSIX path of (path to desktop)) & \"output.txt\"\n\tset fileRef to open for access file filePath with write permission\n\twrite \"Sample data\" to fileRef\n\tclose access fileRef\non error errMsg number errorNumber\n\tif errorNumber is -49 then\n\t\tdisplay dialog \"File permission error: \" & errMsg\n\telse\n\t\tdisplay dialog \"An unexpected error occurred: \" & errMsg\n\tend if\nend try\n```"
+  },
+  {
+    "task": "Implement a module that retrieves data from a URL and handles malformed URL exceptions.",
+    "code": "```applescript\ntry\n    set theURL to \"http://example.com/data\"\n    set theData to do shell script \"curl \" & quoted form of theURL\non error errMsg number errNum\n    if errNum = -1000 then\n        display dialog \"Malformed URL: \" & theURL\n    else\n        display dialog \"An error occurred: \" & errMsg\n    end if\nend try\n```"
+  },
+  {
+    "task": "Write a function to calculate the square root of a number and catch any negative input exceptions.",
+    "code": "```applescript\non calculateSquareRoot(n)\n\ttry\n\t\tif n < 0 then\n\t\t\terror \"Negative input is not allowed.\"\n\t\telse\n\t\t\treturn n ^ 0.5\n\t\tend if\n\ton error errMsg number errNum\n\t\treturn \"Error: \" & errMsg\n\tend try\nend calculateSquareRoot\n```"
+  },
+  {
+    "task": "Develop a program that sends an email and manages exceptions for invalid email addresses.",
+    "code": "```applescript\ntry\n\tset recipientEmail to \"invalid-email@address\"\n\tset subject to \"Test Email\"\n\tset body to \"This is a test email sent using AppleScript.\"\n\t\n\ttell application \"Mail\"\n\t\tset newMessage to make new outgoing message with properties {subject:subject, content:body, visible:true}\n\t\ttell newMessage\n\t\t\tmake new to recipient at end of to recipients with properties {address:recipientEmail}\n\t\t\tsend\n\t\tend tell\n\tend tell\non error errMsg number errNum\n\tdisplay dialog \"Error: \" & errMsg & \" (Error Number: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Create a calculator application that handles invalid operations gracefully.",
+    "code": "```applescript\nset result to \"\"\ntry\n\tset operation to text returned of (display dialog \"Enter operation (e.g. 2 + 2):\" default answer \"\")\n\tset result to (do shell script \"echo 'scale=2; \" & operation & \"' | bc\")\non error errMsg number errNum\n\tset result to \"Error: Invalid operation.\"\nend try\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Design a function that tries to parse JSON data and catches parsing errors.",
+    "code": "```applescript\non parseJSONData(jsonText)\n    try\n        set jsonData to (do shell script \"osascript -l JavaScript -e 'JSON.parse(\" & quoted form of jsonText & \")'\")\n        return jsonData\n    on error errMsg number errNum\n        return \"Parsing error: \" & errMsg\n    end try\nend parseJSONData\n```"
+  },
+  {
+    "task": "Implement a system that processes user input and handles any type conversion exceptions.",
+    "code": "```applescript\ntry\n    display dialog \"Enter a number:\" default answer \"\"\n    set userInput to text returned of result\n    set userNumber to userInput as number\n    display dialog \"You entered the number: \" & userNumber\non error errMsg number errNum\n    display dialog \"Error: \" & errMsg & \" (Error Number: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Write a function that fetches data from a database and manages exceptions for missing records.",
+    "code": "```applescript\non fetchDataFromDatabase()\n    try\n        -- Simulate fetching data\n        set fetchedData to missing value\n        if fetchedData is missing value then\n            error \"Record not found\"\n        end if\n        return fetchedData\n    on error errMsg number errNum\n        if errNum is -1719 then\n            return \"Exception: \" & errMsg\n        else\n            return \"An unknown error occurred: \" & errMsg\n        end if\n    end try\nend fetchDataFromDatabase\n```"
+  },
+  {
+    "task": "Create a program that connects to a remote server and handles authentication failure exceptions.",
+    "code": "```applescript\ntry\n    set serverAddress to \"http://example.com\"\n    set userName to \"yourUsername\"\n    set password to \"yourPassword\"\n    \n    -- Attempt to connect to the server\n    tell application \"URL Access Scripting\"\n        download serverAddress as userName with password password\n    end tell\n    \non error errorMsg number errorNumber\n    if errorNumber is -10000 then\n        display dialog \"Authentication failed. Please check your credentials.\" buttons {\"OK\"} default button \"OK\"\n    else\n        display dialog \"An error occurred: \" & errorMsg buttons {\"OK\"} default button \"OK\"\n    end if\nend try\n```"
+  },
+  {
+    "task": "Develop a function to download a file from the internet and handle file not found exceptions.",
+    "code": "```applescript\non downloadFile(url, savePath)\n    try\n        set fileURL to current application's NSURL's URLWithString:url\n        set fileData to current application's NSData's dataWithContentsOfURL:fileURL\n        if fileData is missing value then error number -43\n        set fileManager to current application's NSFileManager's defaultManager()\n        fileData's writeToFile:savePath atomically:true\n        return \"Download successful\"\n    on error errMsg number errNum\n        if errNum is -43 then\n            return \"File not found\"\n        else\n            return \"An error occurred: \" & errMsg\n        end if\n    end try\nend downloadFile\n```"
+  },
+  {
+    "task": "Design a program that attempts to connect to an API and handles rate limit exceptions.",
+    "code": "```applescript\ntry\n    set apiResponse to do shell script \"curl -s -o /dev/null -w '%{http_code}' https://api.example.com/endpoint\"\n    if apiResponse is \"200\" then\n        display dialog \"Connected to API successfully.\"\n    else\n        error number -10000\n    end if\non error errMsg number errNum\n    if errNum is -10000 then\n        display dialog \"Rate limit exceeded. Please try again later.\"\n    else\n        display dialog \"An error occurred: \" & errMsg\n    end if\nend try\n```"
+  },
+  {
+    "task": "Write a function that reads from a configuration file and manages key not found exceptions.",
+    "code": "```applescript\non readConfigFile(filePath)\n\ttry\n\t\tset configFile to open for access POSIX file filePath\n\t\tset configData to read configFile as \u00abclass utf8\u00bb\n\t\tclose access configFile\n\t\tset configDict to my parseConfig(configData)\n\ton error\n\t\tclose access configFile\n\t\treturn \"Error: Unable to read configuration file.\"\n\tend try\n\treturn configDict\nend readConfigFile\n\non parseConfig(configData)\n\tset configDict to {}\n\tset configLines to paragraphs of configData\n\trepeat with line in configLines\n\t\tif line contains \"=\" then\n\t\t\tset keyValue to my parseLine(line)\n\t\t\tcopy keyValue to the end of configDict\n\t\tend if\n\tend repeat\n\treturn configDict\nend parseConfig\n\non parseLine(line)\n\tset {key, value} to my splitString(line, \"=\")\n\treturn {key, value}\nend parseLine\n\non splitString(string, delimiter)\n\tset AppleScript's text item delimiters to delimiter\n\tset itemsList to text items of string\n\tset AppleScript's text item delimiters to \"\"\n\treturn itemsList\nend splitString\n\non getConfigValue(configDict, key)\n\trepeat with item in configDict\n\t\tif item contains key then\n\t\t\treturn item's second item\n\t\tend if\n\tend repeat\n\treturn \"Exception: Key not found.\"\nend getConfigValue\n```"
+  },
+  {
+    "task": "Create an application that processes a list of tasks and catches any task execution exceptions.",
+    "code": "```applescript\nset taskList to {\"Task 1\", \"Task 2\", \"Task 3\"}\n\nrepeat with aTask in taskList\n    try\n        processTask(aTask)\n    on error errMsg number errNum\n        display dialog \"Error processing \" & aTask & \": \" & errMsg & \" (Error Number: \" & errNum & \")\"\n    end try\nend repeat\n\non processTask(task)\n    -- Simulate a task that might throw an error\n    if task is \"Task 2\" then error \"Simulated error\"\n    display dialog \"Successfully processed \" & task\nend processTask\n```"
+  },
+  {
+    "task": "Implement a program that performs batch processing and handles individual item processing exceptions.",
+    "code": "```applescript\non batchProcess(items)\n    repeat with item in items\n        try\n            processItem(item)\n        on error errMsg number errNum\n            log \"Error processing item: \" & item & \" - \" & errMsg & \" (Error Number: \" & errNum & \")\"\n        end try\n    end repeat\nend batchProcess\n\non processItem(item)\n    -- Add the item processing logic here\n    -- For demonstration, raise an error for certain items\n    if item mod 2 is 0 then\n        error \"Simulated processing error\"\n    else\n        log \"Processed item: \" & item\n    end if\nend processItem\n\n-- Example usage\nset items to {1, 2, 3, 4, 5}\nbatchProcess(items)\n```"
+  },
+  {
+    "task": "Develop a function that performs mathematical operations and catches arithmetic exceptions.",
+    "code": "```applescript\non performOperation(x, y, operation)\n    try\n        if operation is \"add\" then\n            return x + y\n        else if operation is \"subtract\" then\n            return x - y\n        else if operation is \"multiply\" then\n            return x * y\n        else if operation is \"divide\" then\n            if y is 0 then error \"Can't divide by zero.\"\n            return x / y\n        else\n            error \"Unknown operation.\"\n        end if\n    on error errMsg number errNum\n        return \"Error: \" & errMsg\n    end try\nend performOperation\n\n-- Example usage\nset result to performOperation(10, 0, \"divide\")\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Write a program that logs error messages when exceptions occur during data processing.",
+    "code": "```applescript\ntry\n    -- Simulate data processing\n    set x to 1 / 0\non error errMsg number errNum\n    set logFile to ((path to desktop as text) & \"error_log.txt\")\n    set logMessage to \"Error #\" & errNum & \": \" & errMsg & return\n\n    try\n        set fileReference to open for access file logFile with write permission\n        write logMessage to fileReference starting at eof\n        close access fileReference\n    on error\n        close access fileReference\n    end try\nend try\n```"
+  },
+  {
+    "task": "Create a script that monitors system resources and handles exceptions when limits are exceeded.",
+    "code": "```applescript\ntry\n    set cpuUsage to do shell script \"ps -A -o %cpu | awk '{s+=$1} END {print s}'\"\n    set ramUsage to do shell script \"vm_stat | grep 'Pages active' | awk '{print $3}' | sed 's/\\\\.//'\"\n    set ramUsageGB to (cpuUsage as number) * 4096 / 1024 / 1024 / 1024\n\n    if (cpuUsage as number) > 80.0 then\n        error \"CPU usage exceeds limit!\"\n    end if\n\n    if (ramUsageGB as number) > 8.0 then\n        error \"RAM usage exceeds limit!\"\n    end if\n\non error errorMessage number errorNumber\n    display dialog \"An error occurred: \" & errorMessage & \" (Error \" & errorNumber & \")\"\nend try\n```"
+  },
+  {
+    "task": "Design a function that validates user input and manages any format exceptions.",
+    "code": "```applescript\non validateUserInput(userInput)\n\ttry\n\t\tset formattedInput to userInput as integer\n\t\treturn \"Valid input: \" & formattedInput\n\ton error errMsg number errNum\n\t\treturn \"Error: Invalid input format. \" & errMsg\n\tend try\nend validateUserInput\n```"
+  },
+  {
+    "task": "Implement a service that interacts with third-party APIs and handles unexpected response exceptions.",
+    "code": "```applescript\non fetchDataFromAPI(apiURL)\n    try\n        set response to do shell script \"curl -s \" & quoted form of apiURL\n        if response is \"\" then error \"Empty response\"\n        return response\n    on error errMsg number errNum\n        log \"Error: \" & errMsg & \" (Error number: \" & errNum & \")\"\n        return \"Error: Unable to fetch data from API\"\n    end try\nend fetchDataFromAPI\n\nset apiURL to \"https://api.example.com/data\"\nset result to fetchDataFromAPI(apiURL)\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Write a function that uploads files to a server and handles exceptions for unsupported file types.",
+    "code": "```applescript\non uploadFiles(fileList)\n    repeat with aFile in fileList\n        try\n            set fileType to name extension of (info for aFile)\n            if fileType is not in {\"jpg\", \"png\", \"pdf\"} then\n                error \"Unsupported file type: \" & fileType\n            end if\n            -- Code to upload the file goes here\n            display dialog \"Uploading \" & (name of (info for aFile)) & \"...\"\n        on error errMsg\n            display dialog \"Error: \" & errMsg\n        end try\n    end repeat\nend uploadFiles\n\n-- Example usage\nset fileList to {alias \"Macintosh HD:Users:username:Desktop:example.txt\", alias \"Macintosh HD:Users:username:Desktop:image.jpg\"}\nuploadFiles(fileList)\n```"
+  },
+  {
+    "task": "Create a program that simulates network traffic and manages packet loss exceptions.",
+    "code": "```applescript\ntry\n    simulateNetworkTraffic()\non error errMsg number errNum\n    if errNum = -1009 then -- Specific error number for network issues\n        display dialog \"Network error: Packet loss detected.\" buttons {\"OK\"} default button \"OK\"\n    else\n        display dialog \"An unexpected error occurred: \" & errMsg buttons {\"OK\"} default button \"OK\"\n    end if\nend try\n\non simulateNetworkTraffic()\n    -- Simulate network traffic, raising an error if packet loss is detected\n    set packetLoss to (random number from 1 to 10)\n    if packetLoss > 7 then\n        error \"Packet loss error\" number -1009\n    end if\n    display dialog \"Network traffic simulated successfully.\" buttons {\"OK\"} default button \"OK\"\nend simulateNetworkTraffic\n```"
+  },
+  {
+    "task": "Develop a function that processes XML data and catches any structural exceptions.",
+    "code": "```applescript\non processXMLData(xmlData)\n\ttry\n\t\t-- Attempt to parse the XML data\n\t\tset xmlDoc to current application's NSXMLDocument's alloc()'s initWithXMLString:xmlData options:0 |error|:(missing value)\n\t\tif xmlDoc is missing value then error \"Invalid XML structure\"\n\t\t\n\t\t-- Process the XML data (placeholder for further processing logic)\n\t\t-- ...\n\t\t\n\t\treturn \"XML processed successfully\"\n\ton error errMsg number errNum\n\t\t-- Handle any exceptions related to XML structure\n\t\treturn \"Error processing XML: \" & errMsg\n\tend try\nend processXMLData\n```"
+  },
+  {
+    "task": "Design a program that handles exceptions when accessing environment variables.",
+    "code": "```applescript\ntry\n\tset myVar to (system attribute \"MY_ENV_VAR\")\n\tif myVar is missing value then error number -1728\n\tdisplay dialog \"Environment variable value: \" & myVar\non error errMsg number errNum\n\tif errNum is -1728 then\n\t\tdisplay dialog \"Environment variable not found.\"\n\telse\n\t\tdisplay dialog \"An unknown error occurred: \" & errMsg\n\tend if\nend try\n```"
+  },
+  {
+    "task": "Write a function that calculates factorial and manages exceptions for negative input values.",
+    "code": "```applescript\non factorial(n)\n\ttry\n\t\tif n < 0 then error \"Negative input not allowed.\"\n\t\tif n is 0 then return 1\n\t\tset result to 1\n\t\trepeat with i from 1 to n\n\t\t\tset result to result * i\n\t\tend repeat\n\t\treturn result\n\ton error errMsg number errNum\n\t\treturn \"Error: \" & errMsg\n\tend try\nend factorial\n```"
+  },
+  {
+    "task": "Create a software tool that converts file formats and handles unsupported format exceptions.",
+    "code": "```applescript\ntry\n    set inputFile to choose file with prompt \"Select the file to convert:\"\n    set inputFormat to name extension of (info for inputFile)\n    \n    if inputFormat is in {\"txt\", \"doc\", \"pdf\"} then\n        set outputFile to choose file name with prompt \"Save the converted file as:\" default name \"convertedFile\"\n        \n        if inputFormat is \"txt\" then\n            -- Conversion logic for txt files\n            display dialog \"Converting txt file...\"\n        else if inputFormat is \"doc\" then\n            -- Conversion logic for doc files\n            display dialog \"Converting doc file...\"\n        else if inputFormat is \"pdf\" then\n            -- Conversion logic for pdf files\n            display dialog \"Converting pdf file...\"\n        end if\n        \n        -- Save the converted file\n        display dialog \"File successfully converted and saved as \" & (outputFile as string)\n    else\n        error \"Unsupported file format: \" & inputFormat\n    end if\non error errorMessage\n    display dialog \"Error: \" & errorMessage\nend try\n```"
+  },
+  {
+    "task": "Implement a function that sends HTTP requests and catches exceptions for invalid response status codes.",
+    "code": "```applescript\non sendHTTPRequest(url)\n    try\n        set response to do shell script \"curl -s -o /dev/null -w '%{http_code}' \" & quoted form of url\n        if response is not \"200\" then\n            error \"Invalid response status code: \" & response\n        end if\n        return \"Request successful\"\n    on error errMsg number errNum\n        return \"Error: \" & errMsg\n    end try\nend sendHTTPRequest\n\n-- Example usage\nset result to sendHTTPRequest(\"https://www.example.com\")\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Develop a program that interacts with a message queue and handles message delivery exceptions.",
+    "code": "```applescript\ntry\n    -- Simulate interaction with a message queue\n    set messageQueue to {\"message1\", \"message2\", \"message3\"}\n    \n    repeat with message in messageQueue\n        -- Simulate message delivery\n        set messageDelivered to (random number from 1 to 10) mod 2 = 0\n        \n        if not messageDelivered then\n            error \"Message delivery failed for \" & message\n        end if\n        \n        display dialog \"Message delivered successfully: \" & message\n    end repeat\n    \non error errMsg\n    display dialog \"An error occurred: \" & errMsg\nend try\n```"
+  },
+  {
+    "task": "Write a function that reads user input and catches exceptions for unexpected data types.",
+    "code": "```applescript\non readUserInput()\n    try\n        display dialog \"Enter a number:\" default answer \"\"\n        set userInput to text returned of the result\n        set userNumber to userInput as number\n        return userNumber\n    on error errMsg number errNum\n        if errNum is -1700 then\n            display dialog \"Invalid input. Please enter a valid number.\" buttons {\"OK\"}\n            return readUserInput()\n        else\n            display dialog \"An unexpected error occurred: \" & errMsg buttons {\"OK\"}\n            return missing value\n        end if\n    end try\nend readUserInput\n\n-- Example of calling the function\nset result to readUserInput()\nif result is not missing value then\n    display dialog \"You entered: \" & result as string\nend if\n```"
+  },
+  {
+    "task": "Create a system that processes transactions and manages exceptions for insufficient funds.",
+    "code": "```applescript\n-- Define a function to process a transaction\non processTransaction(accountBalance, transactionAmount)\n\ttry\n\t\tif transactionAmount > accountBalance then\n\t\t\terror \"Insufficient funds\"\n\t\telse\n\t\t\tset accountBalance to accountBalance - transactionAmount\n\t\t\treturn \"Transaction successful. New balance: \" & accountBalance\n\t\tend if\n\ton error errorMessage number errorNumber\n\t\tif errorNumber is -128 then\n\t\t\t-- User canceled\n\t\t\treturn \"Transaction canceled by user.\"\n\t\telse\n\t\t\t-- Handle insufficient funds error\n\t\t\treturn \"Error: \" & errorMessage\n\t\tend if\n\tend try\nend processTransaction\n\n-- Example usage\nset accountBalance to 100\nset transactionAmount to 150\nset result to processTransaction(accountBalance, transactionAmount)\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Design a function that generates random numbers and handles exceptions when the range is invalid.",
+    "code": "```applescript\non generateRandomNumber(minValue, maxValue)\n\ttry\n\t\tif minValue > maxValue then error \"Invalid range: minValue is greater than maxValue.\"\n\t\tset randomNumber to (random number from minValue to maxValue)\n\t\treturn randomNumber\n\ton error errorMessage number errorNumber\n\t\treturn \"An error occurred: \" & errorMessage\n\tend try\nend generateRandomNumber\n\n-- Example usage\nset result to generateRandomNumber(1, 10)\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Implement a program that performs image processing and catches exceptions for unsupported file dimensions.",
+    "code": "```applescript\ntry\n    set imageFile to choose file with prompt \"Select an image file\"\n    -- Assuming there's a function to get dimensions\n    set {width, height} to getDimensions(imageFile)\n    \n    -- Check for unsupported dimensions (example: width > 5000 or height > 5000)\n    if width > 5000 or height > 5000 then\n        error \"Unsupported file dimensions: \" & width & \"x\" & height\n    end if\n    \n    -- Perform image processing operation here\n    -- processImage(imageFile)\n    \n    display dialog \"Image processed successfully!\"\n    \non error errMsg number errNumber\n    display dialog \"Error: \" & errMsg\nend try\n```"
+  },
+  {
+    "task": "Write a function that manipulates strings and manages exceptions for invalid operations.",
+    "code": "```applescript\non manipulateString(inputString)\n\ttry\n\t\tif inputString is not a string then error \"Invalid input: not a string\"\n\t\tset reversedString to reverseString(inputString)\n\t\treturn reversedString\n\ton error errorMessage number errorNumber\n\t\treturn \"Error \" & errorNumber & \": \" & errorMessage\n\tend try\nend manipulateString\n\non reverseString(s)\n\tset textItems to characters of s\n\tset reversedItems to reverse of textItems\n\treturn reversedItems as string\nend reverseString\n```"
+  },
+  {
+    "task": "Create a script that automates tasks and handles exceptions for missing dependencies.",
+    "code": "```applescript\ntry\n    -- Assume 'requiredApplication' is the dependency needed for the script\n    tell application \"System Events\"\n        if not (exists application process \"requiredApplication\") then\n            error \"Dependency 'requiredApplication' is missing. Please install it to proceed.\"\n        end if\n    end tell\n    \n    -- Place additional automation tasks here\n    -- Example task: Open the required application\n    tell application \"requiredApplication\"\n        activate\n    end tell\n    \non error errMsg number errNum\n    display dialog \"An error occurred: \" & errMsg & \" (Error number: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Develop a function that accesses nested data structures and manages key access exceptions.",
+    "code": "```applescript\non accessNestedData(data, keys)\n    try\n        set currentData to data\n        repeat with key in keys\n            set currentData to item key of currentData\n        end repeat\n        return currentData\n    on error errorMessage number errorNumber\n        return \"Error: \" & errorMessage\n    end try\nend accessNestedData\n\n-- Example usage\nset nestedData to {a:{b:{c:\"value\"}}}\nset keys to {\"a\", \"b\", \"c\"}\nset result to accessNestedData(nestedData, keys)\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Design a program that synchronizes data between sources and handles data mismatch exceptions.",
+    "code": "```applescript\ntry\n    -- Simulate data synchronization\n    set sourceData to {\"item1\", \"item2\", \"item3\"}\n    set destinationData to {\"item1\", \"item2\", \"item3\"}\n\n    -- Check for data mismatch\n    if sourceData is not equal to destinationData then\n        error \"Data mismatch error\"\n    else\n        display dialog \"Data synchronized successfully\"\n    end if\n\non error errMsg number errNum\n    if errNum is -2700 then\n        display dialog \"Error: \" & errMsg\n    else\n        display dialog \"An unexpected error occurred: \" & errMsg\n    end if\nend try\n```"
+  },
+  {
+    "task": "Write a function that interacts with hardware devices and handles connection failure exceptions.",
+    "code": "```applescript\non interactWithHardware()\n\ttry\n\t\t-- Assume this command interacts with a hardware device\n\t\tdo shell script \"hardware-interaction-command\"\n\ton error errorMessage number errorNumber\n\t\tif errorNumber is equal to -10006 then\n\t\t\tdisplay dialog \"Connection failure: Unable to connect to the hardware device.\" buttons {\"OK\"} default button \"OK\"\n\t\telse\n\t\t\tdisplay dialog \"An error occurred: \" & errorMessage buttons {\"OK\"} default button \"OK\"\n\t\tend if\n\tend try\nend interactWithHardware\n\ninteractWithHardware()\n```"
+  },
+  {
+    "task": "Create a tool that compresses files and manages exceptions for unsupported compression formats.",
+    "code": "```applescript\non run\n    set fileToCompress to choose file with prompt \"Select a file to compress:\"\n    set compressionFormat to choose from list {\"zip\", \"gzip\", \"bzip2\"} with prompt \"Choose a compression format:\"\n    \n    if compressionFormat is false then\n        display dialog \"No compression format chosen.\"\n        return\n    end if\n    \n    try\n        set compressedFile to compressFile(fileToCompress, compressionFormat as string)\n        display dialog \"File compressed successfully: \" & compressedFile\n    on error errMsg number errNum\n        if errNum is -128 then\n            display dialog \"Operation canceled.\"\n        else if errNum is 1000 then\n            display dialog \"Unsupported compression format.\"\n        else\n            display dialog \"An error occurred: \" & errMsg\n        end if\n    end try\nend run\n\non compressFile(fileToCompress, format)\n    if format is \"zip\" then\n        set compressedFile to do shell script \"zip -j \" & quoted form of (POSIX path of fileToCompress) & \".zip \" & quoted form of (POSIX path of fileToCompress)\n    else if format is \"gzip\" then\n        set compressedFile to do shell script \"gzip -c \" & quoted form of (POSIX path of fileToCompress) & \" > \" & quoted form of (POSIX path of fileToCompress) & \".gz\"\n    else if format is \"bzip2\" then\n        set compressedFile to do shell script \"bzip2 -k \" & quoted form of (POSIX path of fileToCompress)\n    else\n        error \"Unsupported compression format.\" number 1000\n    end if\n    return compressedFile\nend compressFile\n```"
+  },
+  {
+    "task": "Implement a function that parses command-line arguments and handles missing argument exceptions.",
+    "code": "```applescript\non run argv\n\ttry\n\t\tif (count of argv) < 1 then error \"Missing arguments\"\n\t\tset arg1 to item 1 of argv\n\t\treturn \"Argument received: \" & arg1\n\ton error errMsg number errNum\n\t\treturn \"Error: \" & errMsg\n\tend try\nend run\n```"
+  },
+  {
+    "task": "Develop a program that simulates user interactions and manages timing exceptions.",
+    "code": "```applescript\ntry\n    display dialog \"Simulating user interaction...\"\n    delay 2 -- Simulate some processing time\n    if random number from 1 to 10 > 5 then\n        error \"Timing exception occurred!\"\n    end if\n    display dialog \"User interaction completed successfully.\"\non error errMsg number errNum\n    display dialog \"Error: \" & errMsg & \" (Code: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Write a function that encrypts data and handles exceptions for unsupported encryption algorithms.",
+    "code": "```applescript\non encryptData(data, algorithm)\n\ttry\n\t\tif algorithm is \"AES\" then\n\t\t\tset encryptedData to \"Encrypted with AES: \" & data\n\t\telse\n\t\t\terror \"Unsupported encryption algorithm\"\n\t\tend if\n\ton error errorMessage number errorNumber\n\t\tif errorNumber is -1701 then\n\t\t\tset encryptedData to \"Error: \" & errorMessage\n\t\telse\n\t\t\tset encryptedData to \"An unexpected error occurred: \" & errorMessage\n\t\tend if\n\tend try\n\treturn encryptedData\nend encryptData\n```"
+  },
+  {
+    "task": "Create a system that aggregates data and manages exceptions for data inconsistency.",
+    "code": "```applescript\n-- Define a function to aggregate data\non aggregateData(dataList)\n    set aggregatedData to \"\"\n    try\n        repeat with dataItem in dataList\n            if dataItem is not text then error \"Data inconsistency detected\" number 100\n            set aggregatedData to aggregatedData & dataItem & \",\"\n        end repeat\n    on error errorMessage number errorNumber\n        if errorNumber is 100 then\n            display dialog \"Error: \" & errorMessage\n        else\n            display dialog \"An unknown error occurred: \" & errorMessage\n        end if\n    end try\n    return aggregatedData\nend aggregateData\n\n-- Example usage\nset myData to {\"Data1\", \"Data2\", \"Data3\", 4, \"Data5\"}\nset result to aggregateData(myData)\ndisplay dialog \"Aggregated Data: \" & result\n```"
+  },
+  {
+    "task": "Design a program that processes real-time data streams and handles connection drop exceptions.",
+    "code": "```applescript\non processDataStream()\n    try\n        -- Assuming 'connectToDataStream' is a handler that initiates the connection\n        set dataStream to connectToDataStream()\n        \n        repeat while true\n            -- Assuming 'readData' is a handler that reads the data from the stream\n            set data to readData(dataStream)\n            -- Process the data\n            process(data)\n        end repeat\n    on error errorMessage number errorNumber\n        if errorNumber is 1 then\n            -- Handle connection drop exception\n            display dialog \"Connection dropped. Reconnecting...\" buttons {\"OK\"}\n            processDataStream() -- Attempt to reconnect and process again\n        else\n            -- Handle other exceptions\n            display dialog \"An error occurred: \" & errorMessage buttons {\"OK\"}\n        end if\n    end try\nend processDataStream\n\nto connectToDataStream()\n    -- Placeholder for actual connection code\n    return \"dataStreamConnection\"\nend connectToDataStream\n\nto readData(dataStream)\n    -- Placeholder for reading data from the stream\n    return \"someData\"\nend readData\n\nto process(data)\n    -- Placeholder for data processing logic\nend process\n\n-- Start processing the data stream\nprocessDataStream()\n```"
+  },
+  {
+    "task": "Implement a function that performs scientific calculations and manages precision exceptions.",
+    "code": "```applescript\non performScientificCalculations(a, b)\n\ttry\n\t\t-- Example calculation: division which might cause precision issues\n\t\tset result to a / b\n\t\treturn result\n\ton error e number n\n\t\tif n is equal to -2700 then\n\t\t\t-- Handle specific precision error\n\t\t\treturn \"Precision error occurred\"\n\t\telse\n\t\t\t-- Handle other errors\n\t\t\treturn \"An error occurred: \" & e\n\t\tend if\n\tend try\nend performScientificCalculations\n\n-- Example usage\nset calculationResult to performScientificCalculations(1, 0)\ndisplay dialog calculationResult\n```"
+  },
+  {
+    "task": "Write a script that generates reports and handles exceptions for missing data sources.",
+    "code": "```applescript\ntry\n    -- Simulate generating a report\n    set reportData to generateReport()\non error errMsg number errNum\n    if errNum = -1728 then -- Error number for missing data source\n        display dialog \"Error: Missing data source. Cannot generate report.\" buttons {\"OK\"} default button \"OK\"\n    else\n        display dialog \"An unexpected error occurred: \" & errMsg buttons {\"OK\"} default button \"OK\"\n    end if\nend try\n\non generateReport()\n    -- Simulate checking for data source\n    if missingDataSource() then\n        error \"Data source is missing\" number -1728\n    else\n        -- Code to generate report\n        return \"Report generated successfully.\"\n    end if\nend generateReport\n\non missingDataSource()\n    -- Simulate checking for a missing data source\n    return true -- Change to false to simulate the presence of a data source\nend missingDataSource\n```"
+  },
+  {
+    "task": "Create a program that validates digital certificates and manages trust exceptions.",
+    "code": "```applescript\non run\n    try\n        set certPath to POSIX path of (choose file with prompt \"Select a digital certificate:\")\n        set trustResult to validateCertificate(certPath)\n        if trustResult is false then\n            display dialog \"Certificate is not trusted. Add to trust exceptions?\" buttons {\"Cancel\", \"Add\"} default button \"Add\"\n            if button returned of result is \"Add\" then\n                addTrustException(certPath)\n                display dialog \"Certificate added to trust exceptions.\"\n            end if\n        else\n            display dialog \"Certificate is valid and trusted.\"\n        end if\n    on error errorMsg\n        display dialog \"Error: \" & errorMsg\n    end try\nend run\n\non validateCertificate(certPath)\n    try\n        -- Placeholder for certificate validation logic\n        -- Return true if certificate is trusted, false otherwise\n        return false\n    on error\n        return false\n    end try\nend validateCertificate\n\non addTrustException(certPath)\n    try\n        -- Placeholder for adding the certificate to trust exceptions\n    on error errorMsg\n        display dialog \"Failed to add exception: \" & errorMsg\n    end try\nend addTrustException\n```"
+  },
+  {
+    "task": "Develop a function that schedules tasks and handles exceptions for scheduling conflicts.",
+    "code": "```applescript\non scheduleTask(taskName, taskTime)\n    try\n        if taskExists(taskTime) then\n            error \"Scheduling conflict at \" & taskTime\n        else\n            addTask(taskName, taskTime)\n        end if\n    on error errMsg number errNum\n        display dialog \"Error: \" & errMsg buttons {\"OK\"} default button \"OK\"\n    end try\nend scheduleTask\n\non taskExists(taskTime)\n    -- Placeholder for actual task existence check\n    return false\nend taskExists\n\non addTask(taskName, taskTime)\n    -- Placeholder for actual task addition\n    display dialog \"Task '\" & taskName & \"' scheduled at \" & taskTime buttons {\"OK\"} default button \"OK\"\nend addTask\n```"
+  },
+  {
+    "task": "Design a system that manages user sessions and handles session timeout exceptions.",
+    "code": "```applescript\n-- Define a user session record\nproperty userSessions : {}\n\n-- Function to start a session for a user\non startSession(userID)\n    set endTime to (current date) + 1800 -- 30 minutes from now\n    set end of userSessions to {id:userID, endTime:endTime}\nend startSession\n\n-- Function to check and handle session timeouts\non checkSessions()\n    set currentDate to current date\n    repeat with session in userSessions\n        set endTime to endTime of session\n        if currentDate > endTime then\n            handleSessionTimeout(session)\n        end if\n    end repeat\nend checkSessions\n\n-- Function to handle session timeout\non handleSessionTimeout(session)\n    try\n        -- Simulate timeout handling, e.g., remove session\n        set userSessions to my removeSession(userSessions, id of session)\n    on error errMsg number errNumber\n        display dialog \"Error: \" & errMsg & \" (Error Number: \" & errNumber & \")\"\n    end try\nend handleSessionTimeout\n\n-- Helper function to remove a session from the list\non removeSession(sessions, sessionID)\n    set updatedSessions to {}\n    repeat with session in sessions\n        if id of session is not equal to sessionID then\n            set end of updatedSessions to session\n        end if\n    end repeat\n    return updatedSessions\nend removeSession\n\n-- Example usage\nstartSession(\"user1\")\ndelay 2\nstartSession(\"user2\")\ndelay 3\ncheckSessions()\n```"
+  },
+  {
+    "task": "Write a function that processes audio files and manages exceptions for unsupported audio formats.",
+    "code": "```applescript\non processAudioFile(filePath)\n\ttry\n\t\t-- Attempt to read the audio file\n\t\tset audioFile to POSIX file filePath\n\t\t-- Insert code here for processing the audio file\n\t\tdisplay dialog \"Audio file processed successfully.\"\n\ton error errorMessage number errorNumber\n\t\tif errorNumber = -2048 then\n\t\t\tdisplay dialog \"Unsupported audio format. Please provide a supported format.\"\n\t\telse\n\t\t\tdisplay dialog \"An unexpected error occurred: \" & errorMessage\n\t\tend if\n\tend try\nend processAudioFile\n\n-- Example usage\nprocessAudioFile(\"/path/to/audiofile\")\n```"
+  },
+  {
+    "task": "Create a service that sends notifications and handles exceptions for unreachable destinations.",
+    "code": "```applescript\non run\n    try\n        sendNotification(\"Destination reached successfully.\")\n    on error errMsg number errNumber\n        if errNumber = -1009 then\n            display dialog \"Error: Unreachable Destination. Please check your network connection.\" buttons {\"OK\"} default button \"OK\"\n        else\n            display dialog \"An unexpected error occurred: \" & errMsg buttons {\"OK\"} default button \"OK\"\n        end if\n    end try\nend run\n\non sendNotification(message)\n    -- Simulate sending a notification\n    tell application \"System Events\"\n        display notification message with title \"Notification Service\"\n    end tell\nend sendNotification\n```"
+  },
+  {
+    "task": "Implement a program that performs data migration and manages data transformation exceptions.",
+    "code": "```applescript\ntry\n    -- Perform data migration\n    set sourceData to {\"Item1\", \"Item2\", \"Item3\"} -- Example source data\n    set destinationData to {}\n    \n    repeat with item in sourceData\n        -- Simulate data transformation and migration\n        set transformedItem to transformData(item)\n        set end of destinationData to transformedItem\n    end repeat\n    \non error errMsg number errNum\n    -- Handle exceptions during data transformation\n    display dialog \"Error during data migration: \" & errMsg & \" (Error number: \" & errNum & \")\"\nend try\n\non transformData(dataItem)\n    -- Simulate a data transformation that could fail\n    if dataItem = \"Item2\" then error \"Transformation failed for Item2\"\n    return dataItem & \"_transformed\"\nend transformData\n```"
+  },
+  {
+    "task": "Develop a function that processes video files and handles codec compatibility exceptions.",
+    "code": "```applescript\non processVideoFile(filePath)\n\ttry\n\t\t-- Simulate processing video file\n\t\tset codecCompatible to my isCodecCompatible(filePath)\n\t\tif codecCompatible is false then\n\t\t\terror \"Codec not compatible\"\n\t\tend if\n\t\t\n\t\t-- Code to process the video if codec is compatible goes here\n\t\t\n\t\treturn \"Processing Successful\"\n\ton error errMsg number errNum\n\t\treturn \"Error: \" & errMsg\n\tend try\nend processVideoFile\n\non isCodecCompatible(filePath)\n\t-- Simulated function to check codec compatibility\n\t-- Return false for demonstration purposes\n\treturn false\nend isCodecCompatible\n\n-- Example usage\nset result to processVideoFile(\"path/to/video/file\")\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Write a function that manages memory allocation and catches out-of-memory exceptions.",
+    "code": "```applescript\non manageMemoryAllocation()\n\ttry\n\t\tset myList to {}\n\t\trepeat 100000 times\n\t\t\tcopy (random number from 1 to 1000) to the end of myList\n\t\tend repeat\n\ton error errMsg number errNum\n\t\tif errNum is -108 then\n\t\t\tdisplay dialog \"Out of memory error encountered: \" & errMsg\n\t\telse\n\t\t\tdisplay dialog \"An unexpected error occurred: \" & errMsg\n\t\tend if\n\tend try\nend manageMemoryAllocation\n\nmanageMemoryAllocation()\n```"
+  },
+  {
+    "task": "Create a program that processes financial transactions and handles currency conversion exceptions.",
+    "code": "```applescript\ntry\n    set transactionAmount to 100.0\n    set currencyToConvert to \"USD\"\n    \n    -- Dummy conversion function\n    on convertCurrency(amount, currency)\n        if currency is not in {\"USD\", \"EUR\", \"GBP\"} then\n            error \"Currency conversion not supported for \" & currency\n        end if\n        -- Assume conversion logic here\n        return amount * 1.1\n    end convertCurrency\n    \n    set convertedAmount to convertCurrency(transactionAmount, currencyToConvert)\n    display dialog \"Converted amount: \" & convertedAmount\n    \non error errorMessage number errorNumber\n    display dialog \"Error: \" & errorMessage buttons {\"OK\"} default button \"OK\"\nend try\n```"
+  },
+  {
+    "task": "Design a function that interacts with cloud storage and manages access permission exceptions.",
+    "code": "```applescript\non accessCloudStorage()\n\ttry\n\t\t-- Simulate accessing cloud storage\n\t\tset result to do shell script \"echo 'Accessing cloud storage'\"\n\t\tdisplay dialog result\n\ton error errMsg number errNum\n\t\tif errNum is equal to -10000 then\n\t\t\tdisplay dialog \"Permission denied: \" & errMsg\n\t\telse\n\t\t\tdisplay dialog \"An unexpected error occurred: \" & errMsg\n\t\tend if\n\tend try\nend accessCloudStorage\n\n-- Call the function\naccessCloudStorage()\n```"
+  },
+  {
+    "task": "Implement a script that automates deployment and handles exceptions for missing configuration files.",
+    "code": "```applescript\ntry\n\tset configFilePath to \"/path/to/config/file\"\n\tset configFile to POSIX file configFilePath\n\t\n\ttell application \"Finder\"\n\t\tif not (exists configFile) then\n\t\t\terror \"Configuration file is missing.\"\n\t\tend if\n\tend tell\n\t\n\t-- Proceed with deployment using the configuration file.\n\t-- Add your deployment code here.\n\t\n\tdisplay dialog \"Deployment successful!\"\n\t\non error errMsg number errNum\n\tdisplay dialog \"Error: \" & errMsg & \" (Error number: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Write a function that normalizes data and handles exceptions for invalid data ranges.",
+    "code": "```applescript\non normalizeData(dataList)\n\ttry\n\t\tset normalizedData to {}\n\t\trepeat with dataValue in dataList\n\t\t\tif dataValue < 0 or dataValue > 100 then\n\t\t\t\terror \"Value out of range\"\n\t\t\tend if\n\t\t\tset end of normalizedData to (dataValue / 100.0)\n\t\tend repeat\n\t\treturn normalizedData\n\ton error errorMessage number errorNumber\n\t\treturn \"Error: \" & errorMessage\n\tend try\nend normalizeData\n\n-- Example usage\nset myData to {50, 75, 150, 25}\nset result to normalizeData(myData)\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Create a system that monitors application performance and handles threshold breach exceptions.",
+    "code": "```applescript\ntry\n    -- Check application performance metrics\n    set cpuUsage to do shell script \"top -l 1 | grep 'CPU usage' | awk '{print $3}' | sed 's/%//'\"\n    set memoryUsage to do shell script \"top -l 1 | grep 'PhysMem' | awk '{print $2}' | sed 's/M//'\"\n    \n    set cpuThreshold to 80 -- CPU usage threshold in percentage\n    set memoryThreshold to 8000 -- Memory usage threshold in MB\n    \n    -- Convert usage to numbers\n    set cpuUsage to cpuUsage as number\n    set memoryUsage to memoryUsage as number\n    \n    -- Check if thresholds are breached\n    if cpuUsage > cpuThreshold then\n        error \"CPU usage threshold breached!\"\n    end if\n    \n    if memoryUsage > memoryThreshold then\n        error \"Memory usage threshold breached!\"\n    end if\non error errMsg\n    -- Handle threshold breach exceptions\n    display dialog \"Alert: \" & errMsg\nend try\n```"
+  },
+  {
+    "task": "Develop a program that processes social media data and manages API limit exceptions.",
+    "code": "```applescript\non processSocialMediaData()\n\ttry\n\t\t-- Simulate API call\n\t\tset apiResponse to callSocialMediaAPI()\n\ton error errMsg number errNum\n\t\tif errNum = 429 then\n\t\t\tdisplay dialog \"API limit reached. Please try again later.\" buttons {\"OK\"} default button \"OK\"\n\t\telse\n\t\t\tdisplay dialog \"An unexpected error occurred: \" & errMsg buttons {\"OK\"} default button \"OK\"\n\t\tend if\n\tend try\nend processSocialMediaData\n\non callSocialMediaAPI()\n\t-- Simulating an API limit exception\n\terror \"API limit exceeded\" number 429\nend callSocialMediaAPI\n\nprocessSocialMediaData()\n```"
+  },
+  {
+    "task": "Design a function that integrates with payment gateways and handles payment failure exceptions.",
+    "code": "```applescript\non integrateWithPaymentGateway()\n    try\n        -- Simulate payment processing\n        set paymentSuccessful to doPaymentProcessing()\n        \n        if paymentSuccessful then\n            return \"Payment Successful\"\n        else\n            error \"Payment Failed\"\n        end if\n    on error errorMessage number errorNumber\n        if errorNumber is -2700 then\n            -- Handle specific payment gateway error\n            return \"Payment Gateway Error: \" & errorMessage\n        else\n            -- Handle other errors\n            return \"Error: \" & errorMessage\n        end if\n    end try\nend integrateWithPaymentGateway\n\non doPaymentProcessing()\n    -- Simulate payment processing logic\n    set paymentSuccessful to false\n    -- Logic here would normally interact with a payment gateway\n    return paymentSuccessful\nend doPaymentProcessing\n```"
+  },
+  {
+    "task": "Write a function that backs up data and handles exceptions for unavailable storage media.",
+    "code": "```applescript\non backupData()\n    try\n        -- Attempt to back up data here\n        set storageMedia to \"/Volumes/BackupDrive\"\n        do shell script \"cp -R ~/Documents/importantData \" & quoted form of storageMedia\n    on error errMsg number errNum\n        if errNum is equal to -43 then\n            display dialog \"Backup failed: Storage media unavailable.\"\n        else\n            display dialog \"An unexpected error occurred: \" & errMsg\n        end if\n    end try\nend backupData\n\nbackupData()\n```"
+  },
+  {
+    "task": "Create a tool that manages software updates and handles exceptions for version conflicts.",
+    "code": "```applescript\ntry\n    -- Assume this command checks for software updates\n    do shell script \"softwareupdate -l\"\n    -- Assume this command applies the updates\n    do shell script \"softwareupdate -i -a\"\non error errMsg number errNum\n    if errNum is 1 then\n        display dialog \"Version conflict detected during update: \" & errMsg buttons {\"OK\"} default button \"OK\"\n    else\n        display dialog \"An error occurred: \" & errMsg buttons {\"OK\"} default button \"OK\"\n    end if\nend try\n```"
+  },
+  {
+    "task": "Implement a program that performs sentiment analysis and manages exceptions for ambiguous texts.",
+    "code": "```applescript\ntry\n    set textToAnalyze to \"This is an ambiguous text.\"\n\n    -- Placeholder sentiment analysis logic\n    set sentiment to \"neutral\" -- Assume neutral sentiment for ambiguous text\n\n    display dialog \"Sentiment Analysis Result: \" & sentiment\n\non error errMsg number errNum\n    display dialog \"An error occurred: \" & errMsg & \" (Error Number: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Develop a function that manages user authentication and handles credential mismatch exceptions.",
+    "code": "```applescript\non authenticateUser(username, password)\n\ttry\n\t\t-- Assuming we have a predefined list of valid credentials\n\t\tset validCredentials to {{\"user1\", \"pass1\"}, {\"user2\", \"pass2\"}}\n\t\tset isAuthenticated to false\n\t\t\n\t\trepeat with credential in validCredentials\n\t\t\tif item 1 of credential is username and item 2 of credential is password then\n\t\t\t\tset isAuthenticated to true\n\t\t\t\texit repeat\n\t\t\tend if\n\t\tend repeat\n\t\t\n\t\tif isAuthenticated is false then\n\t\t\terror \"Credential mismatch\"\n\t\tend if\n\t\t\n\t\treturn \"User authenticated successfully\"\n\t\t\n\ton error errMsg number errNum\n\t\treturn \"Authentication failed: \" & errMsg\n\tend try\nend authenticateUser\n\n-- Example usage\nset result to authenticateUser(\"user1\", \"wrongpass\")\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Write a program that processes geographic data and handles exceptions for invalid coordinates.",
+    "code": "```applescript\ntry\n\tset geographicData to {{\"City A\", 34.05, -118.25}, {\"City B\", 90.01, 135.0}, {\"City C\", -45.0, 180.0}, {\"City D\", 60.0, -200.0}}\n\tset validData to {}\n\n\trepeat with location in geographicData\n\t\tset cityName to item 1 of location\n\t\tset latitude to item 2 of location\n\t\tset longitude to item 3 of location\n\t\tif (latitude < -90 or latitude > 90) or (longitude < -180 or longitude > 180) then\n\t\t\terror \"Invalid coordinates for \" & cityName\n\t\telse\n\t\t\tcopy location to the end of validData\n\t\tend if\n\tend repeat\n\t\n\t-- Process validData here\n\tdisplay dialog \"Valid geographic data processed successfully.\"\n\non error errorMessage number errorNumber\n\tdisplay dialog \"An error occurred: \" & errorMessage\nend try\n```"
+  },
+  {
+    "task": "Create a script that manages network configurations and handles exceptions for invalid syntax.",
+    "code": "```applescript\ntry\n    -- Simulate network configuration management\n    set networkConfig to \"Configure Network Settings\"\n    if networkConfig is \"Configure Network Settings\" then\n        display dialog \"Network configurations applied successfully.\"\n    else\n        error \"Invalid network configuration syntax.\"\n    end if\non error errorMessage\n    display dialog \"An error occurred: \" & errorMessage\nend try\n```"
+  },
+  {
+    "task": "Design a function that processes biometric data and handles exceptions for sensor errors.",
+    "code": "```applescript\non processBiometricData()\n\ttry\n\t\t-- Simulate processing biometric data\n\t\tset biometricData to getBiometricData()\n\t\t-- Process the biometric data\n\t\tdisplay dialog \"Biometric data processed: \" & biometricData\n\ton error errorMessage number errorNumber\n\t\tif errorNumber is -10000 then\n\t\t\tdisplay dialog \"Sensor error: Unable to read biometric data.\"\n\t\telse\n\t\t\tdisplay dialog \"An unknown error occurred: \" & errorMessage\n\t\tend if\n\tend try\nend processBiometricData\n\nto getBiometricData()\n\t-- Simulate a sensor error\n\terror \"Sensor malfunction\" number -10000\nend getBiometricData\n\nprocessBiometricData()\n```"
+  },
+  {
+    "task": "Implement a system that manages access control and handles exceptions for unauthorized access attempts.",
+    "code": "```applescript\nproperty authorizedUsers : {\"user1\", \"user2\", \"admin\"}\n\non manageAccessControl(userName)\n\ttry\n\t\tif userName is in authorizedUsers then\n\t\t\tdisplay dialog \"Access granted to \" & userName\n\t\telse\n\t\t\terror \"Unauthorized access attempt by \" & userName\n\t\tend if\n\ton error errorMessage number errorNumber\n\t\tdisplay dialog \"Error: \" & errorMessage\n\tend try\nend manageAccessControl\n\n-- Example usage:\nmanageAccessControl(\"user1\")\nmanageAccessControl(\"intruder\")\n```"
+  },
+  {
+    "task": "Write a function that performs load balancing and handles exceptions for unreachable nodes.",
+    "code": "```applescript\non loadBalanceAndHandleExceptions(nodeList)\n    repeat with node in nodeList\n        try\n            -- Simulate attempting to connect to the node\n            performLoadBalancing(node)\n        on error errorMessage number errorNumber\n            log \"Exception occurred with node \" & node & \": \" & errorMessage\n            -- Handle specific errors based on errorNumber if needed\n        end try\n    end repeat\nend loadBalanceAndHandleExceptions\n\non performLoadBalancing(node)\n    -- Placeholder for the actual load balancing logic\n    -- Simulate an exception for unreachable nodes\n    if node is \"unreachable\" then error \"Node is unreachable\"\nend performLoadBalancing\n\n-- Example usage\nloadBalanceAndHandleExceptions({\"node1\", \"node2\", \"unreachable\", \"node3\"})\n```"
+  },
+  {
+    "task": "Create a program that simulates virtual environments and manages resource allocation exceptions.",
+    "code": "```applescript\ntry\n    -- Simulate a virtual environment\n    set virtualEnvironments to {\"Environment1\", \"Environment2\", \"Environment3\"}\n    \n    -- Try to allocate resources\n    set allocatedResources to {}\n    repeat with env in virtualEnvironments\n        if (random number from 1 to 3) is 1 then\n            error \"Resource allocation failed for \" & env\n        else\n            copy \"Resource allocated to \" & env to end of allocatedResources\n        end if\n    end repeat\non error errorMessage number errorNumber\n    -- Handle exceptions\n    display dialog \"An error occurred: \" & errorMessage & \" (Error number: \" & errorNumber & \")\"\nend try\n\n-- Display final status\nif (count of allocatedResources) > 0 then\n    display dialog \"Allocation successful for: \" & (allocatedResources as string)\nelse\n    display dialog \"No resources were allocated.\"\nend if\n```"
+  },
+  {
+    "task": "Develop a tool that manages digital rights and handles exceptions for unauthorized content access.",
+    "code": "```applescript\ntry\n    -- Simulate digital rights access check\n    set userAuthorized to false -- Simulating unauthorized access\n    \n    if userAuthorized is false then\n        error \"Unauthorized access to content.\"\n    end if\n    \n    -- Code for managing digital rights goes here\n    display dialog \"Access granted. Managing digital rights.\"\n    \non error errMsg number errNum\n    display dialog \"Error: \" & errMsg\nend try\n```"
+  },
+  {
+    "task": "Design a function that synchronizes clocks and handles exceptions for time drift.",
+    "code": "```applescript\non synchronizeClocks()\n\ttry\n\t\t-- Replace with actual time synchronization code\n\t\tset currentTime to (current date)\n\t\t-- Simulate time drift correction\n\t\tdo shell script \"sudo ntpdate -u time.apple.com\"\n\ton error errorMessage number errorNumber\n\t\t-- Handle exceptions related to time drift\n\t\tdisplay dialog \"Error synchronizing clocks: \" & errorMessage & \" (Error \" & errorNumber & \")\"\n\tend try\nend synchronizeClocks\n\nsynchronizeClocks()\n```"
+  },
+  {
+    "task": "Write a script that manages system backups and handles exceptions for insufficient backup space.",
+    "code": "```applescript\ntry\n    set backupPath to \"/path/to/backup\"\n    set sourcePath to \"/path/to/source\"\n    \n    -- Check available space\n    set spaceAvailable to do shell script \"df -h \" & backupPath & \" | awk 'NR==2 {print $4}'\"\n    set spaceAvailableGB to text 1 thru -2 of spaceAvailable as number\n    \n    -- Assume we need 10GB for backup\n    set requiredSpaceGB to 10\n    \n    if spaceAvailableGB < requiredSpaceGB then\n        error \"Insufficient backup space. Available: \" & spaceAvailable & \" GB\"\n    end if\n    \n    -- Perform backup using rsync or similar command\n    do shell script \"rsync -av \" & sourcePath & \" \" & backupPath\n    display dialog \"Backup completed successfully.\"\n    \non error errMsg number errNum\n    display dialog \"An error occurred: \" & errMsg & \" (Error number: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Create a program that processes natural language text and handles parsing exceptions.",
+    "code": "```applescript\ntry\n    set textToParse to \"This is a sample text to parse.\"\n    set parsedText to do shell script \"echo \" & quoted form of textToParse & \" | someParsingTool\"\non error errMsg number errNum\n    display dialog \"An error occurred: \" & errMsg & \" (Error number: \" & errNum & \")\"\nend try\n```"
+  },
+  {
+    "task": "Implement a function that manages thread execution and handles race condition exceptions.",
+    "code": "```applescript\non manageThreadExecution()\n\ttry\n\t\tset myThread to current application's NSThread's alloc()'s init()\n\t\tset myQueue to current application's NSOperationQueue's new()\n\t\tmyQueue's addOperationWithBlock:(missing value)\n\t\tmyThread's start()\n\ton error errMsg number errNum\n\t\tdisplay dialog \"Error occurred: \" & errMsg & \" (Error Number: \" & (errNum as text) & \")\"\n\tend try\nend manageThreadExecution\n\nmanageThreadExecution()\n```"
+  },
+  {
+    "task": "Develop a system that integrates with IoT devices and handles connectivity exceptions.",
+    "code": "```applescript\ntry\n    -- Attempt to connect to IoT device\n    set deviceConnected to connectToIoTDevice(\"Device_ID\")\n    \n    if deviceConnected then\n        display dialog \"Device connected successfully.\"\n    else\n        error \"Connection failed.\"\n    end if\n    \non error errMsg number errNum\n    display dialog \"Error: \" & errMsg & \" (Code \" & errNum & \")\"\nend try\n\non connectToIoTDevice(deviceID)\n    -- Placeholder logic for connecting to an IoT device\n    -- In a real implementation, this would contain the code to establish the connection\n    return false\nend connectToIoTDevice\n```"
+  },
+  {
+    "task": "Write a function that manages application logging and handles exceptions for log overflow.",
+    "code": "```applescript\non manageApplicationLogging(logMessage)\n\ttry\n\t\tset logFile to open for access file \"path:to:logfile.txt\" with write permission\n\t\twrite logMessage & return to logFile starting at eof\n\t\tclose access logFile\n\ton error errMsg number errNum\n\t\tif errNum = -34 then -- disk full error\n\t\t\tdisplay dialog \"Log overflow: Please clear the log file.\"\n\t\telse\n\t\t\tdisplay dialog \"An error occurred: \" & errMsg\n\t\tend if\n\tend try\nend manageApplicationLogging\n```"
+  },
+  {
+    "task": "Create a tool that visualizes data and handles exceptions for unsupported visualization types.",
+    "code": "```applescript\n-- Define a handler for visualizing data\non visualizeData(data, visualizationType)\n\ttry\n\t\tif visualizationType is \"bar\" then\n\t\t\tdisplay dialog \"Visualizing data as bar chart: \" & data\n\t\telse if visualizationType is \"line\" then\n\t\t\tdisplay dialog \"Visualizing data as line chart: \" & data\n\t\telse\n\t\t\terror \"Unsupported visualization type\"\n\t\tend if\n\ton error errMsg\n\t\tdisplay dialog \"Error: \" & errMsg\n\tend try\nend visualizeData\n\n-- Sample data and visualization type\nset sampleData to \"Sample Data\"\nset sampleVisualizationType to \"pie\"\n\n-- Call the handler\nvisualizeData(sampleData, sampleVisualizationType)\n```"
+  },
+  {
+    "task": "Design a program that performs genetic algorithm simulations and manages exception for invalid mutations.",
+    "code": "```applescript\non performGeneticAlgorithm()\n    try\n        set population to initializePopulation()\n        repeat with i from 1 to 100\n            set offspring to mutatePopulation(population)\n            if offspring is invalid then\n                error \"Invalid mutation detected\"\n            end if\n            set population to offspring\n        end repeat\n        return population\n    on error errMsg number errNum\n        display dialog \"An error occurred: \" & errMsg\n        return null\n    end try\nend performGeneticAlgorithm\n\non initializePopulation()\n    -- Initialize your population here\n    return {\"gene1\", \"gene2\", \"gene3\"}\nend initializePopulation\n\non mutatePopulation(population)\n    -- Mutate the population here\n    set randomIndex to random number from 1 to (count of population)\n    set gene to item randomIndex of population\n    if (random number from 1 to 10) > 8 then\n        return \"invalid\" -- Simulate an invalid mutation\n    else\n        set item randomIndex of population to gene & \" mutated\"\n    end if\n    return population\nend mutatePopulation\n\nperformGeneticAlgorithm()\n```"
+  },
+  {
+    "task": "Implement a function that manages distributed transactions and handles consistency exceptions.",
+    "code": "```applescript\non manageDistributedTransaction()\n\ttry\n\t\t-- Begin transaction\n\t\t-- Code for managing distributed transaction goes here\n\t\t\n\t\t-- Simulate transaction success\n\t\tset transactionSuccess to true\n\t\t\n\t\tif transactionSuccess then\n\t\t\t-- Commit transaction\n\t\t\tdisplay dialog \"Transaction committed successfully.\"\n\t\telse\n\t\t\terror \"ConsistencyException\"\n\t\tend if\n\ton error errMsg number errNum\n\t\tif errMsg is \"ConsistencyException\" then\n\t\t\t-- Handle consistency exception\n\t\t\tdisplay dialog \"Consistency exception occurred. Rolling back transaction.\"\n\t\t\t-- Rollback transaction code goes here\n\t\telse\n\t\t\t-- Handle other exceptions\n\t\t\tdisplay dialog \"An unexpected error occurred: \" & errMsg\n\t\tend if\n\tend try\nend manageDistributedTransaction\n\nmanageDistributedTransaction()\n```"
+  },
+  {
+    "task": "Write a function that handles secure communications and manages encryption key exceptions.",
+    "code": "```applescript\non handleSecureCommunication(message)\n    try\n        set encryptedMessage to encryptMessage(message)\n        return encryptedMessage\n    on error errMsg number errNum\n        if errNum is equal to someEncryptionKeyErrorNumber then\n            log \"Encryption key error: \" & errMsg\n            return \"Error: Unable to encrypt message due to key issue.\"\n        else\n            log \"General error: \" & errMsg\n            return \"Error: An unexpected error occurred.\"\n        end if\n    end try\nend handleSecureCommunication\n\non encryptMessage(msg)\n    -- This is a placeholder for the actual encryption logic\n    error \"Simulated encryption key error\" number someEncryptionKeyErrorNumber\nend encryptMessage\n\nproperty someEncryptionKeyErrorNumber : -1001\n```"
+  },
+  {
+    "task": "Create a system that processes sensor data and handles out-of-range value exceptions.",
+    "code": "```applescript\non processSensorData(sensorValue)\n\ttry\n\t\tif sensorValue < 0 or sensorValue > 100 then\n\t\t\terror \"Sensor value out of range\"\n\t\tend if\n\t\t-- Process the sensor value here\n\t\treturn \"Sensor value processed: \" & sensorValue\n\ton error errMsg\n\t\treturn \"Error: \" & errMsg\n\tend try\nend processSensorData\n\n-- Example usage\nset result to processSensorData(105)\ndisplay dialog result\n```"
+  },
+  {
+    "task": "Develop a program that simulates weather patterns and handles model prediction exceptions.",
+    "code": "```applescript\ntry\n    set temperature to (random number from -10 to 40)\n    set humidity to (random number from 0 to 100)\n    set windSpeed to (random number from 0 to 20)\n    \n    if (temperature > 50 or temperature < -30) then\n        error \"Temperature prediction out of range\"\n    end if\n    \n    if (humidity > 100 or humidity < 0) then\n        error \"Humidity prediction out of range\"\n    end if\n    \n    if (windSpeed > 150 or windSpeed < 0) then\n        error \"Wind speed prediction out of range\"\n    end if\n    \n    display dialog \"Weather Simulation Results:\" & return & \u00ac\n        \"Temperature: \" & temperature & \"\u00b0C\" & return & \u00ac\n        \"Humidity: \" & humidity & \"%\" & return & \u00ac\n        \"Wind Speed: \" & windSpeed & \" km/h\"\non error errMsg\n    display dialog \"Error in weather prediction model: \" & errMsg\nend try\n```"
+  },
+  {
+    "task": "Design a function that manages API versioning and handles backward compatibility exceptions.",
+    "code": "```applescript\non manageAPIVersion(versionNumber)\n\ttry\n\t\tif versionNumber is \"1.0\" then\n\t\t\treturn \"Handling API version 1.0\"\n\t\telse if versionNumber is \"2.0\" then\n\t\t\treturn \"Handling API version 2.0\"\n\t\telse\n\t\t\terror \"Unsupported API version\"\n\t\tend if\n\ton error errorMessage number errorNumber\n\t\tlog \"Error \" & errorNumber & \": \" & errorMessage\n\t\tif errorNumber = -10000 then\n\t\t\treturn \"Defaulting to backward compatibility mode\"\n\t\telse\n\t\t\treturn \"Unhandled exception\"\n\t\tend if\n\tend try\nend manageAPIVersion\n```"
+  },
+  {
+    "task": "Write a tool that converts character encodings and handles unsupported encoding exceptions.",
+    "code": "```applescript\ntry\n    set inputString to \"Hello, world!\"\n    set fromEncoding to \"UTF-8\"\n    set toEncoding to \"ISO-8859-1\"\n\n    set convertedString to do shell script (\"echo \" & quoted form of inputString & \" | iconv -f \" & fromEncoding & \" -t \" & toEncoding)\n\non error errMsg number errNum\n    if errNum is equal to 1 then\n        display dialog \"Unsupported encoding exception: \" & errMsg buttons {\"OK\"} default button \"OK\"\n    else\n        display dialog \"An error occurred: \" & errMsg buttons {\"OK\"} default button \"OK\"\n    end if\nend try\n```"
+  },
+  {
+    "task": "Create a program that handles dynamic content generation and manages template parsing exceptions.",
+    "code": "```applescript\ntry\n    set template to \"Hello, {{name}}! Welcome to {{place}}.\"\n    set name to \"Alice\"\n    set place to \"Wonderland\"\n    set parsedTemplate to my parseTemplate(template, {name:name, place:place})\n    display dialog parsedTemplate\non error errMsg number errNum\n    display dialog \"An error occurred: \" & errMsg & \" (Error number: \" & errNum & \")\"\nend try\n\non parseTemplate(template, params)\n    repeat with key in (keys of params)\n        set template to replaceText(\"{{\" & key & \"}}\", (params's item key), template)\n    end repeat\n    if template contains \"{{\" then error \"Unmatched placeholders in template\"\n    return template\nend parseTemplate\n\non replaceText(find, replace, subject)\n    set prevTIDs to AppleScript's text item delimiters\n    set AppleScript's text item delimiters to find\n    set subject to text items of subject\n    set AppleScript's text item delimiters to replace\n    set subject to \"\" & subject\n    set AppleScript's text item delimiters to prevTIDs\n    return subject\nend replaceText\n```"
+  },
+  {
+    "task": "Implement a script that schedules automated tests and handles exceptions for missing test cases.",
+    "code": "```applescript\ntry\n    -- Schedule automated tests\n    tell application \"System Events\"\n        -- Check if the test cases directory exists\n        set testCasesDir to \"/path/to/test/cases\"\n        if not (exists folder testCasesDir) then\n            error \"Test cases directory is missing.\"\n        end if\n        \n        -- Schedule the tests\n        -- (example command, replace with actual test command)\n        do shell script \"/path/to/test/script --schedule\"\n    end tell\non error errorMessage number errorNumber\n    -- Handle exceptions\n    display dialog \"Error: \" & errorMessage & \" (Error number: \" & errorNumber & \")\" buttons {\"OK\"} default button \"OK\"\nend try\n```"
+  },
+  {
+    "task": "Develop a system that manages virtual machine instances and handles provisioning exceptions.",
+    "code": "```applescript\ntry\n    -- Simulate provisioning a virtual machine\n    set vmInstance to provisionVM()\n    display dialog \"VM instance successfully provisioned: \" & vmInstance\non error errMsg number errNum\n    -- Handle exception during provisioning\n    display dialog \"Error \" & errNum & \": \" & errMsg\nend try\n\non provisionVM()\n    -- Simulate a possible error during VM provisioning\n    if (random number from 0 to 1) > 0.5 then\n        return \"vm-12345\"\n    else\n        error \"Provisioning failed due to resource constraints\" number 1001\n    end if\nend provisionVM\n```"
+  },
+  {
+    "task": "Write a function that processes credit scores and handles exceptions for missing credit history.",
+    "code": "```applescript\non processCreditScore(creditScore)\n\ttry\n\t\tif creditScore is missing value then\n\t\t\terror \"Missing credit history\"\n\t\telse\n\t\t\t-- Process the credit score here\n\t\t\tdisplay dialog \"Credit score is: \" & creditScore\n\t\tend if\n\ton error errMsg\n\t\tdisplay dialog \"Error: \" & errMsg\n\tend try\nend processCreditScore\n\n-- Example usage:\nprocessCreditScore(missing value)\n```"
+  },
+  {
+    "task": "Create a tool that manages digital certificates and handles expiration exceptions.",
+    "code": "```applescript\ntry\n    set certificatePath to \"/path/to/certificate.pem\"\n    set expirationDate to getExpirationDate(certificatePath)\n\n    if isExpired(expirationDate) then\n        error \"Certificate has expired.\"\n    else\n        display dialog \"Certificate is valid.\"\n    end if\n\non error errMsg number errNum\n    display dialog \"Error: \" & errMsg & \" (Error Number: \" & errNum & \")\"\nend try\n\non getExpirationDate(certPath)\n    do shell script \"openssl x509 -enddate -noout -in \" & certPath & \" | cut -d= -f2\"\nend getExpirationDate\n\non isExpired(expDate)\n    set currentDate to current date\n    set expirationDate to date expDate\n    if expirationDate < currentDate then\n        return true\n    else\n        return false\n    end if\nend isExpired\n```"
+  },
+  {
+    "task": "Design a program that processes genome sequences and handles exceptions for sequence alignment.",
+    "code": "```applescript\ntry\n    -- Example genome sequence processing\n    set genome1 to \"AGCTAGCTAG\"\n    set genome2 to \"TGCTAGCTAG\"\n    \n    set alignmentResult to alignSequences(genome1, genome2)\n    \n    display dialog \"Alignment successful: \" & alignmentResult\n    \non error errMsg number errNum\n    display dialog \"Error \" & errNum & \": \" & errMsg\nend try\n\non alignSequences(seq1, seq2)\n    if length of seq1 is not equal to length of seq2 then\n        error \"Sequences must be of equal length\" number 1001\n    end if\n    \n    -- Here you would put the actual alignment logic\n    return \"Aligned Sequence\"\nend alignSequences\n```"
+  }
+]

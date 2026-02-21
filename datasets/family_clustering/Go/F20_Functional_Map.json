@@ -1,0 +1,374 @@
+[
+  {
+    "task": "Convert a list of temperatures from Celsius to Fahrenheit using a map function.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc mapFunc(temps []float64, f func(float64) float64) []float64 {\n\tresult := make([]float64, len(temps))\n\tfor i, v := range temps {\n\t\tresult[i] = f(v)\n\t}\n\treturn result\n}\n\nfunc celsiusToFahrenheit(c float64) float64 {\n\treturn c*9/5 + 32\n}\n\nfunc main() {\n\tcelsiusTemps := []float64{0, 20, 37, 100}\n\tfahrenheitTemps := mapFunc(celsiusTemps, celsiusToFahrenheit)\n\tfmt.Println(fahrenheitTemps)\n}\n```"
+  },
+  {
+    "task": "Use map to convert a list of lowercase words to uppercase.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\twords := []string{\"hello\", \"world\", \"golang\", \"map\", \"function\"}\n\tupperWords := Map(words, strings.ToUpper)\n\tfmt.Println(upperWords)\n}\n\nfunc Map(slice []string, fn func(string) string) []string {\n\tresult := make([]string, len(slice))\n\tfor i, v := range slice {\n\t\tresult[i] = fn(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Apply map to add a prefix to each string in a list of filenames.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc mapStrings(strings []string, f func(string) string) []string {\n\tmapped := make([]string, len(strings))\n\tfor i, str := range strings {\n\t\tmapped[i] = f(str)\n\t}\n\treturn mapped\n}\n\nfunc addPrefix(filename string) string {\n\treturn \"prefix_\" + filename\n}\n\nfunc main() {\n\tfilenames := []string{\"file1.txt\", \"file2.txt\", \"file3.txt\"}\n\tprefixedFilenames := mapStrings(filenames, addPrefix)\n\tfmt.Println(prefixedFilenames)\n}\n```"
+  },
+  {
+    "task": "Transform a list of numbers by squaring each element with a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tnumbers := []int{1, 2, 3, 4, 5}\n\tsquaredNumbers := Map(numbers, func(n int) int {\n\t\treturn n * n\n\t})\n\tfmt.Println(squaredNumbers)\n}\n\nfunc Map(numbers []int, f func(int) int) []int {\n\tresult := make([]int, len(numbers))\n\tfor i, n := range numbers {\n\t\tresult[i] = f(n)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Convert a list of integers to their string representations using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc main() {\n\tintegers := []int{1, 2, 3, 4, 5}\n\tstrings := Map(integers, func(i int) string {\n\t\treturn strconv.Itoa(i)\n\t})\n\tfmt.Println(strings)\n}\n\nfunc Map(ints []int, f func(int) string) []string {\n\tresult := make([]string, len(ints))\n\tfor i, v := range ints {\n\t\tresult[i] = f(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to compute the length of each string in a list of sentences.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc mapLengths(sentences []string) []int {\n\tlengths := make([]int, len(sentences))\n\tfor i, sentence := range sentences {\n\t\tlengths[i] = len(sentence)\n\t}\n\treturn lengths\n}\n\nfunc main() {\n\tsentences := []string{\n\t\t\"The quick brown fox\",\n\t\t\"jumps over the lazy dog\",\n\t\t\"Lorem ipsum dolor sit amet\",\n\t}\n\tlengths := mapLengths(sentences)\n\tfmt.Println(lengths)\n}\n```"
+  },
+  {
+    "task": "Apply a discount to a list of prices using a map function.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc applyDiscount(prices []float64, discount float64) []float64 {\n\tdiscountedPrices := make([]float64, len(prices))\n\tfor i, price := range prices {\n\t\tdiscountedPrices[i] = price * (1 - discount)\n\t}\n\treturn discountedPrices\n}\n\nfunc main() {\n\tprices := []float64{100, 200, 300, 400}\n\tdiscount := 0.1\n\tdiscountedPrices := applyDiscount(prices, discount)\n\tfmt.Println(discountedPrices)\n}\n```"
+  },
+  {
+    "task": "Extract the first element from each tuple in a list of tuples with map.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\ttuples := []struct {\n\t\tfirst  int\n\t\tsecond int\n\t}{{1, 2}, {3, 4}, {5, 6}}\n\n\tfirstElements := Map(tuples, func(t struct{ first, second int }) int {\n\t\treturn t.first\n\t})\n\n\tfmt.Println(firstElements)\n}\n\nfunc Map(tuples []struct{ first, second int }, f func(struct{ first, second int }) int) []int {\n\tresult := make([]int, len(tuples))\n\tfor i, t := range tuples {\n\t\tresult[i] = f(t)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to round a list of floating-point numbers to two decimal places.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tfloats := []float64{3.14159, 2.71828, 1.61803}\n\trounded := Map(floats, func(f float64) float64 {\n\t\treturn math.Round(f*100) / 100\n\t})\n\tfmt.Println(rounded)\n}\n\nfunc Map(floats []float64, fn func(float64) float64) []float64 {\n\tresult := make([]float64, len(floats))\n\tfor i, v := range floats {\n\t\tresult[i] = fn(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Capitalize the first letter of each word in a list of names using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tnames := []string{\"alice\", \"bob\", \"charlie\"}\n\tcapitalizedNames := mapNames(names, capitalize)\n\tfmt.Println(capitalizedNames)\n}\n\nfunc mapNames(names []string, f func(string) string) []string {\n\tmapped := make([]string, len(names))\n\tfor i, name := range names {\n\t\tmapped[i] = f(name)\n\t}\n\treturn mapped\n}\n\nfunc capitalize(name string) string {\n\treturn strings.Title(name)\n}\n```"
+  },
+  {
+    "task": "Convert a list of JSON strings to corresponding dictionary objects with map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tjsonStrings := []string{\n\t\t`{\"name\": \"Alice\", \"age\": 30}`,\n\t\t`{\"name\": \"Bob\", \"age\": 25}`,\n\t\t`{\"name\": \"Charlie\", \"age\": 35}`,\n\t}\n\n\tdictionaries := make([]map[string]interface{}, len(jsonStrings))\n\n\tfor i, jsonString := range jsonStrings {\n\t\tvar dict map[string]interface{}\n\t\tjson.Unmarshal([]byte(jsonString), &dict)\n\t\tdictionaries[i] = dict\n\t}\n\n\tfmt.Println(dictionaries)\n}\n```"
+  },
+  {
+    "task": "Use map to double the value of each number in a list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    numbers := []int{1, 2, 3, 4, 5}\n    doubled := mapFunc(numbers, func(n int) int {\n        return n * 2\n    })\n    fmt.Println(doubled)\n}\n\nfunc mapFunc(nums []int, fn func(int) int) []int {\n    result := make([]int, len(nums))\n    for i, v := range nums {\n        result[i] = fn(v)\n    }\n    return result\n}\n```"
+  },
+  {
+    "task": "Transform a list of RGB tuples to hexadecimal color codes using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc rgbToHex(rgb []int) string {\n\treturn fmt.Sprintf(\"#%02x%02x%02x\", rgb[0], rgb[1], rgb[2])\n}\n\nfunc mapRGBToHex(rgbList [][]int) []string {\n\thexList := make([]string, len(rgbList))\n\tfor i, rgb := range rgbList {\n\t\thexList[i] = rgbToHex(rgb)\n\t}\n\treturn hexList\n}\n\nfunc main() {\n\trgbList := [][]int{{255, 0, 0}, {0, 255, 0}, {0, 0, 255}, {255, 255, 0}}\n\thexList := mapRGBToHex(rgbList)\n\tfmt.Println(hexList)\n}\n```"
+  },
+  {
+    "task": "Use map to compute the factorial of each number in a list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc factorial(n int) int {\n\tif n == 0 {\n\t\treturn 1\n\t}\n\treturn n * factorial(n-1)\n}\n\nfunc mapFactorial(numbers []int) []int {\n\tfactorials := make([]int, len(numbers))\n\tfor i, num := range numbers {\n\t\tfactorials[i] = factorial(num)\n\t}\n\treturn factorials\n}\n\nfunc main() {\n\tnumbers := []int{1, 2, 3, 4, 5}\n\tfactorials := mapFactorial(numbers)\n\tfmt.Println(factorials)\n}\n```"
+  },
+  {
+    "task": "Translate a list of English words to Spanish using a map function.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tenglishToSpanish := map[string]string{\n\t\t\"hello\": \"hola\",\n\t\t\"world\": \"mundo\",\n\t\t\"good\":  \"bueno\",\n\t\t\"day\":   \"d\u00eda\",\n\t\t\"night\": \"noche\",\n\t}\n\n\tenglishWords := []string{\"hello\", \"world\", \"good\", \"day\", \"night\"}\n\n\tspanishWords := Map(englishWords, func(word string) string {\n\t\treturn englishToSpanish[word]\n\t})\n\n\tfmt.Println(spanishWords)\n}\n\nfunc Map(words []string, f func(string) string) []string {\n\tresult := make([]string, len(words))\n\tfor i, word := range words {\n\t\tresult[i] = f(word)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Apply a map function to format a list of dates from one format to another.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc main() {\n\tdates := []string{\"2023-10-01\", \"2023-10-02\", \"2023-10-03\"}\n\tformattedDates := Map(dates, formatDate)\n\n\tfor _, date := range formattedDates {\n\t\tfmt.Println(date)\n\t}\n}\n\nfunc Map(dates []string, f func(string) string) []string {\n\tvar result []string\n\tfor _, date := range dates {\n\t\tresult = append(result, f(date))\n\t}\n\treturn result\n}\n\nfunc formatDate(date string) string {\n\tparsedDate, _ := time.Parse(\"2006-01-02\", date)\n\treturn parsedDate.Format(\"02 Jan 2006\")\n}\n```"
+  },
+  {
+    "task": "Use map to check if each number in a list is even, returning a list of booleans.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tnumbers := []int{1, 2, 3, 4, 5, 6}\n\tisEven := Map(numbers, func(n int) bool {\n\t\treturn n%2 == 0\n\t})\n\tfmt.Println(isEven)\n}\n\nfunc Map(nums []int, f func(int) bool) []bool {\n\tresult := make([]bool, len(nums))\n\tfor i, v := range nums {\n\t\tresult[i] = f(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Convert a list of binary strings to decimal numbers using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc main() {\n\tbinaryStrings := []string{\"1010\", \"1100\", \"1111\", \"1001\"}\n\n\tdecimalNumbers := mapBinaryToDecimal(binaryStrings)\n\n\tfmt.Println(decimalNumbers)\n}\n\nfunc mapBinaryToDecimal(binaries []string) []int {\n\tdecimals := make([]int, len(binaries))\n\tfor i, binary := range binaries {\n\t\tnum, _ := strconv.ParseInt(binary, 2, 64)\n\t\tdecimals[i] = int(num)\n\t}\n\treturn decimals\n}\n```"
+  },
+  {
+    "task": "Use map to append a domain name to a list of user names to create email addresses.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tusernames := []string{\"alice\", \"bob\", \"charlie\"}\n\tdomain := \"example.com\"\n\n\temails := Map(usernames, func(username string) string {\n\t\treturn username + \"@\" + domain\n\t})\n\n\tfmt.Println(emails)\n}\n\nfunc Map(input []string, mapper func(string) string) []string {\n\toutput := make([]string, len(input))\n\tfor i, v := range input {\n\t\toutput[i] = mapper(v)\n\t}\n\treturn output\n}\n```"
+  },
+  {
+    "task": "Calculate the area of each circle in a list of radii using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc mapRadiiToAreas(radii []float64, f func(float64) float64) []float64 {\n\tareas := make([]float64, len(radii))\n\tfor i, radius := range radii {\n\t\tareas[i] = f(radius)\n\t}\n\treturn areas\n}\n\nfunc main() {\n\tradii := []float64{1.0, 2.0, 3.0, 4.0}\n\tcalculateArea := func(radius float64) float64 {\n\t\treturn math.Pi * radius * radius\n\t}\n\tareas := mapRadiiToAreas(radii, calculateArea)\n\tfmt.Println(areas)\n}\n```"
+  },
+  {
+    "task": "Use map to strip whitespace from the start and end of each string in a list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tstringsList := []string{\"  hello \", \" world  \", \"  foo  \", \"bar \"}\n\ttrimmedList := mapStrings(stringsList, strings.TrimSpace)\n\tfmt.Println(trimmedList)\n}\n\nfunc mapStrings(list []string, f func(string) string) []string {\n\tmappedList := make([]string, len(list))\n\tfor i, val := range list {\n\t\tmappedList[i] = f(val)\n\t}\n\treturn mappedList\n}\n```"
+  },
+  {
+    "task": "Apply map to replace spaces with underscores in a list of file paths.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tpaths := []string{\n\t\t\"/my documents/file 1.txt\",\n\t\t\"/another path/to file 2.txt\",\n\t\t\"/yet another path/file 3.txt\",\n\t}\n\n\tmappedPaths := Map(paths, func(s string) string {\n\t\treturn strings.ReplaceAll(s, \" \", \"_\")\n\t})\n\n\tfmt.Println(mappedPaths)\n}\n\nfunc Map(paths []string, f func(string) string) []string {\n\tmapped := make([]string, len(paths))\n\tfor i, path := range paths {\n\t\tmapped[i] = f(path)\n\t}\n\treturn mapped\n}\n```"
+  },
+  {
+    "task": "Convert a list of mixed-case strings to title case using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tstringsList := []string{\"hello world\", \"gO ProGrAmMinG\", \"tItLe CaSe\"}\n\ttitleCasedList := mapStringsToTitleCase(stringsList)\n\tfmt.Println(titleCasedList)\n}\n\nfunc mapStringsToTitleCase(stringsList []string) []string {\n\treturn mapFunc(stringsList, func(s string) string {\n\t\treturn strings.Title(strings.ToLower(s))\n\t})\n}\n\nfunc mapFunc(input []string, fn func(string) string) []string {\n\tresult := make([]string, len(input))\n\tfor i, v := range input {\n\t\tresult[i] = fn(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to filter out only the digits from a list of mixed alphanumeric strings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc filterDigits(input []string) []string {\n\tvar result []string\n\tfor _, str := range input {\n\t\tdigits := strings.Map(func(r rune) rune {\n\t\t\tif unicode.IsDigit(r) {\n\t\t\t\treturn r\n\t\t\t}\n\t\t\treturn -1\n\t\t}, str)\n\t\tresult = append(result, digits)\n\t}\n\treturn result\n}\n\nfunc main() {\n\tdata := []string{\"abc123\", \"456def\", \"7g8h9\", \"noDigits\"}\n\tfiltered := filterDigits(data)\n\tfmt.Println(filtered)\n}\n```"
+  },
+  {
+    "task": "Apply map to convert a list of Unix timestamps to readable date strings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc main() {\n\ttimestamps := []int64{1609459200, 1612137600, 1614556800}\n\tdates := Map(timestamps, func(ts int64) string {\n\t\treturn time.Unix(ts, 0).Format(\"2006-01-02 15:04:05\")\n\t})\n\n\tfor _, date := range dates {\n\t\tfmt.Println(date)\n\t}\n}\n\nfunc Map(timestamps []int64, f func(int64) string) []string {\n\tresult := make([]string, len(timestamps))\n\tfor i, ts := range timestamps {\n\t\tresult[i] = f(ts)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Transform a list of dictionary objects by extracting a specific key's value using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tdata := []map[string]interface{}{\n\t\t{\"name\": \"Alice\", \"age\": 30},\n\t\t{\"name\": \"Bob\", \"age\": 25},\n\t\t{\"name\": \"Charlie\", \"age\": 35},\n\t}\n\n\tkey := \"name\"\n\ttransformed := Transform(data, key)\n\tfmt.Println(transformed)\n}\n\nfunc Transform(data []map[string]interface{}, key string) []interface{} {\n\tresult := make([]interface{}, len(data))\n\tfor i, item := range data {\n\t\tif value, exists := item[key]; exists {\n\t\t\tresult[i] = value\n\t\t} else {\n\t\t\tresult[i] = nil\n\t\t}\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to compute the cube of each number in a list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc mapCube(nums []int, f func(int) int) []int {\n\tresult := make([]int, len(nums))\n\tfor i, num := range nums {\n\t\tresult[i] = f(num)\n\t}\n\treturn result\n}\n\nfunc cube(n int) int {\n\treturn n * n * n\n}\n\nfunc main() {\n\tnumbers := []int{1, 2, 3, 4, 5}\n\tcubedNumbers := mapCube(numbers, cube)\n\tfmt.Println(cubedNumbers)\n}\n```"
+  },
+  {
+    "task": "Translate a list of URLs to their respective domain names using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"net/url\"\n)\n\nfunc main() {\n\turls := []string{\n\t\t\"https://www.example.com/path\",\n\t\t\"https://golang.org/doc\",\n\t\t\"https://github.com/golang/go\",\n\t}\n\n\tdomains := Map(urls, func(u string) string {\n\t\tparsedURL, err := url.Parse(u)\n\t\tif err != nil {\n\t\t\treturn \"\"\n\t\t}\n\t\treturn parsedURL.Host\n\t})\n\n\tfmt.Println(domains)\n}\n\nfunc Map(urls []string, f func(string) string) []string {\n\tresult := make([]string, len(urls))\n\tfor i, url := range urls {\n\t\tresult[i] = f(url)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to generate HTML list items from a list of text strings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\ttexts := []string{\"Item 1\", \"Item 2\", \"Item 3\"}\n\thtmlItems := Map(texts, func(s string) string {\n\t\treturn fmt.Sprintf(\"<li>%s</li>\", s)\n\t})\n\tfmt.Println(strings.Join(htmlItems, \"\\n\"))\n}\n\nfunc Map(strings []string, fn func(string) string) []string {\n\tmapped := make([]string, len(strings))\n\tfor i, s := range strings {\n\t\tmapped[i] = fn(s)\n\t}\n\treturn mapped\n}\n```"
+  },
+  {
+    "task": "Convert a list of polar coordinates to Cartesian coordinates using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\ntype Polar struct {\n\tradius float64\n\ttheta  float64\n}\n\ntype Cartesian struct {\n\tx float64\n\ty float64\n}\n\nfunc polarToCartesian(p Polar) Cartesian {\n\treturn Cartesian{\n\t\tx: p.radius * math.Cos(p.theta),\n\t\ty: p.radius * math.Sin(p.theta),\n\t}\n}\n\nfunc mapPolarsToCartesians(polarCoords []Polar, fn func(Polar) Cartesian) []Cartesian {\n\tcartesianCoords := make([]Cartesian, len(polarCoords))\n\tfor i, p := range polarCoords {\n\t\tcartesianCoords[i] = fn(p)\n\t}\n\treturn cartesianCoords\n}\n\nfunc main() {\n\tpolarCoords := []Polar{\n\t\t{1.0, math.Pi / 4},\n\t\t{2.0, math.Pi / 2},\n\t\t{3.0, math.Pi},\n\t}\n\n\tcartesianCoords := mapPolarsToCartesians(polarCoords, polarToCartesian)\n\n\tfor _, c := range cartesianCoords {\n\t\tfmt.Printf(\"(%.2f, %.2f)\\n\", c.x, c.y)\n\t}\n}\n```"
+  },
+  {
+    "task": "Use map to decode a list of Base64 encoded strings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"encoding/base64\"\n\t\"fmt\"\n)\n\nfunc decodeBase64(encodedStrings []string) []string {\n\tdecodedStrings := make([]string, len(encodedStrings))\n\tfor i, encoded := range encodedStrings {\n\t\tdecoded, err := base64.StdEncoding.DecodeString(encoded)\n\t\tif err != nil {\n\t\t\tdecodedStrings[i] = \"\"\n\t\t} else {\n\t\t\tdecodedStrings[i] = string(decoded)\n\t\t}\n\t}\n\treturn decodedStrings\n}\n\nfunc main() {\n\tencodedStrings := []string{\"SGVsbG8gd29ybGQ=\", \"R29waGVyIGlzIGZ1biE=\"}\n\tdecodedStrings := decodeBase64(encodedStrings)\n\tfor _, decoded := range decodedStrings {\n\t\tfmt.Println(decoded)\n\t}\n}\n```"
+  },
+  {
+    "task": "Convert a list of English sentences to Pig Latin using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc toPigLatin(sentence string) string {\n\twords := strings.Fields(sentence)\n\tfor i, word := range words {\n\t\tif len(word) > 0 {\n\t\t\tfirst := string(word[0])\n\t\t\trest := word[1:]\n\t\t\twords[i] = rest + first + \"ay\"\n\t\t}\n\t}\n\treturn strings.Join(words, \" \")\n}\n\nfunc mapToPigLatin(sentences []string) []string {\n\tpigLatinSentences := make([]string, len(sentences))\n\tfor i, sentence := range sentences {\n\t\tpigLatinSentences[i] = toPigLatin(sentence)\n\t}\n\treturn pigLatinSentences\n}\n\nfunc main() {\n\tsentences := []string{\n\t\t\"hello world\",\n\t\t\"go is fun\",\n\t}\n\tpigLatinSentences := mapToPigLatin(sentences)\n\tfor _, pigLatin := range pigLatinSentences {\n\t\tfmt.Println(pigLatin)\n\t}\n}\n```"
+  },
+  {
+    "task": "Use map to anonymize a list of email addresses by masking them.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc anonymizeEmail(email string) string {\n\tparts := strings.Split(email, \"@\")\n\tif len(parts) != 2 {\n\t\treturn email\n\t}\n\treturn \"***@\" + parts[1]\n}\n\nfunc main() {\n\temails := []string{\"user1@example.com\", \"user2@test.com\", \"user3@domain.com\"}\n\n\tanonymizedEmails := mapEmails(emails, anonymizeEmail)\n\n\tfor _, email := range anonymizedEmails {\n\t\tfmt.Println(email)\n\t}\n}\n\nfunc mapEmails(emails []string, fn func(string) string) []string {\n\tresult := make([]string, len(emails))\n\tfor i, email := range emails {\n\t\tresult[i] = fn(email)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Apply map to reverse each string in a list of words.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc reverse(s string) string {\n\trunes := []rune(s)\n\tn := len(runes)\n\tfor i := 0; i < n/2; i++ {\n\t\trunes[i], runes[n-1-i] = runes[n-1-i], runes[i]\n\t}\n\treturn string(runes)\n}\n\nfunc mapStrings(words []string, f func(string) string) []string {\n\tresult := make([]string, len(words))\n\tfor i, word := range words {\n\t\tresult[i] = f(word)\n\t}\n\treturn result\n}\n\nfunc main() {\n\twords := []string{\"hello\", \"world\", \"foo\", \"bar\"}\n\treversedWords := mapStrings(words, reverse)\n\tfmt.Println(reversedWords)\n}\n```"
+  },
+  {
+    "task": "Convert a list of hexadecimal color codes to RGB tuples using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc hexToRGB(hex string) (int, int, int, error) {\n\tif len(hex) != 7 || hex[0] != '#' {\n\t\treturn 0, 0, 0, fmt.Errorf(\"invalid hex format\")\n\t}\n\tr, err := strconv.ParseInt(hex[1:3], 16, 32)\n\tif err != nil {\n\t\treturn 0, 0, 0, err\n\t}\n\tg, err := strconv.ParseInt(hex[3:5], 16, 32)\n\tif err != nil {\n\t\treturn 0, 0, 0, err\n\t}\n\tb, err := strconv.ParseInt(hex[5:7], 16, 32)\n\tif err != nil {\n\t\treturn 0, 0, 0, err\n\t}\n\treturn int(r), int(g), int(b), nil\n}\n\nfunc mapHexToRGB(hexColors []string) ([][3]int, error) {\n\trgbColors := make([][3]int, len(hexColors))\n\tfor i, hex := range hexColors {\n\t\tr, g, b, err := hexToRGB(hex)\n\t\tif err != nil {\n\t\t\treturn nil, err\n\t\t}\n\t\trgbColors[i] = [3]int{r, g, b}\n\t}\n\treturn rgbColors, nil\n}\n\nfunc main() {\n\thexColors := []string{\"#FF5733\", \"#33A1FF\", \"#8DFF33\"}\n\trgbColors, err := mapHexToRGB(hexColors)\n\tif err != nil {\n\t\tfmt.Println(\"Error:\", err)\n\t\treturn\n\t}\n\tfmt.Println(rgbColors)\n}\n```"
+  },
+  {
+    "task": "Use map to increment each integer in a list by a constant value.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc mapFunc(ints []int, fn func(int) int) []int {\n\tresults := make([]int, len(ints))\n\tfor i, v := range ints {\n\t\tresults[i] = fn(v)\n\t}\n\treturn results\n}\n\nfunc main() {\n\tints := []int{1, 2, 3, 4, 5}\n\tincrementBy := 3\n\tincrementedInts := mapFunc(ints, func(v int) int {\n\t\treturn v + incrementBy\n\t})\n\tfmt.Println(incrementedInts)\n}\n```"
+  },
+  {
+    "task": "Calculate the square root of each number in a list using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tnumbers := []float64{1, 4, 9, 16, 25}\n\n\tsquareRoots := Map(numbers, math.Sqrt)\n\n\tfmt.Println(squareRoots)\n}\n\nfunc Map(numbers []float64, fn func(float64) float64) []float64 {\n\tresult := make([]float64, len(numbers))\n\tfor i, n := range numbers {\n\t\tresult[i] = fn(n)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to convert a list of currency amounts from dollars to euros.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tdollars := []float64{10.0, 20.0, 30.0, 40.0, 50.0}\n\texchangeRate := 0.85\n\n\teuros := Map(dollars, func(amount float64) float64 {\n\t\treturn amount * exchangeRate\n\t})\n\n\tfmt.Println(euros)\n}\n\nfunc Map(slice []float64, f func(float64) float64) []float64 {\n\tresult := make([]float64, len(slice))\n\tfor i, v := range slice {\n\t\tresult[i] = f(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Extract the domain from each email address in a list using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\temails := []string{\"user1@example.com\", \"user2@test.org\", \"user3@sample.net\"}\n\tdomains := mapEmailsToDomains(emails)\n\tfmt.Println(domains)\n}\n\nfunc mapEmailsToDomains(emails []string) []string {\n\tdomains := make([]string, len(emails))\n\tfor i, email := range emails {\n\t\tdomains[i] = extractDomain(email)\n\t}\n\treturn domains\n}\n\nfunc extractDomain(email string) string {\n\tparts := strings.Split(email, \"@\")\n\tif len(parts) == 2 {\n\t\treturn parts[1]\n\t}\n\treturn \"\"\n}\n```"
+  },
+  {
+    "task": "Use map to serialize a list of objects into JSON strings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\ntype Object struct {\n\tID   int    `json:\"id\"`\n\tName string `json:\"name\"`\n}\n\nfunc main() {\n\tobjects := []Object{\n\t\t{ID: 1, Name: \"Object One\"},\n\t\t{ID: 2, Name: \"Object Two\"},\n\t}\n\n\tserialized := mapObjectsToJSON(objects)\n\tfor _, jsonString := range serialized {\n\t\tfmt.Println(jsonString)\n\t}\n}\n\nfunc mapObjectsToJSON(objects []Object) []string {\n\treturn mapFunc(objects, func(obj Object) string {\n\t\tjsonData, _ := json.Marshal(obj)\n\t\treturn string(jsonData)\n\t})\n}\n\nfunc mapFunc(objects []Object, f func(Object) string) []string {\n\tresult := make([]string, len(objects))\n\tfor i, obj := range objects {\n\t\tresult[i] = f(obj)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Transform a list of file sizes from bytes to kilobytes using map.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tfileSizesInBytes := []int{1024, 2048, 5120, 10240}\n\tfileSizesInKilobytes := mapFileSizes(fileSizesInBytes, func(size int) int {\n\t\treturn size / 1024\n\t})\n\tfmt.Println(fileSizesInKilobytes)\n}\n\nfunc mapFileSizes(sizes []int, transform func(int) int) []int {\n\tresult := make([]int, len(sizes))\n\tfor i, size := range sizes {\n\t\tresult[i] = transform(size)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to append a suffix to each string in a list of identifiers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc mapIdentifiers(identifiers []string, suffix string) []string {\n\tmapped := make([]string, len(identifiers))\n\tfor i, id := range identifiers {\n\t\tmapped[i] = id + suffix\n\t}\n\treturn mapped\n}\n\nfunc main() {\n\tidentifiers := []string{\"id1\", \"id2\", \"id3\"}\n\tsuffix := \"_suffix\"\n\tmappedIdentifiers := mapIdentifiers(identifiers, suffix)\n\tfmt.Println(mappedIdentifiers)\n}\n```"
+  },
+  {
+    "task": "Apply map to convert measurements from inches to centimeters in a list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc mapInchesToCm(inches []float64, conversionFunc func(float64) float64) []float64 {\n\tcm := make([]float64, len(inches))\n\tfor i, inch := range inches {\n\t\tcm[i] = conversionFunc(inch)\n\t}\n\treturn cm\n}\n\nfunc main() {\n\tinches := []float64{1.0, 2.5, 3.0, 4.2}\n\tconversionFunc := func(inch float64) float64 {\n\t\treturn inch * 2.54\n\t}\n\tcentimeters := mapInchesToCm(inches, conversionFunc)\n\tfmt.Println(centimeters)\n}\n```"
+  },
+  {
+    "task": "Use map to encrypt a list of plaintext messages using a simple cipher.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc encryptMessage(message string) string {\n\tshift := 3\n\tencrypted := strings.Map(func(r rune) rune {\n\t\tif r >= 'a' && r <= 'z' {\n\t\t\treturn 'a' + (r-'a'+rune(shift))%26\n\t\t} else if r >= 'A' && r <= 'Z' {\n\t\t\treturn 'A' + (r-'A'+rune(shift))%26\n\t\t}\n\t\treturn r\n\t}, message)\n\treturn encrypted\n}\n\nfunc main() {\n\tmessages := []string{\"hello\", \"world\", \"golang\", \"cipher\"}\n\tencryptedMessages := make([]string, len(messages))\n\n\tfor i, message := range messages {\n\t\tencryptedMessages[i] = encryptMessage(message)\n\t}\n\n\tfmt.Println(\"Encrypted Messages:\")\n\tfor _, encryptedMessage := range encryptedMessages {\n\t\tfmt.Println(encryptedMessage)\n\t}\n}\n```"
+  },
+  {
+    "task": "Transform a list of date strings to day of the week names using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc main() {\n\tdates := []string{\"2023-10-01\", \"2023-10-02\", \"2023-10-03\"}\n\tdaysOfWeek := Map(dates, func(dateStr string) string {\n\t\tdate, err := time.Parse(\"2006-01-02\", dateStr)\n\t\tif err != nil {\n\t\t\treturn \"\"\n\t\t}\n\t\treturn date.Weekday().String()\n\t})\n\tfmt.Println(daysOfWeek)\n}\n\nfunc Map(strings []string, f func(string) string) []string {\n\tmapped := make([]string, len(strings))\n\tfor i, v := range strings {\n\t\tmapped[i] = f(v)\n\t}\n\treturn mapped\n}\n```"
+  },
+  {
+    "task": "Use map to derive the absolute value of each number in a list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tnumbers := []int{-1, -2, 3, 4, -5}\n\tabsValues := Map(numbers, func(n int) int {\n\t\treturn int(math.Abs(float64(n)))\n\t})\n\tfmt.Println(absValues)\n}\n\nfunc Map(numbers []int, f func(int) int) []int {\n\tresult := make([]int, len(numbers))\n\tfor i, n := range numbers {\n\t\tresult[i] = f(n)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Convert a list of lowercase hexadecimal strings to uppercase using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\thexStrings := []string{\"1a\", \"2b\", \"3c\", \"4d\", \"5e\"}\n\n\tupperHexStrings := Map(hexStrings, strings.ToUpper)\n\n\tfmt.Println(upperHexStrings)\n}\n\nfunc Map(strings []string, f func(string) string) []string {\n\tmapped := make([]string, len(strings))\n\tfor i, v := range strings {\n\t\tmapped[i] = f(v)\n\t}\n\treturn mapped\n}\n```"
+  },
+  {
+    "task": "Use map to find the maximum value in a list of lists of numbers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tlists := [][]float64{\n\t\t{1.1, 2.2, 3.3},\n\t\t{4.4, 5.5, 6.6},\n\t\t{7.7, 8.8, 9.9},\n\t}\n\n\tmax := math.Inf(-1)\n\tfor _, list := range lists {\n\t\tfor _, num := range list {\n\t\t\tif num > max {\n\t\t\t\tmax = num\n\t\t\t}\n\t\t}\n\t}\n\n\tfmt.Printf(\"The maximum value is: %.2f\\n\", max)\n}\n```"
+  },
+  {
+    "task": "Apply map to extract the year from each date in a list of date objects.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc extractYear(dates []time.Time) []int {\n\tyears := make([]int, len(dates))\n\tfor i, date := range dates {\n\t\tyears[i] = date.Year()\n\t}\n\treturn years\n}\n\nfunc main() {\n\tdates := []time.Time{\n\t\ttime.Date(2021, time.March, 17, 0, 0, 0, 0, time.UTC),\n\t\ttime.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),\n\t\ttime.Date(2019, time.December, 25, 0, 0, 0, 0, time.UTC),\n\t}\n\tyears := extractYear(dates)\n\tfmt.Println(years)\n}\n```"
+  },
+  {
+    "task": "Use map to prepend a country code to each phone number in a list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc prependCountryCode(phoneNumbers []string, countryCode string) []string {\n\tresult := make([]string, len(phoneNumbers))\n\tfor i, phoneNumber := range phoneNumbers {\n\t\tresult[i] = countryCode + phoneNumber\n\t}\n\treturn result\n}\n\nfunc main() {\n\tphoneNumbers := []string{\"1234567890\", \"0987654321\", \"5555555555\"}\n\tcountryCode := \"+1\"\n\tmodifiedNumbers := prependCountryCode(phoneNumbers, countryCode)\n\tfmt.Println(modifiedNumbers)\n}\n```"
+  },
+  {
+    "task": "Capitalize the last letter of each word in a list using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc capitalizeLastLetter(word string) string {\n\tif len(word) == 0 {\n\t\treturn word\n\t}\n\trunes := []rune(word)\n\trunes[len(runes)-1] = []rune(strings.ToUpper(string(runes[len(runes)-1])))[0]\n\treturn string(runes)\n}\n\nfunc mapWords(words []string, f func(string) string) []string {\n\tmapped := make([]string, len(words))\n\tfor i, word := range words {\n\t\tmapped[i] = f(word)\n\t}\n\treturn mapped\n}\n\nfunc main() {\n\twords := []string{\"apple\", \"banana\", \"cherry\"}\n\tcapitalized := mapWords(words, capitalizeLastLetter)\n\tfmt.Println(capitalized)\n}\n```"
+  },
+  {
+    "task": "Use map to transform a list of strings by removing all vowels.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc removeVowels(s string) string {\n\tvowels := \"aeiouAEIOU\"\n\tresult := \"\"\n\tfor _, char := range s {\n\t\tif !strings.ContainsRune(vowels, char) {\n\t\t\tresult += string(char)\n\t\t}\n\t}\n\treturn result\n}\n\nfunc mapStrings(stringsList []string, f func(string) string) []string {\n\ttransformed := make([]string, len(stringsList))\n\tfor i, s := range stringsList {\n\t\ttransformed[i] = f(s)\n\t}\n\treturn transformed\n}\n\nfunc main() {\n\tstringsList := []string{\"apple\", \"banana\", \"cherry\"}\n\ttransformed := mapStrings(stringsList, removeVowels)\n\tfmt.Println(transformed)\n}\n```"
+  },
+  {
+    "task": "Convert a list of music notes to their corresponding frequencies using map.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tnotes := []string{\"A\", \"B\", \"C\", \"D\", \"E\", \"F\", \"G\"}\n\tfrequencies := map[string]float64{\n\t\t\"A\": 440.00,\n\t\t\"B\": 493.88,\n\t\t\"C\": 261.63,\n\t\t\"D\": 293.66,\n\t\t\"E\": 329.63,\n\t\t\"F\": 349.23,\n\t\t\"G\": 392.00,\n\t}\n\n\tmappedFrequencies := mapNotesToFrequencies(notes, frequencies)\n\tfmt.Println(mappedFrequencies)\n}\n\nfunc mapNotesToFrequencies(notes []string, freqMap map[string]float64) []float64 {\n\tresult := make([]float64, len(notes))\n\tfor i, note := range notes {\n\t\tif freq, ok := freqMap[note]; ok {\n\t\t\tresult[i] = freq\n\t\t} else {\n\t\t\tresult[i] = 0\n\t\t}\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to find the reciprocal of each number in a list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tnumbers := []float64{1, 2, 4, 5, 10}\n\n\treciprocals := Map(numbers, func(n float64) float64 {\n\t\treturn 1 / n\n\t})\n\n\tfmt.Println(reciprocals)\n}\n\nfunc Map(numbers []float64, fn func(float64) float64) []float64 {\n\tresult := make([]float64, len(numbers))\n\tfor i, n := range numbers {\n\t\tresult[i] = fn(n)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Transform a list of URLs to their shortened versions using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\turls := []string{\n\t\t\"https://example.com/long/path\",\n\t\t\"https://anotherexample.com/very/long/path\",\n\t\t\"https://yetanotherexample.com/a/really/long/path\",\n\t}\n\n\t// Functional map to shorten URLs\n\tshortenedUrls := Map(urls, func(url string) string {\n\t\treturn shortenURL(url)\n\t})\n\n\tfmt.Println(shortenedUrls)\n}\n\nfunc Map(urls []string, f func(string) string) []string {\n\tshortened := make([]string, len(urls))\n\tfor i, url := range urls {\n\t\tshortened[i] = f(url)\n\t}\n\treturn shortened\n}\n\nfunc shortenURL(url string) string {\n\t// Simplified example of URL shortening\n\tparts := strings.Split(url, \"/\")\n\tif len(parts) > 2 {\n\t\treturn parts[0] + \"//\" + parts[2] + \"/...\"\n\t}\n\treturn url\n}\n```"
+  },
+  {
+    "task": "Use map to generate a list of initials from a list of full names.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tnames := []string{\"Alice Johnson\", \"Bob Smith\", \"Charlie Brown\"}\n\tinitials := mapInitials(names)\n\tfmt.Println(initials)\n}\n\nfunc mapInitials(names []string) []string {\n\tinitials := make([]string, len(names))\n\tfor i, name := range names {\n\t\tparts := strings.Fields(name)\n\t\tvar initial string\n\t\tfor _, part := range parts {\n\t\t\tinitial += string(part[0])\n\t\t}\n\t\tinitials[i] = initial\n\t}\n\treturn initials\n}\n```"
+  },
+  {
+    "task": "Convert a list of decimal numbers to their binary string representations using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc main() {\n\tdecimals := []int{5, 10, 15, 20, 25}\n\tbinaries := mapDecimalsToBinaries(decimals)\n\tfmt.Println(binaries)\n}\n\nfunc mapDecimalsToBinaries(decimals []int) []string {\n\tbinaries := make([]string, len(decimals))\n\tfor i, num := range decimals {\n\t\tbinaries[i] = strconv.FormatInt(int64(num), 2)\n\t}\n\treturn binaries\n}\n```"
+  },
+  {
+    "task": "Use map to adjust the brightness of each color in a list of RGB tuples.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype RGB struct {\n\tR, G, B int\n}\n\nfunc adjustBrightness(colors []RGB, factor float64) []RGB {\n\treturn mapColors(colors, func(color RGB) RGB {\n\t\treturn RGB{\n\t\t\tR: int(float64(color.R) * factor),\n\t\t\tG: int(float64(color.G) * factor),\n\t\t\tB: int(float64(color.B) * factor),\n\t\t}\n\t})\n}\n\nfunc mapColors(colors []RGB, f func(RGB) RGB) []RGB {\n\tadjustedColors := make([]RGB, len(colors))\n\tfor i, color := range colors {\n\t\tadjustedColors[i] = f(color)\n\t}\n\treturn adjustedColors\n}\n\nfunc main() {\n\tcolors := []RGB{\n\t\t{R: 255, G: 0, B: 0},\n\t\t{R: 0, G: 255, B: 0},\n\t\t{R: 0, G: 0, B: 255},\n\t}\n\tfactor := 0.5\n\tadjustedColors := adjustBrightness(colors, factor)\n\tfmt.Println(adjustedColors)\n}\n```"
+  },
+  {
+    "task": "Apply map to filter out only alphabetic characters from a list of strings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc main() {\n\tstringsList := []string{\"hello123\", \"world456\", \"foo789\", \"bar*()\"}\n\tfiltered := mapStrings(stringsList, filterAlphabetic)\n\tfmt.Println(filtered)\n}\n\nfunc mapStrings(stringsList []string, fn func(string) string) []string {\n\tresult := make([]string, len(stringsList))\n\tfor i, s := range stringsList {\n\t\tresult[i] = fn(s)\n\t}\n\treturn result\n}\n\nfunc filterAlphabetic(s string) string {\n\treturn strings.Map(func(r rune) rune {\n\t\tif unicode.IsLetter(r) {\n\t\t\treturn r\n\t\t}\n\t\treturn -1\n\t}, s)\n}\n```"
+  },
+  {
+    "task": "Use map to compute the prime factorization of each number in a list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc primeFactors(n int) []int {\n\tfactors := []int{}\n\tfor n%2 == 0 {\n\t\tfactors = append(factors, 2)\n\t\tn /= 2\n\t}\n\tfor i := 3; i*i <= n; i += 2 {\n\t\tfor n%i == 0 {\n\t\t\tfactors = append(factors, i)\n\t\t\tn /= i\n\t\t}\n\t}\n\tif n > 2 {\n\t\tfactors = append(factors, n)\n\t}\n\treturn factors\n}\n\nfunc main() {\n\tnumbers := []int{10, 15, 21, 33, 49}\n\tfactorizations := map[int][]int{}\n\n\tfor _, num := range numbers {\n\t\tfactorizations[num] = primeFactors(num)\n\t}\n\n\tfor num, factors := range factorizations {\n\t\tfmt.Printf(\"%d: %v\\n\", num, factors)\n\t}\n}\n```"
+  },
+  {
+    "task": "Calculate the exponential of each number in a list using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc mapExponential(numbers []float64, f func(float64) float64) []float64 {\n\tresult := make([]float64, len(numbers))\n\tfor i, number := range numbers {\n\t\tresult[i] = f(number)\n\t}\n\treturn result\n}\n\nfunc main() {\n\tnumbers := []float64{1, 2, 3, 4, 5}\n\texponentials := mapExponential(numbers, math.Exp)\n\tfmt.Println(exponentials)\n}\n```"
+  },
+  {
+    "task": "Use map to convert a list of text messages to morse code.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tmorseCodeMap := map[rune]string{\n\t\t'A': \".-\", 'B': \"-...\", 'C': \"-.-.\", 'D': \"-..\", 'E': \".\", 'F': \"..-.\",\n\t\t'G': \"--.\", 'H': \"....\", 'I': \"..\", 'J': \".---\", 'K': \"-.-\", 'L': \".-..\",\n\t\t'M': \"--\", 'N': \"-.\", 'O': \"---\", 'P': \".--.\", 'Q': \"--.-\", 'R': \".-.\",\n\t\t'S': \"...\", 'T': \"-\", 'U': \"..-\", 'V': \"...-\", 'W': \".--\", 'X': \"-..-\",\n\t\t'Y': \"-.--\", 'Z': \"--..\", '1': \".----\", '2': \"..---\", '3': \"...--\",\n\t\t'4': \"....-\", '5': \".....\", '6': \"-....\", '7': \"--...\", '8': \"---..\",\n\t\t'9': \"----.\", '0': \"-----\",\n\t}\n\n\ttextMessages := []string{\n\t\t\"HELLO\", \"WORLD\", \"GO LANG\",\n\t}\n\n\tmorseMessages := make([]string, len(textMessages))\n\tfor i, message := range textMessages {\n\t\tvar morseMessage []string\n\t\tfor _, char := range strings.ToUpper(message) {\n\t\t\tif code, ok := morseCodeMap[char]; ok {\n\t\t\t\tmorseMessage = append(morseMessage, code)\n\t\t\t}\n\t\t}\n\t\tmorseMessages[i] = strings.Join(morseMessage, \" \")\n\t}\n\n\tfor _, morse := range morseMessages {\n\t\tfmt.Println(morse)\n\t}\n}\n```"
+  },
+  {
+    "task": "Transform a list of JSON objects to XML strings using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"encoding/json\"\n\t\"encoding/xml\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tjsonObjects := []string{\n\t\t`{\"Name\": \"Alice\", \"Age\": 30}`,\n\t\t`{\"Name\": \"Bob\", \"Age\": 25}`,\n\t}\n\n\txmlStrings := Map(jsonObjects, func(jsonStr string) string {\n\t\tvar jsonObj map[string]interface{}\n\t\tif err := json.Unmarshal([]byte(jsonStr), &jsonObj); err != nil {\n\t\t\treturn \"\"\n\t\t}\n\t\txmlBytes, err := xml.Marshal(jsonObj)\n\t\tif err != nil {\n\t\t\treturn \"\"\n\t\t}\n\t\treturn string(xmlBytes)\n\t})\n\n\tfor _, xmlStr := range xmlStrings {\n\t\tfmt.Println(xmlStr)\n\t}\n}\n\nfunc Map(data []string, fn func(string) string) []string {\n\tresult := make([]string, len(data))\n\tfor i, v := range data {\n\t\tresult[i] = fn(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to extract the extension from each filename in a list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tfilenames := []string{\"file1.txt\", \"document.pdf\", \"image.jpeg\", \"archive.tar.gz\"}\n\textensions := Map(filenames, func(filename string) string {\n\t\tparts := strings.Split(filename, \".\")\n\t\tif len(parts) > 1 {\n\t\t\treturn parts[len(parts)-1]\n\t\t}\n\t\treturn \"\"\n\t})\n\tfmt.Println(extensions)\n}\n\nfunc Map(filenames []string, fn func(string) string) []string {\n\tresult := make([]string, len(filenames))\n\tfor i, filename := range filenames {\n\t\tresult[i] = fn(filename)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Convert a list of temperatures from Fahrenheit to Kelvin using map.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tfahrenheitTemps := []float64{32, 212, 98.6}\n\tkelvinTemps := mapTemperatures(fahrenheitTemps, fahrenheitToKelvin)\n\tfmt.Println(kelvinTemps)\n}\n\nfunc fahrenheitToKelvin(f float64) float64 {\n\treturn (f-32)*5/9 + 273.15\n}\n\nfunc mapTemperatures(temps []float64, fn func(float64) float64) []float64 {\n\tresult := make([]float64, len(temps))\n\tfor i, temp := range temps {\n\t\tresult[i] = fn(temp)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to calculate the perimeter of each rectangle in a list of dimensions.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tdimensions := []struct {\n\t\tlength, width int\n\t}{\n\t\t{5, 3},\n\t\t{8, 2},\n\t\t{6, 7},\n\t}\n\n\tperimeters := Map(dimensions, func(d struct{ length, width int }) int {\n\t\treturn 2 * (d.length + d.width)\n\t})\n\n\tfmt.Println(perimeters)\n}\n\nfunc Map(dimensions []struct{ length, width int }, f func(struct{ length, width int }) int) []int {\n\tresult := make([]int, len(dimensions))\n\tfor i, d := range dimensions {\n\t\tresult[i] = f(d)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Apply map to format a list of phone numbers into a standard format.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tphoneNumbers := []string{\n\t\t\"1234567890\",\n\t\t\"9876543210\",\n\t\t\"5551234567\",\n\t}\n\n\tstandardFormat := func(number string) string {\n\t\treturn fmt.Sprintf(\"(%s) %s-%s\", number[:3], number[3:6], number[6:])\n\t}\n\n\tformattedNumbers := Map(phoneNumbers, standardFormat)\n\n\tfor _, number := range formattedNumbers {\n\t\tfmt.Println(number)\n\t}\n}\n\nfunc Map(numbers []string, f func(string) string) []string {\n\tmapped := make([]string, len(numbers))\n\tfor i, number := range numbers {\n\t\tmapped[i] = f(number)\n\t}\n\treturn mapped\n}\n```"
+  },
+  {
+    "task": "Use map to generate a hashed version of passwords from a list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"crypto/sha256\"\n\t\"encoding/hex\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tpasswords := []string{\"password123\", \"helloWorld\", \"goLangRocks\"}\n\thashedPasswords := mapPasswords(passwords)\n\tfor _, hashed := range hashedPasswords {\n\t\tfmt.Println(hashed)\n\t}\n}\n\nfunc mapPasswords(passwords []string) []string {\n\thashed := make([]string, len(passwords))\n\tfor i, password := range passwords {\n\t\thash := sha256.Sum256([]byte(password))\n\t\thashed[i] = hex.EncodeToString(hash[:])\n\t}\n\treturn hashed\n}\n```"
+  },
+  {
+    "task": "Convert a list of text paragraphs to a word count using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tparagraphs := []string{\n\t\t\"Go is an open-source programming language created at Google.\",\n\t\t\"It is used for building fast and reliable software.\",\n\t\t\"Go supports concurrent programming and offers a rich standard library.\",\n\t}\n\n\twordCounts := functionalMap(paragraphs, func(paragraph string) int {\n\t\treturn len(strings.Fields(paragraph))\n\t})\n\n\tfmt.Println(wordCounts)\n}\n\nfunc functionalMap(paragraphs []string, f func(string) int) []int {\n\tresult := make([]int, len(paragraphs))\n\tfor i, paragraph := range paragraphs {\n\t\tresult[i] = f(paragraph)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to remove punctuation from each string in a list of sentences.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc removePunctuation(str string) string {\n\treturn strings.Map(func(r rune) rune {\n\t\tif unicode.IsPunct(r) {\n\t\t\treturn -1\n\t\t}\n\t\treturn r\n\t}, str)\n}\n\nfunc main() {\n\tsentences := []string{\n\t\t\"Hello, world!\",\n\t\t\"Go is great; isn't it?\",\n\t\t\"Let's write some Go code.\",\n\t}\n\n\tresult := make([]string, len(sentences))\n\tfor i, sentence := range sentences {\n\t\tresult[i] = removePunctuation(sentence)\n\t}\n\n\tfmt.Println(result)\n}\n```"
+  },
+  {
+    "task": "Transform a list of URLs to their base domain using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"net/url\"\n)\n\nfunc getBaseDomain(urls []string) []string {\n\tmapFunc := func(u string) string {\n\t\tparsedURL, err := url.Parse(u)\n\t\tif err != nil {\n\t\t\treturn \"\"\n\t\t}\n\t\treturn parsedURL.Hostname()\n\t}\n\n\tresult := make([]string, len(urls))\n\tfor i, u := range urls {\n\t\tresult[i] = mapFunc(u)\n\t}\n\treturn result\n}\n\nfunc main() {\n\turls := []string{\n\t\t\"http://example.com/path\",\n\t\t\"https://subdomain.example.org\",\n\t\t\"ftp://another-example.net\",\n\t}\n\tbaseDomains := getBaseDomain(urls)\n\tfmt.Println(baseDomains)\n}\n```"
+  },
+  {
+    "task": "Use map to translate a list of expressions to their symbolic algebraic forms.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc symbolicAlgebraicForm(expressions []string) []string {\n\tmapping := map[string]string{\n\t\t\"x + x\": \"2x\",\n\t\t\"x * x\": \"x^2\",\n\t\t\"x - x\": \"0\",\n\t\t\"x / x\": \"1\",\n\t}\n\n\tvar result []string\n\tfor _, expr := range expressions {\n\t\tif val, found := mapping[expr]; found {\n\t\t\tresult = append(result, val)\n\t\t} else {\n\t\t\tresult = append(result, expr)\n\t\t}\n\t}\n\treturn result\n}\n\nfunc main() {\n\texpressions := []string{\"x + x\", \"x * x\", \"x - x\", \"x / x\", \"x + y\"}\n\tresult := symbolicAlgebraicForm(expressions)\n\tfmt.Println(strings.Join(result, \", \"))\n}\n```"
+  },
+  {
+    "task": "Apply map to convert a list of ASCII codes to corresponding characters.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc mapToChars(asciiCodes []int) []string {\n\tchars := make([]string, len(asciiCodes))\n\tfor i, code := range asciiCodes {\n\t\tchars[i] = string(rune(code))\n\t}\n\treturn chars\n}\n\nfunc main() {\n\tasciiCodes := []int{72, 101, 108, 108, 111}\n\tchars := mapToChars(asciiCodes)\n\tfmt.Println(chars)\n}\n```"
+  },
+  {
+    "task": "Use map to transform a list of text strings to their lemmatized forms.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc lemmatize(word string) string {\n\t// This is a mock lemmatization function\n\tlemmatizer := map[string]string{\n\t\t\"running\": \"run\",\n\t\t\"swimming\": \"swim\",\n\t\t\"bought\": \"buy\",\n\t}\n\tif lemma, exists := lemmatizer[word]; exists {\n\t\treturn lemma\n\t}\n\treturn word\n}\n\nfunc main() {\n\twords := []string{\"running\", \"swimming\", \"bought\", \"cats\"}\n\tlemmatizedWords := mapStrings(words, lemmatize)\n\tfmt.Println(lemmatizedWords)\n}\n\nfunc mapStrings(input []string, fn func(string) string) []string {\n\tresult := make([]string, len(input))\n\tfor i, v := range input {\n\t\tresult[i] = fn(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Convert a list of HTML strings to plain text using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"regexp\"\n)\n\nfunc htmlToPlainText(html string) string {\n\tre := regexp.MustCompile(\"<[^>]*>\")\n\treturn re.ReplaceAllString(html, \"\")\n}\n\nfunc main() {\n\thtmlStrings := []string{\n\t\t\"<p>Hello, <b>world</b>!</p>\",\n\t\t\"<div>Go <i>is</i> awesome!</div>\",\n\t\t\"<h1>Title</h1>\",\n\t}\n\n\tplainTextStrings := make([]string, len(htmlStrings))\n\tfor i, html := range htmlStrings {\n\t\tplainTextStrings[i] = htmlToPlainText(html)\n\t}\n\n\tfmt.Println(plainTextStrings)\n}\n```"
+  },
+  {
+    "task": "Use map to create a summary of each article in a list of texts.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc summarize(texts []string) []string {\n\treturn Map(texts, func(text string) string {\n\t\t// Simple summary by taking the first sentence\n\t\tsentences := strings.SplitN(text, \".\", 2)\n\t\tif len(sentences) > 0 {\n\t\t\treturn strings.TrimSpace(sentences[0]) + \".\"\n\t\t}\n\t\treturn \"\"\n\t})\n}\n\nfunc Map(texts []string, fn func(string) string) []string {\n\tresult := make([]string, len(texts))\n\tfor i, text := range texts {\n\t\tresult[i] = fn(text)\n\t}\n\treturn result\n}\n\nfunc main() {\n\tarticles := []string{\n\t\t\"Go is an open-source programming language. It is designed by Google.\",\n\t\t\"Functional programming is a programming paradigm. It treats computation as the evaluation of mathematical functions.\",\n\t\t\"Concurrency is a key feature of Go. It allows multiple computations to run simultaneously.\",\n\t}\n\n\tsummaries := summarize(articles)\n\tfor _, summary := range summaries {\n\t\tfmt.Println(summary)\n\t}\n}\n```"
+  },
+  {
+    "task": "Transform a list of paths to their absolute paths using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"path/filepath\"\n)\n\nfunc main() {\n\tpaths := []string{\"./file1.txt\", \"../file2.txt\", \"/usr/local/file3.txt\"}\n\n\tabsPaths := mapPaths(paths, func(path string) string {\n\t\tabsPath, err := filepath.Abs(path)\n\t\tif err != nil {\n\t\t\treturn path\n\t\t}\n\t\treturn absPath\n\t})\n\n\tfmt.Println(absPaths)\n}\n\nfunc mapPaths(paths []string, fn func(string) string) []string {\n\tresult := make([]string, len(paths))\n\tfor i, path := range paths {\n\t\tresult[i] = fn(path)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to generate QR codes from a list of URLs.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"github.com/skip2/go-qrcode\"\n)\n\nfunc generateQRCodes(urls []string) ([]string, error) {\n\treturn mapURLs(urls, func(url string) (string, error) {\n\t\tfileName := urlToFileName(url) + \".png\"\n\t\terr := qrcode.WriteFile(url, qrcode.Medium, 256, fileName)\n\t\tif err != nil {\n\t\t\treturn \"\", err\n\t\t}\n\t\treturn fileName, nil\n\t})\n}\n\nfunc mapURLs(urls []string, fn func(string) (string, error)) ([]string, error) {\n\tvar results []string\n\tfor _, url := range urls {\n\t\tresult, err := fn(url)\n\t\tif err != nil {\n\t\t\treturn nil, err\n\t\t}\n\t\tresults = append(results, result)\n\t}\n\treturn results, nil\n}\n\nfunc urlToFileName(url string) string {\n\treturn fmt.Sprintf(\"%x\", url)\n}\n\nfunc main() {\n\turls := []string{\"https://example.com\", \"https://another-example.com\"}\n\tfileNames, err := generateQRCodes(urls)\n\tif err != nil {\n\t\tfmt.Println(\"Error generating QR codes:\", err)\n\t\treturn\n\t}\n\tfmt.Println(\"Generated QR code files:\", fileNames)\n}\n```"
+  },
+  {
+    "task": "Convert a list of angles from degrees to radians using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tdegrees := []float64{0, 30, 45, 60, 90, 180, 270, 360}\n\tradians := Map(degrees, func(degree float64) float64 {\n\t\treturn degree * math.Pi / 180.0\n\t})\n\tfmt.Println(radians)\n}\n\nfunc Map(values []float64, f func(float64) float64) []float64 {\n\tresult := make([]float64, len(values))\n\tfor i, v := range values {\n\t\tresult[i] = f(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to anonymize a list of IP addresses by masking parts of them.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc anonymizeIP(ip string) string {\n\tparts := strings.Split(ip, \".\")\n\tif len(parts) == 4 {\n\t\tparts[2] = \"XXX\"\n\t\tparts[3] = \"XXX\"\n\t}\n\treturn strings.Join(parts, \".\")\n}\n\nfunc main() {\n\tips := []string{\n\t\t\"192.168.1.1\",\n\t\t\"10.0.0.1\",\n\t\t\"172.16.0.1\",\n\t}\n\n\tanonymizedIPs := make([]string, len(ips))\n\tfor i, ip := range ips {\n\t\tanonymizedIPs[i] = anonymizeIP(ip)\n\t}\n\n\tfmt.Println(anonymizedIPs)\n}\n```"
+  },
+  {
+    "task": "Transform a list of tuples by swapping their elements using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\t// Sample list of tuples\n\ttuples := [][2]int{{1, 2}, {3, 4}, {5, 6}}\n\n\t// Map function to swap elements in each tuple\n\tswapped := Map(tuples, func(t [2]int) [2]int {\n\t\treturn [2]int{t[1], t[0]}\n\t})\n\n\tfmt.Println(swapped)\n}\n\n// Map function applies a given function to each element of a list\nfunc Map(tuples [][2]int, f func([2]int) [2]int) [][2]int {\n\tresult := make([][2]int, len(tuples))\n\tfor i, t := range tuples {\n\t\tresult[i] = f(t)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to compute the greatest common divisor of pairs in a list of number pairs.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc gcd(a, b int) int {\n\tfor b != 0 {\n\t\ta, b = b, a%b\n\t}\n\treturn a\n}\n\nfunc main() {\n\tpairs := [][2]int{{48, 18}, {56, 98}, {101, 103}, {25, 30}}\n\tresults := make([]int, len(pairs))\n\n\tfor i, pair := range pairs {\n\t\tresults[i] = gcd(pair[0], pair[1])\n\t}\n\n\tfmt.Println(results)\n}\n```"
+  },
+  {
+    "task": "Convert a list of file paths to their directory names using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"path/filepath\"\n)\n\nfunc main() {\n\tpaths := []string{\n\t\t\"/home/user/docs/file1.txt\",\n\t\t\"/var/log/syslog\",\n\t\t\"/usr/local/bin/script.sh\",\n\t}\n\n\tdirectories := mapFilePathsToDirectories(paths)\n\tfmt.Println(directories)\n}\n\nfunc mapFilePathsToDirectories(paths []string) []string {\n\tresult := make([]string, len(paths))\n\tfor i, path := range paths {\n\t\tresult[i] = filepath.Dir(path)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to replace each vowel in a list of strings with a specific character.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc replaceVowelsWithChar(strs []string, replacement rune) []string {\n\tvowels := map[rune]bool{'a': true, 'e': true, 'i': true, 'o': true, 'u': true,\n\t\t'A': true, 'E': true, 'I': true, 'O': true, 'U': true}\n\n\tresult := make([]string, len(strs))\n\tfor i, str := range strs {\n\t\tvar sb strings.Builder\n\t\tfor _, char := range str {\n\t\t\tif vowels[char] {\n\t\t\t\tsb.WriteRune(replacement)\n\t\t\t} else {\n\t\t\t\tsb.WriteRune(char)\n\t\t\t}\n\t\t}\n\t\tresult[i] = sb.String()\n\t}\n\treturn result\n}\n\nfunc main() {\n\tstrs := []string{\"hello\", \"world\", \"example\"}\n\treplacementChar := '*'\n\tmodifiedStrs := replaceVowelsWithChar(strs, replacementChar)\n\tfmt.Println(modifiedStrs)\n}\n```"
+  },
+  {
+    "task": "Transform a list of integers to their hexadecimal representations using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc main() {\n\tintegers := []int{10, 15, 255, 1024}\n\thexStrings := Map(integers, func(num int) string {\n\t\treturn strconv.FormatInt(int64(num), 16)\n\t})\n\tfmt.Println(hexStrings)\n}\n\nfunc Map(ints []int, f func(int) string) []string {\n\tresult := make([]string, len(ints))\n\tfor i, v := range ints {\n\t\tresult[i] = f(v)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Use map to apply a transformation matrix to a list of 2D vectors.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype Vector struct {\n\tx, y float64\n}\n\nfunc transform(vectors []Vector, matrix [2][2]float64) []Vector {\n\treturn mapVectors(vectors, func(v Vector) Vector {\n\t\treturn Vector{\n\t\t\tx: matrix[0][0]*v.x + matrix[0][1]*v.y,\n\t\t\ty: matrix[1][0]*v.x + matrix[1][1]*v.y,\n\t\t}\n\t})\n}\n\nfunc mapVectors(vectors []Vector, f func(Vector) Vector) []Vector {\n\ttransformed := make([]Vector, len(vectors))\n\tfor i, v := range vectors {\n\t\ttransformed[i] = f(v)\n\t}\n\treturn transformed\n}\n\nfunc main() {\n\tvectors := []Vector{\n\t\t{x: 1, y: 2},\n\t\t{x: 3, y: 4},\n\t\t{x: 5, y: 6},\n\t}\n\tmatrix := [2][2]float64{\n\t\t{2, 0},\n\t\t{0, 2},\n\t}\n\ttransformedVectors := transform(vectors, matrix)\n\tfmt.Println(transformedVectors)\n}\n```"
+  },
+  {
+    "task": "Convert a list of text strings to their phonetic alphabet equivalents using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\ttexts := []string{\"hello\", \"world\", \"go\"}\n\tphoneticMap := map[rune]string{\n\t\t'a': \"Alpha\", 'b': \"Bravo\", 'c': \"Charlie\", 'd': \"Delta\", 'e': \"Echo\",\n\t\t'f': \"Foxtrot\", 'g': \"Golf\", 'h': \"Hotel\", 'i': \"India\", 'j': \"Juliett\",\n\t\t'k': \"Kilo\", 'l': \"Lima\", 'm': \"Mike\", 'n': \"November\", 'o': \"Oscar\",\n\t\t'p': \"Papa\", 'q': \"Quebec\", 'r': \"Romeo\", 's': \"Sierra\", 't': \"Tango\",\n\t\t'u': \"Uniform\", 'v': \"Victor\", 'w': \"Whiskey\", 'x': \"X-ray\", 'y': \"Yankee\", 'z': \"Zulu\",\n\t}\n\n\tconvertToPhonetic := func(text string) string {\n\t\tphoneticWords := []string{}\n\t\tfor _, char := range strings.ToLower(text) {\n\t\t\tif phonetic, exists := phoneticMap[char]; exists {\n\t\t\t\tphoneticWords = append(phoneticWords, phonetic)\n\t\t\t}\n\t\t}\n\t\treturn strings.Join(phoneticWords, \" \")\n\t}\n\n\tphoneticTexts := make([]string, len(texts))\n\tfor i, text := range texts {\n\t\tphoneticTexts[i] = convertToPhonetic(text)\n\t}\n\n\tfor _, phoneticText := range phoneticTexts {\n\t\tfmt.Println(phoneticText)\n\t}\n}\n```"
+  },
+  {
+    "task": "Use map to determine if each word in a list is a palindrome, returning booleans.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc isPalindrome(word string) bool {\n\tlow := strings.ToLower(word)\n\trunes := []rune(low)\n\tfor i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n\t\tif runes[i] != runes[j] {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n\nfunc functionalMap(words []string, f func(string) bool) []bool {\n\tresults := make([]bool, len(words))\n\tfor i, word := range words {\n\t\tresults[i] = f(word)\n\t}\n\treturn results\n}\n\nfunc main() {\n\twords := []string{\"level\", \"world\", \"radar\", \"hello\"}\n\tresults := functionalMap(words, isPalindrome)\n\tfmt.Println(results)\n}\n```"
+  },
+  {
+    "task": "Transform a list of dictionaries by renaming a specified key using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc renameKeyInDicts(dicts []map[string]interface{}, oldKey, newKey string) []map[string]interface{} {\n\treturn Map(dicts, func(dict map[string]interface{}) map[string]interface{} {\n\t\tif val, exists := dict[oldKey]; exists {\n\t\t\tdelete(dict, oldKey)\n\t\t\tdict[newKey] = val\n\t\t}\n\t\treturn dict\n\t})\n}\n\nfunc Map(dicts []map[string]interface{}, f func(map[string]interface{}) map[string]interface{}) []map[string]interface{} {\n\tresult := make([]map[string]interface{}, len(dicts))\n\tfor i, dict := range dicts {\n\t\tresult[i] = f(dict)\n\t}\n\treturn result\n}\n\nfunc main() {\n\tdicts := []map[string]interface{}{\n\t\t{\"name\": \"Alice\", \"age\": 30},\n\t\t{\"name\": \"Bob\", \"age\": 25},\n\t}\n\n\trenamedDicts := renameKeyInDicts(dicts, \"name\", \"firstName\")\n\tfmt.Println(renamedDicts)\n}\n```"
+  },
+  {
+    "task": "Use map to compute the logarithm of each number in a list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tnumbers := []float64{1, 10, 100, 1000, 10000}\n\tlogarithms := Map(numbers, func(n float64) float64 {\n\t\treturn math.Log(n)\n\t})\n\tfmt.Println(logarithms)\n}\n\nfunc Map(numbers []float64, f func(float64) float64) []float64 {\n\tresult := make([]float64, len(numbers))\n\tfor i, n := range numbers {\n\t\tresult[i] = f(n)\n\t}\n\treturn result\n}\n```"
+  },
+  {
+    "task": "Convert a list of image file paths to grayscale versions using map.",
+    "code": "```go\npackage main\n\nimport (\n\t\"image\"\n\t\"image/color\"\n\t\"image/draw\"\n\t\"image/jpeg\"\n\t\"log\"\n\t\"os\"\n\t\"path/filepath\"\n)\n\nfunc toGrayscale(img image.Image) image.Image {\n\tbounds := img.Bounds()\n\tgrayImg := image.NewGray(bounds)\n\tdraw.Draw(grayImg, bounds, img, bounds.Min, draw.Src)\n\treturn grayImg\n}\n\nfunc convertToGrayscale(filePath string) string {\n\tfile, err := os.Open(filePath)\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tdefer file.Close()\n\n\timg, _, err := image.Decode(file)\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\tgrayImg := toGrayscale(img)\n\n\tgrayFilePath := filepath.Join(filepath.Dir(filePath), \"gray_\"+filepath.Base(filePath))\n\tgrayFile, err := os.Create(grayFilePath)\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tdefer grayFile.Close()\n\n\terr = jpeg.Encode(grayFile, grayImg, nil)\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\treturn grayFilePath\n}\n\nfunc mapStrings(slice []string, fn func(string) string) []string {\n\tmapped := make([]string, len(slice))\n\tfor i, s := range slice {\n\t\tmapped[i] = fn(s)\n\t}\n\treturn mapped\n}\n\nfunc main() {\n\timagePaths := []string{\"image1.jpg\", \"image2.jpg\", \"image3.jpg\"}\n\tgrayImagePaths := mapStrings(imagePaths, convertToGrayscale)\n\tfor _, grayPath := range grayImagePaths {\n\t\tlog.Println(\"Converted to:\", grayPath)\n\t}\n}\n```"
+  },
+  {
+    "task": "Use map to flatten a list of lists of strings into a single list of strings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc flatten(listOfLists [][]string) []string {\n\tvar flattened []string\n\tfor _, sublist := range listOfLists {\n\t\tflattened = append(flattened, sublist...)\n\t}\n\treturn flattened\n}\n\nfunc main() {\n\tlists := [][]string{\n\t\t{\"a\", \"b\", \"c\"},\n\t\t{\"d\", \"e\"},\n\t\t{\"f\"},\n\t}\n\tflattened := flatten(lists)\n\tfmt.Println(flattened)\n}\n```"
+  },
+  {
+    "task": "Transform a list of temperature readings to temperature anomalies using a map function.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc mapFunc(readings []float64, transform func(float64) float64) []float64 {\n\tresult := make([]float64, len(readings))\n\tfor i, v := range readings {\n\t\tresult[i] = transform(v)\n\t}\n\treturn result\n}\n\nfunc main() {\n\treadings := []float64{23.5, 25.0, 22.1, 24.3, 26.8}\n\taverage := 24.0\n\n\ttemperatureAnomalies := mapFunc(readings, func(temp float64) float64 {\n\t\treturn temp - average\n\t})\n\n\tfmt.Println(temperatureAnomalies)\n}\n```"
+  }
+]

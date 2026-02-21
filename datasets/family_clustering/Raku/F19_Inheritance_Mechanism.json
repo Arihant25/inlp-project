@@ -1,0 +1,386 @@
+[
+  {
+    "task": "Create a base class for a vehicle with methods for speed and fuel efficiency, then derive a car class that overrides these methods to provide specific implementations.",
+    "code": "```raku\nclass Vehicle {\n    method speed {\n        return \"General vehicle speed\";\n    }\n    method fuel-efficiency {\n        return \"General vehicle fuel efficiency\";\n    }\n}\n\nclass Car is Vehicle {\n    method speed {\n        return \"Car-specific speed\";\n    }\n    method fuel-efficiency {\n        return \"Car-specific fuel efficiency\";\n    }\n}\n\nmy $car = Car.new;\nsay $car.speed;            # Output: Car-specific speed\nsay $car.fuel-efficiency;  # Output: Car-specific fuel efficiency\n```"
+  },
+  {
+    "task": "Design a base class for a multimedia file with properties like duration and format, then extend it with a video class that includes resolution and frame rate.",
+    "code": "```raku\nclass MultimediaFile {\n    has Str $.format;\n    has Int $.duration;\n}\n\nclass VideoFile is MultimediaFile {\n    has Str $.resolution;\n    has Num $.frame-rate;\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for bank accounts with methods for deposit and withdrawal, then create a savings account subclass that overrides the withdrawal method to incorporate interest deductions.",
+    "code": "```raku\nclass BankAccount {\n    has Num $.balance is rw;\n\n    method deposit(Num $amount) {\n        $.balance += $amount;\n    }\n\n    method withdraw(Num $amount) {\n        if $amount <= $.balance {\n            $.balance -= $amount;\n        } else {\n            die \"Insufficient funds\";\n        }\n    }\n}\n\nclass SavingsAccount is BankAccount {\n    has Num $.interest-rate;\n\n    method withdraw(Num $amount) {\n        my $interest = $amount * $.interest-rate;\n        my $total-amount = $amount + $interest;\n        if $total-amount <= $.balance {\n            $.balance -= $total-amount;\n        } else {\n            die \"Insufficient funds for withdrawal with interest deduction\";\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a geometric shape with methods to calculate area and perimeter, then create a rectangle subclass that provides specific calculations for these methods.",
+    "code": "```raku\nclass Shape {\n    method area() {\n        die \"Area method must be implemented by subclass\";\n    }\n    \n    method perimeter() {\n        die \"Perimeter method must be implemented by subclass\";\n    }\n}\n\nclass Rectangle is Shape {\n    has $.width;\n    has $.height;\n    \n    method area() {\n        return $!width * $!height;\n    }\n    \n    method perimeter() {\n        return 2 * ($!width + $!height);\n    }\n}\n\n# Example usage\nmy $rect = Rectangle.new(width => 5, height => 10);\nsay \"Area: \", $rect.area();\nsay \"Perimeter: \", $rect.perimeter();\n```"
+  },
+  {
+    "task": "Construct a parent class for employees with a method to calculate salary, then derive a manager class that overrides this method to include bonuses.",
+    "code": "```raku\nclass Employee {\n    has $.base-salary;\n\n    method calculate-salary() {\n        return $.base-salary;\n    }\n}\n\nclass Manager is Employee {\n    has $.bonus;\n\n    method calculate-salary() {\n        return $.base-salary + $.bonus;\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a library item with properties like title and author, and extend it with a book subclass that adds a number of pages property.",
+    "code": "```raku\nclass LibraryItem {\n    has Str $.title;\n    has Str $.author;\n}\n\nclass Book is LibraryItem {\n    has Int $.number-of-pages;\n}\n```"
+  },
+  {
+    "task": "Create a foundation class for an electronic device with a method to turn on and off, and derive a smartphone class that overrides the turn on method to require a passcode.",
+    "code": "```raku\nclass ElectronicDevice {\n    has Bool $.is_on = False;\n\n    method turn_on() {\n        $!is_on = True;\n        say \"Device is now on.\";\n    }\n\n    method turn_off() {\n        $!is_on = False;\n        say \"Device is now off.\";\n    }\n}\n\nclass Smartphone is ElectronicDevice {\n    has $.passcode;\n\n    method turn_on($input-passcode) {\n        if $input-passcode eq $!passcode {\n            $!is_on = True;\n            say \"Smartphone is now on.\";\n        } else {\n            say \"Incorrect passcode. Smartphone remains off.\";\n        }\n    }\n}\n\nmy $phone = Smartphone.new(passcode => '1234');\n$phone.turn_on('1234');\n$phone.turn_off();\n```"
+  },
+  {
+    "task": "Design a base class for an animal with a method to make a sound, then create a dog subclass that overrides this method to bark.",
+    "code": "```raku\nclass Animal {\n    method make-sound() {\n        say 'Some generic animal sound';\n    }\n}\n\nclass Dog is Animal {\n    method make-sound() {\n        say 'Bark';\n    }\n}\n\nmy $animal = Animal.new;\n$animal.make-sound; # Outputs: Some generic animal sound\n\nmy $dog = Dog.new;\n$dog.make-sound; # Outputs: Bark\n```"
+  },
+  {
+    "task": "Develop a superclass for meals with a method to calculate calories, then create a dessert subclass that overrides it to add extra sugar calories.",
+    "code": "```raku\nclass Meal {\n    has $.calories;\n\n    method calculate-calories() {\n        return $.calories;\n    }\n}\n\nclass Dessert is Meal {\n    has $.sugar-calories;\n\n    method calculate-calories() {\n        return $.calories + $.sugar-calories;\n    }\n}\n\nmy $cake = Dessert.new(calories => 200, sugar-calories => 100);\nsay $cake.calculate-calories; # Outputs: 300\n```"
+  },
+  {
+    "task": "Implement a base class for a transportation mode with a method to calculate travel time, then extend it with a plane subclass that overrides the method to calculate based on speed.",
+    "code": "```raku\nclass TransportationMode {\n    has $.distance;\n\n    method calculate-travel-time($speed) {\n        return $.distance / $speed;\n    }\n}\n\nclass Plane is TransportationMode {\n    method calculate-travel-time($speed) {\n        # Assuming speed is in km/h, convert distance to km if needed\n        return $.distance / $speed;\n    }\n}\n\n# Example usage\nmy $trip = Plane.new(distance => 1000);\nsay $trip.calculate-travel-time(900); # Outputs the travel time for 1000 km at 900 km/h\n```"
+  },
+  {
+    "task": "Construct a parent class for a musical instrument with a method to play sound, then derive a piano class that overrides the method to play specific notes.",
+    "code": "```raku\nclass Instrument {\n    method play-sound() {\n        say \"Playing sound from the instrument.\";\n    }\n}\n\nclass Piano is Instrument {\n    method play-sound() {\n        say \"Playing specific notes on the piano.\";\n    }\n}\n\nmy $instrument = Instrument.new;\n$instrument.play-sound();\n\nmy $piano = Piano.new;\n$piano.play-sound();\n```"
+  },
+  {
+    "task": "Set up a base class for a user account with a method to reset password, and extend it with an admin account subclass that overrides it to include security questions.",
+    "code": "```raku\nclass UserAccount {\n    method reset-password() {\n        say \"Password reset initiated.\";\n    }\n}\n\nclass AdminAccount is UserAccount {\n    method reset-password() {\n        say \"Password reset initiated with security questions.\";\n    }\n}\n\n# Example Usage\nmy $user = UserAccount.new;\n$user.reset-password;\n\nmy $admin = AdminAccount.new;\n$admin.reset-password;\n```"
+  },
+  {
+    "task": "Create a foundational class for a beverage with properties like volume and temperature, and derive a coffee class that overrides the temperature property to be hot.",
+    "code": "```raku\nclass Beverage {\n    has $.volume;\n    has $.temperature;\n}\n\nclass Coffee is Beverage {\n    has $.temperature is rw = 'hot';\n}\n```"
+  },
+  {
+    "task": "Design a base class for a service appointment with a method to schedule time, then create a doctor appointment subclass that overrides this method to include consultation duration.",
+    "code": "```raku\nclass ServiceAppointment {\n    has $.scheduled-time;\n\n    method schedule-time($time) {\n        $!scheduled-time = $time;\n    }\n}\n\nclass DoctorAppointment is ServiceAppointment {\n    has $.consultation-duration;\n\n    method schedule-time($time, $duration) {\n        $!scheduled-time = $time;\n        $!consultation-duration = $duration;\n    }\n}\n\n# Example usage:\n# my $appointment = DoctorAppointment.new;\n# $appointment.schedule-time('2023-10-15T10:00', '1 hour');\n```"
+  },
+  {
+    "task": "Develop a superclass for electronic gadgets with a method to calculate battery life, then extend it with a laptop class that overrides this method to consider usage patterns.",
+    "code": "```raku\nclass ElectronicGadget {\n    has $.battery-capacity; # in mAh\n    has $.power-consumption; # in mA\n\n    method calculate-battery-life() {\n        return $.battery-capacity / $.power-consumption;\n    }\n}\n\nclass Laptop is ElectronicGadget {\n    has $.usage-pattern; # e.g., 'heavy', 'moderate', 'light'\n\n    method calculate-battery-life() {\n        my $usage-factor = 1;\n        given $.usage-pattern {\n            when 'heavy'   { $usage-factor = 1.5 }\n            when 'moderate' { $usage-factor = 1 }\n            when 'light'    { $usage-factor = 0.75 }\n        }\n        return ($.battery-capacity / ($.power-consumption * $usage-factor));\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a website component with a method to render content, then create a blog post subclass that overrides this method to include author information.",
+    "code": "```raku\nclass WebsiteComponent {\n    method render-content() {\n        \"Rendering website component content.\"\n    }\n}\n\nclass BlogPost is WebsiteComponent {\n    has $.author;\n    has $.content;\n\n    method render-content() {\n        \"Rendering blog post content by {$!author}: {$!content}\"\n    }\n}\n\nmy $component = WebsiteComponent.new;\nsay $component.render-content();\n\nmy $post = BlogPost.new(author => 'John Doe', content => 'This is a blog post.');\nsay $post.render-content();\n```"
+  },
+  {
+    "task": "Construct a parent class for a recipe with methods for ingredients and instructions, then derive a cake recipe class that overrides these methods to add baking steps.",
+    "code": "```raku\nclass Recipe {\n    method ingredients() {\n        say \"Generic ingredients for a recipe.\";\n    }\n    \n    method instructions() {\n        say \"Generic instructions for a recipe.\";\n    }\n}\n\nclass CakeRecipe is Recipe {\n    method ingredients() {\n        say \"Flour, sugar, eggs, butter, baking powder.\";\n    }\n    \n    method instructions() {\n        say \"1. Preheat the oven.\";\n        say \"2. Mix the dry ingredients.\";\n        say \"3. Add the wet ingredients.\";\n        say \"4. Pour the batter into a pan.\";\n        say \"5. Bake in the oven.\";\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a plant with methods for sunlight and water needs, and extend it with a cactus subclass that overrides these methods to require less water.",
+    "code": "```raku\nclass Plant {\n    method sunlight-needs() {\n        return \"Regular sunlight needed\";\n    }\n    \n    method water-needs() {\n        return \"Regular water needed\";\n    }\n}\n\nclass Cactus is Plant {\n    method water-needs() {\n        return \"Less water needed\";\n    }\n}\n\nmy $plant = Plant.new;\nsay $plant.sunlight-needs;  # Regular sunlight needed\nsay $plant.water-needs;     # Regular water needed\n\nmy $cactus = Cactus.new;\nsay $cactus.sunlight-needs; # Regular sunlight needed\nsay $cactus.water-needs;    # Less water needed\n```"
+  },
+  {
+    "task": "Create a foundational class for a building with properties like height and material, and derive a skyscraper class that overrides the height property to be significantly taller.",
+    "code": "```raku\nclass Building {\n    has $.height;\n    has $.material;\n}\n\nclass Skyscraper is Building {\n    has $.height = 300; # Override with a significantly taller height\n}\n```"
+  },
+  {
+    "task": "Design a base class for a payment method with a method to process transactions, then create a credit card subclass that overrides this method to include credit limits.",
+    "code": "```raku\nclass PaymentMethod {\n    method process-transaction($amount) {\n        say \"Processing transaction of $amount.\";\n    }\n}\n\nclass CreditCard is PaymentMethod {\n    has Num $.credit-limit;\n\n    method process-transaction($amount) {\n        if $amount <= $.credit-limit {\n            say \"Transaction of $amount approved under credit limit of $.credit-limit.\";\n        } else {\n            say \"Transaction of $amount declined. Exceeds credit limit of $.credit-limit.\";\n        }\n    }\n}\n\n# Example usage\nmy $payment = CreditCard.new(credit-limit => 500);\n$payment.process-transaction(300);\n$payment.process-transaction(600);\n```"
+  },
+  {
+    "task": "Develop a superclass for a computer program with methods for input and output, then extend it with a game subclass that overrides these methods to include player interactions.",
+    "code": "```raku\nclass Program {\n    method input() {\n        say \"Program input method\";\n    }\n    \n    method output() {\n        say \"Program output method\";\n    }\n}\n\nclass Game is Program {\n    method input() {\n        say \"Game input method with player interaction\";\n    }\n    \n    method output() {\n        say \"Game output method with player interaction\";\n    }\n}\n\n# Usage example\nmy $program = Program.new;\n$program.input;\n$program.output;\n\nmy $game = Game.new;\n$game.input;\n$game.output;\n```"
+  },
+  {
+    "task": "Implement a base class for a dining establishment with a method to calculate wait time, then create a fast food subclass that overrides this method to be shorter.",
+    "code": "```raku\nclass DiningEstablishment {\n    method calculate-wait-time() {\n        return 30; # Base wait time in minutes\n    }\n}\n\nclass FastFood is DiningEstablishment {\n    method calculate-wait-time() {\n        return 10; # Shorter wait time for fast food in minutes\n    }\n}\n\nmy $restaurant = DiningEstablishment.new;\nsay $restaurant.calculate-wait-time; # Output: 30\n\nmy $fast_food = FastFood.new;\nsay $fast_food.calculate-wait-time; # Output: 10\n```"
+  },
+  {
+    "task": "Construct a parent class for a social media profile with methods for posting and liking, then derive a business profile class that overrides these methods to include promotions.",
+    "code": "```raku\nclass SocialMediaProfile {\n    method post(Str $content) {\n        say \"Posting: $content\";\n    }\n    \n    method like(Str $content) {\n        say \"Liking: $content\";\n    }\n}\n\nclass BusinessProfile is SocialMediaProfile {\n    method post(Str $content) {\n        say \"Posting with promotion: $content\";\n    }\n    \n    method like(Str $content) {\n        say \"Liking with promotion: $content\";\n    }\n}\n\nmy $personal = SocialMediaProfile.new;\n$personal.post(\"Hello World!\");\n$personal.like(\"Hello World!\");\n\nmy $business = BusinessProfile.new;\n$business.post(\"Our new product!\");\n$business.like(\"Our new product!\");\n```"
+  },
+  {
+    "task": "Set up a base class for an educational course with methods for syllabus and grading, and extend it with an online course subclass that overrides these methods for remote learning.",
+    "code": "```raku\nclass EducationalCourse {\n    method syllabus {\n        \"Standard syllabus for the course.\"\n    }\n    \n    method grading {\n        \"Standard grading system for the course.\"\n    }\n}\n\nclass OnlineCourse is EducationalCourse {\n    method syllabus {\n        \"Online syllabus tailored for remote learning.\"\n    }\n    \n    method grading {\n        \"Online grading system accommodating remote evaluations.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a sports team with properties like team name and coach, and derive a football team class that overrides the coach property with a specific person.",
+    "code": "```raku\nclass SportsTeam {\n    has $.team-name;\n    has $.coach;\n\n    method new(:$team-name, :$coach) {\n        self.bless(:$team-name, :$coach);\n    }\n}\n\nclass FootballTeam is SportsTeam {\n    has $.coach = \"Specific Person\";\n}\n\nmy $football-team = FootballTeam.new(team-name => \"Raku Rangers\");\nsay $football-team.team-name; # Raku Rangers\nsay $football-team.coach;     # Specific Person\n```"
+  },
+  {
+    "task": "Design a base class for a document with methods for printing and saving, then create a PDF document subclass that overrides these methods to include encryption.",
+    "code": "```raku\nclass Document {\n    method print() {\n        say \"Printing document...\";\n    }\n    \n    method save() {\n        say \"Saving document...\";\n    }\n}\n\nclass PDFDocument is Document {\n    method print() {\n        say \"Printing encrypted PDF document...\";\n    }\n    \n    method save() {\n        say \"Saving encrypted PDF document...\";\n    }\n}\n\nmy $doc = Document.new;\n$doc.print;\n$doc.save;\n\nmy $pdf = PDFDocument.new;\n$pdf.print;\n$pdf.save;\n```"
+  },
+  {
+    "task": "Develop a superclass for a retail product with methods for pricing and discount, then extend it with an electronics product class that overrides the discount method to offer more.",
+    "code": "```raku\nclass RetailProduct {\n    has $.price;\n    has $.discount;\n\n    method calculate-price() {\n        return $!price - $!price * $!discount;\n    }\n\n    method calculate-discount() {\n        return $!discount;\n    }\n}\n\nclass ElectronicsProduct is RetailProduct {\n    method calculate-discount() {\n        # Override to provide more discount\n        return $!discount + 0.10;\n    }\n}\n\nmy $generic-product = RetailProduct.new(price => 100, discount => 0.05);\nsay $generic-product.calculate-price(); # Outputs: 95\n\nmy $electronics-product = ElectronicsProduct.new(price => 100, discount => 0.05);\nsay $electronics-product.calculate-price(); # Outputs: 85\n```"
+  },
+  {
+    "task": "Implement a base class for a subscription service with a method to renew membership, then create a monthly subscription subclass that overrides this method for automatic renewal.",
+    "code": "```raku\nclass SubscriptionService {\n    method renew-membership() {\n        say \"Membership renewed.\";\n    }\n}\n\nclass MonthlySubscription is SubscriptionService {\n    method renew-membership() {\n        say \"Automatic monthly membership renewal.\";\n    }\n}\n\nmy $subscription = MonthlySubscription.new;\n$subscription.renew-membership();\n```"
+  },
+  {
+    "task": "Construct a parent class for a language translator with a method to translate text, then derive a French translator class that overrides this method for French language specifics.",
+    "code": "```raku\nclass Translator {\n    method translate($text) {\n        \"Translating text: $text\"\n    }\n}\n\nclass FrenchTranslator is Translator {\n    method translate($text) {\n        \"Traduction en fran\u00e7ais: $text\"\n    }\n}\n\n# Usage example\nmy $translator = FrenchTranslator.new;\nsay $translator.translate(\"Hello\");\n```"
+  },
+  {
+    "task": "Set up a base class for a customer order with methods for placing and tracking, and extend it with a food order subclass that overrides tracking for delivery status.",
+    "code": "```raku\nclass CustomerOrder {\n    method place-order() {\n        say \"Order has been placed.\";\n    }\n\n    method track-order() {\n        say \"Tracking order status.\";\n    }\n}\n\nclass FoodOrder is CustomerOrder {\n    method track-order() {\n        say \"Tracking delivery status.\";\n    }\n}\n\nmy $order = FoodOrder.new;\n$order.place-order;\n$order.track-order;\n```"
+  },
+  {
+    "task": "Create a foundational class for an artwork with properties like artist and medium, and derive a painting class that overrides the medium property to be 'canvas'.",
+    "code": "```raku\nclass Artwork {\n    has $.artist;\n    has $.medium;\n}\n\nclass Painting is Artwork {\n    has $.medium = 'canvas';\n}\n```"
+  },
+  {
+    "task": "Design a base class for a computer network with methods for connectivity and bandwidth, then create a wireless network subclass that overrides these methods for signal strength.",
+    "code": "```raku\nclass ComputerNetwork {\n    method connectivity() {\n        say \"Checking connectivity in base network...\";\n    }\n    \n    method bandwidth() {\n        say \"Checking bandwidth in base network...\";\n    }\n}\n\nclass WirelessNetwork is ComputerNetwork {\n    method connectivity() {\n        say \"Checking connectivity in wireless network with signal strength...\";\n    }\n    \n    method bandwidth() {\n        say \"Checking bandwidth in wireless network with signal strength...\";\n    }\n}\n\nmy $network = ComputerNetwork.new;\n$network.connectivity();\n$network.bandwidth();\n\nmy $wireless = WirelessNetwork.new;\n$wireless.connectivity();\n$wireless.bandwidth();\n```"
+  },
+  {
+    "task": "Develop a superclass for a messaging app with methods for sending and receiving messages, then extend it with a secure messaging subclass that overrides these methods for encryption.",
+    "code": "```raku\nclass MessagingApp {\n    method send-message($message) {\n        say \"Sending message: $message\";\n    }\n\n    method receive-message() {\n        say \"Receiving message...\";\n        return \"Message received\";\n    }\n}\n\nclass SecureMessagingApp is MessagingApp {\n    method send-message($message) {\n        my $encrypted = self.encrypt($message);\n        say \"Sending encrypted message: $encrypted\";\n    }\n\n    method receive-message() {\n        say \"Receiving encrypted message...\";\n        my $encrypted = \"Encrypted message\";\n        return self.decrypt($encrypted);\n    }\n\n    method encrypt($message) {\n        return \"<encrypted> $message </encrypted>\";\n    }\n\n    method decrypt($encrypted) {\n        return $encrypted.subst(/ '<encrypted> ' /, '').subst(/ ' </encrypted>' /, '');\n    }\n}\n\nmy $app = SecureMessagingApp.new;\n$app.send-message(\"Hello\");\nsay $app.receive-message();\n```"
+  },
+  {
+    "task": "Implement a base class for a travel itinerary with methods for destinations and activities, then create a vacation itinerary subclass that overrides these methods for leisure activities.",
+    "code": "```raku\nclass TravelItinerary {\n    method destinations() {\n        return \"General destinations list\";\n    }\n\n    method activities() {\n        return \"General activities list\";\n    }\n}\n\nclass VacationItinerary is TravelItinerary {\n    method destinations() {\n        return \"Vacation-specific destinations list\";\n    }\n\n    method activities() {\n        return \"Leisure activities list\";\n    }\n}\n\nmy $general-itinerary = TravelItinerary.new;\nsay $general-itinerary.destinations(); # Output: General destinations list\nsay $general-itinerary.activities();   # Output: General activities list\n\nmy $vacation-itinerary = VacationItinerary.new;\nsay $vacation-itinerary.destinations(); # Output: Vacation-specific destinations list\nsay $vacation-itinerary.activities();   # Output: Leisure activities list\n```"
+  },
+  {
+    "task": "Construct a parent class for a healthcare record with methods for patient data and treatment history, then derive a pediatric record class that overrides these methods for child-specific data.",
+    "code": "```raku\nclass HealthcareRecord {\n    method patient-data() {\n        return \"General patient data\";\n    }\n    \n    method treatment-history() {\n        return \"General treatment history\";\n    }\n}\n\nclass PediatricRecord is HealthcareRecord {\n    method patient-data() {\n        return \"Child-specific patient data\";\n    }\n    \n    method treatment-history() {\n        return \"Child-specific treatment history\";\n    }\n}\n\n# Example usage\nmy $general = HealthcareRecord.new;\nsay $general.patient-data;          # General patient data\nsay $general.treatment-history;     # General treatment history\n\nmy $child = PediatricRecord.new;\nsay $child.patient-data;            # Child-specific patient data\nsay $child.treatment-history;       # Child-specific treatment history\n```"
+  },
+  {
+    "task": "Set up a base class for a culinary dish with methods for preparation and serving, and extend it with an appetizer subclass that overrides these methods for smaller portions.",
+    "code": "```raku\nclass CulinaryDish {\n    method prepare() {\n        say \"Prepare the dish.\";\n    }\n    method serve() {\n        say \"Serve the dish.\";\n    }\n}\n\nclass Appetizer is CulinaryDish {\n    method prepare() {\n        say \"Prepare the appetizer in smaller portions.\";\n    }\n    method serve() {\n        say \"Serve the appetizer in smaller portions.\";\n    }\n}\n\nmy $dish = CulinaryDish.new;\n$dish.prepare;\n$dish.serve;\n\nmy $appetizer = Appetizer.new;\n$appetizer.prepare;\n$appetizer.serve;\n```"
+  },
+  {
+    "task": "Create a foundational class for a book collection with properties like genre and author, and derive a mystery collection class that overrides the genre property to be 'mystery'.",
+    "code": "```raku\nclass BookCollection {\n    has Str $.genre;\n    has Str $.author;\n}\n\nclass MysteryCollection is BookCollection {\n    has Str $.genre = 'mystery';\n}\n```"
+  },
+  {
+    "task": "Design a base class for a file storage system with methods for saving and deleting files, then create a cloud storage subclass that overrides these methods for remote access.",
+    "code": "```raku\nclass FileStorage {\n    method save-file($file) {\n        say \"Saving file: $file to local storage.\";\n    }\n\n    method delete-file($file) {\n        say \"Deleting file: $file from local storage.\";\n    }\n}\n\nclass CloudStorage is FileStorage {\n    method save-file($file) {\n        say \"Saving file: $file to cloud storage.\";\n    }\n\n    method delete-file($file) {\n        say \"Deleting file: $file from cloud storage.\";\n    }\n}\n\nmy $local-storage = FileStorage.new;\n$local-storage.save-file(\"document.txt\");\n$local-storage.delete-file(\"document.txt\");\n\nmy $cloud-storage = CloudStorage.new;\n$cloud-storage.save-file(\"photo.jpg\");\n$cloud-storage.delete-file(\"photo.jpg\");\n```"
+  },
+  {
+    "task": "Develop a superclass for a seasonal sale event with methods for discounts and promotions, then extend it with a summer sale subclass that overrides these methods for summer items.",
+    "code": "```raku\nclass SeasonalSale {\n    method discount() {\n        say \"General discount applies.\";\n    }\n    \n    method promotion() {\n        say \"General promotion applies.\";\n    }\n}\n\nclass SummerSale is SeasonalSale {\n    method discount() {\n        say \"Summer discount applies.\";\n    }\n    \n    method promotion() {\n        say \"Summer promotion applies.\";\n    }\n}\n\nmy $summer-sale = SummerSale.new;\n$summer-sale.discount;\n$summer-sale.promotion;\n```"
+  },
+  {
+    "task": "Implement a base class for a personal budget with methods for income and expenses, then create a student budget subclass that overrides these methods for tuition and fees.",
+    "code": "```raku\nclass PersonalBudget {\n    has num $!income = 0;\n    has num $!expenses = 0;\n\n    method add-income(num $amount) {\n        $!income += $amount;\n    }\n\n    method add-expenses(num $amount) {\n        $!expenses += $amount;\n    }\n\n    method total-income {\n        $!income;\n    }\n\n    method total-expenses {\n        $!expenses;\n    }\n}\n\nclass StudentBudget is PersonalBudget {\n    has num $!tuition = 0;\n    has num $!fees = 0;\n\n    method add-income(num $amount) {\n        $!income += $amount - $!tuition - $!fees;\n    }\n\n    method add-expenses(num $amount) {\n        $!expenses += $amount + $!tuition + $!fees;\n    }\n\n    method add-tuition(num $amount) {\n        $!tuition += $amount;\n    }\n\n    method add-fees(num $amount) {\n        $!fees += $amount;\n    }\n\n    method total-income {\n        $!income - $!tuition - $!fees;\n    }\n\n    method total-expenses {\n        $!expenses + $!tuition + $!fees;\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a fitness routine with methods for exercises and duration, then derive a yoga routine class that overrides these methods for flexibility exercises.",
+    "code": "```raku\nclass FitnessRoutine {\n    method exercises {\n        \"General exercises\"\n    }\n\n    method duration {\n        \"General duration\"\n    }\n}\n\nclass YogaRoutine is FitnessRoutine {\n    method exercises {\n        \"Flexibility exercises\"\n    }\n\n    method duration {\n        \"Yoga duration\"\n    }\n}\n\nmy $routine = YogaRoutine.new;\nsay $routine.exercises; # Flexibility exercises\nsay $routine.duration;  # Yoga duration\n```"
+  },
+  {
+    "task": "Set up a base class for a transportation ticket with methods for pricing and validity, and extend it with an airline ticket subclass that overrides these methods for baggage allowance.",
+    "code": "```raku\nclass TransportationTicket {\n    method pricing() {\n        \"Base price calculation.\"\n    }\n    \n    method validity() {\n        \"Base validity period.\"\n    }\n}\n\nclass AirlineTicket is TransportationTicket {\n    method pricing() {\n        \"Airline specific price calculation.\"\n    }\n    \n    method validity() {\n        \"Airline specific validity period.\"\n    }\n    \n    method baggage-allowance() {\n        \"Airline specific baggage allowance.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a digital photo album with properties like album name and date, and derive a vacation album class that overrides the date property to be specific.",
+    "code": "```raku\nclass PhotoAlbum {\n    has Str $.album_name is rw;\n    has Date $.date is rw;\n}\n\nclass VacationAlbum is PhotoAlbum {\n    has Date $.date is rw where { .year == 2023 }\n}\n\nmy $album = VacationAlbum.new(album_name => 'Summer Trip', date => Date.new('2023-06-15'));\nsay $album;\n```"
+  },
+  {
+    "task": "Design a base class for a home appliance with methods for power usage and warranty, then create a refrigerator subclass that overrides these methods for energy efficiency.",
+    "code": "```raku\nclass HomeAppliance {\n    method power-usage {\n        \"Standard power usage\"\n    }\n\n    method warranty {\n        \"Standard warranty\"\n    }\n}\n\nclass Refrigerator is HomeAppliance {\n    method power-usage {\n        \"Energy efficient power usage\"\n    }\n\n    method warranty {\n        \"Extended warranty for energy efficiency\"\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a software update with methods for versioning and patch notes, then extend it with a security update subclass that overrides these methods for vulnerabilities.",
+    "code": "```raku\nclass SoftwareUpdate {\n    has Str $.version;\n    has Str $.patch-notes;\n\n    method versioning() {\n        return \"Software version: \" ~ $.version;\n    }\n\n    method patch-notes() {\n        return \"Patch notes: \" ~ $.patch-notes;\n    }\n}\n\nclass SecurityUpdate is SoftwareUpdate {\n    has Str $.vulnerabilities;\n\n    method versioning() {\n        return \"Security Update version: \" ~ $.version;\n    }\n\n    method patch-notes() {\n        return \"Security vulnerabilities addressed: \" ~ $.vulnerabilities;\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a musical performance with methods for rehearsal and execution, then create a concert performance subclass that overrides these methods for live audience.",
+    "code": "```raku\nclass MusicalPerformance {\n    method rehearsal() {\n        say \"Rehearsing the performance.\";\n    }\n    method execution() {\n        say \"Executing the performance.\";\n    }\n}\n\nclass ConcertPerformance is MusicalPerformance {\n    method rehearsal() {\n        say \"Rehearsing the concert for a live audience.\";\n    }\n    method execution() {\n        say \"Performing the concert live for the audience.\";\n    }\n}\n\nmy $performance = ConcertPerformance.new;\n$performance.rehearsal;\n$performance.execution;\n```"
+  },
+  {
+    "task": "Construct a parent class for an academic degree with methods for course requirements and credits, then derive a master's degree class that overrides these methods for advanced studies.",
+    "code": "```raku\nclass AcademicDegree {\n    method course-requirements() {\n        \"General course requirements for an academic degree.\"\n    }\n\n    method credits() {\n        \"Minimum credits required for an academic degree.\"\n    }\n}\n\nclass MastersDegree is AcademicDegree {\n    method course-requirements() {\n        \"Advanced course requirements for a master's degree.\"\n    }\n\n    method credits() {\n        \"Minimum credits required for a master's degree.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a weather forecast with methods for temperature and conditions, and extend it with a winter forecast subclass that overrides these methods for snow conditions.",
+    "code": "```raku\nclass WeatherForecast {\n    method temperature {\n        \"Generic temperature data\"\n    }\n    method conditions {\n        \"Generic weather conditions\"\n    }\n}\n\nclass WinterForecast is WeatherForecast {\n    method temperature {\n        \"Cold temperature data\"\n    }\n    method conditions {\n        \"Snowy weather conditions\"\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal diary with properties like date and entries, and derive a travel diary class that overrides the date property with travel dates.",
+    "code": "```raku\nclass PersonalDiary {\n    has Str $.date is rw;\n    has @.entries is rw;\n}\n\nclass TravelDiary is PersonalDiary {\n    has Str $.travel-date is rw;\n    \n    method new(:$travel-date, *@entries) {\n        self.bless(:$travel-date, :entries(@entries));\n    }\n    \n    method date {\n        return $!travel-date;\n    }\n    \n    method date($new-date) {\n        $!travel-date = $new-date;\n    }\n}\n```"
+  },
+  {
+    "task": "Design a base class for a pet with methods for feeding and grooming, then create a cat subclass that overrides these methods with specific food preferences.",
+    "code": "```raku\nclass Pet {\n    method feed() {\n        say \"Feeding the pet.\";\n    }\n    \n    method groom() {\n        say \"Grooming the pet.\";\n    }\n}\n\nclass Cat is Pet {\n    method feed() {\n        say \"Feeding the cat with fish.\";\n    }\n    \n    method groom() {\n        say \"Grooming the cat with a brush.\";\n    }\n}\n\nmy $generic-pet = Pet.new;\n$generic-pet.feed;   # Output: Feeding the pet.\n$generic-pet.groom;  # Output: Grooming the pet.\n\nmy $cat = Cat.new;\n$cat.feed;           # Output: Feeding the cat with fish.\n$cat.groom;          # Output: Grooming the cat with a brush.\n```"
+  },
+  {
+    "task": "Develop a superclass for a software library with methods for installation and updates, then extend it with a graphics library subclass that overrides these methods for rendering capabilities.",
+    "code": "```raku\nclass SoftwareLibrary {\n    method install() {\n        say \"Installing software library...\";\n    }\n\n    method update() {\n        say \"Updating software library...\";\n    }\n}\n\nclass GraphicsLibrary is SoftwareLibrary {\n    method install() {\n        say \"Installing graphics library with rendering capabilities...\";\n    }\n\n    method update() {\n        say \"Updating graphics library with rendering enhancements...\";\n    }\n}\n\nmy $software = SoftwareLibrary.new;\n$software.install();\n$software.update();\n\nmy $graphics = GraphicsLibrary.new;\n$graphics.install();\n$graphics.update();\n```"
+  },
+  {
+    "task": "Implement a base class for a political campaign with methods for fundraising and events, then create a presidential campaign subclass that overrides these methods for national scale.",
+    "code": "```raku\nclass PoliticalCampaign {\n    method fundraise() {\n        say \"Raising funds for the campaign\";\n    }\n\n    method organize-event() {\n        say \"Organizing a local event\";\n    }\n}\n\nclass PresidentialCampaign is PoliticalCampaign {\n    method fundraise() {\n        say \"Raising funds on a national scale for the presidential campaign\";\n    }\n\n    method organize-event() {\n        say \"Organizing a national event for the presidential campaign\";\n    }\n}\n\nmy $campaign = PresidentialCampaign.new;\n$campaign.fundraise;\n$campaign.organize-event;\n```"
+  },
+  {
+    "task": "Construct a parent class for an automotive part with methods for durability and replacement, then derive an engine part class that overrides these methods for performance.",
+    "code": "```raku\nclass AutomotivePart {\n    method durability {\n        \"General durability information.\"\n    }\n    \n    method replacement {\n        \"General replacement procedure.\"\n    }\n}\n\nclass EnginePart is AutomotivePart {\n    method durability {\n        \"Engine-specific durability information.\"\n    }\n    \n    method replacement {\n        \"Engine-specific replacement procedure.\"\n    }\n}\n\nmy $part = AutomotivePart.new;\nsay $part.durability;    # General durability information.\nsay $part.replacement;   # General replacement procedure.\n\nmy $engine = EnginePart.new;\nsay $engine.durability;  # Engine-specific durability information.\nsay $engine.replacement; # Engine-specific replacement procedure.\n```"
+  },
+  {
+    "task": "Set up a base class for an online tutorial with methods for lessons and quizzes, and extend it with a coding tutorial subclass that overrides these methods for interactive exercises.",
+    "code": "```raku\nclass OnlineTutorial {\n    method lessons() {\n        say \"Providing lessons for the tutorial.\";\n    }\n\n    method quizzes() {\n        say \"Providing quizzes for the tutorial.\";\n    }\n}\n\nclass CodingTutorial is OnlineTutorial {\n    method lessons() {\n        say \"Providing interactive coding lessons.\";\n    }\n\n    method quizzes() {\n        say \"Providing interactive coding quizzes.\";\n    }\n}\n\nmy $tutorial = CodingTutorial.new;\n$tutorial.lessons;\n$tutorial.quizzes;\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal collection with properties like item type and value, and derive a stamp collection class that overrides the item type property to be 'stamps'.",
+    "code": "```raku\nclass PersonalCollection {\n    has Str $.item-type is rw;\n    has Num $.value is rw;\n}\n\nclass StampCollection is PersonalCollection {\n    has Str $.item-type is rw = 'stamps';\n}\n```"
+  },
+  {
+    "task": "Design a base class for a video game character with methods for health and abilities, then create a warrior character subclass that overrides these methods for strength.",
+    "code": "```raku\nclass GameCharacter {\n    has Int $.health is rw = 100;\n    has Str @.abilities = ['run', 'jump'];\n\n    method show-health() {\n        say \"Health: {$!health}\";\n    }\n\n    method show-abilities() {\n        say \"Abilities: {@!abilities.join(', ')}\";\n    }\n}\n\nclass WarriorCharacter is GameCharacter {\n    has Int $.strength is rw = 150;\n    has Str @.abilities = ['strong attack', 'defend'];\n\n    method show-health() {\n        say \"Warrior Health: {$!health}\";\n    }\n\n    method show-abilities() {\n        say \"Warrior Abilities: {@!abilities.join(', ')}\";\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for an event planner with methods for scheduling and budgeting, then extend it with a wedding planner subclass that overrides these methods for ceremony details.",
+    "code": "```raku\nclass EventPlanner {\n    has Str $.name;\n    has Int $.budget;\n\n    method schedule(Str $date) {\n        \"Event scheduled on $date\";\n    }\n\n    method budget(Int $amount) {\n        $!budget = $amount;\n        \"Budget set to $amount\";\n    }\n}\n\nclass WeddingPlanner is EventPlanner {\n    has Str $.ceremony;\n\n    method schedule(Str $date, Str $ceremony-details) {\n        $!ceremony = $ceremony-details;\n        \"Wedding ceremony '$!ceremony' scheduled on $date\";\n    }\n\n    method budget(Int $amount, Int $ceremony-budget) {\n        $!budget = $amount + $ceremony-budget;\n        \"Total wedding budget set to $!budget (including $ceremony-budget for ceremony)\";\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a software feature with methods for functionality and user feedback, then create a beta feature subclass that overrides these methods for testing.",
+    "code": "```raku\nclass Feature {\n    method functionality() {\n        say \"Base functionality\";\n    }\n    \n    method user-feedback() {\n        say \"Base user feedback\";\n    }\n}\n\nclass BetaFeature is Feature {\n    method functionality() {\n        say \"Beta functionality\";\n    }\n    \n    method user-feedback() {\n        say \"Beta user feedback\";\n    }\n}\n\nmy $base-feature = Feature.new;\n$base-feature.functionality();\n$base-feature.user-feedback();\n\nmy $beta-feature = BetaFeature.new;\n$beta-feature.functionality();\n$beta-feature.user-feedback();\n```"
+  },
+  {
+    "task": "Construct a parent class for a gardening tool with methods for usage and maintenance, then derive a lawn mower class that overrides these methods for grass cutting.",
+    "code": "```raku\nclass GardeningTool {\n    method usage() {\n        say \"Using the gardening tool.\";\n    }\n    \n    method maintenance() {\n        say \"Maintaining the gardening tool.\";\n    }\n}\n\nclass LawnMower is GardeningTool {\n    method usage() {\n        say \"Using the lawn mower to cut grass.\";\n    }\n    \n    method maintenance() {\n        say \"Maintaining the lawn mower.\";\n    }\n}\n\nmy $tool = GardeningTool.new;\n$tool.usage;\n$tool.maintenance;\n\nmy $mower = LawnMower.new;\n$mower.usage;\n$mower.maintenance;\n```"
+  },
+  {
+    "task": "Set up a base class for a household chore with methods for time and effort, and extend it with a cleaning chore subclass that overrides these methods for dirt removal.",
+    "code": "```raku\nclass HouseholdChore {\n    method time() {\n        return \"Generic time required for a household chore\";\n    }\n\n    method effort() {\n        return \"Generic effort required for a household chore\";\n    }\n}\n\nclass CleaningChore is HouseholdChore {\n    method time() {\n        return \"Specific time required for cleaning\";\n    }\n\n    method effort() {\n        return \"Specific effort required for cleaning\";\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal project with properties like name and deadline, and derive a coding project class that overrides the deadline property for milestones.",
+    "code": "```raku\nclass Project {\n    has $.name;\n    has $.deadline;\n}\n\nclass CodingProject is Project {\n    has $.milestone-deadline;\n    \n    method deadline {\n        return $.milestone-deadline // $.deadline;\n    }\n}\n```"
+  },
+  {
+    "task": "Design a base class for a holiday celebration with methods for traditions and activities, then create a Christmas celebration subclass that overrides these methods for gift exchange.",
+    "code": "```raku\nclass Holiday {\n    method traditions() {\n        say \"General holiday traditions.\";\n    }\n    method activities() {\n        say \"General holiday activities.\";\n    }\n}\n\nclass Christmas is Holiday {\n    method traditions() {\n        say \"Christmas traditions include decorating the tree.\";\n    }\n    method activities() {\n        say \"Activities include gift exchange and singing carols.\";\n    }\n}\n\nmy $christmas = Christmas.new;\n$christmas.traditions();\n$christmas.activities();\n```"
+  },
+  {
+    "task": "Develop a superclass for a customer feedback system with methods for collecting and analyzing, then extend it with a product feedback subclass that overrides these methods for reviews.",
+    "code": "```raku\nclass CustomerFeedback {\n    method collect-feedback() {\n        return \"Collecting customer feedback\";\n    }\n\n    method analyze-feedback() {\n        return \"Analyzing customer feedback\";\n    }\n}\n\nclass ProductFeedback is CustomerFeedback {\n    method collect-feedback() {\n        return \"Collecting product feedback\";\n    }\n\n    method analyze-feedback() {\n        return \"Analyzing product reviews\";\n    }\n}\n\n# Example usage\nmy $customer-feedback = CustomerFeedback.new;\nsay $customer-feedback.collect-feedback(); # Collecting customer feedback\nsay $customer-feedback.analyze-feedback(); # Analyzing customer feedback\n\nmy $product-feedback = ProductFeedback.new;\nsay $product-feedback.collect-feedback(); # Collecting product feedback\nsay $product-feedback.analyze-feedback(); # Analyzing product reviews\n```"
+  },
+  {
+    "task": "Implement a base class for a civic service with methods for public engagement and policy, then create a community service subclass that overrides these methods for local impact.",
+    "code": "```raku\nclass CivicService {\n    method public-engagement {\n        say \"Engaging with the public at a national level.\";\n    }\n\n    method policy {\n        say \"Implementing national policies.\";\n    }\n}\n\nclass CommunityService is CivicService {\n    method public-engagement {\n        say \"Engaging with the community at a local level.\";\n    }\n\n    method policy {\n        say \"Implementing local policies.\";\n    }\n}\n\nmy $service = CommunityService.new;\n$service.public-engagement;\n$service.policy;\n```"
+  },
+  {
+    "task": "Construct a parent class for a culinary ingredient with methods for flavor and preparation, then derive a spice ingredient class that overrides these methods for seasoning.",
+    "code": "```raku\nclass Ingredient {\n    method flavor() {\n        return \"Generic flavor\";\n    }\n    method preparation() {\n        return \"Generic preparation\";\n    }\n}\n\nclass Spice is Ingredient {\n    method flavor() {\n        return \"Spicy flavor\";\n    }\n    method preparation() {\n        return \"Seasoning preparation\";\n    }\n}\n\nmy $ingredient = Ingredient.new;\nsay $ingredient.flavor();      # Generic flavor\nsay $ingredient.preparation(); # Generic preparation\n\nmy $spice = Spice.new;\nsay $spice.flavor();           # Spicy flavor\nsay $spice.preparation();      # Seasoning preparation\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific experiment with methods for hypothesis and testing, and extend it with a chemistry experiment subclass that overrides these methods for reactions.",
+    "code": "```raku\nclass ScientificExperiment {\n    method hypothesis() {\n        say \"Formulating a general scientific hypothesis.\";\n    }\n    \n    method testing() {\n        say \"Conducting a standard scientific test.\";\n    }\n}\n\nclass ChemistryExperiment is ScientificExperiment {\n    method hypothesis() {\n        say \"Formulating a hypothesis for a chemical reaction.\";\n    }\n    \n    method testing() {\n        say \"Testing the chemical reaction.\";\n    }\n}\n\nmy $experiment = ChemistryExperiment.new;\n$experiment.hypothesis;\n$experiment.testing;\n```"
+  },
+  {
+    "task": "Create a foundational class for an inventory system with properties like item ID and quantity, and derive a warehouse inventory class that overrides the quantity property for bulk storage.",
+    "code": "```raku\nclass InventoryItem {\n    has $.item-id;\n    has $.quantity;\n}\n\nclass WarehouseInventoryItem is InventoryItem {\n    has $.bulk-quantity;\n}\n```"
+  },
+  {
+    "task": "Design a base class for a travel agency with methods for itinerary and bookings, then create a luxury travel subclass that overrides these methods for premium services.",
+    "code": "```raku\nclass TravelAgency {\n    method itinerary() {\n        say \"Standard itinerary provided.\";\n    }\n    \n    method bookings() {\n        say \"Standard booking process completed.\";\n    }\n}\n\nclass LuxuryTravel is TravelAgency {\n    method itinerary() {\n        say \"Luxury itinerary with premium options provided.\";\n    }\n    \n    method bookings() {\n        say \"Luxury booking process with VIP features completed.\";\n    }\n}\n\nmy $standard = TravelAgency.new;\n$standard.itinerary;\n$standard.bookings;\n\nmy $luxury = LuxuryTravel.new;\n$luxury.itinerary;\n$luxury.bookings;\n```"
+  },
+  {
+    "task": "Develop a superclass for an educational tool with methods for teaching and assessment, then extend it with a math tool subclass that overrides these methods for problem-solving.",
+    "code": "```raku\nclass EducationalTool {\n    method teach {\n        say \"Teaching a general subject.\";\n    }\n    \n    method assess {\n        say \"Assessing general knowledge.\";\n    }\n}\n\nclass MathTool is EducationalTool {\n    method teach {\n        say \"Teaching math problems.\";\n    }\n    \n    method assess {\n        say \"Assessing math problem-solving skills.\";\n    }\n}\n\nmy $tool = MathTool.new;\n$tool.teach;\n$tool.assess;\n```"
+  },
+  {
+    "task": "Implement a base class for a community project with methods for planning and execution, then create a park renovation subclass that overrides these methods for landscaping.",
+    "code": "```raku\nclass CommunityProject {\n    method plan() {\n        say 'Planning community project...';\n    }\n\n    method execute() {\n        say 'Executing community project...';\n    }\n}\n\nclass ParkRenovation is CommunityProject {\n    method plan() {\n        say 'Planning park landscaping...';\n    }\n\n    method execute() {\n        say 'Executing park landscaping...';\n    }\n}\n\nmy $project = CommunityProject.new;\n$project.plan;\n$project.execute;\n\nmy $park = ParkRenovation.new;\n$park.plan;\n$park.execute;\n```"
+  },
+  {
+    "task": "Construct a parent class for a digital marketing strategy with methods for targeting and engagement, then derive a social media strategy class that overrides these methods for platforms.",
+    "code": "```raku\nclass DigitalMarketingStrategy {\n    method targeting() {\n        say \"General digital marketing targeting\";\n    }\n\n    method engagement() {\n        say \"General digital marketing engagement\";\n    }\n}\n\nclass SocialMediaStrategy is DigitalMarketingStrategy {\n    method targeting() {\n        say \"Social media platform-specific targeting\";\n    }\n\n    method engagement() {\n        say \"Social media platform-specific engagement\";\n    }\n}\n\nmy $strategy = SocialMediaStrategy.new;\n$strategy.targeting;\n$strategy.engagement;\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific publication with methods for research and review, and extend it with a journal article subclass that overrides these methods for peer review.",
+    "code": "```raku\nclass ScientificPublication {\n    method research() {\n        say \"Conducting general research...\";\n    }\n    \n    method review() {\n        say \"Reviewing publication...\";\n    }\n}\n\nclass JournalArticle is ScientificPublication {\n    method research() {\n        say \"Conducting journal-specific research...\";\n    }\n    \n    method review() {\n        say \"Peer reviewing journal article...\";\n    }\n}\n\nmy $publication = ScientificPublication.new;\n$publication.research; # Conducting general research...\n$publication.review;   # Reviewing publication...\n\nmy $article = JournalArticle.new;\n$article.research;     # Conducting journal-specific research...\n$article.review;       # Peer reviewing journal article...\n```"
+  },
+  {
+    "task": "Create a foundational class for a software module with properties like name and dependencies, and derive a user interface module class that overrides the dependencies property for UI libraries.",
+    "code": "```raku\nclass Module {\n    has $.name;\n    has @.dependencies;\n}\n\nclass UIModule is Module {\n    has @.dependencies = <UI-Library1 UI-Library2>;\n}\n```"
+  },
+  {
+    "task": "Design a base class for a fashion line with methods for design and production, then create a summer collection subclass that overrides these methods for seasonal trends.",
+    "code": "```raku\nclass FashionLine {\n    method design() {\n        say \"Designing a new fashion line.\";\n    }\n\n    method production() {\n        say \"Producing the fashion line.\";\n    }\n}\n\nclass SummerCollection is FashionLine {\n    method design() {\n        say \"Designing a summer collection with seasonal trends.\";\n    }\n\n    method production() {\n        say \"Producing the summer collection with lightweight fabrics.\";\n    }\n}\n\nmy $collection = SummerCollection.new;\n$collection.design;\n$collection.production;\n```"
+  },
+  {
+    "task": "Develop a superclass for a family tree with methods for ancestry and descendants, then extend it with a royal lineage subclass that overrides these methods for historical accuracy.",
+    "code": "```raku\nclass FamilyTree {\n    has @.members;\n    \n    method ancestry($person) {\n        # Placeholder for base ancestry logic\n        return \"Ancestry of $person\";\n    }\n    \n    method descendants($person) {\n        # Placeholder for base descendants logic\n        return \"Descendants of $person\";\n    }\n}\n\nclass RoyalLineage is FamilyTree {\n    method ancestry($person) {\n        # Override with royal ancestry logic\n        return \"Royal ancestry of $person with historical accuracy\";\n    }\n    \n    method descendants($person) {\n        # Override with royal descendants logic\n        return \"Royal descendants of $person with historical accuracy\";\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a musical score with methods for composition and arrangement, then create a symphony subclass that overrides these methods for orchestration.",
+    "code": "```raku\nclass MusicalScore {\n    method compose() {\n        say \"Composing a musical score...\";\n    }\n\n    method arrange() {\n        say \"Arranging a musical score...\";\n    }\n}\n\nclass Symphony is MusicalScore {\n    method compose() {\n        say \"Composing a symphony...\";\n    }\n\n    method arrange() {\n        say \"Orchestrating a symphony...\";\n    }\n}\n\nmy $score = MusicalScore.new;\n$score.compose;\n$score.arrange;\n\nmy $symphony = Symphony.new;\n$symphony.compose;\n$symphony.arrange;\n```"
+  },
+  {
+    "task": "Construct a parent class for a historical record with methods for events and dates, then derive a war history class that overrides these methods for battles.",
+    "code": "```raku\nclass HistoricalRecord {\n    has Str $.event;\n    has Date $.date;\n\n    method event-details {\n        \"Event: {$!event}, Date: {$!date}\"\n    }\n}\n\nclass WarHistory is HistoricalRecord {\n    has Str $.battle;\n    has Date $.battle-date;\n\n    method event-details {\n        \"Battle: {$!battle}, Date: {$!battle-date}\"\n    }\n}\n\nmy $history = HistoricalRecord.new(event => \"Moon Landing\", date => Date.new('1969-07-20'));\nsay $history.event-details;\n\nmy $war = WarHistory.new(battle => \"Battle of Gettysburg\", battle-date => Date.new('1863-07-01'));\nsay $war.event-details;\n```"
+  },
+  {
+    "task": "Set up a base class for a pet adoption service with methods for application and approval, and extend it with a dog adoption subclass that overrides these methods for breed compatibility.",
+    "code": "```raku\nclass PetAdoptionService {\n    method apply($applicant) {\n        say \"Application received from $applicant.\";\n    }\n\n    method approve($applicant) {\n        say \"Application approved for $applicant.\";\n    }\n}\n\nclass DogAdoptionService is PetAdoptionService {\n    has $.breed;\n\n    method apply($applicant) {\n        say \"Application received from $applicant for a dog of breed $.breed.\";\n    }\n\n    method approve($applicant) {\n        say \"Application approved for $applicant for a dog of breed $.breed.\";\n    }\n}\n\nmy $dog-service = DogAdoptionService.new(breed => 'Labrador');\n$dog-service.apply('Alice');\n$dog-service.approve('Alice');\n```"
+  },
+  {
+    "task": "Create a foundational class for a financial report with properties like fiscal year and summary, and derive an annual report class that overrides the fiscal year property for yearly data.",
+    "code": "```raku\nclass FinancialReport {\n    has $.fiscal-year;\n    has $.summary;\n}\n\nclass AnnualReport is FinancialReport {\n    has $.fiscal-year = 'Yearly Data';\n}\n```"
+  },
+  {
+    "task": "Design a base class for a movie franchise with methods for casting and production, then create a sequel subclass that overrides these methods for continuity.",
+    "code": "```raku\nclass MovieFranchise {\n    method casting() {\n        say \"Base casting method for the movie franchise.\";\n    }\n    \n    method production() {\n        say \"Base production method for the movie franchise.\";\n    }\n}\n\nclass Sequel is MovieFranchise {\n    method casting() {\n        say \"Overridden casting method for the sequel.\";\n    }\n    \n    method production() {\n        say \"Overridden production method for the sequel.\";\n    }\n}\n\nmy $original = MovieFranchise.new;\n$original.casting;\n$original.production;\n\nmy $sequel = Sequel.new;\n$sequel.casting;\n$sequel.production;\n```"
+  },
+  {
+    "task": "Develop a superclass for a real estate listing with methods for pricing and description, then extend it with a luxury listing subclass that overrides these methods for high-end features.",
+    "code": "```raku\nclass RealEstateListing {\n    has $.price;\n    has $.description;\n\n    method pricing() {\n        return \"The price is \\$$.price.\";\n    }\n\n    method description() {\n        return \"Description: $.description\";\n    }\n}\n\nclass LuxuryListing is RealEstateListing {\n    method pricing() {\n        return \"The luxury price is \\$$.price.\";\n    }\n\n    method description() {\n        return \"Luxury Description: $.description with high-end features.\";\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a mobile app with methods for user interface and performance, then create a gaming app subclass that overrides these methods for graphics and speed.",
+    "code": "```raku\nclass MobileApp {\n    method user-interface {\n        say \"Standard user interface\";\n    }\n\n    method performance {\n        say \"Standard performance\";\n    }\n}\n\nclass GamingApp is MobileApp {\n    method user-interface {\n        say \"Enhanced graphics user interface\";\n    }\n\n    method performance {\n        say \"High-speed performance\";\n    }\n}\n\nmy $app = GamingApp.new;\n$app.user-interface;\n$app.performance;\n```"
+  },
+  {
+    "task": "Construct a parent class for a corporate policy with methods for compliance and enforcement, then derive an HR policy class that overrides these methods for employee relations.",
+    "code": "```raku\nclass CorporatePolicy {\n    method compliance() {\n        say \"Ensuring general corporate compliance.\";\n    }\n\n    method enforcement() {\n        say \"Enforcing general corporate rules.\";\n    }\n}\n\nclass HRPolicy is CorporatePolicy {\n    method compliance() {\n        say \"Ensuring HR-specific compliance.\";\n    }\n\n    method enforcement() {\n        say \"Enforcing HR-specific rules for employee relations.\";\n    }\n}\n\nmy $hr-policy = HRPolicy.new;\n$hr-policy.compliance;\n$hr-policy.enforcement;\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific calculator with methods for basic operations and advanced functions, and extend it with a graphing calculator subclass that overrides these methods for plotting.",
+    "code": "```raku\nclass ScientificCalculator {\n    method add($a, $b) {\n        $a + $b;\n    }\n    \n    method subtract($a, $b) {\n        $a - $b;\n    }\n    \n    method multiply($a, $b) {\n        $a * $b;\n    }\n    \n    method divide($a, $b) {\n        die \"Cannot divide by zero\" if $b == 0;\n        $a / $b;\n    }\n    \n    method sin($x) {\n        sin($x);\n    }\n    \n    method cos($x) {\n        cos($x);\n    }\n    \n    method log($x) {\n        log($x);\n    }\n}\n\nclass GraphingCalculator is ScientificCalculator {\n    method add($a, $b) {\n        \"Plotting add: \" ~ $a ~ \" + \" ~ $b;\n    }\n    \n    method subtract($a, $b) {\n        \"Plotting subtract: \" ~ $a ~ \" - \" ~ $b;\n    }\n    \n    method multiply($a, $b) {\n        \"Plotting multiply: \" ~ $a ~ \" * \" ~ $b;\n    }\n    \n    method divide($a, $b) {\n        die \"Cannot divide by zero\" if $b == 0;\n        \"Plotting divide: \" ~ $a ~ \" / \" ~ $b;\n    }\n    \n    method sin($x) {\n        \"Plotting sin: \" ~ $x;\n    }\n    \n    method cos($x) {\n        \"Plotting cos: \" ~ $x;\n    }\n    \n    method log($x) {\n        \"Plotting log: \" ~ $x;\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a children's book with properties like age group and illustrations, and derive a picture book class that overrides the illustrations property to be more prominent.",
+    "code": "```raku\nclass ChildrensBook {\n    has $.age-group;\n    has $.illustrations;\n\n    method describe {\n        \"This is a children's book for ages $.age-group with illustrations: $.illustrations.\"\n    }\n}\n\nclass PictureBook is ChildrensBook {\n    has $.illustrations = \"prominent\";\n\n    method describe {\n        \"This is a picture book for ages $.age-group with very $.illustrations illustrations.\"\n    }\n}\n\nmy $book = ChildrensBook.new(age-group => '5-7', illustrations => 'simple');\nsay $book.describe;\n\nmy $picture_book = PictureBook.new(age-group => '5-7');\nsay $picture_book.describe;\n```"
+  },
+  {
+    "task": "Design a base class for a cooking class with methods for ingredients and techniques, then create a baking class subclass that overrides these methods for dough preparation.",
+    "code": "```raku\nclass CookingClass {\n    method ingredients() {\n        say \"Generic cooking ingredients\";\n    }\n    \n    method techniques() {\n        say \"Generic cooking techniques\";\n    }\n}\n\nclass BakingClass is CookingClass {\n    method ingredients() {\n        say \"Flour, water, yeast, salt\";\n    }\n    \n    method techniques() {\n        say \"Kneading, proofing, baking\";\n    }\n}\n\nmy $baking = BakingClass.new;\n$baking.ingredients;   # Flour, water, yeast, salt\n$baking.techniques;    # Kneading, proofing, baking\n```"
+  },
+  {
+    "task": "Develop a superclass for a public transportation system with methods for routes and schedules, then extend it with a metro system subclass that overrides these methods for urban areas.",
+    "code": "```raku\nclass PublicTransport {\n    method routes {\n        return \"General routes information\";\n    }\n    \n    method schedules {\n        return \"General schedules information\";\n    }\n}\n\nclass MetroSystem is PublicTransport {\n    method routes {\n        return \"Urban metro routes information\";\n    }\n    \n    method schedules {\n        return \"Urban metro schedules information\";\n    }\n}\n\nmy $transport = PublicTransport.new;\nsay $transport.routes;     # General routes information\nsay $transport.schedules;  # General schedules information\n\nmy $metro = MetroSystem.new;\nsay $metro.routes;         # Urban metro routes information\nsay $metro.schedules;      # Urban metro schedules information\n```"
+  },
+  {
+    "task": "Implement a base class for a music store inventory with methods for stock and sales, then create a vinyl record subclass that overrides these methods for collectible items.",
+    "code": "```raku\nclass MusicStoreInventory {\n    has Int $.stock = 0;\n    has Int $.sales = 0;\n\n    method update-stock(Int $amount) {\n        $.stock += $amount;\n    }\n\n    method record-sale(Int $amount) {\n        if $amount <= $.stock {\n            $.stock -= $amount;\n            $.sales += $amount;\n        } else {\n            die \"Not enough stock for sale\";\n        }\n    }\n\n    method get-stock() {\n        $.stock;\n    }\n\n    method get-sales() {\n        $.sales;\n    }\n}\n\nclass VinylRecord is MusicStoreInventory {\n    has Bool $.is-collectible;\n\n    method update-stock(Int $amount) {\n        if $amount > 0 {\n            $.stock += $amount;\n        } else {\n            die \"Cannot reduce stock for collectible items\";\n        }\n    }\n\n    method record-sale(Int $amount) {\n        if $amount <= $.stock && $.is-collectible {\n            $.stock -= $amount;\n            $.sales += $amount;\n        } else {\n            die \"Not enough collectible stock for sale or item not collectible\";\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a legal contract with methods for terms and conditions, then derive a rental agreement class that overrides these methods for tenant rights.",
+    "code": "```raku\nclass LegalContract {\n    method terms() {\n        \"Standard terms and conditions apply.\"\n    }\n\n    method conditions() {\n        \"Standard conditions must be met.\"\n    }\n}\n\nclass RentalAgreement is LegalContract {\n    method terms() {\n        \"Rental terms include payment of rent and maintenance responsibilities.\"\n    }\n\n    method conditions() {\n        \"Tenant must adhere to property rules and maintain the premises.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a journalism piece with methods for reporting and editing, and extend it with an investigative article subclass that overrides these methods for in-depth analysis.",
+    "code": "```raku\nclass JournalismPiece {\n    method report() {\n        say \"Reporting the news...\";\n    }\n\n    method edit() {\n        say \"Editing the piece...\";\n    }\n}\n\nclass InvestigativeArticle is JournalismPiece {\n    method report() {\n        say \"Investigating and reporting in-depth...\";\n    }\n\n    method edit() {\n        say \"Editing for in-depth analysis...\";\n    }\n}\n\nmy $article = InvestigativeArticle.new;\n$article.report;\n$article.edit;\n```"
+  },
+  {
+    "task": "Create a foundational class for a wildlife reserve with properties like area and species, and derive a bird sanctuary class that overrides the species property for avians.",
+    "code": "```raku\nclass WildlifeReserve {\n    has $.area;\n    has $.species;\n\n    method new(:$area, :$species) {\n        self.bless(:$area, :$species);\n    }\n}\n\nclass BirdSanctuary is WildlifeReserve {\n    has $.species = 'Avians';\n\n    method new(:$area) {\n        self.bless(:$area, species => $.species);\n    }\n}\n\n# Example usage:\nmy $reserve = WildlifeReserve.new(area => 1000, species => 'Various');\nmy $sanctuary = BirdSanctuary.new(area => 500);\n\nsay \"Reserve - Area: {$reserve.area}, Species: {$reserve.species}\";\nsay \"Sanctuary - Area: {$sanctuary.area}, Species: {$sanctuary.species}\";\n```"
+  },
+  {
+    "task": "Design a base class for a subscription box service with methods for curation and delivery, then create a gourmet food box subclass that overrides these methods for artisanal products.",
+    "code": "```raku\nclass SubscriptionBox {\n    method curation() {\n        say \"Curating a general selection of items.\";\n    }\n    \n    method delivery() {\n        say \"Delivering the subscription box.\";\n    }\n}\n\nclass GourmetFoodBox is SubscriptionBox {\n    method curation() {\n        say \"Curating a selection of artisanal gourmet foods.\";\n    }\n    \n    method delivery() {\n        say \"Delivering the gourmet food subscription box.\";\n    }\n}\n\nmy $box = GourmetFoodBox.new;\n$box.curation;\n$box.delivery;\n```"
+  },
+  {
+    "task": "Develop a superclass for a fitness app with methods for tracking and motivation, then extend it with a running app subclass that overrides these methods for pace and distance.",
+    "code": "```raku\nclass FitnessApp {\n    method track() {\n        say \"Tracking your fitness activity.\";\n    }\n\n    method motivate() {\n        say \"Keep going, you're doing great!\";\n    }\n}\n\nclass RunningApp is FitnessApp {\n    method track() {\n        say \"Tracking your run: pace and distance.\";\n    }\n\n    method motivate() {\n        say \"Push yourself to improve your pace!\";\n    }\n}\n\nmy $app = RunningApp.new;\n$app.track;\n$app.motivate;\n```"
+  },
+  {
+    "task": "Implement a base class for a digital portfolio with methods for showcasing and updating, then create an artist portfolio subclass that overrides these methods for galleries.",
+    "code": "```raku\nclass DigitalPortfolio {\n    method showcase() {\n        say \"Showcasing the general digital portfolio.\";\n    }\n\n    method update() {\n        say \"Updating the general digital portfolio.\";\n    }\n}\n\nclass ArtistPortfolio is DigitalPortfolio {\n    method showcase() {\n        say \"Showcasing the artist's portfolio galleries.\";\n    }\n    \n    method update() {\n        say \"Updating the artist's portfolio galleries.\";\n    }\n}\n\nmy $portfolio = ArtistPortfolio.new;\n$portfolio.showcase;\n$portfolio.update;\n```"
+  },
+  {
+    "task": "Construct a parent class for a gaming console with methods for performance and compatibility, then derive a next-gen console class that overrides these methods for new features.",
+    "code": "```raku\nclass GamingConsole {\n    method performance {\n        say \"Standard performance.\";\n    }\n    \n    method compatibility {\n        say \"Compatible with current-gen games.\";\n    }\n}\n\nclass NextGenConsole is GamingConsole {\n    method performance {\n        say \"Enhanced next-gen performance.\";\n    }\n    \n    method compatibility {\n        say \"Compatible with next-gen and current-gen games.\";\n    }\n}\n\nmy $console = GamingConsole.new;\n$console.performance;\n$console.compatibility;\n\nmy $next_gen_console = NextGenConsole.new;\n$next_gen_console.performance;\n$next_gen_console.compatibility;\n```"
+  },
+  {
+    "task": "Set up a base class for a cultural festival with methods for events and participation, and extend it with a music festival subclass that overrides these methods for performances.",
+    "code": "```raku\nclass CulturalFestival {\n    method events {\n        say \"Cultural events include exhibitions, workshops, and more.\";\n    }\n\n    method participation {\n        say \"Participation is open to all cultural enthusiasts.\";\n    }\n}\n\nclass MusicFestival is CulturalFestival {\n    method events {\n        say \"Music events include concerts, jam sessions, and more.\";\n    }\n\n    method participation {\n        say \"Participation is open to musicians and music lovers.\";\n    }\n}\n\nmy $festival = MusicFestival.new;\n$festival.events;\n$festival.participation;\n```"
+  }
+]

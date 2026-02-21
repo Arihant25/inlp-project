@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```swift\nfunc modifyFirstElement(of array: inout [Int]) {\n    if !array.isEmpty {\n        array[0] = 42\n    }\n}\n\nvar numbers = [1, 2, 3, 4, 5]\nmodifyFirstElement(of: &numbers)\nprint(numbers) // Output will be [42, 2, 3, 4, 5]\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```swift\nfunc swapValues(_ a: inout Int, _ b: inout Int) {\n    let temp = a\n    a = b\n    b = temp\n}\n\nvar x = 10\nvar y = 20\n\nprint(\"Before swap: x = \\(x), y = \\(y)\")\nswapValues(&x, &y)\nprint(\"After swap: x = \\(x), y = \\(y)\")\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```swift\nimport Foundation\n\n// Define a large data structure\nstruct LargeDataStructure {\n    var data: [Int]\n    \n    init(size: Int) {\n        self.data = Array(0..<size)\n    }\n}\n\n// Pass by value\nfunc processByValue(_ structure: LargeDataStructure) {\n    var localStructure = structure\n    localStructure.data[0] = -1 // Modify to simulate some processing\n}\n\n// Pass by reference\nfunc processByReference(_ structure: inout LargeDataStructure) {\n    structure.data[0] = -1 // Modify to simulate some processing\n}\n\n// Measure performance\nlet largeDataSize = 1_000_000\nlet largeData = LargeDataStructure(size: largeDataSize)\n\n// Measure by value\nlet startTimeValue = CFAbsoluteTimeGetCurrent()\nprocessByValue(largeData)\nlet timeElapsedValue = CFAbsoluteTimeGetCurrent() - startTimeValue\nprint(\"Time elapsed for pass by value: \\(timeElapsedValue) s\")\n\n// Measure by reference\nvar largeDataRef = LargeDataStructure(size: largeDataSize)\nlet startTimeReference = CFAbsoluteTimeGetCurrent()\nprocessByReference(&largeDataRef)\nlet timeElapsedReference = CFAbsoluteTimeGetCurrent() - startTimeReference\nprint(\"Time elapsed for pass by reference: \\(timeElapsedReference) s\")\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```swift\n// In Swift, all variables are passed by value by default. \n// To simulate pass-by-reference, we can use inout parameters.\n\nfunc doubleValue(_ number: Int) -> Int {\n    return number * 2\n}\n\nfunc doubleValueInPlace(_ number: inout Int) {\n    number *= 2\n}\n\nvar originalValue = 5\n\n// Pass-by-value\nlet doubledValue = doubleValue(originalValue)\nprint(\"Original Value (Pass-by-Value): \\(originalValue)\") // 5\nprint(\"Doubled Value (Pass-by-Value): \\(doubledValue)\") // 10\n\n// Pass-by-reference\ndoubleValueInPlace(&originalValue)\nprint(\"Original Value (Pass-by-Reference): \\(originalValue)\") // 10\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```swift\nfunc doubleElements(in list: [Int]) -> [Int] {\n    return list.map { $0 * 2 }\n}\n\nlet originalList = [1, 2, 3, 4, 5]\nlet doubledList = doubleElements(in: originalList)\n\n// originalList remains unchanged\nprint(originalList) // Output: [1, 2, 3, 4, 5]\nprint(doubledList)  // Output: [2, 4, 6, 8, 10]\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```swift\nfunc appendCharacter(to string: String, character: Character) -> String {\n    var modifiedString = string\n    modifiedString.append(character)\n    return modifiedString\n}\n\n// Example usage\nlet originalString = \"Hello\"\nlet newString = appendCharacter(to: originalString, character: '!')\nprint(\"Original String: \\(originalString)\")\nprint(\"New String: \\(newString)\")\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```swift\nclass Counter {\n    var value: Int\n    \n    init(value: Int) {\n        self.value = value\n    }\n}\n\nfunc increment(counter: inout Counter) {\n    counter.value += 1\n}\n\nvar counter = Counter(value: 0)\nincrement(counter: &counter)\nprint(counter.value)\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```swift\nfunc removeItem(from dictionary: inout [String: Int], key: String) {\n    dictionary.removeValue(forKey: key)\n}\n\nvar myDictionary: [String: Int] = [\"apple\": 3, \"banana\": 5, \"orange\": 2]\n\nremoveItem(from: &myDictionary, key: \"banana\")\n\nprint(myDictionary) // Output: [\"apple\": 3, \"orange\": 2]\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```swift\nfunc transpose(matrix: inout [[Int]]) {\n    let rowCount = matrix.count\n    let colCount = matrix[0].count\n    var transposed = Array(repeating: Array(repeating: 0, count: rowCount), count: colCount)\n    \n    for i in 0..<rowCount {\n        for j in 0..<colCount {\n            transposed[j][i] = matrix[i][j]\n        }\n    }\n    \n    matrix = transposed\n}\n\nvar originalMatrix = [\n    [1, 2, 3],\n    [4, 5, 6],\n    [7, 8, 9]\n]\n\ntranspose(matrix: &originalMatrix)\nprint(originalMatrix)\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```swift\nfunc roundNumber(_ number: Float) -> Float {\n    return round(number)\n}\n\nlet originalNumber: Float = 3.14\nlet roundedNumber = roundNumber(originalNumber)\nprint(\"Original: \\(originalNumber), Rounded: \\(roundedNumber)\")\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```swift\nfunc addKeyValuePair(to dictionary: inout [String: Any], key: String, value: Any) {\n    dictionary[key] = value\n}\n\nvar myDictionary: [String: Any] = [\"originalKey\": \"originalValue\"]\naddKeyValuePair(to: &myDictionary, key: \"newKey\", value: \"newValue\")\n\nprint(myDictionary)\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```swift\nfunc convertToUppercase(_ input: String) -> String {\n    return input.uppercased()\n}\n\nvar originalString = \"hello world\"\nlet uppercasedString = convertToUppercase(originalString)\n\n// Outputs\nprint(\"Original String: \\(originalString)\")\nprint(\"Uppercased String: \\(uppercasedString)\")\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```swift\nfunc modifyTupleElement(_ tuple: (Int, String)) {\n    var modifiedTuple = tuple\n    modifiedTuple.0 = 42\n    print(\"Modified tuple: \\(modifiedTuple)\")\n}\n\nlet originalTuple = (10, \"Hello\")\nprint(\"Original tuple: \\(originalTuple)\")\nmodifyTupleElement(originalTuple)\nprint(\"Original tuple after function call: \\(originalTuple)\")\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```swift\nclass MyObject {\n    var attribute: Int\n    \n    init(attribute: Int) {\n        self.attribute = attribute\n    }\n}\n\nfunc modifyAttribute(of object: MyObject) {\n    object.attribute += 10\n}\n\nlet myObject = MyObject(attribute: 5)\nmodifyAttribute(of: myObject)\nprint(myObject.attribute) // Output will be 15\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```swift\nfunc sumOfElementsInArray(_ array: [Int]) -> Int {\n    var sum = 0\n    for number in array {\n        sum += number\n    }\n    return sum\n}\n\nlet originalArray = [1, 2, 3, 4, 5]\nlet sum = sumOfElementsInArray(originalArray)\nprint(\"Sum: \\(sum)\")\nprint(\"Original Array: \\(originalArray)\")\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```swift\nclass FlagWrapper {\n    var flag: Bool\n\n    init(flag: Bool) {\n        self.flag = flag\n    }\n}\n\nfunc toggleFlag(flagWrapper: FlagWrapper) {\n    flagWrapper.flag.toggle()\n}\n\nlet myFlag = FlagWrapper(flag: true)\nprint(\"Original flag value: \\(myFlag.flag)\")\ntoggleFlag(flagWrapper: myFlag)\nprint(\"Toggled flag value: \\(myFlag.flag)\")\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```swift\nimport Foundation\n\nclass Person: NSCopying {\n    var name: String\n    var age: Int\n    \n    init(name: String, age: Int) {\n        self.name = name\n        self.age = age\n    }\n    \n    func copy(with zone: NSZone? = nil) -> Any {\n        return Person(name: self.name, age: self.age)\n    }\n}\n\nfunc cloneAndModify(person: Person) {\n    let clonedPerson = person.copy() as! Person\n    clonedPerson.name = \"Modified Name\"\n    print(\"Original Person: \\(person.name), \\(person.age)\")\n    print(\"Cloned Person: \\(clonedPerson.name), \\(clonedPerson.age)\")\n}\n\nlet originalPerson = Person(name: \"John\", age: 30)\ncloneAndModify(person: originalPerson)\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```swift\nfunc removeEvens(values: inout [Int]) {\n    values = values.filter { $0 % 2 != 0 }\n}\n\nvar numbers: [Int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n// Pass-by-reference\nremoveEvens(values: &numbers)\nprint(numbers) // Output: [1, 3, 5, 7, 9]\n\n// Pass-by-value example using a separate function\nfunc removeEvensCopy(values: [Int]) -> [Int] {\n    return values.filter { $0 % 2 != 0 }\n}\n\nlet newNumbers = removeEvensCopy(values: numbers)\nprint(newNumbers) // Output: [1, 3, 5, 7, 9]\nprint(numbers)    // Output: [1, 3, 5, 7, 9] (Original remains unchanged)\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```swift\nstruct ComplexNumber {\n    var real: Double\n    var imaginary: Double\n}\n\nfunc conjugate(of number: ComplexNumber) -> ComplexNumber {\n    return ComplexNumber(real: number.real, imaginary: -number.imaginary)\n}\n\nlet originalNumber = ComplexNumber(real: 3.0, imaginary: 4.0)\nlet conjugatedNumber = conjugate(of: originalNumber)\n\nprint(\"Original: \\(originalNumber.real) + \\(originalNumber.imaginary)i\")\nprint(\"Conjugate: \\(conjugatedNumber.real) + \\(conjugatedNumber.imaginary)i\")\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```swift\nclass TreeNode {\n    var value: Int\n    var left: TreeNode?\n    var right: TreeNode?\n    \n    init(_ value: Int) {\n        self.value = value\n        self.left = nil\n        self.right = nil\n    }\n}\n\nfunc invertTree(_ root: inout TreeNode?) {\n    guard let node = root else { return }\n    \n    let temp = node.left\n    node.left = node.right\n    node.right = temp\n    \n    invertTree(&node.left)\n    invertTree(&node.right)\n}\n\n// Example Usage:\nvar root = TreeNode(1)\nroot.left = TreeNode(2)\nroot.right = TreeNode(3)\ninvertTree(&root)\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```swift\nfunc addElement(to set: inout Set<Int>, element: Int) {\n    set.insert(element)\n}\n\nvar mySet: Set<Int> = [1, 2, 3]\nprint(\"Original set: \\(mySet)\")\naddElement(to: &mySet, element: 4)\nprint(\"Modified set: \\(mySet)\")\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```swift\nfunc sortArray(_ array: [Int]) -> [Int] {\n    return array.sorted()\n}\n\nvar originalArray = [5, 2, 9, 1, 5, 6]\nlet sortedArray = sortArray(originalArray)\n\nprint(\"Original Array: \\(originalArray)\")\nprint(\"Sorted Array: \\(sortedArray)\")\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```swift\nclass Configuration {\n    var isEnabled: Bool\n\n    init(isEnabled: Bool) {\n        self.isEnabled = isEnabled\n    }\n}\n\nfunc toggleSetting(config: inout Configuration) {\n    config.isEnabled.toggle()\n}\n\n// Usage\nvar config = Configuration(isEnabled: false)\nprint(\"Before toggle: \\(config.isEnabled)\")\n\ntoggleSetting(config: &config)\nprint(\"After toggle: \\(config.isEnabled)\")\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```swift\nimport Foundation\n\nfunc readFileContent(atPath filePath: String) -> String? {\n    do {\n        let content = try String(contentsOfFile: filePath, encoding: .utf8)\n        return content\n    } catch {\n        print(\"Error reading file at \\(filePath): \\(error)\")\n        return nil\n    }\n}\n\n// Example usage:\nif let content = readFileContent(atPath: \"/path/to/file.txt\") {\n    print(content)\n}\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```swift\nstruct Stack<T> {\n    private var elements: [T] = []\n\n    mutating func push(_ element: T) {\n        elements.append(element)\n    }\n\n    mutating func pop() -> T? {\n        return elements.popLast()\n    }\n\n    func isEmpty() -> Bool {\n        return elements.isEmpty\n    }\n}\n\nfunc reverseStack<T>(_ stack: inout Stack<T>) {\n    var tempStack = Stack<T>()\n    \n    while let element = stack.pop() {\n        tempStack.push(element)\n    }\n    \n    stack = tempStack\n}\n\n// Example usage\nvar myStack = Stack<Int>()\nmyStack.push(1)\nmyStack.push(2)\nmyStack.push(3)\n\nreverseStack(&myStack)\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```swift\nclass Queue<T> {\n    private var elements: [T] = []\n    \n    func enqueue(_ element: T) {\n        elements.append(element)\n    }\n    \n    func dequeue() -> T? {\n        return elements.isEmpty ? nil : elements.removeFirst()\n    }\n    \n    func isEmpty() -> Bool {\n        return elements.isEmpty\n    }\n    \n    func peek() -> T? {\n        return elements.first\n    }\n}\n\nfunc dequeueElement<T>(from queue: Queue<T>) {\n    if let dequeuedElement = queue.dequeue() {\n        print(\"Dequeued element: \\(dequeuedElement)\")\n    } else {\n        print(\"Queue is empty\")\n    }\n}\n\n// Example usage\nlet queue = Queue<Int>()\nqueue.enqueue(1)\nqueue.enqueue(2)\nqueue.enqueue(3)\n\ndequeueElement(from: queue) // Dequeued element: 1\ndequeueElement(from: queue) // Dequeued element: 2\ndequeueElement(from: queue) // Dequeued element: 3\ndequeueElement(from: queue) // Queue is empty\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```swift\nimport Foundation\n\nfunc updateValue(forKey key: String, in map: inout [String: Any], to newValue: Any) {\n    map[key] = newValue\n}\n\nvar myMap: [String: Any] = [\"name\": \"Alice\", \"age\": 30]\nprint(\"Before update:\", myMap)\n\nupdateValue(forKey: \"age\", in: &myMap, to: 31)\nprint(\"After update:\", myMap)\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```swift\nimport Foundation\n\nfunc addProperty(to jsonObject: inout [String: Any], key: String, value: Any) {\n    jsonObject[key] = value\n}\n\n// Example usage\nvar jsonObject: [String: Any] = [\"name\": \"John\", \"age\": 30]\naddProperty(to: &jsonObject, key: \"city\", value: \"New York\")\nprint(jsonObject)\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```swift\nclass Graph {\n    var adjacencyList: [String: [String]] = [:]\n\n    func addNode(node: String) {\n        if adjacencyList[node] == nil {\n            adjacencyList[node] = []\n        }\n    }\n}\n\nfunc addNodeToGraph(graph: inout Graph, node: String) {\n    graph.addNode(node: node)\n}\n\nvar myGraph = Graph()\naddNodeToGraph(graph: &myGraph, node: \"A\")\n\n// Print the graph to verify the node was added\nprint(myGraph.adjacencyList)\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```swift\nstruct Coordinate {\n    var x: Int\n    var y: Int\n}\n\nfunc shiftCoordinates(coordinate: Coordinate, dx: Int, dy: Int) -> Coordinate {\n    var newCoordinate = coordinate\n    newCoordinate.x += dx\n    newCoordinate.y += dy\n    return newCoordinate\n}\n\nvar originalCoordinate = Coordinate(x: 5, y: 10)\nlet shiftedCoordinate = shiftCoordinates(coordinate: originalCoordinate, dx: 3, dy: -2)\n\nprint(\"Original Coordinate: (\\(originalCoordinate.x), \\(originalCoordinate.y))\")\nprint(\"Shifted Coordinate: (\\(shiftedCoordinate.x), \\(shiftedCoordinate.y))\")\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```swift\nimport Foundation\n\nfunc setToNextDay(date: inout Date) {\n    var calendar = Calendar.current\n    calendar.timeZone = TimeZone.current\n    if let nextDay = calendar.date(byAdding: .day, value: 1, to: date) {\n        date = nextDay\n    }\n}\n\nvar today = Date()\nsetToNextDay(date: &today)\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```swift\nfunc differentiate(polynomial: [Double]) -> [Double] {\n    var derivative = [Double]()\n    for i in 1..<polynomial.count {\n        derivative.append(Double(i) * polynomial[i])\n    }\n    return derivative\n}\n\nlet originalPolynomial = [3.0, 2.0, 1.0] // Represents 3 + 2x + x^2\nlet differentiatedPolynomial = differentiate(polynomial: originalPolynomial)\n\n// Original polynomial remains unchanged\nprint(\"Original Polynomial: \\(originalPolynomial)\")\nprint(\"Differentiated Polynomial: \\(differentiatedPolynomial)\")\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```swift\nclass Stack {\n    private var elements: [Int] = []\n\n    func push(_ element: Int) {\n        elements.append(element)\n    }\n\n    func pop() -> Int? {\n        return elements.popLast()\n    }\n\n    func isEmpty() -> Bool {\n        return elements.isEmpty\n    }\n\n    func clear() {\n        elements.removeAll()\n    }\n}\n\nfunc clearStack(_ stack: inout Stack) {\n    stack.clear()\n}\n\n// Example usage:\nvar myStack = Stack()\nmyStack.push(1)\nmyStack.push(2)\nmyStack.push(3)\n\nclearStack(&myStack)\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```swift\nclass Node {\n    var value: Int\n    var next: Node?\n\n    init(value: Int) {\n        self.value = value\n        self.next = nil\n    }\n}\n\nclass LinkedList {\n    var head: Node?\n\n    func append(value: Int) {\n        let newNode = Node(value: value)\n        if head == nil {\n            head = newNode\n        } else {\n            var current = head\n            while current?.next != nil {\n                current = current?.next\n            }\n            current?.next = newNode\n        }\n    }\n\n    func printList() {\n        var current = head\n        while current != nil {\n            print(current!.value, terminator: \" -> \")\n            current = current?.next\n        }\n        print(\"nil\")\n    }\n}\n\nfunc appendNode(to list: inout LinkedList, value: Int) {\n    list.append(value: value)\n}\n\nvar myList = LinkedList()\nmyList.append(value: 1)\nmyList.append(value: 2)\n\nprint(\"Before appending new node:\")\nmyList.printList()\n\nappendNode(to: &myList, value: 3)\n\nprint(\"After appending new node:\")\nmyList.printList()\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```swift\nimport Foundation\n\nfunc extractDomain(from urlString: String) -> String? {\n    guard let url = URL(string: urlString) else { return nil }\n    return url.host\n}\n\n// Example usage\nif let domain = extractDomain(from: \"https://www.example.com/path/to/resource\") {\n    print(\"Domain: \\(domain)\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```swift\nimport Foundation\n\nclass PriorityQueue<Element: Comparable> {\n    private var elements: [Element] = []\n    \n    func enqueue(_ element: Element) {\n        elements.append(element)\n        elements.sort(by: >)\n    }\n    \n    func dequeue() -> Element? {\n        return elements.isEmpty ? nil : elements.removeFirst()\n    }\n    \n    func changePriority(of element: Element, to newElement: Element) {\n        if let index = elements.firstIndex(of: element) {\n            elements[index] = newElement\n            elements.sort(by: >)\n        }\n    }\n    \n    func peek() -> Element? {\n        return elements.first\n    }\n}\n\nfunc changePriority(queue: inout PriorityQueue<Int>, element: Int, newPriority: Int) {\n    queue.changePriority(of: element, to: newPriority)\n}\n\nvar pq = PriorityQueue<Int>()\npq.enqueue(4)\npq.enqueue(2)\npq.enqueue(5)\n\nchangePriority(queue: &pq, element: 2, newPriority: 6)\n\nwhile let element = pq.dequeue() {\n    print(element)\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```swift\nclass CircularBuffer<T> {\n    private var buffer: [T?]\n    private var head: Int = 0\n    private var tail: Int = 0\n    private var count: Int = 0\n    private let capacity: Int\n    \n    init(capacity: Int) {\n        self.capacity = capacity\n        self.buffer = Array(repeating: nil, count: capacity)\n    }\n    \n    func enqueue(_ element: T) -> Bool {\n        if count == capacity {\n            return false\n        }\n        buffer[tail] = element\n        tail = (tail + 1) % capacity\n        count += 1\n        return true\n    }\n    \n    func dequeue() -> T? {\n        if count == 0 {\n            return nil\n        }\n        let element = buffer[head]\n        buffer[head] = nil\n        head = (head + 1) % capacity\n        count -= 1\n        return element\n    }\n}\n\nfunc readElement(from buffer: inout CircularBuffer<Int>) -> Int? {\n    return buffer.dequeue()\n}\n\nvar myBuffer = CircularBuffer<Int>(capacity: 5)\nmyBuffer.enqueue(10)\nmyBuffer.enqueue(20)\n\nif let element = readElement(from: &myBuffer) {\n    print(\"Element read: \\(element)\")\n} else {\n    print(\"Buffer is empty\")\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```swift\nstruct Record {\n    var field: String\n}\n\nfunc updateRecord(record: inout Record, newValue: String) {\n    record.field = newValue\n}\n\nvar myRecord = Record(field: \"Initial Value\")\nprint(\"Before update: \\(myRecord.field)\")\n\nupdateRecord(record: &myRecord, newValue: \"Updated Value\")\nprint(\"After update: \\(myRecord.field)\")\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```swift\nfunc normalizeFrequencies(frequencies: [Double]) -> [Double] {\n    let total = frequencies.reduce(0, +)\n    return frequencies.map { $0 / total }\n}\n\n// Example usage\nlet originalFrequencies = [5.0, 10.0, 15.0]\nlet normalizedFrequencies = normalizeFrequencies(frequencies: originalFrequencies)\n\nprint(\"Original: \\(originalFrequencies)\")\nprint(\"Normalized: \\(normalizedFrequencies)\")\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```swift\nclass Chessboard {\n    var board: [[String]]\n    \n    init(board: [[String]]) {\n        self.board = board\n    }\n}\n\nfunc makeMove(chessboard: inout Chessboard, from: (Int, Int), to: (Int, Int)) {\n    let piece = chessboard.board[from.0][from.1]\n    chessboard.board[from.0][from.1] = \"\"\n    chessboard.board[to.0][to.1] = piece\n}\n\n// Example usage\nvar initialBoard = Chessboard(board: [\n    [\"R\", \"N\", \"B\", \"Q\", \"K\", \"B\", \"N\", \"R\"],\n    [\"P\", \"P\", \"P\", \"P\", \"P\", \"P\", \"P\", \"P\"],\n    [\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"],\n    [\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"],\n    [\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"],\n    [\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"],\n    [\"p\", \"p\", \"p\", \"p\", \"p\", \"p\", \"p\", \"p\"],\n    [\"r\", \"n\", \"b\", \"q\", \"k\", \"b\", \"n\", \"r\"]\n])\n\nmakeMove(chessboard: &initialBoard, from: (6, 0), to: (4, 0))\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```swift\nfunc decimalToBinary(_ number: Int) -> String {\n    var num = number\n    var binaryString = \"\"\n    \n    while num > 0 {\n        binaryString = String(num % 2) + binaryString\n        num /= 2\n    }\n    \n    return binaryString.isEmpty ? \"0\" : binaryString\n}\n\nlet originalNumber = 25\nlet binaryRepresentation = decimalToBinary(originalNumber)\nprint(\"Decimal: \\(originalNumber) -> Binary: \\(binaryRepresentation)\")\n// The originalNumber variable remains unchanged due to pass-by-value.\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```swift\nfunc countNucleotides(dnaSequence: String) -> [Character: Int] {\n    var nucleotideCount: [Character: Int] = [\"A\": 0, \"C\": 0, \"G\": 0, \"T\": 0]\n    \n    for nucleotide in dnaSequence {\n        if let _ = nucleotideCount[nucleotide] {\n            nucleotideCount[nucleotide]! += 1\n        }\n    }\n    \n    return nucleotideCount\n}\n\nlet originalSequence = \"ACGTACGT\"\nlet nucleotideCounts = countNucleotides(dnaSequence: originalSequence)\nprint(\"Nucleotide counts: \\(nucleotideCounts)\")\nprint(\"Original sequence remains intact: \\(originalSequence)\")\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```swift\nclass ShoppingCart {\n    var totalAmount: Double\n    \n    init(totalAmount: Double) {\n        self.totalAmount = totalAmount\n    }\n}\n\nfunc applyDiscount(to cart: inout ShoppingCart, discount: Double) {\n    cart.totalAmount -= cart.totalAmount * discount\n}\n\nvar myCart = ShoppingCart(totalAmount: 100.0)\napplyDiscount(to: &myCart, discount: 0.1)\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```swift\nclass Song {\n    let title: String\n    let artist: String\n    \n    init(title: String, artist: String) {\n        self.title = title\n        self.artist = artist\n    }\n}\n\nfunc addSongToPlaylist(playlist: inout [Song], song: Song) {\n    playlist.append(song)\n}\n\nvar myPlaylist: [Song] = [Song(title: \"Song A\", artist: \"Artist A\")]\nlet newSong = Song(title: \"Song B\", artist: \"Artist B\")\n\naddSongToPlaylist(playlist: &myPlaylist, song: newSong)\n\nfor song in myPlaylist {\n    print(\"\\(song.title) by \\(song.artist)\")\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```swift\nimport Foundation\n\nclass Sprite {\n    var x: Int\n    var y: Int\n    \n    init(x: Int, y: Int) {\n        self.x = x\n        self.y = y\n    }\n}\n\nfunc moveSprite(sprite: Sprite, dx: Int, dy: Int) {\n    sprite.x += dx\n    sprite.y += dy\n}\n\nvar mySprite = Sprite(x: 10, y: 10)\nprint(\"Before moving: (\\(mySprite.x), \\(mySprite.y))\")\n\nmoveSprite(sprite: mySprite, dx: 5, dy: -3)\nprint(\"After moving: (\\(mySprite.x), \\(mySprite.y))\")\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```swift\nclass Book {\n    var title: String\n    \n    init(title: String) {\n        self.title = title\n    }\n}\n\nfunc updateBookTitle(book: Book, newTitle: String) {\n    book.title = newTitle\n}\n\nvar myBook = Book(title: \"Original Title\")\nprint(\"Before update: \\(myBook.title)\")\n\nupdateBookTitle(book: myBook, newTitle: \"Updated Title\")\nprint(\"After update: \\(myBook.title)\")\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```swift\nfunc normalizeSoundWave(soundWave: [Double]) -> [Double] {\n    guard let maxAmplitude = soundWave.max() else { return soundWave }\n    return soundWave.map { $0 / maxAmplitude }\n}\n\nvar originalSoundWave = [0.5, 1.0, 0.75, 0.25]\nlet normalizedWave = normalizeSoundWave(soundWave: originalSoundWave)\nprint(\"Original: \\(originalSoundWave)\") // Original sound wave remains unchanged\nprint(\"Normalized: \\(normalizedWave)\")\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```swift\nclass BankAccount {\n    var balance: Double\n    \n    init(balance: Double) {\n        self.balance = balance\n    }\n}\n\nfunc creditAmount(account: inout BankAccount, amount: Double) {\n    account.balance += amount\n}\n\nvar myAccount = BankAccount(balance: 100.0)\ncreditAmount(account: &myAccount, amount: 50.0)\nprint(myAccount.balance)  // Output: 150.0\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```swift\nimport Foundation\n\nfunc isValidEmail(_ email: String) -> Bool {\n    let emailRegEx = \"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,64}\"\n    let emailPredicate = NSPredicate(format:\"SELF MATCHES %@\", emailRegEx)\n    return emailPredicate.evaluate(with: email)\n}\n\nfunc filterInvalidEmails(emails: [String]) -> [String] {\n    return emails.filter { isValidEmail($0) }\n}\n\nvar originalEmailList = [\"valid.email@example.com\", \"invalid-email\", \"another.valid@example.com\"]\nlet filteredEmailList = filterInvalidEmails(emails: originalEmailList)\n\nprint(\"Original Email List: \\(originalEmailList)\")\nprint(\"Filtered Email List: \\(filteredEmailList)\")\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```swift\nclass Model3D {\n    var scale: Double\n    \n    init(scale: Double) {\n        self.scale = scale\n    }\n}\n\nfunc scaleModel(_ model: inout Model3D, by factor: Double) {\n    model.scale *= factor\n}\n\n// Example usage\nvar myModel = Model3D(scale: 1.0)\nprint(\"Original scale: \\(myModel.scale)\")\n\nscaleModel(&myModel, by: 2.0)\nprint(\"Scaled model: \\(myModel.scale)\")\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```swift\nimport Foundation\n\nfunc redactSensitiveInfo(document: inout String) {\n    let sensitiveWords = [\"password\", \"ssn\", \"creditcard\"]\n    for word in sensitiveWords {\n        document = document.replacingOccurrences(of: word, with: \"REDACTED\")\n    }\n}\n\nvar textDocument = \"\"\"\nThis is a sample document. The user's password is 12345. Their ssn is 555-55-5555. They have a creditcard number 1234-5678-9012-3456.\n\"\"\"\n\nredactSensitiveInfo(document: &textDocument)\nprint(textDocument)\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```swift\nfunc adjustTemperature(reading: Double, calibrationOffset: Double) -> Double {\n    return reading + calibrationOffset\n}\n\n// Example usage\nlet originalReading = 25.0\nlet calibrationOffset = 1.5\nlet adjustedReading = adjustTemperature(reading: originalReading, calibrationOffset: calibrationOffset)\n\nprint(\"Original Reading: \\(originalReading)\")\nprint(\"Adjusted Reading: \\(adjustedReading)\")\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```swift\nclass BugReport {\n    var status: String\n    \n    init(status: String) {\n        self.status = status\n    }\n}\n\nfunc updateBugReportStatus(report: inout BugReport, newStatus: String) {\n    report.status = newStatus\n}\n\nvar report = BugReport(status: \"Open\")\nupdateBugReportStatus(report: &report, newStatus: \"Closed\")\nprint(report.status)  // Output: Closed\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```swift\nfunc calibrate(sensorArray: inout [Double]) {\n    for i in 0..<sensorArray.count {\n        sensorArray[i] *= 1.1 // Example calibration factor\n    }\n}\n\nvar sensors = [10.0, 20.0, 30.0, 40.0]\ncalibrate(sensorArray: &sensors)\nprint(sensors)\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```swift\nimport Foundation\n\nstruct Vector {\n    var x: Double\n    var y: Double\n}\n\nfunc rotateVector(vector: Vector, angle: Double) -> Vector {\n    let radians = angle * (.pi / 180)\n    let newX = vector.x * cos(radians) - vector.y * sin(radians)\n    let newY = vector.x * sin(radians) + vector.y * cos(radians)\n    return Vector(x: newX, y: newY)\n}\n\n// Example usage\nlet originalVector = Vector(x: 1.0, y: 0.0)\nlet rotatedVector = rotateVector(vector: originalVector, angle: 90)\nprint(\"Original Vector: (\\(originalVector.x), \\(originalVector.y))\")\nprint(\"Rotated Vector: (\\(rotatedVector.x), \\(rotatedVector.y))\")\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```swift\nfunc compressLog(_ log: inout [String]) {\n    var compressedLog: [String] = []\n    var previousEntry: String? = nil\n    var count = 0\n\n    for entry in log {\n        if entry == previousEntry {\n            count += 1\n        } else {\n            if let prev = previousEntry {\n                compressedLog.append(count > 1 ? \"\\(prev) x\\(count)\" : prev)\n            }\n            previousEntry = entry\n            count = 1\n        }\n    }\n    \n    if let prev = previousEntry {\n        compressedLog.append(count > 1 ? \"\\(prev) x\\(count)\" : prev)\n    }\n    \n    log = compressedLog\n}\n\nvar operationLog = [\"start\", \"start\", \"stop\", \"stop\", \"stop\", \"start\"]\ncompressLog(&operationLog)\nprint(operationLog)\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```swift\nclass NeuralNetworkModel {\n    var weights: [Double]\n    \n    init(weights: [Double]) {\n        self.weights = weights\n    }\n}\n\nfunc updateWeights(of model: inout NeuralNetworkModel, newWeights: [Double]) {\n    model.weights = newWeights\n}\n\nvar model = NeuralNetworkModel(weights: [0.1, 0.2, 0.3])\nprint(\"Before update: \\(model.weights)\")\n\nlet newWeights = [0.4, 0.5, 0.6]\nupdateWeights(of: &model, newWeights: newWeights)\n\nprint(\"After update: \\(model.weights)\")\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```swift\nclass Command {\n    var description: String\n    \n    init(description: String) {\n        self.description = description\n    }\n}\n\nfunc revertLastCommand(history: inout [Command]) {\n    if !history.isEmpty {\n        history.removeLast()\n    }\n}\n\n// Example usage:\nvar commandHistory: [Command] = [Command(description: \"Command 1\"),\n                                 Command(description: \"Command 2\"),\n                                 Command(description: \"Command 3\")]\n\nprint(\"Before revert: \\(commandHistory.map { $0.description })\")\nrevertLastCommand(history: &commandHistory)\nprint(\"After revert: \\(commandHistory.map { $0.description })\")\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```swift\nstruct UserProfile {\n    var name: String\n    var email: String\n}\n\nfunc anonymizeProfile(_ profile: inout UserProfile) {\n    profile.name = \"Anonymous\"\n    profile.email = \"anon@example.com\"\n}\n\nvar userProfile = UserProfile(name: \"Alice\", email: \"alice@example.com\")\nanonymizeProfile(&userProfile)\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```swift\nfunc evaluatePolynomial(coefficients: [Double], at x: Double) -> Double {\n    var result: Double = 0.0\n    for (index, coefficient) in coefficients.enumerated() {\n        result += coefficient * pow(x, Double(index))\n    }\n    return result\n}\n\n// Example usage:\nlet polynomial = [2.0, 3.0, 4.0] // Represents 2 + 3x + 4x^2\nlet point = 2.0\nlet value = evaluatePolynomial(coefficients: polynomial, at: point)\nprint(\"Polynomial evaluated at \\(point):\", value)\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```swift\nimport AVFoundation\n\nfunc applyFilter(to stream: inout CMSampleBuffer, filter: CIFilter) {\n    guard let imageBuffer = CMSampleBufferGetImageBuffer(stream) else { return }\n    \n    let ciImage = CIImage(cvImageBuffer: imageBuffer)\n    filter.setValue(ciImage, forKey: kCIInputImageKey)\n    \n    guard let outputImage = filter.outputImage else { return }\n    \n    let context = CIContext()\n    context.render(outputImage, to: imageBuffer)\n}\n\nlet captureSession = AVCaptureSession()\ncaptureSession.sessionPreset = .high\n\nguard let videoDevice = AVCaptureDevice.default(for: .video),\n      let videoInput = try? AVCaptureDeviceInput(device: videoDevice),\n      captureSession.canAddInput(videoInput) else {\n    fatalError(\"Cannot add video input\")\n}\n\ncaptureSession.addInput(videoInput)\n\nlet videoOutput = AVCaptureVideoDataOutput()\nvideoOutput.setSampleBufferDelegate(nil, queue: DispatchQueue(label: \"videoQueue\"))\ncaptureSession.addOutput(videoOutput)\n\nlet sepiaFilter = CIFilter(name: \"CISepiaTone\")!\nsepiaFilter.setValue(1.0, forKey: kCIInputIntensityKey)\n\nvideoOutput.setSampleBufferDelegate(\n    { (output, sampleBuffer, connection) in\n        var mutableBuffer = sampleBuffer\n        applyFilter(to: &mutableBuffer, filter: sepiaFilter)\n    },\n    queue: DispatchQueue(label: \"videoQueue\")\n)\n\ncaptureSession.startRunning()\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```swift\nclass Task {\n    var name: String\n    var priority: Int\n    \n    init(name: String, priority: Int) {\n        self.name = name\n        self.priority = priority\n    }\n}\n\nfunc reorderTasksByPriority(taskQueue: inout [Task]) {\n    taskQueue.sort { $0.priority > $1.priority }\n}\n\nvar tasks = [\n    Task(name: \"Task 1\", priority: 2),\n    Task(name: \"Task 2\", priority: 3),\n    Task(name: \"Task 3\", priority: 1)\n]\n\nreorderTasksByPriority(taskQueue: &tasks)\n\nfor task in tasks {\n    print(\"\\(task.name) with priority \\(task.priority)\")\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```swift\nclass Transaction {\n    var id: String\n    var amount: Double\n\n    init(id: String, amount: Double) {\n        self.id = id\n        self.amount = amount\n    }\n}\n\nclass Block {\n    var transactions: [Transaction]\n    \n    init(transactions: [Transaction]) {\n        self.transactions = transactions\n    }\n}\n\nclass Blockchain {\n    var blocks: [Block]\n    \n    init(blocks: [Block]) {\n        self.blocks = blocks\n    }\n}\n\nfunc verifyTransaction(blockchain: inout Blockchain, transactionId: String) -> Bool {\n    for block in blockchain.blocks {\n        for transaction in block.transactions {\n            if transaction.id == transactionId {\n                return true\n            }\n        }\n    }\n    return false\n}\n\n// Example usage\nvar transaction1 = Transaction(id: \"tx1\", amount: 100.0)\nvar transaction2 = Transaction(id: \"tx2\", amount: 200.0)\nvar block = Block(transactions: [transaction1, transaction2])\nvar blockchain = Blockchain(blocks: [block])\n\nlet transactionExists = verifyTransaction(blockchain: &blockchain, transactionId: \"tx1\")\nprint(\"Transaction exists: \\(transactionExists)\")\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```swift\nclass Player {\n    var name: String\n    var score: Int\n    \n    init(name: String, score: Int) {\n        self.name = name\n        self.score = score\n    }\n}\n\nfunc updateScores(leaderboard: inout [Player], updates: [(String, Int)]) {\n    for update in updates {\n        if let player = leaderboard.first(where: { $0.name == update.0 }) {\n            player.score += update.1\n        }\n    }\n}\n\n// Usage example\nvar leaderboard = [\n    Player(name: \"Alice\", score: 50),\n    Player(name: \"Bob\", score: 30)\n]\n\nlet updates = [(\"Alice\", 10), (\"Bob\", 20)]\n\nupdateScores(leaderboard: &leaderboard, updates: updates)\n\n// The leaderboard is now updated by reference\nleaderboard.forEach { print(\"\\($0.name): \\($0.score)\") }\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```swift\nclass ProjectTimeline {\n    var days: Int\n    \n    init(days: Int) {\n        self.days = days\n    }\n}\n\nfunc adjustForDelays(timeline: inout ProjectTimeline, delay: Int) {\n    timeline.days += delay\n}\n\nvar myProjectTimeline = ProjectTimeline(days: 30)\nadjustForDelays(timeline: &myProjectTimeline, delay: 5)\nprint(\"Adjusted Project Timeline: \\(myProjectTimeline.days) days\")\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```swift\nclass Task {\n    var description: String\n    var isCompleted: Bool\n    \n    init(description: String, isCompleted: Bool = false) {\n        self.description = description\n        self.isCompleted = isCompleted\n    }\n}\n\nfunc completeTask(todoList: inout [Task], taskIndex: Int) {\n    if taskIndex >= 0 && taskIndex < todoList.count {\n        todoList[taskIndex].isCompleted = true\n    }\n}\n\n// Example usage\nvar todoList = [\n    Task(description: \"Buy groceries\"),\n    Task(description: \"Call Alice\"),\n    Task(description: \"Finish Swift project\")\n]\n\ncompleteTask(todoList: &todoList, taskIndex: 1)\n\nfor task in todoList {\n    print(\"\\(task.description): \\(task.isCompleted ? \"Completed\" : \"Not Completed\")\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```swift\nclass Canvas {\n    var layers: [String] = []\n}\n\nfunc addLayer(to canvas: inout Canvas, layer: String) {\n    canvas.layers.append(layer)\n}\n\nvar myCanvas = Canvas()\naddLayer(to: &myCanvas, layer: \"Background Layer\")\naddLayer(to: &myCanvas, layer: \"Foreground Layer\")\n\nprint(myCanvas.layers)\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```swift\nimport Foundation\n\nfunc fetchContent(urls: [String]) {\n    var copyUrls = urls\n    for i in 0..<copyUrls.count {\n        if let url = URL(string: copyUrls[i]) {\n            do {\n                let _ = try String(contentsOf: url)\n                copyUrls[i] = \"Fetched: \\(copyUrls[i])\"\n            } catch {\n                copyUrls[i] = \"Failed: \\(copyUrls[i])\"\n            }\n        }\n    }\n    print(\"Original URLs: \\(urls)\")\n    print(\"Modified URLs: \\(copyUrls)\")\n}\n\n// Example usage\nlet urlList = [\n    \"http://example.com\",\n    \"http://nonexistenturl.com\"\n]\nfetchContent(urls: urlList)\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```swift\nclass GameBoard {\n    var board: [[Int]]\n    \n    init(rows: Int, columns: Int) {\n        board = Array(repeating: Array(repeating: 0, count: columns), count: rows)\n    }\n}\n\nfunc resetBoard(_ gameBoard: inout GameBoard) {\n    for i in 0..<gameBoard.board.count {\n        for j in 0..<gameBoard.board[i].count {\n            gameBoard.board[i][j] = 0\n        }\n    }\n}\n\nvar myGameBoard = GameBoard(rows: 3, columns: 3)\nmyGameBoard.board[0][0] = 1\nmyGameBoard.board[1][1] = 2\nprint(\"Before reset: \\(myGameBoard.board)\")\n\nresetBoard(&myGameBoard)\nprint(\"After reset: \\(myGameBoard.board)\")\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```swift\nclass SoundEffect {\n    var volume: Int\n\n    init(volume: Int) {\n        self.volume = volume\n    }\n}\n\nfunc increaseVolume(sound: inout SoundEffect, by amount: Int) {\n    sound.volume += amount\n}\n\nvar mySound = SoundEffect(volume: 10)\nincreaseVolume(sound: &mySound, by: 5)\nprint(mySound.volume)  // Output: 15\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```swift\nclass WeatherForecast {\n    var temperature: Int\n    \n    init(temperature: Int) {\n        self.temperature = temperature\n    }\n}\n\nfunc updateTemperature(_ forecast: inout WeatherForecast, newTemperature: Int) {\n    forecast.temperature = newTemperature\n}\n\nvar forecast = WeatherForecast(temperature: 20)\nupdateTemperature(&forecast, newTemperature: 25)\nprint(forecast.temperature) // Output: 25\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```swift\nfunc extractErrorMessages(from log: [String]) -> [String] {\n    var errorMessages: [String] = []\n    for entry in log {\n        if entry.contains(\"ERROR\") {\n            errorMessages.append(entry)\n        }\n    }\n    return errorMessages\n}\n\n// Example usage\nlet systemLog = [\n    \"INFO: System started\",\n    \"ERROR: Disk space low\",\n    \"WARNING: High CPU usage\",\n    \"ERROR: Network connection lost\"\n]\n\nlet errors = extractErrorMessages(from: systemLog)\nprint(\"Extracted Errors: \\(errors)\")\nprint(\"Original Log: \\(systemLog)\")\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```swift\nfunc encryptDataPacket(packet: String) -> String {\n    var encryptedPacket = \"\"\n    for char in packet.utf8 {\n        let encryptedChar = char.advanced(by: 1)\n        encryptedPacket.append(Character(UnicodeScalar(encryptedChar)))\n    }\n    return encryptedPacket\n}\n\nfunc demonstratePassByValue() {\n    let originalPacket = \"Hello, World!\"\n    let encryptedPacket = encryptDataPacket(packet: originalPacket)\n    \n    print(\"Original Packet: \\(originalPacket)\")\n    print(\"Encrypted Packet: \\(encryptedPacket)\")\n}\n\ndemonstratePassByValue()\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```swift\nclass Theme {\n    var color: String\n    \n    init(color: String) {\n        self.color = color\n    }\n}\n\nfunc applyColorChange(to theme: Theme, newColor: String) {\n    theme.color = newColor\n}\n\nvar websiteTheme = Theme(color: \"Blue\")\napplyColorChange(to: websiteTheme, newColor: \"Green\")\nprint(websiteTheme.color)\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```swift\nimport Foundation\nimport CryptoKit\n\nfunc verifySignature(message: String, signature: Data, publicKey: P256.Signing.PublicKey) -> Bool {\n    let messageData = message.data(using: .utf8)!\n    let signatureToVerify = try? P256.Signing.ECDSASignature(rawRepresentation: signature)\n    \n    guard let verifiedSignature = signatureToVerify else {\n        return false\n    }\n    \n    return publicKey.isValidSignature(verifiedSignature, for: messageData)\n}\n\n// Example usage\nlet message = \"Hello, world!\"\nlet privateKey = P256.Signing.PrivateKey()\nlet publicKey = privateKey.publicKey\nlet signature = try! privateKey.signature(for: message.data(using: .utf8)!)\n\nlet isVerified = verifySignature(message: message, signature: signature.rawRepresentation, publicKey: publicKey)\nprint(\"Signature verified: \\(isVerified)\")\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```swift\nimport Foundation\n\nclass Robot {\n    var path: [String]\n    \n    init(path: [String]) {\n        self.path = path\n    }\n    \n    func optimizePath() {\n        var i = 0\n        while i < path.count - 1 {\n            if (path[i] == \"N\" && path[i + 1] == \"S\") || (path[i] == \"S\" && path[i + 1] == \"N\") ||\n               (path[i] == \"E\" && path[i + 1] == \"W\") || (path[i] == \"W\" && path[i + 1] == \"E\") {\n                path.remove(at: i)\n                path.remove(at: i)\n                if i > 0 { i -= 1 }\n            } else {\n                i += 1\n            }\n        }\n    }\n}\n\nfunc optimizeRobotPath(robot: inout Robot) {\n    robot.optimizePath()\n}\n\nvar robot = Robot(path: [\"N\", \"S\", \"E\", \"W\", \"N\", \"E\", \"S\", \"W\", \"N\"])\noptimizeRobotPath(robot: &robot)\nprint(robot.path)\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```swift\nimport Foundation\n\nfunc shufflePlaylist(_ playlist: inout [String]) {\n    playlist.shuffle()\n}\n\nvar myPlaylist = [\"Song A\", \"Song B\", \"Song C\", \"Song D\"]\nprint(\"Original Playlist: \\(myPlaylist)\")\n\nshufflePlaylist(&myPlaylist)\nprint(\"Shuffled Playlist: \\(myPlaylist)\")\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```swift\nfunc removeDuplicates(feed: inout [String]) {\n    var seen = Set<String>()\n    feed = feed.filter { seen.insert($0).inserted }\n}\n\nvar socialMediaFeed = [\"post1\", \"post2\", \"post1\", \"post3\", \"post2\", \"post4\"]\nremoveDuplicates(feed: &socialMediaFeed)\nprint(socialMediaFeed)\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```swift\nimport Foundation\n\nstruct CodingChallenge {\n    var description: String\n    var testCases: [String]\n}\n\nfunc addTestCases(to challenge: inout CodingChallenge, newTestCases: [String]) {\n    challenge.testCases.append(contentsOf: newTestCases)\n}\n\nvar challenge = CodingChallenge(description: \"Solve a problem\", testCases: [])\nlet additionalTestCases = [\"TestCase1\", \"TestCase2\"]\n\naddTestCases(to: &challenge, newTestCases: additionalTestCases)\n\nprint(challenge.testCases)  // [\"TestCase1\", \"TestCase2\"]\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```swift\nfunc reverseAnimationSequence(sequence: [String]) -> [String] {\n    return sequence.reversed()\n}\n\n// Example usage\nlet originalSequence = [\"fadeIn\", \"moveUp\", \"scaleDown\"]\nlet reversedSequence = reverseAnimationSequence(sequence: originalSequence)\n\nprint(\"Original: \\(originalSequence)\")\nprint(\"Reversed: \\(reversedSequence)\")\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```swift\nclass GPSRoute {\n    var coordinates: [(Double, Double)]\n    \n    init(coordinates: [(Double, Double)]) {\n        self.coordinates = coordinates\n    }\n}\n\nfunc recalculateRoute(route: inout GPSRoute) {\n    // Simulate recalculating the route by modifying the coordinates\n    for i in 0..<route.coordinates.count {\n        route.coordinates[i] = (route.coordinates[i].0 + 0.1, route.coordinates[i].1 + 0.1)\n    }\n}\n\n// Example usage\nvar myRoute = GPSRoute(coordinates: [(37.7749, -122.4194), (34.0522, -118.2437)])\nprint(\"Original route: \\(myRoute.coordinates)\")\n\nrecalculateRoute(route: &myRoute)\nprint(\"Recalculated route: \\(myRoute.coordinates)\")\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```swift\nfunc censorInappropriateLanguage(inout chatHistory: [String], inappropriateWords: Set<String>) {\n    for i in 0..<chatHistory.count {\n        let words = chatHistory[i].split(separator: \" \")\n        chatHistory[i] = words.map { word in\n            inappropriateWords.contains(String(word)) ? String(repeating: \"*\", count: word.count) : String(word)\n        }.joined(separator: \" \")\n    }\n}\n\nvar chatHistory = [\n    \"Hey you are a badword here\",\n    \"No inappropriate language allowed\",\n    \"This is a clean sentence\"\n]\n\nlet inappropriateWords: Set<String> = [\"badword\", \"inappropriate\"]\ncensorInappropriateLanguage(&chatHistory, inappropriateWords: inappropriateWords)\n\nprint(chatHistory)\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```swift\nclass LightingSetup {\n    var brightness: Int\n\n    init(brightness: Int) {\n        self.brightness = brightness\n    }\n}\n\nfunc adjustBrightness(setup: LightingSetup, newBrightness: Int) {\n    setup.brightness = newBrightness\n}\n\nlet myLightingSetup = LightingSetup(brightness: 50)\nadjustBrightness(setup: myLightingSetup, newBrightness: 75)\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```swift\nclass VREnvironment {\n    var scenery: String\n    \n    init(scenery: String) {\n        self.scenery = scenery\n    }\n}\n\nfunc changeScenery(environment: inout VREnvironment, newScenery: String) {\n    environment.scenery = newScenery\n}\n\nvar myVREnvironment = VREnvironment(scenery: \"Beach\")\n\nprint(\"Before change: \\(myVREnvironment.scenery)\")\n\nchangeScenery(environment: &myVREnvironment, newScenery: \"Mountain\")\n\nprint(\"After change: \\(myVREnvironment.scenery)\")\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```swift\nclass Block {\n    var data: String\n    var previousHash: String\n\n    init(data: String, previousHash: String) {\n        self.data = data\n        self.previousHash = previousHash\n    }\n}\n\nclass BlockchainLedger {\n    private var blocks: [Block] = []\n\n    func addBlock(_ block: Block) {\n        blocks.append(block)\n    }\n\n    func getBlocks() -> [Block] {\n        return blocks\n    }\n}\n\nfunc addBlockToLedger(ledger: inout BlockchainLedger, block: Block) {\n    ledger.addBlock(block)\n}\n\n// Usage\nvar ledger = BlockchainLedger()\nlet block = Block(data: \"Block data\", previousHash: \"0000\")\naddBlockToLedger(ledger: &ledger, block: block)\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```swift\nstruct NetworkPacket {\n    var header: String\n    var body: String\n}\n\nfunc alterPacketHeaders(packet: NetworkPacket) -> NetworkPacket {\n    var modifiedPacket = packet\n    modifiedPacket.header = \"Modified Header\"\n    return modifiedPacket\n}\n\nvar originalPacket = NetworkPacket(header: \"Original Header\", body: \"Data\")\nlet alteredPacket = alterPacketHeaders(packet: originalPacket)\n\n// originalPacket remains unchanged; alteredPacket has modified headers.\n```"
+  }
+]

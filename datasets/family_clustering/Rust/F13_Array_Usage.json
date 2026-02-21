@@ -1,0 +1,378 @@
+[
+  {
+    "task": "Create a function that initializes an array with the first ten prime numbers.",
+    "code": "```rust\nfn first_ten_primes() -> [u32; 10] {\n    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]\n}\n\nfn main() {\n    let primes = first_ten_primes();\n    for prime in primes.iter() {\n        println!(\"{}\", prime);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to reverse the elements of a given array.",
+    "code": "```rust\nfn main() {\n    let mut arr = [1, 2, 3, 4, 5];\n    arr.reverse();\n    println!(\"{:?}\", arr);\n}\n```"
+  },
+  {
+    "task": "Implement an algorithm that finds the maximum value in an array of integers.",
+    "code": "```rust\nfn find_max_value(arr: &[i32]) -> i32 {\n    let mut max_value = arr[0];\n    for &value in arr.iter() {\n        if value > max_value {\n            max_value = value;\n        }\n    }\n    max_value\n}\n\nfn main() {\n    let numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5];\n    let max_value = find_max_value(&numbers);\n    println!(\"The maximum value is: {}\", max_value);\n}\n```"
+  },
+  {
+    "task": "Design a routine to rotate an array to the right by a given number of steps.",
+    "code": "```rust\nfn rotate_right(arr: &mut [i32], steps: usize) {\n    let len = arr.len();\n    if len == 0 {\n        return;\n    }\n    let steps = steps % len;\n    arr.reverse();\n    arr[..steps].reverse();\n    arr[steps..].reverse();\n}\n\nfn main() {\n    let mut arr = [1, 2, 3, 4, 5];\n    rotate_right(&mut arr, 2);\n    println!(\"{:?}\", arr);\n}\n```"
+  },
+  {
+    "task": "Develop a function to merge two sorted arrays into one sorted array.",
+    "code": "```rust\nfn merge_sorted_arrays(arr1: &[i32], arr2: &[i32]) -> Vec<i32> {\n    let mut merged = Vec::with_capacity(arr1.len() + arr2.len());\n    let (mut i, mut j) = (0, 0);\n\n    while i < arr1.len() && j < arr2.len() {\n        if arr1[i] < arr2[j] {\n            merged.push(arr1[i]);\n            i += 1;\n        } else {\n            merged.push(arr2[j]);\n            j += 1;\n        }\n    }\n\n    while i < arr1.len() {\n        merged.push(arr1[i]);\n        i += 1;\n    }\n\n    while j < arr2.len() {\n        merged.push(arr2[j]);\n        j += 1;\n    }\n\n    merged\n}\n```"
+  },
+  {
+    "task": "Create a method to remove duplicate values from an array.",
+    "code": "```rust\nfn remove_duplicates(arr: &[i32]) -> Vec<i32> {\n    let mut seen = std::collections::HashSet::new();\n    arr.iter().cloned().filter(|x| seen.insert(*x)).collect()\n}\n\nfn main() {\n    let numbers = [1, 2, 2, 3, 4, 4, 5];\n    let unique_numbers = remove_duplicates(&numbers);\n    println!(\"{:?}\", unique_numbers);\n}\n```"
+  },
+  {
+    "task": "Write a script to calculate the sum of all elements in an array.",
+    "code": "```rust\nfn main() {\n    let numbers = [1, 2, 3, 4, 5];\n    let sum: i32 = numbers.iter().sum();\n    println!(\"The sum of the array is: {}\", sum);\n}\n```"
+  },
+  {
+    "task": "Construct a function that finds the second largest element in an array.",
+    "code": "```rust\nfn second_largest(arr: &[i32]) -> Option<i32> {\n    if arr.len() < 2 {\n        return None;\n    }\n    \n    let mut largest = i32::MIN;\n    let mut second_largest = i32::MIN;\n    \n    for &num in arr {\n        if num > largest {\n            second_largest = largest;\n            largest = num;\n        } else if num > second_largest && num != largest {\n            second_largest = num;\n        }\n    }\n    \n    if second_largest == i32::MIN {\n        None\n    } else {\n        Some(second_largest)\n    }\n}\n\nfn main() {\n    let numbers = [3, 1, 4, 1, 5, 9, 2];\n    match second_largest(&numbers) {\n        Some(value) => println!(\"The second largest element is {}\", value),\n        None => println!(\"The array doesn't have enough elements\"),\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program to check if an array contains a specific value.",
+    "code": "```rust\nfn contains_value(arr: &[i32], value: i32) -> bool {\n    for &item in arr {\n        if item == value {\n            return true;\n        }\n    }\n    false\n}\n\nfn main() {\n    let numbers = [1, 2, 3, 4, 5];\n    let value_to_find = 3;\n    \n    if contains_value(&numbers, value_to_find) {\n        println!(\"Array contains the value.\");\n    } else {\n        println!(\"Array does not contain the value.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a function to sort an array of strings alphabetically.",
+    "code": "```rust\nfn sort_strings_alphabetically(arr: &mut [String]) {\n    arr.sort();\n}\n\nfn main() {\n    let mut strings = vec![\n        String::from(\"banana\"),\n        String::from(\"apple\"),\n        String::from(\"orange\"),\n    ];\n    sort_strings_alphabetically(&mut strings);\n    println!(\"{:?}\", strings);\n}\n```"
+  },
+  {
+    "task": "Create a method to search for a value in an array using binary search.",
+    "code": "```rust\nfn binary_search(arr: &[i32], target: i32) -> Option<usize> {\n    let mut low = 0;\n    let mut high = arr.len();\n\n    while low < high {\n        let mid = low + (high - low) / 2;\n        if arr[mid] == target {\n            return Some(mid);\n        } else if arr[mid] < target {\n            low = mid + 1;\n        } else {\n            high = mid;\n        }\n    }\n    None\n}\n\nfn main() {\n    let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\n    let target = 5;\n    match binary_search(&arr, target) {\n        Some(index) => println!(\"Found at index: {}\", index),\n        None => println!(\"Not found\"),\n    }\n}\n```"
+  },
+  {
+    "task": "Write a routine to calculate the average of numbers in an array.",
+    "code": "```rust\nfn calculate_average(numbers: &[f64]) -> f64 {\n    let sum: f64 = numbers.iter().sum();\n    let count = numbers.len();\n    if count == 0 {\n        0.0\n    } else {\n        sum / count as f64\n    }\n}\n\nfn main() {\n    let numbers = [10.0, 20.0, 30.0, 40.0, 50.0];\n    let average = calculate_average(&numbers);\n    println!(\"The average is: {}\", average);\n}\n```"
+  },
+  {
+    "task": "Develop a function to find the intersection of two arrays.",
+    "code": "```rust\nfn intersection(arr1: &[i32], arr2: &[i32]) -> Vec<i32> {\n    let mut result = Vec::new();\n    for &item in arr1 {\n        if arr2.contains(&item) && !result.contains(&item) {\n            result.push(item);\n        }\n    }\n    result\n}\n\nfn main() {\n    let array1 = [1, 2, 2, 3, 4];\n    let array2 = [2, 3, 5];\n    let result = intersection(&array1, &array2);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Implement a method to find the union of two arrays without duplicates.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn union_of_arrays(arr1: &[i32], arr2: &[i32]) -> Vec<i32> {\n    let set1: HashSet<_> = arr1.iter().cloned().collect();\n    let set2: HashSet<_> = arr2.iter().cloned().collect();\n    set1.union(&set2).cloned().collect()\n}\n\nfn main() {\n    let array1 = [1, 2, 3, 4];\n    let array2 = [3, 4, 5, 6];\n    let result = union_of_arrays(&array1, &array2);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Create a program that shifts all zeroes in an array to the end.",
+    "code": "```rust\nfn shift_zeroes_to_end(arr: &mut [i32]) {\n    let mut non_zero_index = 0;\n    for i in 0..arr.len() {\n        if arr[i] != 0 {\n            arr.swap(non_zero_index, i);\n            non_zero_index += 1;\n        }\n    }\n}\n\nfn main() {\n    let mut arr = [1, 0, 2, 0, 3, 0, 4, 0, 5];\n    shift_zeroes_to_end(&mut arr);\n    println!(\"{:?}\", arr);\n}\n```"
+  },
+  {
+    "task": "Write a function to split an array into two parts at a given index.",
+    "code": "```rust\nfn split_array<T: Clone>(arr: &[T], index: usize) -> (Vec<T>, Vec<T>) {\n    let first_part = arr[..index].to_vec();\n    let second_part = arr[index..].to_vec();\n    (first_part, second_part)\n}\n\nfn main() {\n    let array = [1, 2, 3, 4, 5];\n    let index = 3;\n    let (first_half, second_half) = split_array(&array, index);\n    println!(\"{:?}\", first_half);\n    println!(\"{:?}\", second_half);\n}\n```"
+  },
+  {
+    "task": "Design a script to find all pairs in an array that sum up to a specific target.",
+    "code": "```rust\nfn find_pairs_with_sum(arr: &[i32], target: i32) -> Vec<(i32, i32)> {\n    let mut pairs = Vec::new();\n    for i in 0..arr.len() {\n        for j in i + 1..arr.len() {\n            if arr[i] + arr[j] == target {\n                pairs.push((arr[i], arr[j]));\n            }\n        }\n    }\n    pairs\n}\n\nfn main() {\n    let array = [2, 4, 3, 5, 7, 8, 9];\n    let target_sum = 10;\n    let result = find_pairs_with_sum(&array, target_sum);\n    for pair in result {\n        println!(\"{:?}\", pair);\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a method to remove all occurrences of a specific value from an array.",
+    "code": "```rust\nfn remove_occurrences(arr: &[i32], value: i32) -> Vec<i32> {\n    arr.iter().cloned().filter(|&x| x != value).collect()\n}\n\nfn main() {\n    let numbers = [1, 2, 3, 4, 2, 5, 2];\n    let value_to_remove = 2;\n    let result = remove_occurrences(&numbers, value_to_remove);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Write a function to find the longest increasing subsequence in an array.",
+    "code": "```rust\nfn longest_increasing_subsequence(arr: &[i32]) -> Vec<i32> {\n    if arr.is_empty() {\n        return vec![];\n    }\n\n    let mut tails = vec![0; arr.len()];\n    let mut size = 0;\n\n    for &x in arr {\n        let mut left = 0;\n        let mut right = size;\n        while left != right {\n            let mid = (left + right) / 2;\n            if tails[mid] < x {\n                left = mid + 1;\n            } else {\n                right = mid;\n            }\n        }\n        tails[left] = x;\n        if left == size {\n            size += 1;\n        }\n    }\n\n    let mut lis = Vec::new();\n    let mut x = tails[size - 1];\n    for &value in arr.iter().rev() {\n        if value == x {\n            lis.push(x);\n            if size > 1 {\n                size -= 1;\n                x = tails[size - 1];\n            }\n        }\n    }\n    lis.reverse();\n    lis\n}\n\nfn main() {\n    let arr = vec![10, 9, 2, 5, 3, 7, 101, 18];\n    let lis = longest_increasing_subsequence(&arr);\n    println!(\"{:?}\", lis);\n}\n```"
+  },
+  {
+    "task": "Develop an algorithm to find the missing number in a sequential array.",
+    "code": "```rust\nfn find_missing_number(arr: &[i32]) -> i32 {\n    let n = arr.len() as i32;\n    let total_sum = (n * (n + 1)) / 2;\n    let array_sum: i32 = arr.iter().sum();\n    total_sum - array_sum\n}\n\nfn main() {\n    let arr = [0, 1, 2, 4, 5, 6];\n    let missing_number = find_missing_number(&arr);\n    println!(\"The missing number is: {}\", missing_number);\n}\n```"
+  },
+  {
+    "task": "Create a program to find the common elements between two arrays.",
+    "code": "```rust\nfn main() {\n    let array1 = [1, 2, 3, 4, 5];\n    let array2 = [4, 5, 6, 7, 8];\n\n    let common_elements: Vec<_> = array1\n        .iter()\n        .filter(|&&x| array2.contains(&x))\n        .cloned()\n        .collect();\n\n    println!(\"Common elements: {:?}\", common_elements);\n}\n```"
+  },
+  {
+    "task": "Implement a function to move all negative numbers to the beginning of an array.",
+    "code": "```rust\nfn rearrange(arr: &mut [i32]) {\n    let mut j = 0;\n    for i in 0..arr.len() {\n        if arr[i] < 0 {\n            arr.swap(i, j);\n            j += 1;\n        }\n    }\n}\n\nfn main() {\n    let mut arr = [1, -2, 3, -4, 5, -6, 7, 8, -9, 10];\n    rearrange(&mut arr);\n    println!(\"{:?}\", arr);\n}\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a palindrome.",
+    "code": "```rust\nfn is_palindrome(arr: &[i32]) -> bool {\n    let len = arr.len();\n    for i in 0..len / 2 {\n        if arr[i] != arr[len - 1 - i] {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let array = [1, 2, 3, 2, 1];\n    println!(\"Is palindrome: {}\", is_palindrome(&array));\n}\n```"
+  },
+  {
+    "task": "Design a routine to create a new array that is the element-wise sum of two input arrays.",
+    "code": "```rust\nfn element_wise_sum(arr1: &[i32], arr2: &[i32]) -> Vec<i32> {\n    arr1.iter().zip(arr2.iter()).map(|(a, b)| a + b).collect()\n}\n\nfn main() {\n    let array1 = [1, 2, 3];\n    let array2 = [4, 5, 6];\n    let result = element_wise_sum(&array1, &array2);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Create a function to find the product of all elements in an array, excluding the current element.",
+    "code": "```rust\nfn product_except_self(arr: &[i32]) -> Vec<i32> {\n    let n = arr.len();\n    if n == 0 {\n        return vec![];\n    }\n\n    let mut left_products = vec![1; n];\n    let mut right_products = vec![1; n];\n    let mut result = vec![1; n];\n\n    for i in 1..n {\n        left_products[i] = left_products[i - 1] * arr[i - 1];\n    }\n\n    for i in (0..n - 1).rev() {\n        right_products[i] = right_products[i + 1] * arr[i + 1];\n    }\n\n    for i in 0..n {\n        result[i] = left_products[i] * right_products[i];\n    }\n\n    result\n}\n\nfn main() {\n    let arr = [1, 2, 3, 4];\n    let product = product_except_self(&arr);\n    println!(\"{:?}\", product);\n}\n```"
+  },
+  {
+    "task": "Develop a script to remove elements from an array that are smaller than a given threshold.",
+    "code": "```rust\nfn remove_below_threshold(arr: &[i32], threshold: i32) -> Vec<i32> {\n    arr.iter().cloned().filter(|&x| x >= threshold).collect()\n}\n\nfn main() {\n    let array = [1, 2, 3, 4, 5, 6];\n    let threshold = 4;\n    let result = remove_below_threshold(&array, threshold);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Implement a method to clone an array without using built-in functions.",
+    "code": "```rust\nfn clone_array<T: Clone>(arr: &[T]) -> Vec<T> {\n    let mut cloned = Vec::with_capacity(arr.len());\n    for item in arr {\n        cloned.push(item.clone());\n    }\n    cloned\n}\n\nfn main() {\n    let original = [1, 2, 3, 4, 5];\n    let cloned = clone_array(&original);\n    println!(\"{:?}\", cloned);\n}\n```"
+  },
+  {
+    "task": "Create a program that rotates a 2D array (matrix) 90 degrees clockwise.",
+    "code": "```rust\nfn rotate_matrix(matrix: &mut Vec<Vec<i32>>) {\n    let n = matrix.len();\n    for i in 0..n / 2 {\n        for j in i..n - i - 1 {\n            let temp = matrix[i][j];\n            matrix[i][j] = matrix[n - j - 1][i];\n            matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];\n            matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];\n            matrix[j][n - i - 1] = temp;\n        }\n    }\n}\n\nfn main() {\n    let mut matrix = vec![\n        vec![1, 2, 3],\n        vec![4, 5, 6],\n        vec![7, 8, 9],\n    ];\n\n    rotate_matrix(&mut matrix);\n\n    for row in matrix {\n        println!(\"{:?}\", row);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to find the kth smallest element in an unsorted array.",
+    "code": "```rust\nfn kth_smallest(arr: &mut [i32], k: usize) -> Option<i32> {\n    if k == 0 || k > arr.len() {\n        return None;\n    }\n    arr.sort();\n    Some(arr[k - 1])\n}\n\nfn main() {\n    let mut array = [3, 1, 2, 5, 4];\n    let k = 3;\n    match kth_smallest(&mut array, k) {\n        Some(value) => println!(\"The {}th smallest element is {}\", k, value),\n        None => println!(\"Invalid k value\"),\n    }\n}\n```"
+  },
+  {
+    "task": "Design a routine to partition an array into even and odd numbers.",
+    "code": "```rust\nfn partition_even_odd(arr: &mut [i32]) {\n    let mut left = 0;\n    let mut right = arr.len() as i32 - 1;\n\n    while left < right {\n        while left < right && arr[left] % 2 == 0 {\n            left += 1;\n        }\n        while left < right && arr[right as usize] % 2 != 0 {\n            right -= 1;\n        }\n        if left < right {\n            arr.swap(left, right as usize);\n        }\n    }\n}\n\nfn main() {\n    let mut numbers = [12, 17, 70, 15, 22, 65, 21, 90];\n    partition_even_odd(&mut numbers);\n    println!(\"{:?}\", numbers);\n}\n```"
+  },
+  {
+    "task": "Create a method to merge overlapping intervals in an array.",
+    "code": "```rust\nfn merge_intervals(mut intervals: Vec<(i32, i32)>) -> Vec<(i32, i32)> {\n    if intervals.is_empty() {\n        return intervals;\n    }\n\n    intervals.sort_by_key(|k| k.0);\n    let mut merged = vec![intervals[0]];\n\n    for interval in intervals.into_iter().skip(1) {\n        let last = merged.last_mut().unwrap();\n        if interval.0 <= last.1 {\n            last.1 = last.1.max(interval.1);\n        } else {\n            merged.push(interval);\n        }\n    }\n\n    merged\n}\n\nfn main() {\n    let intervals = vec![(1, 3), (2, 4), (5, 7), (6, 8)];\n    let merged_intervals = merge_intervals(intervals);\n    for interval in merged_intervals {\n        println!(\"({}, {})\", interval.0, interval.1);\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a function to count the frequency of each unique element in an array.",
+    "code": "```rust\nuse std::collections::HashMap;\n\nfn count_frequencies(arr: &[i32]) -> HashMap<i32, usize> {\n    let mut frequencies = HashMap::new();\n    for &item in arr {\n        *frequencies.entry(item).or_insert(0) += 1;\n    }\n    frequencies\n}\n\nfn main() {\n    let array = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4];\n    let frequencies = count_frequencies(&array);\n    for (element, count) in &frequencies {\n        println!(\"Element {}: Frequency {}\", element, count);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to generate all possible subsets of an array.",
+    "code": "```rust\nfn generate_subsets(nums: &[i32]) -> Vec<Vec<i32>> {\n    let n = nums.len();\n    let mut subsets = Vec::new();\n    for i in 0..(1 << n) {\n        let mut subset = Vec::new();\n        for j in 0..n {\n            if i & (1 << j) != 0 {\n                subset.push(nums[j]);\n            }\n        }\n        subsets.push(subset);\n    }\n    subsets\n}\n\nfn main() {\n    let nums = [1, 2, 3];\n    let subsets = generate_subsets(&nums);\n    for subset in subsets {\n        println!(\"{:?}\", subset);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a routine to cyclically permute the elements of an array.",
+    "code": "```rust\nfn cyclic_permute<T: Clone>(arr: &mut [T]) {\n    if arr.is_empty() {\n        return;\n    }\n    let last = arr[arr.len() - 1].clone();\n    for i in (1..arr.len()).rev() {\n        arr[i] = arr[i - 1].clone();\n    }\n    arr[0] = last;\n}\n\nfn main() {\n    let mut arr = [1, 2, 3, 4, 5];\n    cyclic_permute(&mut arr);\n    println!(\"{:?}\", arr);\n}\n```"
+  },
+  {
+    "task": "Create a function that checks if two arrays are equal regardless of element order.",
+    "code": "```rust\nuse std::collections::HashMap;\n\nfn arrays_equal<T: Eq + std::hash::Hash>(arr1: &[T], arr2: &[T]) -> bool {\n    if arr1.len() != arr2.len() {\n        return false;\n    }\n    \n    let mut count_map = HashMap::new();\n    \n    for item in arr1 {\n        *count_map.entry(item).or_insert(0) += 1;\n    }\n    \n    for item in arr2 {\n        match count_map.get_mut(item) {\n            Some(count) => {\n                if *count == 0 {\n                    return false;\n                }\n                *count -= 1;\n            },\n            None => return false,\n        }\n    }\n    \n    true\n}\n\nfn main() {\n    let array1 = [1, 2, 3, 4];\n    let array2 = [4, 3, 2, 1];\n    let array3 = [1, 2, 3, 5];\n    \n    println!(\"{}\", arrays_equal(&array1, &array2)); // true\n    println!(\"{}\", arrays_equal(&array1, &array3)); // false\n}\n```"
+  },
+  {
+    "task": "Design a script to initialize an array with random integers within a specified range.",
+    "code": "```rust\nuse rand::Rng;\n\nfn main() {\n    let mut rng = rand::thread_rng();\n    let array_size = 10;\n    let min_value = 1;\n    let max_value = 100;\n    \n    let mut array: [i32; 10] = [0; 10];\n    \n    for i in 0..array_size {\n        array[i] = rng.gen_range(min_value..=max_value);\n    }\n    \n    println!(\"{:?}\", array);\n}\n```"
+  },
+  {
+    "task": "Write a method to convert an array of integers to a single concatenated number.",
+    "code": "```rust\nfn array_to_concatenated_number(arr: &[i32]) -> i64 {\n    arr.iter().map(|&num| num.to_string()).collect::<String>().parse::<i64>().unwrap_or(0)\n}\n\nfn main() {\n    let numbers = [1, 2, 3, 4, 5];\n    let concatenated_number = array_to_concatenated_number(&numbers);\n    println!(\"{}\", concatenated_number);\n}\n```"
+  },
+  {
+    "task": "Develop a function to find the median value of an unsorted array.",
+    "code": "```rust\nfn find_median(arr: &mut [i32]) -> f32 {\n    arr.sort_unstable();\n    let len = arr.len();\n    if len % 2 == 0 {\n        (arr[len / 2 - 1] as f32 + arr[len / 2] as f32) / 2.0\n    } else {\n        arr[len / 2] as f32\n    }\n}\n\nfn main() {\n    let mut data = [3, 1, 4, 2, 5];\n    let median = find_median(&mut data);\n    println!(\"The median is: {}\", median);\n}\n```"
+  },
+  {
+    "task": "Create a routine to determine if an array is sorted in ascending order.",
+    "code": "```rust\nfn is_sorted(arr: &[i32]) -> bool {\n    for i in 0..arr.len() - 1 {\n        if arr[i] > arr[i + 1] {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let array = [1, 2, 3, 4, 5];\n    println!(\"Is the array sorted? {}\", is_sorted(&array));\n}\n```"
+  },
+  {
+    "task": "Implement a method to find the longest contiguous subarray with equal number of 0s and 1s.",
+    "code": "```rust\nuse std::collections::HashMap;\n\nfn find_max_length(nums: Vec<i32>) -> i32 {\n    let mut count_map = HashMap::new();\n    count_map.insert(0, -1);\n    let mut max_length = 0;\n    let mut count = 0;\n\n    for (i, &num) in nums.iter().enumerate() {\n        count += if num == 1 { 1 } else { -1 };\n        if let Some(&prev_index) = count_map.get(&count) {\n            max_length = max_length.max(i as i32 - prev_index);\n        } else {\n            count_map.insert(count, i as i32);\n        }\n    }\n\n    max_length\n}\n\nfn main() {\n    let nums = vec![0, 1, 0, 1, 0, 1, 1];\n    let result = find_max_length(nums);\n    println!(\"The length of the longest contiguous subarray is: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Write a function to interleave two arrays of equal length.",
+    "code": "```rust\nfn interleave_arrays<T: Clone>(array1: &[T], array2: &[T]) -> Vec<T> {\n    let mut interleaved = Vec::with_capacity(array1.len() + array2.len());\n    for i in 0..array1.len() {\n        interleaved.push(array1[i].clone());\n        interleaved.push(array2[i].clone());\n    }\n    interleaved\n}\n\nfn main() {\n    let array1 = [1, 2, 3];\n    let array2 = [4, 5, 6];\n    let result = interleave_arrays(&array1, &array2);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Design a program to replace each element in an array with the next greatest element.",
+    "code": "```rust\nfn replace_with_next_greatest(arr: &mut [i32]) {\n    let mut max_from_right = -1;\n    for i in (0..arr.len()).rev() {\n        let current = arr[i];\n        arr[i] = max_from_right;\n        if current > max_from_right {\n            max_from_right = current;\n        }\n    }\n}\n\nfn main() {\n    let mut arr = [16, 17, 4, 3, 5, 2];\n    replace_with_next_greatest(&mut arr);\n    println!(\"{:?}\", arr);\n}\n```"
+  },
+  {
+    "task": "Create a function to calculate the dot product of two numeric arrays.",
+    "code": "```rust\nfn dot_product(arr1: &[f64], arr2: &[f64]) -> f64 {\n    arr1.iter().zip(arr2.iter()).map(|(a, b)| a * b).sum()\n}\n\nfn main() {\n    let array1 = [1.0, 2.0, 3.0];\n    let array2 = [4.0, 5.0, 6.0];\n    let result = dot_product(&array1, &array2);\n    println!(\"Dot product: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Develop a script to find the first recurring element in an array.",
+    "code": "```rust\nfn first_recurring_element(arr: &[i32]) -> Option<i32> {\n    use std::collections::HashSet;\n    let mut seen = HashSet::new();\n    for &item in arr {\n        if !seen.insert(item) {\n            return Some(item);\n        }\n    }\n    None\n}\n\nfn main() {\n    let array = [2, 5, 1, 2, 3, 5, 1, 2, 4];\n    if let Some(element) = first_recurring_element(&array) {\n        println!(\"First recurring element: {}\", element);\n    } else {\n        println!(\"No recurring elements found.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a subset of another array.",
+    "code": "```rust\nfn is_subset<T: PartialEq>(subset: &[T], superset: &[T]) -> bool {\n    subset.iter().all(|item| superset.contains(item))\n}\n\nfn main() {\n    let array1 = [1, 2, 3];\n    let array2 = [1, 2, 3, 4, 5];\n    let result = is_subset(&array1, &array2);\n    println!(\"Array1 is a subset of Array2: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Implement a function to add a specific value to each element in an array.",
+    "code": "```rust\nfn add_to_each_element(arr: &mut [i32], value: i32) {\n    for elem in arr.iter_mut() {\n        *elem += value;\n    }\n}\n\nfn main() {\n    let mut numbers = [1, 2, 3, 4, 5];\n    add_to_each_element(&mut numbers, 10);\n    println!(\"{:?}\", numbers);\n}\n```"
+  },
+  {
+    "task": "Create a program that finds the largest product of three numbers in an array.",
+    "code": "```rust\nfn largest_product_of_three(numbers: &[i32]) -> i32 {\n    let mut sorted_numbers = numbers.to_vec();\n    sorted_numbers.sort();\n\n    let n = sorted_numbers.len();\n    let option1 = sorted_numbers[n - 1] * sorted_numbers[n - 2] * sorted_numbers[n - 3];\n    let option2 = sorted_numbers[0] * sorted_numbers[1] * sorted_numbers[n - 1];\n\n    option1.max(option2)\n}\n\nfn main() {\n    let numbers = [1, 10, 2, 6, 5, 3];\n    let result = largest_product_of_three(&numbers);\n    println!(\"The largest product of three numbers is: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Design a routine to find all unique permutations of an array.",
+    "code": "```rust\nfn permute_unique(nums: Vec<i32>) -> Vec<Vec<i32>> {\n    fn backtrack(nums: &mut Vec<i32>, used: &mut Vec<bool>, current: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {\n        if current.len() == nums.len() {\n            result.push(current.clone());\n            return;\n        }\n\n        for i in 0..nums.len() {\n            if used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {\n                continue;\n            }\n            used[i] = true;\n            current.push(nums[i]);\n            backtrack(nums, used, current, result);\n            current.pop();\n            used[i] = false;\n        }\n    }\n\n    let mut nums = nums;\n    nums.sort();\n    let mut result = Vec::new();\n    let mut current = Vec::new();\n    let mut used = vec![false; nums.len()];\n    backtrack(&mut nums, &mut used, &mut current, &mut result);\n    result\n}\n\nfn main() {\n    let nums = vec![1, 2, 2];\n    let result = permute_unique(nums);\n    for permutation in result {\n        println!(\"{:?}\", permutation);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to transpose a square matrix represented as a 2D array.",
+    "code": "```rust\nfn transpose(matrix: &mut Vec<Vec<i32>>) {\n    let n = matrix.len();\n    for i in 0..n {\n        for j in i+1..n {\n            let temp = matrix[i][j];\n            matrix[i][j] = matrix[j][i];\n            matrix[j][i] = temp;\n        }\n    }\n}\n\nfn main() {\n    let mut matrix = vec![\n        vec![1, 2, 3],\n        vec![4, 5, 6],\n        vec![7, 8, 9],\n    ];\n\n    transpose(&mut matrix);\n\n    for row in matrix {\n        println!(\"{:?}\", row);\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a method to find the longest common prefix in an array of strings.",
+    "code": "```rust\nfn longest_common_prefix(strs: Vec<String>) -> String {\n    if strs.is_empty() {\n        return String::new();\n    }\n    \n    let mut prefix = strs[0].clone();\n    for s in strs.iter().skip(1) {\n        while !s.starts_with(&prefix) {\n            if prefix.is_empty() {\n                return String::new();\n            }\n            prefix.pop();\n        }\n    }\n    prefix\n}\n\nfn main() {\n    let strings = vec![\"flower\".to_string(), \"flow\".to_string(), \"flight\".to_string()];\n    let result = longest_common_prefix(strings);\n    println!(\"Longest common prefix: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Implement a function to flatten a multi-dimensional array into a single array.",
+    "code": "```rust\nfn flatten<T: Clone>(arrays: &[Vec<T>]) -> Vec<T> {\n    arrays.iter().flat_map(|arr| arr.clone()).collect()\n}\n\nfn main() {\n    let multi_dim_array = vec![\n        vec![1, 2, 3],\n        vec![4, 5],\n        vec![6, 7, 8, 9],\n    ];\n    let flattened = flatten(&multi_dim_array);\n    println!(\"{:?}\", flattened);\n}\n```"
+  },
+  {
+    "task": "Create a script to shift elements of an array to the left by a given number of positions.",
+    "code": "```rust\nfn shift_left(arr: &mut [i32], positions: usize) {\n    let n = arr.len();\n    if n == 0 || positions == 0 || positions >= n {\n        return;\n    }\n    let mut temp = vec![0; positions];\n    temp.clone_from_slice(&arr[..positions]);\n    arr.rotate_left(positions);\n    arr[n - positions..].clone_from_slice(&temp);\n}\n\nfn main() {\n    let mut array = [1, 2, 3, 4, 5];\n    let positions = 2;\n    shift_left(&mut array, positions);\n    println!(\"{:?}\", array);\n}\n```"
+  },
+  {
+    "task": "Write a routine to sort an array of objects based on a specific property.",
+    "code": "```rust\nstruct Item {\n    property: i32,\n    // other fields can be added as needed\n}\n\nfn sort_items(items: &mut [Item]) {\n    items.sort_by_key(|item| item.property);\n}\n\nfn main() {\n    let mut items = [\n        Item { property: 3 },\n        Item { property: 1 },\n        Item { property: 2 },\n    ];\n\n    sort_items(&mut items);\n\n    for item in &items {\n        println!(\"{}\", item.property);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program to find the smallest missing positive integer in an array.",
+    "code": "```rust\nfn find_smallest_missing_positive(nums: &mut [i32]) -> i32 {\n    let n = nums.len();\n    for i in 0..n {\n        while nums[i] > 0 && nums[i] <= n as i32 && nums[nums[i] as usize - 1] != nums[i] {\n            let target_index = nums[i] as usize - 1;\n            nums.swap(i, target_index);\n        }\n    }\n    \n    for i in 0..n {\n        if nums[i] != (i as i32 + 1) {\n            return i as i32 + 1;\n        }\n    }\n    \n    (n as i32) + 1\n}\n\nfn main() {\n    let mut nums = vec![3, 4, -1, 1];\n    let result = find_smallest_missing_positive(&mut nums);\n    println!(\"Smallest missing positive integer is: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Create a function to calculate the cumulative sum of an array.",
+    "code": "```rust\nfn cumulative_sum(arr: &[i32]) -> Vec<i32> {\n    let mut result = Vec::with_capacity(arr.len());\n    let mut sum = 0;\n    for &value in arr {\n        sum += value;\n        result.push(sum);\n    }\n    result\n}\n\nfn main() {\n    let array = [1, 2, 3, 4, 5];\n    let cum_sum = cumulative_sum(&array);\n    println!(\"{:?}\", cum_sum);\n}\n```"
+  },
+  {
+    "task": "Develop a function to remove consecutive duplicate elements in an array.",
+    "code": "```rust\nfn remove_consecutive_duplicates(arr: &[i32]) -> Vec<i32> {\n    if arr.is_empty() {\n        return Vec::new();\n    }\n\n    let mut result = Vec::new();\n    let mut last_element = arr[0];\n    result.push(last_element);\n\n    for &element in arr.iter().skip(1) {\n        if element != last_element {\n            result.push(element);\n            last_element = element;\n        }\n    }\n\n    result\n}\n\nfn main() {\n    let arr = [1, 2, 2, 3, 3, 3, 4, 5, 5, 6];\n    let result = remove_consecutive_duplicates(&arr);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Implement a method to find the majority element in an array, if any.",
+    "code": "```rust\nfn majority_element(nums: &[i32]) -> Option<i32> {\n    let mut count = 0;\n    let mut candidate = None;\n\n    for &num in nums {\n        if count == 0 {\n            candidate = Some(num);\n        }\n        if Some(num) == candidate {\n            count += 1;\n        } else {\n            count -= 1;\n        }\n    }\n\n    candidate.filter(|&c| nums.iter().filter(|&&num| num == c).count() > nums.len() / 2)\n}\n\nfn main() {\n    let nums = vec![2, 2, 1, 1, 1, 2, 2];\n    match majority_element(&nums) {\n        Some(major) => println!(\"The majority element is {}\", major),\n        None => println!(\"There is no majority element\"),\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script to split an array into chunks of a given size.",
+    "code": "```rust\nfn chunk_array<T: Clone>(arr: &[T], chunk_size: usize) -> Vec<Vec<T>> {\n    arr.chunks(chunk_size).map(|chunk| chunk.to_vec()).collect()\n}\n\nfn main() {\n    let array = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];\n    let chunk_size = 3;\n    let chunks = chunk_array(&array, chunk_size);\n    for chunk in chunks {\n        println!(\"{:?}\", chunk);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a program to calculate the difference between the largest and smallest values in an array.",
+    "code": "```rust\nfn main() {\n    let numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5];\n    let min = numbers.iter().min().unwrap();\n    let max = numbers.iter().max().unwrap();\n    let difference = max - min;\n    println!(\"The difference between the largest and smallest values is: {}\", difference);\n}\n```"
+  },
+  {
+    "task": "Design a routine to find the starting index of a target subarray in a larger array.",
+    "code": "```rust\nfn find_subarray_start_index(arr: &[i32], subarr: &[i32]) -> Option<usize> {\n    let subarr_len = subarr.len();\n    if subarr_len == 0 {\n        return Some(0);\n    }\n    \n    for i in 0..=arr.len() - subarr_len {\n        if arr[i..i + subarr_len] == *subarr {\n            return Some(i);\n        }\n    }\n    None\n}\n\nfn main() {\n    let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];\n    let subarr = [4, 5, 6];\n    \n    match find_subarray_start_index(&arr, &subarr) {\n        Some(index) => println!(\"Subarray starts at index: {}\", index),\n        None => println!(\"Subarray not found\"),\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to compress an array by eliminating zero values.",
+    "code": "```rust\nfn compress_array(arr: &[i32]) -> Vec<i32> {\n    arr.iter().cloned().filter(|&x| x != 0).collect()\n}\n\nfn main() {\n    let array = [1, 0, 2, 0, 3, 4, 0, 5];\n    let compressed_array = compress_array(&array);\n    println!(\"{:?}\", compressed_array);\n}\n```"
+  },
+  {
+    "task": "Develop a method to determine if an array can be split into two parts with equal sums.",
+    "code": "```rust\nfn can_split_with_equal_sums(arr: &[i32]) -> bool {\n    let total_sum: i32 = arr.iter().sum();\n    if total_sum % 2 != 0 {\n        return false;\n    }\n    let target_sum = total_sum / 2;\n    let mut current_sum = 0;\n    for &value in arr.iter() {\n        current_sum += value;\n        if current_sum == target_sum {\n            return true;\n        }\n    }\n    false\n}\n\nfn main() {\n    let arr = [1, 2, 3, 4, 5, 5];\n    println!(\"{}\", can_split_with_equal_sums(&arr)); // Output: true\n}\n```"
+  },
+  {
+    "task": "Implement a function to round each element in an array to the nearest integer.",
+    "code": "```rust\nfn round_array_elements(arr: &[f64]) -> Vec<i64> {\n    arr.iter().map(|&x| x.round() as i64).collect()\n}\n\nfn main() {\n    let numbers = [1.2, 2.5, 3.8, 4.4];\n    let rounded_numbers = round_array_elements(&numbers);\n    println!(\"{:?}\", rounded_numbers);\n}\n```"
+  },
+  {
+    "task": "Create a routine to generate an array of the Fibonacci sequence up to a given number.",
+    "code": "```rust\nfn fibonacci_sequence(n: usize) -> Vec<u64> {\n    let mut fibs = vec![0, 1];\n    for i in 2..n {\n        let next_fib = fibs[i - 1] + fibs[i - 2];\n        fibs.push(next_fib);\n    }\n    fibs.truncate(n);\n    fibs\n}\n\nfn main() {\n    let n = 10; // Example: generate Fibonacci sequence up to the 10th number\n    let fib_sequence = fibonacci_sequence(n);\n    println!(\"{:?}\", fib_sequence);\n}\n```"
+  },
+  {
+    "task": "Write a program to find the longest repeating sequence in an array.",
+    "code": "```rust\nfn longest_repeating_sequence(arr: &[i32]) -> Vec<i32> {\n    let mut max_length = 0;\n    let mut current_length = 0;\n    let mut max_sequence_start = 0;\n    let mut current_start = 0;\n    \n    for i in 1..arr.len() {\n        if arr[i] == arr[i - 1] {\n            if current_length == 0 {\n                current_start = i - 1;\n            }\n            current_length += 1;\n        } else {\n            if current_length > max_length {\n                max_length = current_length;\n                max_sequence_start = current_start;\n            }\n            current_length = 0;\n        }\n    }\n    \n    if current_length > max_length {\n        max_length = current_length;\n        max_sequence_start = current_start;\n    }\n    \n    if max_length == 0 {\n        vec![]\n    } else {\n        arr[max_sequence_start..=max_sequence_start + max_length].to_vec()\n    }\n}\n\nfn main() {\n    let array = [1, 2, 2, 3, 3, 3, 2, 2, 1];\n    let result = longest_repeating_sequence(&array);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Design a function to multiply each element of an array by its index.",
+    "code": "```rust\nfn multiply_elements_by_index(arr: &[i32]) -> Vec<i32> {\n    arr.iter().enumerate().map(|(i, &x)| i as i32 * x).collect()\n}\n\nfn main() {\n    let array = [1, 2, 3, 4, 5];\n    let result = multiply_elements_by_index(&array);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Create a method to convert an array of characters into a single string.",
+    "code": "```rust\nfn array_to_string(arr: &[char]) -> String {\n    arr.iter().collect()\n}\n\nfn main() {\n    let char_array = ['H', 'e', 'l', 'l', 'o'];\n    let result = array_to_string(&char_array);\n    println!(\"{}\", result);\n}\n```"
+  },
+  {
+    "task": "Develop a function to fill an array with a specified value.",
+    "code": "```rust\nfn fill_array_with_value<T: Copy>(array: &mut [T], value: T) {\n    for element in array.iter_mut() {\n        *element = value;\n    }\n}\n\nfn main() {\n    let mut array = [0; 5];\n    fill_array_with_value(&mut array, 42);\n    println!(\"{:?}\", array);\n}\n```"
+  },
+  {
+    "task": "Implement a routine to determine if an array has any duplicate elements.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn has_duplicates(arr: &[i32]) -> bool {\n    let mut seen = HashSet::new();\n    for &item in arr {\n        if !seen.insert(item) {\n            return true;\n        }\n    }\n    false\n}\n\nfn main() {\n    let array = [1, 2, 3, 4, 5, 6, 1];\n    println!(\"Array has duplicates: {}\", has_duplicates(&array));\n}\n```"
+  },
+  {
+    "task": "Write a script to reverse the order of words in an array of strings.",
+    "code": "```rust\nfn main() {\n    let mut words = vec![\"apple\", \"banana\", \"cherry\", \"date\"];\n    words.reverse();\n    for word in &words {\n        println!(\"{}\", word);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function to calculate the total number of distinct elements in an array.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn count_distinct_elements(arr: &[i32]) -> usize {\n    let set: HashSet<_> = arr.iter().cloned().collect();\n    set.len()\n}\n\nfn main() {\n    let array = [1, 2, 3, 2, 1, 4, 5];\n    let distinct_count = count_distinct_elements(&array);\n    println!(\"Number of distinct elements: {}\", distinct_count);\n}\n```"
+  },
+  {
+    "task": "Design a program to find the largest gap between consecutive elements in a sorted array.",
+    "code": "```rust\nfn largest_gap(arr: &[i32]) -> i32 {\n    if arr.len() < 2 {\n        return 0;\n    }\n    let mut max_gap = 0;\n    for i in 1..arr.len() {\n        let gap = arr[i] - arr[i - 1];\n        if gap > max_gap {\n            max_gap = gap;\n        }\n    }\n    max_gap\n}\n\nfn main() {\n    let arr = [3, 6, 9, 15, 20];\n    println!(\"Largest gap: {}\", largest_gap(&arr));\n}\n```"
+  },
+  {
+    "task": "Write a routine to perform element-wise multiplication of two arrays.",
+    "code": "```rust\nfn elementwise_multiply(a: &[i32], b: &[i32]) -> Vec<i32> {\n    a.iter().zip(b.iter()).map(|(x, y)| x * y).collect()\n}\n\nfn main() {\n    let array1 = vec![1, 2, 3, 4];\n    let array2 = vec![5, 6, 7, 8];\n    \n    let result = elementwise_multiply(&array1, &array2);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Develop a method to split a string into an array of words.",
+    "code": "```rust\nfn split_into_words(s: &str) -> Vec<&str> {\n    s.split_whitespace().collect()\n}\n\nfn main() {\n    let text = \"Develop a method to split a string into an array of words.\";\n    let words = split_into_words(text);\n    for word in words {\n        println!(\"{}\", word);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a function to find the longest contiguous subarray with a sum less than a target.",
+    "code": "```rust\nfn longest_subarray_with_sum_less_than_target(arr: &[i32], target: i32) -> usize {\n    let mut max_length = 0;\n    let mut start = 0;\n    let mut current_sum = 0;\n\n    for end in 0..arr.len() {\n        current_sum += arr[end];\n\n        while current_sum >= target && start <= end {\n            current_sum -= arr[start];\n            start += 1;\n        }\n\n        max_length = max_length.max(end - start + 1);\n    }\n\n    max_length\n}\n\nfn main() {\n    let arr = [1, 2, 3, 4, 5];\n    let target = 9;\n    let result = longest_subarray_with_sum_less_than_target(&arr, target);\n    println!(\"The longest subarray length is: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Create a script to rotate a 2D array (matrix) 180 degrees.",
+    "code": "```rust\nfn rotate_180(matrix: &mut Vec<Vec<i32>>) {\n    let n = matrix.len();\n    let m = matrix[0].len();\n    \n    for i in 0..n / 2 {\n        for j in 0..m {\n            matrix[i][j] ^= matrix[n - 1 - i][m - 1 - j];\n            matrix[n - 1 - i][m - 1 - j] ^= matrix[i][j];\n            matrix[i][j] ^= matrix[n - 1 - i][m - 1 - j];\n        }\n    }\n    \n    if n % 2 == 1 {\n        let mid = n / 2;\n        for j in 0..m / 2 {\n            matrix[mid][j] ^= matrix[mid][m - 1 - j];\n            matrix[mid][m - 1 - j] ^= matrix[mid][j];\n            matrix[mid][j] ^= matrix[mid][m - 1 - j];\n        }\n    }\n}\n\nfn main() {\n    let mut matrix = vec![\n        vec![1, 2, 3],\n        vec![4, 5, 6],\n        vec![7, 8, 9],\n    ];\n    \n    rotate_180(&mut matrix);\n    \n    for row in matrix {\n        println!(\"{:?}\", row);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to convert an array of binary digits to its decimal equivalent.",
+    "code": "```rust\nfn binary_to_decimal(binary: &[u8]) -> u32 {\n    let mut decimal = 0;\n    for (i, &digit) in binary.iter().rev().enumerate() {\n        decimal += (digit as u32) * (1 << i);\n    }\n    decimal\n}\n\nfn main() {\n    let binary_array = [1, 0, 1, 1];\n    let decimal_value = binary_to_decimal(&binary_array);\n    println!(\"Decimal equivalent: {}\", decimal_value);\n}\n```"
+  },
+  {
+    "task": "Design a function to return a new array with elements squared from the input array.",
+    "code": "```rust\nfn square_elements(input: &[i32]) -> Vec<i32> {\n    input.iter().map(|&x| x * x).collect()\n}\n\nfn main() {\n    let input = [1, 2, 3, 4, 5];\n    let output = square_elements(&input);\n    println!(\"{:?}\", output);\n}\n```"
+  },
+  {
+    "task": "Create a method to check if all elements in an array are unique.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn all_elements_unique(arr: &[i32]) -> bool {\n    let mut seen = HashSet::new();\n    for &element in arr {\n        if !seen.insert(element) {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let array = [1, 2, 3, 4, 5];\n    println!(\"{}\", all_elements_unique(&array)); // true\n\n    let array_with_duplicates = [1, 2, 3, 4, 5, 2];\n    println!(\"{}\", all_elements_unique(&array_with_duplicates)); // false\n}\n```"
+  },
+  {
+    "task": "Develop a routine to find the indices of all occurrences of a specific element in an array.",
+    "code": "```rust\nfn find_indices(arr: &[i32], target: i32) -> Vec<usize> {\n    let mut indices = Vec::new();\n    for (i, &element) in arr.iter().enumerate() {\n        if element == target {\n            indices.push(i);\n        }\n    }\n    indices\n}\n\nfn main() {\n    let array = [1, 2, 3, 2, 4, 2, 5];\n    let target = 2;\n    let result = find_indices(&array, target);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Implement a function to merge multiple arrays into one.",
+    "code": "```rust\nfn merge_arrays<T: Clone>(arrays: &[Vec<T>]) -> Vec<T> {\n    arrays.iter().flat_map(|array| array.clone()).collect()\n}\n\nfn main() {\n    let arrays = vec![\n        vec![1, 2, 3],\n        vec![4, 5],\n        vec![6, 7, 8, 9],\n    ];\n    let merged = merge_arrays(&arrays);\n    println!(\"{:?}\", merged);\n}\n```"
+  },
+  {
+    "task": "Write a script to convert an array of integers into a formatted string.",
+    "code": "```rust\nfn main() {\n    let numbers = [1, 2, 3, 4, 5];\n    let formatted_string = format!(\"{:?}\", numbers);\n    println!(\"{}\", formatted_string);\n}\n```"
+  },
+  {
+    "task": "Create a program to find the largest sum of any contiguous subarray.",
+    "code": "```rust\nfn main() {\n    let arr = vec![34, -50, 42, 14, -5, 86];\n    let max_sum = largest_sum_contiguous_subarray(&arr);\n    println!(\"The largest sum of any contiguous subarray is: {}\", max_sum);\n}\n\nfn largest_sum_contiguous_subarray(arr: &[i32]) -> i32 {\n    let mut max_sum = i32::MIN;\n    let mut current_sum = 0;\n\n    for &value in arr {\n        current_sum = current_sum.max(0) + value;\n        max_sum = max_sum.max(current_sum);\n    }\n\n    max_sum\n}\n```"
+  },
+  {
+    "task": "Design a function to compare two arrays and return the differences.",
+    "code": "```rust\nfn compare_arrays<T: PartialEq>(arr1: &[T], arr2: &[T]) -> Vec<T> \nwhere \n    T: Clone,\n{\n    let mut differences = Vec::new();\n    \n    for item in arr1 {\n        if !arr2.contains(item) {\n            differences.push(item.clone());\n        }\n    }\n    \n    for item in arr2 {\n        if !arr1.contains(item) {\n            differences.push(item.clone());\n        }\n    }\n    \n    differences\n}\n\nfn main() {\n    let array1 = [1, 2, 3, 4, 5];\n    let array2 = [4, 5, 6, 7, 8];\n    \n    let differences = compare_arrays(&array1, &array2);\n    println!(\"{:?}\", differences);\n}\n```"
+  },
+  {
+    "task": "Write a method to find the longest subarray with elements in arithmetic progression.",
+    "code": "```rust\nfn longest_arithmetic_subarray(arr: &[i32]) -> &[i32] {\n    if arr.len() < 2 {\n        return arr;\n    }\n\n    let mut max_start = 0;\n    let mut max_len = 1;\n\n    let mut current_start = 0;\n    let mut current_len = 1;\n    let mut current_diff = arr[1] - arr[0];\n\n    for i in 1..arr.len() {\n        let diff = arr[i] - arr[i - 1];\n        if diff == current_diff {\n            current_len += 1;\n        } else {\n            if current_len > max_len {\n                max_start = current_start;\n                max_len = current_len;\n            }\n            current_start = i - 1;\n            current_len = 2;\n            current_diff = diff;\n        }\n    }\n\n    if current_len > max_len {\n        max_start = current_start;\n        max_len = current_len;\n    }\n\n    &arr[max_start..max_start + max_len]\n}\n\nfn main() {\n    let arr = [1, 7, 10, 13, 14, 19];\n    let result = longest_arithmetic_subarray(&arr);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Develop a routine to remove elements from an array based on a predicate function.",
+    "code": "```rust\nfn remove_if<T, F>(arr: &mut Vec<T>, predicate: F)\nwhere\n    F: Fn(&T) -> bool,\n{\n    arr.retain(|x| !predicate(x));\n}\n\nfn main() {\n    let mut numbers = vec![1, 2, 3, 4, 5, 6];\n    remove_if(&mut numbers, |&x| x % 2 == 0);\n    println!(\"{:?}\", numbers);\n}\n```"
+  },
+  {
+    "task": "Implement a function to determine if two arrays have any common elements.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn have_common_elements<T: Eq + std::hash::Hash>(arr1: &[T], arr2: &[T]) -> bool {\n    let set: HashSet<_> = arr1.iter().collect();\n    arr2.iter().any(|item| set.contains(item))\n}\n\nfn main() {\n    let array1 = [1, 2, 3, 4, 5];\n    let array2 = [5, 6, 7, 8, 9];\n    let result = have_common_elements(&array1, &array2);\n    println!(\"Do arrays have common elements? {}\", result);\n}\n```"
+  },
+  {
+    "task": "Create a script to initialize an empty array and populate it with user input.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut arr = Vec::new();\n    let mut input = String::new();\n\n    println!(\"Enter numbers to populate the array. Type 'done' to finish.\");\n\n    loop {\n        print!(\"Enter a number: \");\n        io::stdout().flush().unwrap();\n        io::stdin().read_line(&mut input).unwrap();\n        let input = input.trim();\n\n        if input.eq_ignore_ascii_case(\"done\") {\n            break;\n        }\n\n        match input.parse::<i32>() {\n            Ok(num) => arr.push(num),\n            Err(_) => println!(\"Please enter a valid number.\"),\n        }\n\n        input.clear();\n    }\n\n    println!(\"Array contents: {:?}\", arr);\n}\n```"
+  },
+  {
+    "task": "Write a program to find the maximum sum of non-adjacent elements in an array.",
+    "code": "```rust\nfn max_sum_non_adjacent(arr: &[i32]) -> i32 {\n    let mut include = 0;\n    let mut exclude = 0;\n\n    for &num in arr {\n        let new_exclude = if include > exclude { include } else { exclude };\n        include = exclude + num;\n        exclude = new_exclude;\n    }\n\n    if include > exclude { include } else { exclude }\n}\n\nfn main() {\n    let arr = [3, 2, 5, 10, 7];\n    let result = max_sum_non_adjacent(&arr);\n    println!(\"Maximum sum of non-adjacent elements: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Design a function to shuffle an array randomly.",
+    "code": "```rust\nuse rand::seq::SliceRandom;\nuse rand::thread_rng;\n\nfn shuffle_array<T>(array: &mut [T]) {\n    let mut rng = thread_rng();\n    array.shuffle(&mut rng);\n}\n\nfn main() {\n    let mut array = [1, 2, 3, 4, 5];\n    shuffle_array(&mut array);\n    println!(\"{:?}\", array);\n}\n```"
+  },
+  {
+    "task": "Create a method to generate a new array where each element is the cumulative product of the input array.",
+    "code": "```rust\nfn cumulative_product(input: &[i32]) -> Vec<i32> {\n    let mut result = Vec::with_capacity(input.len());\n    let mut product = 1;\n    for &num in input {\n        product *= num;\n        result.push(product);\n    }\n    result\n}\n\nfn main() {\n    let input = [1, 2, 3, 4];\n    let result = cumulative_product(&input);\n    println!(\"{:?}\", result);\n}\n```"
+  },
+  {
+    "task": "Develop a routine to find the largest element in each row of a 2D array.",
+    "code": "```rust\nfn largest_in_each_row(matrix: &[Vec<i32>]) -> Vec<i32> {\n    matrix.iter().map(|row| *row.iter().max().unwrap()).collect()\n}\n\nfn main() {\n    let matrix = vec![\n        vec![3, 5, 2, 8],\n        vec![7, 1, 6, 4],\n        vec![9, 3, 8, 2],\n    ];\n    let largest_elements = largest_in_each_row(&matrix);\n    println!(\"{:?}\", largest_elements);\n}\n```"
+  },
+  {
+    "task": "Implement a function to count the number of negative numbers in an array.",
+    "code": "```rust\nfn count_negative_numbers(arr: &[i32]) -> usize {\n    arr.iter().filter(|&&x| x < 0).count()\n}\n\nfn main() {\n    let numbers = [1, -2, 3, -4, 5, -6];\n    let negative_count = count_negative_numbers(&numbers);\n    println!(\"Number of negative numbers: {}\", negative_count);\n}\n```"
+  },
+  {
+    "task": "Write a script to find the longest subarray with all distinct elements.",
+    "code": "```rust\nfn longest_distinct_subarray(arr: &[i32]) -> usize {\n    use std::collections::HashSet;\n\n    let mut max_len = 0;\n    let mut start = 0;\n    let mut seen = HashSet::new();\n\n    for (end, &value) in arr.iter().enumerate() {\n        while seen.contains(&value) {\n            seen.remove(&arr[start]);\n            start += 1;\n        }\n        seen.insert(value);\n        max_len = max_len.max(end - start + 1);\n    }\n\n    max_len\n}\n\nfn main() {\n    let arr = [1, 2, 3, 4, 2, 3, 5, 1, 6];\n    let result = longest_distinct_subarray(&arr);\n    println!(\"The length of the longest subarray with all distinct elements is: {}\", result);\n}\n```"
+  }
+]

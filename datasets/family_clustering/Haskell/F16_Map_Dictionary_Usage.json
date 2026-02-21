@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype GradesMap = Map.Map String Double\n\nstudentGrades :: GradesMap\nstudentGrades = Map.fromList [(\"Alice\", 85.0), (\"Bob\", 92.0), (\"Charlie\", 78.0), (\"David\", 90.0)]\n\naverageGrade :: GradesMap -> Double\naverageGrade gradesMap = \n    let grades = Map.elems gradesMap\n        total = sum grades\n        count = fromIntegral (Map.size gradesMap)\n    in total / count\n\nmain :: IO ()\nmain = print $ averageGrade studentGrades\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\n\ntotalCost :: Map String Double -> Double\ntotalCost = Map.foldr (+) 0.0\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```haskell\nimport Data.Char (toLower)\nimport Data.List (group, sort)\nimport qualified Data.Map as Map\n\nwordFrequency :: String -> Map.Map String Int\nwordFrequency text =\n  let wordsList = words $ map toLower text\n      groupedWords = group $ sort wordsList\n  in Map.fromList [(head g, length g) | g <- groupedWords]\n\nmain :: IO ()\nmain = do\n  let text = \"The quick brown fox jumps over the lazy dog. The quick brown fox!\"\n  print $ wordFrequency text\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\n\nmaxHoursEmployee :: Map String Int -> String\nmaxHoursEmployee = fst . maximumBy (comparing snd) . Map.toList\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport Data.Time.Clock (UTCTime, getCurrentTime, addUTCTime)\n\ntype Username = String\ntype Timestamp = UTCTime\ntype LoginAttempts = Int\ntype UserState = (LoginAttempts, Maybe Timestamp)\ntype UserMap = Map.Map Username UserState\n\nmaxAttempts :: Int\nmaxAttempts = 3\n\nlockDurationSeconds :: NominalDiffTime\nlockDurationSeconds = 3600 -- 1 hour\n\nupdateAttempts :: Username -> UserMap -> IO UserMap\nupdateAttempts username users = do\n    currentTime <- getCurrentTime\n    let updatedUsers = Map.alter (updateState currentTime) username users\n    return updatedUsers\n\nupdateState :: UTCTime -> Maybe UserState -> Maybe UserState\nupdateState _ Nothing = Just (1, Nothing)\nupdateState currentTime (Just (attempts, lockTime)) \n    | attempts >= maxAttempts = Just (attempts, Just (addUTCTime lockDurationSeconds currentTime))\n    | otherwise = Just (attempts + 1, lockTime)\n\nisAccountLocked :: Username -> UserMap -> IO Bool\nisAccountLocked username users = do\n    currentTime <- getCurrentTime\n    return $ case Map.lookup username users of\n        Just (_, Just lockTime) -> currentTime < lockTime\n        _ -> False\n\nresetAttempts :: Username -> UserMap -> UserMap\nresetAttempts username = Map.adjust (\\(_, lockTime) -> (0, lockTime)) username\n\nmain :: IO ()\nmain = do\n    let users = Map.empty :: UserMap\n    users' <- updateAttempts \"user1\" users\n    locked <- isAccountLocked \"user1\" users'\n    print locked\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Phonebook = Map.Map String String\n\naddContact :: String -> String -> Phonebook -> Phonebook\naddContact name number phonebook = Map.insert name number phonebook\n\nremoveContact :: String -> Phonebook -> Phonebook\nremoveContact name phonebook = Map.delete name phonebook\n\nlookupContact :: String -> Phonebook -> Maybe String\nlookupContact name phonebook = Map.lookup name phonebook\n\n-- Example usage:\n-- let phonebook = addContact \"Alice\" \"123-456-7890\" Map.empty\n-- let phonebook' = addContact \"Bob\" \"987-654-3210\" phonebook\n-- let phonebook'' = removeContact \"Alice\" phonebook'\n-- lookupContact \"Bob\" phonebook''\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```haskell\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\nimport qualified Data.Map as Map\n\ntype City = String\ntype Population = Int\n\ncityPopulations :: Map.Map City Population\ncityPopulations = Map.fromList [(\"New York\", 8419000), (\"Los Angeles\", 3980000), (\"Chicago\", 2716000)]\n\ncityWithHighestPopulation :: (City, Population)\ncityWithHighestPopulation = maximumBy (comparing snd) (Map.toList cityPopulations)\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\n\n-- Define a dictionary for translation\ndictionary :: Map String String\ndictionary = Map.fromList [(\"hello\", \"hola\"), (\"world\", \"mundo\"), (\"good\", \"bueno\"), (\"morning\", \"ma\u00f1ana\")]\n\n-- Function to translate a single word using the dictionary\ntranslateWord :: String -> String\ntranslateWord word = Map.findWithDefault word word dictionary\n\n-- Function to translate a sentence\ntranslateSentence :: String -> String\ntranslateSentence sentence = unwords $ map translateWord (words sentence)\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let sentence = \"hello world good morning\"\n    putStrLn $ translateSentence sentence\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\n\ntype BookTitle = String\ntype Author = String\ntype Library = Map BookTitle Author\n\nlibrary :: Library\nlibrary = Map.fromList [(\"The Great Gatsby\", \"F. Scott Fitzgerald\"),\n                        (\"1984\", \"George Orwell\"),\n                        (\"To Kill a Mockingbird\", \"Harper Lee\"),\n                        (\"Animal Farm\", \"George Orwell\")]\n\nfindBooksByAuthor :: Author -> Library -> [BookTitle]\nfindBooksByAuthor author lib = [title | (title, auth) <- Map.toList lib, auth == author]\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype ProductStock = Map.Map Int Int\n\nupdateStockAfterSale :: Int -> Int -> ProductStock -> ProductStock\nupdateStockAfterSale productId quantitySold stockMap =\n    Map.adjust (\\stock -> stock - quantitySold) productId stockMap\n\nmain :: IO ()\nmain = do\n    let initialStock = Map.fromList [(101, 50), (102, 30), (103, 20)]\n    let updatedStock = updateStockAfterSale 101 5 initialStock\n    print updatedStock\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ncountryDict :: Map.Map String String\ncountryDict = Map.fromList [(\"US\", \"United States\"), (\"CA\", \"Canada\"), (\"MX\", \"Mexico\")]\n\ngetCountryName :: String -> Maybe String\ngetCountryName code = Map.lookup code countryDict\n\nmain :: IO ()\nmain = do\n    let code = \"US\"\n    case getCountryName code of\n        Just name -> putStrLn name\n        Nothing -> putStrLn \"Country code not found\"\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype StudentID = Int\ntype StudentName = String\ntype StudentDirectory = Map.Map StudentID StudentName\n\naddStudent :: StudentID -> StudentName -> StudentDirectory -> StudentDirectory\naddStudent studentId studentName = Map.insert studentId studentName\n\ngetStudentName :: StudentID -> StudentDirectory -> Maybe StudentName\ngetStudentName = Map.lookup\n\nmain :: IO ()\nmain = do\n    let directory = addStudent 1001 \"Alice\" $ addStudent 1002 \"Bob\" Map.empty\n    print $ getStudentName 1001 directory\n    print $ getStudentName 1003 directory\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Config = Map.Map String String\n\nemptyConfig :: Config\nemptyConfig = Map.empty\n\nupdateSetting :: String -> String -> Config -> Config\nupdateSetting key value config = Map.insert key value config\n\nretrieveSetting :: String -> Config -> Maybe String\nretrieveSetting key config = Map.lookup key config\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport Data.Char (toLower)\n\ntype Dictionary = Map.Map String String\n\ncreateDictionary :: Dictionary\ncreateDictionary = Map.fromList\n    [ (\"apple\", \"A fruit that is red, green, or yellow in color.\")\n    , (\"banana\", \"A long yellow fruit.\")\n    , (\"apricot\", \"A small, soft, orange fruit.\")\n    , (\"blueberry\", \"A small round fruit that is blue in color.\")\n    ]\n\ndisplayWordsStartingWith :: Char -> Dictionary -> [String]\ndisplayWordsStartingWith c dict = \n    Map.keys $ Map.filterWithKey (\\k _ -> toLower (head k) == toLower c) dict\n\nmain :: IO ()\nmain = do\n    let wordsWithA = displayWordsStartingWith 'a' createDictionary\n    mapM_ putStrLn wordsWithA\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Username = String\ntype Password = String\ntype UserDB = Map.Map Username Password\n\ncreateUserDB :: UserDB\ncreateUserDB = Map.fromList [(\"user1\", \"pass1\"), (\"user2\", \"pass2\"), (\"user3\", \"pass3\")]\n\nverifyLogin :: UserDB -> Username -> Password -> Bool\nverifyLogin db username password =\n    case Map.lookup username db of\n        Just pw -> pw == password\n        Nothing -> False\n\nmain :: IO ()\nmain = do\n    let db = createUserDB\n    putStrLn \"Enter username:\"\n    username <- getLine\n    putStrLn \"Enter password:\"\n    password <- getLine\n    if verifyLogin db username password\n        then putStrLn \"Login successful!\"\n        else putStrLn \"Invalid username or password.\"\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\n\ntype Item = String\ntype PurchaseMap = Map.Map Item Int\n\nupdatePurchaseMap :: PurchaseMap -> [Item] -> PurchaseMap\nupdatePurchaseMap = foldl (\\acc item -> Map.insertWith (+) item 1 acc)\n\nfindMostPopularItem :: PurchaseMap -> Maybe Item\nfindMostPopularItem purchaseMap\n    | Map.null purchaseMap = Nothing\n    | otherwise = Just $ fst $ maximumBy (comparing snd) $ Map.toList purchaseMap\n\nmain :: IO ()\nmain = do\n    let purchases = [\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\"]\n    let purchaseMap = updatePurchaseMap Map.empty purchases\n    print $ findMostPopularItem purchaseMap\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```haskell\nimport Data.Maybe (fromMaybe)\nimport qualified Data.Map as Map\n\ntype FileExtension = String\ntype ApplicationType = String\n\nfileAssociations :: Map.Map FileExtension ApplicationType\nfileAssociations = Map.fromList\n    [ (\".txt\", \"Text Editor\")\n    , (\".jpg\", \"Image Viewer\")\n    , (\".mp3\", \"Music Player\")\n    , (\".pdf\", \"PDF Reader\")\n    , (\".html\", \"Web Browser\")\n    ]\n\nopenFile :: FileExtension -> ApplicationType\nopenFile ext = fromMaybe \"Unknown Application\" (Map.lookup ext fileAssociations)\n\n-- Example usage:\n-- main = putStrLn (openFile \".txt\")\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Menu = Map.Map String Double\n\ncalculateTotal :: Menu -> [String] -> Double\ncalculateTotal menu items = sum $ map (\\item -> Map.findWithDefault 0 item menu) items\n\nmain :: IO ()\nmain = do\n    let menu = Map.fromList [(\"Burger\", 5.99), (\"Fries\", 2.99), (\"Soda\", 1.50)]\n    let order = [\"Burger\", \"Fries\", \"Soda\", \"Soda\"]\n    let total = calculateTotal menu order\n    putStrLn $ \"Total bill: $\" ++ show total\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Inventory = Map.Map String Int\n\naddItem :: String -> Int -> Inventory -> Inventory\naddItem item quantity inv = Map.insertWith (+) item quantity inv\n\nremoveItem :: String -> Int -> Inventory -> Inventory\nremoveItem item quantity inv = Map.update updateFunc item inv\n  where\n    updateFunc currentQuantity\n      | currentQuantity > quantity = Just (currentQuantity - quantity)\n      | otherwise = Nothing\n\ncheckInventory :: String -> Inventory -> Int\ncheckInventory item inv = Map.findWithDefault 0 item inv\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let inventory = Map.empty\n    let inventory1 = addItem \"itemA\" 10 inventory\n    let inventory2 = addItem \"itemB\" 5 inventory1\n    let inventory3 = removeItem \"itemA\" 3 inventory2\n    print $ checkInventory \"itemA\" inventory3\n    print $ checkInventory \"itemB\" inventory3\n    print $ checkInventory \"itemC\" inventory3\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nromanToInt :: String -> Int\nromanToInt s = sum $ zipWith convert s (tail s ++ \" \")\n  where\n    romanMap = Map.fromList [('I', 1),  ('V', 5),  ('X', 10),\n                             ('L', 50), ('C', 100), ('D', 500), ('M', 1000)]\n    convert c1 c2\n      | Map.lookup c1 romanMap < Map.lookup c2 romanMap = - Map.findWithDefault 0 c1 romanMap\n      | otherwise = Map.findWithDefault 0 c1 romanMap\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\nimport Data.Char (toLower)\n\ncountLetters :: String -> Map Char Int\ncountLetters str = foldl updateMap Map.empty str\n  where\n    updateMap :: Map Char Int -> Char -> Map Char Int\n    updateMap m c\n      | c `elem` ['a'..'z'] = Map.insertWith (+) c 1 m\n      | otherwise = m\n\nmain :: IO ()\nmain = do\n  let inputString = \"Hello World\"\n  let letterCounts = countLetters (map toLower inputString)\n  print letterCounts\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\n\nmain :: IO ()\nmain = do\n    let scores = Map.fromList [(\"TeamA\", 10), (\"TeamB\", 20), (\"TeamC\", 15)]\n    let highestScoringTeam = fst $ maximumBy (comparing snd) (Map.toList scores)\n    putStrLn $ \"The team with the highest score is: \" ++ highestScoringTeam\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```haskell\ncalculateTotalWeight :: (Ord k, Num v) => [(k, v)] -> v\ncalculateTotalWeight items = sum (map snd items)\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\n\ntype URL = String\ntype VisitCount = Int\ntype URLMap = Map.Map URL VisitCount\n\nincrementVisit :: URL -> URLMap -> URLMap\nincrementVisit url = Map.insertWith (+) url 1\n\nmostVisited :: URLMap -> Maybe (URL, VisitCount)\nmostVisited urlMap\n    | Map.null urlMap = Nothing\n    | otherwise = Just $ maximumBy (comparing snd) (Map.toList urlMap)\n\nmain :: IO ()\nmain = do\n    let urls = [\"example.com\", \"example.org\", \"example.com\", \"example.net\", \"example.com\", \"example.org\"]\n    let urlMap = foldr incrementVisit Map.empty urls\n    print $ mostVisited urlMap\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nerrorMessages :: Map.Map Int String\nerrorMessages = Map.fromList [\n    (404, \"Not Found\"),\n    (500, \"Internal Server Error\"),\n    (403, \"Forbidden\"),\n    (401, \"Unauthorized\")\n    ]\n\nprintErrorMessage :: Int -> IO ()\nprintErrorMessage code = case Map.lookup code errorMessages of\n    Just message -> putStrLn message\n    Nothing      -> putStrLn \"Unknown Error Code\"\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter an error code:\"\n    input <- getLine\n    let code = read input :: Int\n    printErrorMessage code\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Contacts = Map.Map String String\n\naddOrUpdateContact :: String -> String -> Contacts -> Contacts\naddOrUpdateContact name phoneNumber contacts = Map.insert name phoneNumber contacts\n\nlookupContact :: String -> Contacts -> Maybe String\nlookupContact name contacts = Map.lookup name contacts\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let contacts = Map.empty :: Contacts\n    let updatedContacts = addOrUpdateContact \"Alice\" \"123-456-7890\" contacts\n    let phoneNumber = lookupContact \"Alice\" updatedContacts\n    print phoneNumber\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Employee = String\ntype Task = String\ntype SkillLevel = Int\n\nassignTasks :: [(Employee, SkillLevel)] -> [(Task, SkillLevel)] -> Map.Map Employee [Task]\nassignTasks employees tasks = foldl assignTask Map.empty tasks\n  where\n    assignTask acc (task, taskSkill) = \n      case filter (\\(_, skill) -> skill >= taskSkill) employees of\n        ((employee, _):_) -> Map.insertWith (++) employee [task] acc\n        [] -> acc\n\nmain :: IO ()\nmain = do\n  let employees = [(\"Alice\", 5), (\"Bob\", 3), (\"Charlie\", 4)]\n  let tasks = [(\"Task1\", 3), (\"Task2\", 5), (\"Task3\", 4)]\n  let taskAssignment = assignTasks employees tasks\n  print taskAssignment\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nairportMap :: Map.Map String String\nairportMap = Map.fromList [\n    (\"JFK\", \"New York\"),\n    (\"LAX\", \"Los Angeles\"),\n    (\"ORD\", \"Chicago\"),\n    (\"DFW\", \"Dallas/Fort Worth\"),\n    (\"DEN\", \"Denver\")\n    ]\n\ngetCityName :: String -> Maybe String\ngetCityName code = Map.lookup code airportMap\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype MovieMap = Map.Map String Int\n\nmovies :: MovieMap\nmovies = Map.fromList [\n    (\"The Shawshank Redemption\", 1994),\n    (\"The Godfather\", 1972),\n    (\"The Dark Knight\", 2008),\n    (\"Pulp Fiction\", 1994),\n    (\"Schindler's List\", 1993),\n    (\"The Lord of the Rings: The Return of the King\", 2003),\n    (\"Forrest Gump\", 1994),\n    (\"Inception\", 2010),\n    (\"The Matrix\", 1999),\n    (\"Goodfellas\", 1990)\n    ]\n\nmoviesInDecade :: Int -> MovieMap -> [String]\nmoviesInDecade decade movieMap = Map.keys $ Map.filter (\\year -> year >= decade && year < (decade + 10)) movieMap\n\nmain :: IO ()\nmain = do\n    let movies1990s = moviesInDecade 1990 movies\n    print movies1990s\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport Data.List (foldl')\n\ntype Student = String\ntype Grade = String\n\ngroupStudentsByGrades :: [(Student, Grade)] -> Map.Map Grade [Student]\ngroupStudentsByGrades = foldl' insertStudent Map.empty\n  where\n    insertStudent acc (student, grade) =\n      Map.insertWith (++) grade [student] acc\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```haskell\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\nimport qualified Data.Map as Map\n\ntype VisitorsMap = Map.Map String Int\n\nvisitors :: VisitorsMap\nvisitors = Map.fromList [(\"home\", 150), (\"about\", 120), (\"contact\", 90), (\"blog\", 200)]\n\nmostVisitedSection :: VisitorsMap -> String\nmostVisitedSection = fst . maximumBy (comparing snd) . Map.toList\n\nmain :: IO ()\nmain = putStrLn $ \"Most visited section: \" ++ mostVisitedSection visitors\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype TeamMember = String\ntype Deadline = String\ntype ProjectMap = Map.Map TeamMember Deadline\n\nassignDeadline :: TeamMember -> Deadline -> ProjectMap -> ProjectMap\nassignDeadline member deadline = Map.insert member deadline\n\nextendDeadline :: TeamMember -> Deadline -> ProjectMap -> ProjectMap\nextendDeadline member newDeadline = Map.adjust (const newDeadline) member\n\nmain :: IO ()\nmain = do\n    let initialMap = Map.empty :: ProjectMap\n    let withDeadlines = assignDeadline \"Alice\" \"2023-12-01\" $\n                        assignDeadline \"Bob\" \"2023-11-15\" initialMap\n    let extendedMap = extendDeadline \"Alice\" \"2023-12-15\" withDeadlines\n    print extendedMap\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype BookTitle = String\ntype IsBorrowed = Bool\ntype Library = Map.Map BookTitle IsBorrowed\n\nborrowBook :: BookTitle -> Library -> Library\nborrowBook title library = Map.insert title True library\n\nreturnBook :: BookTitle -> Library -> Library\nreturnBook title library = Map.insert title False library\n\nisBookAvailable :: BookTitle -> Library -> Bool\nisBookAvailable title library = not $ Map.findWithDefault False title library\n\nmain :: IO ()\nmain = do\n    let library = Map.fromList [(\"1984\", False), (\"Brave New World\", False), (\"Fahrenheit 451\", False)]\n    let libraryAfterBorrow = borrowBook \"1984\" library\n    let available = isBookAvailable \"1984\" libraryAfterBorrow\n    print available\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```haskell\nimport Data.List (minimumBy)\nimport qualified Data.Map as Map\nimport Data.Ord (comparing)\n\ntype Distance = Double\ntype PlanetName = String\n\nplanets :: Map.Map PlanetName Distance\nplanets = Map.fromList [\n    (\"Mercury\", 57.9),\n    (\"Venus\", 108.2),\n    (\"Earth\", 149.6),\n    (\"Mars\", 227.9),\n    (\"Jupiter\", 778.3),\n    (\"Saturn\", 1427.0),\n    (\"Uranus\", 2871.0),\n    (\"Neptune\", 4497.1)\n    ]\n\nclosestPlanetToEarth :: PlanetName\nclosestPlanetToEarth = fst $ minimumBy (comparing snd) $ Map.toList $ Map.delete \"Earth\" planets\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\nimport Data.List (intercalate)\nimport Data.Maybe (fromMaybe)\n\nmorseCodeMap :: Map String Char\nmorseCodeMap = Map.fromList [\n    (\".-\", 'A'), (\"-...\", 'B'), (\"-.-.\", 'C'), (\"-..\", 'D'), (\".\", 'E'),\n    (\"..-.\", 'F'), (\"--.\", 'G'), (\"....\", 'H'), (\"..\", 'I'), (\".---\", 'J'),\n    (\"-.-\", 'K'), (\".-..\", 'L'), (\"--\", 'M'), (\"-.\", 'N'), (\"---\", 'O'),\n    (\".--.\", 'P'), (\"--.-\", 'Q'), (\".-.\", 'R'), (\"...\", 'S'), (\"-\", 'T'),\n    (\"..-\", 'U'), (\"...-\", 'V'), (\".--\", 'W'), (\"-..-\", 'X'), (\"-.--\", 'Y'),\n    (\"--..\", 'Z'), (\".----\", '1'), (\"..---\", '2'), (\"...--\", '3'), \n    (\"....-\", '4'), (\".....\", '5'), (\"-....\", '6'), (\"--...\", '7'), \n    (\"---..\", '8'), (\"----.\", '9'), (\"-----\", '0')\n    ]\n\ntranslateMorseToText :: String -> String\ntranslateMorseToText = intercalate \" \" . map translateWord . words\n  where\n    translateWord = map (\\code -> fromMaybe '?' (Map.lookup code morseCodeMap)) . words\n\nmain :: IO ()\nmain = do\n    let morseMessage = \"... --- ...\"\n    putStrLn $ translateMorseToText morseMessage\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype RegistrationNumber = String\ntype OwnerName = String\n\nvehicleRegistry :: Map.Map RegistrationNumber OwnerName\nvehicleRegistry = Map.fromList\n    [ (\"ABC123\", \"John Doe\")\n    , (\"XYZ987\", \"Jane Smith\")\n    , (\"LMN456\", \"Alice Johnson\")\n    ]\n\nmain :: IO ()\nmain = do\n    let regNum = \"ABC123\"\n    case Map.lookup regNum vehicleRegistry of\n        Just owner -> putStrLn $ \"The owner of \" ++ regNum ++ \" is \" ++ owner\n        Nothing -> putStrLn $ \"No owner found for registration number \" ++ regNum\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```haskell\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\n\ntype Team = String\ntype Record = (Int, Int) -- (wins, losses)\n\nteams :: [(Team, Record)]\nteams = [(\"TeamA\", (10, 2)), (\"TeamB\", (8, 4)), (\"TeamC\", (12, 1)), (\"TeamD\", (5, 6))]\n\nbestTeam :: (Team, Record)\nbestTeam = maximumBy (comparing (\\(_, (wins, losses)) -> wins - losses)) teams\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ncurrencyMap :: Map.Map String String\ncurrencyMap = Map.fromList [\n    (\"USD\", \"United States Dollar\"),\n    (\"EUR\", \"Euro\"),\n    (\"JPY\", \"Japanese Yen\"),\n    (\"GBP\", \"British Pound Sterling\"),\n    (\"AUD\", \"Australian Dollar\"),\n    (\"CAD\", \"Canadian Dollar\"),\n    (\"CHF\", \"Swiss Franc\"),\n    (\"CNY\", \"Chinese Yuan\"),\n    (\"SEK\", \"Swedish Krona\"),\n    (\"NZD\", \"New Zealand Dollar\")\n  ]\n\ncurrencyCodeToName :: String -> Maybe String\ncurrencyCodeToName code = Map.lookup code currencyMap\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```haskell\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\nimport qualified Data.Map as Map\n\ntype AttendanceRecord = Map.Map String Int\n\nhighestAttendance :: AttendanceRecord -> (String, Int)\nhighestAttendance record = maximumBy (comparing snd) (Map.toList record)\n\nmain :: IO ()\nmain = do\n    let attendance = Map.fromList [(\"Alice\", 5), (\"Bob\", 7), (\"Charlie\", 3)]\n    let (student, count) = highestAttendance attendance\n    putStrLn $ \"Student with highest attendance: \" ++ student ++ \" with count \" ++ show count\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Country = String\ntype Capital = String\ntype CountryCapitalMap = Map.Map Country Capital\n\ncountryCapitalMap :: CountryCapitalMap\ncountryCapitalMap = Map.fromList\n    [ (\"France\", \"Paris\")\n    , (\"Germany\", \"Berlin\")\n    , (\"Italy\", \"Rome\")\n    , (\"Spain\", \"Madrid\")\n    , (\"Portugal\", \"Lisbon\")\n    ]\n\nlookupCapital :: Country -> CountryCapitalMap -> Maybe Capital\nlookupCapital country = Map.lookup country\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Ingredient = String\ntype Quantity = Int\ntype Recipe = Map.Map Ingredient Quantity\n\naddIngredient :: Ingredient -> Quantity -> Recipe -> Recipe\naddIngredient ingredient quantity recipe = Map.insert ingredient quantity recipe\n\nremoveIngredient :: Ingredient -> Recipe -> Recipe\nremoveIngredient ingredient recipe = Map.delete ingredient recipe\n\ngetQuantity :: Ingredient -> Recipe -> Maybe Quantity\ngetQuantity ingredient recipe = Map.lookup ingredient recipe\n\nmain :: IO ()\nmain = do\n    let recipe = Map.empty\n    let recipe1 = addIngredient \"Flour\" 500 recipe\n    let recipe2 = addIngredient \"Sugar\" 200 recipe1\n    let recipe3 = addIngredient \"Eggs\" 3 recipe2\n    print recipe3\n    print $ getQuantity \"Sugar\" recipe3\n    let recipe4 = removeIngredient \"Flour\" recipe3\n    print recipe4\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Username = String\ndata UserProfile = UserProfile\n  { name  :: String\n  , age   :: Int\n  , email :: String\n  }\n\ntype UserProfiles = Map.Map Username UserProfile\n\naddUserProfile :: Username -> UserProfile -> UserProfiles -> UserProfiles\naddUserProfile username profile = Map.insert username profile\n\ngetUserProfile :: Username -> UserProfiles -> Maybe UserProfile\ngetUserProfile = Map.lookup\n\nremoveUserProfile :: Username -> UserProfiles -> UserProfiles\nremoveUserProfile = Map.delete\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\n\nlistProductsInCategory :: Ord k => k -> Map k [v] -> [v]\nlistProductsInCategory category productCategories =\n    Map.findWithDefault [] category productCategories\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype ShoppingList = Map.Map String Int\n\nupdateQuantity :: String -> Int -> ShoppingList -> ShoppingList\nupdateQuantity item quantity = Map.insert item quantity\n\nmain :: IO ()\nmain = do\n    let shoppingList = Map.fromList [(\"apples\", 5), (\"bananas\", 2)]\n    let updatedList = updateQuantity \"apples\" 10 shoppingList\n    print updatedList\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Event = String\ntype Year = Int\ntype EventMap = Map.Map Year [Event]\n\nhistoricalEvents :: EventMap\nhistoricalEvents = Map.fromList\n    [ (1776, [\"American Declaration of Independence\"])\n    , (1789, [\"French Revolution begins\"])\n    , (1969, [\"First Moon Landing\"])\n    , (1989, [\"Fall of the Berlin Wall\"])\n    ]\n\nfindEventsByYear :: Year -> EventMap -> [Event]\nfindEventsByYear year events = Map.findWithDefault [] year events\n\nmain :: IO ()\nmain = do\n    let year = 1969\n    let events = findEventsByYear year historicalEvents\n    print events\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Role = String\ntype Permission = String\ntype UserID = Int\n\ndata User = User { userId :: UserID, roles :: [Role] } deriving (Show, Eq)\n\ntype RolePermissions = Map.Map Role [Permission]\ntype UserRoles = Map.Map UserID [Role]\n\naddRole :: Role -> [Permission] -> RolePermissions -> RolePermissions\naddRole role permissions = Map.insert role permissions\n\nassignRoleToUser :: UserID -> Role -> UserRoles -> UserRoles\nassignRoleToUser uid role = Map.insertWith (++) uid [role]\n\ngetUserPermissions :: UserID -> UserRoles -> RolePermissions -> [Permission]\ngetUserPermissions uid userRoles rolePermissions =\n  concatMap (\\role -> Map.findWithDefault [] role rolePermissions) roles\n  where\n    roles = Map.findWithDefault [] uid userRoles\n\nmain :: IO ()\nmain = do\n  let rolePermissions = addRole \"admin\" [\"read\", \"write\", \"delete\"] $\n                        addRole \"user\" [\"read\"] Map.empty\n  let userRoles = assignRoleToUser 1 \"admin\" $\n                  assignRoleToUser 2 \"user\" Map.empty\n\n  print $ getUserPermissions 1 userRoles rolePermissions\n  print $ getUserPermissions 2 userRoles rolePermissions\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nnumericToLetter :: Int -> Maybe String\nnumericToLetter grade = Map.lookup grade gradeMap\n\ngradeMap :: Map.Map Int String\ngradeMap = Map.fromList [\n    (90, \"A\"),\n    (80, \"B\"),\n    (70, \"C\"),\n    (60, \"D\"),\n    (50, \"E\"),\n    (40, \"F\")\n    ]\n\nmain :: IO ()\nmain = do\n    let grades = [95, 85, 75, 65, 55, 45]\n    let letterGrades = map numericToLetter grades\n    print letterGrades\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype HolidayDictionary = Map.Map String String\n\ncreateHolidayDictionary :: HolidayDictionary\ncreateHolidayDictionary = Map.fromList\n    [ (\"New Year's Day\", \"2023-01-01\")\n    , (\"Independence Day\", \"2023-07-04\")\n    , (\"Christmas Day\", \"2023-12-25\")\n    ]\n\nlookupHoliday :: String -> HolidayDictionary -> Maybe String\nlookupHoliday holidayName dictionary = Map.lookup holidayName dictionary\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype OrderId = Int\ndata OrderStatus = Pending | Shipped | Delivered deriving (Show, Eq)\ntype OrderMap = Map.Map OrderId OrderStatus\n\nupdateOrderStatus :: OrderId -> OrderStatus -> OrderMap -> OrderMap\nupdateOrderStatus orderId newStatus = Map.insert orderId newStatus\n\nmain :: IO ()\nmain = do\n    let orders = Map.fromList [(1, Pending), (2, Shipped)]\n    let updatedOrders = updateOrderStatus 1 Delivered orders\n    print updatedOrders\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\n\ntype NutritionalInfo = (Int, Double, Double) -- Calories, Protein, Fat\n\nfoodNutritionalInfo :: Map String NutritionalInfo\nfoodNutritionalInfo = Map.fromList\n  [ (\"Apple\", (95, 0.5, 0.3))\n  , (\"Banana\", (105, 1.3, 0.3))\n  , (\"Egg\", (78, 6.0, 5.0))\n  , (\"Chicken Breast\", (165, 31.0, 3.6))\n  , (\"Broccoli\", (55, 3.7, 0.6))\n  ]\n\nlookupNutritionalInfo :: String -> Maybe NutritionalInfo\nlookupNutritionalInfo food = Map.lookup food foodNutritionalInfo\n\nmain :: IO ()\nmain = do\n  let item = \"Apple\"\n  case lookupNutritionalInfo item of\n    Just (calories, protein, fat) ->\n      putStrLn $ \"Nutritional info for \" ++ item ++ \": Calories: \" ++ show calories ++ \", Protein: \" ++ show protein ++ \"g, Fat: \" ++ show fat ++ \"g\"\n    Nothing -> putStrLn $ \"No nutritional info found for \" ++ item\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Genre = String\ntype Title = String\ntype Library = Map.Map Genre [Title]\n\naddBook :: Genre -> Title -> Library -> Library\naddBook genre title = Map.insertWith (++) genre [title]\n\ngetBooksByGenre :: Genre -> Library -> [Title]\ngetBooksByGenre genre library = Map.findWithDefault [] genre library\n\nmain :: IO ()\nmain = do\n  let library = Map.empty\n      library' = addBook \"Science Fiction\" \"Dune\" library\n      library'' = addBook \"Fantasy\" \"The Hobbit\" library'\n      library''' = addBook \"Science Fiction\" \"Neuromancer\" library''\n  print $ getBooksByGenre \"Science Fiction\" library'''\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```haskell\nmodule StateConverter where\n\nimport qualified Data.Map as Map\n\ntype StateMap = Map.Map String String\n\nstateAbbreviations :: StateMap\nstateAbbreviations = Map.fromList\n    [ (\"AL\", \"Alabama\")\n    , (\"AK\", \"Alaska\")\n    , (\"AZ\", \"Arizona\")\n    , (\"AR\", \"Arkansas\")\n    , (\"CA\", \"California\")\n    , (\"CO\", \"Colorado\")\n    , (\"CT\", \"Connecticut\")\n    , (\"DE\", \"Delaware\")\n    , (\"FL\", \"Florida\")\n    , (\"GA\", \"Georgia\")\n    -- Add more states as necessary\n    ]\n\nconvertStateAbbreviation :: String -> Maybe String\nconvertStateAbbreviation abbr = Map.lookup abbr stateAbbreviations\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype CustomerName = String\ntype OrderHistory = [String]\ntype CustomerOrders = Map.Map CustomerName OrderHistory\n\naddOrder :: CustomerName -> String -> CustomerOrders -> CustomerOrders\naddOrder customerName order orders =\n    Map.insertWith (++) customerName [order] orders\n\ninitialOrders :: CustomerOrders\ninitialOrders = Map.empty\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let orders = initialOrders\n    let orders' = addOrder \"Alice\" \"Order1\" orders\n    let orders'' = addOrder \"Bob\" \"Order2\" orders'\n    let orders''' = addOrder \"Alice\" \"Order3\" orders''\n    print orders'''\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype ParkingLot = Map.Map Int Bool\n\ninitializeParkingLot :: [Int] -> ParkingLot\ninitializeParkingLot spaces = Map.fromList [(space, False) | space <- spaces]\n\noccupySpace :: Int -> ParkingLot -> ParkingLot\noccupySpace space = Map.adjust (const True) space\n\nvacateSpace :: Int -> ParkingLot -> ParkingLot\nvacateSpace space = Map.adjust (const False) space\n\nisSpaceOccupied :: Int -> ParkingLot -> Bool\nisSpaceOccupied space lot = Map.findWithDefault False space lot\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Player = String\ntype Score = Int\ntype Scoreboard = Map.Map Player Score\n\naddScore :: Player -> Score -> Scoreboard -> Scoreboard\naddScore player score = Map.insertWith (+) player score\n\nmain :: IO ()\nmain = do\n    let scoreboard = Map.empty\n        scoreboard' = addScore \"Alice\" 10 scoreboard\n        scoreboard'' = addScore \"Bob\" 15 scoreboard'\n        scoreboard''' = addScore \"Alice\" 5 scoreboard''\n    print scoreboard'''\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Dictionary = Map.Map String String\n\naddTerm :: String -> String -> Dictionary -> Dictionary\naddTerm term definition dict = Map.insert term definition dict\n\nlookupTerm :: String -> Dictionary -> Maybe String\nlookupTerm term dict = Map.lookup term dict\n\nmain :: IO ()\nmain = do\n    let dictionary = Map.empty\n        dictionary' = addTerm \"Atom\" \"The basic unit of a chemical element.\" dictionary\n        dictionary'' = addTerm \"Molecule\" \"A group of atoms bonded together.\" dictionary'\n    putStrLn \"Enter a scientific term to look up:\"\n    term <- getLine\n    case lookupTerm term dictionary'' of\n        Just definition -> putStrLn $ \"Definition: \" ++ definition\n        Nothing -> putStrLn \"Term not found.\"\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Temperature = Double\n\ntemperatureConversion :: String -> Temperature -> Maybe Temperature\ntemperatureConversion scale temp = Map.lookup scale conversionMap <*> Just temp\n  where\n    conversionMap = Map.fromList [\n        (\"CelsiusToFahrenheit\", \\c -> c * (9/5) + 32),\n        (\"FahrenheitToCelsius\", \\f -> (f - 32) * (5/9))\n      ]\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nemployeeDepartments :: Map.Map String String\nemployeeDepartments = Map.fromList [\n    (\"Alice\", \"Engineering\"),\n    (\"Bob\", \"Sales\"),\n    (\"Charlie\", \"Human Resources\"),\n    (\"David\", \"Marketing\")\n    ]\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Attraction = String\ntype Location = String\ntype AttractionsMap = Map.Map Attraction Location\n\nmain :: IO ()\nmain = do\n    let attractions = Map.fromList [(\"Eiffel Tower\", \"Paris\"),\n                                    (\"Statue of Liberty\", \"New York\"),\n                                    (\"Colosseum\", \"Rome\"),\n                                    (\"Great Wall\", \"China\"),\n                                    (\"Machu Picchu\", \"Peru\")]\n    putStrLn \"Tourist Attractions and Locations:\"\n    mapM_ (\\(attraction, location) -> putStrLn $ attraction ++ \" is located in \" ++ location) (Map.toList attractions)\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Album = String\ntype Albums = Map.Map String Album\n\naddAlbum :: String -> Album -> Albums -> Albums\naddAlbum key album albums = Map.insert key album albums\n\nremoveAlbum :: String -> Albums -> Albums\nremoveAlbum key albums = Map.delete key albums\n\nmain :: IO ()\nmain = do\n    let albums = Map.empty\n    let albums' = addAlbum \"001\" \"Abbey Road\" albums\n    let albums'' = addAlbum \"002\" \"Dark Side of the Moon\" albums'\n    let albums''' = removeAlbum \"001\" albums''\n    print albums'''\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Inventory = Map.Map String Int\n\naddItem :: String -> Int -> Inventory -> Inventory\naddItem item quantity inventory = Map.insertWith (+) item quantity inventory\n\nremoveItem :: String -> Int -> Inventory -> Inventory\nremoveItem item quantity inventory =\n    Map.update (\\q -> if q > quantity then Just (q - quantity) else Nothing) item inventory\n\nlookupItem :: String -> Inventory -> Maybe Int\nlookupItem = Map.lookup\n\nmain :: IO ()\nmain = do\n    let inventory = Map.empty\n        inventory1 = addItem \"apple\" 10 inventory\n        inventory2 = addItem \"banana\" 5 inventory1\n        inventory3 = addItem \"orange\" 8 inventory2\n        inventory4 = removeItem \"banana\" 2 inventory3\n        currentAppleCount = lookupItem \"apple\" inventory4\n\n    putStrLn $ \"Current inventory: \" ++ show inventory4\n    case currentAppleCount of\n        Just count -> putStrLn $ \"Current apple count: \" ++ show count\n        Nothing    -> putStrLn \"Apple not found in inventory\"\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype RiverName = String\ntype Length = Int\n\nriverLengths :: Map.Map RiverName Length\nriverLengths = Map.fromList [(\"Nile\", 6650), (\"Amazon\", 6400), (\"Yangtze\", 6300)]\n\nlookupRiverLength :: RiverName -> Maybe Length\nlookupRiverLength river = Map.lookup river riverLengths\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Room = String\ntype Availability = Bool\ntype RoomAvailabilityMap = Map.Map Room Availability\n\ninitializeRooms :: [Room] -> RoomAvailabilityMap\ninitializeRooms rooms = Map.fromList [(room, True) | room <- rooms]\n\ncheckAvailability :: RoomAvailabilityMap -> Room -> Maybe Availability\ncheckAvailability roomsMap room = Map.lookup room roomsMap\n\nbookRoom :: RoomAvailabilityMap -> Room -> RoomAvailabilityMap\nbookRoom roomsMap room = Map.adjust (const False) room roomsMap\n\nreleaseRoom :: RoomAvailabilityMap -> Room -> RoomAvailabilityMap\nreleaseRoom roomsMap room = Map.adjust (const True) room roomsMap\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Habitat = String\ntype Species = String\n\nanimalHabitats :: Map.Map Species Habitat\nanimalHabitats = Map.fromList [\n    (\"Lion\", \"Savannah\"),\n    (\"Polar Bear\", \"Arctic\"),\n    (\"Kangaroo\", \"Outback\"),\n    (\"Penguin\", \"Antarctica\"),\n    (\"Elephant\", \"Grasslands\"),\n    (\"Dolphin\", \"Ocean\")\n    ]\n\ngetHabitat :: Species -> Maybe Habitat\ngetHabitat species = Map.lookup species animalHabitats\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\n\nmountains :: Map.Map String Int\nmountains = Map.fromList [(\"Everest\", 8848), (\"K2\", 8611), (\"Kangchenjunga\", 8586), (\"Lhotse\", 8516), (\"Makalu\", 8485)]\n\ntallestMountain :: (String, Int)\ntallestMountain = maximumBy (comparing snd) (Map.toList mountains)\n\nmain :: IO ()\nmain = print tallestMountain\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype TimeZone = String\ntype UTCOffset = String\n\ntimeZoneToUTCOffset :: TimeZone -> Maybe UTCOffset\ntimeZoneToUTCOffset tz = Map.lookup tz timeZoneMap\n\ntimeZoneMap :: Map.Map TimeZone UTCOffset\ntimeZoneMap = Map.fromList [\n    (\"PST\", \"-08:00\"),\n    (\"MST\", \"-07:00\"),\n    (\"CST\", \"-06:00\"),\n    (\"EST\", \"-05:00\"),\n    (\"GMT\", \"+00:00\"),\n    (\"CET\", \"+01:00\"),\n    (\"EET\", \"+02:00\"),\n    (\"IST\", \"+05:30\"),\n    (\"JST\", \"+09:00\"),\n    (\"AEST\", \"+10:00\")\n  ]\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```haskell\nmodule Main where\n\nimport qualified Data.Map as Map\n\nprogrammingLanguages :: Map.Map String String\nprogrammingLanguages = Map.fromList\n    [ (\"Python\", \"Guido van Rossum\")\n    , (\"Java\", \"James Gosling\")\n    , (\"C++\", \"Bjarne Stroustrup\")\n    , (\"Ruby\", \"Yukihiro Matsumoto\")\n    , (\"JavaScript\", \"Brendan Eich\")\n    ]\n\nmain :: IO ()\nmain = print programmingLanguages\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Email = String\ntype Subscribers = Map.Map Email Bool\n\nsubscribe :: Email -> Subscribers -> Subscribers\nsubscribe email = Map.insert email True\n\nunsubscribe :: Email -> Subscribers -> Subscribers\nunsubscribe email = Map.delete email\n\nmain :: IO ()\nmain = do\n    let subscribers = Map.empty :: Subscribers\n    let updatedSubscribers = subscribe \"user@example.com\" subscribers\n    let finalSubscribers = unsubscribe \"user@example.com\" updatedSubscribers\n    print finalSubscribers\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype PostId = Int\ntype Likes = Int\ntype SocialMedia = Map.Map PostId Likes\n\naddLike :: PostId -> SocialMedia -> SocialMedia\naddLike postId = Map.insertWith (+) postId 1\n\nmain :: IO ()\nmain = do\n    let socialMedia = Map.empty\n    let socialMedia' = addLike 1 . addLike 1 . addLike 2 $ socialMedia\n    print socialMedia'\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype ElementDictionary = Map.Map String Int\n\ncreateElementDictionary :: ElementDictionary\ncreateElementDictionary = Map.fromList\n    [ (\"Hydrogen\", 1)\n    , (\"Helium\", 2)\n    , (\"Lithium\", 3)\n    , (\"Beryllium\", 4)\n    , (\"Boron\", 5)\n    , (\"Carbon\", 6)\n    , (\"Nitrogen\", 7)\n    , (\"Oxygen\", 8)\n    , (\"Fluorine\", 9)\n    , (\"Neon\", 10)\n    -- Add more elements as needed\n    ]\n\nlookupElement :: String -> ElementDictionary -> Maybe Int\nlookupElement elementName dictionary = Map.lookup elementName dictionary\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport Data.List (foldl')\n\ntype Director = String\ntype Movie = String\n\ngroupMoviesByDirector :: [(Director, Movie)] -> Map.Map Director [Movie]\ngroupMoviesByDirector = foldl' insertMovie Map.empty\n  where\n    insertMovie acc (director, movie) =\n      Map.insertWith (++) director [movie] acc\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nhistoricalFigures :: Map.Map String Int\nhistoricalFigures = Map.fromList\n    [ (\"Albert Einstein\", 1879)\n    , (\"Isaac Newton\", 1643)\n    , (\"Marie Curie\", 1867)\n    , (\"Galileo Galilei\", 1564)\n    , (\"Leonardo da Vinci\", 1452)\n    ]\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nplanetDiameters :: Map.Map String Int\nplanetDiameters = Map.fromList\n    [ (\"Mercury\", 4879)\n    , (\"Venus\", 12104)\n    , (\"Earth\", 12742)\n    , (\"Mars\", 6779)\n    , (\"Jupiter\", 139820)\n    , (\"Saturn\", 116460)\n    , (\"Uranus\", 50724)\n    , (\"Neptune\", 49244)\n    ]\n\nmain :: IO ()\nmain = print planetDiameters\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype RestaurantRatings = Map.Map String Int\n\nupdateRating :: String -> Int -> RestaurantRatings -> RestaurantRatings\nupdateRating name rating = Map.insert name rating\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let ratings = Map.empty\n    let ratings1 = updateRating \"Pizza Place\" 5 ratings\n    let ratings2 = updateRating \"Sushi Spot\" 4 ratings1\n    let ratings3 = updateRating \"Pizza Place\" 3 ratings2\n    print ratings3\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\n\nbinaryToDecimalMap :: Map String Int\nbinaryToDecimalMap = Map.fromList \n    [ (\"0000\", 0), (\"0001\", 1), (\"0010\", 2), (\"0011\", 3)\n    , (\"0100\", 4), (\"0101\", 5), (\"0110\", 6), (\"0111\", 7)\n    , (\"1000\", 8), (\"1001\", 9), (\"1010\", 10), (\"1011\", 11)\n    , (\"1100\", 12), (\"1101\", 13), (\"1110\", 14), (\"1111\", 15)\n    ]\n\ntranslateBinaryToDecimal :: String -> Maybe Int\ntranslateBinaryToDecimal binary = Map.lookup binary binaryToDecimalMap\n\nmain :: IO ()\nmain = do\n    let binaries = [\"0001\", \"0010\", \"0101\", \"1111\", \"1001\"]\n    let decimals = map translateBinaryToDecimal binaries\n    print decimals\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nartistsWorks :: Map.Map String [String]\nartistsWorks = Map.fromList\n    [ (\"Vincent van Gogh\", [\"Starry Night\", \"Sunflowers\"])\n    , (\"Leonardo da Vinci\", [\"Mona Lisa\", \"The Last Supper\"])\n    , (\"Pablo Picasso\", [\"Guernica\", \"The Weeping Woman\"])\n    , (\"Claude Monet\", [\"Water Lilies\", \"Impression, Sunrise\"])\n    ]\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype VehicleID = String\ntype MaintenanceSchedule = String\ntype MaintenanceMap = Map.Map VehicleID MaintenanceSchedule\n\naddVehicle :: VehicleID -> MaintenanceSchedule -> MaintenanceMap -> MaintenanceMap\naddVehicle vehicleId schedule = Map.insert vehicleId schedule\n\nremoveVehicle :: VehicleID -> MaintenanceMap -> MaintenanceMap\nremoveVehicle vehicleId = Map.delete vehicleId\n\nupdateSchedule :: VehicleID -> MaintenanceSchedule -> MaintenanceMap -> MaintenanceMap\nupdateSchedule = Map.insert\n\ngetSchedule :: VehicleID -> MaintenanceMap -> Maybe MaintenanceSchedule\ngetSchedule = Map.lookup\n\nmain :: IO ()\nmain = do\n    let schedule1 = \"2023-10-10\"\n    let schedule2 = \"2023-11-15\"\n    let schedule3 = \"2023-12-20\"\n    \n    let vehicles = Map.empty :: MaintenanceMap\n    let vehicles' = addVehicle \"ABC123\" schedule1 vehicles\n    let vehicles'' = addVehicle \"XYZ789\" schedule2 vehicles'\n    \n    print (getSchedule \"ABC123\" vehicles'')\n    let vehicles''' = updateSchedule \"ABC123\" schedule3 vehicles''\n    print (getSchedule \"ABC123\" vehicles''')\n    let vehicles'''' = removeVehicle \"XYZ789\" vehicles'''\n    print (getSchedule \"XYZ789\" vehicles'''')\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Language = String\ntype Speakers = Int\n\nlanguageSpeakers :: Map.Map Language Speakers\nlanguageSpeakers = Map.fromList\n    [ (\"English\", 1500000000)\n    , (\"Mandarin Chinese\", 1117000000)\n    , (\"Hindi\", 600000000)\n    , (\"Spanish\", 550000000)\n    , (\"French\", 280000000)\n    ]\n\nmain :: IO ()\nmain = do\n    putStrLn \"Languages and their number of speakers worldwide:\"\n    mapM_ (\\(lang, spks) -> putStrLn $ lang ++ \": \" ++ show spks) (Map.toList languageSpeakers)\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ncityTemperatures :: Map.Map String Double\ncityTemperatures = Map.fromList\n    [ (\"New York\", 12.5)\n    , (\"Los Angeles\", 18.0)\n    , (\"Chicago\", 10.5)\n    , (\"Houston\", 20.0)\n    , (\"Phoenix\", 23.0)\n    ]\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```haskell\nmodule UnitConverter where\n\nimport qualified Data.Map as Map\n\nconvertToImperial :: String -> Double -> Maybe Double\nconvertToImperial unit value = do\n    conversionFactor <- Map.lookup unit conversionMap\n    return (value * conversionFactor)\n\nconversionMap :: Map.Map String Double\nconversionMap = Map.fromList [\n    (\"meters\", 3.28084),      -- meters to feet\n    (\"kilometers\", 0.621371), -- kilometers to miles\n    (\"centimeters\", 0.393701),-- centimeters to inches\n    (\"grams\", 0.00220462),    -- grams to pounds\n    (\"kilograms\", 2.20462),   -- kilograms to pounds\n    (\"liters\", 0.264172)      -- liters to gallons\n    ]\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nworldRecords :: Map.Map String String\nworldRecords = Map.fromList\n  [ (\"100m Sprint\", \"9.58s\")\n  , (\"Marathon\", \"2:01:39\")\n  , (\"Long Jump\", \"8.95m\")\n  , (\"High Jump\", \"2.45m\")\n  , (\"Pole Vault\", \"6.18m\")\n  ]\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype MovieMap = Map.Map String String\n\naddMovie :: String -> String -> MovieMap -> MovieMap\naddMovie title description movies = Map.insert title description movies\n\ndeleteMovie :: String -> MovieMap -> MovieMap\ndeleteMovie title movies = Map.delete title movies\n\nmain :: IO ()\nmain = do\n    let movies = Map.empty :: MovieMap\n    let movies1 = addMovie \"Inception\" \"A thief who steals corporate secrets through use of dream-sharing technology\" movies\n    let movies2 = addMovie \"The Matrix\" \"A computer hacker learns about the true nature of reality\" movies1\n    let movies3 = deleteMovie \"Inception\" movies2\n    print movies3\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype City = String\ntype Distance = Int\ntype CityPair = (City, City)\ntype DistanceMap = Map.Map CityPair Distance\n\naddDistance :: City -> City -> Distance -> DistanceMap -> DistanceMap\naddDistance city1 city2 dist = Map.insert (city1, city2) dist\n\ngetDistance :: City -> City -> DistanceMap -> Maybe Distance\ngetDistance city1 city2 = Map.lookup (city1, city2)\n\nmain :: IO ()\nmain = do\n    let distances = addDistance \"New York\" \"Los Angeles\" 2451 $\n                    addDistance \"Chicago\" \"Houston\" 1084 $\n                    Map.empty\n    print $ getDistance \"New York\" \"Los Angeles\" distances\n    print $ getDistance \"Chicago\" \"Houston\" distances\n    print $ getDistance \"New York\" \"Chicago\" distances\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\n\nplanetOrbitalPeriods :: Map String Double\nplanetOrbitalPeriods = Map.fromList\n    [ (\"Mercury\", 88.0)\n    , (\"Venus\", 224.7)\n    , (\"Earth\", 365.2)\n    , (\"Mars\", 687.0)\n    , (\"Jupiter\", 4331.0)\n    , (\"Saturn\", 10747.0)\n    , (\"Uranus\", 30589.0)\n    , (\"Neptune\", 59800.0)\n    ]\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ncolorNameFromCode :: String -> Maybe String\ncolorNameFromCode code = Map.lookup code htmlColorMap\n\nhtmlColorMap :: Map.Map String String\nhtmlColorMap = Map.fromList [\n    (\"#FFFFFF\", \"White\"),\n    (\"#000000\", \"Black\"),\n    (\"#FF0000\", \"Red\"),\n    (\"#00FF00\", \"Lime\"),\n    (\"#0000FF\", \"Blue\"),\n    (\"#FFFF00\", \"Yellow\"),\n    (\"#00FFFF\", \"Cyan\"),\n    (\"#FF00FF\", \"Magenta\")\n    -- Add more color codes and names as needed\n    ]\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ncomposers :: Map.Map String String\ncomposers = Map.fromList\n    [ (\"Ludwig van Beethoven\", \"Symphony No. 9\")\n    , (\"Wolfgang Amadeus Mozart\", \"The Magic Flute\")\n    , (\"Johann Sebastian Bach\", \"Brandenburg Concertos\")\n    , (\"Pyotr Ilyich Tchaikovsky\", \"Swan Lake\")\n    , (\"Fr\u00e9d\u00e9ric Chopin\", \"Nocturnes\")\n    ]\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype BridgeName = String\ntype BridgeLength = Int\n\nbridges :: Map.Map BridgeName BridgeLength\nbridges = Map.fromList [(\"Golden Gate\", 2737), (\"Brooklyn\", 1595), (\"Tower\", 801)]\n\nmain :: IO ()\nmain = do\n    putStrLn \"Bridge Lengths:\"\n    mapM_ print (Map.toList bridges)\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntype Goal = String\ntype Goals = Map.Map String Goal\n\naddGoal :: String -> Goal -> Goals -> Goals\naddGoal name goal goals = Map.insert name goal goals\n\nupdateGoal :: String -> Goal -> Goals -> Goals\nupdateGoal name newGoal goals = Map.adjust (const newGoal) name goals\n\nmain :: IO ()\nmain = do\n    let goals = Map.empty\n    let goals1 = addGoal \"Alice\" \"Learn Haskell\" goals\n    let goals2 = addGoal \"Bob\" \"Run a marathon\" goals1\n    let goals3 = updateGoal \"Alice\" \"Master Haskell\" goals2\n    print goals3\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\nimport Numeric (showIntAtBase)\nimport Data.Char (intToDigit)\n\nhexToBinMap :: Map Char String\nhexToBinMap = Map.fromList \n    [ ('0', \"0000\"), ('1', \"0001\"), ('2', \"0010\"), ('3', \"0011\")\n    , ('4', \"0100\"), ('5', \"0101\"), ('6', \"0110\"), ('7', \"0111\")\n    , ('8', \"1000\"), ('9', \"1001\"), ('A', \"1010\"), ('B', \"1011\")\n    , ('C', \"1100\"), ('D', \"1101\"), ('E', \"1110\"), ('F', \"1111\")\n    ]\n\nhexToBin :: String -> String\nhexToBin hex = concatMap (\\c -> Map.findWithDefault \"\" c hexToBinMap) hex\n\nmain :: IO ()\nmain = do\n    let hexNumber = \"1A3F\"\n    let binaryNumber = hexToBin hexNumber\n    putStrLn $ \"Hexadecimal: \" ++ hexNumber\n    putStrLn $ \"Binary: \" ++ binaryNumber\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\ntreeHeights :: Map.Map String Int\ntreeHeights = Map.fromList [(\"Oak\", 70), (\"Pine\", 80), (\"Birch\", 50), (\"Maple\", 60)]\n```"
+  }
+]

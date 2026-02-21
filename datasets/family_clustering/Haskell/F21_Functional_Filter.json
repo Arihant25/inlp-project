@@ -1,0 +1,378 @@
+[
+  {
+    "task": "Filter out all even numbers from a list of integers.",
+    "code": "```haskell\nfilterOdds :: [Int] -> [Int]\nfilterOdds = filter odd\n```"
+  },
+  {
+    "task": "Select all words from a list that start with the letter 'a'.",
+    "code": "```haskell\nfilter (\\word -> head word == 'a') wordsList\n```"
+  },
+  {
+    "task": "Find all positive numbers in a collection of integers.",
+    "code": "```haskell\nfilterPositiveNumbers :: [Int] -> [Int]\nfilterPositiveNumbers = filter (> 0)\n```"
+  },
+  {
+    "task": "Extract all employees who are older than 30 from an employee directory.",
+    "code": "```haskell\ntype Employee = (String, Int)\n\nfilterOlderThan30 :: [Employee] -> [Employee]\nfilterOlderThan30 = filter (\\(_, age) -> age > 30)\n\n-- Example usage:\n-- let employees = [(\"Alice\", 28), (\"Bob\", 34), (\"Charlie\", 31)]\n-- filterOlderThan30 employees\n```"
+  },
+  {
+    "task": "List all cities with a population greater than one million from a dataset.",
+    "code": "```haskell\ncitiesWithLargePopulation :: [(String, Int)] -> [String]\ncitiesWithLargePopulation dataset = map fst $ filter (\\(_, population) -> population > 1000000) dataset\n```"
+  },
+  {
+    "task": "Filter out products that are out of stock from a product list.",
+    "code": "```haskell\ndata Product = Product { name :: String, inStock :: Bool }\n\nfilterInStock :: [Product] -> [Product]\nfilterInStock = filter inStock\n```"
+  },
+  {
+    "task": "Select all students who have passed with a grade above 70 from a list of student scores.",
+    "code": "```haskell\nfilterPassedStudents :: [(String, Int)] -> [(String, Int)]\nfilterPassedStudents = filter (\\(_, grade) -> grade > 70)\n```"
+  },
+  {
+    "task": "Identify all strings in an array that contain the substring 'cat'.",
+    "code": "```haskell\nfilter (isInfixOf \"cat\") :: [String] -> [String]\n```"
+  },
+  {
+    "task": "Extract all transactions above $1000 from a financial record.",
+    "code": "```haskell\nfilterTransactions :: [Double] -> [Double]\nfilterTransactions = filter (> 1000)\n```"
+  },
+  {
+    "task": "Filter out all non-prime numbers from a list of numbers.",
+    "code": "```haskell\nisPrime :: Int -> Bool\nisPrime n\n  | n < 2 = False\n  | otherwise = null [x | x <- [2..isqrt n], n `mod` x == 0]\n  where isqrt = floor . sqrt . fromIntegral\n\nfilterPrimes :: [Int] -> [Int]\nfilterPrimes = filter isPrime\n```"
+  },
+  {
+    "task": "Select all books with more than 300 pages from a library catalog.",
+    "code": "```haskell\ndata Book = Book { title :: String, pages :: Int }\n\nfilterBooks :: [Book] -> [Book]\nfilterBooks = filter (\\book -> pages book > 300)\n```"
+  },
+  {
+    "task": "Identify all users who have logged in within the past week from a user database.",
+    "code": "```haskell\nimport Data.Time.Clock (getCurrentTime, UTCTime, addUTCTime)\nimport Data.Time.Calendar (diffDays)\nimport Control.Monad (filterM)\n\ndata User = User {\n    userId :: Int,\n    lastLogin :: UTCTime\n}\n\nfilterRecentLogins :: [User] -> IO [User]\nfilterRecentLogins users = do\n    currentTime <- getCurrentTime\n    let oneWeekAgo = addUTCTime (fromIntegral $ -7 * 24 * 60 * 60) currentTime\n    return $ filter (\\user -> lastLogin user > oneWeekAgo) users\n```"
+  },
+  {
+    "task": "Extract all URLs that contain 'https' from a list of web addresses.",
+    "code": "```haskell\nextractHttpsUrls :: [String] -> [String]\nextractHttpsUrls = filter (\"https\" `isPrefixOf`)\n```"
+  },
+  {
+    "task": "Find all movies released after the year 2000 from a movie database.",
+    "code": "```haskell\ndata Movie = Movie { title :: String, year :: Int }\n\nfilterMovies :: [Movie] -> [Movie]\nfilterMovies movies = filter (\\movie -> year movie > 2000) movies\n```"
+  },
+  {
+    "task": "Select all tasks with a priority level of 'high' from a task management system.",
+    "code": "```haskell\ndata Task = Task { name :: String, priority :: String }\n\nfilterHighPriorityTasks :: [Task] -> [Task]\nfilterHighPriorityTasks tasks = filter (\\task -> priority task == \"high\") tasks\n```"
+  },
+  {
+    "task": "Filter out all words longer than five characters from a text document.",
+    "code": "```haskell\nimport Data.Char (isSpace)\n\n-- Function to split a string into words\nwords' :: String -> [String]\nwords' s = case dropWhile isSpace s of\n             \"\" -> []\n             s' -> w : words' s''\n                   where (w, s'') = break isSpace s'\n\n-- Functional filter to remove words longer than five characters\nfilterWords :: String -> [String]\nfilterWords = filter (\\word -> length word <= 5) . words'\n\n-- Example usage: read from a file and filter words\nfilterFileWords :: FilePath -> IO [String]\nfilterFileWords filePath = do\n  content <- readFile filePath\n  return (filterWords content)\n```"
+  },
+  {
+    "task": "Extract all odd numbers from a sequence of integers.",
+    "code": "```haskell\nextractOdds :: [Int] -> [Int]\nextractOdds = filter odd\n```"
+  },
+  {
+    "task": "Select all files larger than 10MB from a list of files.",
+    "code": "```haskell\nimport System.Directory (getFileSize)\n\n-- Define a function to filter files larger than 10MB\nfilterLargeFiles :: [FilePath] -> IO [FilePath]\nfilterLargeFiles files = filterM isLargeFile files\n  where\n    isLargeFile file = do\n      size <- getFileSize file\n      return (size > 10 * 1024 * 1024)\n```"
+  },
+  {
+    "task": "Identify all events occurring on weekends from an event schedule.",
+    "code": "```haskell\nimport Data.Time.Calendar (Day, dayOfWeek)\nimport Data.Time.Calendar.WeekDate (toWeekDate)\n\nisWeekend :: Day -> Bool\nisWeekend day = let (_, _, wday) = toWeekDate day in wday == 6 || wday == 7\n\nfilterWeekendEvents :: [(String, Day)] -> [(String, Day)]\nfilterWeekendEvents = filter (isWeekend . snd)\n```"
+  },
+  {
+    "task": "Find all emails from a specific domain in an email list.",
+    "code": "```haskell\nfilterEmailsFromDomain :: String -> [String] -> [String]\nfilterEmailsFromDomain domain emails = filter (\\email -> domain `isSuffixOf` email) emails\n```"
+  },
+  {
+    "task": "Filter out all people not living in a specific city from a contact list.",
+    "code": "```haskell\ndata Person = Person { name :: String, city :: String }\n\nfilterByCity :: String -> [Person] -> [Person]\nfilterByCity targetCity = filter (\\person -> city person == targetCity)\n```"
+  },
+  {
+    "task": "Select all rectangles with an area greater than 50 from a list of rectangles.",
+    "code": "```haskell\ntype Rectangle = (Double, Double)\n\narea :: Rectangle -> Double\narea (width, height) = width * height\n\nfilterLargeRectangles :: [Rectangle] -> [Rectangle]\nfilterLargeRectangles = filter (\\rect -> area rect > 50)\n\n-- Example usage:\n-- let rectangles = [(5, 10), (4, 5), (7, 8)]\n-- filterLargeRectangles rectangles\n```"
+  },
+  {
+    "task": "Extract all elements that are not null from a collection.",
+    "code": "```haskell\nfilterNotNull :: [Maybe a] -> [a]\nfilterNotNull = map (\\(Just x) -> x) . filter (/= Nothing)\n```"
+  },
+  {
+    "task": "Identify all registered voters over the age of 18 from a voter registration list.",
+    "code": "```haskell\ndata Voter = Voter { name :: String, age :: Int, registered :: Bool }\n\nregisteredVotersOver18 :: [Voter] -> [Voter]\nregisteredVotersOver18 = filter (\\voter -> registered voter && age voter > 18)\n```"
+  },
+  {
+    "task": "Select all cars manufactured after 2015 from a vehicle registry.",
+    "code": "```haskell\ndata Car = Car { make :: String, model :: String, year :: Int }\n\nfilterCars :: [Car] -> [Car]\nfilterCars = filter (\\car -> year car > 2015)\n```"
+  },
+  {
+    "task": "Filter out all negative numbers from a dataset of integers.",
+    "code": "```haskell\nfilterNonNegative :: [Int] -> [Int]\nfilterNonNegative = filter (>= 0)\n```"
+  },
+  {
+    "task": "Extract all characters from a string that are uppercase.",
+    "code": "```haskell\nimport Data.Char (isUpper)\n\nextractUppercase :: String -> String\nextractUppercase = filter isUpper\n```"
+  },
+  {
+    "task": "Identify all projects with a deadline within the next month from a project database.",
+    "code": "```haskell\nimport Data.Time\nimport Data.List\n\ndata Project = Project { projectName :: String, deadline :: Day }\n\nfilterProjectsByDeadline :: [Project] -> IO [Project]\nfilterProjectsByDeadline projects = do\n    today <- utctDay <$> getCurrentTime\n    let nextMonth = addGregorianMonthsClip 1 today\n    return $ filter (\\p -> deadline p <= nextMonth && deadline p >= today) projects\n```"
+  },
+  {
+    "task": "Select all athletes with a score higher than 90 from a competition result list.",
+    "code": "```haskell\nfilterAthletes :: [(String, Int)] -> [(String, Int)]\nfilterAthletes results = filter (\\(_, score) -> score > 90) results\n```"
+  },
+  {
+    "task": "Filter out all strings that do not contain vowels from a list of words.",
+    "code": "```haskell\nimport Data.Char (toLower)\n\nhasVowel :: String -> Bool\nhasVowel = any (`elem` \"aeiou\") . map toLower\n\nfilterWordsWithVowels :: [String] -> [String]\nfilterWordsWithVowels = filter hasVowel\n```"
+  },
+  {
+    "task": "Extract all dates that fall on a weekday from a calendar.",
+    "code": "```haskell\nimport Data.Time.Calendar\nimport Data.Time.Calendar.OrdinalDate\n\nisWeekday :: Day -> Bool\nisWeekday day = let (_, _, weekday) = toWeekDate day in weekday `elem` [1..5]\n\nfilterWeekdays :: [Day] -> [Day]\nfilterWeekdays = filter isWeekday\n```"
+  },
+  {
+    "task": "Find all software versions that are stable releases from a list of software versions.",
+    "code": "```haskell\nfilterStableReleases :: [String] -> [String]\nfilterStableReleases = filter (not . any (`elem` \"abc\"))\n\n-- Example usage:\n-- filterStableReleases [\"1.0.0\", \"1.0.0a\", \"1.0.1b\", \"1.0.2\", \"2.0.0rc\", \"2.0.0\"] \n-- Result: [\"1.0.0\", \"1.0.2\", \"2.0.0\"]\n```"
+  },
+  {
+    "task": "Select all temperatures above freezing from a weather report.",
+    "code": "```haskell\nfilterAboveFreezing :: [Int] -> [Int]\nfilterAboveFreezing = filter (> 32)\n\n-- Example usage:\n-- filterAboveFreezing [30, 45, 28, 33, 40] will yield [45, 33, 40]\n```"
+  },
+  {
+    "task": "Identify all countries with a GDP per capita above $40,000 from a country dataset.",
+    "code": "```haskell\ntype Country = (String, Double)\n\ncountries :: [Country]\ncountries = [(\"United States\", 65000), (\"Germany\", 46000), (\"India\", 2100), (\"Japan\", 42000), (\"Brazil\", 9000)]\n\ncountriesAboveThreshold :: [Country] -> Double -> [Country]\ncountriesAboveThreshold cs threshold = filter (\\(_, gdp) -> gdp > threshold) cs\n\nresult :: [Country]\nresult = countriesAboveThreshold countries 40000\n```"
+  },
+  {
+    "task": "Filter out all names shorter than four letters from a roster.",
+    "code": "```haskell\nfilterNames :: [String] -> [String]\nfilterNames = filter (\\name -> length name >= 4)\n```"
+  },
+  {
+    "task": "Extract all numbers divisible by five from a sequence.",
+    "code": "```haskell\nextractDivisibleByFive :: [Int] -> [Int]\nextractDivisibleByFive = filter (\\x -> x `mod` 5 == 0)\n```"
+  },
+  {
+    "task": "Select all movies with a rating above 4 stars from a film review site.",
+    "code": "```haskell\ndata Movie = Movie { title :: String, rating :: Double }\n\nfilterHighRatedMovies :: [Movie] -> [Movie]\nfilterHighRatedMovies movies = filter (\\movie -> rating movie > 4.0) movies\n```"
+  },
+  {
+    "task": "Find all jobs with a salary above $50,000 from a job listing.",
+    "code": "```haskell\ndata Job = Job { title :: String, salary :: Int }\n\nfilterHighSalaryJobs :: [Job] -> [Job]\nfilterHighSalaryJobs jobs = filter (\\job -> salary job > 50000) jobs\n```"
+  },
+  {
+    "task": "Filter out all entries without an email address from a contact form submission list.",
+    "code": "```haskell\ntype ContactForm = (String, Maybe String)\n\nfilterContacts :: [ContactForm] -> [ContactForm]\nfilterContacts = filter hasEmail\n  where\n    hasEmail (_, email) = case email of\n      Just _  -> True\n      Nothing -> False\n```"
+  },
+  {
+    "task": "Identify all animals weighing more than 50kg from a zoo inventory.",
+    "code": "```haskell\ndata Animal = Animal { name :: String, weight :: Float }\n\nfilterHeavyAnimals :: [Animal] -> [Animal]\nfilterHeavyAnimals = filter (\\animal -> weight animal > 50.0)\n\n-- Example usage with a sample inventory\nzooInventory :: [Animal]\nzooInventory = [Animal \"Elephant\" 5000, Animal \"Tiger\" 300, Animal \"Monkey\" 30, Animal \"Giraffe\" 800]\n\nheavyAnimals :: [Animal]\nheavyAnimals = filterHeavyAnimals zooInventory\n```"
+  },
+  {
+    "task": "Select all songs with a duration longer than three minutes from a playlist.",
+    "code": "```haskell\ndata Song = Song { title :: String, duration :: Int }\n\nfilterLongSongs :: [Song] -> [Song]\nfilterLongSongs = filter (\\song -> duration song > 180)\n```"
+  },
+  {
+    "task": "Extract all accounts with a balance below zero from a bank statement.",
+    "code": "```haskell\ntype Account = (String, Double)\n\nfilterNegativeBalances :: [Account] -> [Account]\nfilterNegativeBalances = filter (\\(_, balance) -> balance < 0)\n\n-- Example usage:\n-- let accounts = [(\"A1\", 100.0), (\"A2\", -50.0), (\"A3\", 200.0), (\"A4\", -10.0)]\n-- filterNegativeBalances accounts\n```"
+  },
+  {
+    "task": "Filter out all non-alphabetic characters from a string of text.",
+    "code": "```haskell\nimport Data.Char (isAlpha)\n\nfilterAlphabetic :: String -> String\nfilterAlphabetic = filter isAlpha\n```"
+  },
+  {
+    "task": "Select all participants who scored above average in a competition.",
+    "code": "```haskell\naboveAverageParticipants :: [(String, Double)] -> [(String, Double)]\naboveAverageParticipants participants = filter (\\(_, score) -> score > avgScore) participants\n  where\n    scores = map snd participants\n    avgScore = sum scores / fromIntegral (length scores)\n```"
+  },
+  {
+    "task": "Find all houses priced under $300,000 from a real estate database.",
+    "code": "```haskell\ndata House = House { price :: Int, address :: String }\n\nhouses :: [House]\nhouses = \n  [ House 250000 \"123 Elm St\"\n  , House 320000 \"456 Oak St\"\n  , House 275000 \"789 Maple Ave\"\n  , House 150000 \"101 Pine Rd\"\n  ]\n\nfilterAffordableHouses :: [House] -> [House]\nfilterAffordableHouses = filter (\\house -> price house < 300000)\n\naffordableHouses :: [House]\naffordableHouses = filterAffordableHouses houses\n```"
+  },
+  {
+    "task": "Identify all plants that bloom in spring from a botanical catalog.",
+    "code": "```haskell\ndata Plant = Plant { name :: String, bloomSeason :: String }\n\nbloomInSpring :: [Plant] -> [Plant]\nbloomInSpring = filter (\\plant -> bloomSeason plant == \"spring\")\n\n-- Example usage\nbotanicalCatalog :: [Plant]\nbotanicalCatalog = [ Plant \"Rose\" \"spring\", Plant \"Tulip\" \"spring\", Plant \"Lavender\" \"summer\" ]\n\nspringPlants :: [Plant]\nspringPlants = bloomInSpring botanicalCatalog\n```"
+  },
+  {
+    "task": "Extract all passwords that are longer than eight characters from a user database.",
+    "code": "```haskell\nextractLongPasswords :: [String] -> [String]\nextractLongPasswords = filter (\\pwd -> length pwd > 8)\n```"
+  },
+  {
+    "task": "Filter out all projects that are not yet started from a project management tool.",
+    "code": "```haskell\ndata Project = Project { name :: String, status :: String } deriving (Show)\n\nfilterNotStartedProjects :: [Project] -> [Project]\nfilterNotStartedProjects = filter (\\project -> status project /= \"Not Started\")\n```"
+  },
+  {
+    "task": "Select all days with temperatures exceeding 25\u00b0C from a climate report.",
+    "code": "```haskell\nfilterHotDays :: [(String, Double)] -> [(String, Double)]\nfilterHotDays = filter (\\(_, temp) -> temp > 25.0)\n```"
+  },
+  {
+    "task": "Find all recipes that are vegetarian from a cookbook.",
+    "code": "```haskell\ntype Recipe = (String, Bool)  -- (Recipe Name, Is Vegetarian)\n\nfindVegetarianRecipes :: [Recipe] -> [Recipe]\nfindVegetarianRecipes = filter (\\(_, isVegetarian) -> isVegetarian)\n\n-- Example usage:\n-- let cookbook = [(\"Pasta\", True), (\"Chicken Curry\", False), (\"Salad\", True)]\n-- findVegetarianRecipes cookbook\n```"
+  },
+  {
+    "task": "Identify all articles that mention a specific keyword from a news feed.",
+    "code": "```haskell\nfilterArticlesByKeyword :: String -> [String] -> [String]\nfilterArticlesByKeyword keyword articles =\n    filter (\\article -> keyword `elem` words article) articles\n```"
+  },
+  {
+    "task": "Extract all files with the '.jpg' extension from a directory.",
+    "code": "```haskell\nimport System.Directory (listDirectory)\nimport System.FilePath (takeExtension)\n\ngetJpgFiles :: FilePath -> IO [FilePath]\ngetJpgFiles dir = do\n    contents <- listDirectory dir\n    return $ filter (\\file -> takeExtension file == \".jpg\") contents\n```"
+  },
+  {
+    "task": "Filter out all transactions that are not categorized from a financial statement.",
+    "code": "```haskell\n-- Define a data structure for a transaction\ndata Transaction = Transaction { amount :: Double, category :: Maybe String }\n\n-- Define a function to filter uncategorized transactions\nfilterCategorizedTransactions :: [Transaction] -> [Transaction]\nfilterCategorizedTransactions = filter (isJust . category)\n\n-- Helper import for Maybe type\nimport Data.Maybe (isJust)\n```"
+  },
+  {
+    "task": "Select all paintings created before 1900 from an art gallery collection.",
+    "code": "```haskell\ndata Painting = Painting { title :: String, artist :: String, year :: Int }\n\nfilterOldPaintings :: [Painting] -> [Painting]\nfilterOldPaintings = filter (\\painting -> year painting < 1900)\n```"
+  },
+  {
+    "task": "Find all students with perfect attendance from a school record.",
+    "code": "```haskell\ndata Student = Student { name :: String, attendance :: Int, totalClasses :: Int }\n\nperfectAttendance :: [Student] -> [Student]\nperfectAttendance = filter (\\student -> attendance student == totalClasses student)\n```"
+  },
+  {
+    "task": "Identify all messages sent by a specific user from a chat application.",
+    "code": "```haskell\ntype Message = (String, String) -- (username, messageContent)\n\nfilterMessagesByUser :: String -> [Message] -> [Message]\nfilterMessagesByUser username = filter (\\(user, _) -> user == username)\n```"
+  },
+  {
+    "task": "Extract all elements greater than 100 from an array of numbers.",
+    "code": "```haskell\nfilterGreaterThan100 :: [Int] -> [Int]\nfilterGreaterThan100 = filter (> 100)\n```"
+  },
+  {
+    "task": "Filter out all words that do not end in 'ed' from a paragraph.",
+    "code": "```haskell\nfilterWordsEndingInEd :: String -> [String]\nfilterWordsEndingInEd paragraph = filter endsWithEd (words paragraph)\n  where\n    endsWithEd word = \"ed\" `isSuffixOf` word\n```"
+  },
+  {
+    "task": "Select all flights departing before noon from a flight schedule.",
+    "code": "```haskell\nimport Data.Time.LocalTime\n\ndata Flight = Flight { departureTime :: TimeOfDay }\n\nflightsBeforeNoon :: [Flight] -> [Flight]\nflightsBeforeNoon = filter (\\flight -> departureTime flight < TimeOfDay 12 0 0)\n```"
+  },
+  {
+    "task": "Find all products priced above $20 from an online store inventory.",
+    "code": "```haskell\ndata Product = Product { name :: String, price :: Double }\n\nstoreInventory :: [Product]\nstoreInventory = \n    [ Product \"Book\" 15.0\n    , Product \"Game\" 30.0\n    , Product \"Laptop\" 1000.0\n    , Product \"Pen\" 2.5\n    ]\n\nproductsAbove20 :: [Product]\nproductsAbove20 = filter (\\product -> price product > 20.0) storeInventory\n```"
+  },
+  {
+    "task": "Identify all sessions longer than one hour from a webinar series.",
+    "code": "```haskell\n-- Assuming a list of sessions represented as (String, Int) where Int is the duration in minutes\nfilterLongSessions :: [(String, Int)] -> [(String, Int)]\nfilterLongSessions = filter (\\(_, duration) -> duration > 60)\n\n-- Example usage:\n-- let sessions = [(\"Session 1\", 45), (\"Session 2\", 75), (\"Session 3\", 90)]\n-- filterLongSessions sessions\n```"
+  },
+  {
+    "task": "Extract all images with a resolution higher than 1080p from a photo library.",
+    "code": "```haskell\ntype Resolution = (Int, Int)\ntype Image = (String, Resolution)\n\nfilterHighResImages :: [Image] -> [Image]\nfilterHighResImages = filter (\\(_, (width, height)) -> width > 1920 && height > 1080)\n\n-- Example usage\n-- let photoLibrary = [(\"img1.jpg\", (2000, 1200)), (\"img2.jpg\", (1920, 1080)), (\"img3.png\", (2560, 1440))]\n-- print (filterHighResImages photoLibrary)\n```"
+  },
+  {
+    "task": "Filter out all responses that are not 'yes' or 'no' from a survey result.",
+    "code": "```haskell\nfilterResponses :: [String] -> [String]\nfilterResponses = filter (\\response -> response == \"yes\" || response == \"no\")\n```"
+  },
+  {
+    "task": "Select all tweets with more than 100 likes from a Twitter feed.",
+    "code": "```haskell\nfilterTweets :: [(String, Int)] -> [(String, Int)]\nfilterTweets = filter (\\(_, likes) -> likes > 100)\n```"
+  },
+  {
+    "task": "Find all links that are broken from a webpage.",
+    "code": "```haskell\nimport Network.HTTP (simpleHTTP, getRequest, getResponseCode)\nimport Text.HTML.TagSoup\nimport Control.Monad (filterM)\n\n-- Function to check if a link is broken\nisLinkBroken :: String -> IO Bool\nisLinkBroken url = do\n    response <- simpleHTTP (getRequest url)\n    responseCode <- getResponseCode response\n    return $ responseCode /= (2,0,0)\n\n-- Function to extract all links from a webpage\nextractLinks :: String -> [String]\nextractLinks htmlContent =\n    [ link | TagOpen \"a\" attrs <- parseTags htmlContent, (\"href\", link) <- attrs ]\n\n-- Main function to find all broken links from a webpage\nfindBrokenLinks :: String -> IO [String]\nfindBrokenLinks url = do\n    response <- simpleHTTP (getRequest url)\n    htmlContent <- getResponseBody response\n    let links = extractLinks htmlContent\n    filterM isLinkBroken links\n```"
+  },
+  {
+    "task": "Identify all machines that are currently offline from a network monitoring tool.",
+    "code": "```haskell\ndata Machine = Machine { name :: String, status :: String }\n\nofflineMachines :: [Machine] -> [Machine]\nofflineMachines = filter (\\machine -> status machine == \"offline\")\n\n-- Example usage\nmachines :: [Machine]\nmachines = [ Machine \"Server1\" \"online\"\n           , Machine \"Server2\" \"offline\"\n           , Machine \"Server3\" \"offline\"\n           , Machine \"Server4\" \"online\"\n           ]\n\ncurrentlyOffline :: [Machine]\ncurrentlyOffline = offlineMachines machines\n```"
+  },
+  {
+    "task": "Extract all invoices with a due date in the current month from an accounting system.",
+    "code": "```haskell\nimport Data.Time\nimport Data.Time.Calendar\n\ndata Invoice = Invoice { dueDate :: Day, amount :: Double }\n\nfilterInvoicesCurrentMonth :: [Invoice] -> IO [Invoice]\nfilterInvoicesCurrentMonth invoices = do\n  currentDay <- getCurrentTime >>= return . utctDay\n  let (currentYear, currentMonth, _) = toGregorian currentDay\n  return $ filter (\\inv -> let (year, month, _) = toGregorian (dueDate inv)\n                           in year == currentYear && month == currentMonth) invoices\n```"
+  },
+  {
+    "task": "Filter out all lines in a file that start with a '#' from a configuration file.",
+    "code": "```haskell\nimport System.IO\n\nfilterComments :: FilePath -> FilePath -> IO ()\nfilterComments inputFile outputFile = do\n    contents <- readFile inputFile\n    let filteredLines = filter (not . startsWithHash) (lines contents)\n    writeFile outputFile (unlines filteredLines)\n  where\n    startsWithHash line = case line of\n        ('#':_) -> True\n        _       -> False\n```"
+  },
+  {
+    "task": "Select all posts with a comment count higher than 50 from a blog.",
+    "code": "```haskell\ndata Post = Post { title :: String, commentCount :: Int }\n\nfilterPosts :: [Post] -> [Post]\nfilterPosts posts = filter (\\post -> commentCount post > 50) posts\n```"
+  },
+  {
+    "task": "Find all offers that expire within the next week from a promotional database.",
+    "code": "```haskell\nimport Data.Time\nimport Data.Time.Calendar\n\ndata Offer = Offer { offerId :: Int, expiryDate :: Day } deriving (Show)\n\n-- Example database\noffers :: [Offer]\noffers = [ Offer 1 (fromGregorian 2023 10 5)\n         , Offer 2 (fromGregorian 2023 10 12)\n         , Offer 3 (fromGregorian 2023 10 15)\n         ]\n\n-- Function to filter offers expiring within the next week\noffersExpiringNextWeek :: Day -> [Offer] -> [Offer]\noffersExpiringNextWeek today = filter (\\offer -> expiryDate offer <= addDays 7 today)\n\n-- Example usage\nmain :: IO ()\nmain = do\n    today <- utctDay <$> getCurrentTime\n    let expiringOffers = offersExpiringNextWeek today offers\n    mapM_ print expiringOffers\n```"
+  },
+  {
+    "task": "Identify all items that are on sale from a shopping catalog.",
+    "code": "```haskell\ndata Item = Item { name :: String, price :: Double, onSale :: Bool }\n\nitemsOnSale :: [Item] -> [Item]\nitemsOnSale catalog = filter onSale catalog\n```"
+  },
+  {
+    "task": "Extract all notes that mention 'urgent' from a meeting record.",
+    "code": "```haskell\nextractUrgentNotes :: [String] -> [String]\nextractUrgentNotes = filter (\\note -> \"urgent\" `elem` words note)\n```"
+  },
+  {
+    "task": "Filter out all numbers that do not have a remainder when divided by two from a list.",
+    "code": "```haskell\nfilterOdds :: [Int] -> [Int]\nfilterOdds = filter (\\x -> x `mod` 2 /= 0)\n```"
+  },
+  {
+    "task": "Select all concerts happening in the summer from an event calendar.",
+    "code": "```haskell\ndata Event = Event { name :: String, date :: (Int, Int) } deriving (Show)\n\nisSummer :: (Int, Int) -> Bool\nisSummer (month, _) = month >= 6 && month <= 8\n\nfilterSummerConcerts :: [Event] -> [Event]\nfilterSummerConcerts = filter (\\event -> isSummer (date event))\n```"
+  },
+  {
+    "task": "Find all users with more than 1000 followers from a social media platform.",
+    "code": "```haskell\ndata User = User { name :: String, followers :: Int }\n\nfindPopularUsers :: [User] -> [User]\nfindPopularUsers = filter (\\user -> followers user > 1000)\n```"
+  },
+  {
+    "task": "Identify all stocks with a growth rate above 10% from a financial portfolio.",
+    "code": "```haskell\ntype Stock = (String, Double) -- (StockName, GrowthRate)\ntype Portfolio = [Stock]\n\nfilterGrowthStocks :: Portfolio -> Portfolio\nfilterGrowthStocks = filter (\\(_, growthRate) -> growthRate > 10.0)\n```"
+  },
+  {
+    "task": "Extract all reviews that have a five-star rating from a product review site.",
+    "code": "```haskell\n-- Assuming a data structure for reviews\ndata Review = Review { rating :: Int, content :: String }\n\n-- Function to filter five-star reviews\nfilterFiveStarReviews :: [Review] -> [Review]\nfilterFiveStarReviews = filter (\\review -> rating review == 5)\n```"
+  },
+  {
+    "task": "Filter out all emails that are not flagged from an inbox.",
+    "code": "```haskell\ndata Email = Email { flagged :: Bool, content :: String }\n\nfilterFlaggedEmails :: [Email] -> [Email]\nfilterFlaggedEmails = filter flagged\n```"
+  },
+  {
+    "task": "Select all entries with a timestamp from the past 24 hours from a log file.",
+    "code": "```haskell\nimport Data.Time\nimport Data.Time.Clock.POSIX\n\ntype LogEntry = (UTCTime, String)\n\nfilterRecentEntries :: [LogEntry] -> IO [LogEntry]\nfilterRecentEntries logEntries = do\n    currentTime <- getCurrentTime\n    let oneDayAgo = addUTCTime (negate $ 24 * 3600) currentTime\n    return $ filter (\\(timestamp, _) -> timestamp > oneDayAgo) logEntries\n```"
+  },
+  {
+    "task": "Find all books by a specific author from a library database.",
+    "code": "```haskell\ndata Book = Book { title :: String, author :: String } deriving (Show)\n\nfilterBooksByAuthor :: String -> [Book] -> [Book]\nfilterBooksByAuthor targetAuthor = filter (\\book -> author book == targetAuthor)\n\n-- Example usage:\n-- let library = [Book \"Title1\" \"Author1\", Book \"Title2\" \"Author2\", Book \"Title3\" \"Author1\"]\n-- filterBooksByAuthor \"Author1\" library\n```"
+  },
+  {
+    "task": "Identify all donations above $500 from a charity fundraiser report.",
+    "code": "```haskell\nfilterDonations :: [Double] -> [Double]\nfilterDonations donations = filter (> 500) donations\n```"
+  },
+  {
+    "task": "Extract all assignments due in the next week from a course syllabus.",
+    "code": "```haskell\nimport Data.Time\nimport Data.Time.Calendar.OrdinalDate\n\ndata Assignment = Assignment\n  { title :: String\n  , dueDate :: Day\n  } deriving Show\n\nfilterAssignments :: Day -> [Assignment] -> [Assignment]\nfilterAssignments today = filter (isDueNextWeek today)\n\nisDueNextWeek :: Day -> Assignment -> Bool\nisDueNextWeek today assignment =\n  let (currentYear, currentDayOfYear) = toOrdinalDate today\n      (dueYear, dueDayOfYear) = toOrdinalDate (dueDate assignment)\n  in dueYear == currentYear && dueDayOfYear > currentDayOfYear && dueDayOfYear <= currentDayOfYear + 7\n```"
+  },
+  {
+    "task": "Filter out all movies that are not in English from a streaming service.",
+    "code": "```haskell\ndata Movie = Movie { title :: String, language :: String }\n\nfilterEnglishMovies :: [Movie] -> [Movie]\nfilterEnglishMovies = filter (\\movie -> language movie == \"English\")\n```"
+  },
+  {
+    "task": "Select all landmarks located in Europe from a travel guide.",
+    "code": "```haskell\ndata Landmark = Landmark { name :: String, location :: String } deriving Show\n\nlandmarks :: [Landmark]\nlandmarks = \n    [ Landmark \"Eiffel Tower\" \"Europe\"\n    , Landmark \"Statue of Liberty\" \"North America\"\n    , Landmark \"Colosseum\" \"Europe\"\n    , Landmark \"Great Wall of China\" \"Asia\"\n    ]\n\neuropeanLandmarks :: [Landmark]\neuropeanLandmarks = filter (\\l -> location l == \"Europe\") landmarks\n```"
+  },
+  {
+    "task": "Find all contracts that are set to renew next month from a contract management system.",
+    "code": "```haskell\nimport Data.Time\nimport Data.Maybe\n\n-- Assuming a data structure for Contract\ndata Contract = Contract {\n    contractId :: Int,\n    renewDate  :: Day\n} deriving (Show)\n\n-- Function to find contracts renewing next month\nfindRenewingContracts :: [Contract] -> Day -> [Contract]\nfindRenewingContracts contracts today = filter isRenewingNextMonth contracts\n  where\n    isRenewingNextMonth contract =\n      let (y, m, _) = toGregorian today\n          nextMonth = addGregorianMonthsClip 1 today\n          (nextY, nextM, _) = toGregorian nextMonth\n      in (y, m) /= (nextY, nextM) && (nextY, nextM) == toGregorian (renewDate contract)\n\n-- Example usage\nmain :: IO ()\nmain = do\n    today <- getCurrentTime >>= pure . utctDay\n    let contracts = [Contract 1 (fromGregorian 2023 11 15), Contract 2 (fromGregorian 2023 12 15)]\n    print $ findRenewingContracts contracts today\n```"
+  },
+  {
+    "task": "Identify all volunteer hours logged in the past year from a non-profit organization database.",
+    "code": "```haskell\nimport Data.Time\nimport Data.List\n\ntype VolunteerLog = (String, UTCTime, Double)  -- (Volunteer Name, Date, Hours)\n\nfilterLogsPastYear :: [VolunteerLog] -> IO [VolunteerLog]\nfilterLogsPastYear logs = do\n    currentTime <- getCurrentTime\n    let pastYearTime = addUTCTime (negate $ fromInteger 31556952) currentTime -- 365.25 * 24 * 3600 seconds for a year\n    return $ filter (\\(_, date, _) -> date >= pastYearTime) logs\n```"
+  },
+  {
+    "task": "Extract all elements that are not strings from a mixed-type list.",
+    "code": "```haskell\nfilterNonStrings :: [Any] -> [Any]\nfilterNonStrings = filter (not . isString)\n  where\n    isString :: Any -> Bool\n    isString x = case cast x :: Maybe String of\n      Just _  -> True\n      Nothing -> False\n```"
+  },
+  {
+    "task": "Filter out all orders that are not yet shipped from an e-commerce system.",
+    "code": "```haskell\ndata Order = Order { orderId :: Int, isShipped :: Bool }\n\nfilterShippedOrders :: [Order] -> [Order]\nfilterShippedOrders = filter isShipped\n```"
+  },
+  {
+    "task": "Select all emails sent from a specific address in an email server.",
+    "code": "```haskell\nfilterEmailsFrom :: String -> [Email] -> [Email]\nfilterEmailsFrom senderAddress = filter (\\email -> sender email == senderAddress)\n\ndata Email = Email { sender :: String, subject :: String, body :: String }\n```"
+  },
+  {
+    "task": "Find all passwords with at least one special character from a security database.",
+    "code": "```haskell\nimport Data.Char (isPunctuation)\n\nfilterPasswords :: [String] -> [String]\nfilterPasswords = filter (any isPunctuation)\n\n-- Example usage:\n-- let passwords = [\"pass123\", \"secure!\", \"hello\", \"world#\", \"simple\"]\n-- filterPasswords passwords\n```"
+  },
+  {
+    "task": "Identify all courses with a prerequisite from a university catalog.",
+    "code": "```haskell\ntype Course = (String, Maybe String)\n\nfilterCoursesWithPrerequisite :: [Course] -> [Course]\nfilterCoursesWithPrerequisite = filter (\\(_, prereq) -> prereq /= Nothing)\n\n-- Example usage:\n-- let courses = [(\"Math 101\", Nothing), (\"CS 201\", Just \"CS 101\"), (\"History 300\", Just \"History 101\")]\n-- filterCoursesWithPrerequisite courses\n```"
+  },
+  {
+    "task": "Extract all genes associated with a specific trait from a genetic database.",
+    "code": "```haskell\ntype Gene = (String, [String]) -- (GeneName, Traits)\n\nextractGenesByTrait :: String -> [Gene] -> [Gene]\nextractGenesByTrait trait = filter (\\(_, traits) -> trait `elem` traits)\n\n-- Example usage:\n-- let genes = [(\"GeneA\", [\"Trait1\", \"Trait2\"]), (\"GeneB\", [\"Trait3\"]), (\"GeneC\", [\"Trait1\"])]\n-- extractGenesByTrait \"Trait1\" genes\n```"
+  },
+  {
+    "task": "Filter out all investments with a risk level below medium from a portfolio.",
+    "code": "```haskell\ndata RiskLevel = Low | Medium | High deriving (Eq, Ord)\ndata Investment = Investment { name :: String, risk :: RiskLevel }\n\nfilterInvestments :: [Investment] -> [Investment]\nfilterInvestments = filter (\\investment -> risk investment >= Medium)\n\n-- Example usage:\n-- let portfolio = [Investment \"StockA\" Low, Investment \"BondB\" Medium, Investment \"RealEstateC\" High]\n-- let filteredPortfolio = filterInvestments portfolio\n```"
+  },
+  {
+    "task": "Select all calls longer than five minutes from a call log.",
+    "code": "```haskell\n-- Assuming CallLog is a list of tuples where each tuple represents a call with duration in minutes\ntype CallLog = [(String, Int)]\n\nfilterLongCalls :: CallLog -> CallLog\nfilterLongCalls = filter (\\(_, duration) -> duration > 5)\n```"
+  }
+]

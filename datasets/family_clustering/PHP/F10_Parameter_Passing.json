@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```php\nfunction modifyFirstElement(&$array) {\n    if (!empty($array)) {\n        $array[0] = 'modified';\n    }\n}\n\n$originalArray = ['original', 'second', 'third'];\nmodifyFirstElement($originalArray);\necho implode(', ', $originalArray);\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```php\n<?php\n\nfunction swap(&$a, &$b) {\n    $temp = $a;\n    $a = $b;\n    $b = $temp;\n}\n\n$x = 5;\n$y = 10;\n\necho \"Before swap: x = $x, y = $y\\n\";\nswap($x, $y);\necho \"After swap: x = $x, y = $y\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```php\n<?php\n\nfunction processDataByValue($data) {\n    // Simulate processing by just returning the data\n    return $data;\n}\n\nfunction processDataByReference(&$data) {\n    // Simulate processing by just returning the data\n    return $data;\n}\n\n// Create a large data structure\n$largeData = range(1, 1000000);\n\n// Measure performance and memory for passing by value\n$startMemoryByValue = memory_get_usage();\n$startTimeByValue = microtime(true);\nprocessDataByValue($largeData);\n$endTimeByValue = microtime(true);\n$endMemoryByValue = memory_get_usage();\n\n// Measure performance and memory for passing by reference\n$startMemoryByReference = memory_get_usage();\n$startTimeByReference = microtime(true);\nprocessDataByReference($largeData);\n$endTimeByReference = microtime(true);\n$endMemoryByReference = memory_get_usage();\n\n// Output the results\necho \"Pass by Value - Time: \" . ($endTimeByValue - $startTimeByValue) . \" seconds\\n\";\necho \"Pass by Value - Memory: \" . ($endMemoryByValue - $startMemoryByValue) . \" bytes\\n\";\n\necho \"Pass by Reference - Time: \" . ($endTimeByReference - $startTimeByReference) . \" seconds\\n\";\necho \"Pass by Reference - Memory: \" . ($endMemoryByReference - $startMemoryByReference) . \" bytes\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction doubleValue($num) {\n    $num *= 2;\n}\n\nfunction doubleValueByReference(&$num) {\n    $num *= 2;\n}\n\n$value = 10;\ndoubleValue($value);\necho \"After pass-by-value: $value\\n\"; // Original value remains unchanged\n\ndoubleValueByReference($value);\necho \"After pass-by-reference: $value\\n\"; // Original value is modified\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```php\nfunction doubleElements($list) {\n    $newList = [];\n    foreach ($list as $element) {\n        $newList[] = $element * 2;\n    }\n    return $newList;\n}\n\n// Example usage:\n$originalList = [1, 2, 3, 4];\n$doubledList = doubleElements($originalList);\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```php\nfunction appendCharacter($str, $char) {\n    return $str . $char;\n}\n\n$originalString = \"Hello\";\n$appendedString = appendCharacter($originalString, '!');\n\necho \"Original String: \" . $originalString . \"\\n\";\necho \"Appended String: \" . $appendedString . \"\\n\";\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```php\n<?php\n\nfunction incrementCounter(&$counter) {\n    $counter++;\n}\n\n$counter = 0;\nincrementCounter($counter);\necho $counter;\n\n?>\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```php\nfunction removeItemByKey(&$dictionary, $keyToRemove) {\n    if (array_key_exists($keyToRemove, $dictionary)) {\n        unset($dictionary[$keyToRemove]);\n    }\n}\n\n$myDictionary = [\n    \"fruit\" => \"apple\",\n    \"vegetable\" => \"carrot\",\n    \"drink\" => \"water\"\n];\n\nremoveItemByKey($myDictionary, \"vegetable\");\n\nprint_r($myDictionary);\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```php\nfunction transposeMatrix(&$matrix) {\n    $rowCount = count($matrix);\n    $colCount = count($matrix[0]);\n    $transposed = array();\n\n    for ($i = 0; $i < $colCount; $i++) {\n        $transposed[$i] = array();\n        for ($j = 0; $j < $rowCount; $j++) {\n            $transposed[$i][$j] = $matrix[$j][$i];\n        }\n    }\n\n    $matrix = $transposed;\n}\n\n$matrix = [\n    [1, 2, 3],\n    [4, 5, 6],\n    [7, 8, 9]\n];\n\ntransposeMatrix($matrix);\n\nprint_r($matrix);\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```php\n<?php\n\nfunction roundNumber(float $number): int {\n    return round($number);\n}\n\n// Example usage:\n$originalNumber = 5.67;\n$roundedNumber = roundNumber($originalNumber);\n\necho \"Original Number: $originalNumber\\n\";\necho \"Rounded Number: $roundedNumber\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```php\nfunction addKeyValuePair(&$dict, $key, $value) {\n    $dict[$key] = $value;\n}\n\n$dictionary = [\"apple\" => \"fruit\", \"carrot\" => \"vegetable\"];\naddKeyValuePair($dictionary, \"banana\", \"fruit\");\nprint_r($dictionary);\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```php\n<?php\n\nfunction convertToUppercase($str) {\n    $str = strtoupper($str);\n    return $str;\n}\n\n$originalString = \"hello world\";\n$uppercaseString = convertToUppercase($originalString);\n\necho \"Original String: \" . $originalString . \"\\n\";\necho \"Uppercase String: \" . $uppercaseString . \"\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```php\nfunction modifyTupleElement($tuple) {\n    $tuple[0] = \"Modified\";\n    return $tuple;\n}\n\n$originalTuple = [\"Original\", 2, 3];\n$modifiedTuple = modifyTupleElement($originalTuple);\n\necho \"Original Tuple: \";\nprint_r($originalTuple);\necho \"\\nModified Tuple: \";\nprint_r($modifiedTuple);\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```php\n<?php\n\nclass MyObject {\n    public $attribute;\n}\n\nfunction modifyObjectAttribute(&$obj) {\n    $obj->attribute = \"Modified Value\";\n}\n\n$myObj = new MyObject();\n$myObj->attribute = \"Original Value\";\n\nmodifyObjectAttribute($myObj);\n\necho $myObj->attribute; // Output: \"Modified Value\"\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```php\nfunction sumArray(array $arr): int {\n    $sum = 0;\n    foreach ($arr as $value) {\n        $sum += $value;\n    }\n    return $sum;\n}\n\n$numbers = [1, 2, 3, 4, 5];\necho sumArray($numbers);  // Outputs: 15\nprint_r($numbers);       // Outputs: Array ( [0] => 1 [1] => 2 [2] => 3 [3] => 4 [4] => 5 )\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```php\nfunction toggleFlag(&$flag) {\n    $flag = !$flag;\n}\n\n$originalFlag = true;\ntoggleFlag($originalFlag);\necho $originalFlag ? 'true' : 'false'; // Displays 'false'\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```php\n<?php\n\nclass Example {\n    public $value;\n\n    public function __construct($value) {\n        $this->value = $value;\n    }\n}\n\nfunction cloneAndModify($obj) {\n    $clonedObj = clone $obj;\n    $clonedObj->value = \"Modified\";\n    return $clonedObj;\n}\n\n$original = new Example(\"Original\");\n$modified = cloneAndModify($original);\n\necho \"Original value: \" . $original->value . \"\\n\";\necho \"Modified value: \" . $modified->value . \"\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction removeEvensByValue($numbers) {\n    return array_filter($numbers, function($num) {\n        return $num % 2 !== 0;\n    });\n}\n\nfunction removeEvensByReference(&$numbers) {\n    $numbers = array_filter($numbers, function($num) {\n        return $num % 2 !== 0;\n    });\n}\n\n$numbers = [1, 2, 3, 4, 5, 6];\n\n// Pass-by-value\n$resultByValue = removeEvensByValue($numbers);\nprint_r($resultByValue);\nprint_r($numbers);\n\n// Pass-by-reference\nremoveEvensByReference($numbers);\nprint_r($numbers);\n?>\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```php\n<?php\nclass ComplexNumber {\n    public $real;\n    public $imaginary;\n\n    public function __construct($real, $imaginary) {\n        $this->real = $real;\n        $this->imaginary = $imaginary;\n    }\n}\n\nfunction getConjugate(ComplexNumber $number) {\n    return new ComplexNumber($number->real, -$number->imaginary);\n}\n\n// Example usage\n$complex = new ComplexNumber(4, 5);\n$conjugate = getConjugate($complex);\n\necho \"Original: ({$complex->real}, {$complex->imaginary}i)\\n\";\necho \"Conjugate: ({$conjugate->real}, {$conjugate->imaginary}i)\\n\";\n?>\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```php\n<?php\n\nclass TreeNode {\n    public $value;\n    public $left;\n    public $right;\n\n    public function __construct($value = 0, $left = null, $right = null) {\n        $this->value = $value;\n        $this->left = $left;\n        $this->right = $right;\n    }\n}\n\nfunction invertTree(TreeNode &$root = null) {\n    if ($root === null) {\n        return null;\n    }\n\n    $left = $root->left;\n    $root->left = $root->right;\n    $root->right = $left;\n\n    invertTree($root->left);\n    invertTree($root->right);\n\n    return $root;\n}\n\n$root = new TreeNode(1, new TreeNode(2), new TreeNode(3));\ninvertTree($root);\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```php\nfunction addElementToSet(&$set, $element) {\n    $set[] = $element;\n}\n\n$mySet = [1, 2, 3];\naddElementToSet($mySet, 4);\n\nprint_r($mySet);\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```php\nfunction sortArrayByValue($arr) {\n    $sortedArray = $arr;\n    sort($sortedArray);\n    return $sortedArray;\n}\n\n$originalArray = [5, 2, 9, 1, 5, 6];\n$sortedArray = sortArrayByValue($originalArray);\n\necho \"Original Array: \" . implode(\", \", $originalArray) . \"\\n\";\necho \"Sorted Array: \" . implode(\", \", $sortedArray) . \"\\n\";\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction toggleSetting(&$config, $settingKey) {\n    if (isset($config[$settingKey])) {\n        $config[$settingKey] = !$config[$settingKey];\n    }\n}\n\n// Example usage\n$config = [\n    'featureX' => true,\n    'featureY' => false,\n];\n\ntoggleSetting($config, 'featureX');\ntoggleSetting($config, 'featureY');\n\nprint_r($config);\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```php\nfunction readFileContent($filePath) {\n    if (file_exists($filePath)) {\n        $content = file_get_contents($filePath);\n        return $content;\n    } else {\n        return \"File does not exist.\";\n    }\n}\n\n$filePath = 'example.txt';\necho readFileContent($filePath);\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```php\n<?php\n\nfunction reverseStack(&$stack) {\n    $tempStack = [];\n    while (!empty($stack)) {\n        $tempStack[] = array_pop($stack);\n    }\n    $stack = $tempStack;\n}\n\n$stack = [1, 2, 3, 4, 5];\nreverseStack($stack);\nprint_r($stack);\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```php\n<?php\n\nfunction dequeueElement(&$queue) {\n    return array_shift($queue);\n}\n\n$queue = [1, 2, 3, 4, 5];\ndequeueElement($queue);\n\nprint_r($queue);\n\n?>\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction updateValue(&$map, $key, $newValue) {\n    if (array_key_exists($key, $map)) {\n        $map[$key] = $newValue;\n    }\n}\n\n$hashmap = ['a' => 1, 'b' => 2, 'c' => 3];\nupdateValue($hashmap, 'b', 20);\n\nprint_r($hashmap);\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```php\nfunction addPropertyToJson(&$jsonObject, $newProperty, $value) {\n    $jsonObject->$newProperty = $value;\n}\n\n$jsonStr = '{\"name\": \"John\", \"age\": 30}';\n$jsonObject = json_decode($jsonStr);\n\naddPropertyToJson($jsonObject, 'email', 'john@example.com');\n\necho json_encode($jsonObject);\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```php\n<?php\n\nfunction addNode(&$graph, $node) {\n    $graph[$node] = [];\n}\n\n$graph = [\n    'A' => ['B', 'C'],\n    'B' => ['A', 'C'],\n    'C' => ['A', 'B']\n];\n\naddNode($graph, 'D');\nprint_r($graph);\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```php\n<?php\nfunction shiftCoordinates($coordinates, $shiftX, $shiftY) {\n    $shiftedCoordinates = $coordinates;\n    $shiftedCoordinates[0] += $shiftX;\n    $shiftedCoordinates[1] += $shiftY;\n    return $shiftedCoordinates;\n}\n\n$originalCoordinates = [5, 10];\n$shifted = shiftCoordinates($originalCoordinates, 3, 4);\n\necho \"Original Coordinates: (\" . $originalCoordinates[0] . \", \" . $originalCoordinates[1] . \")\\n\";\necho \"Shifted Coordinates: (\" . $shifted[0] . \", \" . $shifted[1] . \")\\n\";\n?>\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```php\n<?php\n\nfunction setToNextDay(DateTime &$date) {\n    $date->modify('+1 day');\n}\n\n$date = new DateTime('2023-10-01');\nsetToNextDay($date);\necho $date->format('Y-m-d'); // Output: 2023-10-02\n\n?>\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```php\nfunction differentiatePolynomial($coefficients) {\n    $derivative = [];\n    $n = count($coefficients);\n    for ($i = 1; $i < $n; $i++) {\n        $derivative[] = $coefficients[$i] * $i;\n    }\n    return $derivative;\n}\n\n$originalCoefficients = [3, 2, 5]; // Representing 3 + 2x + 5x^2\n$derivativeCoefficients = differentiatePolynomial($originalCoefficients);\n\n// Output to show that the original coefficients remain unchanged\nprint_r($originalCoefficients);\nprint_r($derivativeCoefficients);\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```php\nfunction clearStack(&$stack) {\n    while (!empty($stack)) {\n        array_pop($stack);\n    }\n}\n\n$myStack = [1, 2, 3, 4, 5];\nclearStack($myStack);\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```php\n<?php\n\nclass ListNode {\n    public $value;\n    public $next;\n\n    public function __construct($value = null) {\n        $this->value = $value;\n        $this->next = null;\n    }\n}\n\nfunction appendNode(&$head, $value) {\n    $newNode = new ListNode($value);\n    if ($head === null) {\n        $head = $newNode;\n    } else {\n        $current = $head;\n        while ($current->next !== null) {\n            $current = $current->next;\n        }\n        $current->next = $newNode;\n    }\n}\n\n// Demonstration\n$head = new ListNode(1);\nappendNode($head, 2);\nappendNode($head, 3);\n\n// Output to verify\n$current = $head;\nwhile ($current !== null) {\n    echo $current->value . \" \";\n    $current = $current->next;\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```php\nfunction extractDomain($url) {\n    $parsedUrl = parse_url($url);\n    return $parsedUrl['host'] ?? '';\n}\n\n$url = \"https://www.example.com/path?query=123\";\n$domain = extractDomain($url);\necho $domain;\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```php\n<?php\n\nclass PriorityQueue {\n    private $queue;\n\n    public function __construct() {\n        $this->queue = [];\n    }\n\n    public function insert($element, $priority) {\n        $this->queue[] = ['element' => $element, 'priority' => $priority];\n        usort($this->queue, function ($a, $b) {\n            return $b['priority'] - $a['priority'];\n        });\n    }\n\n    public function changePriority(&$element, $newPriority) {\n        foreach ($this->queue as &$item) {\n            if ($item['element'] === $element) {\n                $item['priority'] = $newPriority;\n                break;\n            }\n        }\n        usort($this->queue, function ($a, $b) {\n            return $b['priority'] - $a['priority'];\n        });\n    }\n\n    public function display() {\n        foreach ($this->queue as $item) {\n            echo \"Element: {$item['element']}, Priority: {$item['priority']}\\n\";\n        }\n    }\n}\n\n$priorityQueue = new PriorityQueue();\n$priorityQueue->insert(\"task1\", 1);\n$priorityQueue->insert(\"task2\", 2);\n\n$priorityQueue->display();\n\n$element = \"task1\";\n$priorityQueue->changePriority($element, 3);\n\necho \"\\nAfter changing priority:\\n\";\n$priorityQueue->display();\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```php\n<?php\n\nfunction readElementFromBuffer(&$buffer) {\n    if (empty($buffer)) {\n        return null;\n    }\n    return array_shift($buffer);\n}\n\n$buffer = [1, 2, 3, 4, 5];\n$element = readElementFromBuffer($buffer);\n\necho \"Read element: \" . $element . PHP_EOL;\necho \"Buffer after reading: \" . implode(', ', $buffer) . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```php\n<?php\n\nfunction updateField(&$record, $field, $newValue) {\n    if (array_key_exists($field, $record)) {\n        $record[$field] = $newValue;\n    }\n}\n\n$record = [\n    'name' => 'John Doe',\n    'age' => 30,\n    'email' => 'john.doe@example.com'\n];\n\nupdateField($record, 'age', 31);\n\nprint_r($record);\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```php\nfunction normalizeFrequencyList($frequencyList) {\n    $total = array_sum($frequencyList);\n    $normalizedList = array_map(function($value) use ($total) {\n        return $total ? $value / $total : 0;\n    }, $frequencyList);\n    return $normalizedList;\n}\n\n// Example usage\n$originalList = [2, 3, 5];\n$normalized = normalizeFrequencyList($originalList);\n\n// $originalList remains unchanged\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```php\nfunction makeMove(array &$chessboard, array $move) {\n    $fromRow = $move['fromRow'];\n    $fromCol = $move['fromCol'];\n    $toRow = $move['toRow'];\n    $toCol = $move['toCol'];\n\n    $chessboard[$toRow][$toCol] = $chessboard[$fromRow][$fromCol];\n    $chessboard[$fromRow][$fromCol] = null;\n}\n\n$chessboard = [\n    [null, null, null, null, null, null, null, null],\n    [null, null, null, null, null, null, null, null],\n    [null, null, null, null, null, null, null, null],\n    [null, null, null, null, null, null, null, null],\n    [null, null, null, null, null, null, null, null],\n    [null, null, null, null, null, null, null, null],\n    [null, null, null, null, null, null, null, null],\n    [null, null, null, null, null, null, null, null]\n];\n\n$move = [\n    'fromRow' => 1,\n    'fromCol' => 0,\n    'toRow' => 3,\n    'toCol' => 0\n];\n\nmakeMove($chessboard, $move);\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```php\nfunction decimalToBinary($decimalNumber) {\n    $binaryNumber = '';\n    while ($decimalNumber > 0) {\n        $binaryNumber = ($decimalNumber % 2) . $binaryNumber;\n        $decimalNumber = (int)($decimalNumber / 2);\n    }\n    return $binaryNumber;\n}\n\n$originalNumber = 10;\n$binary = decimalToBinary($originalNumber);\necho \"Original Number: $originalNumber\\n\";\necho \"Binary: $binary\\n\";\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```php\n<?php\n\nfunction countNucleotides($dnaSequence) {\n    $nucleotideCount = [\n        'A' => 0,\n        'C' => 0,\n        'G' => 0,\n        'T' => 0\n    ];\n    \n    $length = strlen($dnaSequence);\n    for ($i = 0; $i < $length; $i++) {\n        $nucleotide = strtoupper($dnaSequence[$i]);\n        if (isset($nucleotideCount[$nucleotide])) {\n            $nucleotideCount[$nucleotide]++;\n        }\n    }\n    \n    return $nucleotideCount;\n}\n\n$originalSequence = \"AGCTTAGC\";\n$count = countNucleotides($originalSequence);\n\n// Output the result\nprint_r($count);\n\n// Output the original sequence to demonstrate it remains unchanged\necho $originalSequence;\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```php\n<?php\n\nclass ShoppingCart {\n    public $total;\n\n    public function __construct($total) {\n        $this->total = $total;\n    }\n}\n\nfunction applyDiscount(&$cart, $discountPercentage) {\n    $discountAmount = $cart->total * ($discountPercentage / 100);\n    $cart->total -= $discountAmount;\n}\n\n// Example usage\n$cart = new ShoppingCart(100);\napplyDiscount($cart, 15);\n\necho $cart->total; // Outputs 85\n?>\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```php\n<?php\n\nfunction addSongToPlaylist(&$playlist, $song) {\n    $playlist[] = $song;\n}\n\n$playlist = ['Song A', 'Song B', 'Song C'];\n$newSong = 'Song D';\n\naddSongToPlaylist($playlist, $newSong);\n\nprint_r($playlist);\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```php\n<?php\n\nclass Sprite {\n    public $x;\n    public $y;\n\n    public function __construct($x, $y) {\n        $this->x = $x;\n        $this->y = $y;\n    }\n}\n\nfunction moveSprite(&$sprite, $dx, $dy) {\n    $sprite->x += $dx;\n    $sprite->y += $dy;\n}\n\n$sprite = new Sprite(5, 10);\nmoveSprite($sprite, 3, 4);\n\necho \"Sprite position: ({$sprite->x}, {$sprite->y})\";\n\n?>\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```php\n<?php\n\nclass Book {\n    public $title;\n    \n    public function __construct($title) {\n        $this->title = $title;\n    }\n}\n\nfunction updateBookTitle(&$book, $newTitle) {\n    $book->title = $newTitle;\n}\n\n$book = new Book(\"Original Title\");\necho \"Before update: \" . $book->title . \"\\n\";\n\nupdateBookTitle($book, \"Updated Title\");\necho \"After update: \" . $book->title . \"\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```php\nfunction normalizeSoundWave($soundWave) {\n    $maxValue = max($soundWave);\n    $normalizedWave = array_map(function($value) use ($maxValue) {\n        return $value / $maxValue;\n    }, $soundWave);\n    return $normalizedWave;\n}\n\n$soundWave = [0.5, 0.8, 1.0, 0.6, 0.9];\n$normalizedWave = normalizeSoundWave($soundWave);\n\n// Output for demonstration purposes\nprint_r($soundWave);\nprint_r($normalizedWave);\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```php\n<?php\n\nclass BankAccount {\n    public $balance;\n\n    public function __construct($balance) {\n        $this->balance = $balance;\n    }\n}\n\nfunction creditAmount(BankAccount &$account, $amount) {\n    $account->balance += $amount;\n}\n\n$account = new BankAccount(100);\ncreditAmount($account, 50);\n\necho \"New Balance: \" . $account->balance;\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```php\nfunction filterInvalidEmails($emails) {\n    return array_filter($emails, function($email) {\n        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;\n    });\n}\n\n$emailList = ['valid@example.com', 'invalid-email', 'also@valid.com', 'another.invalid'];\n$filteredEmails = filterInvalidEmails($emailList);\n\necho \"Original Email List:\\n\";\nprint_r($emailList);\n\necho \"\\nFiltered Email List:\\n\";\nprint_r($filteredEmails);\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```php\n<?php\n\nclass Model3D {\n    public $width;\n    public $height;\n    public $depth;\n    \n    public function __construct($width, $height, $depth) {\n        $this->width = $width;\n        $this->height = $height;\n        $this->depth = $depth;\n    }\n}\n\nfunction scaleModel(Model3D &$model, $scaleFactor) {\n    $model->width *= $scaleFactor;\n    $model->height *= $scaleFactor;\n    $model->depth *= $scaleFactor;\n}\n\n// Example usage\n$model = new Model3D(10, 20, 30);\nscaleModel($model, 2);\n\necho \"Scaled Model Dimensions: Width = {$model->width}, Height = {$model->height}, Depth = {$model->depth}\";\n\n?>\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```php\nfunction redactSensitiveInfo(&$document) {\n    $sensitiveWords = ['password', 'secret', 'confidential'];\n    foreach ($sensitiveWords as $word) {\n        $document = str_replace($word, str_repeat('*', strlen($word)), $document);\n    }\n}\n\n$textDocument = \"This document contains a password and some confidential secrets.\";\nredactSensitiveInfo($textDocument);\necho $textDocument;\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```php\n<?php\n\nfunction adjustTemperature($temperatureReading) {\n    $calibrationOffset = 2.5;\n    $adjustedTemperature = $temperatureReading + $calibrationOffset;\n    return $adjustedTemperature;\n}\n\n// Example usage\n$originalReading = 20.0;\n$adjustedReading = adjustTemperature($originalReading);\n\necho \"Original Reading: $originalReading\\n\"; // Outputs: Original Reading: 20\necho \"Adjusted Reading: $adjustedReading\\n\"; // Outputs: Adjusted Reading: 22.5\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction updateBugReportStatus(&$bugReport, $newStatus) {\n    $bugReport['status'] = $newStatus;\n}\n\n$bugReport = [\n    'id' => 101,\n    'description' => 'Sample bug report',\n    'status' => 'open'\n];\n\nupdateBugReportStatus($bugReport, 'resolved');\n\nprint_r($bugReport);\n\n?>\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```php\n<?php\n\nfunction calibrateSensorArray(array &$sensorArray) {\n    foreach ($sensorArray as &$value) {\n        $value *= 1.1; // Example calibration: increase each value by 10%\n    }\n}\n\n$sensorData = [10, 20, 30, 40, 50];\ncalibrateSensorArray($sensorData);\n\nprint_r($sensorData);\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```php\n<?php\n\nfunction rotateVector($vector) {\n    if (count($vector) === 0) {\n        return $vector;\n    }\n    $firstElement = array_shift($vector);\n    $vector[] = $firstElement;\n    return $vector;\n}\n\n$originalVector = [1, 2, 3, 4];\n$rotatedVector = rotateVector($originalVector);\n\necho \"Original Vector: \" . implode(\", \", $originalVector) . \"\\n\";\necho \"Rotated Vector: \" . implode(\", \", $rotatedVector) . \"\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```php\nfunction compressLog(array &$log) {\n    $compressedLog = [];\n    $count = count($log);\n\n    for ($i = 0; $i < $count; $i++) {\n        $entry = $log[$i];\n        $occurrences = 1;\n\n        while ($i + 1 < $count && $log[$i] == $log[$i + 1]) {\n            $occurrences++;\n            $i++;\n        }\n\n        $compressedLog[] = $entry . ($occurrences > 1 ? \" (x$occurrences)\" : \"\");\n    }\n\n    $log = $compressedLog;\n}\n\n// Usage\n$log = ['start', 'start', 'stop', 'stop', 'stop', 'reset', 'reset', 'start'];\ncompressLog($log);\nprint_r($log);\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction updateWeights(&$model) {\n    foreach ($model['layers'] as &$layer) {\n        foreach ($layer['weights'] as &$weight) {\n            $weight += rand(-1, 1) * 0.01; // Simulate a small random update\n        }\n    }\n}\n\n// Example neural network model\n$neuralNetworkModel = [\n    'layers' => [\n        ['weights' => [0.2, 0.8, -0.5]],\n        ['weights' => [0.5, -0.1, 0.3]],\n    ]\n];\n\necho \"Before update:\\n\";\nprint_r($neuralNetworkModel);\n\nupdateWeights($neuralNetworkModel);\n\necho \"After update:\\n\";\nprint_r($neuralNetworkModel);\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction revertLastCommand(array &$commandHistory) {\n    if (!empty($commandHistory)) {\n        array_pop($commandHistory);\n    }\n}\n\n// Example usage\n$commands = ['start', 'stop', 'restart'];\nrevertLastCommand($commands);\nprint_r($commands);\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```php\nfunction anonymizeProfile(&$profile) {\n    $profile['name'] = 'Anonymous';\n    $profile['email'] = 'anonymous@example.com';\n    $profile['phone'] = '000-000-0000';\n}\n\n// Example usage:\n$userProfile = [\n    'name' => 'John Doe',\n    'email' => 'john.doe@example.com',\n    'phone' => '123-456-7890'\n];\n\nanonymizeProfile($userProfile);\n\n// $userProfile is now anonymized due to pass-by-reference\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```php\nfunction evaluatePolynomial(array $coefficients, float $x): float {\n    $result = 0;\n    $power = count($coefficients) - 1;\n    \n    foreach ($coefficients as $coefficient) {\n        $result += $coefficient * pow($x, $power);\n        $power--;\n    }\n    \n    return $result;\n}\n\n// Example usage:\n$polynomial = [2, 0, -3]; // Represents 2x^2 - 3\n$x = 3;\necho evaluatePolynomial($polynomial, $x);\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```php\n<?php\n\nfunction applyFilter(&$videoStream) {\n    // Example filter: Convert video stream to grayscale\n    foreach ($videoStream as &$frame) {\n        foreach ($frame as &$pixel) {\n            $average = ($pixel['r'] + $pixel['g'] + $pixel['b']) / 3;\n            $pixel['r'] = $average;\n            $pixel['g'] = $average;\n            $pixel['b'] = $average;\n        }\n    }\n}\n\n$videoStream = [\n    [\n        ['r' => 255, 'g' => 0, 'b' => 0],\n        ['r' => 0, 'g' => 255, 'b' => 0],\n        ['r' => 0, 'g' => 0, 'b' => 255]\n    ],\n    [\n        ['r' => 100, 'g' => 100, 'b' => 100],\n        ['r' => 50, 'g' => 50, 'b' => 50],\n        ['r' => 200, 'g' => 200, 'b' => 200]\n    ]\n];\n\napplyFilter($videoStream);\n\nprint_r($videoStream);\n\n?>\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction reorderTasksByPriority(&$taskQueue) {\n    usort($taskQueue, function($a, $b) {\n        return $b['priority'] <=> $a['priority'];\n    });\n}\n\n$tasks = [\n    ['task' => 'Task 1', 'priority' => 2],\n    ['task' => 'Task 2', 'priority' => 3],\n    ['task' => 'Task 3', 'priority' => 1],\n];\n\nreorderTasksByPriority($tasks);\n\nprint_r($tasks);\n\n?>\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```php\n<?php\n\nfunction verifyTransaction(&$blockchain, $transactionId) {\n    foreach ($blockchain as &$block) {\n        foreach ($block['transactions'] as &$transaction) {\n            if ($transaction['id'] === $transactionId) {\n                if ($transaction['verified'] === false) {\n                    $transaction['verified'] = true;\n                    echo \"Transaction $transactionId verified.\\n\";\n                    return true;\n                } else {\n                    echo \"Transaction $transactionId is already verified.\\n\";\n                    return false;\n                }\n            }\n        }\n    }\n    echo \"Transaction $transactionId not found.\\n\";\n    return false;\n}\n\n// Example blockchain\n$blockchain = [\n    ['transactions' => [\n        ['id' => 1, 'verified' => false],\n        ['id' => 2, 'verified' => false],\n    ]],\n    ['transactions' => [\n        ['id' => 3, 'verified' => false],\n    ]],\n];\n\n// Call the function\nverifyTransaction($blockchain, 2);\n\n// Output the modified blockchain\nprint_r($blockchain);\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction updateScores(&$leaderboard, $updates) {\n    foreach ($updates as $player => $score) {\n        if (isset($leaderboard[$player])) {\n            $leaderboard[$player] += $score;\n        } else {\n            $leaderboard[$player] = $score;\n        }\n    }\n}\n\n$leaderboard = [\n    'Alice' => 1500,\n    'Bob' => 1200,\n    'Charlie' => 1000\n];\n\n$updates = [\n    'Alice' => 200,\n    'Bob' => -100,\n    'Dave' => 700\n];\n\nupdateScores($leaderboard, $updates);\n\nprint_r($leaderboard);\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```php\n<?php\n\nfunction adjustTimelineForDelays(&$timeline, $delayDays) {\n    foreach ($timeline as &$date) {\n        $date = date('Y-m-d', strtotime($date . \" + $delayDays days\"));\n    }\n}\n\n$projectTimeline = [\n    '2023-11-01',\n    '2023-11-15',\n    '2023-12-01'\n];\n\nadjustTimelineForDelays($projectTimeline, 5);\n\nprint_r($projectTimeline);\n\n?>\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```php\nfunction completeTask(&$todoList, $taskIndex) {\n    if (isset($todoList[$taskIndex])) {\n        $todoList[$taskIndex]['completed'] = true;\n    }\n}\n\n$todoList = [\n    ['task' => 'Buy groceries', 'completed' => false],\n    ['task' => 'Schedule meeting', 'completed' => false],\n    ['task' => 'Pay bills', 'completed' => false],\n];\n\ncompleteTask($todoList, 1);\n\nprint_r($todoList);\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```php\n<?php\n\nfunction addLayer(&$canvas) {\n    // Add a new layer to the canvas\n    $layer = \"New Layer\";\n    $canvas[] = $layer;\n}\n\n$canvas = [\"Background\"];\naddLayer($canvas);\n\nprint_r($canvas);\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```php\n<?php\n\nfunction fetchContent($urlList) {\n    // Simulate fetching content by appending '-content' to each URL\n    foreach ($urlList as &$url) {\n        $url .= '-content';\n    }\n    return $urlList;\n}\n\nfunction main() {\n    $urls = ['http://example1.com', 'http://example2.com', 'http://example3.com'];\n    \n    $fetchedContent = fetchContent($urls);\n\n    echo \"Original URLs:\\n\";\n    print_r($urls); // Original list remains unchanged\n\n    echo \"Fetched Content:\\n\";\n    print_r($fetchedContent); // Shows the modified list\n}\n\nmain();\n?>\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction resetBoard(&$board) {\n    foreach ($board as $key => $value) {\n        $board[$key] = array_fill(0, count($value), 0);\n    }\n}\n\n$gameBoard = [\n    [1, 2, 3],\n    [4, 5, 6],\n    [7, 8, 9]\n];\n\nresetBoard($gameBoard);\n\nprint_r($gameBoard);\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```php\nfunction increaseVolume(&$soundEffect) {\n    $soundEffect *= 1.2; // Increase volume by 20%\n}\n\n$sound = 10; // Example sound effect volume\nincreaseVolume($sound);\n\necho $sound; // Output: 12\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction updateTemperaturePredictions(&$weatherForecast) {\n    foreach ($weatherForecast as &$dayForecast) {\n        $dayForecast['temperature'] = rand(60, 90); // Random new temperature\n    }\n}\n\n$forecast = [\n    ['day' => 'Monday', 'temperature' => 72],\n    ['day' => 'Tuesday', 'temperature' => 68],\n    ['day' => 'Wednesday', 'temperature' => 75],\n];\n\nupdateTemperaturePredictions($forecast);\n\nprint_r($forecast);\n?>\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```php\n<?php\n\nfunction extractErrorMessages($log) {\n    $errorMessages = [];\n    foreach ($log as $entry) {\n        if (strpos($entry, 'ERROR') !== false) {\n            $errorMessages[] = $entry;\n        }\n    }\n    return $errorMessages;\n}\n\n$systemLog = [\n    \"INFO: System started\",\n    \"ERROR: Disk space low\",\n    \"WARNING: High memory usage\",\n    \"ERROR: Network unreachable\",\n    \"INFO: Update completed\"\n];\n\n$errorMessages = extractErrorMessages($systemLog);\n\n// Output the error messages\nforeach ($errorMessages as $errorMessage) {\n    echo $errorMessage . \"\\n\";\n}\n\n// Output the original log to show it remains unchanged\nforeach ($systemLog as $logEntry) {\n    echo $logEntry . \"\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```php\n<?php\n\nfunction encryptDataPacket($dataPacket) {\n    $encryptedPacket = base64_encode($dataPacket);\n    return $encryptedPacket;\n}\n\n$dataPacket = \"Sensitive Information\";\n$encryptedPacket = encryptDataPacket($dataPacket);\n\necho \"Original Data Packet: \" . $dataPacket . \"\\n\";\necho \"Encrypted Data Packet: \" . $encryptedPacket . \"\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```php\n<?php\n\nfunction applyColorChange(&$theme, $newColor) {\n    $theme['color'] = $newColor;\n}\n\n$websiteTheme = ['color' => 'blue', 'font' => 'Arial'];\n$newColor = 'green';\n\napplyColorChange($websiteTheme, $newColor);\n\necho \"The updated theme color is: \" . $websiteTheme['color'];\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```php\n<?php\n\nfunction verifySignature($signature) {\n    // Simulate verification process\n    $isVerified = false;\n\n    // Example check (in real cases, use cryptographic verification)\n    if ($signature === 'VALID_SIGNATURE') {\n        $isVerified = true;\n    }\n\n    // Discuss implications of pass-by-value\n    // In PHP, primitive data types like strings are passed by value.\n    // This means changes to $signature inside this function do not affect the original variable.\n\n    return $isVerified;\n}\n\n// Example usage\n$signature = 'VALID_SIGNATURE';\n$isVerified = verifySignature($signature);\necho $isVerified ? 'Signature is valid.' : 'Signature is invalid.';\n\n?>\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```php\n<?php\n\nfunction optimizePath(&$path) {\n    $optimizedPath = [];\n    $lastDirection = null;\n    $count = 0;\n\n    foreach ($path as $direction) {\n        if ($direction === $lastDirection) {\n            $count++;\n        } else {\n            if ($lastDirection !== null) {\n                $optimizedPath[] = \"$lastDirection($count)\";\n            }\n            $lastDirection = $direction;\n            $count = 1;\n        }\n    }\n\n    if ($lastDirection !== null) {\n        $optimizedPath[] = \"$lastDirection($count)\";\n    }\n\n    $path = $optimizedPath;\n}\n\n$robotPath = ['N', 'N', 'S', 'S', 'S', 'E', 'E', 'E', 'E', 'N'];\noptimizePath($robotPath);\nprint_r($robotPath);\n\n?>\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```php\n<?php\n\nfunction shufflePlaylist(&$playlist) {\n    shuffle($playlist);\n}\n\n$myPlaylist = ['Song A', 'Song B', 'Song C', 'Song D'];\n\necho \"Original Playlist:\\n\";\nprint_r($myPlaylist);\n\nshufflePlaylist($myPlaylist);\n\necho \"\\nShuffled Playlist:\\n\";\nprint_r($myPlaylist);\n\n?>\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction removeDuplicates(&$feed) {\n    $feed = array_unique($feed);\n}\n\n$socialMediaFeed = [\n    \"Post 1\",\n    \"Post 2\",\n    \"Post 1\", // duplicate\n    \"Post 3\",\n    \"Post 2\", // duplicate\n    \"Post 4\"\n];\n\nremoveDuplicates($socialMediaFeed);\n\nprint_r($socialMediaFeed);\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```php\nfunction addTestCases(&$codingChallenge) {\n    $testCases = [\n        'test1' => 'example test case 1',\n        'test2' => 'example test case 2',\n        'test3' => 'example test case 3'\n    ];\n\n    foreach ($testCases as $key => $testCase) {\n        $codingChallenge['testCases'][$key] = $testCase;\n    }\n}\n\n$codingChallenge = [\n    'description' => 'Solve a problem',\n    'testCases' => []\n];\n\naddTestCases($codingChallenge);\n\nprint_r($codingChallenge);\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```php\nfunction reverseAnimationSequence($sequence) {\n    return array_reverse($sequence);\n}\n\n$originalSequence = ['frame1', 'frame2', 'frame3', 'frame4'];\n$reversedSequence = reverseAnimationSequence($originalSequence);\n\n// Print sequences to demonstrate original remains unchanged\nprint_r($originalSequence);\nprint_r($reversedSequence);\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```php\n<?php\n\nfunction recalculateRoute(&$route) {\n    foreach ($route as &$point) {\n        $point['latitude'] += 0.01;\n        $point['longitude'] += 0.01;\n    }\n}\n\n$route = [\n    ['latitude' => 40.7128, 'longitude' => -74.0060],\n    ['latitude' => 34.0522, 'longitude' => -118.2437],\n    ['latitude' => 37.7749, 'longitude' => -122.4194]\n];\n\nrecalculateRoute($route);\n\nprint_r($route);\n\n?>\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```php\n<?php\n\nfunction censorInappropriateLanguage(&$chatHistory) {\n    $inappropriateWords = ['badword1', 'badword2', 'badword3'];\n    $censored = '****';\n\n    foreach ($chatHistory as &$message) {\n        foreach ($inappropriateWords as $inappropriateWord) {\n            $message = str_ireplace($inappropriateWord, $censored, $message);\n        }\n    }\n}\n\n$chatHistory = [\n    \"Hey, how are you?\",\n    \"I'm good, but you're such a badword1!\",\n    \"Watch your language, that's a badword2.\",\n    \"Sorry, I didn't mean it. No more badword3 from me.\"\n];\n\ncensorInappropriateLanguage($chatHistory);\n\nprint_r($chatHistory);\n\n?>\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```php\n<?php\n\nfunction adjustBrightness(&$lightingSetup, $brightnessLevel) {\n    foreach ($lightingSetup as &$light) {\n        $light['brightness'] = $brightnessLevel;\n    }\n}\n\n$lightingSetup = [\n    ['name' => 'Light1', 'brightness' => 50],\n    ['name' => 'Light2', 'brightness' => 60],\n    ['name' => 'Light3', 'brightness' => 70],\n];\n\nadjustBrightness($lightingSetup, 80);\n\nprint_r($lightingSetup);\n\n?>\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```php\n<?php\n\nfunction changeScenery(&$environment) {\n    $environment['scenery'] = 'Mountain View';\n}\n\n$vrEnvironment = [\n    'scenery' => 'Beach',\n    'weather' => 'Sunny',\n];\n\nchangeScenery($vrEnvironment);\n\nprint_r($vrEnvironment);\n\n?>\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```php\nfunction addBlockToLedger(array &$ledger, array $block) {\n    $ledger[] = $block;\n}\n\n// Example usage:\n$ledger = [\n    ['previousHash' => '0000', 'data' => 'Genesis Block', 'hash' => 'abcd1234']\n];\n\n$block = ['previousHash' => 'abcd1234', 'data' => 'New Block', 'hash' => 'efgh5678'];\n\naddBlockToLedger($ledger, $block);\n\nprint_r($ledger);\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```php\n<?php\n\nfunction alterPacketHeaders($packet) {\n    // Alter the headers of the packet\n    $packet['headers']['modified'] = true;\n    return $packet;\n}\n\n// Example usage\n$networkPacket = [\n    'headers' => [\n        'source' => '192.168.1.1',\n        'destination' => '192.168.1.2'\n    ],\n    'body' => 'Data'\n];\n\n$modifiedPacket = alterPacketHeaders($networkPacket);\n\n// Output the modified packet\nprint_r($modifiedPacket);\n\n// Output the original packet to show pass-by-value behavior\nprint_r($networkPacket);\n\n?>\n```"
+  }
+]

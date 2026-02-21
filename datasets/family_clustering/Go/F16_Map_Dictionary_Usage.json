@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Creating a map to store student names and their grades\n\tgrades := map[string]float64{\n\t\t\"John\":  85.5,\n\t\t\"Emma\":  92.0,\n\t\t\"Lucas\": 78.5,\n\t\t\"Liam\":  88.0,\n\t\t\"Sophia\": 91.5,\n\t}\n\n\t// Calculating the average grade\n\tvar total float64\n\tfor _, grade := range grades {\n\t\ttotal += grade\n\t}\n\taverage := total / float64(len(grades))\n\n\tfmt.Printf(\"The average grade is: %.2f\\n\", average)\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc totalCost(products map[string]float64) float64 {\n\tvar total float64\n\tfor _, price := range products {\n\t\ttotal += price\n\t}\n\treturn total\n}\n\nfunc main() {\n\tproducts := map[string]float64{\n\t\t\"Apple\":  1.25,\n\t\t\"Bread\":  2.50,\n\t\t\"Milk\":   3.00,\n\t\t\"Cheese\": 5.75,\n\t}\n\tfmt.Println(totalCost(products))\n}\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\ttext := \"this is a sample text with several words this is a test\"\n\twordFrequency := make(map[string]int)\n\n\twords := strings.Fields(text)\n\tfor _, word := range words {\n\t\twordFrequency[word]++\n\t}\n\n\tfor word, count := range wordFrequency {\n\t\tfmt.Printf(\"%s: %d\\n\", word, count)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc employeeWithMostHours(hours map[string]int) string {\n\tmaxID := \"\"\n\tmaxHours := -1\n\tfor id, hrs := range hours {\n\t\tif hrs > maxHours {\n\t\t\tmaxHours = hrs\n\t\t\tmaxID = id\n\t\t}\n\t}\n\treturn maxID\n}\n\nfunc main() {\n\temployees := map[string]int{\n\t\t\"emp1\": 40,\n\t\t\"emp2\": 50,\n\t\t\"emp3\": 45,\n\t}\n\tfmt.Println(employeeWithMostHours(employees))\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\n// UserStatus to hold the login attempts and if the account is locked\ntype UserStatus struct {\n\tAttempts   int\n\tLocked     bool\n\tLockedTime time.Time\n}\n\n// UserManager to manage users' login attempts\ntype UserManager struct {\n\tUsers map[string]UserStatus\n}\n\n// NewUserManager creates a new UserManager\nfunc NewUserManager() *UserManager {\n\treturn &UserManager{\n\t\tUsers: make(map[string]UserStatus),\n\t}\n}\n\n// LoginAttempt processes a login attempt for a user\nfunc (um *UserManager) LoginAttempt(username string, success bool) {\n\tuserStatus, exists := um.Users[username]\n\n\tif !exists {\n\t\tuserStatus = UserStatus{}\n\t}\n\n\tif userStatus.Locked && time.Since(userStatus.LockedTime) < 15*time.Minute {\n\t\tfmt.Println(\"Account is locked. Try again later.\")\n\t\treturn\n\t}\n\n\tif success {\n\t\tuserStatus.Attempts = 0\n\t\tuserStatus.Locked = false\n\t} else {\n\t\tuserStatus.Attempts++\n\t\tif userStatus.Attempts >= 3 {\n\t\t\tuserStatus.Locked = true\n\t\t\tuserStatus.LockedTime = time.Now()\n\t\t\tfmt.Println(\"Account is locked due to too many failed attempts.\")\n\t\t} else {\n\t\t\tfmt.Println(\"Login failed. Attempt:\", userStatus.Attempts)\n\t\t}\n\t}\n\n\tum.Users[username] = userStatus\n}\n\nfunc main() {\n\tum := NewUserManager()\n\n\t// Simulating login attempts\n\tum.LoginAttempt(\"user1\", false)\n\tum.LoginAttempt(\"user1\", false)\n\tum.LoginAttempt(\"user1\", false)\n\tum.LoginAttempt(\"user1\", false)\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tphonebook := make(map[string]string)\n\n\t// Add contacts\n\tphonebook[\"Alice\"] = \"123-456-7890\"\n\tphonebook[\"Bob\"] = \"987-654-3210\"\n\n\t// Remove a contact\n\tdelete(phonebook, \"Alice\")\n\n\t// Look up a contact\n\tif number, found := phonebook[\"Bob\"]; found {\n\t\tfmt.Println(\"Bob's number is:\", number)\n\t} else {\n\t\tfmt.Println(\"Bob not found in phonebook.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tcities := map[string]int{\n\t\t\"New York\":    8419000,\n\t\t\"Los Angeles\": 3980000,\n\t\t\"Chicago\":     2716000,\n\t\t\"Houston\":     2328000,\n\t\t\"Phoenix\":     1690000,\n\t}\n\n\tvar maxCity string\n\tvar maxPopulation int\n\n\tfor city, population := range cities {\n\t\tif population > maxPopulation {\n\t\t\tmaxPopulation = population\n\t\t\tmaxCity = city\n\t\t}\n\t}\n\n\tfmt.Printf(\"The city with the highest population is %s with a population of %d.\\n\", maxCity, maxPopulation)\n}\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tdictionary := map[string]string{\n\t\t\"hello\": \"hola\",\n\t\t\"world\": \"mundo\",\n\t\t\"good\":  \"bueno\",\n\t\t\"morning\": \"ma\u00f1ana\",\n\t}\n\n\tsentence := \"hello world good morning\"\n\ttranslatedSentence := translateSentence(sentence, dictionary)\n\tfmt.Println(translatedSentence)\n}\n\nfunc translateSentence(sentence string, dictionary map[string]string) string {\n\twords := strings.Fields(sentence)\n\tfor i, word := range words {\n\t\tif translation, exists := dictionary[word]; exists {\n\t\t\twords[i] = translation\n\t\t}\n\t}\n\treturn strings.Join(words, \" \")\n}\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tbooks := map[string]string{\n\t\t\"To Kill a Mockingbird\":    \"Harper Lee\",\n\t\t\"1984\":                     \"George Orwell\",\n\t\t\"The Great Gatsby\":         \"F. Scott Fitzgerald\",\n\t\t\"The Catcher in the Rye\":   \"J.D. Salinger\",\n\t\t\"Brave New World\":          \"Aldous Huxley\",\n\t}\n\n\tauthor := \"George Orwell\"\n\tresults := findBooksByAuthor(books, author)\n\tfmt.Println(\"Books by\", author, \":\", results)\n}\n\nfunc findBooksByAuthor(books map[string]string, author string) []string {\n\tvar titles []string\n\tfor title, a := range books {\n\t\tif a == author {\n\t\t\ttitles = append(titles, title)\n\t\t}\n\t}\n\treturn titles\n}\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a map to store product IDs and their stock levels\n\tstockLevels := map[string]int{\n\t\t\"product1\": 100,\n\t\t\"product2\": 50,\n\t\t\"product3\": 200,\n\t}\n\n\t// Update stock levels after a sale\n\tupdateStock(stockLevels, \"product1\", 2)\n\tupdateStock(stockLevels, \"product2\", 5)\n\n\t// Print updated stock levels\n\tfmt.Println(stockLevels)\n}\n\nfunc updateStock(stock map[string]int, productID string, quantitySold int) {\n\tif currentStock, exists := stock[productID]; exists {\n\t\tstock[productID] = currentStock - quantitySold\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tcountryCodes := map[string]string{\n\t\t\"US\": \"United States\",\n\t\t\"CA\": \"Canada\",\n\t\t\"MX\": \"Mexico\",\n\t\t\"FR\": \"France\",\n\t\t\"DE\": \"Germany\",\n\t}\n\n\tcode := \"US\"\n\tif country, exists := countryCodes[code]; exists {\n\t\tfmt.Println(country)\n\t} else {\n\t\tfmt.Println(\"Country code not found\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\t// Create a map to store student IDs and names\n\tstudents := map[int]string{\n\t\t101: \"Alice\",\n\t\t102: \"Bob\",\n\t\t103: \"Charlie\",\n\t}\n\n\t// Function to retrieve a student's name by their ID\n\tgetStudentName := func(id int) string {\n\t\tif name, exists := students[id]; exists {\n\t\t\treturn name\n\t\t}\n\t\treturn \"Student not found\"\n\t}\n\n\t// Example of retrieving names by ID\n\tfmt.Println(getStudentName(101)) // Output: Alice\n\tfmt.Println(getStudentName(104)) // Output: Student not found\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\t// Initialize the configuration map\n\tconfig := make(map[string]string)\n\n\t// Function to update a setting\n\tupdateSetting := func(key string, value string) {\n\t\tconfig[key] = value\n\t}\n\n\t// Function to retrieve a setting\n\tgetSetting := func(key string) string {\n\t\tif value, exists := config[key]; exists {\n\t\t\treturn value\n\t\t}\n\t\treturn \"\"\n\t}\n\n\t// Example usage\n\tupdateSetting(\"theme\", \"dark\")\n\tupdateSetting(\"language\", \"en\")\n\n\tfmt.Println(\"Theme:\", getSetting(\"theme\"))\n\tfmt.Println(\"Language:\", getSetting(\"language\"))\n}\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tdictionary := map[string]string{\n\t\t\"apple\":  \"A fruit that is typically red, green, or yellow.\",\n\t\t\"banana\": \"A long curved fruit that grows in clusters and has soft pulpy flesh.\",\n\t\t\"cherry\": \"A small, round stone fruit that is typically bright or dark red.\",\n\t\t\"date\":   \"The sweet fruit of a palm tree.\",\n\t\t\"fig\":    \"A fruit that is soft and sweet and filled with tiny seeds.\",\n\t}\n\n\tdisplayWordsStartingWith(dictionary, 'a')\n}\n\nfunc displayWordsStartingWith(dict map[string]string, letter rune) {\n\tfor word := range dict {\n\t\tif strings.HasPrefix(word, string(letter)) {\n\t\t\tfmt.Println(word)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tcredentials := map[string]string{\n\t\t\"user1\": \"password123\",\n\t\t\"user2\": \"mypassword\",\n\t\t\"user3\": \"securepass\",\n\t}\n\n\tvar username, password string\n\tfmt.Println(\"Enter username:\")\n\tfmt.Scanln(&username)\n\tfmt.Println(\"Enter password:\")\n\tfmt.Scanln(&password)\n\n\tif pass, exists := credentials[username]; exists && pass == password {\n\t\tfmt.Println(\"Login successful!\")\n\t} else {\n\t\tfmt.Println(\"Login failed!\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tpurchases := []string{\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\"}\n\n\tpurchaseCount := make(map[string]int)\n\n\tfor _, item := range purchases {\n\t\tpurchaseCount[item]++\n\t}\n\n\tvar mostPopularItem string\n\tmaxCount := 0\n\n\tfor item, count := range purchaseCount {\n\t\tif count > maxCount {\n\t\t\tmaxCount = count\n\t\t\tmostPopularItem = item\n\t\t}\n\t}\n\n\tfmt.Printf(\"Most popular item: %s\\n\", mostPopularItem)\n}\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tfileAssociations := map[string]string{\n\t\t\".txt\":  \"Text Editor\",\n\t\t\".jpg\":  \"Image Viewer\",\n\t\t\".png\":  \"Image Viewer\",\n\t\t\".docx\": \"Word Processor\",\n\t\t\".pdf\":  \"PDF Reader\",\n\t\t\".mp3\":  \"Audio Player\",\n\t\t\".mp4\":  \"Video Player\",\n\t}\n\n\tfileName := \"example.pdf\"\n\textension := strings.ToLower(fileName[strings.LastIndex(fileName, \".\"):])\n\n\tif appType, exists := fileAssociations[extension]; exists {\n\t\tfmt.Printf(\"Open '%s' with %s\\n\", fileName, appType)\n\t} else {\n\t\tfmt.Printf(\"No application associated with the extension '%s'\\n\", extension)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tmenu := map[string]float64{\n\t\t\"Burger\":  5.99,\n\t\t\"Fries\":   2.99,\n\t\t\"Drink\":   1.99,\n\t\t\"Salad\":   4.99,\n\t\t\"Sandwich\": 6.99,\n\t}\n\n\torder := []string{\"Burger\", \"Fries\", \"Drink\"}\n\n\ttotalBill := calculateTotal(menu, order)\n\tfmt.Printf(\"Total bill: $%.2f\\n\", totalBill)\n}\n\nfunc calculateTotal(menu map[string]float64, order []string) float64 {\n\ttotal := 0.0\n\tfor _, item := range order {\n\t\tif price, exists := menu[item]; exists {\n\t\t\ttotal += price\n\t\t}\n\t}\n\treturn total\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Initialize the inventory map\n\tinventory := make(map[string]int)\n\n\t// Function to add items to the inventory\n\taddItem := func(item string, quantity int) {\n\t\tinventory[item] += quantity\n\t}\n\n\t// Function to remove items from the inventory\n\tremoveItem := func(item string, quantity int) {\n\t\tif currentQuantity, exists := inventory[item]; exists {\n\t\t\tif currentQuantity >= quantity {\n\t\t\t\tinventory[item] -= quantity\n\t\t\t\tif inventory[item] == 0 {\n\t\t\t\t\tdelete(inventory, item)\n\t\t\t\t}\n\t\t\t} else {\n\t\t\t\tfmt.Println(\"Not enough items to remove\")\n\t\t\t}\n\t\t} else {\n\t\t\tfmt.Println(\"Item does not exist\")\n\t\t}\n\t}\n\n\t// Function to check the inventory of a specific item\n\tcheckInventory := func(item string) int {\n\t\treturn inventory[item]\n\t}\n\n\t// Example usage\n\taddItem(\"Apples\", 50)\n\taddItem(\"Oranges\", 30)\n\tremoveItem(\"Apples\", 20)\n\tfmt.Println(\"Inventory of Apples:\", checkInventory(\"Apples\"))\n\tfmt.Println(\"Inventory of Oranges:\", checkInventory(\"Oranges\"))\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc romanToInt(s string) int {\n\tromanMap := map[byte]int{\n\t\t'I': 1,\n\t\t'V': 5,\n\t\t'X': 10,\n\t\t'L': 50,\n\t\t'C': 100,\n\t\t'D': 500,\n\t\t'M': 1000,\n\t}\n\n\ttotal := 0\n\tn := len(s)\n\tfor i := 0; i < n; i++ {\n\t\tvalue := romanMap[s[i]]\n\t\tif i < n-1 && value < romanMap[s[i+1]] {\n\t\t\ttotal -= value\n\t\t} else {\n\t\t\ttotal += value\n\t\t}\n\t}\n\treturn total\n}\n\nfunc main() {\n\tfmt.Println(romanToInt(\"III\"))    // 3\n\tfmt.Println(romanToInt(\"IV\"))     // 4\n\tfmt.Println(romanToInt(\"IX\"))     // 9\n\tfmt.Println(romanToInt(\"LVIII\"))  // 58\n\tfmt.Println(romanToInt(\"MCMXCIV\")) // 1994\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\ttext := \"example string\"\n\tletterCount := make(map[rune]int)\n\n\tfor _, letter := range strings.ToLower(text) {\n\t\tif letter >= 'a' && letter <= 'z' {\n\t\t\tletterCount[letter]++\n\t\t}\n\t}\n\n\tfor letter, count := range letterCount {\n\t\tfmt.Printf(\"%c: %d\\n\", letter, count)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a map to store team names and their scores\n\tscores := map[string]int{\n\t\t\"TeamA\": 85,\n\t\t\"TeamB\": 78,\n\t\t\"TeamC\": 92,\n\t\t\"TeamD\": 88,\n\t}\n\n\t// Determine the team with the highest score\n\thighestScore := 0\n\twinningTeam := \"\"\n\n\tfor team, score := range scores {\n\t\tif score > highestScore {\n\t\t\thighestScore = score\n\t\t\twinningTeam = team\n\t\t}\n\t}\n\n\tfmt.Printf(\"The team with the highest score is %s with a score of %d.\\n\", winningTeam, highestScore)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc totalWeight(itemWeights map[string]float64) float64 {\n\tvar total float64\n\tfor _, weight := range itemWeights {\n\t\ttotal += weight\n\t}\n\treturn total\n}\n\nfunc main() {\n\titems := map[string]float64{\n\t\t\"item1\": 2.5,\n\t\t\"item2\": 3.0,\n\t\t\"item3\": 1.2,\n\t}\n\tfmt.Println(totalWeight(items))\n}\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    websites := map[string]int{\n        \"https://example.com\": 10,\n        \"https://example.org\": 25,\n        \"https://example.net\": 15,\n    }\n\n    mostVisited := \"\"\n    maxVisits := 0\n\n    for url, visits := range websites {\n        if visits > maxVisits {\n            mostVisited = url\n            maxVisits = visits\n        }\n    }\n\n    fmt.Println(\"Most visited website:\", mostVisited)\n}\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\terrorMessages := map[int]string{\n\t\t404: \"Not Found\",\n\t\t500: \"Internal Server Error\",\n\t\t403: \"Forbidden\",\n\t\t401: \"Unauthorized\",\n\t}\n\n\terrorCode := 404\n\tif message, exists := errorMessages[errorCode]; exists {\n\t\tfmt.Println(message)\n\t} else {\n\t\tfmt.Println(\"Unknown error code\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    contacts := make(map[string]string)\n\n    // Add contacts\n    contacts[\"Alice\"] = \"123-456-7890\"\n    contacts[\"Bob\"] = \"987-654-3210\"\n\n    // Update a contact\n    contacts[\"Alice\"] = \"111-222-3333\"\n\n    // Lookup a contact\n    name := \"Alice\"\n    phone, exists := contacts[name]\n    if exists {\n        fmt.Printf(\"Phone number for %s: %s\\n\", name, phone)\n    } else {\n        fmt.Printf(\"No contact found for %s\\n\", name)\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Define a map to associate tasks with skill levels\n\ttasks := map[string]string{\n\t\t\"Develop Web Application\": \"Senior\",\n\t\t\"Design Logo\":             \"Junior\",\n\t\t\"Database Optimization\":   \"Mid\",\n\t\t\"Network Configuration\":   \"Senior\",\n\t\t\"Customer Support\":        \"Junior\",\n\t}\n\n\t// Define a map to associate employees with their skill levels\n\temployees := map[string]string{\n\t\t\"Alice\":   \"Senior\",\n\t\t\"Bob\":     \"Junior\",\n\t\t\"Charlie\": \"Mid\",\n\t\t\"David\":   \"Senior\",\n\t\t\"Eve\":     \"Junior\",\n\t}\n\n\t// Create a map to assign tasks to employees\n\tassignments := make(map[string]string)\n\n\t// Assign tasks to employees based on matching skill levels\n\tfor task, requiredSkill := range tasks {\n\t\tfor employee, skill := range employees {\n\t\t\tif requiredSkill == skill {\n\t\t\t\tassignments[task] = employee\n\t\t\t\tdelete(employees, employee) // Remove the employee once assigned\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t}\n\n\t// Print the task assignments\n\tfor task, employee := range assignments {\n\t\tfmt.Printf(\"Task: '%s' is assigned to '%s'\\n\", task, employee)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tairportCodes := map[string]string{\n\t\t\"LAX\": \"Los Angeles\",\n\t\t\"JFK\": \"New York\",\n\t\t\"ORD\": \"Chicago\",\n\t\t\"DFW\": \"Dallas\",\n\t\t\"DEN\": \"Denver\",\n\t}\n\n\tcity := getCityByAirportCode(airportCodes, \"JFK\")\n\tfmt.Println(\"Airport code JFK corresponds to:\", city)\n}\n\nfunc getCityByAirportCode(airportCodes map[string]string, code string) string {\n\tif city, exists := airportCodes[code]; exists {\n\t\treturn city\n\t}\n\treturn \"Unknown airport code\"\n}\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tmovies := map[string]int{\n\t\t\"The Shawshank Redemption\": 1994,\n\t\t\"The Godfather\":           1972,\n\t\t\"The Dark Knight\":         2008,\n\t\t\"Pulp Fiction\":            1994,\n\t\t\"Schindler's List\":        1993,\n\t\t\"The Lord of the Rings\":   2001,\n\t}\n\n\tdecade := 1990\n\tfindMoviesInDecade(movies, decade)\n}\n\nfunc findMoviesInDecade(movies map[string]int, decade int) {\n\tstart := decade\n\tend := decade + 9\n\tfor title, year := range movies {\n\t\tif year >= start && year <= end {\n\t\t\tfmt.Println(title)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc groupStudentsByGrades(students map[string]string) map[string][]string {\n\tgrouped := make(map[string][]string)\n\n\tfor student, grade := range students {\n\t\tgrouped[grade] = append(grouped[grade], student)\n\t}\n\n\treturn grouped\n}\n\nfunc main() {\n\tstudents := map[string]string{\n\t\t\"Alice\": \"A\",\n\t\t\"Bob\":   \"B\",\n\t\t\"Charlie\": \"A\",\n\t\t\"David\": \"C\",\n\t\t\"Eve\":   \"B\",\n\t}\n\n\tgrouped := groupStudentsByGrades(students)\n\tfmt.Println(grouped)\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tvisitors := map[string]int{\n\t\t\"Home\":       150,\n\t\t\"About\":      120,\n\t\t\"Contact\":    90,\n\t\t\"Blog\":       200,\n\t\t\"Products\":   300,\n\t\t\"Services\":   250,\n\t\t\"Support\":    180,\n\t}\n\n\tmostVisitedSection := \"\"\n\tmaxVisitors := 0\n\n\tfor section, count := range visitors {\n\t\tif count > maxVisitors {\n\t\t\tmaxVisitors = count\n\t\t\tmostVisitedSection = section\n\t\t}\n\t}\n\n\tfmt.Printf(\"The most visited section is: %s with %d visitors.\\n\", mostVisitedSection, maxVisitors)\n}\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc main() {\n\t// Initialize a map to store deadlines for each team member\n\tdeadlines := map[string]time.Time{\n\t\t\"Alice\": time.Date(2023, 10, 31, 0, 0, 0, 0, time.UTC),\n\t\t\"Bob\":   time.Date(2023, 11, 15, 0, 0, 0, 0, time.UTC),\n\t}\n\n\t// Function to extend a deadline for a team member\n\textendDeadline := func(member string, days int) {\n\t\tif deadline, ok := deadlines[member]; ok {\n\t\t\tdeadlines[member] = deadline.AddDate(0, 0, days)\n\t\t}\n\t}\n\n\t// Extend Bob's deadline by 5 days\n\textendDeadline(\"Bob\", 5)\n\n\t// Print the updated deadlines\n\tfor member, deadline := range deadlines {\n\t\tfmt.Printf(\"%s: %s\\n\", member, deadline.Format(\"2006-01-02\"))\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype Library struct {\n\tbooks map[string]bool\n}\n\nfunc NewLibrary() *Library {\n\treturn &Library{\n\t\tbooks: make(map[string]bool),\n\t}\n}\n\nfunc (l *Library) AddBook(title string) {\n\tl.books[title] = true\n}\n\nfunc (l *Library) BorrowBook(title string) bool {\n\tif available, exists := l.books[title]; exists && available {\n\t\tl.books[title] = false\n\t\treturn true\n\t}\n\treturn false\n}\n\nfunc (l *Library) ReturnBook(title string) {\n\tif _, exists := l.books[title]; exists {\n\t\tl.books[title] = true\n\t}\n}\n\nfunc (l *Library) IsAvailable(title string) bool {\n\tif available, exists := l.books[title]; exists {\n\t\treturn available\n\t}\n\treturn false\n}\n\nfunc main() {\n\tlibrary := NewLibrary()\n\tlibrary.AddBook(\"The Great Gatsby\")\n\tlibrary.AddBook(\"1984\")\n\tlibrary.AddBook(\"To Kill a Mockingbird\")\n\n\tfmt.Println(\"Is '1984' available?\", library.IsAvailable(\"1984\"))\n\n\tborrowed := library.BorrowBook(\"1984\")\n\tfmt.Println(\"Borrowed '1984':\", borrowed)\n\tfmt.Println(\"Is '1984' available?\", library.IsAvailable(\"1984\"))\n\n\tlibrary.ReturnBook(\"1984\")\n\tfmt.Println(\"Is '1984' available?\", library.IsAvailable(\"1984\"))\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tplanets := map[string]float64{\n\t\t\"Mercury\": 57.91,\n\t\t\"Venus\":   108.2,\n\t\t\"Earth\":   149.6,\n\t\t\"Mars\":    227.9,\n\t\t\"Jupiter\": 778.5,\n\t\t\"Saturn\":  1434.0,\n\t\t\"Uranus\":  2871.0,\n\t\t\"Neptune\": 4497.1,\n\t}\n\n\tearthDistance := planets[\"Earth\"]\n\tclosestPlanet := \"\"\n\tminDistance := math.MaxFloat64\n\n\tfor planet, distance := range planets {\n\t\tif planet != \"Earth\" {\n\t\t\tdistanceDiff := math.Abs(distance - earthDistance)\n\t\t\tif distanceDiff < minDistance {\n\t\t\t\tminDistance = distanceDiff\n\t\t\t\tclosestPlanet = planet\n\t\t\t}\n\t\t}\n\t}\n\n\tfmt.Println(\"The closest planet to Earth is:\", closestPlanet)\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tmorseCodeDict := map[string]string{\n\t\t\".-\":    \"A\",\n\t\t\"-...\":  \"B\",\n\t\t\"-.-.\":  \"C\",\n\t\t\"-..\":   \"D\",\n\t\t\".\":     \"E\",\n\t\t\"..-.\":  \"F\",\n\t\t\"--.\":   \"G\",\n\t\t\"....\":  \"H\",\n\t\t\"..\":    \"I\",\n\t\t\".---\":  \"J\",\n\t\t\"-.-\":   \"K\",\n\t\t\".-..\":  \"L\",\n\t\t\"--\":    \"M\",\n\t\t\"-.\":    \"N\",\n\t\t\"---\":   \"O\",\n\t\t\".--.\":  \"P\",\n\t\t\"--.-\":  \"Q\",\n\t\t\".-.\":   \"R\",\n\t\t\"...\":   \"S\",\n\t\t\"-\":     \"T\",\n\t\t\"..-\":   \"U\",\n\t\t\"...-\":  \"V\",\n\t\t\".--\":   \"W\",\n\t\t\"-..-\":  \"X\",\n\t\t\"-.--\":  \"Y\",\n\t\t\"--..\":  \"Z\",\n\t\t\"-----\": \"0\",\n\t\t\".----\": \"1\",\n\t\t\"..---\": \"2\",\n\t\t\"...--\": \"3\",\n\t\t\"....-\": \"4\",\n\t\t\".....\": \"5\",\n\t\t\"-....\": \"6\",\n\t\t\"--...\": \"7\",\n\t\t\"---..\": \"8\",\n\t\t\"----.\": \"9\",\n\t}\n\n\tmorseCodeMessage := \"... --- ...\"\n\twords := strings.Split(morseCodeMessage, \" \")\n\n\tvar plainTextMessage strings.Builder\n\tfor _, code := range words {\n\t\tif letter, exists := morseCodeDict[code]; exists {\n\t\t\tplainTextMessage.WriteString(letter)\n\t\t} else {\n\t\t\tplainTextMessage.WriteString(\"?\")\n\t\t}\n\t}\n\n\tfmt.Println(plainTextMessage.String())\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tvehicleOwners := make(map[string]string)\n\n\tvehicleOwners[\"ABC123\"] = \"John Doe\"\n\tvehicleOwners[\"XYZ789\"] = \"Jane Smith\"\n\tvehicleOwners[\"LMN456\"] = \"Alice Johnson\"\n\n\tfor regNumber, owner := range vehicleOwners {\n\t\tfmt.Printf(\"Registration Number: %s, Owner: %s\\n\", regNumber, owner)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tteams := map[string][]int{\n\t\t\"TeamA\": {10, 2},\n\t\t\"TeamB\": {8, 5},\n\t\t\"TeamC\": {12, 1},\n\t\t\"TeamD\": {9, 3},\n\t}\n\n\tbestTeam := \"\"\n\tbestRecord := 0.0\n\n\tfor team, record := range teams {\n\t\twinLossRatio := float64(record[0]) / float64(record[1])\n\t\tif winLossRatio > bestRecord {\n\t\t\tbestRecord = winLossRatio\n\t\t\tbestTeam = team\n\t\t}\n\t}\n\n\tfmt.Printf(\"The team with the best record is %s with a win-loss ratio of %.2f\\n\", bestTeam, bestRecord)\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc currencyCodeToName(code string) string {\n\tcurrencyMap := map[string]string{\n\t\t\"USD\": \"United States Dollar\",\n\t\t\"EUR\": \"Euro\",\n\t\t\"JPY\": \"Japanese Yen\",\n\t\t\"GBP\": \"British Pound\",\n\t\t\"AUD\": \"Australian Dollar\",\n\t\t\"CAD\": \"Canadian Dollar\",\n\t\t\"CHF\": \"Swiss Franc\",\n\t\t\"CNY\": \"Chinese Yuan\",\n\t\t\"SEK\": \"Swedish Krona\",\n\t\t\"NZD\": \"New Zealand Dollar\",\n\t}\n\n\tif name, exists := currencyMap[code]; exists {\n\t\treturn name\n\t}\n\treturn \"Unknown Currency Code\"\n}\n\nfunc main() {\n\tfmt.Println(currencyCodeToName(\"USD\")) // Output: United States Dollar\n\tfmt.Println(currencyCodeToName(\"EUR\")) // Output: Euro\n\tfmt.Println(currencyCodeToName(\"XYZ\")) // Output: Unknown Currency Code\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a map to store student names and their attendance counts\n\tattendance := map[string]int{\n\t\t\"Alice\":   5,\n\t\t\"Bob\":     8,\n\t\t\"Charlie\": 3,\n\t\t\"Diana\":   9,\n\t}\n\n\t// Determine the student with the highest attendance\n\tvar maxStudent string\n\tvar maxAttendance int\n\tfor student, count := range attendance {\n\t\tif count > maxAttendance {\n\t\t\tmaxAttendance = count\n\t\t\tmaxStudent = student\n\t\t}\n\t}\n\n\tfmt.Printf(\"The student with the highest attendance is %s with %d attendances.\\n\", maxStudent, maxAttendance)\n}\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tcapitals := map[string]string{\n\t\t\"USA\":      \"Washington, D.C.\",\n\t\t\"France\":   \"Paris\",\n\t\t\"Germany\":  \"Berlin\",\n\t\t\"India\":    \"New Delhi\",\n\t\t\"Japan\":    \"Tokyo\",\n\t\t\"Brazil\":   \"Bras\u00edlia\",\n\t\t\"Canada\":   \"Ottawa\",\n\t\t\"China\":    \"Beijing\",\n\t\t\"Russia\":   \"Moscow\",\n\t\t\"Australia\": \"Canberra\",\n\t}\n\n\t// Example lookup\n\tcountry := \"India\"\n\tif capital, exists := capitals[country]; exists {\n\t\tfmt.Printf(\"The capital of %s is %s\\n\", country, capital)\n\t} else {\n\t\tfmt.Printf(\"Capital for %s not found\\n\", country)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tingredients := map[string]int{\n\t\t\"Flour\":   2,\n\t\t\"Sugar\":   1,\n\t\t\"Eggs\":    3,\n\t\t\"Butter\":  1,\n\t\t\"Milk\":    2,\n\t}\n\n\tfor ingredient, quantity := range ingredients {\n\t\tfmt.Printf(\"%s: %d\\n\", ingredient, quantity)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype UserProfile struct {\n\tName    string\n\tAge     int\n\tCountry string\n}\n\nfunc main() {\n\tuserProfiles := make(map[string]UserProfile)\n\n\tuserProfiles[\"john_doe\"] = UserProfile{\n\t\tName:    \"John Doe\",\n\t\tAge:     30,\n\t\tCountry: \"USA\",\n\t}\n\n\tuserProfiles[\"jane_smith\"] = UserProfile{\n\t\tName:    \"Jane Smith\",\n\t\tAge:     25,\n\t\tCountry: \"UK\",\n\t}\n\n\tfor username, profile := range userProfiles {\n\t\tfmt.Printf(\"Username: %s, Profile: %+v\\n\", username, profile)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc listProductsByCategory(products map[string][]string, category string) []string {\n\tif productList, exists := products[category]; exists {\n\t\treturn productList\n\t}\n\treturn []string{}\n}\n\nfunc main() {\n\tproducts := map[string][]string{\n\t\t\"Electronics\": {\"Laptop\", \"Smartphone\", \"Tablet\"},\n\t\t\"Groceries\":   {\"Apples\", \"Bread\", \"Milk\"},\n\t\t\"Clothing\":    {\"Shirt\", \"Jeans\", \"Hat\"},\n\t}\n\n\tcategory := \"Electronics\"\n\tproductList := listProductsByCategory(products, category)\n\tfmt.Println(\"Products in category:\", category)\n\tfor _, product := range productList {\n\t\tfmt.Println(product)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc updateQuantity(shoppingList map[string]int, item string, quantity int) {\n    if _, exists := shoppingList[item]; exists {\n        shoppingList[item] = quantity\n    }\n}\n\nfunc main() {\n    shoppingList := map[string]int{\n        \"apples\":  5,\n        \"bananas\": 2,\n        \"oranges\": 3,\n    }\n\n    fmt.Println(\"Before update:\", shoppingList)\n    \n    updateQuantity(shoppingList, \"apples\", 10)\n\n    fmt.Println(\"After update:\", shoppingList)\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tevents := map[string]int{\n\t\t\"Moon Landing\":       1969,\n\t\t\"Fall of the Berlin Wall\": 1989,\n\t\t\"Declaration of Independence\": 1776,\n\t\t\"First Powered Flight\": 1903,\n\t}\n\n\tyear := 1989\n\tfmt.Printf(\"Events in %d:\\n\", year)\n\tfor event, eventYear := range events {\n\t\tif eventYear == year {\n\t\t\tfmt.Println(event)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\troles := map[string][]string{\n\t\t\"admin\":    {\"read\", \"write\", \"delete\"},\n\t\t\"user\":     {\"read\", \"write\"},\n\t\t\"guest\":    {\"read\"},\n\t\t\"moderator\": {\"read\", \"write\", \"ban\"},\n\t}\n\n\t// Example of accessing the permissions for a specific role\n\trole := \"admin\"\n\tif permissions, exists := roles[role]; exists {\n\t\tfmt.Printf(\"Permissions for %s: %v\\n\", role, permissions)\n\t} else {\n\t\tfmt.Printf(\"Role %s does not exist.\\n\", role)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tgradeMap := map[int]string{\n\t\t90: \"A\",\n\t\t80: \"B\",\n\t\t70: \"C\",\n\t\t60: \"D\",\n\t\t0:  \"F\",\n\t}\n\n\tnumericGrades := []int{95, 82, 76, 68, 54}\n\n\tfor _, numGrade := range numericGrades {\n\t\tfor key, letterGrade := range gradeMap {\n\t\t\tif numGrade >= key {\n\t\t\t\tfmt.Printf(\"Numeric Grade: %d, Letter Grade: %s\\n\", numGrade, letterGrade)\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tholidays := map[string]string{\n\t\t\"New Year\":       \"January 1\",\n\t\t\"Independence Day\": \"July 4\",\n\t\t\"Christmas\":      \"December 25\",\n\t}\n\n\tholidayName := \"Christmas\"\n\n\tif date, exists := holidays[holidayName]; exists {\n\t\tfmt.Printf(\"%s is on %s\\n\", holidayName, date)\n\t} else {\n\t\tfmt.Printf(\"%s not found in the holidays map\\n\", holidayName)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\torders := make(map[string]string)\n\n\t// Adding orders with status\n\torders[\"order1\"] = \"Pending\"\n\torders[\"order2\"] = \"Shipped\"\n\torders[\"order3\"] = \"Delivered\"\n\n\t// Update order status\n\tupdateOrderStatus(orders, \"order1\", \"Shipped\")\n\tupdateOrderStatus(orders, \"order2\", \"Delivered\")\n\n\t// Print order statuses\n\tprintOrderStatuses(orders)\n}\n\nfunc updateOrderStatus(orders map[string]string, orderID, status string) {\n\tif _, exists := orders[orderID]; exists {\n\t\torders[orderID] = status\n\t}\n}\n\nfunc printOrderStatuses(orders map[string]string) {\n\tfor orderID, status := range orders {\n\t\tfmt.Printf(\"Order ID: %s, Status: %s\\n\", orderID, status)\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tnutritionalInfo := map[string]map[string]interface{}{\n\t\t\"Apple\": {\n\t\t\t\"Calories\": 52,\n\t\t\t\"Fat\":      0.2,\n\t\t\t\"Carbs\":    14,\n\t\t\t\"Protein\":  0.3,\n\t\t},\n\t\t\"Banana\": {\n\t\t\t\"Calories\": 96,\n\t\t\t\"Fat\":      0.3,\n\t\t\t\"Carbs\":    27,\n\t\t\t\"Protein\":  1.3,\n\t\t},\n\t\t\"Carrot\": {\n\t\t\t\"Calories\": 41,\n\t\t\t\"Fat\":      0.2,\n\t\t\t\"Carbs\":    10,\n\t\t\t\"Protein\":  0.9,\n\t\t},\n\t}\n\n\tfor item, info := range nutritionalInfo {\n\t\tfmt.Printf(\"Nutritional information for %s:\\n\", item)\n\t\tfor key, value := range info {\n\t\t\tfmt.Printf(\"  %s: %v\\n\", key, value)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a map to store genres and their corresponding book titles\n\tbookGenres := map[string][]string{\n\t\t\"Science Fiction\": {\"Dune\", \"Neuromancer\", \"Snow Crash\"},\n\t\t\"Fantasy\":         {\"The Hobbit\", \"Harry Potter\", \"The Name of the Wind\"},\n\t\t\"Mystery\":         {\"The Da Vinci Code\", \"Gone Girl\", \"Sherlock Holmes\"},\n\t}\n\n\t// Retrieve and print all books in a given genre\n\tgenre := \"Fantasy\"\n\tif books, ok := bookGenres[genre]; ok {\n\t\tfmt.Printf(\"Books in the %s genre:\\n\", genre)\n\t\tfor _, book := range books {\n\t\t\tfmt.Println(book)\n\t\t}\n\t} else {\n\t\tfmt.Printf(\"No books found in the %s genre.\\n\", genre)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc stateAbbreviationToFullName(abbreviation string) string {\n\tstateMap := map[string]string{\n\t\t\"AL\": \"Alabama\",\n\t\t\"AK\": \"Alaska\",\n\t\t\"AZ\": \"Arizona\",\n\t\t\"AR\": \"Arkansas\",\n\t\t\"CA\": \"California\",\n\t\t\"CO\": \"Colorado\",\n\t\t\"CT\": \"Connecticut\",\n\t\t\"DE\": \"Delaware\",\n\t\t\"FL\": \"Florida\",\n\t\t\"GA\": \"Georgia\",\n\t\t\"HI\": \"Hawaii\",\n\t\t\"ID\": \"Idaho\",\n\t\t\"IL\": \"Illinois\",\n\t\t\"IN\": \"Indiana\",\n\t\t\"IA\": \"Iowa\",\n\t\t\"KS\": \"Kansas\",\n\t\t\"KY\": \"Kentucky\",\n\t\t\"LA\": \"Louisiana\",\n\t\t\"ME\": \"Maine\",\n\t\t\"MD\": \"Maryland\",\n\t\t\"MA\": \"Massachusetts\",\n\t\t\"MI\": \"Michigan\",\n\t\t\"MN\": \"Minnesota\",\n\t\t\"MS\": \"Mississippi\",\n\t\t\"MO\": \"Missouri\",\n\t\t\"MT\": \"Montana\",\n\t\t\"NE\": \"Nebraska\",\n\t\t\"NV\": \"Nevada\",\n\t\t\"NH\": \"New Hampshire\",\n\t\t\"NJ\": \"New Jersey\",\n\t\t\"NM\": \"New Mexico\",\n\t\t\"NY\": \"New York\",\n\t\t\"NC\": \"North Carolina\",\n\t\t\"ND\": \"North Dakota\",\n\t\t\"OH\": \"Ohio\",\n\t\t\"OK\": \"Oklahoma\",\n\t\t\"OR\": \"Oregon\",\n\t\t\"PA\": \"Pennsylvania\",\n\t\t\"RI\": \"Rhode Island\",\n\t\t\"SC\": \"South Carolina\",\n\t\t\"SD\": \"South Dakota\",\n\t\t\"TN\": \"Tennessee\",\n\t\t\"TX\": \"Texas\",\n\t\t\"UT\": \"Utah\",\n\t\t\"VT\": \"Vermont\",\n\t\t\"VA\": \"Virginia\",\n\t\t\"WA\": \"Washington\",\n\t\t\"WV\": \"West Virginia\",\n\t\t\"WI\": \"Wisconsin\",\n\t\t\"WY\": \"Wyoming\",\n\t}\n\n\tif fullName, exists := stateMap[abbreviation]; exists {\n\t\treturn fullName\n\t}\n\treturn \"Unknown\"\n}\n\nfunc main() {\n\tfmt.Println(stateAbbreviationToFullName(\"CA\")) // Output: California\n\tfmt.Println(stateAbbreviationToFullName(\"NY\")) // Output: New York\n\tfmt.Println(stateAbbreviationToFullName(\"ZZ\")) // Output: Unknown\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\t// Create a map to store customer names and their order histories\n\tcustomerOrders := make(map[string][]string)\n\n\t// Add customer orders\n\tcustomerOrders[\"Alice\"] = []string{\"Order1\", \"Order2\"}\n\tcustomerOrders[\"Bob\"] = []string{\"Order3\", \"Order4\", \"Order5\"}\n\n\t// Output the customer orders\n\tfor customer, orders := range customerOrders {\n\t\tfmt.Printf(\"Customer: %s, Orders: %v\\n\", customer, orders)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tparkingLot := make(map[int]bool)\n\n\t// Mark space 1 as occupied\n\tparkingLot[1] = true\n\n\t// Check if space 1 is occupied\n\tif parkingLot[1] {\n\t\tfmt.Println(\"Space 1 is occupied.\")\n\t} else {\n\t\tfmt.Println(\"Space 1 is available.\")\n\t}\n\n\t// Mark space 1 as available\n\tparkingLot[1] = false\n\n\t// Check again if space 1 is occupied\n\tif parkingLot[1] {\n\t\tfmt.Println(\"Space 1 is occupied.\")\n\t} else {\n\t\tfmt.Println(\"Space 1 is available.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    scores := make(map[string]int)\n\n    // Adding player scores\n    scores[\"Alice\"] = 10\n    scores[\"Bob\"] = 15\n    scores[\"Charlie\"] = 20\n\n    // Updating a player's score\n    scores[\"Bob\"] = 18\n\n    // Displaying all scores\n    for player, score := range scores {\n        fmt.Printf(\"%s: %d\\n\", player, score)\n    }\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\t// Initialize the dictionary with some scientific terms and definitions\n\tdictionary := map[string]string{\n\t\t\"Atom\":        \"The basic unit of a chemical element.\",\n\t\t\"Molecule\":    \"A group of atoms bonded together.\",\n\t\t\"Photosynthesis\": \"The process by which green plants use sunlight to synthesize foods with carbon dioxide and water.\",\n\t\t\"Evolution\":   \"The process by which different kinds of living organisms are thought to have developed from earlier forms.\",\n\t}\n\n\t// Create a scanner to read user input\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter a scientific term to look up its definition:\")\n\n\t// Read user input\n\tif scanner.Scan() {\n\t\tterm := strings.TrimSpace(scanner.Text())\n\t\tif definition, found := dictionary[term]; found {\n\t\t\tfmt.Printf(\"Definition of %s: %s\\n\", term, definition)\n\t\t} else {\n\t\t\tfmt.Printf(\"The term '%s' was not found in the dictionary.\\n\", term)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc convertTemperature(value float64, scaleFrom string, scaleTo string) (float64, bool) {\n\tconversions := map[string]func(float64) float64{\n\t\t\"CtoF\": func(c float64) float64 { return c*9/5 + 32 },\n\t\t\"FtoC\": func(f float64) float64 { return (f - 32) * 5 / 9 },\n\t\t\"CtoK\": func(c float64) float64 { return c + 273.15 },\n\t\t\"KtoC\": func(k float64) float64 { return k - 273.15 },\n\t\t\"FtoK\": func(f float64) float64 { return (f-32)*5/9 + 273.15 },\n\t\t\"KtoF\": func(k float64) float64 { return (k-273.15)*9/5 + 32 },\n\t}\n\n\tkey := scaleFrom + \"to\" + scaleTo\n\tif conversionFunc, found := conversions[key]; found {\n\t\treturn conversionFunc(value), true\n\t}\n\treturn 0, false\n}\n\nfunc main() {\n\tvalue, success := convertTemperature(100, \"C\", \"F\")\n\tif success {\n\t\tfmt.Println(\"Converted temperature:\", value)\n\t} else {\n\t\tfmt.Println(\"Conversion not supported.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\temployees := map[string]string{\n\t\t\"Alice\":   \"Engineering\",\n\t\t\"Bob\":     \"Marketing\",\n\t\t\"Charlie\": \"Human Resources\",\n\t}\n\n\tfmt.Println(employees)\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tattractions := map[string]string{\n\t\t\"Eiffel Tower\":       \"Paris, France\",\n\t\t\"Statue of Liberty\":  \"New York, USA\",\n\t\t\"Great Wall\":         \"China\",\n\t\t\"Colosseum\":          \"Rome, Italy\",\n\t\t\"Machu Picchu\":       \"Peru\",\n\t}\n\n\tfor attraction, location := range attractions {\n\t\tfmt.Printf(\"%s is located in %s\\n\", attraction, location)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// Album represents a music album with a title and an artist.\ntype Album struct {\n\tTitle  string\n\tArtist string\n}\n\n// MusicCollection manages a collection of albums using a map.\ntype MusicCollection struct {\n\talbums map[string]Album\n}\n\n// NewMusicCollection creates a new MusicCollection.\nfunc NewMusicCollection() *MusicCollection {\n\treturn &MusicCollection{\n\t\talbums: make(map[string]Album),\n\t}\n}\n\n// AddAlbum adds a new album to the collection.\nfunc (mc *MusicCollection) AddAlbum(id string, album Album) {\n\tmc.albums[id] = album\n}\n\n// RemoveAlbum removes an album from the collection by its ID.\nfunc (mc *MusicCollection) RemoveAlbum(id string) {\n\tdelete(mc.albums, id)\n}\n\n// ListAlbums lists all the albums in the collection.\nfunc (mc *MusicCollection) ListAlbums() {\n\tfor id, album := range mc.albums {\n\t\tfmt.Printf(\"ID: %s, Title: %s, Artist: %s\\n\", id, album.Title, album.Artist)\n\t}\n}\n\nfunc main() {\n\tmc := NewMusicCollection()\n\n\t// Add some albums\n\tmc.AddAlbum(\"1\", Album{Title: \"Abbey Road\", Artist: \"The Beatles\"})\n\tmc.AddAlbum(\"2\", Album{Title: \"The Dark Side of the Moon\", Artist: \"Pink Floyd\"})\n\tmc.AddAlbum(\"3\", Album{Title: \"Thriller\", Artist: \"Michael Jackson\"})\n\n\t// List albums\n\tfmt.Println(\"Albums in collection:\")\n\tmc.ListAlbums()\n\n\t// Remove an album\n\tmc.RemoveAlbum(\"2\")\n\n\t// List albums again\n\tfmt.Println(\"\\nAlbums in collection after removal:\")\n\tmc.ListAlbums()\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tinventory := map[string]int{\n\t\t\"Apples\":  50,\n\t\t\"Bananas\": 30,\n\t\t\"Oranges\": 20,\n\t}\n\n\t// Example usage\n\tinventory[\"Apples\"] -= 5\n\tinventory[\"Bananas\"] += 10\n\tinventory[\"Oranges\"] = 15\n\n\tfmt.Println(\"Current Inventory:\")\n\tfor item, quantity := range inventory {\n\t\tfmt.Printf(\"%s: %d\\n\", item, quantity)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    rivers := map[string]int{\n        \"Nile\":       6650,\n        \"Amazon\":     6400,\n        \"Yangtze\":    6300,\n        \"Mississippi\": 6275,\n        \"Yenisei\":    5539,\n    }\n\n    riverName := \"Amazon\"\n    if length, exists := rivers[riverName]; exists {\n        fmt.Printf(\"The length of the %s is %d kilometers.\\n\", riverName, length)\n    } else {\n        fmt.Printf(\"The length of the %s is not available.\\n\", riverName)\n    }\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tconferenceRooms := map[string]bool{\n\t\t\"Room A\": true,\n\t\t\"Room B\": false,\n\t\t\"Room C\": true,\n\t\t\"Room D\": false,\n\t}\n\n\t// Example usage: Check availability and book a room\n\troomToCheck := \"Room A\"\n\tif available, exists := conferenceRooms[roomToCheck]; exists {\n\t\tif available {\n\t\t\tfmt.Printf(\"%s is available. Booking it now.\\n\", roomToCheck)\n\t\t\tconferenceRooms[roomToCheck] = false\n\t\t} else {\n\t\t\tfmt.Printf(\"%s is currently booked.\\n\", roomToCheck)\n\t\t}\n\t} else {\n\t\tfmt.Printf(\"%s does not exist.\\n\", roomToCheck)\n\t}\n\n\t// Print the current status of all rooms\n\tfor room, available := range conferenceRooms {\n\t\tstatus := \"booked\"\n\t\tif available {\n\t\t\tstatus = \"available\"\n\t\t}\n\t\tfmt.Printf(\"%s is %s.\\n\", room, status)\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tanimalHabitats := map[string]string{\n\t\t\"Lion\":      \"Savannah\",\n\t\t\"Polar Bear\": \"Arctic\",\n\t\t\"Kangaroo\":  \"Grassland\",\n\t\t\"Penguin\":   \"Antarctica\",\n\t\t\"Panda\":     \"Forest\",\n\t}\n\n\tfor animal, habitat := range animalHabitats {\n\t\tfmt.Printf(\"The %s lives in the %s.\\n\", animal, habitat)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tmountains := map[string]int{\n\t\t\"Everest\":    8848,\n\t\t\"K2\":         8611,\n\t\t\"Kangchenjunga\": 8586,\n\t\t\"Lhotse\":     8516,\n\t\t\"Makalu\":     8485,\n\t}\n\n\ttallestMountain := \"\"\n\tmaxElevation := 0\n\n\tfor name, elevation := range mountains {\n\t\tif elevation > maxElevation {\n\t\t\tmaxElevation = elevation\n\t\t\ttallestMountain = name\n\t\t}\n\t}\n\n\tfmt.Printf(\"The tallest mountain is %s with an elevation of %d meters.\\n\", tallestMountain, maxElevation)\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc getUTCOffset(timeZone string) string {\n\ttimeZoneOffsets := map[string]string{\n\t\t\"UTC\":  \"+00:00\",\n\t\t\"EST\":  \"-05:00\",\n\t\t\"CST\":  \"-06:00\",\n\t\t\"MST\":  \"-07:00\",\n\t\t\"PST\":  \"-08:00\",\n\t\t\"GMT\":  \"+00:00\",\n\t\t\"CET\":  \"+01:00\",\n\t\t\"EET\":  \"+02:00\",\n\t\t\"IST\":  \"+05:30\",\n\t\t\"CST\":  \"+08:00\",\n\t}\n\n\tif offset, exists := timeZoneOffsets[timeZone]; exists {\n\t\treturn offset\n\t}\n\treturn \"Unknown timezone\"\n}\n\nfunc main() {\n\tfmt.Println(getUTCOffset(\"EST\"))  // Output: -05:00\n\tfmt.Println(getUTCOffset(\"IST\"))  // Output: +05:30\n\tfmt.Println(getUTCOffset(\"XYZ\"))  // Output: Unknown timezone\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    languages := map[string]string{\n        \"Python\":    \"Guido van Rossum\",\n        \"Java\":      \"James Gosling\",\n        \"C\":         \"Dennis Ritchie\",\n        \"Go\":        \"Robert Griesemer, Rob Pike, and Ken Thompson\",\n        \"JavaScript\": \"Brendan Eich\",\n    }\n\n    for language, creator := range languages {\n        fmt.Printf(\"Language: %s, Creator: %s\\n\", language, creator)\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tsubscribers := make(map[string]bool)\n\n\t// Subscribe function\n\tsubscribe := func(email string) {\n\t\tsubscribers[email] = true\n\t\tfmt.Printf(\"%s has subscribed.\\n\", email)\n\t}\n\n\t// Unsubscribe function\n\tunsubscribe := func(email string) {\n\t\tif _, exists := subscribers[email]; exists {\n\t\t\tdelete(subscribers, email)\n\t\t\tfmt.Printf(\"%s has unsubscribed.\\n\", email)\n\t\t} else {\n\t\t\tfmt.Printf(\"%s is not subscribed.\\n\", email)\n\t\t}\n\t}\n\n\t// Example usage\n\tsubscribe(\"user1@example.com\")\n\tsubscribe(\"user2@example.com\")\n\tunsubscribe(\"user1@example.com\")\n\tunsubscribe(\"user3@example.com\")\n\n\t// Print current subscribers\n\tfmt.Println(\"Current subscribers:\", subscribers)\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tlikes := make(map[string]int)\n\n\t// Example posts\n\tlikes[\"post1\"] = 0\n\tlikes[\"post2\"] = 0\n\tlikes[\"post3\"] = 0\n\n\t// Simulate likes\n\tlikes[\"post1\"] += 1\n\tlikes[\"post2\"] += 3\n\tlikes[\"post3\"] += 2\n\tlikes[\"post1\"] += 2\n\n\t// Print likes count for each post\n\tfor post, count := range likes {\n\t\tfmt.Printf(\"%s has %d likes\\n\", post, count)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\telements := map[string]int{\n\t\t\"Hydrogen\":  1,\n\t\t\"Helium\":    2,\n\t\t\"Lithium\":   3,\n\t\t\"Beryllium\": 4,\n\t\t\"Boron\":     5,\n\t\t\"Carbon\":    6,\n\t\t\"Nitrogen\":  7,\n\t\t\"Oxygen\":    8,\n\t\t\"Fluorine\":  9,\n\t\t\"Neon\":      10,\n\t}\n\n\t// Example of looking up an element's atomic number\n\telementName := \"Oxygen\"\n\tif atomicNumber, ok := elements[elementName]; ok {\n\t\tfmt.Printf(\"The atomic number of %s is %d.\\n\", elementName, atomicNumber)\n\t} else {\n\t\tfmt.Printf(\"%s not found in the dictionary.\\n\", elementName)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc groupMoviesByDirector(movies []Movie) map[string][]string {\n\tdirectorMap := make(map[string][]string)\n\tfor _, movie := range movies {\n\t\tdirectorMap[movie.Director] = append(directorMap[movie.Director], movie.Title)\n\t}\n\treturn directorMap\n}\n\ntype Movie struct {\n\tTitle    string\n\tDirector string\n}\n\nfunc main() {\n\tmovies := []Movie{\n\t\t{\"Inception\", \"Christopher Nolan\"},\n\t\t{\"Interstellar\", \"Christopher Nolan\"},\n\t\t{\"The Dark Knight\", \"Christopher Nolan\"},\n\t\t{\"Pulp Fiction\", \"Quentin Tarantino\"},\n\t\t{\"Kill Bill\", \"Quentin Tarantino\"},\n\t}\n\n\tgroupedMovies := groupMoviesByDirector(movies)\n\tfmt.Println(groupedMovies)\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\thistoricalFigures := map[string]int{\n\t\t\"Albert Einstein\": 1879,\n\t\t\"Isaac Newton\":    1643,\n\t\t\"Marie Curie\":     1867,\n\t\t\"Galileo Galilei\": 1564,\n\t\t\"Leonardo da Vinci\": 1452,\n\t}\n\n\tfmt.Println(historicalFigures)\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tplanets := map[string]float64{\n\t\t\"Mercury\": 4879,\n\t\t\"Venus\":   12104,\n\t\t\"Earth\":   12742,\n\t\t\"Mars\":    6779,\n\t\t\"Jupiter\": 139820,\n\t\t\"Saturn\":  116460,\n\t\t\"Uranus\":  50724,\n\t\t\"Neptune\": 49244,\n\t}\n\n\tfor name, diameter := range planets {\n\t\tfmt.Printf(\"The diameter of %s is %.0f km.\\n\", name, diameter)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Initialize a map to store restaurant ratings\n\tratings := make(map[string]int)\n\n\t// Function to set a rating for a restaurant\n\tsetRating := func(restaurant string, rating int) {\n\t\tratings[restaurant] = rating\n\t}\n\n\t// Function to get a rating for a restaurant\n\tgetRating := func(restaurant string) int {\n\t\treturn ratings[restaurant]\n\t}\n\n\t// Example Usage\n\tsetRating(\"Pizza Place\", 4)\n\tsetRating(\"Burger Joint\", 5)\n\n\tfmt.Println(\"Pizza Place Rating:\", getRating(\"Pizza Place\"))\n\tfmt.Println(\"Burger Joint Rating:\", getRating(\"Burger Joint\"))\n\n\t// Update rating\n\tsetRating(\"Pizza Place\", 5)\n\tfmt.Println(\"Updated Pizza Place Rating:\", getRating(\"Pizza Place\"))\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nfunc main() {\n\tbinaryToDecimal := map[string]int{\n\t\t\"0\":  0,\n\t\t\"1\":  1,\n\t\t\"10\": 2,\n\t\t\"11\": 3,\n\t\t\"100\": 4,\n\t\t\"101\": 5,\n\t\t\"110\": 6,\n\t\t\"111\": 7,\n\t\t\"1000\": 8,\n\t\t\"1001\": 9,\n\t\t\"1010\": 10,\n\t}\n\n\tbinaryNumbers := []string{\"0\", \"1\", \"10\", \"11\", \"1010\", \"1101\", \"1111\"}\n\tfor _, binary := range binaryNumbers {\n\t\tif decimal, exists := binaryToDecimal[binary]; exists {\n\t\t\tfmt.Printf(\"Binary: %s -> Decimal: %d\\n\", binary, decimal)\n\t\t} else {\n\t\t\tif decimal, err := strconv.ParseInt(binary, 2, 64); err == nil {\n\t\t\t\tfmt.Printf(\"Binary: %s -> Decimal: %d\\n\", binary, decimal)\n\t\t\t} else {\n\t\t\t\tfmt.Printf(\"Binary: %s -> Decimal: Not Found\\n\", binary)\n\t\t\t}\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tartists := map[string]string{\n\t\t\"Leonardo da Vinci\": \"Mona Lisa\",\n\t\t\"Vincent van Gogh\":  \"Starry Night\",\n\t\t\"Pablo Picasso\":     \"Guernica\",\n\t\t\"Claude Monet\":      \"Water Lilies\",\n\t\t\"Michelangelo\":      \"David\",\n\t}\n\n\tfor artist, work := range artists {\n\t\tfmt.Printf(\"%s: %s\\n\", artist, work)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\ntype Vehicle struct {\n\tID       string\n\tModel    string\n\tSchedule time.Time\n}\n\ntype MaintenanceSystem struct {\n\tschedules map[string]Vehicle\n}\n\nfunc NewMaintenanceSystem() *MaintenanceSystem {\n\treturn &MaintenanceSystem{\n\t\tschedules: make(map[string]Vehicle),\n\t}\n}\n\nfunc (ms *MaintenanceSystem) AddVehicle(vehicle Vehicle) {\n\tms.schedules[vehicle.ID] = vehicle\n}\n\nfunc (ms *MaintenanceSystem) GetSchedule(vehicleID string) (Vehicle, bool) {\n\tvehicle, exists := ms.schedules[vehicleID]\n\treturn vehicle, exists\n}\n\nfunc (ms *MaintenanceSystem) RemoveVehicle(vehicleID string) {\n\tdelete(ms.schedules, vehicleID)\n}\n\nfunc main() {\n\tsystem := NewMaintenanceSystem()\n\n\tvehicle1 := Vehicle{\n\t\tID:       \"V123\",\n\t\tModel:    \"Sedan\",\n\t\tSchedule: time.Now().AddDate(0, 1, 0),\n\t}\n\n\tsystem.AddVehicle(vehicle1)\n\n\tif v, exists := system.GetSchedule(\"V123\"); exists {\n\t\tfmt.Printf(\"Vehicle ID: %s, Model: %s, Next Maintenance: %s\\n\", v.ID, v.Model, v.Schedule)\n\t} else {\n\t\tfmt.Println(\"Vehicle not found.\")\n\t}\n\n\tsystem.RemoveVehicle(\"V123\")\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tlanguageSpeakers := map[string]int{\n\t\t\"English\":   1500,\n\t\t\"Mandarin\":  1117,\n\t\t\"Hindi\":     615,\n\t\t\"Spanish\":   534,\n\t\t\"French\":    280,\n\t}\n\n\tfor language, speakers := range languageSpeakers {\n\t\tfmt.Printf(\"Language: %s, Speakers: %d million\\n\", language, speakers)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tcityTemperatures := map[string]float64{\n\t\t\"New York\":    12.4,\n\t\t\"Los Angeles\": 18.5,\n\t\t\"Chicago\":     10.2,\n\t\t\"Miami\":       25.3,\n\t\t\"Dallas\":      19.2,\n\t}\n\n\tfmt.Println(cityTemperatures)\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc convertMetricToImperial(unit string, value float64) float64 {\n\tconversionMap := map[string]float64{\n\t\t\"meter\":    3.28084,  // meters to feet\n\t\t\"kilogram\": 2.20462,  // kilograms to pounds\n\t\t\"liter\":    0.264172, // liters to gallons\n\t}\n\n\tif conversionFactor, exists := conversionMap[unit]; exists {\n\t\treturn value * conversionFactor\n\t}\n\treturn 0.0\n}\n\nfunc main() {\n\tfmt.Println(convertMetricToImperial(\"meter\", 1))    // Output: 3.28084\n\tfmt.Println(convertMetricToImperial(\"kilogram\", 1)) // Output: 2.20462\n\tfmt.Println(convertMetricToImperial(\"liter\", 1))    // Output: 0.264172\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tworldRecords := map[string]string{\n\t\t\"100m Sprint\":         \"9.58 seconds\",\n\t\t\"Marathon\":            \"2:01:39\",\n\t\t\"Long Jump\":           \"8.95 meters\",\n\t\t\"High Jump\":           \"2.45 meters\",\n\t\t\"Pole Vault\":          \"6.18 meters\",\n\t\t\"100m Freestyle Swim\": \"46.91 seconds\",\n\t}\n\n\tfor sport, record := range worldRecords {\n\t\tfmt.Printf(\"The world record for %s is %s.\\n\", sport, record)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tfavoriteMovies := make(map[string]bool)\n\n\t// Add movies to the list\n\tfavoriteMovies[\"Inception\"] = true\n\tfavoriteMovies[\"The Matrix\"] = true\n\tfavoriteMovies[\"Interstellar\"] = true\n\n\t// Delete a movie from the list\n\tdelete(favoriteMovies, \"The Matrix\")\n\n\t// Print the remaining favorite movies\n\tfor movie := range favoriteMovies {\n\t\tfmt.Println(movie)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tcityDistances := map[string]map[string]int{\n\t\t\"New York\": {\n\t\t\t\"Los Angeles\": 2445,\n\t\t\t\"Chicago\":     790,\n\t\t},\n\t\t\"Los Angeles\": {\n\t\t\t\"New York\": 2445,\n\t\t\t\"Chicago\":  2015,\n\t\t},\n\t\t\"Chicago\": {\n\t\t\t\"New York\":    790,\n\t\t\t\"Los Angeles\": 2015,\n\t\t},\n\t}\n\n\tfor city, distances := range cityDistances {\n\t\tfmt.Printf(\"Distances from %s:\\n\", city)\n\t\tfor dest, dist := range distances {\n\t\t\tfmt.Printf(\"  To %s: %d miles\\n\", dest, dist)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tplanets := map[string]float64{\n\t\t\"Mercury\": 87.97,\n\t\t\"Venus\":   224.70,\n\t\t\"Earth\":   365.25,\n\t\t\"Mars\":    686.98,\n\t\t\"Jupiter\": 4332.59,\n\t\t\"Saturn\":  10759.22,\n\t\t\"Uranus\":  30688.5,\n\t\t\"Neptune\": 60182,\n\t}\n\n\tfmt.Println(planets)\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc colorNameFromCode(code string) string {\n\tcolorMap := map[string]string{\n\t\t\"#FFFFFF\": \"White\",\n\t\t\"#000000\": \"Black\",\n\t\t\"#FF0000\": \"Red\",\n\t\t\"#00FF00\": \"Lime\",\n\t\t\"#0000FF\": \"Blue\",\n\t\t\"#FFFF00\": \"Yellow\",\n\t\t\"#00FFFF\": \"Cyan\",\n\t\t\"#FF00FF\": \"Magenta\",\n\t\t\"#C0C0C0\": \"Silver\",\n\t\t\"#808080\": \"Gray\",\n\t\t\"#800000\": \"Maroon\",\n\t\t\"#808000\": \"Olive\",\n\t\t\"#008000\": \"Green\",\n\t\t\"#800080\": \"Purple\",\n\t\t\"#008080\": \"Teal\",\n\t\t\"#000080\": \"Navy\",\n\t}\n\n\tif name, exists := colorMap[code]; exists {\n\t\treturn name\n\t}\n\treturn \"Unknown\"\n}\n\nfunc main() {\n\tfmt.Println(colorNameFromCode(\"#FF0000\")) // Output: Red\n\tfmt.Println(colorNameFromCode(\"#123456\")) // Output: Unknown\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tcomposers := map[string]string{\n\t\t\"Ludwig van Beethoven\": \"Symphony No. 9\",\n\t\t\"Wolfgang Amadeus Mozart\": \"The Magic Flute\",\n\t\t\"Johann Sebastian Bach\": \"Toccata and Fugue in D minor\",\n\t\t\"Pyotr Ilyich Tchaikovsky\": \"Swan Lake\",\n\t\t\"Fr\u00e9d\u00e9ric Chopin\": \"Nocturne in E-flat major, Op. 9, No. 2\",\n\t}\n\n\tfor composer, composition := range composers {\n\t\tfmt.Printf(\"%s: %s\\n\", composer, composition)\n\t}\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tbridges := map[string]float64{\n\t\t\"Golden Gate Bridge\": 2737.4,\n\t\t\"Brooklyn Bridge\":    1825.0,\n\t\t\"London Bridge\":      269.0,\n\t\t\"Sydney Harbour Bridge\": 1149.0,\n\t}\n\n\tfor name, length := range bridges {\n\t\tfmt.Printf(\"The %s is %.1f meters long.\\n\", name, length)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Initialize the dictionary to manage personal goals\n\tgoals := make(map[string]string)\n\n\t// Add or update goals\n\tgoals[\"Learn Go\"] = \"Complete Go tutorial by end of the month\"\n\tgoals[\"Exercise\"] = \"Go for a 30-minute walk every day\"\n\n\t// Update a goal\n\tgoals[\"Learn Go\"] = \"Complete Go tutorial and build a project by end of the month\"\n\n\t// Print all goals\n\tfor goal, description := range goals {\n\t\tfmt.Printf(\"Goal: %s, Description: %s\\n\", goal, description)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\thexToBin := map[rune]string{\n\t\t'0': \"0000\",\n\t\t'1': \"0001\",\n\t\t'2': \"0010\",\n\t\t'3': \"0011\",\n\t\t'4': \"0100\",\n\t\t'5': \"0101\",\n\t\t'6': \"0110\",\n\t\t'7': \"0111\",\n\t\t'8': \"1000\",\n\t\t'9': \"1001\",\n\t\t'A': \"1010\",\n\t\t'B': \"1011\",\n\t\t'C': \"1100\",\n\t\t'D': \"1101\",\n\t\t'E': \"1110\",\n\t\t'F': \"1111\",\n\t}\n\n\thexNumber := \"1A3F\"\n\tvar binaryBuilder strings.Builder\n\n\tfor _, char := range hexNumber {\n\t\tif binStr, ok := hexToBin[char]; ok {\n\t\t\tbinaryBuilder.WriteString(binStr)\n\t\t} else {\n\t\t\tfmt.Println(\"Invalid hexadecimal character:\", string(char))\n\t\t\treturn\n\t\t}\n\t}\n\n\tbinary := binaryBuilder.String()\n\tfmt.Println(\"Hexadecimal:\", hexNumber)\n\tfmt.Println(\"Binary:\", binary)\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\ttrees := map[string]float64{\n\t\t\"Oak\":       70.0,\n\t\t\"Pine\":      80.0,\n\t\t\"Maple\":     50.0,\n\t\t\"Birch\":     40.0,\n\t\t\"Redwood\":   300.0,\n\t}\n\n\tfmt.Println(trees)\n}\n```"
+  }
+]

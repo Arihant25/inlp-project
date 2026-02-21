@@ -1,0 +1,374 @@
+[
+  {
+    "task": "Write a function that checks if two strings are equal, ignoring case sensitivity.",
+    "code": "```rust\nfn are_strings_equal_ignore_case(s1: &str, s2: &str) -> bool {\n    s1.eq_ignore_ascii_case(s2)\n}\n```"
+  },
+  {
+    "task": "Create a program that determines if a number is greater than 10.",
+    "code": "```rust\nfn main() {\n    let number = 15;\n    if number > 10 {\n        println!(\"The number is greater than 10.\");\n    } else {\n        println!(\"The number is not greater than 10.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a feature that compares the current date to a given date and returns if it is in the future.",
+    "code": "```rust\nuse chrono::prelude::*;\n\nfn is_future_date(given_date: NaiveDate) -> bool {\n    let local: DateTime<Local> = Local::now();\n    let current_date = local.date_naive();\n    given_date > current_date\n}\n\nfn main() {\n    let given_date = NaiveDate::from_ymd(2023, 12, 25);\n    if is_future_date(given_date) {\n        println!(\"The given date is in the future.\");\n    } else {\n        println!(\"The given date is not in the future.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Design a system that checks if a user's age is less than 18 and restricts access if true.",
+    "code": "```rust\nfn main() {\n    let user_age = 17; // Example user age\n\n    if user_age < 18 {\n        println!(\"Access restricted: User is under 18.\");\n    } else {\n        println!(\"Access granted.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Build an algorithm that finds the maximum of three given integers.",
+    "code": "```rust\nfn find_max_of_three(a: i32, b: i32, c: i32) -> i32 {\n    let mut max = a;\n    if b > max {\n        max = b;\n    }\n    if c > max {\n        max = c;\n    }\n    max\n}\n\nfn main() {\n    let a = 7;\n    let b = 10;\n    let c = 5;\n    let max_value = find_max_of_three(a, b, c);\n    println!(\"The maximum value is: {}\", max_value);\n}\n```"
+  },
+  {
+    "task": "Write a function that verifies if two arrays contain the same elements in the same order.",
+    "code": "```rust\nfn arrays_are_equal<T: PartialEq>(arr1: &[T], arr2: &[T]) -> bool {\n    arr1 == arr2\n}\n\nfn main() {\n    let array1 = [1, 2, 3];\n    let array2 = [1, 2, 3];\n    let array3 = [3, 2, 1];\n    \n    println!(\"{}\", arrays_are_equal(&array1, &array2)); // true\n    println!(\"{}\", arrays_are_equal(&array1, &array3)); // false\n}\n```"
+  },
+  {
+    "task": "Create a script that checks if a product's price is within a specified range.",
+    "code": "```rust\nfn is_price_within_range(price: f64, min_price: f64, max_price: f64) -> bool {\n    price >= min_price && price <= max_price\n}\n\nfn main() {\n    let price = 150.0;\n    let min_price = 100.0;\n    let max_price = 200.0;\n\n    if is_price_within_range(price, min_price, max_price) {\n        println!(\"The price is within the specified range.\");\n    } else {\n        println!(\"The price is outside the specified range.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a tool that compares two versions of a software application and determines which is newer.",
+    "code": "```rust\nuse std::cmp::Ordering;\n\nfn compare_versions(version1: &str, version2: &str) -> Ordering {\n    let v1_parts: Vec<u32> = version1.split('.').filter_map(|s| s.parse().ok()).collect();\n    let v2_parts: Vec<u32> = version2.split('.').filter_map(|s| s.parse().ok()).collect();\n    for (v1, v2) in v1_parts.iter().zip(v2_parts.iter()) {\n        match v1.cmp(v2) {\n            Ordering::Equal => continue,\n            non_eq => return non_eq,\n        }\n    }\n    v1_parts.len().cmp(&v2_parts.len())\n}\n\nfn main() {\n    let version1 = \"1.2.3\";\n    let version2 = \"1.2.4\";\n    match compare_versions(version1, version2) {\n        Ordering::Less => println!(\"Version {} is older than version {}\", version1, version2),\n        Ordering::Greater => println!(\"Version {} is newer than version {}\", version1, version2),\n        Ordering::Equal => println!(\"Version {} is the same as version {}\", version1, version2),\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a test to see if a given year is a leap year.",
+    "code": "```rust\nfn is_leap_year(year: u32) -> bool {\n    (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)\n}\n\nfn main() {\n    let year = 2024;\n    if is_leap_year(year) {\n        println!(\"{} is a leap year.\", year);\n    } else {\n        println!(\"{} is not a leap year.\", year);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a feature that tells if a student\u2019s grade is passing or failing based on a threshold.",
+    "code": "```rust\nfn is_passing(grade: f32, threshold: f32) -> bool {\n    grade >= threshold\n}\n\nfn main() {\n    let grade = 75.0;\n    let threshold = 60.0;\n    \n    if is_passing(grade, threshold) {\n        println!(\"Passing\");\n    } else {\n        println!(\"Failing\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to compare two file sizes and return the larger one.",
+    "code": "```rust\nuse std::fs::metadata;\nuse std::io;\n\nfn larger_file_size(path1: &str, path2: &str) -> io::Result<&str> {\n    let size1 = metadata(path1)?.len();\n    let size2 = metadata(path2)?.len();\n    if size1 > size2 {\n        Ok(path1)\n    } else {\n        Ok(path2)\n    }\n}\n```"
+  },
+  {
+    "task": "Build a program that checks if the temperature is below freezing point.",
+    "code": "```rust\nfn main() {\n    let temperature = -5; // Example temperature in degrees Celsius\n\n    if temperature < 0 {\n        println!(\"The temperature is below freezing point.\");\n    } else {\n        println!(\"The temperature is above freezing point.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a logic that determines if a number is within the Fibonacci sequence.",
+    "code": "```rust\nfn is_fibonacci(n: u64) -> bool {\n    if n == 0 || n == 1 {\n        return true;\n    }\n    \n    let mut a = 0;\n    let mut b = 1;\n    \n    while b < n {\n        let temp = b;\n        b = a + b;\n        a = temp;\n    }\n    \n    b == n\n}\n\nfn main() {\n    let number = 21;\n    if is_fibonacci(number) {\n        println!(\"{} is in the Fibonacci sequence.\", number);\n    } else {\n        println!(\"{} is not in the Fibonacci sequence.\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a function that checks if a given word is a palindrome.",
+    "code": "```rust\nfn is_palindrome(word: &str) -> bool {\n    let chars: Vec<char> = word.chars().collect();\n    let len = chars.len();\n    for i in 0..len / 2 {\n        if chars[i] != chars[len - 1 - i] {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let word = \"racecar\";\n    println!(\"Is '{}' a palindrome? {}\", word, is_palindrome(word));\n}\n```"
+  },
+  {
+    "task": "Write a script to see if a password meets a minimum length requirement.",
+    "code": "```rust\nfn main() {\n    let password = \"example\";\n    let min_length = 8;\n\n    if password.len() >= min_length {\n        println!(\"Password meets the minimum length requirement.\");\n    } else {\n        println!(\"Password does not meet the minimum length requirement.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a system that decides if a point is inside a circle based on its coordinates.",
+    "code": "```rust\nstruct Point {\n    x: f64,\n    y: f64,\n}\n\nstruct Circle {\n    center: Point,\n    radius: f64,\n}\n\nimpl Circle {\n    fn contains(&self, point: &Point) -> bool {\n        let dx = point.x - self.center.x;\n        let dy = point.y - self.center.y;\n        (dx * dx + dy * dy) <= (self.radius * self.radius)\n    }\n}\n\nfn main() {\n    let circle = Circle {\n        center: Point { x: 0.0, y: 0.0 },\n        radius: 5.0,\n    };\n\n    let point_inside = Point { x: 3.0, y: 4.0 };\n    let point_outside = Point { x: 6.0, y: 8.0 };\n\n    println!(\"Point inside: {}\", circle.contains(&point_inside));\n    println!(\"Point outside: {}\", circle.contains(&point_outside));\n}\n```"
+  },
+  {
+    "task": "Design a program that checks if a shopping cart total exceeds a certain budget.",
+    "code": "```rust\nfn main() {\n    let shopping_cart_total = 150.0;\n    let budget = 100.0;\n\n    if shopping_cart_total > budget {\n        println!(\"The shopping cart total exceeds the budget.\");\n    } else {\n        println!(\"The shopping cart total is within the budget.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function that compares two players' scores and returns the winner.",
+    "code": "```rust\nfn determine_winner(score1: i32, score2: i32) -> &'static str {\n    if score1 > score2 {\n        \"Player 1 wins\"\n    } else if score2 > score1 {\n        \"Player 2 wins\"\n    } else {\n        \"It's a tie\"\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to determine if one string is a substring of another.",
+    "code": "```rust\nfn is_substring(main_str: &str, sub_str: &str) -> bool {\n    main_str.contains(sub_str)\n}\n\nfn main() {\n    let string1 = \"Hello, world!\";\n    let string2 = \"world\";\n    \n    if is_substring(string1, string2) {\n        println!(\"'{}' is a substring of '{}'.\", string2, string1);\n    } else {\n        println!(\"'{}' is not a substring of '{}'.\", string2, string1);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is a prime number.",
+    "code": "```rust\nfn is_prime(n: u32) -> bool {\n    if n <= 1 {\n        return false;\n    }\n    for i in 2..=((n as f64).sqrt() as u32) {\n        if n % i == 0 {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let number = 29;\n    if is_prime(number) {\n        println!(\"{} is a prime number.\", number);\n    } else {\n        println!(\"{} is not a prime number.\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that checks if a given number is a perfect square.",
+    "code": "```rust\nfn is_perfect_square(n: u32) -> bool {\n    let sqrt_n = (n as f64).sqrt() as u32;\n    sqrt_n * sqrt_n == n\n}\n\nfn main() {\n    let number = 16;\n    if is_perfect_square(number) {\n        println!(\"{} is a perfect square.\", number);\n    } else {\n        println!(\"{} is not a perfect square.\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a system that determines if a person is eligible for a senior citizen discount based on their age.",
+    "code": "```rust\nfn is_eligible_for_senior_discount(age: u32) -> bool {\n    age >= 65\n}\n\nfn main() {\n    let age = 70;\n    if is_eligible_for_senior_discount(age) {\n        println!(\"Eligible for senior citizen discount.\");\n    } else {\n        println!(\"Not eligible for senior citizen discount.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a feature to check if a date falls on a weekend.",
+    "code": "```rust\nuse chrono::{Datelike, NaiveDate};\n\nfn is_weekend(date: NaiveDate) -> bool {\n    match date.weekday() {\n        chrono::Weekday::Sat | chrono::Weekday::Sun => true,\n        _ => false,\n    }\n}\n\nfn main() {\n    let date = NaiveDate::from_ymd(2023, 10, 7); // Example date\n    if is_weekend(date) {\n        println!(\"The date falls on a weekend.\");\n    } else {\n        println!(\"The date does not fall on a weekend.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that sees if a given email address is in the correct format.",
+    "code": "```rust\nfn is_valid_email(email: &str) -> bool {\n    let at_position = email.find('@');\n    let dot_position = email.rfind('.');\n\n    match (at_position, dot_position) {\n        (Some(at), Some(dot)) if at < dot => true,\n        _ => false,\n    }\n}\n\nfn main() {\n    let email = \"example@example.com\";\n    if is_valid_email(email) {\n        println!(\"The email address is valid.\");\n    } else {\n        println!(\"The email address is invalid.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a test to check if a rectangle's area is larger than a triangle's area.",
+    "code": "```rust\nfn main() {\n    let rectangle_width = 10.0;\n    let rectangle_height = 5.0;\n    let triangle_base = 8.0;\n    let triangle_height = 6.0;\n\n    let rectangle_area = rectangle_width * rectangle_height;\n    let triangle_area = 0.5 * triangle_base * triangle_height;\n\n    if rectangle_area > triangle_area {\n        println!(\"The rectangle's area is larger than the triangle's area.\");\n    } else {\n        println!(\"The triangle's area is larger or equal to the rectangle's area.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that verifies if two rectangles overlap each other.",
+    "code": "```rust\nstruct Rectangle {\n    x: i32,\n    y: i32,\n    width: i32,\n    height: i32,\n}\n\nfn do_rectangles_overlap(rect1: &Rectangle, rect2: &Rectangle) -> bool {\n    let rect1_right = rect1.x + rect1.width;\n    let rect1_bottom = rect1.y + rect1.height;\n    let rect2_right = rect2.x + rect2.width;\n    let rect2_bottom = rect2.y + rect2.height;\n\n    rect1.x < rect2_right &&\n    rect1_right > rect2.x &&\n    rect1.y < rect2_bottom &&\n    rect1_bottom > rect2.y\n}\n```"
+  },
+  {
+    "task": "Create a script to compare two strings lexicographically.",
+    "code": "```rust\nfn main() {\n    let string1 = \"apple\";\n    let string2 = \"banana\";\n\n    if string1 < string2 {\n        println!(\"'{}' is less than '{}'\", string1, string2);\n    } else if string1 > string2 {\n        println!(\"'{}' is greater than '{}'\", string1, string2);\n    } else {\n        println!(\"'{}' is equal to '{}'\", string1, string2);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a program that checks if a list of numbers is in ascending order.",
+    "code": "```rust\nfn is_ascending(numbers: &[i32]) -> bool {\n    for i in 0..numbers.len() - 1 {\n        if numbers[i] > numbers[i + 1] {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let numbers = vec![1, 2, 3, 4, 5];\n    if is_ascending(&numbers) {\n        println!(\"The list is in ascending order.\");\n    } else {\n        println!(\"The list is not in ascending order.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Design a system to compare the heights of two buildings.",
+    "code": "```rust\nstruct Building {\n    height: f64,\n}\n\nfn compare_buildings(building1: &Building, building2: &Building) -> &'static str {\n    if building1.height > building2.height {\n        \"Building 1 is taller\"\n    } else if building1.height < building2.height {\n        \"Building 2 is taller\"\n    } else {\n        \"Both buildings are of the same height\"\n    }\n}\n\nfn main() {\n    let building1 = Building { height: 150.0 };\n    let building2 = Building { height: 150.0 };\n\n    let result = compare_buildings(&building1, &building2);\n    println!(\"{}\", result);\n}\n```"
+  },
+  {
+    "task": "Write a feature that determines if a given time is before noon.",
+    "code": "```rust\nfn is_before_noon(hour: u32, minute: u32) -> bool {\n    if hour < 12 {\n        true\n    } else if hour == 12 && minute == 0 {\n        false\n    } else {\n        false\n    }\n}\n\nfn main() {\n    let hour = 10;\n    let minute = 30;\n    let result = is_before_noon(hour, minute);\n    println!(\"Is the time before noon? {}\", result);\n}\n```"
+  },
+  {
+    "task": "Implement a function to check if a given number is a power of two.",
+    "code": "```rust\nfn is_power_of_two(n: u32) -> bool {\n    n != 0 && (n & (n - 1)) == 0\n}\n\nfn main() {\n    let number = 16;\n    println!(\"Is {} a power of two? {}\", number, is_power_of_two(number));\n}\n```"
+  },
+  {
+    "task": "Create a program that determines if a word is longer than another word.",
+    "code": "```rust\nfn main() {\n    let word1 = \"hello\";\n    let word2 = \"world!\";\n    \n    if word1.len() > word2.len() {\n        println!(\"'{}' is longer than '{}'\", word1, word2);\n    } else if word1.len() < word2.len() {\n        println!(\"'{}' is longer than '{}'\", word2, word1);\n    } else {\n        println!(\"'{}' and '{}' are of equal length\", word1, word2);\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a function to compare the lengths of two lists and return the longer one.",
+    "code": "```rust\nfn longer_list<T>(list1: &[T], list2: &[T]) -> &[T] {\n    if list1.len() > list2.len() {\n        list1\n    } else {\n        list2\n    }\n}\n\nfn main() {\n    let list1 = vec![1, 2, 3];\n    let list2 = vec![4, 5];\n    let longer = longer_list(&list1, &list2);\n    println!(\"{:?}\", longer);\n}\n```"
+  },
+  {
+    "task": "Write a script to see if a user's input matches a pre-defined secret code.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let secret_code = \"rustacean\";\n    let mut input = String::new();\n\n    println!(\"Enter the secret code:\");\n\n    io::stdin()\n        .read_line(&mut input)\n        .expect(\"Failed to read line\");\n\n    // Remove newline character\n    let input = input.trim();\n\n    if input == secret_code {\n        println!(\"Access granted.\");\n    } else {\n        println!(\"Access denied.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Build a utility that checks if a given year is in the 21st century.",
+    "code": "```rust\nfn is_21st_century(year: i32) -> bool {\n    year >= 2001 && year <= 2100\n}\n\nfn main() {\n    let year = 2023;\n    if is_21st_century(year) {\n        println!(\"{} is in the 21st century.\", year);\n    } else {\n        println!(\"{} is not in the 21st century.\", year);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a logic that determines if a book's publication year is after 2000.",
+    "code": "```rust\nfn is_published_after_2000(publication_year: i32) -> bool {\n    publication_year > 2000\n}\n\nfn main() {\n    let publication_year = 2021;\n    let result = is_published_after_2000(publication_year);\n    println!(\"Is the book published after 2000? {}\", result);\n}\n```"
+  },
+  {
+    "task": "Design a feature to see if a number is divisible by both 3 and 5.",
+    "code": "```rust\nfn is_divisible_by_3_and_5(num: i32) -> bool {\n    num % 3 == 0 && num % 5 == 0\n}\n\nfn main() {\n    let number = 30;\n    if is_divisible_by_3_and_5(number) {\n        println!(\"{} is divisible by both 3 and 5.\", number);\n    } else {\n        println!(\"{} is not divisible by both 3 and 5.\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a system that checks if a student's GPA is above a certain threshold.",
+    "code": "```rust\nfn is_gpa_above_threshold(gpa: f32, threshold: f32) -> bool {\n    gpa > threshold\n}\n\nfn main() {\n    let student_gpa = 3.5;\n    let threshold = 3.0;\n    if is_gpa_above_threshold(student_gpa, threshold) {\n        println!(\"The student's GPA is above the threshold.\");\n    } else {\n        println!(\"The student's GPA is not above the threshold.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to determine if a given angle is acute, right, or obtuse.",
+    "code": "```rust\nfn classify_angle(angle: f64) -> &'static str {\n    if angle < 90.0 {\n        \"Acute\"\n    } else if angle == 90.0 {\n        \"Right\"\n    } else {\n        \"Obtuse\"\n    }\n}\n\nfn main() {\n    let angle1 = 45.0;\n    let angle2 = 90.0;\n    let angle3 = 120.0;\n\n    println!(\"Angle {} is {}\", angle1, classify_angle(angle1));\n    println!(\"Angle {} is {}\", angle2, classify_angle(angle2));\n    println!(\"Angle {} is {}\", angle3, classify_angle(angle3));\n}\n```"
+  },
+  {
+    "task": "Develop a program that compares the lengths of two strings and returns the shorter one.",
+    "code": "```rust\nfn shorter_string(s1: &str, s2: &str) -> &str {\n    if s1.len() < s2.len() {\n        s1\n    } else {\n        s2\n    }\n}\n\nfn main() {\n    let string1 = \"hello\";\n    let string2 = \"world!\";\n    let result = shorter_string(string1, string2);\n    println!(\"The shorter string is: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Create a script to verify if a username is unique within a list.",
+    "code": "```rust\nfn is_unique_username(username: &str, user_list: &[&str]) -> bool {\n    !user_list.contains(&username)\n}\n\nfn main() {\n    let usernames = vec![\"alice\", \"bob\", \"charlie\"];\n    let username_to_check = \"dave\";\n\n    if is_unique_username(username_to_check, &usernames) {\n        println!(\"The username '{}' is unique.\", username_to_check);\n    } else {\n        println!(\"The username '{}' is already taken.\", username_to_check);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a tool that checks if a job applicant meets all the listed qualifications.",
+    "code": "```rust\nstruct Applicant {\n    years_of_experience: u32,\n    has_degree: bool,\n    knows_rust: bool,\n}\n\nstruct Qualifications {\n    min_years_of_experience: u32,\n    requires_degree: bool,\n    requires_rust_knowledge: bool,\n}\n\nfn meets_qualifications(applicant: &Applicant, qualifications: &Qualifications) -> bool {\n    applicant.years_of_experience >= qualifications.min_years_of_experience &&\n    (!qualifications.requires_degree || applicant.has_degree) &&\n    (!qualifications.requires_rust_knowledge || applicant.knows_rust)\n}\n\nfn main() {\n    let applicant = Applicant {\n        years_of_experience: 5,\n        has_degree: true,\n        knows_rust: true,\n    };\n\n    let qualifications = Qualifications {\n        min_years_of_experience: 3,\n        requires_degree: true,\n        requires_rust_knowledge: true,\n    };\n\n    if meets_qualifications(&applicant, &qualifications) {\n        println!(\"Applicant meets all qualifications.\");\n    } else {\n        println!(\"Applicant does not meet all qualifications.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a feature to see if a vehicle's speed exceeds the speed limit.",
+    "code": "```rust\nstruct Vehicle {\n    speed: u32,\n}\n\nfn is_speeding(vehicle: &Vehicle, speed_limit: u32) -> bool {\n    vehicle.speed > speed_limit\n}\n\nfn main() {\n    let my_vehicle = Vehicle { speed: 70 };\n    let speed_limit = 65;\n\n    if is_speeding(&my_vehicle, speed_limit) {\n        println!(\"The vehicle is speeding.\");\n    } else {\n        println!(\"The vehicle is not speeding.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Design a system that determines whether a given point is above or below the x-axis.",
+    "code": "```rust\nstruct Point {\n    x: f64,\n    y: f64,\n}\n\nfn point_position(point: Point) -> &'static str {\n    if point.y > 0.0 {\n        \"above\"\n    } else if point.y < 0.0 {\n        \"below\"\n    } else {\n        \"on\"\n    }\n}\n\nfn main() {\n    let point1 = Point { x: 3.0, y: 4.0 };\n    let point2 = Point { x: 2.0, y: -5.0 };\n    let point3 = Point { x: 0.0, y: 0.0 };\n\n    println!(\"Point1 is {} the x-axis.\", point_position(point1));\n    println!(\"Point2 is {} the x-axis.\", point_position(point2));\n    println!(\"Point3 is {} the x-axis.\", point_position(point3));\n}\n```"
+  },
+  {
+    "task": "Create a function that checks if a given word appears in a sentence.",
+    "code": "```rust\nfn contains_word(sentence: &str, word: &str) -> bool {\n    sentence.split_whitespace().any(|w| w == word)\n}\n\nfn main() {\n    let sentence = \"The quick brown fox jumps over the lazy dog\";\n    let word = \"fox\";\n    println!(\"{}\", contains_word(sentence, word)); // Should print true\n}\n```"
+  },
+  {
+    "task": "Implement a program that identifies whether a given number is negative or positive.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let mut input = String::new();\n    println!(\"Enter a number:\");\n\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let number: f64 = input.trim().parse().expect(\"Please enter a valid number\");\n\n    if number > 0.0 {\n        println!(\"The number is positive.\");\n    } else if number < 0.0 {\n        println!(\"The number is negative.\");\n    } else {\n        println!(\"The number is zero.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script to see if the sum of two numbers is greater than 100.",
+    "code": "```rust\nfn main() {\n    let num1 = 60;\n    let num2 = 45;\n    let sum = num1 + num2;\n\n    if sum > 100 {\n        println!(\"The sum is greater than 100.\");\n    } else {\n        println!(\"The sum is not greater than 100.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Build a utility that checks if a file exists in a specified directory.",
+    "code": "```rust\nuse std::path::Path;\n\nfn file_exists_in_directory(directory: &str, filename: &str) -> bool {\n    let path = Path::new(directory).join(filename);\n    path.exists()\n}\n\nfn main() {\n    let directory = \"/path/to/directory\";\n    let filename = \"file.txt\";\n\n    if file_exists_in_directory(directory, filename) {\n        println!(\"The file exists.\");\n    } else {\n        println!(\"The file does not exist.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a system to compare the weights of two different objects.",
+    "code": "```rust\nfn compare_weights(weight1: f64, weight2: f64) -> &'static str {\n    if weight1 > weight2 {\n        \"Object 1 is heavier\"\n    } else if weight1 < weight2 {\n        \"Object 2 is heavier\"\n    } else {\n        \"Both objects have the same weight\"\n    }\n}\n\nfn main() {\n    let weight1 = 10.5;\n    let weight2 = 15.3;\n\n    let result = compare_weights(weight1, weight2);\n    println!(\"{}\", result);\n}\n```"
+  },
+  {
+    "task": "Create a logic to determine if a number falls within a defined range.",
+    "code": "```rust\nfn is_within_range(number: i32, lower_bound: i32, upper_bound: i32) -> bool {\n    number >= lower_bound && number <= upper_bound\n}\n\nfn main() {\n    let number = 10;\n    let lower_bound = 5;\n    let upper_bound = 15;\n    let result = is_within_range(number, lower_bound, upper_bound);\n    println!(\"Is the number within range? {}\", result);\n}\n```"
+  },
+  {
+    "task": "Design a program that checks if an employee worked overtime based on hours worked.",
+    "code": "```rust\nfn main() {\n    let hours_worked = 45; // Example input\n    let overtime_threshold = 40;\n\n    if hours_worked > overtime_threshold {\n        println!(\"The employee worked overtime.\");\n    } else {\n        println!(\"The employee did not work overtime.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to compare two dates and determine which is earlier.",
+    "code": "```rust\nuse std::cmp::Ordering;\n\n#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]\nstruct Date {\n    year: i32,\n    month: u32,\n    day: u32,\n}\n\nfn compare_dates(date1: &Date, date2: &Date) -> &Date {\n    match date1.cmp(&date2) {\n        Ordering::Less => date1,\n        Ordering::Greater => date2,\n        Ordering::Equal => date1, // or date2, since they are equal\n    }\n}\n\nfn main() {\n    let date1 = Date { year: 2023, month: 10, day: 15 };\n    let date2 = Date { year: 2023, month: 10, day: 14 };\n    let earlier_date = compare_dates(&date1, &date2);\n    println!(\"The earlier date is: {:?}\", earlier_date);\n}\n```"
+  },
+  {
+    "task": "Create a script that verifies if a given word starts with a vowel.",
+    "code": "```rust\nfn starts_with_vowel(word: &str) -> bool {\n    if let Some(first_char) = word.chars().next() {\n        matches!(first_char, 'A' | 'E' | 'I' | 'O' | 'U' | 'a' | 'e' | 'i' | 'o' | 'u')\n    } else {\n        false\n    }\n}\n\nfn main() {\n    let word = \"Example\";\n    if starts_with_vowel(word) {\n        println!(\"The word \\\"{}\\\" starts with a vowel.\", word);\n    } else {\n        println!(\"The word \\\"{}\\\" does not start with a vowel.\", word);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is even or odd.",
+    "code": "```rust\nfn is_even(number: i32) -> bool {\n    number % 2 == 0\n}\n\nfn main() {\n    let number = 42;\n    if is_even(number) {\n        println!(\"{} is even\", number);\n    } else {\n        println!(\"{} is odd\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a system that determines if a string contains only numeric characters.",
+    "code": "```rust\nfn is_numeric(s: &str) -> bool {\n    s.chars().all(|c| c.is_numeric())\n}\n\nfn main() {\n    let test_str1 = \"123456\";\n    let test_str2 = \"123abc\";\n    \n    println!(\"Is '{}' numeric? {}\", test_str1, is_numeric(test_str1));\n    println!(\"Is '{}' numeric? {}\", test_str2, is_numeric(test_str2));\n}\n```"
+  },
+  {
+    "task": "Write a function to see if a given character is a vowel or consonant.",
+    "code": "```rust\nfn is_vowel_or_consonant(c: char) -> &'static str {\n    match c {\n        'a' | 'e' | 'i' | 'o' | 'u' | 'A' | 'E' | 'I' | 'O' | 'U' => \"vowel\",\n        _ if c.is_alphabetic() => \"consonant\",\n        _ => \"neither\",\n    }\n}\n\nfn main() {\n    let ch = 'a';\n    println!(\"The character '{}' is a {}.\", ch, is_vowel_or_consonant(ch));\n}\n```"
+  },
+  {
+    "task": "Create a program that checks if a point lies within a specified rectangle.",
+    "code": "```rust\nstruct Point {\n    x: f64,\n    y: f64,\n}\n\nstruct Rectangle {\n    x1: f64,\n    y1: f64,\n    x2: f64,\n    y2: f64,\n}\n\nfn is_point_in_rectangle(point: &Point, rect: &Rectangle) -> bool {\n    point.x >= rect.x1 && point.x <= rect.x2 &&\n    point.y >= rect.y1 && point.y <= rect.y2\n}\n\nfn main() {\n    let point = Point { x: 3.0, y: 4.0 };\n    let rect = Rectangle { x1: 1.0, y1: 2.0, x2: 5.0, y2: 6.0 };\n    \n    if is_point_in_rectangle(&point, &rect) {\n        println!(\"The point is inside the rectangle.\");\n    } else {\n        println!(\"The point is outside the rectangle.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a feature to compare two lists and return the common elements.",
+    "code": "```rust\nfn common_elements<T: PartialEq>(list1: &[T], list2: &[T]) -> Vec<T>\nwhere\n    T: Clone,\n{\n    let mut common = Vec::new();\n    for item in list1 {\n        if list2.contains(item) {\n            common.push(item.clone());\n        }\n    }\n    common\n}\n\nfn main() {\n    let list1 = vec![1, 2, 3, 4, 5];\n    let list2 = vec![3, 4, 5, 6, 7];\n    let common = common_elements(&list1, &list2);\n    println!(\"{:?}\", common);\n}\n```"
+  },
+  {
+    "task": "Design a function that determines if a text contains any uppercase letters.",
+    "code": "```rust\nfn contains_uppercase(text: &str) -> bool {\n    for c in text.chars() {\n        if c.is_uppercase() {\n            return true;\n        }\n    }\n    false\n}\n\nfn main() {\n    let text = \"Hello World!\";\n    let result = contains_uppercase(text);\n    println!(\"{}\", result);\n}\n```"
+  },
+  {
+    "task": "Implement a script to check if a given sentence is a question.",
+    "code": "```rust\nfn is_question(sentence: &str) -> bool {\n    sentence.trim_end().ends_with('?')\n}\n\nfn main() {\n    let sentence = \"Is this a question?\";\n    if is_question(sentence) {\n        println!(\"The sentence is a question.\");\n    } else {\n        println!(\"The sentence is not a question.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to determine if a temperature is measured in Celsius or Fahrenheit.",
+    "code": "```rust\nfn main() {\n    let temperature = \"32F\";\n\n    if temperature.ends_with('C') {\n        println!(\"The temperature is measured in Celsius.\");\n    } else if temperature.ends_with('F') {\n        println!(\"The temperature is measured in Fahrenheit.\");\n    } else {\n        println!(\"The temperature measurement is unknown.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a system that verifies if a student is enrolled in a particular course.",
+    "code": "```rust\nstruct Student {\n    name: String,\n    enrolled_courses: Vec<String>,\n}\n\nimpl Student {\n    fn is_enrolled_in(&self, course: &str) -> bool {\n        self.enrolled_courses.contains(&course.to_string())\n    }\n}\n\nfn main() {\n    let student = Student {\n        name: \"Alice\".to_string(),\n        enrolled_courses: vec![\"Math\".to_string(), \"Science\".to_string()],\n    };\n\n    let course_to_check = \"Math\";\n    if student.is_enrolled_in(course_to_check) {\n        println!(\"The student is enrolled in the course.\");\n    } else {\n        println!(\"The student is not enrolled in the course.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Build a utility to check if a given string is a valid hexadecimal number.",
+    "code": "```rust\nfn is_valid_hexadecimal(s: &str) -> bool {\n    if s.is_empty() {\n        return false;\n    }\n    for c in s.chars() {\n        if !c.is_digit(16) {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let test_cases = vec![\"1a3f\", \"GHIJ\", \"123456\", \"\", \"7f8a9b\"];\n    for test in test_cases {\n        println!(\"{} is a valid hex: {}\", test, is_valid_hexadecimal(test));\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to see if two circles intersect based on their radii and center points.",
+    "code": "```rust\nstruct Circle {\n    x: f64,\n    y: f64,\n    radius: f64,\n}\n\nfn circles_intersect(circle1: &Circle, circle2: &Circle) -> bool {\n    let dx = circle1.x - circle2.x;\n    let dy = circle1.y - circle2.y;\n    let distance_squared = dx * dx + dy * dy;\n    let radius_sum = circle1.radius + circle2.radius;\n    distance_squared <= radius_sum * radius_sum\n}\n\nfn main() {\n    let circle1 = Circle { x: 0.0, y: 0.0, radius: 5.0 };\n    let circle2 = Circle { x: 3.0, y: 4.0, radius: 2.0 };\n    \n    if circles_intersect(&circle1, &circle2) {\n        println!(\"The circles intersect.\");\n    } else {\n        println!(\"The circles do not intersect.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that checks if a given number is within 10% of another number.",
+    "code": "```rust\nfn is_within_10_percent(num1: f64, num2: f64) -> bool {\n    let lower_bound = num2 * 0.9;\n    let upper_bound = num2 * 1.1;\n    num1 >= lower_bound && num1 <= upper_bound\n}\n\nfn main() {\n    let num1 = 95.0;\n    let num2 = 100.0;\n    \n    if is_within_10_percent(num1, num2) {\n        println!(\"{} is within 10% of {}\", num1, num2);\n    } else {\n        println!(\"{} is not within 10% of {}\", num1, num2);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a feature to determine if a character is alphanumeric.",
+    "code": "```rust\nfn is_alphanumeric(c: char) -> bool {\n    c.is_alphanumeric()\n}\n\nfn main() {\n    let test_char = 'a';\n    if is_alphanumeric(test_char) {\n        println!(\"'{}' is alphanumeric.\", test_char);\n    } else {\n        println!(\"'{}' is not alphanumeric.\", test_char);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a system to compare the profit margins of two products.",
+    "code": "```rust\nstruct Product {\n    revenue: f64,\n    cost: f64,\n}\n\nimpl Product {\n    fn profit_margin(&self) -> f64 {\n        if self.revenue == 0.0 {\n            return 0.0;\n        }\n        (self.revenue - self.cost) / self.revenue\n    }\n}\n\nfn main() {\n    let product1 = Product { revenue: 200.0, cost: 150.0 };\n    let product2 = Product { revenue: 300.0, cost: 250.0 };\n\n    let margin1 = product1.profit_margin();\n    let margin2 = product2.profit_margin();\n\n    if margin1 > margin2 {\n        println!(\"Product 1 has a higher profit margin.\");\n    } else if margin1 < margin2 {\n        println!(\"Product 2 has a higher profit margin.\");\n    } else {\n        println!(\"Both products have the same profit margin.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Design a script to check if a given string contains any special characters.",
+    "code": "```rust\nfn contains_special_characters(s: &str) -> bool {\n    s.chars().any(|c| !c.is_alphanumeric())\n}\n\nfn main() {\n    let test_string = \"Hello, World!\";\n    if contains_special_characters(test_string) {\n        println!(\"The string contains special characters.\");\n    } else {\n        println!(\"The string does not contain special characters.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to verify if a number is a multiple of another number.",
+    "code": "```rust\nfn is_multiple_of(a: i32, b: i32) -> bool {\n    b != 0 && a % b == 0\n}\n```"
+  },
+  {
+    "task": "Create a program that checks if a date is a holiday based on a list of holidays.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn is_holiday(date: &str, holidays: &HashSet<&str>) -> bool {\n    holidays.contains(date)\n}\n\nfn main() {\n    let holidays: HashSet<&str> = vec![\n        \"2023-01-01\", // New Year's Day\n        \"2023-12-25\", // Christmas Day\n        // Add more holidays as needed\n    ].into_iter().collect();\n\n    let date = \"2023-12-25\";\n    if is_holiday(date, &holidays) {\n        println!(\"{} is a holiday!\", date);\n    } else {\n        println!(\"{} is not a holiday.\", date);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a utility to compare two text files and highlight the differences.",
+    "code": "```rust\nuse std::fs;\nuse std::io::{self, BufRead};\nuse std::path::Path;\n\nfn read_lines<P>(filename: P) -> io::Result<Vec<String>>\nwhere\n    P: AsRef<Path>,\n{\n    let file = fs::File::open(filename)?;\n    let lines = io::BufReader::new(file).lines();\n    lines.collect()\n}\n\nfn highlight_differences(file1: &str, file2: &str) -> io::Result<()> {\n    let lines1 = read_lines(file1)?;\n    let lines2 = read_lines(file2)?;\n\n    let max_len = lines1.len().max(lines2.len());\n\n    for i in 0..max_len {\n        let line1 = lines1.get(i).unwrap_or(&String::new());\n        let line2 = lines2.get(i).unwrap_or(&String::new());\n\n        if line1 != line2 {\n            println!(\"- {}\", line1);\n            println!(\"+ {}\", line2);\n        }\n    }\n\n    Ok(())\n}\n\nfn main() -> io::Result<()> {\n    let file1 = \"file1.txt\";\n    let file2 = \"file2.txt\";\n    highlight_differences(file1, file2)\n}\n```"
+  },
+  {
+    "task": "Develop a function to determine if a given password is strong based on length and character diversity.",
+    "code": "```rust\nfn is_strong_password(password: &str) -> bool {\n    if password.len() < 8 {\n        return false;\n    }\n    \n    let mut has_upper = false;\n    let mut has_lower = false;\n    let mut has_digit = false;\n    let mut has_special = false;\n    \n    for ch in password.chars() {\n        if ch.is_uppercase() {\n            has_upper = true;\n        } else if ch.is_lowercase() {\n            has_lower = true;\n        } else if ch.is_digit(10) {\n            has_digit = true;\n        } else if !ch.is_alphanumeric() {\n            has_special = true;\n        }\n        \n        if has_upper && has_lower && has_digit && has_special {\n            return true;\n        }\n    }\n    \n    false\n}\n\nfn main() {\n    let password = \"Ex@mple123\";\n    println!(\"Is the password strong? {}\", is_strong_password(password));\n}\n```"
+  },
+  {
+    "task": "Write a script to see if a number is within a specified distance from zero.",
+    "code": "```rust\nfn is_within_distance_from_zero(number: i32, distance: i32) -> bool {\n    number.abs() <= distance\n}\n\nfn main() {\n    let number = 5;\n    let distance = 10;\n    let result = is_within_distance_from_zero(number, distance);\n    println!(\"Is the number {} within distance {} from zero? {}\", number, distance, result);\n}\n```"
+  },
+  {
+    "task": "Create a system to check if a book title is available in a library database.",
+    "code": "```rust\nfn is_book_available(library: &[&str], title: &str) -> bool {\n    library.contains(&title)\n}\n\nfn main() {\n    let library = vec![\n        \"The Rust Programming Language\",\n        \"The Book Thief\",\n        \"Pride and Prejudice\",\n        \"1984\",\n    ];\n\n    let book_to_check = \"The Rust Programming Language\";\n\n    if is_book_available(&library, book_to_check) {\n        println!(\"The book '{}' is available in the library.\", book_to_check);\n    } else {\n        println!(\"The book '{}' is not available in the library.\", book_to_check);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a feature that determines if a user has administrator privileges.",
+    "code": "```rust\nstruct User {\n    is_admin: bool,\n}\n\nimpl User {\n    fn has_admin_privileges(&self) -> bool {\n        self.is_admin\n    }\n}\n\nfn main() {\n    let user = User { is_admin: true };\n    if user.has_admin_privileges() {\n        println!(\"The user has administrator privileges.\");\n    } else {\n        println!(\"The user does not have administrator privileges.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Design a function to compare the brightness of two colors.",
+    "code": "```rust\nfn compare_brightness(color1: (u8, u8, u8), color2: (u8, u8, u8)) -> Ordering {\n    use std::cmp::Ordering;\n\n    let brightness1 = (color1.0 as f64 * 0.299) + (color1.1 as f64 * 0.587) + (color1.2 as f64 * 0.114);\n    let brightness2 = (color2.0 as f64 * 0.299) + (color2.1 as f64 * 0.587) + (color2.2 as f64 * 0.114);\n\n    brightness1.partial_cmp(&brightness2).unwrap()\n}\n\nfn main() {\n    let color1 = (255, 0, 0);\n    let color2 = (0, 255, 0);\n\n    match compare_brightness(color1, color2) {\n        Ordering::Less => println!(\"Color1 is less bright than Color2\"),\n        Ordering::Greater => println!(\"Color1 is brighter than Color2\"),\n        Ordering::Equal => println!(\"Color1 and Color2 have the same brightness\"),\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to verify if a number is a valid credit card number using the Luhn algorithm.",
+    "code": "```rust\nfn luhn_algorithm(card_number: &str) -> bool {\n    let mut sum = 0;\n    let mut alternate = false;\n\n    for digit in card_number.chars().rev() {\n        if let Some(mut n) = digit.to_digit(10) {\n            if alternate {\n                n *= 2;\n                if n > 9 {\n                    n -= 9;\n                }\n            }\n            sum += n;\n            alternate = !alternate;\n        } else {\n            return false;\n        }\n    }\n    \n    sum % 10 == 0\n}\n\nfn main() {\n    let card_number = \"4532015112830366\";\n    if luhn_algorithm(card_number) {\n        println!(\"{} is a valid credit card number.\", card_number);\n    } else {\n        println!(\"{} is not a valid credit card number.\", card_number);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a script to determine if a given string is a valid IP address.",
+    "code": "```rust\nfn is_valid_ip(ip: &str) -> bool {\n    let parts: Vec<&str> = ip.split('.').collect();\n    if parts.len() != 4 {\n        return false;\n    }\n    for part in parts {\n        if let Ok(num) = part.parse::<u8>() {\n            if part != num.to_string() {\n                return false;\n            }\n        } else {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let ip = \"192.168.1.1\";\n    if is_valid_ip(ip) {\n        println!(\"{} is a valid IP address.\", ip);\n    } else {\n        println!(\"{} is not a valid IP address.\", ip);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is part of an arithmetic sequence.",
+    "code": "```rust\nfn is_in_arithmetic_sequence(start: i32, difference: i32, number: i32) -> bool {\n    if difference == 0 {\n        return number == start;\n    }\n    (number - start) % difference == 0 && (number - start) / difference >= 0\n}\n\nfn main() {\n    let start = 2;\n    let difference = 3;\n    let number = 11;\n    println!(\"{}\", is_in_arithmetic_sequence(start, difference, number));\n}\n```"
+  },
+  {
+    "task": "Develop a feature to compare the efficiency of two algorithms based on time complexity.",
+    "code": "```rust\nenum Complexity {\n    Constant,\n    Logarithmic,\n    Linear,\n    Linearithmic,\n    Quadratic,\n    Cubic,\n    Exponential,\n}\n\nimpl Complexity {\n    fn compare(&self, other: &Complexity) -> std::cmp::Ordering {\n        use Complexity::*;\n        let self_rank = match self {\n            Constant => 0,\n            Logarithmic => 1,\n            Linear => 2,\n            Linearithmic => 3,\n            Quadratic => 4,\n            Cubic => 5,\n            Exponential => 6,\n        };\n        let other_rank = match other {\n            Constant => 0,\n            Logarithmic => 1,\n            Linear => 2,\n            Linearithmic => 3,\n            Quadratic => 4,\n            Cubic => 5,\n            Exponential => 6,\n        };\n        self_rank.cmp(&other_rank)\n    }\n}\n\nfn main() {\n    let algo1 = Complexity::Linear;\n    let algo2 = Complexity::Quadratic;\n\n    match algo1.compare(&algo2) {\n        std::cmp::Ordering::Less => println!(\"Algorithm 1 is more efficient\"),\n        std::cmp::Ordering::Greater => println!(\"Algorithm 2 is more efficient\"),\n        std::cmp::Ordering::Equal => println!(\"Both algorithms have the same efficiency\"),\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function to see if a given date falls in a leap year.",
+    "code": "```rust\nfn is_leap_year(year: i32) -> bool {\n    (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)\n}\n\nfn is_date_in_leap_year(year: i32, _month: u32, _day: u32) -> bool {\n    is_leap_year(year)\n}\n\nfn main() {\n    let year = 2020;\n    let month = 2;\n    let day = 29;\n    println!(\"Is the date {}/{}/{} in a leap year? {}\", month, day, year, is_date_in_leap_year(year, month, day));\n}\n```"
+  },
+  {
+    "task": "Create a program that determines if a user's subscription is active based on the current date.",
+    "code": "```rust\nuse chrono::{Datelike, Local, NaiveDate};\n\nstruct Subscription {\n    end_date: NaiveDate,\n}\n\nimpl Subscription {\n    fn is_active(&self) -> bool {\n        let current_date = Local::today().naive_local();\n        current_date <= self.end_date\n    }\n}\n\nfn main() {\n    let subscription = Subscription {\n        end_date: NaiveDate::from_ymd(2023, 12, 31),\n    };\n\n    if subscription.is_active() {\n        println!(\"Subscription is active.\");\n    } else {\n        println!(\"Subscription is inactive.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Design a tool to check if a user\u2019s input is a palindrome phrase, ignoring spaces and punctuation.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn is_palindrome(phrase: &str) -> bool {\n    let cleaned: String = phrase\n        .chars()\n        .filter(|c| c.is_alphanumeric())\n        .map(|c| c.to_ascii_lowercase())\n        .collect();\n    cleaned == cleaned.chars().rev().collect::<String>()\n}\n\nfn main() {\n    print!(\"Enter a phrase: \");\n    io::stdout().flush().unwrap();\n    let mut input = String::new();\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let input = input.trim();\n\n    if is_palindrome(input) {\n        println!(\"The phrase is a palindrome.\");\n    } else {\n        println!(\"The phrase is not a palindrome.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a system to verify if a given number is part of the Fibonacci sequence.",
+    "code": "```rust\nfn is_fibonacci(n: u64) -> bool {\n    let mut a: u64 = 0;\n    let mut b: u64 = 1;\n    while b < n {\n        let temp = b;\n        b += a;\n        a = temp;\n    }\n    b == n || n == 0\n}\n\nfn main() {\n    let number = 21; // Example number\n    if is_fibonacci(number) {\n        println!(\"{} is in the Fibonacci sequence.\", number);\n    } else {\n        println!(\"{} is not in the Fibonacci sequence.\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program to compare the elevation of two geographic locations.",
+    "code": "```rust\nfn main() {\n    let location1_elevation = 1500; // example elevation in meters\n    let location2_elevation = 1200; // example elevation in meters\n\n    if location1_elevation > location2_elevation {\n        println!(\"Location 1 is higher than Location 2.\");\n    } else if location1_elevation < location2_elevation {\n        println!(\"Location 1 is lower than Location 2.\");\n    } else {\n        println!(\"Both locations have the same elevation.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function to determine if a given string is a valid JSON format.",
+    "code": "```rust\nuse serde_json::Value;\n\nfn is_valid_json(s: &str) -> bool {\n    serde_json::from_str::<Value>(s).is_ok()\n}\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is a factorial of any integer.",
+    "code": "```rust\nfn is_factorial(n: u64) -> bool {\n    let mut i = 1;\n    let mut factorial = 1;\n    while factorial < n {\n        i += 1;\n        factorial *= i;\n    }\n    factorial == n\n}\n\nfn main() {\n    let numbers = vec![1, 2, 6, 24, 120, 150];\n    for number in numbers {\n        println!(\"Is {} a factorial? {}\", number, is_factorial(number));\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a feature to compare the widths of two ribbons and return the wider one.",
+    "code": "```rust\nstruct Ribbon {\n    width: f64,\n}\n\nfn wider_ribbon(ribbon1: Ribbon, ribbon2: Ribbon) -> Ribbon {\n    if ribbon1.width > ribbon2.width {\n        ribbon1\n    } else {\n        ribbon2\n    }\n}\n\nfn main() {\n    let ribbon1 = Ribbon { width: 4.5 };\n    let ribbon2 = Ribbon { width: 5.0 };\n\n    let wider = wider_ribbon(ribbon1, ribbon2);\n    println!(\"The wider ribbon has a width of: {}\", wider.width);\n}\n```"
+  },
+  {
+    "task": "Write a script to see if a word is present in a list of banned words.",
+    "code": "```rust\nfn is_banned_word(word: &str, banned_words: &[&str]) -> bool {\n    banned_words.contains(&word)\n}\n\nfn main() {\n    let banned_words = [\"banned\", \"forbidden\", \"prohibited\"];\n    let word_to_check = \"banned\";\n    \n    if is_banned_word(word_to_check, &banned_words) {\n        println!(\"The word '{}' is banned.\", word_to_check);\n    } else {\n        println!(\"The word '{}' is not banned.\", word_to_check);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a system to determine if a patient's temperature is in the normal range.",
+    "code": "```rust\nfn is_temperature_normal(temp: f32) -> bool {\n    let lower_bound = 36.5;\n    let upper_bound = 37.5;\n    temp >= lower_bound && temp <= upper_bound\n}\n\nfn main() {\n    let patient_temperature = 37.0;\n    if is_temperature_normal(patient_temperature) {\n        println!(\"The temperature is in the normal range.\");\n    } else {\n        println!(\"The temperature is not in the normal range.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a program that checks if a given time is during business hours.",
+    "code": "```rust\nuse chrono::NaiveTime;\n\nfn is_business_hours(time: NaiveTime) -> bool {\n    let start = NaiveTime::from_hms(9, 0, 0);\n    let end = NaiveTime::from_hms(17, 0, 0);\n    time >= start && time < end\n}\n\nfn main() {\n    let time = NaiveTime::from_hms(10, 30, 0);\n    if is_business_hours(time) {\n        println!(\"The time is during business hours.\");\n    } else {\n        println!(\"The time is outside business hours.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a function to see if a number is a triangular number.",
+    "code": "```rust\nfn is_triangular_number(n: u32) -> bool {\n    let mut sum = 0;\n    let mut i = 1;\n    while sum < n {\n        sum += i;\n        i += 1;\n    }\n    sum == n\n}\n\nfn main() {\n    let number = 10;\n    println!(\"Is {} a triangular number? {}\", number, is_triangular_number(number));\n}\n```"
+  },
+  {
+    "task": "Write a feature to compare the number of vowels in two given strings.",
+    "code": "```rust\nfn count_vowels(s: &str) -> usize {\n    s.chars().filter(|c| \"aeiouAEIOU\".contains(*c)).count()\n}\n\nfn compare_vowel_count(s1: &str, s2: &str) -> std::cmp::Ordering {\n    let count1 = count_vowels(s1);\n    let count2 = count_vowels(s2);\n    count1.cmp(&count2)\n}\n\nfn main() {\n    let string1 = \"Hello\";\n    let string2 = \"World\";\n    \n    match compare_vowel_count(string1, string2) {\n        std::cmp::Ordering::Less => println!(\"String 1 has fewer vowels\"),\n        std::cmp::Ordering::Greater => println!(\"String 1 has more vowels\"),\n        std::cmp::Ordering::Equal => println!(\"Both strings have the same number of vowels\"),\n    }\n}\n```"
+  }
+]

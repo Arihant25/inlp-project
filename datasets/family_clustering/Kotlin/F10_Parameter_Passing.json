@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```kotlin\nfun modifyFirstElement(arr: Array<Int>) {\n    if (arr.isNotEmpty()) {\n        arr[0] = 100 // Modify the first element\n    }\n}\n\nfun main() {\n    val numbers = arrayOf(1, 2, 3, 4, 5)\n    println(\"Before modification: ${numbers.joinToString()}\")\n    modifyFirstElement(numbers)\n    println(\"After modification: ${numbers.joinToString()}\")\n}\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```kotlin\ndata class Wrapper<T>(var value: T)\n\nfun <T> swap(a: Wrapper<T>, b: Wrapper<T>) {\n    val temp = a.value\n    a.value = b.value\n    b.value = temp\n}\n\nfun main() {\n    val x = Wrapper(5)\n    val y = Wrapper(10)\n\n    println(\"Before swap: x = ${x.value}, y = ${y.value}\")\n    swap(x, y)\n    println(\"After swap: x = ${x.value}, y = ${y.value}\")\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```kotlin\nfun main() {\n    val largeDataStructure = MutableList(10_000_000) { it }\n\n    val startByValue = System.nanoTime()\n    passByValue(largeDataStructure)\n    val endByValue = System.nanoTime()\n    println(\"Time taken by value: ${(endByValue - startByValue) / 1_000_000} ms\")\n\n    val startByReference = System.nanoTime()\n    passByReference(largeDataStructure)\n    val endByReference = System.nanoTime()\n    println(\"Time taken by reference: ${(endByReference - startByReference) / 1_000_000} ms\")\n}\n\nfun passByValue(data: List<Int>) {\n    val copy = data.toList() // Simulate pass by value by copying\n    // Perform some operations\n    var sum = 0\n    for (item in copy) {\n        sum += item\n    }\n}\n\nfun passByReference(data: List<Int>) {\n    // Perform some operations\n    var sum = 0\n    for (item in data) {\n        sum += item\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```kotlin\nfun doubleValue(value: Int): Int {\n    return value * 2\n}\n\nfun doubleValueInPlace(value: IntArray, index: Int) {\n    value[index] *= 2\n}\n\nfun main() {\n    // Pass-by-value example\n    var num = 5\n    println(\"Original num (pass-by-value): $num\")\n    val newNum = doubleValue(num)\n    println(\"Doubled value: $newNum\")\n    println(\"Original num after function (pass-by-value): $num\")\n\n    // Pass-by-reference example\n    val numArray = intArrayOf(5)\n    println(\"Original numArray[0] (pass-by-reference): ${numArray[0]}\")\n    doubleValueInPlace(numArray, 0)\n    println(\"Doubled numArray[0]: ${numArray[0]}\")\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```kotlin\nfun doubleElements(originalList: List<Int>): List<Int> {\n    return originalList.map { it * 2 }\n}\n\nfun main() {\n    val numbers = listOf(1, 2, 3, 4, 5)\n    val doubledNumbers = doubleElements(numbers)\n    println(\"Original list: $numbers\")\n    println(\"Doubled list: $doubledNumbers\")\n}\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```kotlin\nfun appendCharacter(original: String, charToAppend: Char): String {\n    return original + charToAppend\n}\n\nfun main() {\n    val originalString = \"Hello\"\n    val result = appendCharacter(originalString, '!')\n    println(\"Original: $originalString\")\n    println(\"Result: $result\")\n}\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```kotlin\nclass Counter(var value: Int)\n\nfun increment(counter: Counter) {\n    counter.value++\n}\n\nfun main() {\n    val counter = Counter(0)\n    println(\"Before increment: ${counter.value}\")\n    increment(counter)\n    println(\"After increment: ${counter.value}\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```kotlin\nfun removeItem(dictionary: MutableMap<String, Any>, key: String) {\n    dictionary.remove(key)\n}\n\nfun main() {\n    val myDictionary = mutableMapOf(\"key1\" to \"value1\", \"key2\" to \"value2\", \"key3\" to \"value3\")\n    println(\"Before removal: $myDictionary\")\n    \n    removeItem(myDictionary, \"key2\")\n    \n    println(\"After removal: $myDictionary\")\n}\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```kotlin\nfun main() {\n    val matrix = arrayOf(\n        intArrayOf(1, 2, 3),\n        intArrayOf(4, 5, 6),\n        intArrayOf(7, 8, 9)\n    )\n    \n    println(\"Original matrix:\")\n    printMatrix(matrix)\n    \n    transposeMatrix(matrix)\n    \n    println(\"Transposed matrix:\")\n    printMatrix(matrix)\n}\n\nfun transposeMatrix(matrix: Array<IntArray>) {\n    val n = matrix.size\n    for (i in 0 until n) {\n        for (j in i + 1 until n) {\n            val temp = matrix[i][j]\n            matrix[i][j] = matrix[j][i]\n            matrix[j][i] = temp\n        }\n    }\n}\n\nfun printMatrix(matrix: Array<IntArray>) {\n    for (row in matrix) {\n        println(row.joinToString(\" \"))\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```kotlin\nfun roundNumber(value: Float): Int {\n    return Math.round(value)\n}\n\nfun main() {\n    val number = 5.7f\n    val roundedNumber = roundNumber(number)\n    println(\"Original number: $number\")\n    println(\"Rounded number: $roundedNumber\")\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```kotlin\nfun addKeyValuePair(map: MutableMap<String, String>, key: String, value: String) {\n    map[key] = value\n}\n\nfun main() {\n    val myMap = mutableMapOf(\"initialKey\" to \"initialValue\")\n    println(\"Before: $myMap\")\n    addKeyValuePair(myMap, \"newKey\", \"newValue\")\n    println(\"After: $myMap\")\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```kotlin\nfun main() {\n    val originalString = \"hello, world\"\n    val uppercasedString = convertToUppercase(originalString)\n    println(\"Original String: $originalString\")\n    println(\"Uppercased String: $uppercasedString\")\n}\n\nfun convertToUppercase(input: String): String {\n    return input.uppercase()\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```kotlin\nfun modifyTuple(tuple: Pair<Int, Int>): Pair<Int, Int> {\n    // Attempt to modify the tuple\n    val modifiedTuple = Pair(tuple.first + 1, tuple.second)\n    return modifiedTuple\n}\n\nfun main() {\n    val originalTuple = Pair(5, 10)\n    val result = modifyTuple(originalTuple)\n    println(\"Original Tuple: $originalTuple\")\n    println(\"Modified Tuple: $result\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```kotlin\ndata class Person(var name: String, var age: Int)\n\nfun modifyPerson(person: Person) {\n    person.age += 1\n}\n\nfun main() {\n    val person = Person(\"John\", 25)\n    println(\"Before modification: ${person.name}, age ${person.age}\")\n    modifyPerson(person)\n    println(\"After modification: ${person.name}, age ${person.age}\")\n}\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```kotlin\nfun sumOfArrayElements(arr: Array<Int>): Int {\n    var sum = 0\n    for (element in arr) {\n        sum += element\n    }\n    return sum\n}\n\nfun main() {\n    val originalArray = arrayOf(1, 2, 3, 4, 5)\n    val sum = sumOfArrayElements(originalArray)\n    println(\"Sum of elements: $sum\")\n    println(\"Original array: ${originalArray.joinToString(\", \")}\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```kotlin\nfun toggleFlag(flagHolder: FlagHolder) {\n    flagHolder.flag = !flagHolder.flag\n}\n\ndata class FlagHolder(var flag: Boolean)\n\nfun main() {\n    val flagHolder = FlagHolder(true)\n    println(\"Original flag: ${flagHolder.flag}\")\n    toggleFlag(flagHolder)\n    println(\"Toggled flag: ${flagHolder.flag}\")\n}\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```kotlin\ndata class SampleObject(var data: String)\n\nfun cloneAndModify(original: SampleObject): SampleObject {\n    val clonedObject = original.copy()\n    clonedObject.data += \" - modified\"\n    return clonedObject\n}\n\nfun main() {\n    val original = SampleObject(\"Original Data\")\n    val cloned = cloneAndModify(original)\n    \n    println(\"Original: ${original.data}\")\n    println(\"Cloned: ${cloned.data}\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```kotlin\nfun removeEvens(numbers: MutableList<Int>) {\n    numbers.removeAll { it % 2 == 0 }\n}\n\nfun main() {\n    // Example usage\n    val numbers = mutableListOf(1, 2, 3, 4, 5, 6)\n    removeEvens(numbers)\n    println(numbers) // Outputs: [1, 3, 5]\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```kotlin\ndata class ComplexNumber(val real: Double, val imaginary: Double)\n\nfun conjugate(complex: ComplexNumber): ComplexNumber {\n    return ComplexNumber(complex.real, -complex.imaginary)\n}\n\nfun main() {\n    val original = ComplexNumber(3.0, 4.0)\n    val conjugated = conjugate(original)\n    println(\"Original: $original\")\n    println(\"Conjugate: $conjugated\")\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```kotlin\ndata class TreeNode(var value: Int, var left: TreeNode? = null, var right: TreeNode? = null)\n\nfun invertTree(root: TreeNode?) {\n    if (root == null) return\n\n    val temp = root.left\n    root.left = root.right\n    root.right = temp\n\n    invertTree(root.left)\n    invertTree(root.right)\n}\n\nfun main() {\n    val root = TreeNode(1, TreeNode(2), TreeNode(3))\n    println(\"Original Tree: $root\")\n    invertTree(root)\n    println(\"Inverted Tree: $root\")\n}\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```kotlin\nfun addElementToSet(set: MutableSet<Int>, element: Int) {\n    set.add(element)\n}\n\nfun main() {\n    val originalSet = mutableSetOf(1, 2, 3)\n    println(\"Original set before function call: $originalSet\")\n    addElementToSet(originalSet, 4)\n    println(\"Original set after function call: $originalSet\")\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```kotlin\nfun sortArray(arr: IntArray): IntArray {\n    return arr.sortedArray()\n}\n\nfun main() {\n    val originalArray = intArrayOf(5, 3, 8, 1, 2)\n    val sortedArray = sortArray(originalArray)\n\n    println(\"Original array: ${originalArray.joinToString(\", \")}\")\n    println(\"Sorted array: ${sortedArray.joinToString(\", \")}\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```kotlin\ndata class Configuration(var settingEnabled: Boolean)\n\nfun toggleSetting(config: Configuration) {\n    config.settingEnabled = !config.settingEnabled\n}\n\nfun main() {\n    val config = Configuration(settingEnabled = false)\n    println(\"Before toggle: ${config.settingEnabled}\")\n    toggleSetting(config)\n    println(\"After toggle: ${config.settingEnabled}\")\n}\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```kotlin\nimport java.io.File\n\nfun readFileContent(filePath: String): String {\n    val file = File(filePath)\n    return file.readText()\n}\n\nfun main() {\n    val path = \"/path/to/your/file.txt\"\n    val content = readFileContent(path)\n    println(content)\n}\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```kotlin\nimport java.util.Stack\n\nfun reverseStack(stack: Stack<Int>) {\n    val tempStack = Stack<Int>()\n    while (stack.isNotEmpty()) {\n        tempStack.push(stack.pop())\n    }\n    while (tempStack.isNotEmpty()) {\n        stack.push(tempStack.pop())\n    }\n}\n\nfun main() {\n    val stack = Stack<Int>()\n    stack.push(1)\n    stack.push(2)\n    stack.push(3)\n    stack.push(4)\n\n    println(\"Original Stack: $stack\")\n    reverseStack(stack)\n    println(\"Reversed Stack: $stack\")\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```kotlin\nimport java.util.LinkedList\nimport java.util.Queue\n\nfun dequeueElement(queue: Queue<Int>) {\n    if (queue.isNotEmpty()) {\n        queue.poll()\n    }\n}\n\nfun main() {\n    val queue: Queue<Int> = LinkedList(listOf(1, 2, 3, 4, 5))\n    println(\"Queue before dequeue: $queue\")\n    dequeueElement(queue)\n    println(\"Queue after dequeue: $queue\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```kotlin\nfun updateValue(map: HashMap<String, Int>, key: String, newValue: Int) {\n    map[key] = newValue\n}\n\nfun main() {\n    val myMap = hashMapOf(\"a\" to 1, \"b\" to 2, \"c\" to 3)\n    println(\"Before update: $myMap\")\n    updateValue(myMap, \"b\", 20)\n    println(\"After update: $myMap\")\n}\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```kotlin\nimport org.json.JSONObject\n\nfun addPropertyToJsonObject(jsonObj: JSONObject, key: String, value: Any) {\n    jsonObj.put(key, value)\n}\n\nfun main() {\n    val jsonObject = JSONObject()\n    jsonObject.put(\"name\", \"John Doe\")\n    \n    println(\"Before: $jsonObject\")\n    \n    addPropertyToJsonObject(jsonObject, \"age\", 30)\n    \n    println(\"After: $jsonObject\")\n}\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```kotlin\ndata class Node(val name: String)\n\nclass Graph {\n    private val nodes = mutableListOf<Node>()\n\n    fun addNode(node: Node) {\n        nodes.add(node)\n    }\n\n    override fun toString(): String {\n        return nodes.joinToString { it.name }\n    }\n}\n\nfun addNodeToGraph(graph: Graph, nodeName: String) {\n    val newNode = Node(nodeName)\n    graph.addNode(newNode)\n}\n\nfun main() {\n    val myGraph = Graph()\n    println(\"Graph before adding node: $myGraph\")\n\n    addNodeToGraph(myGraph, \"A\")\n    println(\"Graph after adding node: $myGraph\")\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```kotlin\ndata class Coordinate(var x: Int, var y: Int)\n\nfun shiftCoordinate(coordinate: Coordinate, dx: Int, dy: Int): Coordinate {\n    return Coordinate(coordinate.x + dx, coordinate.y + dy)\n}\n\nfun main() {\n    val originalCoordinate = Coordinate(10, 20)\n    val shiftedCoordinate = shiftCoordinate(originalCoordinate, 5, 5)\n    \n    println(\"Original Coordinate: (${originalCoordinate.x}, ${originalCoordinate.y})\")\n    println(\"Shifted Coordinate: (${shiftedCoordinate.x}, ${shiftedCoordinate.y})\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```kotlin\nimport java.util.Calendar\n\nfun setToNextDay(date: Calendar) {\n    date.add(Calendar.DAY_OF_MONTH, 1)\n}\n\nfun main() {\n    val date = Calendar.getInstance()\n    println(\"Original Date: ${date.time}\")\n    setToNextDay(date)\n    println(\"Next Day Date: ${date.time}\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```kotlin\nfun differentiatePolynomial(coefficients: List<Int>): List<Int> {\n    val differentiatedCoefficients = mutableListOf<Int>()\n    for (i in 1 until coefficients.size) {\n        differentiatedCoefficients.add(coefficients[i] * i)\n    }\n    return differentiatedCoefficients\n}\n\nfun main() {\n    val originalPolynomial = listOf(3, 2, 5) // Represents 3 + 2x + 5x^2\n    val differentiated = differentiatePolynomial(originalPolynomial)\n    \n    println(\"Original Polynomial Coefficients: $originalPolynomial\")\n    println(\"Differentiated Coefficients: $differentiated\")\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```kotlin\nimport java.util.Stack\n\nfun clearStack(stack: Stack<*>) {\n    stack.clear()\n}\n\nfun main() {\n    val myStack = Stack<Int>()\n    myStack.push(1)\n    myStack.push(2)\n    myStack.push(3)\n\n    println(\"Stack before clearing: $myStack\")\n    clearStack(myStack)\n    println(\"Stack after clearing: $myStack\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```kotlin\nclass Node<T>(var data: T, var next: Node<T>? = null)\n\nclass LinkedList<T> {\n    var head: Node<T>? = null\n\n    fun append(data: T) {\n        if (head == null) {\n            head = Node(data)\n        } else {\n            var current = head\n            while (current?.next != null) {\n                current = current.next\n            }\n            current?.next = Node(data)\n        }\n    }\n}\n\nfun appendNode(list: LinkedList<Int>, value: Int) {\n    list.append(value)\n}\n\nfun main() {\n    val list = LinkedList<Int>()\n    list.append(1)\n    list.append(2)\n    \n    appendNode(list, 3)\n\n    var current = list.head\n    while (current != null) {\n        print(\"${current.data} -> \")\n        current = current.next\n    }\n    println(\"null\")\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```kotlin\nfun extractDomainName(url: String): String {\n    val domain = url.substringAfter(\"://\").substringBefore(\"/\")\n    return domain\n}\n\nfun main() {\n    val url = \"https://www.example.com/page\"\n    val domain = extractDomainName(url)\n    println(\"Domain: $domain\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```kotlin\nimport java.util.PriorityQueue\n\ndata class Element(val name: String, var priority: Int)\n\nfun changePriority(queue: PriorityQueue<Element>, elementName: String, newPriority: Int) {\n    queue.forEach { element ->\n        if (element.name == elementName) {\n            element.priority = newPriority\n        }\n    }\n}\n\nfun main() {\n    val comparator = compareBy<Element> { it.priority }\n    val queue = PriorityQueue(comparator)\n    queue.add(Element(\"Task1\", 3))\n    queue.add(Element(\"Task2\", 1))\n    queue.add(Element(\"Task3\", 2))\n\n    println(\"Before change:\")\n    queue.forEach { println(\"${it.name}: ${it.priority}\") }\n\n    changePriority(queue, \"Task2\", 5)\n\n    println(\"\\nAfter change:\")\n    queue.forEach { println(\"${it.name}: ${it.priority}\") }\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```kotlin\nclass CircularBuffer<T>(private val size: Int) {\n    private val buffer: Array<Any?> = arrayOfNulls(size)\n    private var head: Int = 0\n    private var tail: Int = 0\n    private var isFull: Boolean = false\n\n    fun add(element: T) {\n        buffer[tail] = element\n        if (isFull) {\n            head = (head + 1) % size\n        }\n        tail = (tail + 1) % size\n        isFull = head == tail\n    }\n\n    fun read(): T? {\n        if (isEmpty()) {\n            return null\n        }\n        val element = buffer[head]\n        head = (head + 1) % size\n        isFull = false\n        return element as T?\n    }\n\n    fun isEmpty(): Boolean {\n        return !isFull && head == tail\n    }\n}\n\nfun <T> readElementFromBuffer(buffer: CircularBuffer<T>): T? {\n    return buffer.read()\n}\n\nfun main() {\n    val buffer = CircularBuffer<Int>(5)\n    buffer.add(1)\n    buffer.add(2)\n    buffer.add(3)\n\n    val element = readElementFromBuffer(buffer)\n    println(\"Read element: $element\")\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```kotlin\ndata class Record(var field: String)\n\nfun updateRecordField(record: Record, newValue: String) {\n    record.field = newValue\n}\n\nfun main() {\n    val originalRecord = Record(\"Original Value\")\n    println(\"Before update: ${originalRecord.field}\")\n\n    updateRecordField(originalRecord, \"Updated Value\")\n    println(\"After update: ${originalRecord.field}\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```kotlin\nfun normalizeFrequencyList(frequencyList: List<Double>): List<Double> {\n    val sum = frequencyList.sum()\n    return frequencyList.map { it / sum }\n}\n\nfun main() {\n    val frequencies = listOf(2.0, 4.0, 6.0, 8.0)\n    val normalizedFrequencies = normalizeFrequencyList(frequencies)\n    println(\"Original Frequencies: $frequencies\")\n    println(\"Normalized Frequencies: $normalizedFrequencies\")\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```kotlin\ndata class Position(val x: Int, val y: Int)\ndata class Move(val from: Position, val to: Position)\n\nfun makeMove(chessboard: Array<Array<String>>, move: Move) {\n    val piece = chessboard[move.from.x][move.from.y]\n    chessboard[move.from.x][move.from.y] = \"\"\n    chessboard[move.to.x][move.to.y] = piece\n}\n\nfun main() {\n    val chessboard = Array(8) { Array(8) { \"\" } }\n    chessboard[0][0] = \"R\" // Just an example piece, Rook at position (0,0)\n\n    val move = Move(Position(0, 0), Position(0, 1))\n    makeMove(chessboard, move)\n\n    // After the move, the piece should have moved to the new position\n    println(chessboard[0].joinToString(\" \")) // Output the first row for demonstration\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```kotlin\nfun decimalToBinary(decimal: Int): String {\n    var number = decimal\n    val binaryString = StringBuilder()\n    while (number > 0) {\n        binaryString.insert(0, number % 2)\n        number /= 2\n    }\n    return if (binaryString.isEmpty()) \"0\" else binaryString.toString()\n}\n\nfun main() {\n    val originalNumber = 10\n    val binaryRepresentation = decimalToBinary(originalNumber)\n    println(\"Decimal: $originalNumber, Binary: $binaryRepresentation\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```kotlin\nfun countNucleotides(dnaSequence: String): Map<Char, Int> {\n    val nucleotideCount = mutableMapOf<Char, Int>('A' to 0, 'C' to 0, 'G' to 0, 'T' to 0)\n    for (nucleotide in dnaSequence) {\n        if (nucleotide in nucleotideCount) {\n            nucleotideCount[nucleotide] = nucleotideCount[nucleotide]!! + 1\n        }\n    }\n    return nucleotideCount\n}\n\nfun main() {\n    val originalSequence = \"AGCTAGCCTAGGCTA\"\n    val counts = countNucleotides(originalSequence)\n    println(\"Original Sequence: $originalSequence\")\n    println(\"Nucleotide Counts: $counts\")\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```kotlin\ndata class ShoppingCart(var totalAmount: Double)\n\nfun applyDiscount(cart: ShoppingCart, discountPercentage: Double) {\n    val discountAmount = cart.totalAmount * (discountPercentage / 100)\n    cart.totalAmount -= discountAmount\n}\n\nfun main() {\n    val cart = ShoppingCart(totalAmount = 150.0)\n    println(\"Total before discount: ${cart.totalAmount}\")\n    applyDiscount(cart, 10.0)\n    println(\"Total after discount: ${cart.totalAmount}\")\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```kotlin\nfun addSongToPlaylist(playlist: MutableList<String>, song: String) {\n    playlist.add(song)\n}\n\nfun main() {\n    val playlist = mutableListOf(\"Song1\", \"Song2\", \"Song3\")\n    println(\"Original playlist: $playlist\")\n\n    addSongToPlaylist(playlist, \"NewSong\")\n    println(\"Updated playlist: $playlist\")\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```kotlin\ndata class Sprite(var x: Int, var y: Int)\n\nfun moveSprite(sprite: Sprite, dx: Int, dy: Int) {\n    sprite.x += dx\n    sprite.y += dy\n}\n\nfun main() {\n    val sprite = Sprite(0, 0)\n    println(\"Initial position: (${sprite.x}, ${sprite.y})\")\n    moveSprite(sprite, 5, 10)\n    println(\"New position: (${sprite.x}, ${sprite.y})\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```kotlin\ndata class Book(var title: String)\n\nfun updateBookTitle(book: Book, newTitle: String) {\n    book.title = newTitle\n}\n\nfun main() {\n    val myBook = Book(\"Original Title\")\n    println(\"Before update: ${myBook.title}\")\n    updateBookTitle(myBook, \"Updated Title\")\n    println(\"After update: ${myBook.title}\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```kotlin\nfun normalizeSoundWave(soundWave: List<Double>): List<Double> {\n    val maxAmplitude = soundWave.maxOrNull() ?: 1.0\n    return soundWave.map { it / maxAmplitude }\n}\n\nfun main() {\n    val originalSoundWave = listOf(0.5, 1.0, 0.75, 0.25)\n    val normalizedSoundWave = normalizeSoundWave(originalSoundWave)\n    \n    println(\"Original Sound Wave: $originalSoundWave\")\n    println(\"Normalized Sound Wave: $normalizedSoundWave\")\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```kotlin\ndata class BankAccount(var balance: Double)\n\nfun creditAmount(account: BankAccount, amount: Double) {\n    account.balance += amount\n}\n\nfun main() {\n    val myAccount = BankAccount(100.0)\n    println(\"Balance before: ${myAccount.balance}\")\n    creditAmount(myAccount, 50.0)\n    println(\"Balance after: ${myAccount.balance}\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```kotlin\nfun isValidEmail(email: String): Boolean {\n    return email.contains(\"@\") && email.contains(\".\")\n}\n\nfun filterInvalidEmails(emailList: List<String>): List<String> {\n    return emailList.filter { isValidEmail(it) }\n}\n\nfun main() {\n    val emails = mutableListOf(\"test@example.com\", \"invalid-email\", \"user@domain.com\")\n    val validEmails = filterInvalidEmails(emails.toList()) // Pass-by-value using toList()\n\n    println(\"Original List: $emails\")\n    println(\"Filtered List: $validEmails\")\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```kotlin\ndata class Model3D(var scaleX: Double, var scaleY: Double, var scaleZ: Double)\n\nfun scaleModel(model: Model3D, scaleFactor: Double) {\n    model.scaleX *= scaleFactor\n    model.scaleY *= scaleFactor\n    model.scaleZ *= scaleFactor\n}\n\nfun main() {\n    val myModel = Model3D(scaleX = 1.0, scaleY = 1.0, scaleZ = 1.0)\n    println(\"Original model scale: (${myModel.scaleX}, ${myModel.scaleY}, ${myModel.scaleZ})\")\n    \n    scaleModel(myModel, 2.0)\n    \n    println(\"Scaled model scale: (${myModel.scaleX}, ${myModel.scaleY}, ${myModel.scaleZ})\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```kotlin\nfun redactSensitiveInformation(document: MutableList<String>) {\n    for (i in document.indices) {\n        document[i] = document[i].replace(Regex(\"\\\\b(\\\\d{3}-\\\\d{2}-\\\\d{4})\\\\b\"), \"XXX-XX-XXXX\")\n    }\n}\n\nfun main() {\n    val document = mutableListOf(\n        \"This is a sample document.\",\n        \"The SSN is 123-45-6789.\",\n        \"Please handle with care.\"\n    )\n    \n    println(\"Before redaction:\")\n    document.forEach { println(it) }\n    \n    redactSensitiveInformation(document)\n    \n    println(\"\\nAfter redaction:\")\n    document.forEach { println(it) }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```kotlin\nfun adjustTemperatureForCalibration(originalTemperature: Double, calibrationOffset: Double): Double {\n    var adjustedTemperature = originalTemperature + calibrationOffset\n    return adjustedTemperature\n}\n\nfun main() {\n    val temperatureReading = 25.0\n    val calibrationOffset = 1.5\n\n    val adjustedReading = adjustTemperatureForCalibration(temperatureReading, calibrationOffset)\n\n    println(\"Original Temperature: $temperatureReading\")\n    println(\"Adjusted Temperature: $adjustedReading\")\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```kotlin\ndata class BugReport(var id: Int, var description: String, var status: String)\n\nfun updateBugReportStatus(bugReport: BugReport, newStatus: String) {\n    bugReport.status = newStatus\n}\n\nfun main() {\n    val bug = BugReport(1, \"Button not working\", \"Open\")\n    println(\"Before update: ${bug.status}\")\n    updateBugReportStatus(bug, \"In Progress\")\n    println(\"After update: ${bug.status}\")\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```kotlin\nfun main() {\n    val sensorArray = intArrayOf(10, 20, 30, 40, 50)\n    println(\"Before calibration: ${sensorArray.joinToString(\", \")}\")\n    calibrateSensor(sensorArray)\n    println(\"After calibration: ${sensorArray.joinToString(\", \")}\")\n}\n\nfun calibrateSensor(sensorData: IntArray) {\n    for (i in sensorData.indices) {\n        sensorData[i] += 5\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```kotlin\ndata class Vector(val x: Double, val y: Double)\n\nfun rotateVector(vector: Vector, angleDegrees: Double): Vector {\n    val angleRadians = Math.toRadians(angleDegrees)\n    val cosTheta = kotlin.math.cos(angleRadians)\n    val sinTheta = kotlin.math.sin(angleRadians)\n    val newX = vector.x * cosTheta - vector.y * sinTheta\n    val newY = vector.x * sinTheta + vector.y * cosTheta\n    return Vector(newX, newY)\n}\n\nfun main() {\n    val originalVector = Vector(1.0, 0.0)\n    val rotatedVector = rotateVector(originalVector, 90.0)\n    \n    println(\"Original Vector: $originalVector\")\n    println(\"Rotated Vector: $rotatedVector\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```kotlin\nfun compressLog(log: MutableList<String>) {\n    val compressedLog = mutableListOf<String>()\n    var currentEntry: String? = null\n    var count = 0\n\n    for (entry in log) {\n        if (entry == currentEntry) {\n            count++\n        } else {\n            if (currentEntry != null) {\n                compressedLog.add(\"$currentEntry ($count)\")\n            }\n            currentEntry = entry\n            count = 1\n        }\n    }\n    if (currentEntry != null) {\n        compressedLog.add(\"$currentEntry ($count)\")\n    }\n\n    log.clear()\n    log.addAll(compressedLog)\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```kotlin\ndata class NeuralNetworkModel(var weights: MutableList<Double>)\n\nfun updateWeights(model: NeuralNetworkModel, newWeights: List<Double>) {\n    for (i in model.weights.indices) {\n        model.weights[i] = newWeights[i]\n    }\n}\n\nfun main() {\n    val model = NeuralNetworkModel(mutableListOf(0.1, 0.2, 0.3))\n    println(\"Original weights: ${model.weights}\")\n\n    val newWeights = listOf(0.4, 0.5, 0.6)\n    updateWeights(model, newWeights)\n    println(\"Updated weights: ${model.weights}\")\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```kotlin\nfun revertLastCommand(commandHistory: MutableList<String>) {\n    if (commandHistory.isNotEmpty()) {\n        commandHistory.removeAt(commandHistory.size - 1)\n    }\n}\n\nfun main() {\n    val commandHistory = mutableListOf(\"Command1\", \"Command2\", \"Command3\")\n    println(\"Before revert: $commandHistory\")\n    revertLastCommand(commandHistory)\n    println(\"After revert: $commandHistory\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```kotlin\ndata class UserProfile(var name: String, var email: String, var phone: String)\n\nfun anonymizeProfile(profile: UserProfile) {\n    profile.name = \"Anonymous\"\n    profile.email = \"anonymous@example.com\"\n    profile.phone = \"000-000-0000\"\n}\n\nfun main() {\n    val userProfile = UserProfile(\"John Doe\", \"john.doe@example.com\", \"123-456-7890\")\n    anonymizeProfile(userProfile)\n    println(userProfile)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```kotlin\nfun evaluatePolynomial(coefficients: List<Double>, x: Double): Double {\n    var result = 0.0\n    for ((index, coefficient) in coefficients.withIndex()) {\n        result += coefficient * Math.pow(x, index.toDouble())\n    }\n    return result\n}\n\nfun main() {\n    val polynomial = listOf(3.0, 2.0, 1.0) // Represents 3 + 2x + x^2\n    val point = 2.0\n    val result = evaluatePolynomial(polynomial, point)\n    println(\"The polynomial evaluated at $point is $result\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```kotlin\nclass VideoStream(var data: MutableList<String>)\n\nfun applyFilter(stream: VideoStream, filter: (String) -> String) {\n    for (i in stream.data.indices) {\n        stream.data[i] = filter(stream.data[i])\n    }\n}\n\nfun main() {\n    val videoStream = VideoStream(mutableListOf(\"frame1\", \"frame2\", \"frame3\"))\n    println(\"Before filter: ${videoStream.data}\")\n    \n    val grayScaleFilter: (String) -> String = { frame -> \"gray_$frame\" }\n    applyFilter(videoStream, grayScaleFilter)\n    \n    println(\"After filter: ${videoStream.data}\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```kotlin\ndata class Task(val name: String, val priority: Int)\n\nfun reorderTasksByPriority(taskQueue: MutableList<Task>) {\n    taskQueue.sortByDescending { it.priority }\n}\n\nfun main() {\n    val taskQueue = mutableListOf(\n        Task(\"Task1\", 2),\n        Task(\"Task2\", 1),\n        Task(\"Task3\", 3)\n    )\n\n    println(\"Before reordering:\")\n    taskQueue.forEach { println(\"${it.name}: ${it.priority}\") }\n\n    reorderTasksByPriority(taskQueue)\n\n    println(\"\\nAfter reordering:\")\n    taskQueue.forEach { println(\"${it.name}: ${it.priority}\") }\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```kotlin\ndata class Transaction(val id: String, val amount: Double)\n\ndata class Block(val transactions: List<Transaction>)\n\nclass Blockchain(var blocks: MutableList<Block>)\n\nfun verifyTransaction(blockchain: Blockchain, transaction: Transaction): Boolean {\n    for (block in blockchain.blocks) {\n        if (block.transactions.contains(transaction)) {\n            return true\n        }\n    }\n    return false\n}\n\nfun main() {\n    val transaction1 = Transaction(\"tx1001\", 50.0)\n    val transaction2 = Transaction(\"tx1002\", 100.0)\n    val block1 = Block(listOf(transaction1, transaction2))\n    val blockchain = Blockchain(mutableListOf(block1))\n\n    val transactionToVerify = Transaction(\"tx1001\", 50.0)\n    val isVerified = verifyTransaction(blockchain, transactionToVerify)\n    println(\"Transaction verified: $isVerified\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```kotlin\nfun updateScores(leaderboard: MutableMap<String, Int>, player: String, score: Int) {\n    leaderboard[player] = leaderboard.getOrDefault(player, 0) + score\n}\n\nfun main() {\n    val leaderboard = mutableMapOf(\"Alice\" to 50, \"Bob\" to 40)\n    updateScores(leaderboard, \"Alice\", 10)\n    updateScores(leaderboard, \"Charlie\", 30)\n    println(leaderboard)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```kotlin\ndata class ProjectTimeline(var startDate: String, var endDate: String, var delayDays: Int)\n\nfun adjustTimelineForDelays(timeline: ProjectTimeline) {\n    // Simulate delay adjustment by adding delayDays to endDate (in a real scenario, you would parse the date and add days)\n    timeline.endDate = \"Adjusted End Date with ${timeline.delayDays} days delay\"\n}\n\nfun main() {\n    val timeline = ProjectTimeline(\"2023-01-01\", \"2023-12-31\", 15)\n    println(\"Before adjustment: $timeline\")\n    adjustTimelineForDelays(timeline)\n    println(\"After adjustment: $timeline\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```kotlin\nfun completeTask(toDoList: MutableList<String>, task: String) {\n    if (task in toDoList) {\n        toDoList.remove(task)\n        println(\"Task '$task' completed.\")\n    } else {\n        println(\"Task '$task' not found.\")\n    }\n}\n\nfun main() {\n    val toDoList = mutableListOf(\"Buy groceries\", \"Read a book\", \"Write Kotlin code\")\n    println(\"To-Do List before completing a task: $toDoList\")\n    \n    completeTask(toDoList, \"Read a book\")\n    \n    println(\"To-Do List after completing a task: $toDoList\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```kotlin\nclass PaintCanvas {\n    val layers = mutableListOf<String>()\n    \n    fun addLayer(layer: String) {\n        layers.add(layer)\n    }\n}\n\nfun addLayerToCanvas(canvas: PaintCanvas, layer: String) {\n    canvas.addLayer(layer)\n}\n\nfun main() {\n    val canvas = PaintCanvas()\n    addLayerToCanvas(canvas, \"New Layer\")\n    \n    println(\"Canvas layers: ${canvas.layers}\")\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```kotlin\nfun fetchContent(urls: List<String>) {\n    // This function simulates fetching content by appending \" - fetched\" to each URL.\n    val modifiedUrls = urls.toMutableList()\n    for (i in modifiedUrls.indices) {\n        modifiedUrls[i] = \"${modifiedUrls[i]} - fetched\"\n    }\n    println(\"Modified URLs: $modifiedUrls\")\n}\n\nfun main() {\n    val urlList = listOf(\"http://example.com\", \"http://example.org\", \"http://example.net\")\n    println(\"Original URLs: $urlList\")\n    fetchContent(urlList)\n    println(\"After function call, Original URLs: $urlList\")\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```kotlin\nfun main() {\n    val gameBoard = arrayOf(\n        arrayOf(1, 2, 3),\n        arrayOf(4, 5, 6),\n        arrayOf(7, 8, 9)\n    )\n    \n    println(\"Original Board:\")\n    printBoard(gameBoard)\n    \n    resetBoard(gameBoard)\n    \n    println(\"Reset Board:\")\n    printBoard(gameBoard)\n}\n\nfun resetBoard(board: Array<Array<Int>>) {\n    for (row in board.indices) {\n        for (col in board[row].indices) {\n            board[row][col] = 0\n        }\n    }\n}\n\nfun printBoard(board: Array<Array<Int>>) {\n    for (row in board) {\n        println(row.joinToString(\" \"))\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```kotlin\ndata class Sound(var volume: Int)\n\nfun increaseVolume(sound: Sound, increment: Int) {\n    sound.volume += increment\n}\n\nfun main() {\n    val soundEffect = Sound(volume = 5)\n    println(\"Original volume: ${soundEffect.volume}\")\n    \n    increaseVolume(soundEffect, 10)\n    println(\"Increased volume: ${soundEffect.volume}\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```kotlin\ndata class WeatherForecast(var temperature: Double)\n\nfun updateTemperature(forecast: WeatherForecast, newTemperature: Double) {\n    forecast.temperature = newTemperature\n}\n\nfun main() {\n    val forecast = WeatherForecast(25.0)\n    println(\"Before update: ${forecast.temperature}\")\n    updateTemperature(forecast, 30.0)\n    println(\"After update: ${forecast.temperature}\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```kotlin\nfun extractErrorMessages(log: List<String>): List<String> {\n    return log.filter { it.contains(\"ERROR\") }\n}\n\nfun main() {\n    val systemLog = listOf(\n        \"INFO: System started\",\n        \"ERROR: Failed to load configuration\",\n        \"INFO: User logged in\",\n        \"ERROR: Connection timed out\"\n    )\n    \n    val errorMessages = extractErrorMessages(systemLog)\n    \n    println(\"Original Log: $systemLog\")\n    println(\"Error Messages: $errorMessages\")\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```kotlin\ndata class DataPacket(var content: String)\n\nfun encryptPacket(packet: DataPacket): DataPacket {\n    val encryptedContent = packet.content.map { it + 1 }.joinToString(\"\")\n    return DataPacket(encryptedContent)\n}\n\nfun main() {\n    val originalPacket = DataPacket(\"Hello\")\n    val encryptedPacket = encryptPacket(originalPacket)\n    \n    println(\"Original Packet: ${originalPacket.content}\")\n    println(\"Encrypted Packet: ${encryptedPacket.content}\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```kotlin\ndata class Theme(var color: String)\n\nfun applyColorChange(theme: Theme, newColor: String) {\n    theme.color = newColor\n}\n\nfun main() {\n    val myTheme = Theme(\"blue\")\n    println(\"Original color: ${myTheme.color}\")\n    applyColorChange(myTheme, \"red\")\n    println(\"Updated color: ${myTheme.color}\")\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```kotlin\nimport java.security.Signature\nimport java.security.PublicKey\n\nfun verifyDigitalSignature(signature: ByteArray, data: ByteArray, publicKey: PublicKey): Boolean {\n    try {\n        val sig = Signature.getInstance(\"SHA256withRSA\")\n        sig.initVerify(publicKey)\n        sig.update(data)\n        return sig.verify(signature)\n    } catch (e: Exception) {\n        return false\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```kotlin\nfun optimizePath(path: MutableList<String>) {\n    val oppositeDirections = mapOf(\"N\" to \"S\", \"S\" to \"N\", \"E\" to \"W\", \"W\" to \"E\")\n    var i = 0\n    while (i < path.size - 1) {\n        if (oppositeDirections[path[i]] == path[i + 1]) {\n            path.removeAt(i + 1)\n            path.removeAt(i)\n            if (i > 0) i--\n        } else {\n            i++\n        }\n    }\n}\n\nfun main() {\n    val robotPath = mutableListOf(\"N\", \"S\", \"E\", \"W\", \"N\", \"E\", \"E\", \"W\", \"S\")\n    println(\"Original Path: $robotPath\")\n    optimizePath(robotPath)\n    println(\"Optimized Path: $robotPath\")\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```kotlin\nimport java.util.Collections\n\nfun shufflePlaylist(playlist: MutableList<String>) {\n    Collections.shuffle(playlist)\n}\n\nfun main() {\n    val playlist = mutableListOf(\"Song A\", \"Song B\", \"Song C\", \"Song D\", \"Song E\")\n    println(\"Original Playlist: $playlist\")\n    shufflePlaylist(playlist)\n    println(\"Shuffled Playlist: $playlist\")\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```kotlin\nfun main() {\n    val socialMediaFeed = mutableListOf(\"Post1\", \"Post2\", \"Post1\", \"Post3\", \"Post2\", \"Post4\")\n    println(\"Original Feed: $socialMediaFeed\")\n    removeDuplicates(socialMediaFeed)\n    println(\"Feed after removing duplicates: $socialMediaFeed\")\n}\n\nfun removeDuplicates(feed: MutableList<String>) {\n    val seenPosts = mutableSetOf<String>()\n    val iterator = feed.iterator()\n    while (iterator.hasNext()) {\n        val post = iterator.next()\n        if (!seenPosts.add(post)) {\n            iterator.remove()\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```kotlin\ndata class CodingChallenge(var description: String, var testCases: MutableList<String>)\n\nfun addTestCases(challenge: CodingChallenge, newTestCases: List<String>) {\n    challenge.testCases.addAll(newTestCases)\n}\n\nfun discussPassByReference(challenge: CodingChallenge) {\n    challenge.description = \"Effects of pass-by-reference: Changes to the challenge object affect the original reference.\"\n}\n\nfun main() {\n    val challenge = CodingChallenge(\n        description = \"Initial coding challenge\",\n        testCases = mutableListOf(\"Test case 1\", \"Test case 2\")\n    )\n\n    val additionalTestCases = listOf(\"Test case 3\", \"Test case 4\")\n    addTestCases(challenge, additionalTestCases)\n\n    discussPassByReference(challenge)\n\n    println(\"Challenge Description: ${challenge.description}\")\n    println(\"Test Cases: ${challenge.testCases.joinToString()}\")\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```kotlin\nfun reverseAnimationSequence(animationSequence: List<String>): List<String> {\n    return animationSequence.reversed()\n}\n\nfun main() {\n    val originalSequence = listOf(\"slide\", \"fade\", \"bounce\")\n    val reversedSequence = reverseAnimationSequence(originalSequence)\n    \n    println(\"Original Sequence: $originalSequence\")\n    println(\"Reversed Sequence: $reversedSequence\")\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```kotlin\ndata class GPSPoint(var latitude: Double, var longitude: Double)\n\nfun recalculateRoute(route: MutableList<GPSPoint>) {\n    for (point in route) {\n        point.latitude += 0.001\n        point.longitude += 0.001\n    }\n}\n\nfun main() {\n    val route = mutableListOf(\n        GPSPoint(34.052235, -118.243683),\n        GPSPoint(36.169941, -115.139832),\n        GPSPoint(40.712776, -74.005974)\n    )\n\n    println(\"Original route:\")\n    route.forEach { println(\"Lat: ${it.latitude}, Long: ${it.longitude}\") }\n\n    recalculateRoute(route)\n\n    println(\"\\nRecalculated route:\")\n    route.forEach { println(\"Lat: ${it.latitude}, Long: ${it.longitude}\") }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```kotlin\nfun main() {\n    val chatHistory = mutableListOf(\n        \"Hello there!\",\n        \"You're an idiot!\",\n        \"How are you doing?\",\n        \"This is stupid!\"\n    )\n\n    censorInappropriateLanguage(chatHistory)\n\n    for (message in chatHistory) {\n        println(message)\n    }\n}\n\nfun censorInappropriateLanguage(history: MutableList<String>) {\n    val inappropriateWords = listOf(\"idiot\", \"stupid\")\n    val replacement = \"****\"\n\n    for (i in history.indices) {\n        for (word in inappropriateWords) {\n            if (history[i].contains(word, ignoreCase = true)) {\n                history[i] = history[i].replace(word, replacement, ignoreCase = true)\n            }\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```kotlin\ndata class LightingSetup(var brightness: Int)\n\nfun adjustBrightness(setup: LightingSetup, newBrightness: Int) {\n    setup.brightness = newBrightness\n}\n\nfun main() {\n    val lighting = LightingSetup(brightness = 50)\n    println(\"Initial brightness: ${lighting.brightness}\")\n    \n    adjustBrightness(lighting, 80)\n    println(\"Adjusted brightness: ${lighting.brightness}\")\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```kotlin\ndata class VREnvironment(var scenery: String)\n\nfun changeScenery(vrEnv: VREnvironment) {\n    vrEnv.scenery = \"New Scenery\"\n}\n\nfun main() {\n    val vrEnvironment = VREnvironment(\"Old Scenery\")\n    println(\"Before change: ${vrEnvironment.scenery}\")\n\n    changeScenery(vrEnvironment)\n    println(\"After change: ${vrEnvironment.scenery}\")\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```kotlin\ndata class Block(val data: String)\n\nclass Blockchain {\n    private val ledger = mutableListOf<Block>()\n\n    fun addBlock(block: Block) {\n        ledger.add(block)\n    }\n\n    fun getLedger(): List<Block> {\n        return ledger\n    }\n}\n\nfun main() {\n    val blockchain = Blockchain()\n    val newBlock = Block(\"Block Data\")\n    \n    blockchain.addBlock(newBlock)\n    \n    println(blockchain.getLedger())\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```kotlin\ndata class NetworkPacket(var headers: MutableMap<String, String>, val data: String)\n\nfun alterPacketHeaders(packet: NetworkPacket) {\n    packet.headers[\"Content-Type\"] = \"application/json\"\n    packet.headers[\"Authorization\"] = \"Bearer token\"\n}\n\nfun main() {\n    val headers = mutableMapOf(\"Content-Type\" to \"text/plain\", \"Authorization\" to \"None\")\n    val packet = NetworkPacket(headers, \"Sample data\")\n\n    println(\"Before alteration: ${packet.headers}\")\n    alterPacketHeaders(packet)\n    println(\"After alteration: ${packet.headers}\")\n}\n```"
+  }
+]

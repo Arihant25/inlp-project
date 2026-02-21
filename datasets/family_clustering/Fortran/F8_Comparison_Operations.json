@@ -1,0 +1,374 @@
+[
+  {
+    "task": "Write a function that checks if two strings are equal, ignoring case sensitivity.",
+    "code": "```fortran\nprogram StringComparison\n    implicit none\n    logical :: result\n    result = strings_equal_ignore_case(\"Hello\", \"hello\")\n    print *, \"Strings are equal (ignoring case):\", result\ncontains\n    function strings_equal_ignore_case(str1, str2) result(is_equal)\n        character(len=*), intent(in) :: str1, str2\n        logical :: is_equal\n        character(len=len(str1)) :: lower_str1, lower_str2\n\n        lower_str1 = adjustl(trim(str1))\n        lower_str2 = adjustl(trim(str2))\n\n        call to_lower(lower_str1)\n        call to_lower(lower_str2)\n\n        is_equal = (lower_str1 == lower_str2)\n    end function strings_equal_ignore_case\n\n    subroutine to_lower(str)\n        character(len=*), intent(inout) :: str\n        integer :: i\n        do i = 1, len(str)\n            if (iachar(str(i:i)) >= iachar('A') .and. iachar(str(i:i)) <= iachar('Z')) then\n                str(i:i) = achar(iachar(str(i:i)) + 32)\n            end if\n        end do\n    end subroutine to_lower\nend program StringComparison\n```"
+  },
+  {
+    "task": "Create a program that determines if a number is greater than 10.",
+    "code": "```fortran\nprogram compare_number\n    implicit none\n    integer :: number\n\n    print *, 'Enter a number:'\n    read *, number\n\n    if (number > 10) then\n        print *, 'The number is greater than 10.'\n    else\n        print *, 'The number is not greater than 10.'\n    end if\nend program compare_number\n```"
+  },
+  {
+    "task": "Implement a feature that compares the current date to a given date and returns if it is in the future.",
+    "code": "```fortran\nprogram compare_dates\n    implicit none\n    integer :: current_year, current_month, current_day\n    integer :: given_year, given_month, given_day\n    logical :: is_future\n\n    ! Assuming you have a method to get the current date\n    call get_current_date(current_year, current_month, current_day)\n\n    ! Set the given date (example)\n    given_year = 2024\n    given_month = 5\n    given_day = 15\n\n    ! Compare the dates\n    if (current_year < given_year) then\n        is_future = .true.\n    else if (current_year == given_year .and. current_month < given_month) then\n        is_future = .true.\n    else if (current_year == given_year .and. current_month == given_month .and. current_day < given_day) then\n        is_future = .true.\n    else\n        is_future = .false.\n    end if\n\n    print *, \"Is the given date in the future?\", is_future\n\ncontains\n    subroutine get_current_date(year, month, day)\n        integer, intent(out) :: year, month, day\n        ! This subroutine should be implemented to retrieve the actual current date\n        ! For demonstration, we'll assume the current date is 2023-10-05\n        year = 2023\n        month = 10\n        day = 5\n    end subroutine get_current_date\n\nend program compare_dates\n```"
+  },
+  {
+    "task": "Design a system that checks if a user's age is less than 18 and restricts access if true.",
+    "code": "```fortran\nprogram age_check\n    implicit none\n    integer :: age\n\n    print *, \"Enter your age:\"\n    read *, age\n\n    if (age < 18) then\n        print *, \"Access restricted. You must be 18 or older.\"\n    else\n        print *, \"Access granted. Welcome!\"\n    end if\nend program age_check\n```"
+  },
+  {
+    "task": "Build an algorithm that finds the maximum of three given integers.",
+    "code": "```fortran\nprogram find_maximum\n    implicit none\n    integer :: a, b, c, max_value\n\n    ! Assign values to a, b, and c\n    a = 10\n    b = 20\n    c = 15\n\n    ! Find the maximum value\n    if (a > b) then\n        if (a > c) then\n            max_value = a\n        else\n            max_value = c\n        end if\n    else\n        if (b > c) then\n            max_value = b\n        else\n            max_value = c\n        end if\n    end if\n\n    print *, \"The maximum value is:\", max_value\nend program find_maximum\n```"
+  },
+  {
+    "task": "Write a function that verifies if two arrays contain the same elements in the same order.",
+    "code": "```fortran\nprogram compare_arrays\n    implicit none\n    integer, dimension(:), allocatable :: array1, array2\n    logical :: result\n\n    ! Example arrays\n    allocate(array1(3))\n    allocate(array2(3))\n    array1 = [1, 2, 3]\n    array2 = [1, 2, 3]\n\n    result = compare_elements(array1, array2)\n    print *, \"Arrays are the same: \", result\n\ncontains\n\n    logical function compare_elements(arr1, arr2)\n        integer, dimension(:), intent(in) :: arr1, arr2\n        integer :: i\n\n        if (size(arr1) /= size(arr2)) then\n            compare_elements = .false.\n            return\n        end if\n\n        do i = 1, size(arr1)\n            if (arr1(i) /= arr2(i)) then\n                compare_elements = .false.\n                return\n            end if\n        end do\n\n        compare_elements = .true.\n    end function compare_elements\n\nend program compare_arrays\n```"
+  },
+  {
+    "task": "Create a script that checks if a product's price is within a specified range.",
+    "code": "```fortran\nprogram price_check\n  implicit none\n  real :: price, min_price, max_price\n\n  ! Initialize the product price and the specified range\n  price = 75.0\n  min_price = 50.0\n  max_price = 100.0\n\n  ! Check if the price is within the specified range\n  if (price >= min_price .and. price <= max_price) then\n    print *, \"The price is within the specified range.\"\n  else\n    print *, \"The price is outside the specified range.\"\n  end if\nend program price_check\n```"
+  },
+  {
+    "task": "Develop a tool that compares two versions of a software application and determines which is newer.",
+    "code": "```fortran\nprogram compare_versions\n    implicit none\n    character(len=20) :: version1, version2\n    integer :: major1, minor1, patch1\n    integer :: major2, minor2, patch2\n\n    print *, \"Enter first version (format: major.minor.patch):\"\n    read *, version1\n    print *, \"Enter second version (format: major.minor.patch):\"\n    read *, version2\n\n    call parse_version(version1, major1, minor1, patch1)\n    call parse_version(version2, major2, minor2, patch2)\n\n    if (major1 > major2) then\n        print *, \"Version 1 is newer.\"\n    else if (major1 < major2) then\n        print *, \"Version 2 is newer.\"\n    else if (minor1 > minor2) then\n        print *, \"Version 1 is newer.\"\n    else if (minor1 < minor2) then\n        print *, \"Version 2 is newer.\"\n    else if (patch1 > patch2) then\n        print *, \"Version 1 is newer.\"\n    else if (patch1 < patch2) then\n        print *, \"Version 2 is newer.\"\n    else\n        print *, \"Both versions are the same.\"\n    end if\n\ncontains\n\n    subroutine parse_version(version, major, minor, patch)\n        character(len=*), intent(in) :: version\n        integer, intent(out) :: major, minor, patch\n        integer :: ios\n        read(version, '(I1,1X,I1,1X,I1)', IOSTAT=ios) major, minor, patch\n        if (ios /= 0) then\n            print *, \"Error parsing version:\", version\n            stop\n        end if\n    end subroutine parse_version\n\nend program compare_versions\n```"
+  },
+  {
+    "task": "Implement a test to see if a given year is a leap year.",
+    "code": "```fortran\nprogram leap_year_test\n  implicit none\n  integer :: year\n  logical :: is_leap\n\n  print *, 'Enter a year:'\n  read *, year\n\n  if (mod(year, 4) == 0) then\n    if (mod(year, 100) /= 0 .or. mod(year, 400) == 0) then\n      is_leap = .true.\n    else\n      is_leap = .false.\n    end if\n  else\n    is_leap = .false.\n  end if\n\n  if (is_leap) then\n    print *, year, 'is a leap year.'\n  else\n    print *, year, 'is not a leap year.'\n  end if\nend program leap_year_test\n```"
+  },
+  {
+    "task": "Design a feature that tells if a student\u2019s grade is passing or failing based on a threshold.",
+    "code": "```fortran\nprogram grade_check\n  implicit none\n  real :: grade, threshold\n  logical :: is_passing\n\n  ! Assign values to grade and threshold\n  grade = 75.0\n  threshold = 50.0\n\n  ! Determine if the grade is passing\n  is_passing = grade >= threshold\n\n  ! Output result\n  if (is_passing) then\n     print *, \"The grade is passing.\"\n  else\n     print *, \"The grade is failing.\"\n  end if\nend program grade_check\n```"
+  },
+  {
+    "task": "Write a function to compare two file sizes and return the larger one.",
+    "code": "```fortran\nprogram FileSizeComparison\n    implicit none\n    integer :: size1, size2, largerSize\n\n    print *, \"Enter the size of the first file:\"\n    read *, size1\n    print *, \"Enter the size of the second file:\"\n    read *, size2\n\n    largerSize = larger_file_size(size1, size2)\n    print *, \"The larger file size is:\", largerSize\n\ncontains\n\n    function larger_file_size(a, b) result(larger)\n        integer, intent(in) :: a, b\n        integer :: larger\n\n        if (a > b) then\n            larger = a\n        else\n            larger = b\n        end if\n    end function larger_file_size\n\nend program FileSizeComparison\n```"
+  },
+  {
+    "task": "Build a program that checks if the temperature is below freezing point.",
+    "code": "```fortran\nprogram check_freezing\n    implicit none\n    real :: temperature\n    print *, 'Enter the temperature in Celsius:'\n    read *, temperature\n\n    if (temperature < 0.0) then\n        print *, 'The temperature is below freezing point.'\n    else\n        print *, 'The temperature is above freezing point.'\n    end if\nend program check_freezing\n```"
+  },
+  {
+    "task": "Create a logic that determines if a number is within the Fibonacci sequence.",
+    "code": "```fortran\nprogram FibonacciCheck\n    implicit none\n    integer :: num, a, b, temp\n\n    print *, 'Enter a number:'\n    read(*, *) num\n\n    a = 0\n    b = 1\n\n    if (num == a .or. num == b) then\n        print *, 'The number is in the Fibonacci sequence.'\n    else\n        do\n            temp = a + b\n            a = b\n            b = temp\n            if (b == num) then\n                print *, 'The number is in the Fibonacci sequence.'\n                exit\n            else if (b > num) then\n                print *, 'The number is not in the Fibonacci sequence.'\n                exit\n            end if\n        end do\n    end if\nend program FibonacciCheck\n```"
+  },
+  {
+    "task": "Develop a function that checks if a given word is a palindrome.",
+    "code": "```fortran\nfunction is_palindrome(word) result(palindrome)\n    character(len=*), intent(in) :: word\n    logical :: palindrome\n    integer :: i, n\n\n    n = len_trim(word)\n    palindrome = .true.\n\n    do i = 1, n / 2\n        if (word(i:i) /= word(n-i+1:n-i+1)) then\n            palindrome = .false.\n            exit\n        end if\n    end do\nend function is_palindrome\n```"
+  },
+  {
+    "task": "Write a script to see if a password meets a minimum length requirement.",
+    "code": "```fortran\nprogram password_check\n    implicit none\n    character(len=100) :: password\n    integer :: min_length\n\n    min_length = 8\n    print *, \"Enter your password:\"\n    read *, password\n\n    if (len_trim(password) >= min_length) then\n        print *, \"Password meets the minimum length requirement.\"\n    else\n        print *, \"Password does not meet the minimum length requirement.\"\n    end if\nend program password_check\n```"
+  },
+  {
+    "task": "Implement a system that decides if a point is inside a circle based on its coordinates.",
+    "code": "```fortran\nprogram PointInCircle\n    implicit none\n    real :: x, y, radius, distanceSquared\n    real, parameter :: centerX = 0.0, centerY = 0.0\n\n    ! Initialize coordinates of the point and the radius of the circle\n    x = 1.0\n    y = 2.0\n    radius = 5.0\n\n    ! Calculate the squared distance from the point to the circle's center\n    distanceSquared = (x - centerX)**2 + (y - centerY)**2\n\n    ! Compare distance squared with radius squared to determine if the point is inside the circle\n    if (distanceSquared <= radius**2) then\n        print *, \"The point is inside the circle.\"\n    else\n        print *, \"The point is outside the circle.\"\n    end if\nend program PointInCircle\n```"
+  },
+  {
+    "task": "Design a program that checks if a shopping cart total exceeds a certain budget.",
+    "code": "```fortran\nprogram ShoppingCart\n  implicit none\n  real :: total, budget\n\n  ! Initialize total and budget\n  total = 150.50\n  budget = 100.00\n\n  ! Comparison operation to check budget\n  if (total > budget) then\n    print*, 'The shopping cart total exceeds the budget.'\n  else\n    print*, 'The shopping cart total is within the budget.'\n  end if\n\nend program ShoppingCart\n```"
+  },
+  {
+    "task": "Create a function that compares two players' scores and returns the winner.",
+    "code": "```fortran\nPROGRAM CompareScores\n  IMPLICIT NONE\n  INTEGER :: score1, score2\n  CHARACTER(20) :: winner\n\n  score1 = 85\n  score2 = 90\n  winner = CompareWinner(score1, score2)\n  PRINT *, \"The winner is:\", winner\n\nCONTAINS\n\n  FUNCTION CompareWinner(s1, s2) RESULT(winner)\n    INTEGER, INTENT(IN) :: s1, s2\n    CHARACTER(20) :: winner\n\n    IF (s1 > s2) THEN\n      winner = 'Player 1'\n    ELSE IF (s1 < s2) THEN\n      winner = 'Player 2'\n    ELSE\n      winner = 'Draw'\n    END IF\n  END FUNCTION CompareWinner\n\nEND PROGRAM CompareScores\n```"
+  },
+  {
+    "task": "Write a program to determine if one string is a substring of another.",
+    "code": "```fortran\nprogram substring_check\n  implicit none\n  character(len=100) :: str1, str2\n  integer :: pos\n\n  print *, 'Enter the first string:'\n  read(*, '(A)') str1\n  print *, 'Enter the second string:'\n  read(*, '(A)') str2\n\n  pos = index(str1, str2)\n  if (pos > 0) then\n     print *, 'The second string is a substring of the first string.'\n  else\n     print *, 'The second string is not a substring of the first string.'\n  end if\n\nend program substring_check\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is a prime number.",
+    "code": "```fortran\nprogram check_prime\n  implicit none\n  integer :: num, i\n  logical :: is_prime\n\n  print *, 'Enter a number:'\n  read *, num\n\n  if (num <= 1) then\n    is_prime = .false.\n  else\n    is_prime = .true.\n    do i = 2, num / 2\n      if (mod(num, i) == 0) then\n        is_prime = .false.\n        exit\n      end if\n    end do\n  end if\n\n  if (is_prime) then\n    print *, num, 'is a prime number.'\n  else\n    print *, num, 'is not a prime number.'\n  end if\nend program check_prime\n```"
+  },
+  {
+    "task": "Write a function that checks if a given number is a perfect square.",
+    "code": "```fortran\nprogram checkPerfectSquare\n    implicit none\n    integer :: num\n    logical :: isPerfectSquare\n\n    print *, 'Enter a number:'\n    read *, num\n    isPerfectSquare = checkPerfectSquare(num)\n    print *, 'Is it a perfect square?', isPerfectSquare\n\ncontains\n\n    logical function checkPerfectSquare(n)\n        integer, intent(in) :: n\n        integer :: i\n        i = int(sqrt(real(n)))\n        checkPerfectSquare = (i * i == n)\n    end function checkPerfectSquare\n\nend program checkPerfectSquare\n```"
+  },
+  {
+    "task": "Create a system that determines if a person is eligible for a senior citizen discount based on their age.",
+    "code": "```fortran\nprogram SeniorDiscount\n    implicit none\n    integer :: age\n    logical :: isEligible\n\n    print *, \"Enter age:\"\n    read *, age\n\n    isEligible = (age >= 65)\n\n    if (isEligible) then\n        print *, \"Eligible for senior citizen discount.\"\n    else\n        print *, \"Not eligible for senior citizen discount.\"\n    end if\nend program SeniorDiscount\n```"
+  },
+  {
+    "task": "Develop a feature to check if a date falls on a weekend.",
+    "code": "```fortran\nprogram CheckWeekend\n  implicit none\n  integer :: year, month, day, dayOfWeek\n\n  ! Sample date\n  year = 2023\n  month = 10\n  day = 14\n\n  ! Calculate day of the week using Zeller's Congruence\n  if (month <= 2) then\n    month = month + 12\n    year = year - 1\n  end if\n\n  dayOfWeek = (day + int((13*(month + 1))/5.0) + year + int(year/4.0) - int(year/100.0) + int(year/400.0)) mod 7\n\n  ! Check if the date falls on a weekend\n  if (dayOfWeek == 0 .or. dayOfWeek == 6) then\n    print *, \"The date falls on a weekend.\"\n  else\n    print *, \"The date does not fall on a weekend.\"\n  end if\n\nend program CheckWeekend\n```"
+  },
+  {
+    "task": "Design a program that sees if a given email address is in the correct format.",
+    "code": "```fortran\nprogram email_check\n    implicit none\n    character(len=100) :: email\n    logical :: is_valid\n\n    ! Input email address\n    print *, \"Enter an email address:\"\n    read (*,'(A)') email\n\n    ! Check if email contains '@' and '.'\n    is_valid = index(email, '@') > 1 .and. index(email, '.') > index(email, '@') + 1\n\n    ! Output result\n    if (is_valid) then\n        print *, \"The email address is in the correct format.\"\n    else\n        print *, \"The email address is not in the correct format.\"\n    end if\nend program email_check\n```"
+  },
+  {
+    "task": "Implement a test to check if a rectangle's area is larger than a triangle's area.",
+    "code": "```fortran\nprogram area_comparison\n    implicit none\n    real :: rect_length, rect_width, tri_base, tri_height\n    real :: area_rectangle, area_triangle\n\n    ! Input dimensions\n    print *, 'Enter rectangle length and width:'\n    read *, rect_length, rect_width\n    print *, 'Enter triangle base and height:'\n    read *, tri_base, tri_height\n\n    ! Calculate areas\n    area_rectangle = rect_length * rect_width\n    area_triangle = 0.5 * tri_base * tri_height\n\n    ! Compare areas\n    if (area_rectangle > area_triangle) then\n        print *, 'Rectangle area is larger than triangle area.'\n    else\n        print *, 'Rectangle area is not larger than triangle area.'\n    end if\nend program area_comparison\n```"
+  },
+  {
+    "task": "Write a function that verifies if two rectangles overlap each other.",
+    "code": "```fortran\nmodule rectangle_overlap\n  implicit none\ncontains\n\n  logical function rectangles_overlap(x1, y1, x2, y2, x3, y3, x4, y4)\n    real, intent(in) :: x1, y1, x2, y2, x3, y3, x4, y4\n    rectangles_overlap = .not. (x1 >= x4 .or. x3 >= x2 .or. y1 >= y4 .or. y3 >= y2)\n  end function rectangles_overlap\n\nend module rectangle_overlap\n```"
+  },
+  {
+    "task": "Create a script to compare two strings lexicographically.",
+    "code": "```fortran\nprogram compare_strings\n    implicit none\n    character(len=100) :: str1, str2\n\n    ! Initialize the strings\n    str1 = \"apple\"\n    str2 = \"banana\"\n\n    ! Compare the strings\n    if (str1 < str2) then\n        print *, \"str1 is less than str2\"\n    else if (str1 > str2) then\n        print *, \"str1 is greater than str2\"\n    else\n        print *, \"str1 is equal to str2\"\n    end if\nend program compare_strings\n```"
+  },
+  {
+    "task": "Build a program that checks if a list of numbers is in ascending order.",
+    "code": "```fortran\nprogram check_ascending\n    implicit none\n    integer, parameter :: n = 5\n    integer :: numbers(n) = [3, 5, 8, 10, 12]\n    logical :: is_ascending\n    integer :: i\n\n    is_ascending = .true.\n    do i = 1, n-1\n        if (numbers(i) > numbers(i+1)) then\n            is_ascending = .false.\n            exit\n        end if\n    end do\n\n    if (is_ascending) then\n        print *, 'The list is in ascending order.'\n    else\n        print *, 'The list is not in ascending order.'\n    end if\nend program check_ascending\n```"
+  },
+  {
+    "task": "Design a system to compare the heights of two buildings.",
+    "code": "```fortran\nPROGRAM CompareHeights\n  IMPLICIT NONE\n  REAL :: heightBuilding1, heightBuilding2\n\n  ! Assign values to the heights\n  PRINT *, 'Enter the height of Building 1:'\n  READ *, heightBuilding1\n  PRINT *, 'Enter the height of Building 2:'\n  READ *, heightBuilding2\n\n  ! Compare the heights\n  IF (heightBuilding1 > heightBuilding2) THEN\n    PRINT *, 'Building 1 is taller than Building 2.'\n  ELSE IF (heightBuilding1 < heightBuilding2) THEN\n    PRINT *, 'Building 2 is taller than Building 1.'\n  ELSE\n    PRINT *, 'Both buildings have the same height.'\n  END IF\nEND PROGRAM CompareHeights\n```"
+  },
+  {
+    "task": "Write a feature that determines if a given time is before noon.",
+    "code": "```fortran\nprogram check_time_before_noon\n    implicit none\n    integer :: hour, minute\n    logical :: is_before_noon\n\n    ! Example input\n    hour = 11\n    minute = 30\n\n    ! Determine if the time is before noon\n    is_before_noon = (hour < 12)\n\n    ! Output the result\n    if (is_before_noon) then\n        print *, \"The time is before noon.\"\n    else\n        print *, \"The time is not before noon.\"\n    end if\nend program check_time_before_noon\n```"
+  },
+  {
+    "task": "Implement a function to check if a given number is a power of two.",
+    "code": "```fortran\nmodule power_of_two_module\ncontains\n    logical function is_power_of_two(n)\n        integer, intent(in) :: n\n        if (n <= 0) then\n            is_power_of_two = .false.\n            return\n        end if\n        is_power_of_two = (iand(n, n - 1) == 0)\n    end function is_power_of_two\nend module power_of_two_module\n```"
+  },
+  {
+    "task": "Create a program that determines if a word is longer than another word.",
+    "code": "```fortran\nprogram compare_words\n    implicit none\n    character(len=100) :: word1, word2\n    integer :: len1, len2\n\n    print *, 'Enter first word:'\n    read *, word1\n    print *, 'Enter second word:'\n    read *, word2\n\n    len1 = len_trim(word1)\n    len2 = len_trim(word2)\n\n    if (len1 > len2) then\n        print *, 'The first word is longer.'\n    else if (len1 < len2) then\n        print *, 'The second word is longer.'\n    else\n        print *, 'Both words are of equal length.'\n    end if\nend program compare_words\n```"
+  },
+  {
+    "task": "Develop a function to compare the lengths of two lists and return the longer one.",
+    "code": "```fortran\nprogram compare_lists\n    implicit none\n    integer, dimension(:), allocatable :: list1, list2, longer_list\n\n    ! Example list allocations\n    allocate(list1(5))\n    allocate(list2(10))\n\n    list1 = [1, 2, 3, 4, 5]\n    list2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n    longer_list = find_longer_list(list1, list2)\n\n    print *, \"Longer list:\"\n    print *, longer_list\n\ncontains\n\n    function find_longer_list(a, b) result(longer)\n        integer, dimension(:), intent(in) :: a, b\n        integer, dimension(:), allocatable :: longer\n\n        if (size(a) >= size(b)) then\n            allocate(longer(size(a)))\n            longer = a\n        else\n            allocate(longer(size(b)))\n            longer = b\n        end if\n\n    end function find_longer_list\n\nend program compare_lists\n```"
+  },
+  {
+    "task": "Write a script to see if a user's input matches a pre-defined secret code.",
+    "code": "```fortran\nprogram SecretCode\n  implicit none\n  character(len=20) :: user_input\n  character(len=20), parameter :: secret_code = \"OpenSesame\"\n\n  print *, \"Enter the secret code:\"\n  read *, user_input\n\n  if (trim(user_input) == secret_code) then\n     print *, \"Access Granted\"\n  else\n     print *, \"Access Denied\"\n  end if\nend program SecretCode\n```"
+  },
+  {
+    "task": "Build a utility that checks if a given year is in the 21st century.",
+    "code": "```fortran\nprogram check_21st_century\n    implicit none\n    integer :: year\n    logical :: is_21st_century\n\n    print *, 'Enter a year:'\n    read *, year\n\n    is_21st_century = (year >= 2001 .and. year <= 2100)\n\n    if (is_21st_century) then\n        print *, 'The year', year, 'is in the 21st century.'\n    else\n        print *, 'The year', year, 'is not in the 21st century.'\n    end if\nend program check_21st_century\n```"
+  },
+  {
+    "task": "Create a logic that determines if a book's publication year is after 2000.",
+    "code": "```fortran\nprogram publication_year_check\n    implicit none\n    integer :: publication_year\n    logical :: is_after_2000\n\n    ! Example publication year\n    publication_year = 2005\n\n    ! Determine if publication year is after 2000\n    is_after_2000 = (publication_year > 2000)\n\n    print *, \"Is the book published after 2000?: \", is_after_2000\nend program publication_year_check\n```"
+  },
+  {
+    "task": "Design a feature to see if a number is divisible by both 3 and 5.",
+    "code": "```fortran\nprogram DivisibilityCheck\n  implicit none\n  integer :: number\n  logical :: isDivisible\n\n  ! Example number\n  number = 30\n\n  ! Check divisibility by both 3 and 5\n  isDivisible = (mod(number, 3) == 0) .and. (mod(number, 5) == 0)\n\n  if (isDivisible) then\n    print *, \"The number is divisible by both 3 and 5.\"\n  else\n    print *, \"The number is not divisible by both 3 and 5.\"\n  end if\n\nend program DivisibilityCheck\n```"
+  },
+  {
+    "task": "Implement a system that checks if a student's GPA is above a certain threshold.",
+    "code": "```fortran\nprogram GPAComparison\n    implicit none\n    real :: studentGPA, threshold\n    logical :: isAboveThreshold\n\n    ! Initialize GPA and threshold values\n    studentGPA = 3.5\n    threshold = 3.0\n\n    ! Perform the comparison\n    isAboveThreshold = studentGPA > threshold\n\n    ! Output the result\n    if (isAboveThreshold) then\n        print *, \"The student's GPA is above the threshold.\"\n    else\n        print *, \"The student's GPA is not above the threshold.\"\n    end if\nend program GPAComparison\n```"
+  },
+  {
+    "task": "Write a function to determine if a given angle is acute, right, or obtuse.",
+    "code": "```fortran\nprogram angle_check\n  implicit none\n  real :: angle\n  print *, \"Enter the angle in degrees:\"\n  read *, angle\n  call check_angle(angle)\ncontains\n  subroutine check_angle(angle)\n    real, intent(in) :: angle\n    if (angle < 90.0) then\n      print *, \"The angle is acute.\"\n    else if (angle == 90.0) then\n      print *, \"The angle is right.\"\n    else if (angle > 90.0 .and. angle < 180.0) then\n      print *, \"The angle is obtuse.\"\n    else\n      print *, \"Invalid angle.\"\n    end if\n  end subroutine check_angle\nend program angle_check\n```"
+  },
+  {
+    "task": "Develop a program that compares the lengths of two strings and returns the shorter one.",
+    "code": "```fortran\nprogram compare_strings\n    implicit none\n    character(len=100) :: string1, string2\n    integer :: len1, len2\n\n    ! Input two strings\n    print *, 'Enter the first string:'\n    read(*, '(A)') string1\n    print *, 'Enter the second string:'\n    read(*, '(A)') string2\n\n    ! Calculate lengths\n    len1 = len_trim(string1)\n    len2 = len_trim(string2)\n\n    ! Compare lengths and print the shorter string\n    if (len1 < len2) then\n        print *, 'The shorter string is: ', trim(string1)\n    else if (len2 < len1) then\n        print *, 'The shorter string is: ', trim(string2)\n    else\n        print *, 'Both strings are of equal length.'\n    end if\nend program compare_strings\n```"
+  },
+  {
+    "task": "Create a script to verify if a username is unique within a list.",
+    "code": "```fortran\nprogram check_unique_username\n    implicit none\n\n    character(len=20) :: username\n    character(len=20), dimension(5) :: user_list = (/ \"user1\", \"user2\", \"user3\", \"user4\", \"user5\" /)\n    logical :: is_unique\n    integer :: i\n\n    username = \"user6\"  ! Example username to check\n\n    is_unique = .true.\n    do i = 1, size(user_list)\n        if (trim(username) == trim(user_list(i))) then\n            is_unique = .false.\n            exit\n        end if\n    end do\n\n    if (is_unique) then\n        print *, \"The username is unique.\"\n    else\n        print *, \"The username is not unique.\"\n    end if\n\nend program check_unique_username\n```"
+  },
+  {
+    "task": "Build a tool that checks if a job applicant meets all the listed qualifications.",
+    "code": "```fortran\nprogram JobApplicationChecker\n    implicit none\n    logical :: qualified\n    logical :: hasDegree, hasExperience, isCertified\n\n    ! Assume these variables are set based on the applicant's information\n    hasDegree = .true.\n    hasExperience = .true.\n    isCertified = .false.\n\n    qualified = hasDegree .and. hasExperience .and. isCertified\n\n    if (qualified) then\n        print *, \"The applicant meets all the qualifications.\"\n    else\n        print *, \"The applicant does not meet all the qualifications.\"\n    end if\n\nend program JobApplicationChecker\n```"
+  },
+  {
+    "task": "Write a feature to see if a vehicle's speed exceeds the speed limit.",
+    "code": "```fortran\nprogram speed_check\n    implicit none\n    real :: vehicle_speed, speed_limit\n    logical :: is_exceeding\n\n    ! Example values\n    vehicle_speed = 75.0\n    speed_limit = 65.0\n\n    is_exceeding = vehicle_speed > speed_limit\n\n    if (is_exceeding) then\n        print *, \"The vehicle's speed exceeds the speed limit.\"\n    else\n        print *, \"The vehicle's speed is within the speed limit.\"\n    end if\n\nend program speed_check\n```"
+  },
+  {
+    "task": "Design a system that determines whether a given point is above or below the x-axis.",
+    "code": "```fortran\nprogram point_position\n    implicit none\n    real :: y\n\n    print *, 'Enter the y-coordinate of the point:'\n    read *, y\n\n    if (y > 0.0) then\n        print *, 'The point is above the x-axis.'\n    else if (y < 0.0) then\n        print *, 'The point is below the x-axis.'\n    else\n        print *, 'The point is on the x-axis.'\n    end if\nend program point_position\n```"
+  },
+  {
+    "task": "Create a function that checks if a given word appears in a sentence.",
+    "code": "```fortran\nprogram word_check\nimplicit none\ncharacter(len=100) :: sentence\ncharacter(len=20) :: word\nlogical :: result\n\nsentence = \"This is a sample sentence for testing.\"\nword = \"sample\"\nresult = contains_word(sentence, word)\nprint *, \"Word found:\", result\n\ncontains_word(sentence, word)\n\ncontains\n\nlogical function contains_word(sentence, word)\n    character(len=*), intent(in) :: sentence, word\n    integer :: index\n\n    index = index(sentence, word)\n    if (index > 0) then\n        contains_word = .true.\n    else\n        contains_word = .false.\n    end if\nend function contains_word\n\nend program word_check\n```"
+  },
+  {
+    "task": "Implement a program that identifies whether a given number is negative or positive.",
+    "code": "```fortran\nprogram identify_sign\n    implicit none\n    integer :: number\n\n    print *, \"Enter a number: \"\n    read *, number\n\n    if (number > 0) then\n        print *, \"The number is positive.\"\n    else if (number < 0) then\n        print *, \"The number is negative.\"\n    else\n        print *, \"The number is zero.\"\n    end if\nend program identify_sign\n```"
+  },
+  {
+    "task": "Write a script to see if the sum of two numbers is greater than 100.",
+    "code": "```fortran\nprogram sum_comparison\n    implicit none\n    integer :: num1, num2, sum\n    logical :: is_greater\n\n    ! Assign values to num1 and num2\n    num1 = 50\n    num2 = 60\n\n    ! Calculate the sum\n    sum = num1 + num2\n\n    ! Check if the sum is greater than 100\n    is_greater = sum > 100\n\n    ! Print the result\n    if (is_greater) then\n        print *, \"The sum is greater than 100.\"\n    else\n        print *, \"The sum is not greater than 100.\"\n    end if\nend program sum_comparison\n```"
+  },
+  {
+    "task": "Build a utility that checks if a file exists in a specified directory.",
+    "code": "```fortran\nprogram CheckFileExists\n    implicit none\n    character(len=256) :: directory, filename, filepath\n    logical :: file_exists\n\n    ! Input directory and filename\n    print *, \"Enter directory:\"\n    read(*, '(A)') directory\n    print *, \"Enter filename:\"\n    read(*, '(A)') filename\n\n    ! Create full file path\n    filepath = trim(adjustl(directory)) // \"/\" // trim(adjustl(filename))\n\n    ! Check if the file exists\n    inquire(file=filepath, exist=file_exists)\n\n    ! Output result\n    if (file_exists) then\n        print *, \"The file exists.\"\n    else\n        print *, \"The file does not exist.\"\n    end if\n\nend program CheckFileExists\n```"
+  },
+  {
+    "task": "Develop a system to compare the weights of two different objects.",
+    "code": "```fortran\nprogram compare_weights\n    implicit none\n    real :: weight1, weight2\n\n    print *, \"Enter the weight of the first object:\"\n    read *, weight1\n    print *, \"Enter the weight of the second object:\"\n    read *, weight2\n\n    if (weight1 > weight2) then\n        print *, \"The first object is heavier than the second object.\"\n    else if (weight1 < weight2) then\n        print *, \"The second object is heavier than the first object.\"\n    else\n        print *, \"Both objects have the same weight.\"\n    end if\nend program compare_weights\n```"
+  },
+  {
+    "task": "Create a logic to determine if a number falls within a defined range.",
+    "code": "```fortran\nprogram check_range\n  implicit none\n  integer :: number, lower_bound, upper_bound\n  logical :: is_within_range\n\n  ! Example values\n  number = 25\n  lower_bound = 10\n  upper_bound = 50\n\n  is_within_range = (number >= lower_bound) .and. (number <= upper_bound)\n\n  if (is_within_range) then\n     print *, \"The number is within the range.\"\n  else\n     print *, \"The number is outside the range.\"\n  end if\n\nend program check_range\n```"
+  },
+  {
+    "task": "Design a program that checks if an employee worked overtime based on hours worked.",
+    "code": "```fortran\nprogram OvertimeCheck\n    implicit none\n    integer :: hoursWorked\n    integer, parameter :: regularHours = 40\n    logical :: isOvertime\n\n    ! Read the number of hours worked\n    print *, \"Enter the number of hours worked:\"\n    read *, hoursWorked\n\n    ! Check if the employee worked overtime\n    isOvertime = hoursWorked > regularHours\n\n    ! Output the result\n    if (isOvertime) then\n        print *, \"The employee worked overtime.\"\n    else\n        print *, \"The employee did not work overtime.\"\n    end if\nend program OvertimeCheck\n```"
+  },
+  {
+    "task": "Write a function to compare two dates and determine which is earlier.",
+    "code": "```fortran\nmodule date_comparison\n    implicit none\ncontains\n    logical function is_earlier(year1, month1, day1, year2, month2, day2)\n        integer, intent(in) :: year1, month1, day1\n        integer, intent(in) :: year2, month2, day2\n\n        if (year1 < year2) then\n            is_earlier = .true.\n        elseif (year1 > year2) then\n            is_earlier = .false.\n        elseif (month1 < month2) then\n            is_earlier = .true.\n        elseif (month1 > month2) then\n            is_earlier = .false.\n        elseif (day1 < day2) then\n            is_earlier = .true.\n        else\n            is_earlier = .false.\n        end if\n    end function is_earlier\nend module date_comparison\n```"
+  },
+  {
+    "task": "Create a script that verifies if a given word starts with a vowel.",
+    "code": "```fortran\nprogram check_vowel\n    implicit none\n    character(len=100) :: word\n    logical :: starts_with_vowel\n\n    print *, 'Enter a word:'\n    read *, word\n    starts_with_vowel = check_starts_with_vowel(adjustl(word))\n    \n    if (starts_with_vowel) then\n        print *, 'The word starts with a vowel.'\n    else\n        print *, 'The word does not start with a vowel.'\n    end if\ncontains\n    logical function check_starts_with_vowel(w)\n        character(len=*), intent(in) :: w\n        character :: first_letter\n        first_letter = w(1:1)\n        check_starts_with_vowel = (first_letter == 'A' .or. first_letter == 'E' .or. &\n                                   first_letter == 'I' .or. first_letter == 'O' .or. &\n                                   first_letter == 'U' .or. first_letter == 'a' .or. &\n                                   first_letter == 'e' .or. first_letter == 'i' .or. &\n                                   first_letter == 'o' .or. first_letter == 'u')\n    end function check_starts_with_vowel\nend program check_vowel\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is even or odd.",
+    "code": "```fortran\nprogram EvenOrOdd\n  implicit none\n  integer :: number\n  \n  print *, 'Enter an integer:'\n  read *, number\n\n  if (mod(number, 2) == 0) then\n     print *, 'The number is even.'\n  else\n     print *, 'The number is odd.'\n  end if\nend program EvenOrOdd\n```"
+  },
+  {
+    "task": "Implement a system that determines if a string contains only numeric characters.",
+    "code": "```fortran\nprogram CheckNumericString\n    implicit none\n    character(len=:), allocatable :: inputString\n    integer :: i\n    logical :: isNumeric\n\n    ! Example input\n    inputString = \"123456\"\n\n    isNumeric = .true.\n    do i = 1, len(inputString)\n        if (ichar(inputString(i:i)) < ichar('0') .or. ichar(inputString(i:i)) > ichar('9')) then\n            isNumeric = .false.\n            exit\n        end if\n    end do\n\n    if (isNumeric) then\n        print *, \"The string is numeric.\"\n    else\n        print *, \"The string is not numeric.\"\n    end if\n\nend program CheckNumericString\n```"
+  },
+  {
+    "task": "Write a function to see if a given character is a vowel or consonant.",
+    "code": "```fortran\nprogram vowel_consonant\n  implicit none\n  character(len=1) :: char\n  logical :: is_vowel\n\n  print *, \"Enter a character:\"\n  read(*,*) char\n\n  is_vowel = is_vowel_function(char)\n\n  if (is_vowel) then\n     print *, \"The character is a vowel.\"\n  else\n     print *, \"The character is a consonant.\"\n  end if\n\ncontains\n\n  logical function is_vowel_function(c)\n    character(len=1), intent(in) :: c\n    character(len=1), parameter :: vowels(10) = (/ 'a', 'e', 'i', 'o', 'u', &\n                                                  , 'A', 'E', 'I', 'O', 'U' /)\n    integer :: i\n\n    is_vowel_function = .false.\n    do i = 1, size(vowels)\n       if (c == vowels(i)) then\n          is_vowel_function = .true.\n          return\n       end if\n    end do\n  end function is_vowel_function\n\nend program vowel_consonant\n```"
+  },
+  {
+    "task": "Create a program that checks if a point lies within a specified rectangle.",
+    "code": "```fortran\nprogram point_in_rectangle\n    implicit none\n    real :: x, y\n    real :: x_min, x_max, y_min, y_max\n    logical :: is_inside\n\n    ! Define the rectangle boundaries\n    x_min = 1.0\n    x_max = 5.0\n    y_min = 1.0\n    y_max = 5.0\n\n    ! Define the point coordinates\n    x = 3.0\n    y = 4.0\n\n    ! Check if the point is inside the rectangle\n    is_inside = (x >= x_min .and. x <= x_max) .and. (y >= y_min .and. y <= y_max)\n\n    if (is_inside) then\n        print *, 'The point is inside the rectangle.'\n    else\n        print *, 'The point is outside the rectangle.'\n    end if\nend program point_in_rectangle\n```"
+  },
+  {
+    "task": "Develop a feature to compare two lists and return the common elements.",
+    "code": "```fortran\nprogram common_elements\n    implicit none\n    integer, parameter :: n = 5\n    integer :: list1(n) = [1, 2, 3, 4, 5]\n    integer :: list2(n) = [3, 4, 5, 6, 7]\n    integer :: i, j\n\n    print *, \"Common elements:\"\n    do i = 1, n\n        do j = 1, n\n            if (list1(i) == list2(j)) then\n                print *, list1(i)\n            end if\n        end do\n    end do\nend program common_elements\n```"
+  },
+  {
+    "task": "Design a function that determines if a text contains any uppercase letters.",
+    "code": "```fortran\nprogram check_uppercase\n    implicit none\n    character(len=100) :: text\n    logical :: has_uppercase\n\n    print *, \"Enter text:\"\n    read(*, '(A)') text\n\n    has_uppercase = contains_uppercase(text)\n\n    if (has_uppercase) then\n        print *, \"The text contains uppercase letters.\"\n    else\n        print *, \"The text does not contain uppercase letters.\"\n    end if\ncontains\n    logical function contains_uppercase(str)\n        character(len=*), intent(in) :: str\n        integer :: i\n\n        contains_uppercase = .false.\n        do i = 1, len_trim(str)\n            if (str(i:i) >= 'A' .and. str(i:i) <= 'Z') then\n                contains_uppercase = .true.\n                return\n            end if\n        end do\n    end function contains_uppercase\nend program check_uppercase\n```"
+  },
+  {
+    "task": "Implement a script to check if a given sentence is a question.",
+    "code": "```fortran\nprogram CheckQuestion\n    implicit none\n    character(len=100) :: sentence\n    logical :: isQuestion\n\n    print *, 'Enter a sentence:'\n    read(*,'(A)') sentence\n\n    call trim(sentence)\n\n    if (len_trim(sentence) > 0 .and. sentence(len_trim(sentence):len_trim(sentence)) == '?') then\n        isQuestion = .true.\n    else\n        isQuestion = .false.\n    end if\n\n    if (isQuestion) then\n        print *, 'The sentence is a question.'\n    else\n        print *, 'The sentence is not a question.'\n    end if\nend program CheckQuestion\n```"
+  },
+  {
+    "task": "Write a program to determine if a temperature is measured in Celsius or Fahrenheit.",
+    "code": "```fortran\nprogram temperature_check\n    implicit none\n    real :: temperature\n    character(len=1) :: unit\n\n    print *, \"Enter temperature followed by unit (C/F):\"\n    read *, temperature, unit\n\n    select case (unit)\n    case ('C', 'c')\n        print *, \"Temperature is in Celsius.\"\n    case ('F', 'f')\n        print *, \"Temperature is in Fahrenheit.\"\n    case default\n        print *, \"Invalid unit entered.\"\n    end select\nend program temperature_check\n```"
+  },
+  {
+    "task": "Create a system that verifies if a student is enrolled in a particular course.",
+    "code": "```fortran\nprogram EnrollmentCheck\n    implicit none\n    character(len=20) :: studentName, courseName\n    logical :: isEnrolled\n\n    ! Input student name and course name\n    print *, 'Enter student name:'\n    read *, studentName\n    print *, 'Enter course name:'\n    read *, courseName\n\n    ! Check enrollment (dummy check)\n    isEnrolled = (studentName == 'Alice') .and. (courseName == 'Math101')\n\n    ! Output result\n    if (isEnrolled) then\n        print *, studentName, 'is enrolled in', courseName\n    else\n        print *, studentName, 'is not enrolled in', courseName\n    end if\nend program EnrollmentCheck\n```"
+  },
+  {
+    "task": "Build a utility to check if a given string is a valid hexadecimal number.",
+    "code": "```fortran\nprogram check_hexadecimal\n    implicit none\n    character(len=100) :: inputString\n    logical :: isValidHex\n\n    print *, 'Enter a string:'\n    read(*, '(A)') inputString\n\n    isValidHex = .true.\n    call trim(inputString)\n\n    do i = 1, len_trim(inputString)\n        select case (inputString(i:i))\n            case ('0':'9', 'A':'F', 'a':'f')\n                ! valid hexadecimal character, do nothing\n            case default\n                isValidHex = .false.\n                exit\n        end select\n    end do\n\n    if (isValidHex) then\n        print *, 'The string is a valid hexadecimal number.'\n    else\n        print *, 'The string is not a valid hexadecimal number.'\n    end if\nend program check_hexadecimal\n```"
+  },
+  {
+    "task": "Write a function to see if two circles intersect based on their radii and center points.",
+    "code": "```fortran\nmodule circle_operations\n  implicit none\ncontains\n  logical function circles_intersect(x1, y1, r1, x2, y2, r2)\n    real, intent(in) :: x1, y1, r1, x2, y2, r2\n    real :: distance_squared, radii_sum_squared\n\n    distance_squared = (x2 - x1)**2 + (y2 - y1)**2\n    radii_sum_squared = (r1 + r2)**2\n\n    circles_intersect = distance_squared <= radii_sum_squared\n  end function circles_intersect\nend module circle_operations\n```"
+  },
+  {
+    "task": "Develop a program that checks if a given number is within 10% of another number.",
+    "code": "```fortran\nprogram check_within_10_percent\n    implicit none\n    real :: num1, num2, lower_bound, upper_bound\n\n    print *, \"Enter the first number:\"\n    read *, num1\n    print *, \"Enter the second number:\"\n    read *, num2\n\n    lower_bound = 0.9 * num2\n    upper_bound = 1.1 * num2\n\n    if (num1 >= lower_bound .and. num1 <= upper_bound) then\n        print *, \"The first number is within 10% of the second number.\"\n    else\n        print *, \"The first number is not within 10% of the second number.\"\n    end if\nend program check_within_10_percent\n```"
+  },
+  {
+    "task": "Create a feature to determine if a character is alphanumeric.",
+    "code": "```fortran\nprogram check_alphanumeric\n  implicit none\n  character(len=1) :: char\n  logical :: is_alphanumeric\n\n  print *, \"Enter a character: \"\n  read(*, '(A)') char\n\n  is_alphanumeric = ((char >= 'A' .and. char <= 'Z') .or. &\n                     (char >= 'a' .and. char <= 'z') .or. &\n                     (char >= '0' .and. char <= '9'))\n\n  if (is_alphanumeric) then\n    print *, \"The character is alphanumeric.\"\n  else\n    print *, \"The character is not alphanumeric.\"\n  end if\nend program check_alphanumeric\n```"
+  },
+  {
+    "task": "Implement a system to compare the profit margins of two products.",
+    "code": "```fortran\nprogram CompareProfitMargins\n    implicit none\n    real :: profit_margin1, profit_margin2\n\n    ! Assign values to profit margins\n    profit_margin1 = 0.15\n    profit_margin2 = 0.20\n\n    if (profit_margin1 > profit_margin2) then\n        print *, \"Product 1 has a higher profit margin.\"\n    else if (profit_margin1 < profit_margin2) then\n        print *, \"Product 2 has a higher profit margin.\"\n    else\n        print *, \"Both products have the same profit margin.\"\n    end if\n\nend program CompareProfitMargins\n```"
+  },
+  {
+    "task": "Design a script to check if a given string contains any special characters.",
+    "code": "```fortran\nprogram check_special_characters\n    implicit none\n    character(len=100) :: str\n    integer :: i\n    logical :: has_special\n\n    print *, \"Enter a string:\"\n    read(*,'(A)') str\n\n    has_special = .false.\n\n    do i = 1, len_trim(str)\n        if (index(' !\"#$%&''()*+,-./:;<=>?@[\\]^_`{|}~', str(i:i)) /= 0) then\n            has_special = .true.\n            exit\n        end if\n    end do\n\n    if (has_special) then\n        print *, \"The string contains special characters.\"\n    else\n        print *, \"The string does not contain special characters.\"\n    end if\nend program check_special_characters\n```"
+  },
+  {
+    "task": "Write a function to verify if a number is a multiple of another number.",
+    "code": "```fortran\nprogram check_multiple\n  implicit none\n  integer :: num1, num2\n  logical :: result\n\n  print *, 'Enter two integers:'\n  read *, num1, num2\n\n  result = is_multiple(num1, num2)\n  if (result) then\n     print *, num1, 'is a multiple of', num2\n  else\n     print *, num1, 'is not a multiple of', num2\n  end if\n\ncontains\n\n  logical function is_multiple(a, b)\n    integer, intent(in) :: a, b\n    is_multiple = (mod(a, b) == 0)\n  end function is_multiple\n\nend program check_multiple\n```"
+  },
+  {
+    "task": "Create a program that checks if a date is a holiday based on a list of holidays.",
+    "code": "```fortran\nprogram holiday_check\n  implicit none\n  integer :: day, month, year\n  logical :: is_holiday\n\n  ! Example list of holidays: (month, day)\n  integer, dimension(5, 2) :: holidays = reshape([1, 1, 7, 4, 12, 25, 11, 11, 10, 31], [5, 2])\n\n  print *, 'Enter date (day month year):'\n  read *, day, month, year\n\n  is_holiday = .false.\n  do i = 1, size(holidays, 1)\n    if (month == holidays(i, 1) .and. day == holidays(i, 2)) then\n      is_holiday = .true.\n      exit\n    end if\n  end do\n\n  if (is_holiday) then\n    print *, 'The date is a holiday.'\n  else\n    print *, 'The date is not a holiday.'\n  end if\nend program holiday_check\n```"
+  },
+  {
+    "task": "Build a utility to compare two text files and highlight the differences.",
+    "code": "```fortran\nprogram file_compare\n    implicit none\n    character(len=256) :: line1, line2\n    integer :: iunit1, iunit2, ios1, ios2\n    logical :: files_different\n\n    open(newunit=iunit1, file='file1.txt', status='old', action='read', iostat=ios1)\n    open(newunit=iunit2, file='file2.txt', status='old', action='read', iostat=ios2)\n\n    if (ios1 /= 0 .or. ios2 /= 0) then\n        print *, \"Error opening files.\"\n        stop\n    end if\n\n    files_different = .false.\n    \n    do\n        read(iunit1, '(A)', iostat=ios1) line1\n        read(iunit2, '(A)', iostat=ios2) line2\n\n        if (ios1 /= 0 .or. ios2 /= 0) exit\n\n        if (trim(line1) /= trim(line2)) then\n            print *, \"Difference found:\"\n            print *, \"File1: \", trim(line1)\n            print *, \"File2: \", trim(line2)\n            files_different = .true.\n        end if\n    end do\n\n    if (.not. files_different) print *, \"Files are identical.\"\n\n    close(iunit1)\n    close(iunit2)\nend program file_compare\n```"
+  },
+  {
+    "task": "Develop a function to determine if a given password is strong based on length and character diversity.",
+    "code": "```fortran\nprogram PasswordStrength\n  implicit none\n  character(len=100) :: password\n  logical :: isStrong\n\n  print *, \"Enter a password:\"\n  read *, password\n\n  isStrong = isStrongPassword(password)\n\n  if (isStrong) then\n     print *, \"The password is strong.\"\n  else\n     print *, \"The password is weak.\"\n  end if\n\ncontains\n\n  logical function isStrongPassword(password)\n    character(len=*), intent(in) :: password\n    integer :: n\n    logical :: hasLower, hasUpper, hasDigit, hasSpecial\n\n    n = len_trim(password)\n\n    if (n < 8) then\n       isStrongPassword = .false.\n       return\n    end if\n\n    hasLower = .false.\n    hasUpper = .false.\n    hasDigit = .false.\n    hasSpecial = .false.\n\n    do i = 1, n\n       select case (password(i:i))\n       case ('a':'z')\n          hasLower = .true.\n       case ('A':'Z')\n          hasUpper = .true.\n       case ('0':'9')\n          hasDigit = .true.\n       case default\n          hasSpecial = .true.\n       end select\n    end do\n\n    if (hasLower .and. hasUpper .and. hasDigit .and. hasSpecial) then\n       isStrongPassword = .true.\n    else\n       isStrongPassword = .false.\n    end if\n\n  end function isStrongPassword\n\nend program PasswordStrength\n```"
+  },
+  {
+    "task": "Write a script to see if a number is within a specified distance from zero.",
+    "code": "```fortran\nprogram check_distance\n  implicit none\n  real :: number, distance\n\n  print *, \"Enter a number:\"\n  read *, number\n  print *, \"Enter the distance:\"\n  read *, distance\n\n  if (abs(number) <= distance) then\n     print *, \"The number is within the specified distance from zero.\"\n  else\n     print *, \"The number is not within the specified distance from zero.\"\n  end if\n\nend program check_distance\n```"
+  },
+  {
+    "task": "Create a system to check if a book title is available in a library database.",
+    "code": "```fortran\nprogram library_check\n  implicit none\n  integer :: i\n  logical :: is_found\n  character(len=100) :: book_title\n  character(len=100), dimension(5) :: library_db = (/ &\n    \"Pride and Prejudice\", &\n    \"To Kill a Mockingbird\", &\n    \"The Great Gatsby\", &\n    \"1984\", &\n    \"The Catcher in the Rye\" /)\n\n  ! Prompt for book title\n  print *, \"Enter the book title to search:\"\n  read(*, '(A)') book_title\n\n  ! Initialize flag\n  is_found = .false.\n\n  ! Check if the book title is in the library database\n  do i = 1, size(library_db)\n    if (trim(adjustl(book_title)) == trim(adjustl(library_db(i)))) then\n      is_found = .true.\n      exit\n    end if\n  end do\n\n  ! Output result\n  if (is_found) then\n    print *, \"The book is available in the library.\"\n  else\n    print *, \"The book is not available in the library.\"\n  end if\n\nend program library_check\n```"
+  },
+  {
+    "task": "Implement a feature that determines if a user has administrator privileges.",
+    "code": "```fortran\nprogram check_admin_privileges\n  implicit none\n  character(len=20) :: user_role\n  logical :: is_admin\n\n  print *, 'Enter user role: '\n  read *, user_role\n\n  if (trim(adjustl(user_role)) == 'administrator') then\n     is_admin = .true.\n  else\n     is_admin = .false.\n  end if\n\n  if (is_admin) then\n     print *, 'User has administrator privileges.'\n  else\n     print *, 'User does not have administrator privileges.'\n  end if\nend program check_admin_privileges\n```"
+  },
+  {
+    "task": "Design a function to compare the brightness of two colors.",
+    "code": "```fortran\nFUNCTION compare_brightness(color1, color2) RESULT(brighter)\n    IMPLICIT NONE\n    REAL, DIMENSION(3), INTENT(IN) :: color1, color2\n    REAL :: brightness1, brightness2\n    INTEGER :: brighter\n\n    brightness1 = 0.299*color1(1) + 0.587*color1(2) + 0.114*color1(3)\n    brightness2 = 0.299*color2(1) + 0.587*color2(2) + 0.114*color2(3)\n\n    IF (brightness1 > brightness2) THEN\n        brighter = 1\n    ELSE IF (brightness1 < brightness2) THEN\n        brighter = 2\n    ELSE\n        brighter = 0\n    END IF\nEND FUNCTION compare_brightness\n```"
+  },
+  {
+    "task": "Write a program to verify if a number is a valid credit card number using the Luhn algorithm.",
+    "code": "```fortran\nprogram luhn_algorithm\n    implicit none\n    integer :: number, digit, sum, i, length, factor\n    character(len=20) :: card_number\n\n    print *, \"Enter a credit card number:\"\n    read(*,*) card_number\n\n    length = len_trim(adjustl(card_number))\n    sum = 0\n    factor = 2\n\n    do i = length, 1, -1\n        read(card_number(i:i), *) digit\n        if (mod(i, 2) == 0) then\n            digit = digit * factor\n            if (digit > 9) then\n                digit = digit - 9\n            end if\n        end if\n        sum = sum + digit\n    end do\n\n    if (mod(sum, 10) == 0) then\n        print *, \"The number is a valid credit card number.\"\n    else\n        print *, \"The number is NOT a valid credit card number.\"\n    end if\nend program luhn_algorithm\n```"
+  },
+  {
+    "task": "Create a script to determine if a given string is a valid IP address.",
+    "code": "```fortran\nprogram validate_ip\n    implicit none\n    character(len=15) :: ip_address\n    integer :: i, dot_count, num, status\n    character(len=1) :: char\n    logical :: is_valid\n\n    print *, \"Enter an IP address:\"\n    read(*, '(A)') ip_address\n\n    dot_count = 0\n    num = 0\n    is_valid = .true.\n\n    do i = 1, len_trim(ip_address)\n        char = ip_address(i:i)\n        if (char >= '0' .and. char <= '9') then\n            read(char, *, IOSTAT=status) num\n            if (status /= 0 .or. num < 0 .or. num > 255) then\n                is_valid = .false.\n                exit\n            end if\n        else if (char == '.') then\n            dot_count = dot_count + 1\n            if (dot_count > 3) then\n                is_valid = .false.\n                exit\n            end if\n        else\n            is_valid = .false.\n            exit\n        end if\n    end do\n\n    if (dot_count /= 3) is_valid = .false.\n\n    if (is_valid) then\n        print *, \"The IP address is valid.\"\n    else\n        print *, \"The IP address is invalid.\"\n    end if\nend program validate_ip\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is part of an arithmetic sequence.",
+    "code": "```fortran\nprogram check_arithmetic_sequence\n    implicit none\n    integer :: a, d, n, x, result\n\n    ! Example values\n    a = 1          ! First term of the sequence\n    d = 3          ! Common difference\n    n = 10         ! Number of terms in the sequence\n    x = 19         ! Number to check\n\n    result = is_in_arithmetic_sequence(a, d, n, x)\n    if (result .eq. 1) then\n        print *, x, \"is in the arithmetic sequence.\"\n    else\n        print *, x, \"is not in the arithmetic sequence.\"\n    end if\nend program check_arithmetic_sequence\n\nfunction is_in_arithmetic_sequence(a, d, n, x) result(in_sequence)\n    integer, intent(in) :: a, d, n, x\n    integer :: i, term, in_sequence\n\n    in_sequence = 0\n    do i = 0, n - 1\n        term = a + i * d\n        if (term .eq. x) then\n            in_sequence = 1\n            exit\n        end if\n    end do\nend function is_in_arithmetic_sequence\n```"
+  },
+  {
+    "task": "Develop a feature to compare the efficiency of two algorithms based on time complexity.",
+    "code": "```fortran\nprogram compare_efficiency\n    implicit none\n    real :: time_algo1, time_algo2\n\n    ! Assume some hypothetical time complexities for demonstration\n    time_algo1 = 5.0  ! Example time for algorithm 1\n    time_algo2 = 3.0  ! Example time for algorithm 2\n\n    if (time_algo1 < time_algo2) then\n        print *, \"Algorithm 1 is more efficient than Algorithm 2\"\n    else if (time_algo1 > time_algo2) then\n        print *, \"Algorithm 2 is more efficient than Algorithm 1\"\n    else\n        print *, \"Both algorithms have the same efficiency\"\n    end if\nend program compare_efficiency\n```"
+  },
+  {
+    "task": "Write a function to see if a given date falls in a leap year.",
+    "code": "```fortran\nlogical function is_leap_year(year)\n    integer, intent(in) :: year\n    is_leap_year = (mod(year, 4) == 0 .and. (mod(year, 100) /= 0 .or. mod(year, 400) == 0))\nend function is_leap_year\n\nlogical function date_in_leap_year(year, month, day)\n    integer, intent(in) :: year, month, day\n    date_in_leap_year = is_leap_year(year)\nend function date_in_leap_year\n```"
+  },
+  {
+    "task": "Create a program that determines if a user's subscription is active based on the current date.",
+    "code": "```fortran\nprogram check_subscription\n  implicit none\n  integer :: current_year, current_month, current_day\n  integer :: expiry_year, expiry_month, expiry_day\n  logical :: is_active\n\n  ! Example current date\n  current_year = 2023\n  current_month = 10\n  current_day = 15\n\n  ! Example subscription expiry date\n  expiry_year = 2023\n  expiry_month = 12\n  expiry_day = 31\n\n  ! Determine if subscription is active\n  if (current_year < expiry_year) then\n     is_active = .true.\n  else if (current_year == expiry_year) then\n     if (current_month < expiry_month) then\n        is_active = .true.\n     else if (current_month == expiry_month) then\n        if (current_day <= expiry_day) then\n           is_active = .true.\n        else\n           is_active = .false.\n        end if\n     else\n        is_active = .false.\n     end if\n  else\n     is_active = .false.\n  end if\n\n  ! Output the result\n  if (is_active) then\n     print *, \"Subscription is active.\"\n  else\n     print *, \"Subscription has expired.\"\n  end if\nend program check_subscription\n```"
+  },
+  {
+    "task": "Design a tool to check if a user\u2019s input is a palindrome phrase, ignoring spaces and punctuation.",
+    "code": "```fortran\nprogram palindrome_checker\n  implicit none\n  character(len=100) :: input, cleaned\n  integer :: i, j\n\n  print *, 'Enter a phrase:'\n  read(*,'(A)') input\n\n  cleaned = ''\n  do i = 1, len_trim(input)\n    if (ichar(input(i:i)) >= ichar('A') .and. ichar(input(i:i)) <= ichar('Z')) then\n      cleaned = cleaned // char(ichar(input(i:i)) + 32)  ! Convert to lowercase\n    else if (ichar(input(i:i)) >= ichar('a') .and. ichar(input(i:i)) <= ichar('z')) then\n      cleaned = cleaned // input(i:i)\n    end if\n  end do\n\n  j = len_trim(cleaned)\n  do i = 1, j / 2\n    if (cleaned(i:i) /= cleaned(j-i+1:j-i+1)) then\n      print *, 'Not a palindrome.'\n      stop\n    end if\n  end do\n\n  print *, 'It is a palindrome.'\nend program palindrome_checker\n```"
+  },
+  {
+    "task": "Implement a system to verify if a given number is part of the Fibonacci sequence.",
+    "code": "```fortran\nprogram CheckFibonacci\n  implicit none\n  integer :: n, a, b, c\n  logical :: isFibonacci\n  print *, \"Enter a number:\"\n  read *, n\n\n  a = 0\n  b = 1\n  isFibonacci = .false.\n  \n  if (n == a .or. n == b) then\n    isFibonacci = .true.\n  else\n    do while (b < n)\n      c = a + b\n      a = b\n      b = c\n      if (b == n) then\n        isFibonacci = .true.\n        exit\n      end if\n    end do\n  end if\n\n  if (isFibonacci) then\n    print *, n, \"is a Fibonacci number.\"\n  else\n    print *, n, \"is not a Fibonacci number.\"\n  end if\nend program CheckFibonacci\n```"
+  },
+  {
+    "task": "Write a program to compare the elevation of two geographic locations.",
+    "code": "```fortran\nprogram compare_elevations\n    implicit none\n    real :: elevation1, elevation2\n\n    ! Example elevations\n    elevation1 = 150.0\n    elevation2 = 200.0\n\n    if (elevation1 > elevation2) then\n        print *, \"Location 1 is higher than Location 2.\"\n    else if (elevation1 < elevation2) then\n        print *, \"Location 2 is higher than Location 1.\"\n    else\n        print *, \"Both locations have the same elevation.\"\n    end if\nend program compare_elevations\n```"
+  },
+  {
+    "task": "Create a function to determine if a given string is a valid JSON format.",
+    "code": "```fortran\nmodule json_module\n  implicit none\ncontains\n  logical function is_valid_json(json_string)\n    character(len=*), intent(in) :: json_string\n    integer :: open_braces, close_braces, open_brackets, close_brackets, i\n\n    open_braces = 0\n    close_braces = 0\n    open_brackets = 0\n    close_brackets = 0\n\n    do i = 1, len(json_string)\n      select case (json_string(i:i))\n      case ('{')\n        open_braces = open_braces + 1\n      case ('}')\n        close_braces = close_braces + 1\n      case ('[')\n        open_brackets = open_brackets + 1\n      case (']')\n        close_brackets = close_brackets + 1\n      end select\n    end do\n\n    is_valid_json = (open_braces == close_braces) .and. (open_brackets == close_brackets)\n  end function is_valid_json\nend module json_module\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is a factorial of any integer.",
+    "code": "```fortran\nprogram CheckFactorial\n    implicit none\n    integer :: num, i, fact\n\n    print *, \"Enter a number:\"\n    read *, num\n\n    fact = 1\n    i = 1\n\n    do while (fact < num)\n        i = i + 1\n        fact = fact * i\n    end do\n\n    if (fact == num) then\n        print *, num, \"is a factorial of\", i\n    else\n        print *, num, \"is not a factorial of any integer\"\n    end if\n\nend program CheckFactorial\n```"
+  },
+  {
+    "task": "Develop a feature to compare the widths of two ribbons and return the wider one.",
+    "code": "```fortran\nprogram CompareRibbons\n    implicit none\n    real :: width1, width2, widerWidth\n\n    ! Assign values to width1 and width2\n    width1 = 5.0\n    width2 = 7.5\n\n    ! Compare the widths and determine the wider one\n    if (width1 > width2) then\n        widerWidth = width1\n    else\n        widerWidth = width2\n    end if\n\n    ! Output the wider width\n    print *, \"The wider ribbon width is: \", widerWidth\nend program CompareRibbons\n```"
+  },
+  {
+    "task": "Write a script to see if a word is present in a list of banned words.",
+    "code": "```fortran\nprogram banned_words_check\n    implicit none\n    character(len=100) :: word\n    character(len=100), dimension(5) :: banned_words\n    logical :: is_banned\n    integer :: i\n\n    banned_words = (/ 'forbidden', 'restricted', 'banned', 'prohibited', 'disallowed' /)\n\n    print *, 'Enter a word:'\n    read(*, '(A)') word\n\n    is_banned = .false.\n    do i = 1, size(banned_words)\n        if (trim(word) == trim(banned_words(i))) then\n            is_banned = .true.\n            exit\n        end if\n    end do\n\n    if (is_banned) then\n        print *, 'The word is banned.'\n    else\n        print *, 'The word is not banned.'\n    end if\nend program banned_words_check\n```"
+  },
+  {
+    "task": "Design a system to determine if a patient's temperature is in the normal range.",
+    "code": "```fortran\nprogram TemperatureCheck\n    implicit none\n    real :: temperature\n    logical :: isNormal\n    \n    print *, 'Enter patient''s temperature:'\n    read *, temperature\n\n    isNormal = (temperature >= 36.5 .and. temperature <= 37.5)\n\n    if (isNormal) then\n        print *, 'Temperature is normal.'\n    else\n        print *, 'Temperature is not normal.'\n    end if\nend program TemperatureCheck\n```"
+  },
+  {
+    "task": "Create a program that checks if a given time is during business hours.",
+    "code": "```fortran\nprogram check_business_hours\n  implicit none\n  integer :: hours, minutes\n\n  print *, \"Enter time in 24-hour format (HH MM):\"\n  read *, hours, minutes\n\n  if ((hours >= 9 .and. hours < 17) .or. (hours == 17 .and. minutes == 0)) then\n     print *, \"The time is during business hours.\"\n  else\n     print *, \"The time is outside business hours.\"\n  end if\n\nend program check_business_hours\n```"
+  },
+  {
+    "task": "Implement a function to see if a number is a triangular number.",
+    "code": "```fortran\nfunction is_triangular_number(n) result(is_triangular)\n    integer, intent(in) :: n\n    logical :: is_triangular\n    integer :: k, triangular\n\n    k = 1\n    triangular = 1\n    is_triangular = .false.\n\n    do while (triangular <= n)\n        if (triangular == n) then\n            is_triangular = .true.\n            exit\n        end if\n        k = k + 1\n        triangular = triangular + k\n    end do\nend function is_triangular_number\n```"
+  },
+  {
+    "task": "Write a feature to compare the number of vowels in two given strings.",
+    "code": "```fortran\nprogram compare_vowels\n    implicit none\n    character(len=100) :: str1, str2\n    integer :: count1, count2\n\n    ! Sample strings for comparison\n    str1 = \"Hello World\"\n    str2 = \"Fortran Programming\"\n\n    count1 = count_vowels(trim(adjustl(str1)))\n    count2 = count_vowels(trim(adjustl(str2)))\n\n    if (count1 > count2) then\n        print *, \"String 1 has more vowels.\"\n    else if (count1 < count2) then\n        print *, \"String 2 has more vowels.\"\n    else\n        print *, \"Both strings have the same number of vowels.\"\n    end if\n\ncontains\n\n    function count_vowels(s) result(vowel_count)\n        implicit none\n        character(len=*), intent(in) :: s\n        integer :: vowel_count, i\n        character(len=1) :: c\n\n        vowel_count = 0\n        do i = 1, len(s)\n            c = s(i:i)\n            select case (c)\n            case ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')\n                vowel_count = vowel_count + 1\n            end select\n        end do\n    end function count_vowels\n\nend program compare_vowels\n```"
+  }
+]

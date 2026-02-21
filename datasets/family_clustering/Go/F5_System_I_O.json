@@ -1,0 +1,358 @@
+[
+  {
+    "task": "Write a program that reads a user's name and age from the input, then prints a greeting message using both values.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\n\tfmt.Print(\"Enter your name: \")\n\tname, _ := reader.ReadString('\\n')\n\tname = name[:len(name)-1] // Remove newline character\n\n\tfmt.Print(\"Enter your age: \")\n\tvar age int\n\tfmt.Scanf(\"%d\", &age)\n\n\tfmt.Printf(\"Hello %s, you are %d years old.\\n\", name, age)\n}\n```"
+  },
+  {
+    "task": "Create a script that continuously reads numbers from the input and prints their running total until a negative number is entered.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\ttotal := 0\n\n\tfor {\n\t\tfmt.Print(\"Enter a number: \")\n\t\tscanner.Scan()\n\t\tinput := scanner.Text()\n\t\tnumber, err := strconv.Atoi(input)\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Invalid input, please enter a number.\")\n\t\t\tcontinue\n\t\t}\n\n\t\tif number < 0 {\n\t\t\tbreak\n\t\t}\n\n\t\ttotal += number\n\t\tfmt.Printf(\"Running total: %d\\n\", total)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a program that asks the user for a sentence and outputs the number of words it contains.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter a sentence:\")\n\tsentence, _ := reader.ReadString('\\n')\n\twords := strings.Fields(sentence)\n\tfmt.Printf(\"The sentence contains %d words.\\n\", len(words))\n}\n```"
+  },
+  {
+    "task": "Build a command-line tool that reads a list of integers and outputs them in sorted order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\tfmt.Println(\"Enter a list of integers separated by spaces:\")\n\treader := bufio.NewReader(os.Stdin)\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\tstrNumbers := strings.Split(input, \" \")\n\n\tvar numbers []int\n\tfor _, str := range strNumbers {\n\t\tnum, err := strconv.Atoi(str)\n\t\tif err != nil {\n\t\t\tfmt.Printf(\"Invalid number: %s\\n\", str)\n\t\t\treturn\n\t\t}\n\t\tnumbers = append(numbers, num)\n\t}\n\n\tsort.Ints(numbers)\n\n\tfmt.Println(\"Sorted numbers:\")\n\tfor _, num := range numbers {\n\t\tfmt.Printf(\"%d \", num)\n\t}\n\tfmt.Println()\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a file name from the input, then prints the number of lines in that file.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tvar fileName string\n\tfmt.Print(\"Enter file name: \")\n\tfmt.Scanln(&fileName)\n\n\tfile, err := os.Open(fileName)\n\tif err != nil {\n\t\tfmt.Println(\"Error opening file:\", err)\n\t\treturn\n\t}\n\tdefer file.Close()\n\n\tscanner := bufio.NewScanner(file)\n\tlineCount := 0\n\tfor scanner.Scan() {\n\t\tlineCount++\n\t}\n\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Println(\"Error reading file:\", err)\n\t\treturn\n\t}\n\n\tfmt.Printf(\"Number of lines: %d\\n\", lineCount)\n}\n```"
+  },
+  {
+    "task": "Implement a calculator that reads two numbers and an operator (+, -, *, /) from the input and prints the result.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter first number: \")\n\tinput1, _ := reader.ReadString('\\n')\n\tnum1, _ := strconv.ParseFloat(strings.TrimSpace(input1), 64)\n\n\tfmt.Print(\"Enter second number: \")\n\tinput2, _ := reader.ReadString('\\n')\n\tnum2, _ := strconv.ParseFloat(strings.TrimSpace(input2), 64)\n\n\tfmt.Print(\"Enter operator (+, -, *, /): \")\n\toperator, _ := reader.ReadString('\\n')\n\toperator = strings.TrimSpace(operator)\n\n\tvar result float64\n\tswitch operator {\n\tcase \"+\":\n\t\tresult = num1 + num2\n\tcase \"-\":\n\t\tresult = num1 - num2\n\tcase \"*\":\n\t\tresult = num1 * num2\n\tcase \"/\":\n\t\tif num2 != 0 {\n\t\t\tresult = num1 / num2\n\t\t} else {\n\t\t\tfmt.Println(\"Error: Division by zero\")\n\t\t\treturn\n\t\t}\n\tdefault:\n\t\tfmt.Println(\"Invalid operator\")\n\t\treturn\n\t}\n\n\tfmt.Printf(\"Result: %.2f\\n\", result)\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a user's full name and prints it in reverse order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter your full name: \")\n\tfullName, _ := reader.ReadString('\\n')\n\tfullName = strings.TrimSpace(fullName)\n\n\trunes := []rune(fullName)\n\tfor i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n\t\trunes[i], runes[j] = runes[j], runes[i]\n\t}\n\n\tfmt.Println(\"Reversed full name:\", string(runes))\n}\n```"
+  },
+  {
+    "task": "Create a program that asks for a word and checks if it is a palindrome, printing the appropriate message.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc isPalindrome(word string) bool {\n\tnormalized := strings.ToLower(word)\n\tlength := len(normalized)\n\tfor i := 0; i < length/2; i++ {\n\t\tif normalized[i] != normalized[length-1-i] {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a word: \")\n\tword, _ := reader.ReadString('\\n')\n\tword = strings.TrimSpace(word)\n\n\tif isPalindrome(word) {\n\t\tfmt.Println(\"The word is a palindrome.\")\n\t} else {\n\t\tfmt.Println(\"The word is not a palindrome.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads multiple lines of text and outputs the longest line.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tvar longestLine string\n\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tif len(line) > len(longestLine) {\n\t\t\tlongestLine = line\n\t\t}\n\t}\n\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Fprintln(os.Stderr, \"Error reading input:\", err)\n\t\treturn\n\t}\n\n\tfmt.Println(longestLine)\n}\n```"
+  },
+  {
+    "task": "Design a script that reads a number 'n' and prints the first 'n' Fibonacci numbers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tvar n int\n\tfmt.Print(\"Enter the number of Fibonacci numbers to print: \")\n\tfmt.Scan(&n)\n\n\tfib := make([]int, n)\n\tif n > 0 {\n\t\tfib[0] = 0\n\t}\n\tif n > 1 {\n\t\tfib[1] = 1\n\t}\n\n\tfor i := 2; i < n; i++ {\n\t\tfib[i] = fib[i-1] + fib[i-2]\n\t}\n\n\tfor i := 0; i < n; i++ {\n\t\tfmt.Println(fib[i])\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program that takes a list of numbers from the input and prints only the even ones.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter numbers separated by space:\")\n\n\tif scanner.Scan() {\n\t\tinput := scanner.Text()\n\t\tnumbers := strings.Fields(input)\n\n\t\tfor _, num := range numbers {\n\t\t\tif n, err := strconv.Atoi(num); err == nil && n%2 == 0 {\n\t\t\t\tfmt.Println(n)\n\t\t\t}\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a date (day, month, year) and prints the day of the week for that date.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc main() {\n\tvar day, month, year int\n\tfmt.Print(\"Enter day: \")\n\tfmt.Scan(&day)\n\tfmt.Print(\"Enter month: \")\n\tfmt.Scan(&month)\n\tfmt.Print(\"Enter year: \")\n\tfmt.Scan(&year)\n\n\tdate := time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)\n\tfmt.Println(\"Day of the week:\", date.Weekday())\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a paragraph and counts the frequency of each letter in the text.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter a paragraph:\")\n\ttext, _ := reader.ReadString('\\n')\n\ttext = strings.ToLower(text)\n\n\tfrequency := make(map[rune]int)\n\tfor _, char := range text {\n\t\tif unicode.IsLetter(char) {\n\t\t\tfrequency[char]++\n\t\t}\n\t}\n\n\tfor char, count := range frequency {\n\t\tfmt.Printf(\"%c: %d\\n\", char, count)\n\t}\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and a word, then prints the number of times the word appears in the text.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter the text:\")\n\ttext, _ := reader.ReadString('\\n')\n\n\tfmt.Println(\"Enter the word to search:\")\n\tword, _ := reader.ReadString('\\n')\n\tword = strings.TrimSpace(word)\n\n\tcount := strings.Count(text, word)\n\tfmt.Printf(\"The word '%s' appears %d times in the text.\\n\", word, count)\n}\n```"
+  },
+  {
+    "task": "Implement a script that reads a temperature in Celsius and converts it to Fahrenheit, printing the result.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tvar celsius float64\n\tfmt.Print(\"Enter temperature in Celsius: \")\n\tfmt.Scan(&celsius)\n\tfahrenheit := (celsius * 9 / 5) + 32\n\tfmt.Printf(\"Temperature in Fahrenheit: %.2f\\n\", fahrenheit)\n}\n```"
+  },
+  {
+    "task": "Write a program that continuously reads input until the word 'exit' is entered, then prints all entered inputs.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tvar inputs []string\n\n\tfor {\n\t\tfmt.Print(\"Enter input: \")\n\t\tif !scanner.Scan() {\n\t\t\tbreak\n\t\t}\n\t\tinput := scanner.Text()\n\t\tif input == \"exit\" {\n\t\t\tbreak\n\t\t}\n\t\tinputs = append(inputs, input)\n\t}\n\n\tfmt.Println(\"Entered inputs:\")\n\tfor _, input := range inputs {\n\t\tfmt.Println(input)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a tool that prompts for a filename, reads the file, and prints its content in uppercase.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter filename: \")\n\tfilename, _ := reader.ReadString('\\n')\n\tfilename = strings.TrimSpace(filename)\n\n\tcontent, err := ioutil.ReadFile(filename)\n\tif err != nil {\n\t\tfmt.Println(\"Error reading file:\", err)\n\t\treturn\n\t}\n\n\tfmt.Println(strings.ToUpper(string(content)))\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a series of email addresses and prints the unique domain names.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tdomainSet := make(map[string]struct{})\n\n\tfor scanner.Scan() {\n\t\temail := scanner.Text()\n\t\tatIndex := strings.LastIndex(email, \"@\")\n\t\tif atIndex != -1 {\n\t\t\tdomain := email[atIndex+1:]\n\t\t\tdomainSet[domain] = struct{}{}\n\t\t}\n\t}\n\n\tfor domain := range domainSet {\n\t\tfmt.Println(domain)\n\t}\n\t\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Fprintln(os.Stderr, \"reading standard input:\", err)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a script that reads a string and prints whether it contains all the letters of the alphabet.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc containsAllLetters(s string) bool {\n\tletters := make(map[rune]bool)\n\tfor _, char := range s {\n\t\tif unicode.IsLetter(char) {\n\t\t\tletters[unicode.ToLower(char)] = true\n\t\t}\n\t}\n\treturn len(letters) == 26\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a string: \")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\n\tif containsAllLetters(input) {\n\t\tfmt.Println(\"The string contains all the letters of the alphabet.\")\n\t} else {\n\t\tfmt.Println(\"The string does not contain all the letters of the alphabet.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a number and prints its factorial.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n)\n\nfunc factorial(n int) int {\n\tif n == 0 {\n\t\treturn 1\n\t}\n\treturn n * factorial(n-1)\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a number: \")\n\tinput, _ := reader.ReadString('\\n')\n\tnumber, _ := strconv.Atoi(input[:len(input)-1])\n\tfmt.Printf(\"Factorial of %d is %d\\n\", number, factorial(number))\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of names and prints them in alphabetical order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter names, one per line. Press Ctrl+D (Linux/macOS) or Ctrl+Z (Windows) to end input:\")\n\tvar names []string\n\tfor scanner.Scan() {\n\t\tname := strings.TrimSpace(scanner.Text())\n\t\tif name != \"\" {\n\t\t\tnames = append(names, name)\n\t\t}\n\t}\n\tsort.Strings(names)\n\tfmt.Println(\"Names in alphabetical order:\")\n\tfor _, name := range names {\n\t\tfmt.Println(name)\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a program that asks for a sentence and prints each word on a new line.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a sentence: \")\n\tsentence, _ := reader.ReadString('\\n')\n\twords := strings.Fields(sentence)\n\tfor _, word := range words {\n\t\tfmt.Println(word)\n\t}\n}\n```"
+  },
+  {
+    "task": "Build a script that reads a time in 12-hour format and converts it to 24-hour format.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n\t\"time\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter time in 12-hour format (e.g. 07:05:45PM): \")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\n\tt, err := time.Parse(\"03:04:05PM\", input)\n\tif err != nil {\n\t\tfmt.Println(\"Error parsing time:\", err)\n\t\treturn\n\t}\n\n\tfmt.Println(\"24-hour format:\", t.Format(\"15:04:05\"))\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads two strings and checks if they are anagrams, printing the result.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n\t\"strings\"\n)\n\nfunc sortString(s string) string {\n\tslice := strings.Split(s, \"\")\n\tsort.Strings(slice)\n\treturn strings.Join(slice, \"\")\n}\n\nfunc areAnagrams(s1, s2 string) bool {\n\treturn sortString(s1) == sortString(s2)\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter first string: \")\n\tstr1, _ := reader.ReadString('\\n')\n\tfmt.Print(\"Enter second string: \")\n\tstr2, _ := reader.ReadString('\\n')\n\n\tstr1 = strings.TrimSpace(str1)\n\tstr2 = strings.TrimSpace(str2)\n\n\tif areAnagrams(str1, str2) {\n\t\tfmt.Println(\"The strings are anagrams.\")\n\t} else {\n\t\tfmt.Println(\"The strings are not anagrams.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a tool that reads a paragraph and prints the first and last sentence.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter a paragraph:\")\n\tparagraph, _ := reader.ReadString('\\n')\n\tsentences := strings.Split(paragraph, \".\")\n\t\n\tif len(sentences) > 1 {\n\t\tfirstSentence := strings.TrimSpace(sentences[0])\n\t\tlastSentence := strings.TrimSpace(sentences[len(sentences)-2])\n\t\tfmt.Println(\"First sentence:\", firstSentence)\n\t\tfmt.Println(\"Last sentence:\", lastSentence)\n\t} else if len(sentences) == 1 {\n\t\tfirstSentence := strings.TrimSpace(sentences[0])\n\t\tfmt.Println(\"First sentence:\", firstSentence)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a binary number and converts it to decimal.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a binary number: \")\n\tbinaryStr, _ := reader.ReadString('\\n')\n\tbinaryStr = binaryStr[:len(binaryStr)-1] // Remove newline character\n\tdecimal, err := strconv.ParseInt(binaryStr, 2, 64)\n\tif err != nil {\n\t\tfmt.Println(\"Error converting binary to decimal:\", err)\n\t} else {\n\t\tfmt.Printf(\"Decimal: %d\\n\", decimal)\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a script that reads a series of scores and prints the average score.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter scores separated by space:\")\n\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\tscoreStrings := strings.Split(input, \" \")\n\n\tvar sum float64\n\tfor _, scoreStr := range scoreStrings {\n\t\tscore, err := strconv.ParseFloat(scoreStr, 64)\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Invalid input, please enter valid numbers.\")\n\t\t\treturn\n\t\t}\n\t\tsum += score\n\t}\n\n\taverage := sum / float64(len(scoreStrings))\n\tfmt.Printf(\"Average score: %.2f\\n\", average)\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of integers and prints the prime numbers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc isPrime(n int) bool {\n\tif n <= 1 {\n\t\treturn false\n\t}\n\tfor i := 2; i*i <= n; i++ {\n\t\tif n%i == 0 {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter a list of integers separated by spaces:\")\n\tif scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tstrNumbers := strings.Fields(line)\n\t\tfor _, strNum := range strNumbers {\n\t\t\tnum, err := strconv.Atoi(strNum)\n\t\t\tif err == nil && isPrime(num) {\n\t\t\t\tfmt.Println(num)\n\t\t\t}\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a word and prints its Pig Latin translation.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc pigLatin(word string) string {\n\tvowels := \"aeiou\"\n\tword = strings.ToLower(word)\n\tfirst := string(word[0])\n\tif strings.Contains(vowels, first) {\n\t\treturn word + \"ay\"\n\t}\n\treturn word[1:] + first + \"ay\"\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a word: \")\n\tword, _ := reader.ReadString('\\n')\n\tword = strings.TrimSpace(word)\n\tfmt.Println(\"Pig Latin:\", pigLatin(word))\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a matrix of numbers and prints its transpose.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter the number of rows:\")\n\trowsInput, _ := reader.ReadString('\\n')\n\trows, _ := strconv.Atoi(strings.TrimSpace(rowsInput))\n\n\tfmt.Println(\"Enter the number of columns:\")\n\tcolsInput, _ := reader.ReadString('\\n')\n\tcols, _ := strconv.Atoi(strings.TrimSpace(colsInput))\n\n\tmatrix := make([][]int, rows)\n\tfmt.Println(\"Enter the matrix row by row:\")\n\tfor i := 0; i < rows; i++ {\n\t\trowInput, _ := reader.ReadString('\\n')\n\t\trowStrings := strings.Fields(rowInput)\n\t\tmatrix[i] = make([]int, cols)\n\t\tfor j := 0; j < cols; j++ {\n\t\t\tmatrix[i][j], _ = strconv.Atoi(rowStrings[j])\n\t\t}\n\t}\n\n\tfmt.Println(\"Transpose of the matrix:\")\n\tfor i := 0; i < cols; i++ {\n\t\tfor j := 0; j < rows; j++ {\n\t\t\tfmt.Print(matrix[j][i], \" \")\n\t\t}\n\t\tfmt.Println()\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a URL and prints the domain name.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"net/url\"\n\t\"os\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter URL: \")\n\tinputURL, _ := reader.ReadString('\\n')\n\tinputURL = inputURL[:len(inputURL)-1] // Remove the newline character\n\n\tparsedURL, err := url.Parse(inputURL)\n\tif err != nil {\n\t\tfmt.Println(\"Invalid URL\")\n\t\treturn\n\t}\n\n\tfmt.Println(\"Domain:\", parsedURL.Hostname())\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a number and prints its multiplication table up to 12.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tvar number int\n\tfmt.Print(\"Enter a number: \")\n\tfmt.Scan(&number)\n\n\tfor i := 1; i <= 12; i++ {\n\t\tfmt.Printf(\"%d x %d = %d\\n\", number, i, number*i)\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dates and prints them in order of occurrence.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n\t\"time\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter dates (YYYY-MM-DD), one per line. Enter 'done' to finish:\")\n\n\tvar dates []time.Time\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tif line == \"done\" {\n\t\t\tbreak\n\t\t}\n\t\tdate, err := time.Parse(\"2006-01-02\", line)\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Invalid date format. Please use YYYY-MM-DD.\")\n\t\t\tcontinue\n\t\t}\n\t\tdates = append(dates, date)\n\t}\n\n\tsort.Slice(dates, func(i, j int) bool {\n\t\treturn dates[i].Before(dates[j])\n\t})\n\n\tfmt.Println(\"Dates in order of occurrence:\")\n\tfor _, date := range dates {\n\t\tfmt.Println(date.Format(\"2006-01-02\"))\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a text and prints it with each sentence capitalized.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc capitalizeSentences(text string) string {\n\trunes := []rune(text)\n\tinSentence := false\n\tfor i, r := range runes {\n\t\tif !inSentence && unicode.IsLetter(r) {\n\t\t\trunes[i] = unicode.ToUpper(r)\n\t\t\tinSentence = true\n\t\t}\n\t\tif r == '.' || r == '!' || r == '?' {\n\t\t\tinSentence = false\n\t\t}\n\t}\n\treturn string(runes)\n}\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter text:\")\n\tfor scanner.Scan() {\n\t\tinput := scanner.Text()\n\t\toutput := capitalizeSentences(input)\n\t\tfmt.Println(output)\n\t}\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Fprintln(os.Stderr, \"error reading input:\", err)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of words and prints them in reverse alphabetical order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter words (one per line), followed by Ctrl+D:\")\n\n\tvar words []string\n\tfor scanner.Scan() {\n\t\twords = append(words, scanner.Text())\n\t}\n\n\tsort.Sort(sort.Reverse(sort.StringSlice(words)))\n\n\tfmt.Println(\"Words in reverse alphabetical order:\")\n\tfor _, word := range words {\n\t\tfmt.Println(word)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a script that asks for two times and prints the difference in minutes.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n\t\"time\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\n\tfmt.Print(\"Enter the first time (HH:MM): \")\n\tfirstInput, _ := reader.ReadString('\\n')\n\tfirstInput = strings.TrimSpace(firstInput)\n\n\tfmt.Print(\"Enter the second time (HH:MM): \")\n\tsecondInput, _ := reader.ReadString('\\n')\n\tsecondInput = strings.TrimSpace(secondInput)\n\n\tfirstTime, _ := time.Parse(\"15:04\", firstInput)\n\tsecondTime, _ := time.Parse(\"15:04\", secondInput)\n\n\tduration := secondTime.Sub(firstTime)\n\tif duration < 0 {\n\t\tduration = -duration\n\t}\n\n\tfmt.Printf(\"Difference in minutes: %.0f\\n\", duration.Minutes())\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a text and prints the number of vowels and consonants.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter text: \")\n\ttext, _ := reader.ReadString('\\n')\n\ttext = strings.TrimSpace(text)\n\n\tvowels := \"aeiouAEIOU\"\n\tvowelCount, consonantCount := 0, 0\n\n\tfor _, ch := range text {\n\t\tif unicode.IsLetter(ch) {\n\t\t\tif strings.ContainsRune(vowels, ch) {\n\t\t\t\tvowelCount++\n\t\t\t} else {\n\t\t\t\tconsonantCount++\n\t\t\t}\n\t\t}\n\t}\n\n\tfmt.Printf(\"Vowels: %d\\n\", vowelCount)\n\tfmt.Printf(\"Consonants: %d\\n\", consonantCount)\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a JSON object from input and prints its keys.",
+    "code": "```go\npackage main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"os\"\n)\n\nfunc main() {\n\t// Read the JSON input from standard input\n\tdata, err := ioutil.ReadAll(os.Stdin)\n\tif err != nil {\n\t\tfmt.Fprintf(os.Stderr, \"Error reading input: %v\\n\", err)\n\t\tos.Exit(1)\n\t}\n\n\t// Parse the JSON object\n\tvar jsonObject map[string]interface{}\n\tif err := json.Unmarshal(data, &jsonObject); err != nil {\n\t\tfmt.Fprintf(os.Stderr, \"Error parsing JSON: %v\\n\", err)\n\t\tos.Exit(1)\n\t}\n\n\t// Print the keys of the JSON object\n\tfor key := range jsonObject {\n\t\tfmt.Println(key)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a CSV file from input and prints each row as a dictionary.",
+    "code": "```go\npackage main\n\nimport (\n\t\"encoding/csv\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\treader := csv.NewReader(os.Stdin)\n\trecords, err := reader.ReadAll()\n\tif err != nil {\n\t\tfmt.Println(\"Error reading CSV:\", err)\n\t\treturn\n\t}\n\n\tif len(records) < 1 {\n\t\tfmt.Println(\"CSV file is empty\")\n\t\treturn\n\t}\n\n\theaders := records[0]\n\tfor _, row := range records[1:] {\n\t\trowMap := make(map[string]string)\n\t\tfor i, value := range row {\n\t\t\trowMap[headers[i]] = value\n\t\t}\n\t\tfmt.Println(rowMap)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with the words in reverse order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter a sentence:\")\n\tsentence, _ := reader.ReadString('\\n')\n\twords := strings.Fields(sentence)\n\tfor i, j := 0, len(words)-1; i < j; i, j = i+1, j-1 {\n\t\twords[i], words[j] = words[j], words[i]\n\t}\n\tfmt.Println(strings.Join(words, \" \"))\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a list of numbers and prints their median.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter numbers separated by spaces:\")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\tstrNums := strings.Split(input, \" \")\n\n\tvar numbers []int\n\tfor _, str := range strNums {\n\t\tnum, err := strconv.Atoi(str)\n\t\tif err == nil {\n\t\t\tnumbers = append(numbers, num)\n\t\t}\n\t}\n\n\tsort.Ints(numbers)\n\n\tmedian := 0.0\n\tn := len(numbers)\n\tif n%2 == 0 {\n\t\tmedian = float64(numbers[n/2-1]+numbers[n/2]) / 2.0\n\t} else {\n\t\tmedian = float64(numbers[n/2])\n\t}\n\n\tfmt.Printf(\"Median: %.2f\\n\", median)\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a sequence of characters and prints the first non-repeated character.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a sequence of characters: \")\n\tinput, _ := reader.ReadString('\\n')\n\tcharCount := make(map[rune]int)\n\n\tfor _, char := range input {\n\t\tcharCount[char]++\n\t}\n\n\tfor _, char := range input {\n\t\tif charCount[char] == 1 {\n\t\t\tfmt.Printf(\"First non-repeated character: %c\\n\", char)\n\t\t\treturn\n\t\t}\n\t}\n\n\tfmt.Println(\"No non-repeated character found.\")\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of tuples and prints them sorted by the second element.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tvar tuples []struct {\n\t\tfirst  string\n\t\tsecond string\n\t}\n\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tparts := strings.Split(line, \",\")\n\t\tif len(parts) == 2 {\n\t\t\ttuples = append(tuples, struct {\n\t\t\t\tfirst  string\n\t\t\t\tsecond string\n\t\t\t}{strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1])})\n\t\t}\n\t}\n\n\tsort.Slice(tuples, func(i, j int) bool {\n\t\treturn tuples[i].second < tuples[j].second\n\t})\n\n\tfor _, tuple := range tuples {\n\t\tfmt.Printf(\"(%s, %s)\\n\", tuple.first, tuple.second)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a list of cities and prints them grouped by their starting letter.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tcityGroups := make(map[string][]string)\n\n\tfmt.Println(\"Enter city names, one per line. Press Ctrl+D (or Ctrl+Z in Windows) to end input:\")\n\tfor scanner.Scan() {\n\t\tcity := scanner.Text()\n\t\tif len(city) > 0 {\n\t\t\tfirstLetter := strings.ToUpper(string(city[0]))\n\t\t\tcityGroups[firstLetter] = append(cityGroups[firstLetter], city)\n\t\t}\n\t}\n\n\tfor letter, cities := range cityGroups {\n\t\tfmt.Printf(\"%s: %v\\n\", letter, cities)\n\t}\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the longest word.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter text: \")\n\ttext, _ := reader.ReadString('\\n')\n\n\twords := strings.Fields(text)\n\tlongestWord := \"\"\n\n\tfor _, word := range words {\n\t\tif len(word) > len(longestWord) {\n\t\t\tlongestWord = word\n\t\t}\n\t}\n\n\tfmt.Println(\"Longest word:\", longestWord)\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a string and prints the number of unique characters.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a string: \")\n\tinput, _ := reader.ReadString('\\n')\n\n\tuniqueChars := make(map[rune]bool)\n\tfor _, char := range input {\n\t\tuniqueChars[char] = true\n\t}\n\n\tfmt.Println(\"Number of unique characters:\", len(uniqueChars))\n}\n```"
+  },
+  {
+    "task": "Write a script that reads two strings and prints the longest common substring.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc longestCommonSubstring(str1, str2 string) string {\n\tm, n := len(str1), len(str2)\n\ttable := make([][]int, m+1)\n\tfor i := range table {\n\t\ttable[i] = make([]int, n+1)\n\t}\n\n\tlongest := 0\n\tend := 0\n\n\tfor i := 1; i <= m; i++ {\n\t\tfor j := 1; j <= n; j++ {\n\t\t\tif str1[i-1] == str2[j-1] {\n\t\t\t\ttable[i][j] = table[i-1][j-1] + 1\n\t\t\t\tif table[i][j] > longest {\n\t\t\t\t\tlongest = table[i][j]\n\t\t\t\t\tend = i\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\treturn str1[end-longest : end]\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter first string: \")\n\tstr1, _ := reader.ReadString('\\n')\n\tstr1 = strings.TrimSpace(str1)\n\n\tfmt.Print(\"Enter second string: \")\n\tstr2, _ := reader.ReadString('\\n')\n\tstr2 = strings.TrimSpace(str2)\n\n\tresult := longestCommonSubstring(str1, str2)\n\tfmt.Println(\"Longest common substring:\", result)\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a chessboard position and prints all possible moves for a knight.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc isInsideBoard(x, y int) bool {\n\treturn x >= 0 && x < 8 && y >= 0 && y < 8\n}\n\nfunc knightMoves(x, y int) [][2]int {\n\tmoves := [][2]int{\n\t\t{x + 2, y + 1}, {x + 2, y - 1}, {x - 2, y + 1}, {x - 2, y - 1},\n\t\t{x + 1, y + 2}, {x + 1, y - 2}, {x - 1, y + 2}, {x - 1, y - 2},\n\t}\n\tvalidMoves := [][2]int{}\n\tfor _, move := range moves {\n\t\tif isInsideBoard(move[0], move[1]) {\n\t\t\tvalidMoves = append(validMoves, move)\n\t\t}\n\t}\n\treturn validMoves\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter knight position (e.g., e4): \")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\n\tif len(input) != 2 || input[0] < 'a' || input[0] > 'h' || input[1] < '1' || input[1] > '8' {\n\t\tfmt.Println(\"Invalid position\")\n\t\treturn\n\t}\n\n\tcol := int(input[0] - 'a')\n\trow := int(input[1] - '1')\n\n\tmoves := knightMoves(row, col)\n\tfmt.Println(\"Possible moves:\")\n\tfor _, move := range moves {\n\t\tfmt.Printf(\"%c%d\\n\", 'a'+move[1], move[0]+1)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of numbers and prints the mode.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter a list of numbers separated by spaces:\")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\n\tnumStrings := strings.Split(input, \" \")\n\tnums := make(map[int]int)\n\n\tfor _, numStr := range numStrings {\n\t\tnum, err := strconv.Atoi(numStr)\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Invalid input\")\n\t\t\treturn\n\t\t}\n\t\tnums[num]++\n\t}\n\n\tmode, maxCount := 0, 0\n\tfor num, count := range nums {\n\t\tif count > maxCount {\n\t\t\tmode, maxCount = num, count\n\t\t}\n\t}\n\n\tfmt.Printf(\"The mode is: %d\\n\", mode)\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of file paths and prints the largest file.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tif len(os.Args) < 2 {\n\t\tfmt.Println(\"Please provide file paths as arguments.\")\n\t\treturn\n\t}\n\n\tvar largestFile string\n\tvar largestSize int64\n\n\tfor _, path := range os.Args[1:] {\n\t\tfileInfo, err := os.Stat(path)\n\t\tif err != nil {\n\t\t\tfmt.Printf(\"Error reading file %s: %v\\n\", path, err)\n\t\t\tcontinue\n\t\t}\n\n\t\tif fileInfo.Size() > largestSize {\n\t\t\tlargestSize = fileInfo.Size()\n\t\t\tlargestFile = path\n\t\t}\n\t}\n\n\tif largestFile != \"\" {\n\t\tfmt.Printf(\"The largest file is %s with size %d bytes.\\n\", largestFile, largestSize)\n\t} else {\n\t\tfmt.Println(\"No valid files found.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of prices and prints the total cost with tax.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nconst taxRate = 0.07\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter prices separated by spaces:\")\n\tscanner.Scan()\n\tinput := scanner.Text()\n\n\tpricesStr := strings.Fields(input)\n\tvar total float64\n\n\tfor _, priceStr := range pricesStr {\n\t\tprice, err := strconv.ParseFloat(priceStr, 64)\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Invalid input, please enter numeric values.\")\n\t\t\treturn\n\t\t}\n\t\ttotal += price\n\t}\n\n\ttotalWithTax := total * (1 + taxRate)\n\tfmt.Printf(\"Total cost with tax: %.2f\\n\", totalWithTax)\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of temperatures and prints them in Fahrenheit.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter temperatures in Celsius, separated by spaces:\")\n\n\tif scanner.Scan() {\n\t\tline := scanner.Text()\n\t\ttemps := strings.Fields(line)\n\t\tfor _, tempStr := range temps {\n\t\t\ttempCelsius, err := strconv.ParseFloat(tempStr, 64)\n\t\t\tif err == nil {\n\t\t\t\ttempFahrenheit := tempCelsius*9/5 + 32\n\t\t\t\tfmt.Printf(\"%.2f \", tempFahrenheit)\n\t\t\t}\n\t\t}\n\t\tfmt.Println()\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of book titles and prints them sorted by length.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tvar titles []string\n\n\tfor scanner.Scan() {\n\t\ttitle := scanner.Text()\n\t\tif title == \"\" {\n\t\t\tbreak\n\t\t}\n\t\ttitles = append(titles, title)\n\t}\n\n\tsort.Slice(titles, func(i, j int) bool {\n\t\treturn len(titles[i]) < len(titles[j])\n\t})\n\n\tfor _, title := range titles {\n\t\tfmt.Println(title)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a directory path and prints all file names.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"os\"\n)\n\nfunc main() {\n\tif len(os.Args) < 2 {\n\t\tfmt.Println(\"Please provide a directory path\")\n\t\treturn\n\t}\n\tdirPath := os.Args[1]\n\tfiles, err := ioutil.ReadDir(dirPath)\n\tif err != nil {\n\t\tfmt.Println(\"Error reading directory:\", err)\n\t\treturn\n\t}\n\tfor _, file := range files {\n\t\tfmt.Println(file.Name())\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a list of URLs and prints those with a secure connection.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfor scanner.Scan() {\n\t\turl := scanner.Text()\n\t\tif strings.HasPrefix(url, \"https://\") {\n\t\t\tfmt.Println(url)\n\t\t}\n\t}\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Fprintln(os.Stderr, \"Error reading input:\", err)\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a sequence of numbers and prints if it is strictly increasing.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter a sequence of numbers separated by spaces:\")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\tnumStrings := strings.Split(input, \" \")\n\n\tif len(numStrings) < 2 {\n\t\tfmt.Println(\"Please enter at least two numbers.\")\n\t\treturn\n\t}\n\n\tisIncreasing := true\n\tprevNum, err := strconv.Atoi(numStrings[0])\n\tif err != nil {\n\t\tfmt.Println(\"Invalid input. Please enter valid integers.\")\n\t\treturn\n\t}\n\n\tfor _, numStr := range numStrings[1:] {\n\t\tcurrentNum, err := strconv.Atoi(numStr)\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Invalid input. Please enter valid integers.\")\n\t\t\treturn\n\t\t}\n\t\tif currentNum <= prevNum {\n\t\t\tisIncreasing = false\n\t\t\tbreak\n\t\t}\n\t\tprevNum = currentNum\n\t}\n\n\tif isIncreasing {\n\t\tfmt.Println(\"The sequence is strictly increasing.\")\n\t} else {\n\t\tfmt.Println(\"The sequence is not strictly increasing.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of products and prints them grouped by category.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tproductsByCategory := make(map[string][]string)\n\n\tfmt.Println(\"Enter products in the format 'ProductName,Category'. Type 'END' to finish:\")\n\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tif line == \"END\" {\n\t\t\tbreak\n\t\t}\n\t\tparts := strings.Split(line, \",\")\n\t\tif len(parts) == 2 {\n\t\t\tproduct := parts[0]\n\t\t\tcategory := parts[1]\n\t\t\tproductsByCategory[category] = append(productsByCategory[category], product)\n\t\t}\n\t}\n\n\tfmt.Println(\"\\nProducts grouped by category:\")\n\tfor category, products := range productsByCategory {\n\t\tfmt.Printf(\"%s:\\n\", category)\n\t\tfor _, product := range products {\n\t\t\tfmt.Printf(\"  - %s\\n\", product)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a sentence and prints it with alternating word capitalization.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a sentence: \")\n\tsentence, _ := reader.ReadString('\\n')\n\twords := strings.Fields(sentence)\n\n\tfor i, word := range words {\n\t\tif i%2 == 0 {\n\t\t\tfmt.Print(strings.ToUpper(word) + \" \")\n\t\t} else {\n\t\t\tfmt.Print(lowerFirst(word) + \" \")\n\t\t}\n\t}\n}\n\nfunc lowerFirst(s string) string {\n\tif len(s) == 0 {\n\t\treturn s\n\t}\n\trunes := []rune(s)\n\trunes[0] = unicode.ToLower(runes[0])\n\treturn string(runes)\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a list of grades and prints the highest and lowest grade.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter grades separated by space:\")\n\tscanner.Scan()\n\tinput := scanner.Text()\n\n\tgradesStr := strings.Fields(input)\n\tif len(gradesStr) == 0 {\n\t\tfmt.Println(\"No grades entered.\")\n\t\treturn\n\t}\n\n\tgrades := make([]int, len(gradesStr))\n\tfor i, str := range gradesStr {\n\t\tgrade, err := strconv.Atoi(str)\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Invalid input, please enter valid integers.\")\n\t\t\treturn\n\t\t}\n\t\tgrades[i] = grade\n\t}\n\n\thighest := grades[0]\n\tlowest := grades[0]\n\n\tfor _, grade := range grades {\n\t\tif grade > highest {\n\t\t\thighest = grade\n\t\t}\n\t\tif grade < lowest {\n\t\t\tlowest = grade\n\t\t}\n\t}\n\n\tfmt.Printf(\"Highest grade: %d\\n\", highest)\n\tfmt.Printf(\"Lowest grade: %d\\n\", lowest)\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the number of sentences.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter text:\")\n\ttext, _ := reader.ReadString('\\n')\n\ttext = strings.TrimSpace(text)\n\tsentences := strings.Split(text, \".\")\n\tcount := 0\n\tfor _, sentence := range sentences {\n\t\tif strings.TrimSpace(sentence) != \"\" {\n\t\t\tcount++\n\t\t}\n\t}\n\tfmt.Printf(\"Number of sentences: %d\\n\", count)\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of integers and prints the sum of all odd numbers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter a list of integers separated by spaces:\")\n\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\tnumbers := strings.Split(input, \" \")\n\n\tsum := 0\n\tfor _, numStr := range numbers {\n\t\tnum, err := strconv.Atoi(numStr)\n\t\tif err == nil && num%2 != 0 {\n\t\t\tsum += num\n\t\t}\n\t}\n\n\tfmt.Printf(\"Sum of odd numbers: %d\\n\", sum)\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the shortest sentence.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter text:\")\n\ttext, _ := reader.ReadString('\\n')\n\n\tsentences := strings.Split(text, \".\")\n\tvar shortestSentence string\n\tshortestLength := -1\n\n\tfor _, sentence := range sentences {\n\t\ttrimmed := strings.TrimSpace(sentence)\n\t\tif len(trimmed) > 0 && (shortestLength == -1 || len(trimmed) < shortestLength) {\n\t\t\tshortestSentence = trimmed\n\t\t\tshortestLength = len(trimmed)\n\t\t}\n\t}\n\n\tif shortestSentence != \"\" {\n\t\tfmt.Println(\"Shortest sentence:\", shortestSentence)\n\t} else {\n\t\tfmt.Println(\"No valid sentence found.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dictionaries and prints them sorted by a specific key.",
+    "code": "```go\npackage main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"log\"\n\t\"os\"\n\t\"sort\"\n)\n\nfunc main() {\n\t// Open and read the input file\n\tfile, err := os.Open(\"input.json\")\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tdefer file.Close()\n\n\tbytes, err := ioutil.ReadAll(file)\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\t// Parse the JSON data\n\tvar data []map[string]interface{}\n\tif err := json.Unmarshal(bytes, &data); err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\t// Sort the data by a specific key\n\tkey := \"name\" // Change this to the desired key\n\tsort.Slice(data, func(i, j int) bool {\n\t\treturn fmt.Sprintf(\"%v\", data[i][key]) < fmt.Sprintf(\"%v\", data[j][key])\n\t})\n\n\t// Print the sorted data\n\tfor _, item := range data {\n\t\tfmt.Println(item)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a sequence of strings and prints the common prefix.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc commonPrefix(strs []string) string {\n\tif len(strs) == 0 {\n\t\treturn \"\"\n\t}\n\tprefix := strs[0]\n\tfor _, str := range strs[1:] {\n\t\tfor strings.Index(str, prefix) != 0 {\n\t\t\tprefix = prefix[:len(prefix)-1]\n\t\t\tif prefix == \"\" {\n\t\t\t\treturn \"\"\n\t\t\t}\n\t\t}\n\t}\n\treturn prefix\n}\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter strings, one per line. Press Ctrl+D to end input.\")\n\tvar inputs []string\n\tfor scanner.Scan() {\n\t\tinputs = append(inputs, scanner.Text())\n\t}\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Fprintln(os.Stderr, \"Error reading input:\", err)\n\t\treturn\n\t}\n\tfmt.Println(\"Common Prefix:\", commonPrefix(inputs))\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a number and prints all of its divisors.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tvar number int\n\tfmt.Print(\"Enter a number: \")\n\tfmt.Scan(&number)\n\n\tfmt.Printf(\"Divisors of %d are: \", number)\n\tfor i := 1; i <= number; i++ {\n\t\tif number%i == 0 {\n\t\t\tfmt.Printf(\"%d \", i)\n\t\t}\n\t}\n\tfmt.Println()\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints each word with its length.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter text:\")\n\ttext, _ := reader.ReadString('\\n')\n\ttext = strings.TrimSpace(text)\n\twords := strings.Fields(text)\n\n\tfor _, word := range words {\n\t\tfmt.Printf(\"%s: %d\\n\", word, len(word))\n\t}\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of colors and prints them in a rainbow order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\trainbowOrder := map[string]int{\n\t\t\"red\":    1,\n\t\t\"orange\": 2,\n\t\t\"yellow\": 3,\n\t\t\"green\":  4,\n\t\t\"blue\":   5,\n\t\t\"indigo\": 6,\n\t\t\"violet\": 7,\n\t}\n\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter colors, separated by commas:\")\n\tscanner.Scan()\n\tinputColors := strings.Split(scanner.Text(), \",\")\n\n\tvar colors []string\n\tfor _, color := range inputColors {\n\t\tcolors = append(colors, strings.TrimSpace(strings.ToLower(color)))\n\t}\n\n\tsortedColors := []string{}\n\tfor _, color := range []string{\"red\", \"orange\", \"yellow\", \"green\", \"blue\", \"indigo\", \"violet\"} {\n\t\tfor _, c := range colors {\n\t\t\tif c == color {\n\t\t\t\tsortedColors = append(sortedColors, c)\n\t\t\t}\n\t\t}\n\t}\n\n\tfmt.Println(\"Colors in rainbow order:\")\n\tfor _, color := range sortedColors {\n\t\tfmt.Println(color)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of names and prints them with their initials.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter a list of names, one per line. End with an empty line:\")\n\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tif line == \"\" {\n\t\t\tbreak\n\t\t}\n\t\tnames := strings.Fields(line)\n\t\tinitials := \"\"\n\t\tfor _, name := range names {\n\t\t\tinitials += string(name[0])\n\t\t}\n\t\tfmt.Printf(\"%s: %s\\n\", line, initials)\n\t}\n\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Fprintln(os.Stderr, \"error reading input:\", err)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a series of coordinates and prints the center point.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tvar sumX, sumY float64\n\tvar count int\n\n\tfmt.Println(\"Enter coordinates (format: x,y). Enter 'done' to finish:\")\n\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tif line == \"done\" {\n\t\t\tbreak\n\t\t}\n\n\t\tcoords := strings.Split(line, \",\")\n\t\tif len(coords) != 2 {\n\t\t\tfmt.Println(\"Invalid input. Please enter coordinates in the format x,y.\")\n\t\t\tcontinue\n\t\t}\n\n\t\tx, err1 := strconv.ParseFloat(strings.TrimSpace(coords[0]), 64)\n\t\ty, err2 := strconv.ParseFloat(strings.TrimSpace(coords[1]), 64)\n\t\tif err1 != nil || err2 != nil {\n\t\t\tfmt.Println(\"Invalid input. Coordinates must be numbers.\")\n\t\t\tcontinue\n\t\t}\n\n\t\tsumX += x\n\t\tsumY += y\n\t\tcount++\n\t}\n\n\tif count == 0 {\n\t\tfmt.Println(\"No valid coordinates entered.\")\n\t\treturn\n\t}\n\n\tcenterX := sumX / float64(count)\n\tcenterY := sumY / float64(count)\n\n\tfmt.Printf(\"Center point: (%.2f, %.2f)\\n\", centerX, centerY)\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each vowel replaced by its uppercase form.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a sentence: \")\n\tsentence, _ := reader.ReadString('\\n')\n\tsentence = strings.TrimSpace(sentence)\n\tvowels := \"aeiou\"\n\n\tfor _, vowel := range vowels {\n\t\tsentence = strings.ReplaceAll(sentence, string(vowel), strings.ToUpper(string(vowel)))\n\t}\n\n\tfmt.Println(sentence)\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a mathematical expression and evaluates its result.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc evalExpression(expr string) (float64, error) {\n\ttokens := strings.Fields(expr)\n\tif len(tokens) != 3 {\n\t\treturn 0, fmt.Errorf(\"invalid expression format\")\n\t}\n\n\tnum1, err := strconv.ParseFloat(tokens[0], 64)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\n\tnum2, err := strconv.ParseFloat(tokens[2], 64)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\n\tswitch tokens[1] {\n\tcase \"+\":\n\t\treturn num1 + num2, nil\n\tcase \"-\":\n\t\treturn num1 - num2, nil\n\tcase \"*\":\n\t\treturn num1 * num2, nil\n\tcase \"/\":\n\t\tif num2 == 0 {\n\t\t\treturn 0, fmt.Errorf(\"division by zero\")\n\t\t}\n\t\treturn num1 / num2, nil\n\tdefault:\n\t\treturn 0, fmt.Errorf(\"unknown operator\")\n\t}\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a mathematical expression: \")\n\texpr, _ := reader.ReadString('\\n')\n\texpr = strings.TrimSpace(expr)\n\n\tresult, err := evalExpression(expr)\n\tif err != nil {\n\t\tfmt.Println(\"Error:\", err)\n\t\treturn\n\t}\n\n\tfmt.Printf(\"Result: %v\\n\", result)\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a text and prints the first three words.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\ttext, _ := reader.ReadString('\\n')\n\twords := strings.Fields(text)\n\tif len(words) > 3 {\n\t\twords = words[:3]\n\t}\n\tfmt.Println(strings.Join(words, \" \"))\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of numbers and prints them without duplicates.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter numbers separated by spaces:\")\n\n\tinput, _ := reader.ReadString('\\n')\n\tnumbers := strings.Fields(input)\n\n\tuniqueNumbers := make(map[string]bool)\n\tfor _, num := range numbers {\n\t\tuniqueNumbers[num] = true\n\t}\n\n\tfor num := range uniqueNumbers {\n\t\tif n, err := strconv.Atoi(num); err == nil {\n\t\t\tfmt.Println(n)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a string and prints it with spaces between each character.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a string: \")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\n\tvar spacedString strings.Builder\n\tfor i, char := range input {\n\t\tif i > 0 {\n\t\t\tspacedString.WriteRune(' ')\n\t\t}\n\t\tspacedString.WriteRune(char)\n\t}\n\n\tfmt.Println(spacedString.String())\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a list of events with dates and prints them by chronological order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n\t\"strings\"\n\t\"time\"\n)\n\ntype Event struct {\n\tName string\n\tDate time.Time\n}\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tvar events []Event\n\n\tfmt.Println(\"Enter events (format: YYYY-MM-DD EventName), one per line. Press Ctrl+D to end:\")\n\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tparts := strings.SplitN(line, \" \", 2)\n\t\tif len(parts) != 2 {\n\t\t\tcontinue\n\t\t}\n\n\t\tdate, err := time.Parse(\"2006-01-02\", parts[0])\n\t\tif err != nil {\n\t\t\tcontinue\n\t\t}\n\n\t\tevents = append(events, Event{Name: parts[1], Date: date})\n\t}\n\n\tsort.Slice(events, func(i, j int) bool {\n\t\treturn events[i].Date.Before(events[j].Date)\n\t})\n\n\tfmt.Println(\"\\nEvents in chronological order:\")\n\tfor _, event := range events {\n\t\tfmt.Printf(\"%s %s\\n\", event.Date.Format(\"2006-01-02\"), event.Name)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of fractions and prints their sum as a reduced fraction.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n\t\"strconv\"\n)\n\nfunc gcd(a, b int) int {\n\tif b == 0 {\n\t\treturn a\n\t}\n\treturn gcd(b, a%b)\n}\n\nfunc reduceFraction(numerator, denominator int) (int, int) {\n\tg := gcd(numerator, denominator)\n\treturn numerator / g, denominator / g\n}\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter fractions (one per line, 'numerator/denominator'). End with an empty line:\")\n\t\n\tvar totalNumerator, totalDenominator int = 0, 1\n\n\tfor scanner.Scan() {\n\t\tline := strings.TrimSpace(scanner.Text())\n\t\tif line == \"\" {\n\t\t\tbreak\n\t\t}\n\n\t\tparts := strings.Split(line, \"/\")\n\t\tif len(parts) != 2 {\n\t\t\tfmt.Println(\"Invalid fraction format\")\n\t\t\treturn\n\t\t}\n\n\t\tnumerator, err1 := strconv.Atoi(parts[0])\n\t\tdenominator, err2 := strconv.Atoi(parts[1])\n\t\tif err1 != nil || err2 != nil || denominator == 0 {\n\t\t\tfmt.Println(\"Invalid fraction format\")\n\t\t\treturn\n\t\t}\n\n\t\t// Calculate total numerator and denominator\n\t\ttotalNumerator = totalNumerator*denominator + numerator*totalDenominator\n\t\ttotalDenominator *= denominator\n\t}\n\n\tif totalDenominator == 0 {\n\t\tfmt.Println(\"No fractions provided\")\n\t\treturn\n\t}\n\n\t// Reduce the resulting fraction\n\treducedNumerator, reducedDenominator := reduceFraction(totalNumerator, totalDenominator)\n\tfmt.Printf(\"Sum of fractions: %d/%d\\n\", reducedNumerator, reducedDenominator)\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints it with each consonant doubled.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n\t\"unicode\"\n)\n\nfunc doubleConsonants(text string) string {\n\tvar result strings.Builder\n\tfor _, r := range text {\n\t\tresult.WriteRune(r)\n\t\tif unicode.IsLetter(r) && !strings.ContainsRune(\"aeiouAEIOU\", r) {\n\t\t\tresult.WriteRune(r)\n\t\t}\n\t}\n\treturn result.String()\n}\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter text:\")\n\tif scanner.Scan() {\n\t\tinput := scanner.Text()\n\t\toutput := doubleConsonants(input)\n\t\tfmt.Println(\"Output:\", output)\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a number and prints its representation in Roman numerals.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n)\n\nfunc intToRoman(num int) string {\n\tvalues := []int{1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1}\n\tsymbols := []string{\"M\", \"CM\", \"D\", \"CD\", \"C\", \"XC\", \"L\", \"XL\", \"X\", \"IX\", \"V\", \"IV\", \"I\"}\n\troman := \"\"\n\tfor i := 0; i < len(values); i++ {\n\t\tfor num >= values[i] {\n\t\t\tnum -= values[i]\n\t\t\troman += symbols[i]\n\t\t}\n\t}\n\treturn roman\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a number: \")\n\tinput, _ := reader.ReadString('\\n')\n\tnum, err := strconv.Atoi(input[:len(input)-1])\n\tif err != nil {\n\t\tfmt.Println(\"Invalid input.\")\n\t\treturn\n\t}\n\tfmt.Println(\"Roman numeral:\", intToRoman(num))\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of words and prints them with each letter in reverse order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc reverseString(s string) string {\n\trunes := []rune(s)\n\tfor i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n\t\trunes[i], runes[j] = runes[j], runes[i]\n\t}\n\treturn string(runes)\n}\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter words (Ctrl+D to end):\")\n\tfor scanner.Scan() {\n\t\tword := scanner.Text()\n\t\tfmt.Println(reverseString(word))\n\t}\n\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Fprintln(os.Stderr, \"Error reading input:\", err)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a set of points and prints the one closest to the origin.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"math\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\ntype Point struct {\n\tx, y float64\n}\n\nfunc distanceFromOrigin(p Point) float64 {\n\treturn math.Sqrt(p.x*p.x + p.y*p.y)\n}\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter points as 'x y' (Ctrl+D to stop):\")\n\n\tvar closestPoint Point\n\tminDistance := math.MaxFloat64\n\n\tfor scanner.Scan() {\n\t\tline := scanner.Text()\n\t\tif line == \"\" {\n\t\t\tbreak\n\t\t}\n\n\t\tcoords := strings.Fields(line)\n\t\tif len(coords) != 2 {\n\t\t\tfmt.Println(\"Invalid input, please enter coordinates as 'x y'\")\n\t\t\tcontinue\n\t\t}\n\n\t\tx, err1 := strconv.ParseFloat(coords[0], 64)\n\t\ty, err2 := strconv.ParseFloat(coords[1], 64)\n\n\t\tif err1 != nil || err2 != nil {\n\t\t\tfmt.Println(\"Invalid input, please enter valid numbers\")\n\t\t\tcontinue\n\t\t}\n\n\t\tpoint := Point{x, y}\n\t\tdist := distanceFromOrigin(point)\n\n\t\tif dist < minDistance {\n\t\t\tminDistance = dist\n\t\t\tclosestPoint = point\n\t\t}\n\t}\n\n\tfmt.Printf(\"Closest point to origin: (%f, %f)\\n\", closestPoint.x, closestPoint.y)\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the frequency of each word.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter text:\")\n\tscanner.Scan()\n\ttext := scanner.Text()\n\n\twords := strings.Fields(text)\n\tfrequency := make(map[string]int)\n\n\tfor _, word := range words {\n\t\tfrequency[word]++\n\t}\n\n\tfmt.Println(\"Word frequencies:\")\n\tfor word, count := range frequency {\n\t\tfmt.Printf(\"%s: %d\\n\", word, count)\n\t}\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of integers and prints the second smallest.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"sort\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a list of integers separated by spaces: \")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = strings.TrimSpace(input)\n\tstrNums := strings.Split(input, \" \")\n\n\tvar nums []int\n\tfor _, strNum := range strNums {\n\t\tnum, err := strconv.Atoi(strNum)\n\t\tif err == nil {\n\t\t\tnums = append(nums, num)\n\t\t}\n\t}\n\n\tif len(nums) < 2 {\n\t\tfmt.Println(\"Not enough numbers\")\n\t\treturn\n\t}\n\n\tsort.Ints(nums)\n\n\tsecondSmallest := nums[0]\n\tfound := false\n\tfor _, num := range nums {\n\t\tif num > secondSmallest {\n\t\t\tsecondSmallest = num\n\t\t\tfound = true\n\t\t\tbreak\n\t\t}\n\t}\n\n\tif found {\n\t\tfmt.Println(\"The second smallest number is:\", secondSmallest)\n\t} else {\n\t\tfmt.Println(\"All numbers are the same\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a string and prints all its substrings.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a string: \")\n\tinput, _ := reader.ReadString('\\n')\n\tinput = input[:len(input)-1] // Remove newline character\n\n\tfor i := 0; i < len(input); i++ {\n\t\tfor j := i + 1; j <= len(input); j++ {\n\t\t\tfmt.Println(input[i:j])\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a number and generates a random number up to that number.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math/rand\"\n\t\"os\"\n\t\"strconv\"\n\t\"time\"\n)\n\nfunc main() {\n\tif len(os.Args) < 2 {\n\t\tfmt.Println(\"Please provide a number.\")\n\t\treturn\n\t}\n\t\n\tmax, err := strconv.Atoi(os.Args[1])\n\tif err != nil {\n\t\tfmt.Println(\"Invalid number.\")\n\t\treturn\n\t}\n\n\trand.Seed(time.Now().UnixNano())\n\trandomNumber := rand.Intn(max + 1)\n\tfmt.Println(randomNumber)\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each word reversed.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc reverseWord(word string) string {\n\trunes := []rune(word)\n\tfor i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n\t\trunes[i], runes[j] = runes[j], runes[i]\n\t}\n\treturn string(runes)\n}\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Print(\"Enter a sentence: \")\n\tsentence, _ := reader.ReadString('\\n')\n\tsentence = strings.TrimSpace(sentence)\n\n\twords := strings.Fields(sentence)\n\tfor i, word := range words {\n\t\twords[i] = reverseWord(word)\n\t}\n\n\tfmt.Println(strings.Join(words, \" \"))\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a text and prints it with each sentence on a new line.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\treader := bufio.NewReader(os.Stdin)\n\tfmt.Println(\"Enter text:\")\n\ttext, _ := reader.ReadString('\\n')\n\tsentences := strings.Split(text, \".\")\n\tfor _, sentence := range sentences {\n\t\ttrimmed := strings.TrimSpace(sentence)\n\t\tif trimmed != \"\" {\n\t\t\tfmt.Println(trimmed + \".\")\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of numbers and prints the product of all negative numbers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strconv\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter a list of numbers separated by spaces:\")\n\tscanner.Scan()\n\tinput := scanner.Text()\n\tnumbers := strings.Fields(input)\n\n\tproduct := 1\n\thasNegative := false\n\n\tfor _, numStr := range numbers {\n\t\tnum, err := strconv.Atoi(numStr)\n\t\tif err != nil {\n\t\t\tcontinue\n\t\t}\n\t\tif num < 0 {\n\t\t\tproduct *= num\n\t\t\thasNegative = true\n\t\t}\n\t}\n\n\tif hasNegative {\n\t\tfmt.Printf(\"Product of negative numbers: %d\\n\", product)\n\t} else {\n\t\tfmt.Println(\"No negative numbers to multiply.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a dictionary and prints the keys and values in sorted order.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\nfunc main() {\n\tdict := map[string]string{\n\t\t\"orange\": \"a fruit\",\n\t\t\"car\":    \"a vehicle\",\n\t\t\"apple\":  \"another fruit\",\n\t}\n\n\tkeys := make([]string, 0, len(dict))\n\tfor k := range dict {\n\t\tkeys = append(keys, k)\n\t}\n\n\tsort.Strings(keys)\n\n\tfor _, k := range keys {\n\t\tfmt.Printf(\"%s: %s\\n\", k, dict[k])\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a text and prints the number of unique words.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\tscanner := bufio.NewScanner(os.Stdin)\n\tfmt.Println(\"Enter text:\")\n\tscanner.Scan()\n\ttext := scanner.Text()\n\n\twords := strings.Fields(text)\n\twordSet := make(map[string]struct{})\n\n\tfor _, word := range words {\n\t\twordSet[strings.ToLower(word)] = struct{}{}\n\t}\n\n\tfmt.Println(\"Number of unique words:\", len(wordSet))\n}\n```"
+  }
+]

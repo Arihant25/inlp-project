@@ -1,0 +1,350 @@
+[
+  {
+    "task": "Write a function that takes two numbers and returns their sum.",
+    "code": "```fortran\nfunction add_numbers(x, y) result(sum)\n    real, intent(in) :: x, y\n    real :: sum\n\n    sum = x + y\nend function add_numbers\n```"
+  },
+  {
+    "task": "Create a program that calculates the difference between two given integers.",
+    "code": "```fortran\nprogram calculate_difference\n    implicit none\n    integer :: num1, num2, difference\n\n    print *, 'Enter the first integer:'\n    read *, num1\n    print *, 'Enter the second integer:'\n    read *, num2\n\n    difference = num1 - num2\n\n    print *, 'The difference between the two integers is:', difference\nend program calculate_difference\n```"
+  },
+  {
+    "task": "Design a function to multiply two floating-point numbers and return the result.",
+    "code": "```fortran\nfunction multiply(a, b) result(res)\n    real, intent(in) :: a, b\n    real :: res\n    res = a * b\nend function multiply\n```"
+  },
+  {
+    "task": "Implement a function that divides two numbers and handles division by zero exceptions.",
+    "code": "```fortran\nprogram DivideNumbers\n  implicit none\n  real :: a, b, result\n  logical :: success\n\n  print *, \"Enter two numbers (a and b):\"\n  read *, a, b\n\n  call divide(a, b, result, success)\n\n  if (success) then\n     print *, \"Result: \", result\n  else\n     print *, \"Error: Division by zero\"\n  end if\n\ncontains\n\n  subroutine divide(x, y, res, is_success)\n    real, intent(in) :: x, y\n    real, intent(out) :: res\n    logical, intent(out) :: is_success\n\n    if (y /= 0.0) then\n       res = x / y\n       is_success = .true.\n    else\n       res = 0.0\n       is_success = .false.\n    end if\n  end subroutine divide\n\nend program DivideNumbers\n```"
+  },
+  {
+    "task": "Build a calculator that can perform addition, subtraction, multiplication, and division on user-provided inputs.",
+    "code": "```fortran\nprogram calculator\n    implicit none\n    real :: num1, num2, result\n    character(len=1) :: operation\n    logical :: valid_operation\n\n    print *, \"Enter first number:\"\n    read *, num1\n    print *, \"Enter an operation (+, -, *, /):\"\n    read *, operation\n    print *, \"Enter second number:\"\n    read *, num2\n\n    valid_operation = .true.\n\n    select case (operation)\n    case ('+')\n        result = num1 + num2\n    case ('-')\n        result = num1 - num2\n    case ('*')\n        result = num1 * num2\n    case ('/')\n        if (num2 /= 0.0) then\n            result = num1 / num2\n        else\n            print *, \"Error: Division by zero\"\n            valid_operation = .false.\n        end if\n    case default\n        print *, \"Error: Invalid operation\"\n        valid_operation = .false.\n    end select\n\n    if (valid_operation) then\n        print *, \"Result:\", result\n    end if\nend program calculator\n```"
+  },
+  {
+    "task": "Write a script to compute the average of a list of numbers using arithmetic operations.",
+    "code": "```fortran\nprogram average_calculation\n    implicit none\n    real, dimension(:), allocatable :: numbers\n    real :: sum\n    real :: average\n    integer :: n, i\n\n    ! Example list of numbers\n    n = 5\n    allocate(numbers(n))\n    numbers = [2.0, 4.0, 6.0, 8.0, 10.0]\n\n    ! Initialize sum to zero\n    sum = 0.0\n\n    ! Compute the sum of the numbers\n    do i = 1, n\n        sum = sum + numbers(i)\n    end do\n\n    ! Compute the average\n    average = sum / n\n\n    ! Output the result\n    print *, \"Average is: \", average\n\n    ! Clean up\n    deallocate(numbers)\nend program average_calculation\n```"
+  },
+  {
+    "task": "Create a function that returns the remainder of the division of two integers.",
+    "code": "```fortran\nmodule arithmetic_operations\ncontains\n    function remainder_division(a, b) result(rem)\n        integer, intent(in) :: a, b\n        integer :: rem\n        rem = mod(a, b)\n    end function remainder_division\nend module arithmetic_operations\n```"
+  },
+  {
+    "task": "Develop a function that can add a variable number of arguments and return the total.",
+    "code": "```fortran\nmodule arithmetic_operations\n  implicit none\ncontains\n\n  real function add_numbers(n, numbers)\n    integer, intent(in) :: n\n    real, intent(in) :: numbers(n)\n    integer :: i\n\n    add_numbers = 0.0\n    do i = 1, n\n      add_numbers = add_numbers + numbers(i)\n    end do\n\n  end function add_numbers\n\nend module arithmetic_operations\n```"
+  },
+  {
+    "task": "Write a program that subtracts a series of numbers from an initial value.",
+    "code": "```fortran\nprogram subtract_series\n    implicit none\n    integer :: initial_value, n, i\n    integer, allocatable :: numbers(:)\n\n    ! Initialize the initial value\n    initial_value = 100\n\n    ! Define the number of elements to subtract\n    n = 5\n    allocate(numbers(n))\n\n    ! Initialize the series of numbers to subtract\n    numbers = [10, 20, 5, 15, 30]\n\n    ! Perform the subtraction\n    do i = 1, n\n        initial_value = initial_value - numbers(i)\n    end do\n\n    ! Print the result\n    print *, 'Result after subtraction:', initial_value\n\n    ! Deallocate the array\n    deallocate(numbers)\nend program subtract_series\n```"
+  },
+  {
+    "task": "Implement a function that multiplies all elements in an array and returns the product.",
+    "code": "```fortran\nfunction array_product(arr, n) result(product)\n    integer, intent(in) :: n\n    real, intent(in) :: arr(n)\n    real :: product\n    integer :: i\n\n    product = 1.0\n    do i = 1, n\n        product = product * arr(i)\n    end do\nend function array_product\n```"
+  },
+  {
+    "task": "Design a program that divides a number by another and rounds the result to two decimal places.",
+    "code": "```fortran\nprogram divide_and_round\n    implicit none\n    real :: num1, num2, result\n\n    ! Input numbers\n    print *, \"Enter the dividend:\"\n    read *, num1\n    print *, \"Enter the divisor:\"\n    read *, num2\n\n    ! Perform division and round to two decimal places\n    result = num1 / num2\n    result = round(result * 100.0) / 100.0\n\n    ! Output the result\n    print *, \"The result rounded to two decimal places is:\", result\nend program divide_and_round\n```"
+  },
+  {
+    "task": "Create a function that performs arithmetic operations on complex numbers.",
+    "code": "```fortran\nmodule complex_operations\n    implicit none\ncontains\n    function complex_arithmetic(a, b, op) result(res)\n        complex, intent(in) :: a, b\n        character(len=*), intent(in) :: op\n        complex :: res\n\n        select case (op)\n        case ('add')\n            res = a + b\n        case ('subtract')\n            res = a - b\n        case ('multiply')\n            res = a * b\n        case ('divide')\n            res = a / b\n        case default\n            print *, \"Invalid operation\"\n            res = (0.0, 0.0)\n        end select\n    end function complex_arithmetic\nend module complex_operations\n```"
+  },
+  {
+    "task": "Write a function to calculate the area of a rectangle given its length and width using multiplication.",
+    "code": "```fortran\nfunction calculate_area(length, width) result(area)\n    real :: length, width, area\n    area = length * width\nend function calculate_area\n```"
+  },
+  {
+    "task": "Build a program that converts a price in dollars to another currency using multiplication with exchange rates.",
+    "code": "```fortran\nprogram currency_converter\n    implicit none\n    real :: dollars, exchange_rate, converted_currency\n\n    print *, 'Enter the amount in dollars:'\n    read *, dollars\n    print *, 'Enter the exchange rate:'\n    read *, exchange_rate\n\n    converted_currency = dollars * exchange_rate\n\n    print *, 'The converted amount is:', converted_currency\nend program currency_converter\n```"
+  },
+  {
+    "task": "Implement a function that checks if a number is divisible by another and returns a boolean.",
+    "code": "```fortran\nprogram check_divisibility\n  implicit none\n  print *, is_divisible(10, 2)\n  print *, is_divisible(10, 3)\ncontains\n  logical function is_divisible(a, b)\n    integer, intent(in) :: a, b\n    is_divisible = (mod(a, b) == 0)\n  end function is_divisible\nend program check_divisibility\n```"
+  },
+  {
+    "task": "Write a script to sum the digits of an integer using arithmetic operations.",
+    "code": "```fortran\nprogram sum_of_digits\n    implicit none\n    integer :: num, sum, digit\n\n    print *, 'Enter an integer:'\n    read *, num\n\n    sum = 0\n    num = abs(num)\n\n    do while (num > 0)\n        digit = mod(num, 10)\n        sum = sum + digit\n        num = num / 10\n    end do\n\n    print *, 'Sum of digits:', sum\nend program sum_of_digits\n```"
+  },
+  {
+    "task": "Develop a function that applies a discount percentage to a price using subtraction and multiplication.",
+    "code": "```fortran\nmodule discount_module\ncontains\n    real function apply_discount(price, discount_percentage)\n        real, intent(in) :: price\n        real, intent(in) :: discount_percentage\n        apply_discount = price - (price * discount_percentage / 100.0)\n    end function apply_discount\nend module discount_module\n```"
+  },
+  {
+    "task": "Create a program to calculate the yearly salary given an hourly wage and hours worked per week.",
+    "code": "```fortran\nprogram calculate_yearly_salary\n    implicit none\n    real :: hourly_wage, hours_per_week, yearly_salary\n    real, parameter :: weeks_per_year = 52.0\n\n    ! Input hourly wage and hours worked per week\n    print *, 'Enter hourly wage:'\n    read *, hourly_wage\n    print *, 'Enter hours worked per week:'\n    read *, hours_per_week\n\n    ! Calculate yearly salary\n    yearly_salary = hourly_wage * hours_per_week * weeks_per_year\n\n    ! Output the yearly salary\n    print *, 'The yearly salary is:', yearly_salary\nend program calculate_yearly_salary\n```"
+  },
+  {
+    "task": "Design a function that calculates the compound interest over a given period using arithmetic operations.",
+    "code": "```fortran\nprogram compound_interest\n    implicit none\n    real :: principal, rate, time, amount\n\n    ! Initialize values\n    principal = 1000.0\n    rate = 5.0\n    time = 10.0\n\n    ! Calculate compound interest\n    amount = compoundInterest(principal, rate, time)\n    print *, \"Compound Interest: \", amount\n\ncontains\n\n    function compoundInterest(p, r, t) result(amount)\n        real, intent(in) :: p, r, t\n        real :: amount\n\n        amount = p * (1.0 + r / 100.0) ** t\n    end function compoundInterest\n\nend program compound_interest\n```"
+  },
+  {
+    "task": "Write a program that scales a 2D point by a given factor using multiplication.",
+    "code": "```fortran\nprogram scale_point\n  implicit none\n  real :: x, y, factor\n  real :: scaled_x, scaled_y\n  \n  ! Example values for the point and scaling factor\n  x = 3.0\n  y = 4.0\n  factor = 2.5\n\n  ! Scale the point\n  scaled_x = x * factor\n  scaled_y = y * factor\n\n  print *, 'Scaled Point: (', scaled_x, ',', scaled_y, ')'\nend program scale_point\n```"
+  },
+  {
+    "task": "Implement a function that calculates the perimeter of a triangle given its side lengths.",
+    "code": "```fortran\nmodule triangle_module\ncontains\n    real function calculate_perimeter(a, b, c)\n        real, intent(in) :: a, b, c\n        calculate_perimeter = a + b + c\n    end function calculate_perimeter\nend module triangle_module\n```"
+  },
+  {
+    "task": "Create a function to determine if three sides can form a right triangle using the Pythagorean theorem.",
+    "code": "```fortran\nprogram RightTriangleCheck\n  implicit none\n  real :: a, b, c\n  logical :: isRightTriangle\n\n  ! Example sides\n  a = 3.0\n  b = 4.0\n  c = 5.0\n\n  isRightTriangle = checkRightTriangle(a, b, c)\n\n  if (isRightTriangle) then\n    print *, \"The sides form a right triangle.\"\n  else\n    print *, \"The sides do not form a right triangle.\"\n  end if\n\ncontains\n\n  logical function checkRightTriangle(x, y, z)\n    real, intent(in) :: x, y, z\n    real :: maxSide, side1, side2\n\n    ! Identify the largest side\n    if (x > y .and. x > z) then\n      maxSide = x\n      side1 = y\n      side2 = z\n    else if (y > x .and. y > z) then\n      maxSide = y\n      side1 = x\n      side2 = z\n    else\n      maxSide = z\n      side1 = x\n      side2 = y\n    end if\n\n    ! Check Pythagorean theorem\n    checkRightTriangle = (maxSide**2 == side1**2 + side2**2)\n  end function checkRightTriangle\n\nend program RightTriangleCheck\n```"
+  },
+  {
+    "task": "Write a script that calculates the total cost of items in a shopping cart using addition.",
+    "code": "```fortran\nprogram ShoppingCart\n    implicit none\n    real :: item1, item2, item3, totalCost\n\n    item1 = 10.50\n    item2 = 5.25\n    item3 = 3.75\n\n    totalCost = item1 + item2 + item3\n\n    print *, \"Total cost of items in the shopping cart:\", totalCost\nend program ShoppingCart\n```"
+  },
+  {
+    "task": "Develop a function that returns the quotient and remainder of a division operation.",
+    "code": "```fortran\nmodule arithmetic_operations\ncontains\n    subroutine divide(dividend, divisor, quotient, remainder)\n        integer, intent(in) :: dividend, divisor\n        integer, intent(out) :: quotient, remainder\n\n        quotient = dividend / divisor\n        remainder = mod(dividend, divisor)\n    end subroutine divide\nend module arithmetic_operations\n```"
+  },
+  {
+    "task": "Build a program that simulates a basic checkout system using arithmetic operations for totals and discounts.",
+    "code": "```fortran\nprogram checkout_system\n    implicit none\n    real :: price, total, discount, final_total\n    integer :: num_items, i\n\n    ! Initialize totals\n    total = 0.0\n    discount = 0.0\n\n    ! Get number of items\n    print *, \"Enter number of items:\"\n    read *, num_items\n\n    ! Loop over each item\n    do i = 1, num_items\n        print *, \"Enter price of item \", i, \":\"\n        read *, price\n        total = total + price\n    end do\n\n    ! Calculate discount\n    if (total > 100.0) then\n        discount = 0.1 * total\n    end if\n\n    ! Calculate final total\n    final_total = total - discount\n\n    ! Display results\n    print *, \"Total before discount:\", total\n    print *, \"Discount:\", discount\n    print *, \"Final total after discount:\", final_total\nend program checkout_system\n```"
+  },
+  {
+    "task": "Implement a function to calculate the distance between two points on a plane using subtraction and square roots.",
+    "code": "```fortran\nmodule distance_module\n  implicit none\ncontains\n  function calculate_distance(x1, y1, x2, y2) result(distance)\n    real, intent(in) :: x1, y1, x2, y2\n    real :: distance\n    real :: dx, dy\n\n    dx = x2 - x1\n    dy = y2 - y1\n    distance = sqrt(dx**2 + dy**2)\n  end function calculate_distance\nend module distance_module\n```"
+  },
+  {
+    "task": "Write a function that calculates the speed of a vehicle given distance and time using division.",
+    "code": "```fortran\nfunction calculate_speed(distance, time) result(speed)\n    real :: distance, time, speed\n    speed = distance / time\nend function calculate_speed\n```"
+  },
+  {
+    "task": "Create a program to compute the total minutes in a given number of hours using multiplication.",
+    "code": "```fortran\nprogram compute_minutes\n    implicit none\n    integer :: hours, total_minutes\n\n    ! Input the number of hours\n    print *, 'Enter the number of hours:'\n    read *, hours\n\n    ! Compute the total minutes\n    total_minutes = hours * 60\n\n    ! Output the total minutes\n    print *, 'Total minutes:', total_minutes\nend program compute_minutes\n```"
+  },
+  {
+    "task": "Design a function that determines the number of dozens of eggs from a given total number of eggs.",
+    "code": "```fortran\nprogram egg_dozen_calculator\n  implicit none\n  integer :: total_eggs, dozens\n\n  print *, \"Enter the total number of eggs:\"\n  read *, total_eggs\n\n  dozens = calculate_dozens(total_eggs)\n\n  print *, \"Number of dozens:\", dozens\ncontains\n  integer function calculate_dozens(eggs) result(dozens)\n    integer, intent(in) :: eggs\n    dozens = eggs / 12\n  end function calculate_dozens\nend program egg_dozen_calculator\n```"
+  },
+  {
+    "task": "Write a script to find the greatest common divisor of two numbers using arithmetic operations.",
+    "code": "```fortran\nprogram gcd_calculator\n    integer :: a, b, temp\n\n    print *, \"Enter two numbers:\"\n    read *, a, b\n\n    do while (b /= 0)\n        temp = mod(a, b)\n        a = b\n        b = temp\n    end do\n\n    print *, \"The greatest common divisor is \", a\nend program gcd_calculator\n```"
+  },
+  {
+    "task": "Develop a program that calculates the total weight of multiple items using addition.",
+    "code": "```fortran\nprogram CalculateTotalWeight\n    implicit none\n    integer :: num_items, i\n    real :: total_weight, item_weight\n\n    ! Initialize total weight\n    total_weight = 0.0\n\n    ! Read the number of items\n    print *, \"Enter the number of items:\"\n    read *, num_items\n\n    ! Loop over each item to get its weight and add to total weight\n    do i = 1, num_items\n        print *, \"Enter the weight of item\", i, \":\"\n        read *, item_weight\n        total_weight = total_weight + item_weight\n    end do\n\n    ! Print the total weight\n    print *, \"The total weight of all items is:\", total_weight\n\nend program CalculateTotalWeight\n```"
+  },
+  {
+    "task": "Implement a function to convert a temperature from Celsius to Fahrenheit using multiplication and addition.",
+    "code": "```fortran\nprogram temperature_conversion\n    implicit none\n    real :: celsius, fahrenheit\n\n    print *, \"Enter temperature in Celsius:\"\n    read *, celsius\n\n    fahrenheit = celsius_to_fahrenheit(celsius)\n    print *, \"Temperature in Fahrenheit:\", fahrenheit\n\ncontains\n\n    function celsius_to_fahrenheit(c) result(f)\n        real, intent(in) :: c\n        real :: f\n        f = c * 9.0 / 5.0 + 32.0\n    end function celsius_to_fahrenheit\n\nend program temperature_conversion\n```"
+  },
+  {
+    "task": "Create a program that determines the age difference between two people given their birth years.",
+    "code": "```fortran\nprogram age_difference\n    implicit none\n    integer :: birth_year1, birth_year2\n    integer :: age_difference\n\n    ! Input birth years\n    print *, 'Enter the birth year of the first person:'\n    read *, birth_year1\n    print *, 'Enter the birth year of the second person:'\n    read *, birth_year2\n\n    ! Calculate age difference\n    age_difference = abs(birth_year1 - birth_year2)\n\n    ! Output the age difference\n    print *, 'The age difference between the two people is:', age_difference\n\nend program age_difference\n```"
+  },
+  {
+    "task": "Write a function to calculate the final price after applying tax and discount using addition and subtraction.",
+    "code": "```fortran\nmodule price_calculator\n  implicit none\ncontains\n  real function calculate_final_price(base_price, tax_rate, discount)\n    real, intent(in) :: base_price\n    real, intent(in) :: tax_rate\n    real, intent(in) :: discount\n    real :: tax_amount\n    real :: discount_amount\n\n    tax_amount = base_price * tax_rate\n    discount_amount = base_price * discount\n    calculate_final_price = base_price + tax_amount - discount_amount\n  end function calculate_final_price\nend module price_calculator\n```"
+  },
+  {
+    "task": "Design a program to compute the net profit given total revenue and expenses.",
+    "code": "```fortran\nprogram net_profit_calculation\n    implicit none\n    real :: total_revenue, expenses, net_profit\n\n    print *, 'Enter the total revenue: '\n    read *, total_revenue\n\n    print *, 'Enter the total expenses: '\n    read *, expenses\n\n    net_profit = total_revenue - expenses\n\n    print *, 'The net profit is: ', net_profit\nend program net_profit_calculation\n```"
+  },
+  {
+    "task": "Develop a function to calculate the BMI given weight and height using division and multiplication.",
+    "code": "```fortran\nprogram calculate_bmi\n  implicit none\n  real :: weight, height, bmi\n\n  print *, 'Enter weight in kilograms:'\n  read *, weight\n  print *, 'Enter height in meters:'\n  read *, height\n\n  bmi = compute_bmi(weight, height)\n  print *, 'The BMI is:', bmi\n\ncontains\n\n  real function compute_bmi(w, h)\n    real, intent(in) :: w, h\n    compute_bmi = w / (h * h)\n  end function compute_bmi\n\nend program calculate_bmi\n```"
+  },
+  {
+    "task": "Create a function that calculates the midpoint between two numbers using addition and division.",
+    "code": "```fortran\nfunction midpoint(a, b) result(mid)\n    real :: a, b, mid\n    mid = (a + b) / 2.0\nend function midpoint\n```"
+  },
+  {
+    "task": "Write a program that outputs the result of dividing a number by another with remainder.",
+    "code": "```fortran\nprogram divide_with_remainder\n    implicit none\n    integer :: dividend, divisor, quotient, remainder\n\n    ! Example values for dividend and divisor\n    dividend = 17\n    divisor = 5\n\n    ! Perform division and find remainder\n    quotient = dividend / divisor\n    remainder = mod(dividend, divisor)\n\n    print *, \"Quotient: \", quotient\n    print *, \"Remainder: \", remainder\nend program divide_with_remainder\n```"
+  },
+  {
+    "task": "Implement a function to calculate the factorial of a number using multiplication.",
+    "code": "```fortran\nprogram factorial_program\n  implicit none\n  integer :: number, result\n\n  print *, \"Enter a number:\"\n  read *, number\n\n  result = factorial(number)\n  print *, \"The factorial of\", number, \"is\", result\n\ncontains\n\n  recursive function factorial(n) result(fact)\n    integer, intent(in) :: n\n    integer :: fact\n\n    if (n <= 1) then\n       fact = 1\n    else\n       fact = n * factorial(n - 1)\n    end if\n  end function factorial\n\nend program factorial_program\n```"
+  },
+  {
+    "task": "Build a script to find the average of three numbers using addition and division.",
+    "code": "```fortran\nprogram average_of_three\n    implicit none\n    real :: num1, num2, num3, average\n\n    ! Assign values to the numbers\n    num1 = 5.0\n    num2 = 10.0\n    num3 = 15.0\n\n    ! Calculate the average\n    average = (num1 + num2 + num3) / 3.0\n\n    ! Output the average\n    print *, \"The average is: \", average\nend program average_of_three\n```"
+  },
+  {
+    "task": "Create a program that simulates a simple bank account using arithmetic operations for deposits and withdrawals.",
+    "code": "```fortran\nprogram bank_account\n    implicit none\n    real :: balance, amount\n    integer :: choice\n\n    balance = 0.0\n\n    do\n        print *, \"Bank Account Simulation\"\n        print *, \"1. Deposit\"\n        print *, \"2. Withdraw\"\n        print *, \"3. Check Balance\"\n        print *, \"4. Exit\"\n        print *, \"Enter your choice: \"\n        read *, choice\n\n        select case (choice)\n            case (1)\n                print *, \"Enter amount to deposit: \"\n                read *, amount\n                balance = balance + amount\n                print *, \"Amount deposited successfully.\"\n            case (2)\n                print *, \"Enter amount to withdraw: \"\n                read *, amount\n                if (amount <= balance) then\n                    balance = balance - amount\n                    print *, \"Amount withdrawn successfully.\"\n                else\n                    print *, \"Insufficient balance.\"\n                end if\n            case (3)\n                print *, \"Current balance: \", balance\n            case (4)\n                exit\n            case default\n                print *, \"Invalid choice, try again.\"\n        end select\n    end do\n\nend program bank_account\n```"
+  },
+  {
+    "task": "Write a function that computes the cost per item given a total cost and quantity using division.",
+    "code": "```fortran\nfunction cost_per_item(total_cost, quantity) result(cost)\n    real, intent(in) :: total_cost\n    integer, intent(in) :: quantity\n    real :: cost\n    cost = total_cost / quantity\nend function cost_per_item\n```"
+  },
+  {
+    "task": "Design a program that calculates the time required to travel a distance at a given speed.",
+    "code": "```fortran\nprogram travel_time\n    implicit none\n    real :: distance, speed, time\n\n    print *, 'Enter the distance (in kilometers):'\n    read *, distance\n\n    print *, 'Enter the speed (in kilometers per hour):'\n    read *, speed\n\n    if (speed > 0.0) then\n        time = distance / speed\n        print *, 'Time required to travel the distance is', time, 'hours.'\n    else\n        print *, 'Speed must be greater than zero.'\n    end if\n\nend program travel_time\n```"
+  },
+  {
+    "task": "Develop a function that returns the absolute difference between two numbers.",
+    "code": "```fortran\nprogram main\n    implicit none\n    real :: num1, num2, result\n\n    print *, \"Enter two numbers:\"\n    read *, num1, num2\n\n    result = abs_difference(num1, num2)\n    print *, \"The absolute difference is:\", result\nend program main\n\nreal function abs_difference(x, y)\n    implicit none\n    real, intent(in) :: x, y\n\n    abs_difference = abs(x - y)\nend function abs_difference\n```"
+  },
+  {
+    "task": "Implement a program to compute the geometric mean of a set of numbers using multiplication and roots.",
+    "code": "```fortran\nprogram geometric_mean\n  implicit none\n  real :: numbers(5)\n  real :: product\n  real :: gmean\n  integer :: i, n\n\n  numbers = (/ 1.0, 2.0, 3.0, 4.0, 5.0 /)\n  n = size(numbers)\n  product = 1.0\n\n  do i = 1, n\n    product = product * numbers(i)\n  end do\n\n  gmean = product**(1.0/n)\n\n  print *, 'Geometric mean:', gmean\nend program geometric_mean\n```"
+  },
+  {
+    "task": "Write a function to calculate the total interest paid on a loan using arithmetic operations.",
+    "code": "```fortran\nprogram calculate_interest\n  implicit none\n  real :: principal, rate, time, total_interest\n\n  ! Example values\n  principal = 10000.0\n  rate = 5.0\n  time = 3.0\n\n  total_interest = calculateTotalInterest(principal, rate, time)\n  print *, 'Total interest paid:', total_interest\n\ncontains\n\n  real function calculateTotalInterest(p, r, t)\n    real, intent(in) :: p, r, t\n    calculateTotalInterest = p * r * t / 100.0\n  end function calculateTotalInterest\n\nend program calculate_interest\n```"
+  },
+  {
+    "task": "Create a program that calculates the sum of even numbers within a specified range.",
+    "code": "```fortran\nprogram sum_even_numbers\n  implicit none\n  integer :: start, end_, i, sum\n\n  ! Initialize variables\n  sum = 0\n\n  ! Specify the range\n  start = 1\n  end_ = 100\n\n  ! Calculate the sum of even numbers\n  do i = start, end_\n    if (mod(i, 2) == 0) then\n      sum = sum + i\n    end if\n  end do\n\n  ! Output the result\n  print *, 'The sum of even numbers from', start, 'to', end_, 'is:', sum\nend program sum_even_numbers\n```"
+  },
+  {
+    "task": "Design a script to determine the final balance in a savings account after regular deposits and withdrawals.",
+    "code": "```fortran\nprogram savings_account\n    implicit none\n    real :: initial_balance, deposit, withdrawal, final_balance\n    integer :: num_deposits, num_withdrawals, i\n\n    ! Initialize variables\n    initial_balance = 1000.0\n    num_deposits = 5\n    num_withdrawals = 3\n\n    final_balance = initial_balance\n\n    ! Process deposits\n    do i = 1, num_deposits\n        deposit = 100.0\n        final_balance = final_balance + deposit\n    end do\n\n    ! Process withdrawals\n    do i = 1, num_withdrawals\n        withdrawal = 50.0\n        final_balance = final_balance - withdrawal\n    end do\n\n    print *, \"Final balance:\", final_balance\nend program savings_account\n```"
+  },
+  {
+    "task": "Develop a function to compute the surface area of a cylinder given its radius and height.",
+    "code": "```fortran\nmodule geometry\n  implicit none\ncontains\n  real function cylinder_surface_area(radius, height)\n    real, intent(in) :: radius, height\n    real :: pi\n    pi = 3.14159265358979\n    cylinder_surface_area = 2.0 * pi * radius * (radius + height)\n  end function cylinder_surface_area\nend module geometry\n```"
+  },
+  {
+    "task": "Write a program that outputs the result of an arithmetic sequence given the first term and common difference.",
+    "code": "```fortran\nprogram arithmetic_sequence\n    implicit none\n    integer :: first_term, common_difference, term, n\n\n    ! Initialize the first term and common difference\n    first_term = 3\n    common_difference = 5\n\n    ! Output the first 10 terms of the arithmetic sequence\n    do n = 0, 9\n        term = first_term + n * common_difference\n        print *, 'Term ', n + 1, ': ', term\n    end do\nend program arithmetic_sequence\n```"
+  },
+  {
+    "task": "Implement a function that finds the average speed for a trip given total distance and time.",
+    "code": "```fortran\nprogram average_speed_calculator\n  implicit none\n  real :: distance, time, avg_speed\n\n  ! Sample input values\n  distance = 150.0\n  time = 2.5\n\n  avg_speed = calculate_average_speed(distance, time)\n  print *, 'Average Speed:', avg_speed\n\ncontains\n\n  real function calculate_average_speed(distance, time)\n    real, intent(in) :: distance, time\n    if (time /= 0.0) then\n      calculate_average_speed = distance / time\n    else\n      calculate_average_speed = 0.0\n    end if\n  end function calculate_average_speed\n\nend program average_speed_calculator\n```"
+  },
+  {
+    "task": "Create a function to calculate the total cost of a road trip given fuel cost per mile and distance.",
+    "code": "```fortran\nprogram road_trip\n  implicit none\n  real :: fuel_cost, distance, total_cost\n\n  ! Example values\n  fuel_cost = 2.5  ! cost per mile\n  distance = 300.0 ! miles\n\n  total_cost = calculate_total_cost(fuel_cost, distance)\n  print *, 'Total cost of the road trip: ', total_cost\n\ncontains\n\n  real function calculate_total_cost(fuel_cost, distance)\n    real, intent(in) :: fuel_cost, distance\n    calculate_total_cost = fuel_cost * distance\n  end function calculate_total_cost\n\nend program road_trip\n```"
+  },
+  {
+    "task": "Write a script that determines the number of tiles required to cover a floor area using arithmetic operations.",
+    "code": "```fortran\nprogram tile_calculation\n    implicit none\n    real :: floor_length, floor_width, tile_length, tile_width\n    real :: floor_area, tile_area\n    integer :: num_tiles\n\n    ! Assign values to floor and tile dimensions\n    floor_length = 10.0\n    floor_width = 8.0\n    tile_length = 0.5\n    tile_width = 0.5\n\n    ! Calculate the area of the floor and a single tile\n    floor_area = floor_length * floor_width\n    tile_area = tile_length * tile_width\n\n    ! Determine the number of tiles required\n    num_tiles = ceiling(floor_area / tile_area)\n\n    ! Output the result\n    print *, 'Number of tiles required:', num_tiles\nend program tile_calculation\n```"
+  },
+  {
+    "task": "Develop a program to calculate the amount of paint needed to cover a wall given its area.",
+    "code": "```fortran\nprogram paint_calculation\n    implicit none\n    real :: wall_area, paint_coverage, paint_needed\n\n    ! Assume the wall area in square meters\n    write(*,*) 'Enter the wall area in square meters:'\n    read(*,*) wall_area\n\n    ! Assume paint coverage in square meters per liter\n    write(*,*) 'Enter the paint coverage in square meters per liter:'\n    read(*,*) paint_coverage\n\n    ! Calculate the amount of paint needed\n    paint_needed = wall_area / paint_coverage\n\n    ! Output the result\n    write(*,*) 'Amount of paint needed in liters:', paint_needed\nend program paint_calculation\n```"
+  },
+  {
+    "task": "Build a function that calculates the price per unit weight given total price and weight.",
+    "code": "```fortran\nfunction price_per_unit_weight(total_price, weight) result(unit_price)\n    real :: total_price, weight, unit_price\n    unit_price = total_price / weight\nend function price_per_unit_weight\n```"
+  },
+  {
+    "task": "Implement a program that computes the volume of a rectangular prism given its dimensions.",
+    "code": "```fortran\nprogram compute_volume\n    implicit none\n    real :: length, width, height, volume\n\n    ! Assign values to dimensions\n    length = 5.0\n    width = 3.0\n    height = 2.0\n\n    ! Compute volume\n    volume = length * width * height\n\n    ! Output the volume\n    print *, \"The volume of the rectangular prism is \", volume\nend program compute_volume\n```"
+  },
+  {
+    "task": "Write a function to find the percentage increase or decrease between two numbers.",
+    "code": "```fortran\nprogram PercentageChange\n    implicit none\n    real :: num1, num2, change\n\n    print *, 'Enter two numbers:'\n    read *, num1, num2\n\n    change = percentageChange(num1, num2)\n\n    print *, 'Percentage change: ', change\n\ncontains\n\n    real function percentageChange(a, b)\n        real, intent(in) :: a, b\n        percentageChange = ((b - a) / a) * 100.0\n    end function percentageChange\n\nend program PercentageChange\n```"
+  },
+  {
+    "task": "Create a program to determine the number of complete weeks within a specified number of days.",
+    "code": "```fortran\nprogram CompleteWeeks\n    implicit none\n    integer :: days, weeks\n\n    print *, 'Enter the number of days:'\n    read *, days\n\n    weeks = days / 7\n\n    print *, 'Number of complete weeks:', weeks\nend program CompleteWeeks\n```"
+  },
+  {
+    "task": "Design a function that calculates the break-even point for a business using cost and revenue data.",
+    "code": "```fortran\nprogram BreakEvenPoint\n  implicit none\n  real :: fixedCost, variableCost, price, breakEvenPoint\n\n  fixedCost = 15000.0\n  variableCost = 20.0\n  price = 50.0\n\n  breakEvenPoint = calculateBreakEven(fixedCost, variableCost, price)\n  print *, \"Break-even point (units): \", breakEvenPoint\n\ncontains\n\n  real function calculateBreakEven(fixedCost, variableCost, price)\n    real, intent(in) :: fixedCost, variableCost, price\n    calculateBreakEven = fixedCost / (price - variableCost)\n  end function calculateBreakEven\n\nend program BreakEvenPoint\n```"
+  },
+  {
+    "task": "Develop a program that converts a total number of seconds into hours, minutes, and seconds.",
+    "code": "```fortran\nprogram convert_seconds\n    implicit none\n    integer :: total_seconds, hours, minutes, seconds\n\n    ! Input total number of seconds\n    print *, 'Enter total seconds:'\n    read *, total_seconds\n\n    ! Calculate hours, minutes and seconds\n    hours = total_seconds / 3600\n    minutes = mod(total_seconds, 3600) / 60\n    seconds = mod(total_seconds, 60)\n\n    ! Output the result\n    print *, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds\nend program convert_seconds\n```"
+  },
+  {
+    "task": "Write a function that calculates the depreciation of an asset over time using arithmetic operations.",
+    "code": "```fortran\nprogram depreciation_program\n    real :: initial_value, salvage_value, life_years\n    real :: depreciation\n\n    initial_value = 10000.0\n    salvage_value = 2000.0\n    life_years = 5.0\n\n    depreciation = calculate_depreciation(initial_value, salvage_value, life_years)\n    print *, \"Depreciation per year: \", depreciation\nend program depreciation_program\n\nreal function calculate_depreciation(init_val, salvage, life)\n    real, intent(in) :: init_val, salvage, life\n    calculate_depreciation = (init_val - salvage) / life\nend function calculate_depreciation\n```"
+  },
+  {
+    "task": "Create a program that computes the final exam grade needed to achieve a target course average.",
+    "code": "```fortran\nprogram FinalExamGrade\n    implicit none\n    real :: current_average, target_average, final_exam_weight, final_exam_grade\n\n    ! Input variables\n    print *, 'Enter your current course average (0-100): '\n    read(*,*) current_average\n    print *, 'Enter the target course average you want to achieve (0-100): '\n    read(*,*) target_average\n    print *, 'Enter the weight of the final exam as a decimal (e.g., 0.25 for 25%): '\n    read(*,*) final_exam_weight\n\n    ! Calculate the final exam grade needed\n    final_exam_grade = (target_average - (1.0 - final_exam_weight) * current_average) / final_exam_weight\n\n    ! Output the result\n    print *, 'You need to score ', final_exam_grade, ' on the final exam to achieve a ', target_average, ' course average.'\n\nend program FinalExamGrade\n```"
+  },
+  {
+    "task": "Implement a function to calculate the total cost of groceries given prices and quantities of items.",
+    "code": "```fortran\nprogram total_cost\n  implicit none\n  real :: prices(3) = [2.5, 3.0, 4.0]\n  integer :: quantities(3) = [2, 1, 3]\n  real :: cost\n\n  cost = calculate_total_cost(prices, quantities)\n  print*, \"Total cost of groceries: \", cost\n\ncontains\n\n  function calculate_total_cost(prices, quantities) result(total)\n    real, intent(in) :: prices(:)\n    integer, intent(in) :: quantities(:)\n    real :: total\n    integer :: i\n\n    total = 0.0\n    do i = 1, size(prices)\n      total = total + prices(i) * quantities(i)\n    end do\n  end function calculate_total_cost\n\nend program total_cost\n```"
+  },
+  {
+    "task": "Write a script that determines the number of years required to double an investment using a fixed interest rate.",
+    "code": "```fortran\nprogram investment_double\n    implicit none\n    real :: principal, rate, target\n    integer :: years\n\n    principal = 1.0\n    rate = 0.05\n    target = 2.0 * principal\n    years = 0\n\n    do while (principal < target)\n        principal = principal * (1.0 + rate)\n        years = years + 1\n    end do\n\n    print *, \"Years to double investment:\", years\nend program investment_double\n```"
+  },
+  {
+    "task": "Develop a function that computes the harmonic mean of a set of numbers using division and addition.",
+    "code": "```fortran\nmodule harmonic_mean_module\ncontains\n    real function harmonic_mean(numbers) result(hm)\n        real, intent(in) :: numbers(:)\n        integer :: n\n        real :: sum\n        n = size(numbers)\n        if (n <= 0) then\n            hm = 0.0\n            return\n        end if\n        sum = 0.0\n        sum = sum(numbers ** (-1))\n        hm = n / sum\n    end function harmonic_mean\nend module harmonic_mean_module\n```"
+  },
+  {
+    "task": "Create a program to find the sum of the squares of numbers in a given range.",
+    "code": "```fortran\nprogram sum_of_squares\n    implicit none\n    integer :: start, end, i\n    integer :: sum_squares\n\n    print *, \"Enter the start of the range:\"\n    read *, start\n    print *, \"Enter the end of the range:\"\n    read *, end\n\n    sum_squares = 0\n    do i = start, end\n        sum_squares = sum_squares + i**2\n    end do\n\n    print *, \"The sum of the squares is:\", sum_squares\nend program sum_of_squares\n```"
+  },
+  {
+    "task": "Design a function that calculates the energy consumption of an appliance given power and usage time.",
+    "code": "```fortran\nmodule energy_module\n  implicit none\ncontains\n  real function energy_consumption(power, time)\n    real, intent(in) :: power, time\n    energy_consumption = power * time\n  end function energy_consumption\nend module energy_module\n```"
+  },
+  {
+    "task": "Write a program that simulates a simple stock portfolio using arithmetic operations for buying and selling.",
+    "code": "```fortran\nprogram stock_portfolio\n    implicit none\n\n    real :: cash, stock_value, stock_price, stocks_owned\n    real :: buy_amount, sell_amount\n\n    ! Initialize the portfolio\n    cash = 10000.0  ! Initial cash\n    stock_price = 50.0  ! Initial stock price\n    stocks_owned = 0.0\n\n    ! Buy stocks\n    buy_amount = 2000.0\n    if (cash >= buy_amount) then\n        stocks_owned = stocks_owned + buy_amount / stock_price\n        cash = cash - buy_amount\n    end if\n\n    ! Update stock price\n    stock_price = 55.0\n\n    ! Sell stocks\n    sell_amount = 1500.0\n    if (stocks_owned * stock_price >= sell_amount) then\n        stocks_owned = stocks_owned - sell_amount / stock_price\n        cash = cash + sell_amount\n    end if\n\n    ! Calculate stock value\n    stock_value = stocks_owned * stock_price\n\n    ! Output the results\n    print *, \"Cash: \", cash\n    print *, \"Stocks Owned: \", stocks_owned\n    print *, \"Stock Value: \", stock_value\nend program stock_portfolio\n```"
+  },
+  {
+    "task": "Implement a function to calculate the gravitational force between two masses using multiplication and division.",
+    "code": "```fortran\nmodule gravity_module\n  implicit none\ncontains\n  real function gravitational_force(mass1, mass2, distance)\n    real, intent(in) :: mass1, mass2, distance\n    real, parameter :: G = 6.67430e-11 ! gravitational constant\n    gravitational_force = (G * mass1 * mass2) / (distance * distance)\n  end function gravitational_force\nend module gravity_module\n```"
+  },
+  {
+    "task": "Create a function that determines the price per square foot of a piece of real estate.",
+    "code": "```fortran\nmodule real_estate\n  implicit none\ncontains\n  real function price_per_square_foot(price, area)\n    real, intent(in) :: price, area\n    price_per_square_foot = price / area\n  end function price_per_square_foot\nend module real_estate\n```"
+  },
+  {
+    "task": "Write a script to compute the total interest earned on a savings account with monthly compounding.",
+    "code": "```fortran\nprogram SavingsInterest\n    implicit none\n    real :: principal, rate, time, totalInterest, totalAmount\n\n    ! Initialize variables\n    principal = 1000.0  ! Example principal amount\n    rate = 0.05         ! Annual interest rate\n    time = 5.0          ! Time in years\n\n    ! Convert annual rate to monthly and time to months\n    rate = rate / 12.0\n    time = time * 12.0\n\n    ! Compute total amount with compound interest\n    totalAmount = principal * (1.0 + rate) ** time\n\n    ! Calculate total interest earned\n    totalInterest = totalAmount - principal\n\n    ! Print the total interest\n    print *, \"Total Interest Earned: \", totalInterest\nend program SavingsInterest\n```"
+  },
+  {
+    "task": "Develop a program that calculates the calories burned during exercise given MET value and duration.",
+    "code": "```fortran\nprogram calories_burned\n    implicit none\n    real :: met_value, duration, weight, calories\n\n    ! MET value and duration in hours\n    print *, 'Enter MET value:'\n    read *, met_value\n    print *, 'Enter duration of exercise in hours:'\n    read *, duration\n    print *, 'Enter weight in kilograms:'\n    read *, weight\n\n    ! Calculate calories burned\n    calories = met_value * weight * duration * 3.5 / 200.0\n\n    print *, 'Calories burned:', calories\nend program calories_burned\n```"
+  },
+  {
+    "task": "Build a function that converts a speed from miles per hour to kilometers per hour using multiplication.",
+    "code": "```fortran\nprogram speed_conversion\n    implicit none\n    real :: mph, kph\n\n    print *, \"Enter speed in miles per hour:\"\n    read *, mph\n\n    kph = mph_to_kph(mph)\n\n    print *, \"Speed in kilometers per hour:\", kph\ncontains\n    real function mph_to_kph(mph)\n        real, intent(in) :: mph\n        mph_to_kph = mph * 1.60934\n    end function mph_to_kph\nend program speed_conversion\n```"
+  },
+  {
+    "task": "Implement a program to find the number of days between two dates using arithmetic operations.",
+    "code": "```fortran\nprogram days_between_dates\n    implicit none\n    integer :: day1, month1, year1\n    integer :: day2, month2, year2\n    integer :: days_between\n\n    ! Input two dates\n    print *, 'Enter first date (day month year):'\n    read *, day1, month1, year1\n    print *, 'Enter second date (day month year):'\n    read *, day2, month2, year2\n\n    ! Calculate number of days between the two dates\n    days_between = abs(julian_day(year2, month2, day2) - julian_day(year1, month1, day1))\n\n    ! Output the result\n    print *, 'Number of days between dates:', days_between\n\ncontains\n\n    integer function julian_day(year, month, day)\n        integer, intent(in) :: year, month, day\n        integer :: a, y, m\n        \n        a = (14 - month) / 12\n        y = year + 4800 - a\n        m = month + 12*a - 3\n\n        julian_day = day + (153*m + 2) / 5 + 365*y + y/4 - y/100 + y/400 - 32045\n    end function julian_day\n\nend program days_between_dates\n```"
+  },
+  {
+    "task": "Write a function to calculate the area of a circle given its radius.",
+    "code": "```fortran\nprogram CircleArea\n  implicit none\n  real :: radius, area\n\n  print *, 'Enter the radius of the circle:'\n  read *, radius\n\n  area = circle_area(radius)\n  print *, 'The area of the circle is:', area\n\ncontains\n\n  real function circle_area(r)\n    real, intent(in) :: r\n    circle_area = 3.141592653589793 * r * r\n  end function circle_area\n\nend program CircleArea\n```"
+  },
+  {
+    "task": "Create a program that determines the total distance driven given trips with varying speeds and durations.",
+    "code": "```fortran\nprogram total_distance\n    implicit none\n    real :: speed, duration, total_distance\n    integer :: num_trips, i\n\n    total_distance = 0.0\n    print *, \"Enter number of trips:\"\n    read *, num_trips\n\n    do i = 1, num_trips\n        print *, \"Enter speed (in km/h) for trip \", i, \":\"\n        read *, speed\n        print *, \"Enter duration (in hours) for trip \", i, \":\"\n        read *, duration\n\n        total_distance = total_distance + speed * duration\n    end do\n\n    print *, \"Total distance driven is: \", total_distance, \" km\"\nend program total_distance\n```"
+  },
+  {
+    "task": "Design a function to compute the final price of an item after applying multiple discounts sequentially.",
+    "code": "```fortran\nprogram DiscountCalculator\n    implicit none\n    real :: initialPrice, finalPrice\n    real, dimension(:), allocatable :: discounts\n    integer :: numDiscounts, i\n\n    print *, 'Enter the initial price of the item:'\n    read *, initialPrice\n\n    print *, 'Enter the number of discounts:'\n    read *, numDiscounts\n\n    allocate(discounts(numDiscounts))\n    print *, 'Enter the discount percentages:'\n    do i = 1, numDiscounts\n        read *, discounts(i)\n    end do\n\n    finalPrice = computeFinalPrice(initialPrice, discounts)\n    print *, 'The final price after discounts is:', finalPrice\n\ncontains\n\n    function computeFinalPrice(price, discounts) result(finalPrice)\n        real, intent(in) :: price\n        real, dimension(:), intent(in) :: discounts\n        real :: finalPrice\n        integer :: i\n\n        finalPrice = price\n        do i = 1, size(discounts)\n            finalPrice = finalPrice * (1.0 - discounts(i) / 100.0)\n        end do\n    end function computeFinalPrice\n\nend program DiscountCalculator\n```"
+  },
+  {
+    "task": "Write a script that calculates the number of bricks needed to build a wall given wall dimensions and brick size.",
+    "code": "```fortran\nprogram calculate_bricks\n    implicit none\n    real :: wall_length, wall_height, wall_area\n    real :: brick_length, brick_height, brick_area\n    integer :: num_bricks\n\n    print *, \"Enter wall length and height:\"\n    read *, wall_length, wall_height\n    print *, \"Enter brick length and height:\"\n    read *, brick_length, brick_height\n\n    wall_area = wall_length * wall_height\n    brick_area = brick_length * brick_height\n\n    num_bricks = ceiling(wall_area / brick_area)\n\n    print *, \"Number of bricks needed:\", num_bricks\nend program calculate_bricks\n```"
+  },
+  {
+    "task": "Develop a program to determine the number of pizzas required for a party given the number of people and slices per pizza.",
+    "code": "```fortran\nprogram PizzaCalculator\n    implicit none\n    integer :: numPeople, slicesPerPizza, slicesPerPerson\n    integer :: totalSlicesNeeded, pizzasRequired\n\n    ! Input number of people and slices per pizza\n    print *, \"Enter the number of people:\"\n    read *, numPeople\n    print *, \"Enter the slices per pizza:\"\n    read *, slicesPerPizza\n\n    ! Assuming each person eats 3 slices\n    slicesPerPerson = 3\n\n    ! Calculate total slices needed and pizzas required\n    totalSlicesNeeded = numPeople * slicesPerPerson\n    pizzasRequired = (totalSlicesNeeded + slicesPerPizza - 1) / slicesPerPizza\n\n    ! Output the number of pizzas required\n    print *, \"Number of pizzas required:\", pizzasRequired\nend program PizzaCalculator\n```"
+  },
+  {
+    "task": "Implement a function that calculates the total cost of a meal including tax and tip.",
+    "code": "```fortran\nprogram MealCostCalculator\n  implicit none\n  real :: baseCost, taxRate, tipRate, totalCost\n\n  ! Example values\n  baseCost = 50.0\n  taxRate = 0.08\n  tipRate = 0.15\n\n  totalCost = calculateTotalCost(baseCost, taxRate, tipRate)\n\n  print *, \"The total cost of the meal is: \", totalCost\n\ncontains\n\n  real function calculateTotalCost(baseCost, taxRate, tipRate)\n    implicit none\n    real, intent(in) :: baseCost, taxRate, tipRate\n\n    calculateTotalCost = baseCost + baseCost * taxRate + baseCost * tipRate\n  end function calculateTotalCost\n\nend program MealCostCalculator\n```"
+  },
+  {
+    "task": "Create a program to compute the average rainfall over a period using addition and division.",
+    "code": "```fortran\nprogram AverageRainfall\n    implicit none\n    integer, parameter :: n = 5\n    real :: rainfall(n)\n    real :: totalRainfall, average\n    integer :: i\n\n    ! Sample rainfall data for n periods\n    rainfall = [10.5, 7.2, 15.3, 8.7, 12.1]\n\n    ! Initialize totalRainfall\n    totalRainfall = 0.0\n\n    ! Compute total rainfall\n    do i = 1, n\n        totalRainfall = totalRainfall + rainfall(i)\n    end do\n\n    ! Compute average rainfall\n    average = totalRainfall / n\n\n    ! Output the average\n    print *, 'Average Rainfall:', average\n\nend program AverageRainfall\n```"
+  },
+  {
+    "task": "Write a function that determines the number of batches needed to produce a specific quantity of a product.",
+    "code": "```fortran\nprogram product_batches\n  implicit none\n  integer :: required_quantity, batch_size, num_batches\n\n  ! Example values\n  required_quantity = 157\n  batch_size = 20\n\n  num_batches = calculate_batches(required_quantity, batch_size)\n  print *, 'Number of batches needed:', num_batches\n\ncontains\n\n  integer function calculate_batches(quantity, size)\n    integer, intent(in) :: quantity, size\n\n    calculate_batches = (quantity + size - 1) / size\n\n  end function calculate_batches\n\nend program product_batches\n```"
+  },
+  {
+    "task": "Design a program to calculate the total energy consumption of a household given individual appliance usage.",
+    "code": "```fortran\nprogram energy_consumption\n    implicit none\n    integer :: num_appliances, i\n    real :: total_energy, appliance_energy\n\n    ! Initialize total energy consumption\n    total_energy = 0.0\n\n    ! Read number of appliances\n    print *, 'Enter the number of appliances:'\n    read *, num_appliances\n\n    ! Loop over each appliance to calculate total energy consumption\n    do i = 1, num_appliances\n        print *, 'Enter energy consumption for appliance', i, '(in kWh):'\n        read *, appliance_energy\n        total_energy = total_energy + appliance_energy\n    end do\n\n    ! Output the total energy consumption\n    print *, 'Total energy consumption (in kWh):', total_energy\n\nend program energy_consumption\n```"
+  },
+  {
+    "task": "Develop a function that computes the body surface area of a person using height and weight.",
+    "code": "```fortran\nmodule body_surface_area\n  implicit none\ncontains\n  real function compute_bsa(height, weight)\n    real, intent(in) :: height, weight\n    compute_bsa = 0.007184 * height**0.725 * weight**0.425\n  end function compute_bsa\nend module body_surface_area\n```"
+  },
+  {
+    "task": "Build a script to calculate the monthly payment on a mortgage using principal, interest rate, and term.",
+    "code": "```fortran\nprogram mortgage_calculator\n    implicit none\n    real :: principal, annual_rate, term_years\n    real :: monthly_rate, num_payments, monthly_payment\n\n    ! Input values\n    principal = 200000.0 ! Example principal amount\n    annual_rate = 5.0 ! Example annual interest rate in percent\n    term_years = 30.0 ! Example term in years\n\n    ! Calculate monthly interest rate and number of payments\n    monthly_rate = (annual_rate / 100.0) / 12.0\n    num_payments = term_years * 12.0\n\n    ! Calculate monthly payment using the formula\n    monthly_payment = (principal * monthly_rate) / (1.0 - (1.0 + monthly_rate) ** (-num_payments))\n\n    ! Output the result\n    print *, 'Monthly Payment: ', monthly_payment\nend program mortgage_calculator\n```"
+  },
+  {
+    "task": "Implement a function to find the volume of a cone given its height and radius.",
+    "code": "```fortran\nprogram cone_volume\n    implicit none\n    real :: height, radius, volume\n\n    print *, \"Enter the height of the cone:\"\n    read *, height\n    print *, \"Enter the radius of the cone:\"\n    read *, radius\n\n    volume = coneVolume(height, radius)\n    print *, \"The volume of the cone is:\", volume\n\ncontains\n\n    real function coneVolume(h, r)\n        real, intent(in) :: h, r\n        real :: pi\n        pi = 3.141592653589793\n        coneVolume = (1.0 / 3.0) * pi * r**2 * h\n    end function coneVolume\n\nend program cone_volume\n```"
+  },
+  {
+    "task": "Write a program that estimates the cost of a trip using fuel efficiency and distance.",
+    "code": "```fortran\nprogram trip_cost_estimator\n    implicit none\n    real :: fuel_efficiency, distance, fuel_cost_per_liter, total_cost\n\n    ! Input values\n    print *, \"Enter fuel efficiency (km per liter):\"\n    read *, fuel_efficiency\n    print *, \"Enter distance of the trip (km):\"\n    read *, distance\n    print *, \"Enter fuel cost per liter:\"\n    read *, fuel_cost_per_liter\n\n    ! Calculate the total cost\n    total_cost = (distance / fuel_efficiency) * fuel_cost_per_liter\n\n    ! Output the result\n    print *, \"The estimated cost of the trip is:\", total_cost\n\nend program trip_cost_estimator\n```"
+  }
+]

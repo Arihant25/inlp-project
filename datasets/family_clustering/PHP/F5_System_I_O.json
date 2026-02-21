@@ -1,0 +1,358 @@
+[
+  {
+    "task": "Write a program that reads a user's name and age from the input, then prints a greeting message using both values.",
+    "code": "```php\n<?php\nfwrite(STDOUT, \"Enter your name: \");\n$name = trim(fgets(STDIN));\nfwrite(STDOUT, \"Enter your age: \");\n$age = trim(fgets(STDIN));\necho \"Hello, $name! You are $age years old.\\n\";\n?>\n```"
+  },
+  {
+    "task": "Create a script that continuously reads numbers from the input and prints their running total until a negative number is entered.",
+    "code": "```php\n<?php\n$runningTotal = 0;\nwhile (true) {\n    $input = trim(fgets(STDIN));\n    if (!is_numeric($input)) {\n        continue;\n    }\n    $number = (int)$input;\n    if ($number < 0) {\n        break;\n    }\n    $runningTotal += $number;\n    echo $runningTotal . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Design a program that asks the user for a sentence and outputs the number of words it contains.",
+    "code": "```php\n<?php\n\necho \"Please enter a sentence: \";\n$sentence = trim(fgets(STDIN));\n$wordCount = str_word_count($sentence);\n\necho \"The number of words in the sentence is: $wordCount\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Build a command-line tool that reads a list of integers and outputs them in sorted order.",
+    "code": "```php\n<?php\n\nfunction readIntegersFromStdin() {\n    $handle = fopen(\"php://stdin\", \"r\");\n    $integers = [];\n    while (($line = fgets($handle)) !== false) {\n        $line = trim($line);\n        if (is_numeric($line)) {\n            $integers[] = (int)$line;\n        }\n    }\n    fclose($handle);\n    return $integers;\n}\n\nfunction outputSortedIntegers($integers) {\n    sort($integers);\n    foreach ($integers as $integer) {\n        echo $integer . PHP_EOL;\n    }\n}\n\n$integers = readIntegersFromStdin();\noutputSortedIntegers($integers);\n```"
+  },
+  {
+    "task": "Develop a program that reads a file name from the input, then prints the number of lines in that file.",
+    "code": "```php\n<?php\n$filename = trim(fgets(STDIN));\nif (file_exists($filename)) {\n    $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);\n    echo count($lines);\n} else {\n    echo \"File does not exist.\";\n}\n?>\n```"
+  },
+  {
+    "task": "Implement a calculator that reads two numbers and an operator (+, -, *, /) from the input and prints the result.",
+    "code": "```php\n<?php\n\nfscanf(STDIN, \"%f %f %s\", $num1, $num2, $operator);\n\nswitch ($operator) {\n    case '+':\n        $result = $num1 + $num2;\n        break;\n    case '-':\n        $result = $num1 - $num2;\n        break;\n    case '*':\n        $result = $num1 * $num2;\n        break;\n    case '/':\n        if ($num2 != 0) {\n            $result = $num1 / $num2;\n        } else {\n            echo \"Error: Division by zero\";\n            exit;\n        }\n        break;\n    default:\n        echo \"Error: Invalid operator\";\n        exit;\n}\n\necho \"Result: \" . $result;\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a user's full name and prints it in reverse order.",
+    "code": "```php\n<?php\necho \"Enter your full name: \";\n$fullName = trim(fgets(STDIN));\n$reversedName = strrev($fullName);\necho \"Reversed Name: \" . $reversedName . PHP_EOL;\n?>\n```"
+  },
+  {
+    "task": "Create a program that asks for a word and checks if it is a palindrome, printing the appropriate message.",
+    "code": "```php\n<?php\necho \"Enter a word: \";\n$handle = fopen(\"php://stdin\", \"r\");\n$word = trim(fgets($handle));\n\nif ($word === strrev($word)) {\n    echo \"The word is a palindrome.\\n\";\n} else {\n    echo \"The word is not a palindrome.\\n\";\n}\n\nfclose($handle);\n?>\n```"
+  },
+  {
+    "task": "Develop a tool that reads multiple lines of text and outputs the longest line.",
+    "code": "```php\n$longestLine = '';\nwhile ($line = fgets(STDIN)) {\n    if (strlen($line) > strlen($longestLine)) {\n        $longestLine = $line;\n    }\n}\necho $longestLine;\n```"
+  },
+  {
+    "task": "Design a script that reads a number 'n' and prints the first 'n' Fibonacci numbers.",
+    "code": "```php\n<?php\nfunction fibonacci($n) {\n    $fib = [0, 1];\n    for ($i = 2; $i < $n; $i++) {\n        $fib[$i] = $fib[$i - 1] + $fib[$i - 2];\n    }\n    return array_slice($fib, 0, $n);\n}\n\necho \"Enter a number: \";\n$n = intval(trim(fgets(STDIN)));\n$fibNumbers = fibonacci($n);\nforeach ($fibNumbers as $num) {\n    echo $num . \"\\n\";\n}\n?>\n```"
+  },
+  {
+    "task": "Write a program that takes a list of numbers from the input and prints only the even ones.",
+    "code": "```php\n<?php\n$handle = fopen(\"php://stdin\", \"r\");\n$input = trim(fgets($handle));\n$numbers = explode(' ', $input);\n\nforeach ($numbers as $number) {\n    if ((int)$number % 2 === 0) {\n        echo $number . PHP_EOL;\n    }\n}\nfclose($handle);\n?>\n```"
+  },
+  {
+    "task": "Create a script that reads a date (day, month, year) and prints the day of the week for that date.",
+    "code": "```php\n<?php\n\necho \"Enter day: \";\n$day = trim(fgets(STDIN));\n\necho \"Enter month: \";\n$month = trim(fgets(STDIN));\n\necho \"Enter year: \";\n$year = trim(fgets(STDIN));\n\n$dateString = sprintf('%04d-%02d-%02d', $year, $month, $day);\n$timestamp = strtotime($dateString);\n$dayOfWeek = date('l', $timestamp);\n\necho \"The day of the week for $dateString is $dayOfWeek.\" . PHP_EOL;\n?>\n```"
+  },
+  {
+    "task": "Develop a program that reads a paragraph and counts the frequency of each letter in the text.",
+    "code": "```php\n<?php\n\n$input = readline(\"Enter a paragraph: \");\n$input = strtolower($input);\n$letterFrequency = [];\n\nforeach (str_split($input) as $char) {\n    if (ctype_alpha($char)) {\n        if (!isset($letterFrequency[$char])) {\n            $letterFrequency[$char] = 0;\n        }\n        $letterFrequency[$char]++;\n    }\n}\n\nforeach ($letterFrequency as $letter => $frequency) {\n    echo \"$letter: $frequency\\n\";\n}\n?>\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and a word, then prints the number of times the word appears in the text.",
+    "code": "```php\n<?php\n\nfwrite(STDOUT, \"Enter the text: \");\n$text = trim(fgets(STDIN));\n\nfwrite(STDOUT, \"Enter the word to count: \");\n$word = trim(fgets(STDIN));\n\n$count = substr_count(strtolower($text), strtolower($word));\n\nfwrite(STDOUT, \"The word '$word' appears $count times in the text.\\n\");\n\n?>\n```"
+  },
+  {
+    "task": "Implement a script that reads a temperature in Celsius and converts it to Fahrenheit, printing the result.",
+    "code": "```php\n<?php\n$handle = fopen(\"php://stdin\", \"r\");\necho \"Enter temperature in Celsius: \";\n$celsius = trim(fgets($handle));\n$fahrenheit = $celsius * 9/5 + 32;\necho \"Temperature in Fahrenheit: $fahrenheit\\n\";\nfclose($handle);\n?>\n```"
+  },
+  {
+    "task": "Write a program that continuously reads input until the word 'exit' is entered, then prints all entered inputs.",
+    "code": "```php\n<?php\n$inputs = [];\nwhile (true) {\n    $input = trim(fgets(STDIN));\n    if ($input === 'exit') {\n        break;\n    }\n    $inputs[] = $input;\n}\nforeach ($inputs as $input) {\n    echo $input . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Create a tool that prompts for a filename, reads the file, and prints its content in uppercase.",
+    "code": "```php\n<?php\n\necho \"Enter the filename: \";\n$filename = trim(fgets(STDIN));\n\nif (file_exists($filename)) {\n    $content = file_get_contents($filename);\n    echo strtoupper($content);\n} else {\n    echo \"File does not exist.\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Develop a program that reads a series of email addresses and prints the unique domain names.",
+    "code": "```php\n<?php\n\n$input = fopen('php://stdin', 'r');\n$output = fopen('php://stdout', 'w');\n\n$domains = [];\n\nwhile ($line = fgets($input)) {\n    $line = trim($line);\n    if (filter_var($line, FILTER_VALIDATE_EMAIL)) {\n        $parts = explode('@', $line);\n        if (count($parts) == 2) {\n            $domains[$parts[1]] = true;\n        }\n    }\n}\n\nforeach (array_keys($domains) as $domain) {\n    fwrite($output, $domain . PHP_EOL);\n}\n\nfclose($input);\nfclose($output);\n\n?>\n```"
+  },
+  {
+    "task": "Design a script that reads a string and prints whether it contains all the letters of the alphabet.",
+    "code": "```php\n<?php\n\nfunction containsAllAlphabets($input) {\n    $alphabet = range('a', 'z');\n    $input = strtolower($input);\n    foreach ($alphabet as $letter) {\n        if (strpos($input, $letter) === false) {\n            return false;\n        }\n    }\n    return true;\n}\n\n$input = trim(fgets(STDIN));\n\nif (containsAllAlphabets($input)) {\n    echo \"The string contains all the letters of the alphabet.\\n\";\n} else {\n    echo \"The string does not contain all the letters of the alphabet.\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Write a program that reads a number and prints its factorial.",
+    "code": "```php\n<?php\n$handle = fopen(\"php://stdin\", \"r\");\necho \"Enter a number: \";\n$number = (int)fgets($handle);\n\nfunction factorial($num) {\n    if ($num <= 1) {\n        return 1;\n    }\n    return $num * factorial($num - 1);\n}\n\n$result = factorial($number);\necho \"Factorial of $number is $result\\n\";\nfclose($handle);\n?>\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of names and prints them in alphabetical order.",
+    "code": "```php\n<?php\n$names = [];\nwhile ($name = fgets(STDIN)) {\n    $name = trim($name);\n    if ($name !== \"\") {\n        $names[] = $name;\n    }\n}\nsort($names);\nforeach ($names as $name) {\n    echo $name . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Develop a program that asks for a sentence and prints each word on a new line.",
+    "code": "```php\n<?php\necho \"Please enter a sentence: \";\n$sentence = trim(fgets(STDIN));\n$words = explode(' ', $sentence);\nforeach ($words as $word) {\n    echo $word . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Build a script that reads a time in 12-hour format and converts it to 24-hour format.",
+    "code": "```php\n<?php\n$handle = fopen(\"php://stdin\", \"r\");\n$line = fgets($handle);\nfclose($handle);\n\n$date = DateTime::createFromFormat('h:i A', trim($line));\necho $date->format('H:i') . \"\\n\";\n?>\n```"
+  },
+  {
+    "task": "Implement a program that reads two strings and checks if they are anagrams, printing the result.",
+    "code": "```php\n<?php\n\nfunction areAnagrams($str1, $str2) {\n    $arr1 = str_split($str1);\n    $arr2 = str_split($str2);\n    sort($arr1);\n    sort($arr2);\n    return $arr1 === $arr2;\n}\n\n$handle = fopen(\"php://stdin\", \"r\");\n$str1 = trim(fgets($handle));\n$str2 = trim(fgets($handle));\nfclose($handle);\n\nif (areAnagrams($str1, $str2)) {\n    echo \"The strings are anagrams.\\n\";\n} else {\n    echo \"The strings are not anagrams.\\n\";\n}\n?>\n```"
+  },
+  {
+    "task": "Write a tool that reads a paragraph and prints the first and last sentence.",
+    "code": "```php\n<?php\n\necho \"Enter a paragraph: \";\n$paragraph = trim(fgets(STDIN));\n\n$sentences = preg_split('/(?<=[.!?])\\s+/', $paragraph, -1, PREG_SPLIT_NO_EMPTY);\n\nif (!empty($sentences)) {\n    echo \"First sentence: \" . $sentences[0] . PHP_EOL;\n    echo \"Last sentence: \" . end($sentences) . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Create a program that reads a binary number and converts it to decimal.",
+    "code": "```php\n<?php\necho \"Enter a binary number: \";\n$binary = trim(fgets(STDIN));\n$decimal = bindec($binary);\necho \"Decimal: \" . $decimal . \"\\n\";\n?>\n```"
+  },
+  {
+    "task": "Develop a script that reads a series of scores and prints the average score.",
+    "code": "```php\n<?php\n$scores = [];\necho \"Enter scores (type 'done' to finish):\" . PHP_EOL;\nwhile (true) {\n    $input = trim(fgets(STDIN));\n    if (strtolower($input) === 'done') {\n        break;\n    }\n    if (is_numeric($input)) {\n        $scores[] = (float)$input;\n    } else {\n        echo \"Invalid input, please enter a numeric value or 'done'.\" . PHP_EOL;\n    }\n}\n\nif (count($scores) > 0) {\n    $average = array_sum($scores) / count($scores);\n    echo \"Average score: \" . $average . PHP_EOL;\n} else {\n    echo \"No scores to average.\" . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a list of integers and prints the prime numbers.",
+    "code": "```php\n<?php\n\nfunction isPrime($num) {\n    if ($num <= 1) return false;\n    if ($num <= 3) return true;\n    if ($num % 2 == 0 || $num % 3 == 0) return false;\n    for ($i = 5; $i * $i <= $num; $i += 6) {\n        if ($num % $i == 0 || $num % ($i + 2) == 0) return false;\n    }\n    return true;\n}\n\n$input = trim(fgets(STDIN));\n$numbers = explode(' ', $input);\n\nforeach ($numbers as $number) {\n    if (isPrime((int)$number)) {\n        echo $number . PHP_EOL;\n    }\n}\n\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a word and prints its Pig Latin translation.",
+    "code": "```php\n<?php\n\nfunction pigLatin($word) {\n    $firstLetter = strtolower($word[0]);\n    $restOfWord = substr($word, 1);\n    \n    if (in_array($firstLetter, ['a', 'e', 'i', 'o', 'u'])) {\n        return $word . \"yay\";\n    } else {\n        return $restOfWord . $firstLetter . \"ay\";\n    }\n}\n\necho \"Enter a word: \";\n$handle = fopen(\"php://stdin\", \"r\");\n$word = trim(fgets($handle));\nfclose($handle);\n\nif (!empty($word)) {\n    $translatedWord = pigLatin($word);\n    echo \"Pig Latin: \" . $translatedWord . PHP_EOL;\n} else {\n    echo \"No word entered.\" . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Create a tool that reads a matrix of numbers and prints its transpose.",
+    "code": "```php\n<?php\n\nfunction transposeMatrix($matrix) {\n    $transposed = [];\n    foreach ($matrix as $rowKey => $row) {\n        foreach ($row as $colKey => $value) {\n            $transposed[$colKey][$rowKey] = $value;\n        }\n    }\n    return $transposed;\n}\n\n// Read input from the user\necho \"Enter the number of rows: \";\n$rows = (int)trim(fgets(STDIN));\n\necho \"Enter the number of columns: \";\n$cols = (int)trim(fgets(STDIN));\n\n$matrix = [];\necho \"Enter the matrix values row by row:\\n\";\nfor ($i = 0; $i < $rows; $i++) {\n    $matrix[$i] = array_map('intval', explode(' ', trim(fgets(STDIN))));\n}\n\n// Transpose the matrix\n$transposedMatrix = transposeMatrix($matrix);\n\n// Print the transposed matrix\necho \"Transposed Matrix:\\n\";\nforeach ($transposedMatrix as $row) {\n    echo implode(' ', $row) . \"\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Implement a program that reads a URL and prints the domain name.",
+    "code": "```php\n<?php\n$url = trim(fgets(STDIN));\n$parsedUrl = parse_url($url);\n$domain = isset($parsedUrl['host']) ? $parsedUrl['host'] : '';\necho $domain . PHP_EOL;\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a number and prints its multiplication table up to 12.",
+    "code": "```php\n<?php\nfscanf(STDIN, \"%d\", $number);\n\nfor ($i = 1; $i <= 12; $i++) {\n    $result = $number * $i;\n    echo \"$number x $i = $result\\n\";\n}\n?>\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dates and prints them in order of occurrence.",
+    "code": "```php\n<?php\n\n// Read input from the user\n$dates = [];\nwhile (($line = fgets(STDIN)) !== false) {\n    $line = trim($line);\n    if (!empty($line)) {\n        $dates[] = $line;\n    }\n}\n\n// Sort the dates\nusort($dates, function($a, $b) {\n    return strtotime($a) - strtotime($b);\n});\n\n// Print the sorted dates\nforeach ($dates as $date) {\n    echo $date . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Create a tool that reads a text and prints it with each sentence capitalized.",
+    "code": "```php\n<?php\n\nfunction capitalizeSentences($text) {\n    $sentences = preg_split('/(?<=[.!?])\\s+/', $text, -1, PREG_SPLIT_NO_EMPTY);\n    $capitalizedSentences = array_map('ucfirst', $sentences);\n    return implode(' ', $capitalizedSentences);\n}\n\n$inputText = file_get_contents('php://stdin');\necho capitalizeSentences($inputText);\n\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a list of words and prints them in reverse alphabetical order.",
+    "code": "```php\n<?php\n\n$handle = fopen(\"php://stdin\", \"r\");\n$input = trim(fgets($handle));\nfclose($handle);\n\n$words = explode(' ', $input);\nrsort($words);\n\nforeach ($words as $word) {\n    echo $word . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Write a script that asks for two times and prints the difference in minutes.",
+    "code": "```php\n<?php\n\nfunction getTimeInput($prompt) {\n    echo $prompt;\n    $handle = fopen(\"php://stdin\", \"r\");\n    $time = trim(fgets($handle));\n    fclose($handle);\n    return $time;\n}\n\n$time1 = getTimeInput(\"Enter the first time (HH:MM): \");\n$time2 = getTimeInput(\"Enter the second time (HH:MM): \");\n\n$datetime1 = DateTime::createFromFormat('H:i', $time1);\n$datetime2 = DateTime::createFromFormat('H:i', $time2);\n\nif ($datetime1 && $datetime2) {\n    $interval = $datetime1->diff($datetime2);\n    $minutesDifference = ($interval->h * 60) + $interval->i;\n    echo \"Difference in minutes: \" . $minutesDifference . \"\\n\";\n} else {\n    echo \"Invalid time format.\\n\";\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a text and prints the number of vowels and consonants.",
+    "code": "```php\n<?php\n\nfunction countVowelsAndConsonants($text) {\n    $vowels = 0;\n    $consonants = 0;\n    \n    $text = strtolower($text);\n    \n    for ($i = 0; $i < strlen($text); $i++) {\n        $char = $text[$i];\n        if (ctype_alpha($char)) {\n            if (in_array($char, ['a', 'e', 'i', 'o', 'u'])) {\n                $vowels++;\n            } else {\n                $consonants++;\n            }\n        }\n    }\n    \n    return [$vowels, $consonants];\n}\n\necho \"Enter text: \";\n$input = trim(fgets(STDIN));\nlist($vowels, $consonants) = countVowelsAndConsonants($input);\n\necho \"Number of vowels: $vowels\\n\";\necho \"Number of consonants: $consonants\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Implement a tool that reads a JSON object from input and prints its keys.",
+    "code": "```php\n<?php\n$input = file_get_contents('php://stdin');\n$json = json_decode($input, true);\nif (is_array($json)) {\n    foreach ($json as $key => $value) {\n        echo $key . PHP_EOL;\n    }\n}\n?>\n```"
+  },
+  {
+    "task": "Write a program that reads a CSV file from input and prints each row as a dictionary.",
+    "code": "```php\n<?php\n\n$handle = fopen('php://stdin', 'r');\n$headers = fgetcsv($handle);\n\nwhile (($data = fgetcsv($handle)) !== false) {\n    $row = array_combine($headers, $data);\n    print_r($row);\n}\n\nfclose($handle);\n\n?>\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with the words in reverse order.",
+    "code": "```php\n<?php\n\n$handle = fopen(\"php://stdin\", \"r\");\n$sentence = fgets($handle);\nfclose($handle);\n\n$words = explode(' ', trim($sentence));\n$reversedWords = array_reverse($words);\necho implode(' ', $reversedWords) . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Develop a tool that reads a list of numbers and prints their median.",
+    "code": "```php\n<?php\n\nfunction calculateMedian($numbers) {\n    sort($numbers);\n    $count = count($numbers);\n    $middle = floor($count / 2);\n\n    if ($count % 2) {\n        return $numbers[$middle];\n    } else {\n        return ($numbers[$middle - 1] + $numbers[$middle]) / 2;\n    }\n}\n\necho \"Enter numbers separated by spaces: \";\n$input = trim(fgets(STDIN));\n$numbers = array_map('floatval', explode(' ', $input));\n\n$median = calculateMedian($numbers);\necho \"The median is: \" . $median . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a sequence of characters and prints the first non-repeated character.",
+    "code": "```php\n<?php\n\n$handle = fopen(\"php://stdin\", \"r\");\n$input = trim(fgets($handle));\nfclose($handle);\n\n$charCount = [];\n$inputLength = strlen($input);\n\nfor ($i = 0; $i < $inputLength; $i++) {\n    $char = $input[$i];\n    if (isset($charCount[$char])) {\n        $charCount[$char]++;\n    } else {\n        $charCount[$char] = 1;\n    }\n}\n\nfor ($i = 0; $i < $inputLength; $i++) {\n    if ($charCount[$input[$i]] == 1) {\n        echo $input[$i];\n        break;\n    }\n}\n\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a list of tuples and prints them sorted by the second element.",
+    "code": "```php\n<?php\n\n$input = fopen(\"php://stdin\", \"r\");\n$output = fopen(\"php://stdout\", \"w\");\n\n$tuples = [];\nwhile ($line = fgets($input)) {\n    $line = trim($line);\n    if ($line !== '') {\n        $tuples[] = explode(',', $line);\n    }\n}\n\nusort($tuples, function($a, $b) {\n    return $a[1] <=> $b[1];\n});\n\nforeach ($tuples as $tuple) {\n    fwrite($output, implode(',', $tuple) . \"\\n\");\n}\n\nfclose($input);\nfclose($output);\n?>\n```"
+  },
+  {
+    "task": "Create a program that reads a list of cities and prints them grouped by their starting letter.",
+    "code": "```php\n<?php\n\nfunction groupCitiesByStartingLetter($cities) {\n    $groupedCities = [];\n    foreach ($cities as $city) {\n        $firstLetter = strtoupper($city[0]);\n        if (!isset($groupedCities[$firstLetter])) {\n            $groupedCities[$firstLetter] = [];\n        }\n        $groupedCities[$firstLetter][] = $city;\n    }\n    return $groupedCities;\n}\n\nfunction getInputCities() {\n    $cities = [];\n    echo \"Enter city names (type 'exit' to finish):\\n\";\n    while (true) {\n        $city = trim(fgets(STDIN));\n        if (strtolower($city) === 'exit') {\n            break;\n        }\n        if (!empty($city)) {\n            $cities[] = $city;\n        }\n    }\n    return $cities;\n}\n\nfunction printGroupedCities($groupedCities) {\n    foreach ($groupedCities as $letter => $cities) {\n        echo \"Cities starting with '$letter':\\n\";\n        foreach ($cities as $city) {\n            echo \" - $city\\n\";\n        }\n    }\n}\n\n$cities = getInputCities();\n$groupedCities = groupCitiesByStartingLetter($cities);\nprintGroupedCities($groupedCities);\n\n?>\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the longest word.",
+    "code": "```php\n<?php\n\nfunction getLongestWord($text) {\n    $words = explode(' ', $text);\n    $longestWord = '';\n\n    foreach ($words as $word) {\n        if (strlen($word) > strlen($longestWord)) {\n            $longestWord = $word;\n        }\n    }\n\n    return $longestWord;\n}\n\necho \"Enter text: \";\n$handle = fopen(\"php://stdin\", \"r\");\n$text = trim(fgets($handle));\nfclose($handle);\n\n$longestWord = getLongestWord($text);\necho \"Longest word: $longestWord\\n\";\n?>\n```"
+  },
+  {
+    "task": "Implement a program that reads a string and prints the number of unique characters.",
+    "code": "```php\n<?php\n$input = trim(fgets(STDIN));\n$uniqueChars = count(array_unique(str_split($input)));\necho $uniqueChars;\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads two strings and prints the longest common substring.",
+    "code": "```php\n<?php\n\nfunction longestCommonSubstring($str1, $str2) {\n    $maxLength = 0;\n    $end = 0;\n    $len1 = strlen($str1);\n    $len2 = strlen($str2);\n    $dp = array_fill(0, $len1 + 1, array_fill(0, $len2 + 1, 0));\n\n    for ($i = 1; $i <= $len1; $i++) {\n        for ($j = 1; $j <= $len2; $j++) {\n            if ($str1[$i - 1] == $str2[$j - 1]) {\n                $dp[$i][$j] = $dp[$i - 1][$j - 1] + 1;\n                if ($dp[$i][$j] > $maxLength) {\n                    $maxLength = $dp[$i][$j];\n                    $end = $i;\n                }\n            } else {\n                $dp[$i][$j] = 0;\n            }\n        }\n    }\n\n    return substr($str1, $end - $maxLength, $maxLength);\n}\n\n$handle = fopen(\"php://stdin\", \"r\");\n$str1 = trim(fgets($handle));\n$str2 = trim(fgets($handle));\nfclose($handle);\n\necho longestCommonSubstring($str1, $str2) . \"\\n\";\n?>\n```"
+  },
+  {
+    "task": "Develop a program that reads a chessboard position and prints all possible moves for a knight.",
+    "code": "```php\n<?php\n\nfunction isValidPosition($x, $y) {\n    return $x >= 0 && $x < 8 && $y >= 0 && $y < 8;\n}\n\nfunction getKnightMoves($pos) {\n    $offsets = [\n        [2, 1], [1, 2], [-1, 2], [-2, 1],\n        [-2, -1], [-1, -2], [1, -2], [2, -1]\n    ];\n    \n    $x = ord($pos[0]) - ord('a');\n    $y = intval($pos[1]) - 1;\n    $moves = [];\n\n    foreach ($offsets as $offset) {\n        $newX = $x + $offset[0];\n        $newY = $y + $offset[1];\n        if (isValidPosition($newX, $newY)) {\n            $moves[] = chr($newX + ord('a')) . ($newY + 1);\n        }\n    }\n    return $moves;\n}\n\necho \"Enter the knight's position (e.g., e4): \";\n$handle = fopen(\"php://stdin\", \"r\");\n$position = trim(fgets($handle));\n\nif (preg_match('/^[a-h][1-8]$/', $position)) {\n    $moves = getKnightMoves($position);\n    echo \"Possible moves for knight at $position:\\n\";\n    echo implode(' ', $moves) . \"\\n\";\n} else {\n    echo \"Invalid position\\n\";\n}\nfclose($handle);\n\n?>\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of numbers and prints the mode.",
+    "code": "```php\n<?php\n\n// Read numbers from the standard input\n$input = trim(fgets(STDIN));\n$numbers = explode(' ', $input);\n\n// Calculate the frequency of each number\n$frequency = array_count_values($numbers);\n\n// Find the mode(s)\n$maxCount = max($frequency);\n$modes = array_keys($frequency, $maxCount);\n\n// Print the mode(s)\nforeach ($modes as $mode) {\n    echo $mode . \"\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a list of file paths and prints the largest file.",
+    "code": "```php\n<?php\n\nfunction getLargestFile($filePaths) {\n    $largestFile = '';\n    $largestSize = 0;\n\n    foreach ($filePaths as $filePath) {\n        if (file_exists($filePath)) {\n            $fileSize = filesize($filePath);\n            if ($fileSize > $largestSize) {\n                $largestSize = $fileSize;\n                $largestFile = $filePath;\n            }\n        }\n    }\n\n    return $largestFile;\n}\n\n$filePaths = [];\nwhile ($line = fgets(STDIN)) {\n    $filePaths[] = trim($line);\n}\n\n$largestFile = getLargestFile($filePaths);\n\necho $largestFile . PHP_EOL;\n```"
+  },
+  {
+    "task": "Write a script that reads a list of prices and prints the total cost with tax.",
+    "code": "```php\n<?php\n\n$prices = [];\nwhile (($line = fgets(STDIN)) !== false) {\n    $prices[] = floatval(trim($line));\n}\n\n$totalCost = array_sum($prices);\n$taxRate = 0.15; // Example tax rate\n$totalWithTax = $totalCost * (1 + $taxRate);\n\necho \"Total cost with tax: \" . number_format($totalWithTax, 2) . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Build a program that reads a list of temperatures and prints them in Fahrenheit.",
+    "code": "```php\n<?php\n\nfunction celsiusToFahrenheit($celsius) {\n    return $celsius * 9/5 + 32;\n}\n\n$temperatures = explode(' ', trim(fgets(STDIN)));\n\nforeach ($temperatures as $celsius) {\n    $fahrenheit = celsiusToFahrenheit((float)$celsius);\n    echo $fahrenheit . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of book titles and prints them sorted by length.",
+    "code": "```php\n<?php\n\nfunction readBookTitles() {\n    $titles = [];\n    while (($title = fgets(STDIN)) !== false) {\n        $titles[] = trim($title);\n    }\n    return $titles;\n}\n\nfunction printSortedTitlesByLength($titles) {\n    usort($titles, function($a, $b) {\n        return strlen($a) - strlen($b);\n    });\n    foreach ($titles as $title) {\n        echo $title . PHP_EOL;\n    }\n}\n\n$titles = readBookTitles();\nprintSortedTitlesByLength($titles);\n\n?>\n```"
+  },
+  {
+    "task": "Write a program that reads a directory path and prints all file names.",
+    "code": "```php\n<?php\n\n$handle = fopen('php://stdin', 'r');\necho \"Enter directory path: \";\n$directory = trim(fgets($handle));\n\nif (is_dir($directory)) {\n    if ($dh = opendir($directory)) {\n        while (($file = readdir($dh)) !== false) {\n            if ($file != \".\" && $file != \"..\") {\n                echo $file . PHP_EOL;\n            }\n        }\n        closedir($dh);\n    }\n} else {\n    echo \"Invalid directory path.\" . PHP_EOL;\n}\n\nfclose($handle);\n?>\n```"
+  },
+  {
+    "task": "Create a script that reads a list of URLs and prints those with a secure connection.",
+    "code": "```php\n<?php\n\n$urls = file('php://stdin', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);\n\nforeach ($urls as $url) {\n    if (parse_url($url, PHP_URL_SCHEME) === 'https') {\n        echo $url . PHP_EOL;\n    }\n}\n?>\n```"
+  },
+  {
+    "task": "Develop a tool that reads a sequence of numbers and prints if it is strictly increasing.",
+    "code": "```php\n<?php\n\nfunction isStrictlyIncreasing($numbers) {\n    for ($i = 1; $i < count($numbers); $i++) {\n        if ($numbers[$i] <= $numbers[$i - 1]) {\n            return false;\n        }\n    }\n    return true;\n}\n\n$handle = fopen(\"php://stdin\", \"r\");\n$line = fgets($handle);\n$numbers = array_map('intval', explode(' ', trim($line)));\n\nif (isStrictlyIncreasing($numbers)) {\n    echo \"Yes\\n\";\n} else {\n    echo \"No\\n\";\n}\n\nfclose($handle);\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a list of products and prints them grouped by category.",
+    "code": "```php\n<?php\n\n$products = [\n    ['name' => 'Apple', 'category' => 'Fruit'],\n    ['name' => 'Carrot', 'category' => 'Vegetable'],\n    ['name' => 'Banana', 'category' => 'Fruit'],\n    ['name' => 'Lettuce', 'category' => 'Vegetable']\n];\n\n$groupedProducts = [];\n\nforeach ($products as $product) {\n    $category = $product['category'];\n    $name = $product['name'];\n    if (!isset($groupedProducts[$category])) {\n        $groupedProducts[$category] = [];\n    }\n    $groupedProducts[$category][] = $name;\n}\n\nforeach ($groupedProducts as $category => $names) {\n    echo \"Category: $category\\n\";\n    foreach ($names as $name) {\n        echo \" - $name\\n\";\n    }\n}\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a sentence and prints it with alternating word capitalization.",
+    "code": "```php\n<?php\n$handle = fopen(\"php://stdin\", \"r\");\n$sentence = trim(fgets($handle));\nfclose($handle);\n\n$words = explode(' ', $sentence);\nforeach ($words as $index => $word) {\n    $words[$index] = $index % 2 === 0 ? strtoupper($word) : strtolower($word);\n}\n\necho implode(' ', $words) . PHP_EOL;\n?>\n```"
+  },
+  {
+    "task": "Create a program that reads a list of grades and prints the highest and lowest grade.",
+    "code": "```php\n<?php\n\n// Read input from standard input\n$input = trim(fgets(STDIN));\n\n// Convert the input string into an array of grades\n$grades = array_map('intval', explode(' ', $input));\n\n// Find the highest and lowest grade\n$highest = max($grades);\n$lowest = min($grades);\n\n// Print the highest and lowest grade\necho \"Highest grade: \" . $highest . PHP_EOL;\necho \"Lowest grade: \" . $lowest . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the number of sentences.",
+    "code": "```php\n<?php\n\nfunction countSentences($text) {\n    $sentenceEndings = ['.', '!', '?'];\n    $count = 0;\n    for ($i = 0; $i < strlen($text); $i++) {\n        if (in_array($text[$i], $sentenceEndings)) {\n            $count++;\n        }\n    }\n    return $count;\n}\n\n$handle = fopen(\"php://stdin\", \"r\");\n$text = stream_get_contents($handle);\nfclose($handle);\n\n$sentenceCount = countSentences($text);\necho $sentenceCount . \"\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of integers and prints the sum of all odd numbers.",
+    "code": "```php\n$input = trim(fgets(STDIN));\n$numbers = array_map('intval', explode(' ', $input));\n$sum = 0;\nforeach ($numbers as $number) {\n    if ($number % 2 !== 0) {\n        $sum += $number;\n    }\n}\necho $sum;\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the shortest sentence.",
+    "code": "```php\n<?php\n\nfunction getSentences($text) {\n    return preg_split('/(?<=[.!?])\\s+/', $text, -1, PREG_SPLIT_NO_EMPTY);\n}\n\nfunction getShortestSentence($sentences) {\n    $shortest = $sentences[0];\n    foreach ($sentences as $sentence) {\n        if (strlen($sentence) < strlen($shortest)) {\n            $shortest = $sentence;\n        }\n    }\n    return $shortest;\n}\n\n$inputText = trim(file_get_contents(\"php://stdin\"));\n$sentences = getSentences($inputText);\necho getShortestSentence($sentences);\n\n?>\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dictionaries and prints them sorted by a specific key.",
+    "code": "```php\n<?php\n\nfunction readDictionariesFromInput() {\n    $input = file_get_contents(\"php://stdin\");\n    return json_decode($input, true);\n}\n\nfunction sortDictionariesByKey($dictionaries, $key) {\n    usort($dictionaries, function($a, $b) use ($key) {\n        return $a[$key] <=> $b[$key];\n    });\n    return $dictionaries;\n}\n\nfunction main() {\n    $dictionaries = readDictionariesFromInput();\n    $key = 'your_specific_key'; // Change this to the key you want to sort by\n    $sortedDictionaries = sortDictionariesByKey($dictionaries, $key);\n    foreach ($sortedDictionaries as $dictionary) {\n        echo json_encode($dictionary) . PHP_EOL;\n    }\n}\n\nmain();\n?>\n```"
+  },
+  {
+    "task": "Create a tool that reads a sequence of strings and prints the common prefix.",
+    "code": "```php\n<?php\n\nfunction findCommonPrefix($strings) {\n    if (empty($strings)) {\n        return \"\";\n    }\n\n    $prefix = $strings[0];\n    foreach ($strings as $string) {\n        while (strpos($string, $prefix) !== 0) {\n            $prefix = substr($prefix, 0, -1);\n            if ($prefix === \"\") {\n                return \"\";\n            }\n        }\n    }\n    return $prefix;\n}\n\n$handle = fopen(\"php://stdin\", \"r\");\n$strings = [];\n\necho \"Enter strings (one per line), and type 'END' to finish:\\n\";\nwhile (($line = fgets($handle)) !== false) {\n    $line = trim($line);\n    if ($line === \"END\") {\n        break;\n    }\n    $strings[] = $line;\n}\n\nfclose($handle);\n\n$commonPrefix = findCommonPrefix($strings);\necho \"Common prefix: \" . $commonPrefix . \"\\n\";\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a number and prints all of its divisors.",
+    "code": "```php\n<?php\nfscanf(STDIN, \"%d\", $number);\nfor ($i = 1; $i <= $number; $i++) {\n    if ($number % $i == 0) {\n        echo $i . PHP_EOL;\n    }\n}\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints each word with its length.",
+    "code": "```php\n<?php\n\n// Read input from standard input\n$input = trim(fgets(STDIN));\n\n// Split the input into words\n$words = preg_split('/\\s+/', $input);\n\n// Print each word with its length\nforeach ($words as $word) {\n    echo $word . ' ' . strlen($word) . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Build a program that reads a list of colors and prints them in a rainbow order.",
+    "code": "```php\n<?php\n\nfunction sortColorsInRainbowOrder($colors) {\n    $rainbowOrder = [\n        'red',\n        'orange',\n        'yellow',\n        'green',\n        'blue',\n        'indigo',\n        'violet'\n    ];\n\n    usort($colors, function($a, $b) use ($rainbowOrder) {\n        $indexA = array_search(strtolower($a), $rainbowOrder);\n        $indexB = array_search(strtolower($b), $rainbowOrder);\n        return $indexA - $indexB;\n    });\n\n    return $colors;\n}\n\necho \"Enter a list of colors separated by commas:\\n\";\n$input = trim(fgets(STDIN));\n$colors = explode(',', $input);\n$sortedColors = sortColorsInRainbowOrder($colors);\n\necho \"Colors in rainbow order:\\n\";\nforeach ($sortedColors as $color) {\n    echo trim($color) . \"\\n\";\n}\n?>\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of names and prints them with their initials.",
+    "code": "```php\n<?php\n\nfunction getInitials($name) {\n    $parts = explode(' ', $name);\n    $initials = '';\n    foreach ($parts as $part) {\n        $initials .= strtoupper($part[0]);\n    }\n    return $initials;\n}\n\n$handle = fopen(\"php://stdin\", \"r\");\nif ($handle) {\n    while (($line = fgets($handle)) !== false) {\n        $name = trim($line);\n        if (!empty($name)) {\n            echo $name . ' - ' . getInitials($name) . PHP_EOL;\n        }\n    }\n    fclose($handle);\n}\n?>\n```"
+  },
+  {
+    "task": "Write a program that reads a series of coordinates and prints the center point.",
+    "code": "```php\n<?php\n\nfunction calculateCenterPoint($coordinates) {\n    $xSum = 0;\n    $ySum = 0;\n    $count = count($coordinates);\n\n    foreach ($coordinates as $coordinate) {\n        $xSum += $coordinate[0];\n        $ySum += $coordinate[1];\n    }\n\n    $centerX = $xSum / $count;\n    $centerY = $ySum / $count;\n\n    return [$centerX, $centerY];\n}\n\n$coordinates = [];\nwhile ($line = trim(fgets(STDIN))) {\n    $parts = explode(',', $line);\n    $coordinates[] = [(float)$parts[0], (float)$parts[1]];\n}\n\n$center = calculateCenterPoint($coordinates);\necho \"Center Point: (\" . $center[0] . \", \" . $center[1] . \")\\n\";\n?>\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each vowel replaced by its uppercase form.",
+    "code": "```php\n<?php\n\n// Read a sentence from standard input\n$sentence = trim(fgets(STDIN));\n\n// Replace each vowel with its uppercase form\n$sentenceWithUppercaseVowels = preg_replace_callback(\n    '/[aeiou]/i',\n    function ($matches) {\n        return strtoupper($matches[0]);\n    },\n    $sentence\n);\n\n// Output the modified sentence\necho $sentenceWithUppercaseVowels . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Develop a tool that reads a mathematical expression and evaluates its result.",
+    "code": "```php\n<?php\n\nfunction evaluateExpression($expression) {\n    // Evaluate the expression safely\n    $result = eval('return ' . $expression . ';');\n    return $result;\n}\n\n// Read input from the user\necho \"Enter a mathematical expression: \";\n$handle = fopen(\"php://stdin\", \"r\");\n$expression = trim(fgets($handle));\n\n// Evaluate and output the result\n$result = evaluateExpression($expression);\necho \"The result is: \" . $result . \"\\n\";\n\nfclose($handle);\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a text and prints the first three words.",
+    "code": "```php\n<?php\n$input = trim(fgets(STDIN));\n$words = explode(' ', $input);\nfor ($i = 0; $i < min(3, count($words)); $i++) {\n    echo $words[$i] . ($i < 2 ? ' ' : '');\n}\necho PHP_EOL;\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a list of numbers and prints them without duplicates.",
+    "code": "```php\n<?php\n$input = trim(fgets(STDIN));\n$numbers = explode(' ', $input);\n$uniqueNumbers = array_unique($numbers);\nforeach ($uniqueNumbers as $number) {\n    echo $number . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Create a program that reads a string and prints it with spaces between each character.",
+    "code": "```php\n<?php\n\n$input = trim(fgets(STDIN));\n$output = implode(' ', str_split($input));\necho $output;\n\n?>\n```"
+  },
+  {
+    "task": "Build a tool that reads a list of events with dates and prints them by chronological order.",
+    "code": "```php\n<?php\n\n$events = [];\n$handle = fopen(\"php://stdin\", \"r\");\n\necho \"Enter events with dates (format: 'Event YYYY-MM-DD'), one per line. End input with an empty line:\\n\";\n\nwhile (($line = fgets($handle)) !== false) {\n    $line = trim($line);\n    if (empty($line)) {\n        break;\n    }\n    list($event, $date) = explode(' ', $line, 2);\n    $events[] = ['event' => $event, 'date' => $date];\n}\n\nfclose($handle);\n\nusort($events, function ($a, $b) {\n    return strtotime($a['date']) - strtotime($b['date']);\n});\n\necho \"\\nEvents in chronological order:\\n\";\nforeach ($events as $event) {\n    echo $event['event'] . ' ' . $event['date'] . \"\\n\";\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of fractions and prints their sum as a reduced fraction.",
+    "code": "```php\n<?php\n\nfunction gcd($a, $b) {\n    while ($b != 0) {\n        $t = $b;\n        $b = $a % $b;\n        $a = $t;\n    }\n    return $a;\n}\n\nfunction reduceFraction($numerator, $denominator) {\n    $g = gcd($numerator, $denominator);\n    return [$numerator / $g, $denominator / $g];\n}\n\n$input = trim(fgets(STDIN));\n$fractionList = explode(' ', $input);\n\n$numeratorSum = 0;\n$commonDenominator = 1;\n\nforeach ($fractionList as $fraction) {\n    list($numerator, $denominator) = explode('/', $fraction);\n    $commonDenominator *= $denominator;\n}\n\nforeach ($fractionList as $fraction) {\n    list($numerator, $denominator) = explode('/', $fraction);\n    $numeratorSum += $numerator * ($commonDenominator / $denominator);\n}\n\nlist($reducedNumerator, $reducedDenominator) = reduceFraction($numeratorSum, $commonDenominator);\necho $reducedNumerator . '/' . $reducedDenominator . PHP_EOL;\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints it with each consonant doubled.",
+    "code": "```php\n<?php\n$input = trim(fgets(STDIN));\n$output = '';\n\nforeach (str_split($input) as $char) {\n    if (ctype_alpha($char) && !in_array(strtolower($char), ['a', 'e', 'i', 'o', 'u'])) {\n        $output .= $char . $char;\n    } else {\n        $output .= $char;\n    }\n}\n\necho $output;\n?>\n```"
+  },
+  {
+    "task": "Develop a program that reads a number and prints its representation in Roman numerals.",
+    "code": "```php\n<?php\n\nfunction numberToRoman($num) {\n    $n = intval($num);\n    $result = '';\n    \n    $romanNumerals = [\n        'M' => 1000,\n        'CM' => 900,\n        'D' => 500,\n        'CD' => 400,\n        'C' => 100,\n        'XC' => 90,\n        'L' => 50,\n        'XL' => 40,\n        'X' => 10,\n        'IX' => 9,\n        'V' => 5,\n        'IV' => 4,\n        'I' => 1\n    ];\n    \n    foreach ($romanNumerals as $roman => $value) {\n        $matches = intval($n / $value);\n        $result .= str_repeat($roman, $matches);\n        $n = $n % $value;\n    }\n    \n    return $result;\n}\n\necho \"Enter a number: \";\n$number = trim(fgets(STDIN));\necho \"Roman numeral: \" . numberToRoman($number) . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of words and prints them with each letter in reverse order.",
+    "code": "```php\n<?php\n\nfunction reverseLettersInWords($input) {\n    $words = explode(\"\\n\", trim($input));\n    foreach ($words as $word) {\n        echo strrev($word) . \"\\n\";\n    }\n}\n\n$input = file_get_contents('php://stdin');\nreverseLettersInWords($input);\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a set of points and prints the one closest to the origin.",
+    "code": "```php\n<?php\n\nfunction readPoints() {\n    $points = [];\n    while ($line = trim(fgets(STDIN))) {\n        $parts = explode(' ', $line);\n        if (count($parts) == 2) {\n            $points[] = [(float)$parts[0], (float)$parts[1]];\n        }\n    }\n    return $points;\n}\n\nfunction distanceFromOrigin($point) {\n    return sqrt($point[0] ** 2 + $point[1] ** 2);\n}\n\nfunction findClosestPoint($points) {\n    if (empty($points)) {\n        return null;\n    }\n\n    $closestPoint = $points[0];\n    $minDistance = distanceFromOrigin($closestPoint);\n\n    foreach ($points as $point) {\n        $distance = distanceFromOrigin($point);\n        if ($distance < $minDistance) {\n            $closestPoint = $point;\n            $minDistance = $distance;\n        }\n    }\n    return $closestPoint;\n}\n\n$points = readPoints();\n$closestPoint = findClosestPoint($points);\n\nif ($closestPoint !== null) {\n    printf(\"Closest point: (%f, %f)\\n\", $closestPoint[0], $closestPoint[1]);\n}\n\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the frequency of each word.",
+    "code": "```php\n<?php\n\n// Read text from standard input\n$input = file_get_contents('php://stdin');\n\n// Split the text into words\n$words = preg_split('/\\s+/', strtolower(trim($input)));\n\n// Calculate the frequency of each word\n$frequencies = array_count_values($words);\n\n// Print the frequency of each word\nforeach ($frequencies as $word => $count) {\n    echo $word . \": \" . $count . PHP_EOL;\n}\n\n?>\n```"
+  },
+  {
+    "task": "Build a program that reads a list of integers and prints the second smallest.",
+    "code": "```php\n<?php\n\nfunction findSecondSmallest($numbers) {\n    if (count($numbers) < 2) {\n        return null;\n    }\n    $uniqueNumbers = array_unique($numbers);\n    sort($uniqueNumbers);\n    return $uniqueNumbers[1];\n}\n\n$input = trim(fgets(STDIN));\n$numbers = array_map('intval', explode(' ', $input));\n$result = findSecondSmallest($numbers);\n\nif ($result !== null) {\n    echo $result . PHP_EOL;\n} else {\n    echo \"Not enough unique numbers\" . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Implement a tool that reads a string and prints all its substrings.",
+    "code": "```php\n<?php\n\nfunction printSubstrings($input) {\n    $length = strlen($input);\n    for ($i = 0; $i < $length; $i++) {\n        for ($j = 1; $i + $j <= $length; $j++) {\n            echo substr($input, $i, $j) . PHP_EOL;\n        }\n    }\n}\n\n$input = trim(fgets(STDIN));\nprintSubstrings($input);\n?>\n```"
+  },
+  {
+    "task": "Write a program that reads a number and generates a random number up to that number.",
+    "code": "```php\n<?php\n$handle = fopen(\"php://stdin\", \"r\");\necho \"Enter a number: \";\n$input = fgets($handle);\n$maxNumber = (int)trim($input);\n$randomNumber = rand(0, $maxNumber);\necho \"Random number: \" . $randomNumber . \"\\n\";\nfclose($handle);\n?>\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each word reversed.",
+    "code": "```php\n<?php\n\n$line = readline(\"Enter a sentence: \");\n$reversedWords = array_map(fn($word) => strrev($word), explode(\" \", $line));\necho implode(\" \", $reversedWords) . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Develop a tool that reads a text and prints it with each sentence on a new line.",
+    "code": "```php\n<?php\n\nfunction printSentencesOnNewLines($text) {\n    $sentences = preg_split('/(?<=[.?!])\\s+/', $text, -1, PREG_SPLIT_NO_EMPTY);\n    foreach ($sentences as $sentence) {\n        echo $sentence . PHP_EOL;\n    }\n}\n\n$inputText = trim(fgets(STDIN));\nprintSentencesOnNewLines($inputText);\n\n?>\n```"
+  },
+  {
+    "task": "Design a program that reads a list of numbers and prints the product of all negative numbers.",
+    "code": "```php\n<?php\n\n$input = trim(fgets(STDIN));\n$numbers = explode(' ', $input);\n$product = 1;\n$hasNegative = false;\n\nforeach ($numbers as $number) {\n    $number = (int)$number;\n    if ($number < 0) {\n        $product *= $number;\n        $hasNegative = true;\n    }\n}\n\nif ($hasNegative) {\n    echo $product . PHP_EOL;\n} else {\n    echo \"No negative numbers\" . PHP_EOL;\n}\n\n?>\n```"
+  },
+  {
+    "task": "Write a script that reads a dictionary and prints the keys and values in sorted order.",
+    "code": "```php\n<?php\n\n$dictionary = [\n    \"banana\" => 2,\n    \"apple\" => 5,\n    \"orange\" => 3,\n    \"grape\" => 8\n];\n\nksort($dictionary);\n\nforeach ($dictionary as $key => $value) {\n    echo $key . \": \" . $value . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Create a program that reads a text and prints the number of unique words.",
+    "code": "```php\n<?php\n$input = trim(fgets(STDIN));\n$words = preg_split('/\\s+/', strtolower($input));\n$uniqueWords = array_unique($words);\necho count($uniqueWords) . PHP_EOL;\n?>\n```"
+  }
+]

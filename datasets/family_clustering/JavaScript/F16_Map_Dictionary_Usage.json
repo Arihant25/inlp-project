@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```javascript\nconst studentGrades = new Map([\n    ['Alice', 85],\n    ['Bob', 92],\n    ['Charlie', 78],\n    ['David', 90],\n    ['Eve', 88]\n]);\n\nlet total = 0;\nfor (let grade of studentGrades.values()) {\n    total += grade;\n}\n\nconst average = total / studentGrades.size;\nconsole.log('Average Grade:', average);\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```javascript\nfunction calculateTotalCost(products) {\n    let totalCost = 0;\n    for (let price of Object.values(products)) {\n        totalCost += price;\n    }\n    return totalCost;\n}\n\n// Example usage:\nconst products = {\n    \"apple\": 1.2,\n    \"banana\": 0.8,\n    \"orange\": 1.5\n};\n\nconsole.log(calculateTotalCost(products)); // Output: 3.5\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```javascript\nfunction countWordFrequency(text) {\n    const wordCounts = {};\n    const words = text.split(/\\s+/);\n    \n    for (const word of words) {\n        const wordLower = word.toLowerCase();\n        wordCounts[wordLower] = (wordCounts[wordLower] || 0) + 1;\n    }\n    \n    return wordCounts;\n}\n\nconst text = \"This is a sample text with sample words and some sample text\";\nconst frequency = countWordFrequency(text);\nconsole.log(frequency);\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```javascript\nfunction getEmployeeWithMostHours(employeeHours) {\n    let maxHours = -1;\n    let employeeId = null;\n    \n    for (const [id, hours] of Object.entries(employeeHours)) {\n        if (hours > maxHours) {\n            maxHours = hours;\n            employeeId = id;\n        }\n    }\n    \n    return employeeId;\n}\n\n// Example usage:\n// const employees = { '101': 40, '102': 50, '103': 45 };\n// console.log(getEmployeeWithMostHours(employees)); // Outputs: '102'\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```javascript\nclass AccountSecurity {\n    constructor() {\n        this.userAttempts = new Map();\n        this.LOCK_THRESHOLD = 3;\n    }\n\n    recordLoginAttempt(username, success) {\n        const currentTime = Date.now();\n        if (!this.userAttempts.has(username)) {\n            this.userAttempts.set(username, []);\n        }\n\n        const attempts = this.userAttempts.get(username);\n\n        if (success) {\n            // Reset attempts on successful login\n            this.userAttempts.set(username, []);\n            return 'Login successful';\n        } else {\n            attempts.push(currentTime);\n            if (attempts.length >= this.LOCK_THRESHOLD) {\n                return 'Account locked due to too many failed attempts';\n            }\n            return 'Login failed';\n        }\n    }\n\n    isAccountLocked(username) {\n        if (!this.userAttempts.has(username)) {\n            return false;\n        }\n        const attempts = this.userAttempts.get(username);\n        return attempts.length >= this.LOCK_THRESHOLD;\n    }\n}\n\n// Example usage\nconst securitySystem = new AccountSecurity();\nconsole.log(securitySystem.recordLoginAttempt('user1', false)); // Login failed\nconsole.log(securitySystem.recordLoginAttempt('user1', false)); // Login failed\nconsole.log(securitySystem.recordLoginAttempt('user1', false)); // Account locked\nconsole.log(securitySystem.isAccountLocked('user1')); // true\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```javascript\nclass PhoneBook {\n    constructor() {\n        this.contacts = new Map();\n    }\n\n    addContact(name, phoneNumber) {\n        this.contacts.set(name, phoneNumber);\n    }\n\n    removeContact(name) {\n        this.contacts.delete(name);\n    }\n\n    lookUpContact(name) {\n        return this.contacts.get(name) || 'Contact not found';\n    }\n}\n\n// Example usage:\nconst phoneBook = new PhoneBook();\nphoneBook.addContact('Alice', '123-456-7890');\nphoneBook.addContact('Bob', '987-654-3210');\n\nconsole.log(phoneBook.lookUpContact('Alice')); // Output: 123-456-7890\nphoneBook.removeContact('Alice');\nconsole.log(phoneBook.lookUpContact('Alice')); // Output: Contact not found\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```javascript\nconst cityPopulations = new Map([\n    ['New York', 8419000],\n    ['Los Angeles', 3980400],\n    ['Chicago', 2716000],\n    ['Houston', 2328000],\n    ['Phoenix', 1690000]\n]);\n\nlet mostPopulatedCity = '';\nlet maxPopulation = 0;\n\ncityPopulations.forEach((population, city) => {\n    if (population > maxPopulation) {\n        maxPopulation = population;\n        mostPopulatedCity = city;\n    }\n});\n\nconsole.log(`The city with the highest population is ${mostPopulatedCity} with a population of ${maxPopulation}.`);\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```javascript\nconst dictionary = {\n    \"hello\": \"hola\",\n    \"world\": \"mundo\",\n    \"good\": \"bueno\",\n    \"morning\": \"ma\u00f1ana\"\n};\n\nfunction translateSentence(sentence, dictionary) {\n    const words = sentence.split(' ');\n    const translatedWords = words.map(word => dictionary[word.toLowerCase()] || word);\n    return translatedWords.join(' ');\n}\n\nconst sentence = \"Hello world good morning\";\nconst translatedSentence = translateSentence(sentence, dictionary);\nconsole.log(translatedSentence);\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```javascript\nconst books = {\n    \"To Kill a Mockingbird\": \"Harper Lee\",\n    \"1984\": \"George Orwell\",\n    \"The Great Gatsby\": \"F. Scott Fitzgerald\",\n    \"The Catcher in the Rye\": \"J.D. Salinger\",\n    \"Moby Dick\": \"Herman Melville\"\n};\n\nfunction findBooksByAuthor(author) {\n    const result = [];\n    for (const [title, bookAuthor] of Object.entries(books)) {\n        if (bookAuthor === author) {\n            result.push(title);\n        }\n    }\n    return result;\n}\n\n// Example usage:\nconst booksByOrwell = findBooksByAuthor(\"George Orwell\");\nconsole.log(booksByOrwell);\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```javascript\nconst productStock = new Map();\n\nproductStock.set('product1', 100);\nproductStock.set('product2', 50);\nproductStock.set('product3', 200);\n\nfunction updateStockAfterSale(productId, quantitySold) {\n    if (productStock.has(productId)) {\n        let currentStock = productStock.get(productId);\n        productStock.set(productId, currentStock - quantitySold);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```javascript\nconst countryCodes = {\n    'US': 'United States',\n    'CA': 'Canada',\n    'MX': 'Mexico',\n    'FR': 'France',\n    'DE': 'Germany'\n};\n\nfunction getCountryName(code) {\n    return countryCodes[code] || 'Unknown country code';\n}\n\nconst codeToLookup = 'US';\nconsole.log(getCountryName(codeToLookup));\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```javascript\nconst studentDirectory = new Map();\n\n// Example data\nstudentDirectory.set(101, 'Alice');\nstudentDirectory.set(102, 'Bob');\nstudentDirectory.set(103, 'Charlie');\n\nfunction getStudentNameById(id) {\n    return studentDirectory.get(id) || 'Student not found';\n}\n\n// Example usage\nconsole.log(getStudentNameById(102)); // Output: Bob\nconsole.log(getStudentNameById(104)); // Output: Student not found\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```javascript\nclass ConfigSettings {\n    constructor() {\n        this.settings = new Map();\n    }\n\n    setSetting(key, value) {\n        this.settings.set(key, value);\n    }\n\n    getSetting(key) {\n        return this.settings.get(key);\n    }\n}\n\n// Example usage:\nconst config = new ConfigSettings();\nconfig.setSetting('theme', 'dark');\nconsole.log(config.getSetting('theme')); // Output: dark\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```javascript\nconst dictionary = new Map();\n\ndictionary.set('apple', 'A fruit that is typically red, green, or yellow.');\ndictionary.set('banana', 'A long curved fruit that grows in clusters.');\ndictionary.set('cherry', 'A small, round stone fruit that is typically bright or dark red.');\ndictionary.set('date', 'A sweet fruit from the date palm, often dried.');\ndictionary.set('avocado', 'A fruit with a rough skin and smooth, creamy flesh.');\n\nfunction displayWordsStartingWith(letter) {\n    letter = letter.toLowerCase();\n    for (let [word, definition] of dictionary) {\n        if (word.startsWith(letter)) {\n            console.log(word, ':', definition);\n        }\n    }\n}\n\n// Example usage:\ndisplayWordsStartingWith('a');\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```javascript\nconst userDatabase = {\n  'user1': 'password123',\n  'user2': 'securePass456',\n  'user3': 'myPassword789'\n};\n\nfunction verifyLogin(username, password) {\n  if (userDatabase[username] === password) {\n    return 'Login successful';\n  } else {\n    return 'Invalid username or password';\n  }\n}\n\n// Example login attempts\nconsole.log(verifyLogin('user1', 'password123')); // Login successful\nconsole.log(verifyLogin('user2', 'wrongPass'));   // Invalid username or password\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```javascript\nconst purchaseCounts = {};\n\nfunction addPurchase(item) {\n  if (purchaseCounts[item]) {\n    purchaseCounts[item]++;\n  } else {\n    purchaseCounts[item] = 1;\n  }\n}\n\nfunction findMostPopularItem() {\n  let mostPopularItem = null;\n  let maxCount = 0;\n\n  for (const item in purchaseCounts) {\n    if (purchaseCounts[item] > maxCount) {\n      maxCount = purchaseCounts[item];\n      mostPopularItem = item;\n    }\n  }\n\n  return mostPopularItem;\n}\n\n// Example usage:\naddPurchase('apple');\naddPurchase('banana');\naddPurchase('apple');\naddPurchase('orange');\naddPurchase('banana');\naddPurchase('banana');\n\nconst mostPopular = findMostPopularItem();\nconsole.log(mostPopular); // Outputs: banana\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```javascript\nconst fileAssociations = {\n    'txt': 'Notepad',\n    'docx': 'Microsoft Word',\n    'xlsx': 'Microsoft Excel',\n    'jpg': 'Image Viewer',\n    'png': 'Image Viewer',\n    'pdf': 'Adobe Acrobat Reader',\n    'html': 'Web Browser',\n    'mp3': 'Music Player',\n    'mp4': 'Video Player'\n};\n\nfunction getApplicationForFile(fileName) {\n    const extension = fileName.split('.').pop();\n    return fileAssociations[extension] || 'Unknown Application';\n}\n\n// Example usage:\nconst fileName = 'document.docx';\nconst application = getApplicationForFile(fileName);\nconsole.log(`Open \"${fileName}\" with ${application}.`);\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```javascript\nconst menu = new Map([\n  ['Burger', 8.99],\n  ['Fries', 3.49],\n  ['Salad', 5.99],\n  ['Soda', 1.99],\n  ['Coffee', 2.49]\n]);\n\nfunction calculateTotalBill(order) {\n  let total = 0;\n  for (const item of order) {\n    if (menu.has(item)) {\n      total += menu.get(item);\n    }\n  }\n  return total;\n}\n\n// Example usage:\nconst customerOrder = ['Burger', 'Fries', 'Soda'];\nconst totalBill = calculateTotalBill(customerOrder);\nconsole.log(`Total Bill: $${totalBill.toFixed(2)}`);\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```javascript\nclass WarehouseInventory {\n    constructor() {\n        this.inventory = new Map();\n    }\n\n    addItem(item, quantity) {\n        if (this.inventory.has(item)) {\n            this.inventory.set(item, this.inventory.get(item) + quantity);\n        } else {\n            this.inventory.set(item, quantity);\n        }\n    }\n\n    removeItem(item, quantity) {\n        if (this.inventory.has(item)) {\n            const currentQuantity = this.inventory.get(item);\n            if (currentQuantity > quantity) {\n                this.inventory.set(item, currentQuantity - quantity);\n            } else {\n                this.inventory.delete(item);\n            }\n        }\n    }\n\n    checkInventory(item) {\n        return this.inventory.get(item) || 0;\n    }\n}\n\n// Usage example:\nconst warehouse = new WarehouseInventory();\nwarehouse.addItem('apples', 50);\nwarehouse.removeItem('apples', 10);\nconsole.log(warehouse.checkInventory('apples')); // Output: 40\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```javascript\nfunction romanToInt(s) {\n    const romanMap = new Map([\n        ['I', 1],\n        ['V', 5],\n        ['X', 10],\n        ['L', 50],\n        ['C', 100],\n        ['D', 500],\n        ['M', 1000]\n    ]);\n\n    let total = 0;\n    for (let i = 0; i < s.length; i++) {\n        const current = romanMap.get(s[i]);\n        const next = romanMap.get(s[i + 1]);\n\n        if (next && current < next) {\n            total -= current;\n        } else {\n            total += current;\n        }\n    }\n    return total;\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```javascript\nfunction countLetterOccurrences(inputString) {\n    const letterCounts = {};\n\n    for (const letter of inputString) {\n        if (letterCounts[letter]) {\n            letterCounts[letter]++;\n        } else {\n            letterCounts[letter] = 1;\n        }\n    }\n\n    return letterCounts;\n}\n\nconst result = countLetterOccurrences(\"example string\");\nconsole.log(result);\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```javascript\nconst teamScores = new Map();\nteamScores.set('Team A', 75);\nteamScores.set('Team B', 85);\nteamScores.set('Team C', 90);\nteamScores.set('Team D', 80);\n\nlet highestScoringTeam = '';\nlet highestScore = -1;\n\nfor (let [team, score] of teamScores) {\n    if (score > highestScore) {\n        highestScore = score;\n        highestScoringTeam = team;\n    }\n}\n\nconsole.log(`The team with the highest score is ${highestScoringTeam} with a score of ${highestScore}.`);\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```javascript\nfunction calculateTotalWeight(itemWeights) {\n    let totalWeight = 0;\n    for (let weight of Object.values(itemWeights)) {\n        totalWeight += weight;\n    }\n    return totalWeight;\n}\n\n// Example usage:\n// const weights = { apple: 1.2, banana: 1.1, orange: 0.8 };\n// console.log(calculateTotalWeight(weights)); // Outputs: 3.1\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```javascript\nconst websiteVisits = new Map();\n\n// Function to record a visit\nfunction recordVisit(url) {\n    if (websiteVisits.has(url)) {\n        websiteVisits.set(url, websiteVisits.get(url) + 1);\n    } else {\n        websiteVisits.set(url, 1);\n    }\n}\n\n// Function to find the most visited website\nfunction getMostVisitedWebsite() {\n    let mostVisited = null;\n    let maxVisits = 0;\n\n    for (const [url, visits] of websiteVisits.entries()) {\n        if (visits > maxVisits) {\n            mostVisited = url;\n            maxVisits = visits;\n        }\n    }\n\n    return mostVisited;\n}\n\n// Example usage\nrecordVisit(\"https://example.com\");\nrecordVisit(\"https://example.com\");\nrecordVisit(\"https://another.com\");\n\nconsole.log(getMostVisitedWebsite()); // Output: \"https://example.com\"\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```javascript\nconst errorMessages = {\n    404: \"Not Found\",\n    500: \"Internal Server Error\",\n    403: \"Forbidden\",\n    401: \"Unauthorized\"\n};\n\nfunction getErrorMessage(code) {\n    return errorMessages[code] || \"Unknown Error\";\n}\n\nconst codeToCheck = 404;\nconsole.log(getErrorMessage(codeToCheck));\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```javascript\nclass ContactBook {\n    constructor() {\n        this.contacts = new Map();\n    }\n\n    addOrUpdateContact(name, phoneNumber) {\n        this.contacts.set(name, phoneNumber);\n    }\n\n    lookupContact(name) {\n        return this.contacts.get(name);\n    }\n}\n\n// Example usage:\nconst myContacts = new ContactBook();\nmyContacts.addOrUpdateContact('Alice', '123-456-7890');\nmyContacts.addOrUpdateContact('Bob', '987-654-3210');\nconsole.log(myContacts.lookupContact('Alice')); // Output: 123-456-7890\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```javascript\nconst employees = {\n    \"Alice\": \"Junior\",\n    \"Bob\": \"Mid\",\n    \"Charlie\": \"Senior\"\n};\n\nconst tasks = {\n    \"Junior\": \"Basic Report\",\n    \"Mid\": \"Data Analysis\",\n    \"Senior\": \"Project Management\"\n};\n\nconst assignTasks = (employees, tasks) => {\n    let assignments = new Map();\n    for (let [employee, skillLevel] of Object.entries(employees)) {\n        if (tasks[skillLevel]) {\n            assignments.set(employee, tasks[skillLevel]);\n        }\n    }\n    return assignments;\n};\n\nconst taskAssignments = assignTasks(employees, tasks);\ntaskAssignments.forEach((task, employee) => {\n    console.log(`${employee}: ${task}`);\n});\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```javascript\nconst airportCodes = {\n    'JFK': 'New York',\n    'LAX': 'Los Angeles',\n    'ORD': 'Chicago',\n    'DFW': 'Dallas/Fort Worth',\n    'DEN': 'Denver'\n};\n\nfunction getCityNameByCode(code) {\n    return airportCodes[code] || 'Unknown airport code';\n}\n\n// Example usage\nconsole.log(getCityNameByCode('JFK')); // Output: New York\nconsole.log(getCityNameByCode('LAX')); // Output: Los Angeles\nconsole.log(getCityNameByCode('XYZ')); // Output: Unknown airport code\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```javascript\nconst movies = new Map();\nmovies.set(\"The Shawshank Redemption\", 1994);\nmovies.set(\"Pulp Fiction\", 1994);\nmovies.set(\"The Godfather\", 1972);\nmovies.set(\"The Dark Knight\", 2008);\nmovies.set(\"Fight Club\", 1999);\n\nfunction getMoviesByDecade(decade) {\n    const startYear = Math.floor(decade / 10) * 10;\n    const endYear = startYear + 9;\n    const result = [];\n\n    for (const [title, year] of movies.entries()) {\n        if (year >= startYear && year <= endYear) {\n            result.push(title);\n        }\n    }\n\n    return result;\n}\n\nconst moviesIn1990s = getMoviesByDecade(1990);\nconsole.log(moviesIn1990s);\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```javascript\nfunction groupStudentsByGrades(students) {\n    const gradeMap = {};\n    students.forEach(([name, grade]) => {\n        if (!gradeMap[grade]) {\n            gradeMap[grade] = [];\n        }\n        gradeMap[grade].push(name);\n    });\n    return gradeMap;\n}\n\n// Example usage:\nconst students = [\n    ['Alice', 'A'],\n    ['Bob', 'B'],\n    ['Charlie', 'A'],\n    ['David', 'C'],\n    ['Eve', 'B']\n];\n\nconsole.log(groupStudentsByGrades(students));\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```javascript\nconst visitorCounts = {\n    'home': 1200,\n    'about': 300,\n    'contact': 450,\n    'products': 800,\n    'blog': 600\n};\n\nlet mostVisitedSection = '';\nlet maxVisitors = 0;\n\nfor (const section in visitorCounts) {\n    if (visitorCounts[section] > maxVisitors) {\n        maxVisitors = visitorCounts[section];\n        mostVisitedSection = section;\n    }\n}\n\nconsole.log(`The most visited section is: ${mostVisitedSection}`);\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```javascript\nclass ProjectManager {\n    constructor() {\n        this.teamDeadlines = new Map();\n    }\n\n    assignDeadline(teamMember, deadline) {\n        this.teamDeadlines.set(teamMember, deadline);\n    }\n\n    extendDeadline(teamMember, newDeadline) {\n        if (this.teamDeadlines.has(teamMember)) {\n            this.teamDeadlines.set(teamMember, newDeadline);\n        }\n    }\n\n    getDeadline(teamMember) {\n        return this.teamDeadlines.get(teamMember);\n    }\n}\n\n// Example usage:\nlet manager = new ProjectManager();\nmanager.assignDeadline('Alice', '2023-11-01');\nmanager.extendDeadline('Alice', '2023-11-15');\nconsole.log(manager.getDeadline('Alice')); // Output: 2023-11-15\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```javascript\nclass Library {\n  constructor() {\n    this.books = new Map();\n  }\n\n  addBook(title, quantity) {\n    if (this.books.has(title)) {\n      this.books.set(title, this.books.get(title) + quantity);\n    } else {\n      this.books.set(title, quantity);\n    }\n  }\n\n  borrowBook(title) {\n    if (this.books.has(title) && this.books.get(title) > 0) {\n      this.books.set(title, this.books.get(title) - 1);\n      return true;\n    }\n    return false;\n  }\n\n  returnBook(title) {\n    if (this.books.has(title)) {\n      this.books.set(title, this.books.get(title) + 1);\n    } else {\n      this.books.set(title, 1);\n    }\n  }\n\n  checkAvailability(title) {\n    if (this.books.has(title)) {\n      return this.books.get(title) > 0;\n    }\n    return false;\n  }\n}\n\n// Example usage:\nconst library = new Library();\nlibrary.addBook(\"The Great Gatsby\", 3);\nlibrary.borrowBook(\"The Great Gatsby\");\nconsole.log(library.checkAvailability(\"The Great Gatsby\")); // true\nlibrary.borrowBook(\"The Great Gatsby\");\nlibrary.borrowBook(\"The Great Gatsby\");\nconsole.log(library.checkAvailability(\"The Great Gatsby\")); // false\nlibrary.returnBook(\"The Great Gatsby\");\nconsole.log(library.checkAvailability(\"The Great Gatsby\")); // true\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```javascript\nconst planetDistances = new Map([\n    ['Mercury', 57.9],\n    ['Venus', 108.2],\n    ['Earth', 149.6],\n    ['Mars', 227.9],\n    ['Jupiter', 778.3],\n    ['Saturn', 1427],\n    ['Uranus', 2871],\n    ['Neptune', 4497.1]\n]);\n\nlet closestPlanet = '';\nlet minimumDistance = Infinity;\n\nfor (let [planet, distance] of planetDistances.entries()) {\n    if (planet !== 'Earth' && Math.abs(distance - planetDistances.get('Earth')) < minimumDistance) {\n        closestPlanet = planet;\n        minimumDistance = Math.abs(distance - planetDistances.get('Earth'));\n    }\n}\n\nconsole.log('The closest planet to Earth is:', closestPlanet);\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```javascript\nconst morseCodeMap = {\n    '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',\n    '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',\n    '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',\n    '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',\n    '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',\n    '--..': 'Z', '-----': '0', '.----': '1', '..---': '2', '...--': '3',\n    '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',\n    '----.': '9'\n};\n\nfunction translateMorseCode(morseCode) {\n    return morseCode.split(' ').map(code => morseCodeMap[code] || '').join('');\n}\n\n// Example usage\nconst morse = \"... --- ...\"\nconst translatedText = translateMorseCode(morse);\nconsole.log(translatedText);\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```javascript\nconst vehicleRegistry = new Map();\n\nvehicleRegistry.set('ABC123', 'John Doe');\nvehicleRegistry.set('XYZ789', 'Jane Smith');\nvehicleRegistry.set('LMN456', 'Alice Johnson');\n\n// Example usage:\nconsole.log(vehicleRegistry.get('ABC123')); // Outputs: John Doe\nconsole.log(vehicleRegistry.get('XYZ789')); // Outputs: Jane Smith\n\n// Iterating through the map\nvehicleRegistry.forEach((owner, regNumber) => {\n    console.log(`Registration Number: ${regNumber}, Owner: ${owner}`);\n});\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```javascript\nconst teams = {\n    \"Lions\": { wins: 10, losses: 2 },\n    \"Tigers\": { wins: 8, losses: 4 },\n    \"Bears\": { wins: 11, losses: 3 },\n    \"Wolves\": { wins: 9, losses: 5 }\n};\n\nlet bestTeam = null;\nlet bestRecord = -1;\n\nfor (const [team, record] of Object.entries(teams)) {\n    const winPercentage = record.wins / (record.wins + record.losses);\n    if (winPercentage > bestRecord) {\n        bestRecord = winPercentage;\n        bestTeam = team;\n    }\n}\n\nconsole.log(`The team with the best record is: ${bestTeam}`);\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```javascript\nfunction getCurrencyName(code) {\n    const currencyMap = new Map([\n        ['USD', 'United States Dollar'],\n        ['EUR', 'Euro'],\n        ['JPY', 'Japanese Yen'],\n        ['GBP', 'British Pound Sterling'],\n        ['AUD', 'Australian Dollar'],\n        ['CAD', 'Canadian Dollar'],\n        ['CHF', 'Swiss Franc'],\n        ['CNY', 'Chinese Yuan'],\n        ['SEK', 'Swedish Krona'],\n        ['NZD', 'New Zealand Dollar']\n    ]);\n\n    return currencyMap.get(code) || 'Unknown Currency Code';\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```javascript\nconst studentAttendance = {\n    \"Alice\": 5,\n    \"Bob\": 3,\n    \"Charlie\": 8,\n    \"David\": 7\n};\n\nlet maxAttendance = 0;\nlet topStudent = \"\";\n\nfor (const student in studentAttendance) {\n    if (studentAttendance[student] > maxAttendance) {\n        maxAttendance = studentAttendance[student];\n        topStudent = student;\n    }\n}\n\nconsole.log(`Student with the highest attendance: ${topStudent}`);\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```javascript\nconst countryCapitals = new Map();\n\ncountryCapitals.set('United States', 'Washington, D.C.');\ncountryCapitals.set('Canada', 'Ottawa');\ncountryCapitals.set('United Kingdom', 'London');\ncountryCapitals.set('France', 'Paris');\ncountryCapitals.set('Germany', 'Berlin');\ncountryCapitals.set('Italy', 'Rome');\ncountryCapitals.set('Spain', 'Madrid');\ncountryCapitals.set('Australia', 'Canberra');\ncountryCapitals.set('Japan', 'Tokyo');\ncountryCapitals.set('India', 'New Delhi');\n\n// Example lookup\nconst countryName = 'France';\nconst capital = countryCapitals.get(countryName);\nconsole.log(`The capital of ${countryName} is ${capital}.`);\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```javascript\nconst recipeIngredients = {\n    flour: '2 cups',\n    sugar: '1 cup',\n    eggs: '2',\n    milk: '1 cup',\n    butter: '100g'\n};\n\n// Example of accessing ingredients\nconsole.log(recipeIngredients['flour']); // Outputs: 2 cups\nconsole.log(recipeIngredients.eggs);     // Outputs: 2\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```javascript\nclass UserProfile {\n    constructor(name, email) {\n        this.name = name;\n        this.email = email;\n    }\n}\n\nclass SocialMediaSystem {\n    constructor() {\n        this.userMap = new Map();\n    }\n\n    addUser(username, name, email) {\n        const profile = new UserProfile(name, email);\n        this.userMap.set(username, profile);\n    }\n\n    getUserProfile(username) {\n        return this.userMap.get(username);\n    }\n\n    removeUser(username) {\n        this.userMap.delete(username);\n    }\n}\n\n// Example usage:\nconst system = new SocialMediaSystem();\nsystem.addUser('user123', 'John Doe', 'john@example.com');\nconst profile = system.getUserProfile('user123');\nconsole.log(profile);\nsystem.removeUser('user123');\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```javascript\nfunction listProductsInCategory(productsByCategory, category) {\n    if (productsByCategory.hasOwnProperty(category)) {\n        return productsByCategory[category];\n    } else {\n        return [];\n    }\n}\n\n// Example usage:\n// const products = {\n//     'Electronics': ['TV', 'Laptop', 'Smartphone'],\n//     'Groceries': ['Apple', 'Banana', 'Carrot'],\n//     'Clothing': ['Shirt', 'Pants', 'Jacket']\n// };\n// console.log(listProductsInCategory(products, 'Electronics')); // Output: ['TV', 'Laptop', 'Smartphone']\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```javascript\nconst shoppingList = new Map();\n\nfunction updateQuantity(item, quantity) {\n    if (shoppingList.has(item)) {\n        shoppingList.set(item, shoppingList.get(item) + quantity);\n    } else {\n        shoppingList.set(item, quantity);\n    }\n}\n\n// Example usage:\nupdateQuantity('apples', 5);\nupdateQuantity('bananas', 3);\nupdateQuantity('apples', 2);\n\nconsole.log(shoppingList);\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```javascript\nconst historicalEvents = new Map([\n    ['Moon Landing', 1969],\n    ['Fall of the Berlin Wall', 1989],\n    ['Y2K', 2000],\n    ['9/11 Attacks', 2001]\n]);\n\nfunction findEventsByYear(year) {\n    const events = [];\n    for (const [event, eventYear] of historicalEvents.entries()) {\n        if (eventYear === year) {\n            events.push(event);\n        }\n    }\n    return events;\n}\n\n// Example usage:\nconst eventsIn1989 = findEventsByYear(1989);\nconsole.log(eventsIn1989); // Output: ['Fall of the Berlin Wall']\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```javascript\nconst userRoles = {\n    admin: {\n        canEdit: true,\n        canDelete: true,\n        canView: true\n    },\n    editor: {\n        canEdit: true,\n        canDelete: false,\n        canView: true\n    },\n    viewer: {\n        canEdit: false,\n        canDelete: false,\n        canView: true\n    }\n};\n\n// Example usage\nfunction checkPermission(role, permission) {\n    if (userRoles[role]) {\n        return userRoles[role][permission] || false;\n    }\n    return false;\n}\n\n// Check if an editor can delete\nconsole.log(checkPermission('editor', 'canDelete')); // false\n\n// Check if an admin can edit\nconsole.log(checkPermission('admin', 'canEdit')); // true\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```javascript\nconst gradeMap = new Map([\n  [90, 'A'],\n  [80, 'B'],\n  [70, 'C'],\n  [60, 'D'],\n  [0, 'F']\n]);\n\nfunction getLetterGrade(numericGrade) {\n  for (let [threshold, letter] of gradeMap) {\n    if (numericGrade >= threshold) {\n      return letter;\n    }\n  }\n  return 'Invalid grade';\n}\n\n// Example usage\nconsole.log(getLetterGrade(85)); // Outputs: B\nconsole.log(getLetterGrade(92)); // Outputs: A\nconsole.log(getLetterGrade(58)); // Outputs: F\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```javascript\nconst holidays = {\n  \"New Year's Day\": '2024-01-01',\n  \"Valentine's Day\": '2024-02-14',\n  \"Independence Day\": '2024-07-04',\n  \"Halloween\": '2024-10-31',\n  \"Christmas Day\": '2024-12-25'\n};\n\nfunction getHolidayDate(holidayName) {\n  return holidays[holidayName];\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```javascript\nclass OrderTracker {\n    constructor() {\n        this.orders = new Map();\n    }\n\n    addOrder(orderId, status) {\n        this.orders.set(orderId, status);\n    }\n\n    updateOrderStatus(orderId, newStatus) {\n        if (this.orders.has(orderId)) {\n            this.orders.set(orderId, newStatus);\n        } else {\n            console.log(`Order ID ${orderId} not found.`);\n        }\n    }\n\n    getOrderStatus(orderId) {\n        return this.orders.get(orderId) || 'Order not found';\n    }\n}\n\n// Example usage:\nconst tracker = new OrderTracker();\ntracker.addOrder(1, 'Pending');\ntracker.addOrder(2, 'Shipped');\n\ntracker.updateOrderStatus(1, 'Delivered');\nconsole.log(tracker.getOrderStatus(1)); // Output: Delivered\nconsole.log(tracker.getOrderStatus(3)); // Output: Order not found\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```javascript\nconst foodNutrition = {\n    'Apple': { calories: 52, protein: 0.3, fat: 0.2, carbs: 14 },\n    'Banana': { calories: 96, protein: 1.3, fat: 0.3, carbs: 27 },\n    'Carrot': { calories: 41, protein: 0.9, fat: 0.2, carbs: 10 },\n    'Broccoli': { calories: 55, protein: 3.7, fat: 0.6, carbs: 11 },\n    'Chicken Breast': { calories: 165, protein: 31, fat: 3.6, carbs: 0 }\n};\n\nconsole.log(foodNutrition['Apple']);\nconsole.log(foodNutrition['Chicken Breast']);\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```javascript\nconst bookGenres = new Map();\n\nbookGenres.set('Science Fiction', ['Dune', 'Neuromancer', 'Snow Crash']);\nbookGenres.set('Fantasy', ['The Hobbit', 'Harry Potter', 'The Name of the Wind']);\nbookGenres.set('Mystery', ['The Girl with the Dragon Tattoo', 'Gone Girl', 'Big Little Lies']);\n\nfunction getBooksByGenre(genre) {\n    return bookGenres.get(genre) || [];\n}\n\n// Example usage:\nconst sciFiBooks = getBooksByGenre('Science Fiction');\nconsole.log(sciFiBooks);\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```javascript\nfunction getStateName(abbreviation) {\n    const stateDictionary = {\n        'AL': 'Alabama',\n        'AK': 'Alaska',\n        'AZ': 'Arizona',\n        'AR': 'Arkansas',\n        'CA': 'California',\n        'CO': 'Colorado',\n        'CT': 'Connecticut',\n        'DE': 'Delaware',\n        'FL': 'Florida',\n        'GA': 'Georgia',\n        'HI': 'Hawaii',\n        'ID': 'Idaho',\n        'IL': 'Illinois',\n        'IN': 'Indiana',\n        'IA': 'Iowa',\n        'KS': 'Kansas',\n        'KY': 'Kentucky',\n        'LA': 'Louisiana',\n        'ME': 'Maine',\n        'MD': 'Maryland',\n        'MA': 'Massachusetts',\n        'MI': 'Michigan',\n        'MN': 'Minnesota',\n        'MS': 'Mississippi',\n        'MO': 'Missouri',\n        'MT': 'Montana',\n        'NE': 'Nebraska',\n        'NV': 'Nevada',\n        'NH': 'New Hampshire',\n        'NJ': 'New Jersey',\n        'NM': 'New Mexico',\n        'NY': 'New York',\n        'NC': 'North Carolina',\n        'ND': 'North Dakota',\n        'OH': 'Ohio',\n        'OK': 'Oklahoma',\n        'OR': 'Oregon',\n        'PA': 'Pennsylvania',\n        'RI': 'Rhode Island',\n        'SC': 'South Carolina',\n        'SD': 'South Dakota',\n        'TN': 'Tennessee',\n        'TX': 'Texas',\n        'UT': 'Utah',\n        'VT': 'Vermont',\n        'VA': 'Virginia',\n        'WA': 'Washington',\n        'WV': 'West Virginia',\n        'WI': 'Wisconsin',\n        'WY': 'Wyoming'\n    };\n    return stateDictionary[abbreviation] || 'Unknown abbreviation';\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```javascript\nlet customerOrders = {\n    \"Alice\": [\"Order1\", \"Order2\", \"Order3\"],\n    \"Bob\": [\"Order4\"],\n    \"Charlie\": [\"Order5\", \"Order6\"]\n};\n\n// Accessing order history\nlet aliceOrders = customerOrders[\"Alice\"];\nlet bobOrders = customerOrders[\"Bob\"];\nlet charlieOrders = customerOrders[\"Charlie\"];\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```javascript\nclass ParkingLot {\n    constructor() {\n        this.spaces = new Map();\n    }\n\n    park(car, spaceNumber) {\n        if (!this.spaces.has(spaceNumber)) {\n            this.spaces.set(spaceNumber, car);\n            return `Car ${car} parked at space ${spaceNumber}.`;\n        }\n        return `Space ${spaceNumber} is already occupied.`;\n    }\n\n    leave(spaceNumber) {\n        if (this.spaces.has(spaceNumber)) {\n            const car = this.spaces.get(spaceNumber);\n            this.spaces.delete(spaceNumber);\n            return `Car ${car} left space ${spaceNumber}.`;\n        }\n        return `Space ${spaceNumber} is already empty.`;\n    }\n\n    isOccupied(spaceNumber) {\n        return this.spaces.has(spaceNumber);\n    }\n\n    getOccupiedSpaces() {\n        return Array.from(this.spaces.entries());\n    }\n}\n\n// Example usage:\nconst parkingLot = new ParkingLot();\nconsole.log(parkingLot.park('CarA', 1));  // Car CarA parked at space 1.\nconsole.log(parkingLot.isOccupied(1));    // true\nconsole.log(parkingLot.leave(1));         // Car CarA left space 1.\nconsole.log(parkingLot.isOccupied(1));    // false\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```javascript\nconst playerScores = {\n  'Alice': 0,\n  'Bob': 0,\n  'Charlie': 0,\n};\n\nfunction updateScore(player, score) {\n  if (playerScores.hasOwnProperty(player)) {\n    playerScores[player] += score;\n  } else {\n    playerScores[player] = score;\n  }\n}\n\nfunction getPlayerScore(player) {\n  return playerScores[player] || null;\n}\n\n// Example usage\nupdateScore('Alice', 10);\nupdateScore('Bob', 20);\nupdateScore('Charlie', 15);\nupdateScore('Dave', 5);\n\nconsole.log(playerScores);\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```javascript\nclass ScientificDictionary {\n    constructor() {\n        this.dictionary = new Map();\n    }\n\n    addTerm(term, definition) {\n        this.dictionary.set(term, definition);\n    }\n\n    getDefinition(term) {\n        return this.dictionary.get(term) || \"Definition not found.\";\n    }\n}\n\n// Example usage:\nconst sciDict = new ScientificDictionary();\nsciDict.addTerm('Photosynthesis', 'The process by which green plants and some other organisms use sunlight to synthesize foods with the help of chlorophyll.');\nsciDict.addTerm('Gravity', 'The force that attracts a body toward the center of the earth, or toward any other physical body having mass.');\n\nconsole.log(sciDict.getDefinition('Photosynthesis')); // Outputs the definition of Photosynthesis\nconsole.log(sciDict.getDefinition('Gravity')); // Outputs the definition of Gravity\nconsole.log(sciDict.getDefinition('Evolution')); // Outputs \"Definition not found.\"\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```javascript\nfunction convertTemperature(scale, value) {\n    const conversionMap = {\n        'CelsiusToFahrenheit': (celsius) => (celsius * 9/5) + 32,\n        'FahrenheitToCelsius': (fahrenheit) => (fahrenheit - 32) * 5/9\n    };\n    \n    if (conversionMap[scale]) {\n        return conversionMap[scale](value);\n    } else {\n        throw new Error('Invalid scale');\n    }\n}\n\n// Example usage:\n// console.log(convertTemperature('CelsiusToFahrenheit', 30)); // 86\n// console.log(convertTemperature('FahrenheitToCelsius', 86)); // 30\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```javascript\nconst employeeDepartments = {\n    \"Alice\": \"HR\",\n    \"Bob\": \"Engineering\",\n    \"Charlie\": \"Marketing\",\n    \"David\": \"Sales\"\n};\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```javascript\nconst touristAttractions = new Map();\n\ntouristAttractions.set('Eiffel Tower', 'Paris, France');\ntouristAttractions.set('Statue of Liberty', 'New York, USA');\ntouristAttractions.set('Great Wall of China', 'China');\ntouristAttractions.set('Taj Mahal', 'Agra, India');\ntouristAttractions.set('Colosseum', 'Rome, Italy');\n\ntouristAttractions.forEach((location, attraction) => {\n    console.log(`${attraction} is located in ${location}.`);\n});\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```javascript\nclass MusicAlbums {\n    constructor() {\n        this.albums = new Map();\n    }\n\n    addAlbum(id, albumDetails) {\n        this.albums.set(id, albumDetails);\n    }\n\n    removeAlbum(id) {\n        this.albums.delete(id);\n    }\n\n    getAlbum(id) {\n        return this.albums.get(id);\n    }\n\n    getAllAlbums() {\n        return Array.from(this.albums.values());\n    }\n}\n\n// Usage example\nconst myAlbums = new MusicAlbums();\nmyAlbums.addAlbum(1, { title: 'Album One', artist: 'Artist A' });\nmyAlbums.addAlbum(2, { title: 'Album Two', artist: 'Artist B' });\n\nconsole.log(myAlbums.getAllAlbums());\n\nmyAlbums.removeAlbum(1);\n\nconsole.log(myAlbums.getAllAlbums());\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```javascript\nconst inventory = new Map();\n\nfunction addItem(itemName, quantity) {\n    if (inventory.has(itemName)) {\n        inventory.set(itemName, inventory.get(itemName) + quantity);\n    } else {\n        inventory.set(itemName, quantity);\n    }\n}\n\nfunction removeItem(itemName, quantity) {\n    if (inventory.has(itemName)) {\n        let currentQuantity = inventory.get(itemName);\n        let newQuantity = currentQuantity - quantity;\n        if (newQuantity > 0) {\n            inventory.set(itemName, newQuantity);\n        } else {\n            inventory.delete(itemName);\n        }\n    }\n}\n\nfunction checkInventory(itemName) {\n    if (inventory.has(itemName)) {\n        return inventory.get(itemName);\n    } else {\n        return 0;\n    }\n}\n\nfunction displayInventory() {\n    inventory.forEach((quantity, itemName) => {\n        console.log(`Item: ${itemName}, Quantity: ${quantity}`);\n    });\n}\n\n// Example usage:\naddItem('Apples', 10);\naddItem('Bananas', 5);\nremoveItem('Apples', 3);\ndisplayInventory();\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```javascript\nconst rivers = {\n    \"Nile\": 6650,\n    \"Amazon\": 6400,\n    \"Yangtze\": 6300,\n    \"Mississippi\": 6275,\n    \"Yenisei\": 5539\n};\n\n// Example lookup\nconst riverName = \"Amazon\";\nconst riverLength = rivers[riverName];\nconsole.log(`The length of the ${riverName} river is ${riverLength} kilometers.`);\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```javascript\nclass ConferenceRoomSystem {\n    constructor() {\n        this.roomAvailability = new Map();\n    }\n\n    addRoom(roomName) {\n        if (!this.roomAvailability.has(roomName)) {\n            this.roomAvailability.set(roomName, true);\n        }\n    }\n\n    markRoomAsOccupied(roomName) {\n        if (this.roomAvailability.has(roomName)) {\n            this.roomAvailability.set(roomName, false);\n        }\n    }\n\n    markRoomAsAvailable(roomName) {\n        if (this.roomAvailability.has(roomName)) {\n            this.roomAvailability.set(roomName, true);\n        }\n    }\n\n    isRoomAvailable(roomName) {\n        return this.roomAvailability.get(roomName) || false;\n    }\n\n    getAvailableRooms() {\n        let availableRooms = [];\n        for (let [roomName, isAvailable] of this.roomAvailability.entries()) {\n            if (isAvailable) {\n                availableRooms.push(roomName);\n            }\n        }\n        return availableRooms;\n    }\n}\n\n// Example usage\nconst system = new ConferenceRoomSystem();\nsystem.addRoom('Room A');\nsystem.addRoom('Room B');\nsystem.markRoomAsOccupied('Room A');\nconsole.log(system.isRoomAvailable('Room A')); // false\nconsole.log(system.isRoomAvailable('Room B')); // true\nconsole.log(system.getAvailableRooms()); // ['Room B']\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```javascript\nconst animalHabitats = {\n    'Lion': 'Savannah',\n    'Polar Bear': 'Arctic',\n    'Kangaroo': 'Grassland',\n    'Penguin': 'Antarctic',\n    'Dolphin': 'Ocean'\n};\n\n// Example usage\nfor (const [animal, habitat] of Object.entries(animalHabitats)) {\n    console.log(`${animal} lives in the ${habitat}.`);\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```javascript\nconst mountains = new Map([\n    ['Everest', 8848],\n    ['K2', 8611],\n    ['Kangchenjunga', 8586],\n    ['Lhotse', 8516],\n    ['Makalu', 8485]\n]);\n\nlet tallestMountain = '';\nlet maxElevation = 0;\n\nfor (const [name, elevation] of mountains) {\n    if (elevation > maxElevation) {\n        maxElevation = elevation;\n        tallestMountain = name;\n    }\n}\n\nconsole.log(`The tallest mountain is ${tallestMountain} with an elevation of ${maxElevation} meters.`);\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```javascript\nfunction getUTCOffset(timeZone) {\n    const timeZoneOffsets = {\n        \"PST\": \"-08:00\",\n        \"MST\": \"-07:00\",\n        \"CST\": \"-06:00\",\n        \"EST\": \"-05:00\",\n        \"GMT\": \"+00:00\",\n        \"CET\": \"+01:00\",\n        \"EET\": \"+02:00\",\n        \"IST\": \"+05:30\",\n        \"CST-China\": \"+08:00\",\n        \"JST\": \"+09:00\"\n    };\n\n    return timeZoneOffsets[timeZone] || \"Unknown time zone\";\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```javascript\nconst programmingLanguages = {\n    \"Python\": \"Guido van Rossum\",\n    \"Java\": \"James Gosling\",\n    \"C++\": \"Bjarne Stroustrup\",\n    \"JavaScript\": \"Brendan Eich\",\n    \"Ruby\": \"Yukihiro Matsumoto\"\n};\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```javascript\nclass Newsletter {\n    constructor() {\n        this.subscribers = new Map();\n    }\n\n    subscribe(email) {\n        if (!this.subscribers.has(email)) {\n            this.subscribers.set(email, true);\n            return `${email} subscribed successfully.`;\n        }\n        return `${email} is already subscribed.`;\n    }\n\n    unsubscribe(email) {\n        if (this.subscribers.has(email)) {\n            this.subscribers.delete(email);\n            return `${email} unsubscribed successfully.`;\n        }\n        return `${email} is not subscribed.`;\n    }\n\n    getSubscribers() {\n        return Array.from(this.subscribers.keys());\n    }\n}\n\n// Example usage:\nconst newsletter = new Newsletter();\nconsole.log(newsletter.subscribe('example@example.com'));\nconsole.log(newsletter.unsubscribe('example@example.com'));\nconsole.log(newsletter.getSubscribers());\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```javascript\nconst postsLikes = {\n  post1: 0,\n  post2: 0,\n  post3: 0\n};\n\nfunction likePost(postId) {\n  if (postsLikes.hasOwnProperty(postId)) {\n    postsLikes[postId]++;\n  } else {\n    console.log(\"Post not found.\");\n  }\n}\n\nfunction getLikes(postId) {\n  if (postsLikes.hasOwnProperty(postId)) {\n    return postsLikes[postId];\n  } else {\n    console.log(\"Post not found.\");\n    return null;\n  }\n}\n\n// Example usage:\nlikePost('post1');\nlikePost('post2');\nlikePost('post2');\nconsole.log(getLikes('post1')); // 1\nconsole.log(getLikes('post2')); // 2\nconsole.log(getLikes('post3')); // 0\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```javascript\nconst elements = {\n    \"Hydrogen\": 1,\n    \"Helium\": 2,\n    \"Lithium\": 3,\n    \"Beryllium\": 4,\n    \"Boron\": 5,\n    \"Carbon\": 6,\n    \"Nitrogen\": 7,\n    \"Oxygen\": 8,\n    \"Fluorine\": 9,\n    \"Neon\": 10\n};\n\nfunction getAtomicNumber(elementName) {\n    return elements[elementName];\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```javascript\nfunction groupMoviesByDirector(movies) {\n    const directorMap = new Map();\n\n    movies.forEach(movie => {\n        const director = movie.director;\n        if (!directorMap.has(director)) {\n            directorMap.set(director, []);\n        }\n        directorMap.get(director).push(movie);\n    });\n\n    return directorMap;\n}\n\n// Example usage:\n// const movies = [\n//     { title: \"Movie 1\", director: \"Director A\" },\n//     { title: \"Movie 2\", director: \"Director B\" },\n//     { title: \"Movie 3\", director: \"Director A\" }\n// ];\n// const groupedMovies = groupMoviesByDirector(movies);\n// console.log(groupedMovies);\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```javascript\nconst historicalFigures = {\n    \"Albert Einstein\": 1879,\n    \"Isaac Newton\": 1643,\n    \"Marie Curie\": 1867,\n    \"Leonardo da Vinci\": 1452,\n    \"Galileo Galilei\": 1564\n};\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```javascript\nconst planets = new Map();\n\nplanets.set('Mercury', 4879);\nplanets.set('Venus', 12104);\nplanets.set('Earth', 12742);\nplanets.set('Mars', 6779);\nplanets.set('Jupiter', 139820);\nplanets.set('Saturn', 116460);\nplanets.set('Uranus', 50724);\nplanets.set('Neptune', 49244);\n\n// Example of accessing the map\nplanets.forEach((diameter, planet) => {\n    console.log(`${planet}: ${diameter} km`);\n});\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```javascript\nclass RestaurantRatings {\n    constructor() {\n        this.ratings = new Map();\n    }\n\n    addOrUpdateRating(restaurant, rating) {\n        this.ratings.set(restaurant, rating);\n    }\n\n    getRating(restaurant) {\n        return this.ratings.get(restaurant);\n    }\n\n    getAllRatings() {\n        return Array.from(this.ratings.entries());\n    }\n}\n\n// Example usage\nconst ratings = new RestaurantRatings();\nratings.addOrUpdateRating('Pizza Palace', 4.5);\nratings.addOrUpdateRating('Burger Barn', 4.0);\nratings.addOrUpdateRating('Pizza Palace', 4.7);\n\nconsole.log(ratings.getRating('Pizza Palace')); // 4.7\nconsole.log(ratings.getAllRatings()); // [['Pizza Palace', 4.7], ['Burger Barn', 4.0]]\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```javascript\nconst binaryToDecimalMap = new Map([\n  ['0', 0],\n  ['1', 1],\n  ['10', 2],\n  ['11', 3],\n  ['100', 4],\n  ['101', 5],\n  ['110', 6],\n  ['111', 7],\n  ['1000', 8],\n  ['1001', 9],\n  ['1010', 10],\n  ['1011', 11],\n  ['1100', 12],\n  ['1101', 13],\n  ['1110', 14],\n  ['1111', 15],\n  // Add more binary-to-decimal mappings as needed\n]);\n\nfunction binaryToDecimal(binaryString) {\n  return binaryToDecimalMap.get(binaryString) || null;\n}\n\n// Example usage:\nconsole.log(binaryToDecimal('101')); // 5\nconsole.log(binaryToDecimal('1111')); // 15\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```javascript\nconst artistsWorks = {\n  \"Leonardo da Vinci\": \"Mona Lisa\",\n  \"Vincent van Gogh\": \"Starry Night\",\n  \"Pablo Picasso\": \"Guernica\",\n  \"Claude Monet\": \"Water Lilies\",\n  \"Salvador Dal\u00ed\": \"The Persistence of Memory\"\n};\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```javascript\nclass VehicleMaintenanceTracker {\n    constructor() {\n        this.maintenanceSchedule = new Map();\n    }\n\n    addVehicle(vehicleId, schedule) {\n        this.maintenanceSchedule.set(vehicleId, schedule);\n    }\n\n    updateSchedule(vehicleId, newSchedule) {\n        if (this.maintenanceSchedule.has(vehicleId)) {\n            this.maintenanceSchedule.set(vehicleId, newSchedule);\n        }\n    }\n\n    getSchedule(vehicleId) {\n        return this.maintenanceSchedule.get(vehicleId);\n    }\n\n    removeVehicle(vehicleId) {\n        this.maintenanceSchedule.delete(vehicleId);\n    }\n}\n\n// Example usage:\nconst tracker = new VehicleMaintenanceTracker();\ntracker.addVehicle('V123', '2023-10-15');\ntracker.updateSchedule('V123', '2023-11-20');\nconsole.log(tracker.getSchedule('V123')); // Output: '2023-11-20'\ntracker.removeVehicle('V123');\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```javascript\nconst languagesSpeakers = {\n    English: 1132,\n    Mandarin: 1117,\n    Hindi: 615,\n    Spanish: 534,\n    French: 280,\n    Arabic: 274,\n    Bengali: 273,\n    Russian: 258,\n    Portuguese: 234,\n    Indonesian: 199\n};\n\nconsole.log(languagesSpeakers);\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```javascript\nconst cityTemperatures = new Map();\n\ncityTemperatures.set('New York', 13);\ncityTemperatures.set('Los Angeles', 18);\ncityTemperatures.set('Chicago', 11);\ncityTemperatures.set('Houston', 20);\ncityTemperatures.set('Phoenix', 23);\n\nconsole.log(cityTemperatures);\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```javascript\nfunction convertMetricToImperial(metricUnit, value) {\n    const conversionMap = {\n        'kilometers': { unit: 'miles', factor: 0.621371 },\n        'meters': { unit: 'yards', factor: 1.09361 },\n        'centimeters': { unit: 'inches', factor: 0.393701 },\n        'kilograms': { unit: 'pounds', factor: 2.20462 },\n        'grams': { unit: 'ounces', factor: 0.035274 },\n        'liters': { unit: 'gallons', factor: 0.264172 }\n    };\n\n    if (conversionMap[metricUnit]) {\n        const { unit, factor } = conversionMap[metricUnit];\n        return { value: value * factor, unit: unit };\n    } else {\n        return null;\n    }\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```javascript\nconst sportsWorldRecords = {\n    \"100m Sprint\": \"9.58 seconds\",\n    \"Marathon\": \"2:01:09\",\n    \"High Jump\": \"2.45 meters\",\n    \"Long Jump\": \"8.95 meters\",\n    \"Shot Put\": \"23.37 meters\",\n    \"Pole Vault\": \"6.18 meters\",\n    \"100m Freestyle Swim\": \"46.86 seconds\",\n    \"Weightlifting\": \"263 kg\"\n};\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```javascript\nclass FavoriteMovies {\n  constructor() {\n    this.movies = new Map();\n  }\n\n  addMovie(title, details) {\n    this.movies.set(title, details);\n  }\n\n  deleteMovie(title) {\n    this.movies.delete(title);\n  }\n\n  getMovies() {\n    return Array.from(this.movies.entries());\n  }\n}\n\n// Example usage:\nconst myMovies = new FavoriteMovies();\nmyMovies.addMovie(\"Inception\", { year: 2010, director: \"Christopher Nolan\" });\nmyMovies.addMovie(\"The Matrix\", { year: 1999, director: \"Lana Wachowski, Lilly Wachowski\" });\nmyMovies.deleteMovie(\"Inception\");\nconsole.log(myMovies.getMovies());\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```javascript\nconst cityDistances = {\n    \"New York - Los Angeles\": 2451,\n    \"Chicago - Houston\": 1084,\n    \"Phoenix - Philadelphia\": 2075,\n    \"San Antonio - San Diego\": 1304,\n    \"Dallas - San Jose\": 1435\n};\n\n// Example of accessing the distance between two cities\nconst distanceNYToLA = cityDistances[\"New York - Los Angeles\"];\nconsole.log(`Distance from New York to Los Angeles: ${distanceNYToLA} miles`);\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```javascript\nconst planetsOrbitalPeriods = {\n    Mercury: 88,\n    Venus: 225,\n    Earth: 365,\n    Mars: 687,\n    Jupiter: 4333,\n    Saturn: 10759,\n    Uranus: 30687,\n    Neptune: 60190\n};\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```javascript\nfunction getColorNameFromCode(colorCode) {\n    const colorMap = new Map([\n        ['#FFFFFF', 'White'],\n        ['#000000', 'Black'],\n        ['#FF0000', 'Red'],\n        ['#00FF00', 'Lime'],\n        ['#0000FF', 'Blue'],\n        ['#FFFF00', 'Yellow'],\n        ['#00FFFF', 'Cyan'],\n        ['#FF00FF', 'Magenta'],\n        ['#C0C0C0', 'Silver'],\n        ['#808080', 'Gray'],\n        ['#800000', 'Maroon'],\n        ['#808000', 'Olive'],\n        ['#008000', 'Green'],\n        ['#800080', 'Purple'],\n        ['#008080', 'Teal'],\n        ['#FFA500', 'Orange'],\n        ['#A52A2A', 'Brown'],\n        ['#8A2BE2', 'BlueViolet'],\n        ['#5F9EA0', 'CadetBlue'],\n        ['#D2691E', 'Chocolate'],\n        ['#DC143C', 'Crimson'],\n        ['#FF1493', 'DeepPink'],\n        ['#B22222', 'FireBrick'],\n        ['#228B22', 'ForestGreen'],\n        ['#FF69B4', 'HotPink'],\n        ['#CD5C5C', 'IndianRed'],\n        ['#4B0082', 'Indigo'],\n        ['#F0E68C', 'Khaki'],\n        ['#E6E6FA', 'Lavender'],\n        ['#7CFC00', 'LawnGreen'],\n        ['#FFFACD', 'LemonChiffon'],\n        ['#ADD8E6', 'LightBlue'],\n        ['#F08080', 'LightCoral'],\n        ['#E0FFFF', 'LightCyan'],\n        ['#FAFAD2', 'LightGoldenRodYellow'],\n        ['#90EE90', 'LightGreen'],\n        ['#D3D3D3', 'LightGrey'],\n        ['#FFB6C1', 'LightPink'],\n        ['#FFA07A', 'LightSalmon'],\n        ['#20B2AA', 'LightSeaGreen'],\n        ['#87CEFA', 'LightSkyBlue'],\n        ['#778899', 'LightSlateGray'],\n        ['#B0C4DE', 'LightSteelBlue'],\n        ['#FFFFE0', 'LightYellow'],\n        ['#32CD32', 'LimeGreen'],\n        ['#FAF0E6', 'Linen'],\n        ['#66CDAA', 'MediumAquaMarine'],\n        ['#0000CD', 'MediumBlue'],\n        ['#BA55D3', 'MediumOrchid'],\n        ['#9370DB', 'MediumPurple'],\n        ['#3CB371', 'MediumSeaGreen'],\n        ['#7B68EE', 'MediumSlateBlue'],\n        ['#00FA9A', 'MediumSpringGreen'],\n        ['#48D1CC', 'MediumTurquoise'],\n        ['#C71585', 'MediumVioletRed'],\n        ['#191970', 'MidnightBlue'],\n        ['#F5FFFA', 'MintCream'],\n        ['#FFE4E1', 'MistyRose'],\n        ['#FFE4B5', 'Moccasin'],\n        ['#FFDEAD', 'NavajoWhite'],\n        ['#000080', 'Navy'],\n        ['#FDF5E6', 'OldLace'],\n        ['#808000', 'Olive'],\n        ['#6B8E23', 'OliveDrab'],\n        ['#FF4500', 'OrangeRed'],\n        ['#DA70D6', 'Orchid'],\n        ['#EEE8AA', 'PaleGoldenRod'],\n        ['#98FB98', 'PaleGreen'],\n        ['#AFEEEE', 'PaleTurquoise'],\n        ['#DB7093', 'PaleVioletRed'],\n        ['#FFEFD5', 'PapayaWhip'],\n        ['#FFDAB9', 'PeachPuff'],\n        ['#CD853F', 'Peru'],\n        ['#FFC0CB', 'Pink'],\n        ['#DDA0DD', 'Plum'],\n        ['#B0E0E6', 'PowderBlue'],\n        ['#800080', 'Purple'],\n        ['#FF0000', 'Red'],\n        ['#BC8F8F', 'RosyBrown'],\n        ['#4169E1', 'RoyalBlue'],\n        ['#8B4513', 'SaddleBrown'],\n        ['#FA8072', 'Salmon'],\n        ['#F4A460', 'SandyBrown'],\n        ['#2E8B57', 'SeaGreen'],\n        ['#FFF5EE', 'SeaShell'],\n        ['#A0522D', 'Sienna'],\n        ['#C0C0C0', 'Silver'],\n        ['#87CEEB', 'SkyBlue'],\n        ['#6A5ACD', 'SlateBlue'],\n        ['#708090', 'SlateGray'],\n        ['#FFFAFA', 'Snow'],\n        ['#00FF7F', 'SpringGreen'],\n        ['#4682B4', 'SteelBlue'],\n        ['#D2B48C', 'Tan'],\n        ['#008080', 'Teal'],\n        ['#D8BFD8', 'Thistle'],\n        ['#FF6347', 'Tomato'],\n        ['#40E0D0', 'Turquoise'],\n        ['#EE82EE', 'Violet'],\n        ['#F5DEB3', 'Wheat'],\n        ['#FFFFFF', 'White'],\n        ['#F5F5F5', 'WhiteSmoke'],\n        ['#FFFF00', 'Yellow'],\n        ['#9ACD32', 'YellowGreen']\n    ]);\n\n    return colorMap.get(colorCode) || 'Unknown Color';\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```javascript\nconst composers = {\n    'Ludwig van Beethoven': 'Symphony No. 9',\n    'Wolfgang Amadeus Mozart': 'The Magic Flute',\n    'Johann Sebastian Bach': 'Brandenburg Concertos',\n    'Pyotr Ilyich Tchaikovsky': 'Swan Lake',\n    'Fr\u00e9d\u00e9ric Chopin': 'Nocturnes'\n};\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```javascript\nconst bridges = new Map();\n\nbridges.set(\"Golden Gate Bridge\", 2737);\nbridges.set(\"Brooklyn Bridge\", 1825);\nbridges.set(\"London Bridge\", 269);\nbridges.set(\"Sydney Harbour Bridge\", 1149);\nbridges.set(\"Tower Bridge\", 244);\n\nfor (const [name, length] of bridges) {\n    console.log(`The ${name} is ${length} meters long.`);\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```javascript\nclass GoalsManager {\n  constructor() {\n    this.goals = new Map();\n  }\n\n  addGoal(key, goal) {\n    this.goals.set(key, goal);\n  }\n\n  updateGoal(key, newGoal) {\n    if (this.goals.has(key)) {\n      this.goals.set(key, newGoal);\n    } else {\n      console.log(\"Goal not found.\");\n    }\n  }\n\n  getGoal(key) {\n    return this.goals.get(key);\n  }\n\n  removeGoal(key) {\n    this.goals.delete(key);\n  }\n\n  getAllGoals() {\n    return Array.from(this.goals.entries());\n  }\n}\n\n// Example usage:\nconst manager = new GoalsManager();\nmanager.addGoal('goal1', 'Learn JavaScript');\nconsole.log(manager.getAllGoals());\nmanager.updateGoal('goal1', 'Master JavaScript');\nconsole.log(manager.getGoal('goal1'));\nmanager.removeGoal('goal1');\nconsole.log(manager.getAllGoals());\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```javascript\nconst hexToBinaryMap = {\n    '0': '0000',\n    '1': '0001',\n    '2': '0010',\n    '3': '0011',\n    '4': '0100',\n    '5': '0101',\n    '6': '0110',\n    '7': '0111',\n    '8': '1000',\n    '9': '1001',\n    'A': '1010',\n    'B': '1011',\n    'C': '1100',\n    'D': '1101',\n    'E': '1110',\n    'F': '1111'\n};\n\nfunction hexToBinary(hexString) {\n    return hexString.toUpperCase().split('').map(char => hexToBinaryMap[char]).join('');\n}\n\n// Example usage:\nconst hexNumber = '1A3F';\nconst binaryNumber = hexToBinary(hexNumber);\nconsole.log(binaryNumber); // Output: 0001101000111111\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```javascript\nconst treeHeights = {\n    \"Oak\": 70,\n    \"Pine\": 60,\n    \"Birch\": 50,\n    \"Maple\": 40,\n    \"Cedar\": 80\n};\n```"
+  }
+]

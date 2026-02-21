@@ -1,160 +1,182 @@
+import argparse
 import json
-import numpy as np
-from scipy.cluster.hierarchy import linkage, dendrogram
-from scipy.spatial.distance import squareform, cosine
-import matplotlib.pyplot as plt
 import os
+import sys
+from typing import Dict, List, Tuple
 
-# Load embeddings
-script_dir = os.path.dirname(os.path.abspath(__file__))
-embeddings_path = os.path.join(script_dir, "../../results/embeddings/octen_embeddings.json")
-print(f"Loading embeddings from {embeddings_path}...")
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.cluster.hierarchy import dendrogram, linkage, fcluster, cophenet
+from scipy.spatial.distance import squareform, cosine, pdist
 
-with open(embeddings_path, 'r', encoding='utf-8') as f:
-    embeddings_data = json.load(f)
+# --- Configuration ---
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+EMBEDDINGS_DIR = os.path.join(SCRIPT_DIR, "../results/embeddings")
+OUTPUT_DIR = os.path.join(SCRIPT_DIR, "../results/clustering")
 
-print(f"Loaded {len(embeddings_data)} embeddings")
+MODELS = [
+    "octen", "bge_m3", "unixcoder", "qwen3", "minilm", "ada002"
+]
 
-# Group embeddings by language
-# Each language has 21 features, we'll average them to get a single embedding per language
-languages = [
+LANGUAGES = [
     "AppleScript", "C", "C++", "Dart", "Fortran", "Go", "Haskell",
     "Java", "JavaScript", "Kotlin", "PHP", "Pascal", "Python",
     "Raku", "Ruby", "Rust", "Scala", "Swift", "Visual_Basic"
 ]
 
-print("\nAggregating embeddings by language...")
-language_embeddings = {}
+# Provide a fixed order for consistency
+ORDERED_LANGS = sorted(LANGUAGES)
 
-for lang in languages:
-    lang_embs = []
-    for key, data in embeddings_data.items():
-        if key.startswith(lang + " "):
-            lang_embs.append(np.array(data['embedding']))
+def load_embeddings(model_key: str) -> Dict[str, np.ndarray]:
+    path = os.path.join(EMBEDDINGS_DIR, f"{model_key}_embeddings.json")
+    if not os.path.exists(path):
+        print(f"Warning: Embeddings file not found: {path}")
+        return None
+        
+    with open(path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+        
+    embeddings = {}
+    for key, val in data.items():
+        embeddings[key] = np.array(val["embedding"])
+        
+    return embeddings
+
+
+def aggregate_app_embeddings(embeddings_data: Dict[str, np.ndarray]) -> Tuple[List[str], np.ndarray]:
+    """Aggregate (mean) embeddings per language."""
+    lang_vectors = []
+    found_langs = []
     
-    if lang_embs:
-        # Average all feature embeddings for this language
-        language_embeddings[lang] = np.mean(lang_embs, axis=0)
-        print(f"  {lang}: {len(lang_embs)} features averaged")
-    else:
-        print(f"  Warning: No embeddings found for {lang}")
-
-# Create ordered list of languages and their embeddings
-ordered_langs = sorted(language_embeddings.keys())
-embedding_matrix = np.array([language_embeddings[lang] for lang in ordered_langs])
-
-print(f"\nEmbedding matrix shape: {embedding_matrix.shape}")
-
-# Compute pairwise cosine distance matrix
-print("Computing pairwise cosine distances...")
-n = len(ordered_langs)
-distance_matrix = np.zeros((n, n))
-
-for i in range(n):
-    for j in range(n):
-        if i == j:
-            distance_matrix[i, j] = 0
+    for lang in ORDERED_LANGS:
+        features = []
+        for key, vector in embeddings_data.items():
+            if key.startswith(lang + " "):
+                features.append(vector)
+        
+        if features:
+            # Mean pooling of all features for this language
+            avg_vector = np.mean(features, axis=0)
+            lang_vectors.append(avg_vector)
+            found_langs.append(lang)
         else:
-            # Cosine distance = 1 - cosine similarity
-            distance_matrix[i, j] = cosine(embedding_matrix[i], embedding_matrix[j])
+            print(f"  Warning: No features found for language {lang}")
+            
+    return found_langs, np.array(lang_vectors)
 
-# Ensure symmetry
-distance_matrix = (distance_matrix + distance_matrix.T) / 2
 
-# Save distance matrix
-output_dir = os.path.join(script_dir, "../../results/clustering")
-os.makedirs(output_dir, exist_ok=True)
-
-distance_output = os.path.join(output_dir, "cosine_distance_matrix.json")
-print(f"\nSaving distance matrix to {distance_output}...")
-
-distance_dict = {}
-for i, lang in enumerate(ordered_langs):
-    distance_dict[lang] = distance_matrix[i].tolist()
-
-with open(distance_output, 'w', encoding='utf-8') as f:
-    json.dump(distance_dict, f, indent=2)
-
-# Also save as a readable table
-distance_table = os.path.join(output_dir, "cosine_distance_matrix.txt")
-print(f"Saving distance matrix table to {distance_table}...")
-
-with open(distance_table, 'w', encoding='utf-8') as f:
-    # Header
-    f.write(f"{'Language':<20}")
-    for lang in ordered_langs:
-        f.write(f"{lang:<15}")
-    f.write("\n")
-    f.write("-" * (20 + 15 * len(ordered_langs)) + "\n")
+def perform_clustering(model_key: str):
+    print(f"\n=== Clustering for {model_key} ===")
     
-    # Rows
-    for i, lang in enumerate(ordered_langs):
-        f.write(f"{lang:<20}")
-        for j in range(len(ordered_langs)):
-            f.write(f"{distance_matrix[i, j]:<15.4f}")
-        f.write("\n")
+    # 1. Load Embeddings
+    embeddings_data = load_embeddings(model_key)
+    if not embeddings_data:
+        return None
+        
+    # 2. Aggregate per Language
+    langs, embedding_matrix = aggregate_app_embeddings(embeddings_data)
+    if len(langs) < 2:
+        print("Not enough languages to cluster.")
+        return None
+        
+    # 3. Compute Distance Matrix (Cosine)
+    # We use pairwise cosine distance
+    dists = pdist(embedding_matrix, metric='cosine')
+    distance_matrix = squareform(dists)
+    
+    # 4. Hierarchical Clustering (Ward)
+    Z = linkage(dists, method='ward')
+    
+    # 5. Cophenetic Correlation Coefficient
+    ccc, coph_dists = cophenet(Z, dists)
+    print(f"  Cophenetic Correlation Coefficient (CCC): {ccc:.4f}")
+    
+    # 6. Cut Tree to get 5 Families
+    # Criterion: 'maxclust' to get exactly 5 clusters
+    num_clusters = 5
+    cluster_labels = fcluster(Z, t=num_clusters, criterion='maxclust')
+    
+    families = {}
+    for lang, label in zip(langs, cluster_labels):
+        label_str = str(label)
+        if label_str not in families:
+            families[label_str] = []
+        families[label_str].append(lang)
+        
+    # Sort families for consistent output (e.g. by size or first lang)
+    sorted_families = {}
+    for idx, (fam_id, fam_langs) in enumerate(sorted(families.items(), key=lambda x: x[0])):
+        # Rename to Family_1, Family_2,...
+        sorted_families[f"Family_{idx+1}"] = sorted(fam_langs)
+        
+    # --- Saving Results ---
+    model_out_dir = os.path.join(OUTPUT_DIR, model_key)
+    os.makedirs(model_out_dir, exist_ok=True)
+    
+    # Save Families JSON
+    fam_path = os.path.join(model_out_dir, "language_families.json")
+    with open(fam_path, 'w', encoding='utf-8') as f:
+        json.dump(sorted_families, f, indent=2)
+        
+    # Save Distance Matrix
+    dist_path = os.path.join(model_out_dir, "cosine_distance_matrix.json")
+    dist_list = distance_matrix.tolist()
+    # Serialize with language labels for readability
+    dist_json = {"languages": langs, "matrix": dist_list}
+    with open(dist_path, 'w', encoding='utf-8') as f:
+        json.dump(dist_json, f, indent=2)
+        
+    # Save Dendrogram Plot
+    plt.figure(figsize=(10, 6))
+    dendrogram(Z, labels=langs, leaf_rotation=90)
+    plt.title(f"Hierarchical Clustering - {model_key}\nCCC: {ccc:.4f}")
+    plt.xlabel("Language")
+    plt.ylabel("Distance")
+    plt.tight_layout()
+    plt.savefig(os.path.join(model_out_dir, "dendrogram.png"), dpi=300)
+    plt.savefig(os.path.join(model_out_dir, "dendrogram.pdf"))
+    plt.close()
+    
+    print(f"  Saved results to {model_out_dir}")
+    
+    return {
+        "model": model_key,
+        "ccc": ccc,
+        "families": sorted_families
+    }
 
-# Perform hierarchical clustering
-print("\nPerforming hierarchical clustering...")
-condensed_distances = squareform(distance_matrix)
-Z = linkage(condensed_distances, method='ward')
-# Create dendrogram visualization
-print("Generating dendrogram...")
-plt.figure(figsize=(12, 6))
 
-dendrogram(Z, labels=ordered_langs, leaf_rotation=90)
-plt.xlabel('Programming Language', fontsize=12)
-plt.ylabel('Distance', fontsize=12)
-plt.title('Hierarchical Clustering of Programming Languages\n(Based on Octen-Embedding-0.6B)', fontsize=14)
-plt.xticks(rotation=90, fontsize=10)
-plt.tight_layout()
+def main():
+    parser = argparse.ArgumentParser(description="Perform clustering on generated embeddings.")
+    parser.add_argument("--model", type=str, default="all",
+                        choices=MODELS + ["all"],
+                        help="Model to use for clustering (default: all)")
+    args = parser.parse_args()
+    
+    models_to_run = [args.model] if args.model != "all" else MODELS
+    
+    results = []
+    for model_key in models_to_run:
+        res = perform_clustering(model_key)
+        if res:
+            results.append(res)
+            
+    # Save comparison summary if running multiple or expected
+    if results:
+        # Sort by CCC descending (higher is better preservation of distances)
+        results.sort(key=lambda x: x["ccc"], reverse=True)
+        
+        summary_path = os.path.join(OUTPUT_DIR, "family_comparison.json")
+        with open(summary_path, 'w', encoding='utf-8') as f:
+            json.dump(results, f, indent=2)
+            
+        print(f"\nSaved comparison summary to {summary_path}")
+        print("\n=== Model Ranking by Cophenetic Correlation Coefficient ===")
+        print(f"{'Rank':<5} {'Model':<15} {'CCC':<10}")
+        print("-" * 35)
+        for idx, res in enumerate(results, 1):
+            print(f"{idx:<5} {res['model']:<15} {res['ccc']:.4f}")
 
-# Save dendrogram
-dendrogram_output = os.path.join(output_dir, "language_families_dendrogram.pdf")
-plt.savefig(dendrogram_output, dpi=300, bbox_inches='tight')
-print(f"Saved dendrogram to {dendrogram_output}")
 
-# Also save as PNG for easy viewing
-dendrogram_png = os.path.join(output_dir, "language_families_dendrogram.png")
-plt.savefig(dendrogram_png, dpi=300, bbox_inches='tight')
-print(f"Saved dendrogram to {dendrogram_png}")
-
-plt.close()
-
-# Find the most similar language pairs
-print("\n" + "="*60)
-print("Top 10 Most Similar Language Pairs:")
-print("="*60)
-
-similarities = []
-for i in range(n):
-    for j in range(i+1, n):
-        similarities.append((ordered_langs[i], ordered_langs[j], distance_matrix[i, j]))
-
-similarities.sort(key=lambda x: x[2])
-
-for i, (lang1, lang2, dist) in enumerate(similarities[:10], 1):
-    print(f"{i:2d}. {lang1:<15} ↔ {lang2:<15} (distance: {dist:.4f})")
-
-# Find the centroid language (minimum average distance to all others)
-print("\n" + "="*60)
-print("Language Centrality Analysis:")
-print("="*60)
-
-avg_distances = []
-for i, lang in enumerate(ordered_langs):
-    avg_dist = np.mean([distance_matrix[i, j] for j in range(n) if i != j])
-    avg_distances.append((lang, avg_dist))
-
-avg_distances.sort(key=lambda x: x[1])
-
-print("\nLanguages by centrality (most central first):")
-for i, (lang, avg_dist) in enumerate(avg_distances, 1):
-    print(f"{i:2d}. {lang:<15} (avg distance: {avg_dist:.4f})")
-
-print("\n✓ Clustering analysis complete!")
-print(f"\nOutput files:")
-print(f"  • {dendrogram_output}")
-print(f"  • {dendrogram_png}")
-print(f"  • {distance_output}")
-print(f"  • {distance_table}")
+if __name__ == "__main__":
+    main()

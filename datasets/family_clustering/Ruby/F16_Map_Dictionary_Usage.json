@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```ruby\nstudents_grades = {\n  \"Alice\" => 85,\n  \"Bob\" => 92,\n  \"Charlie\" => 78,\n  \"David\" => 88\n}\n\naverage_grade = students_grades.values.sum / students_grades.size.to_f\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```ruby\ndef total_cost(products)\n  products.values.sum\nend\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```ruby\ndef word_frequencies(text)\n  frequencies = Hash.new(0)\n  words = text.split(/\\W+/)\n  words.each { |word| frequencies[word.downcase] += 1 }\n  frequencies\nend\n\ntext = \"Your sample text goes here\"\nputs word_frequencies(text)\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```ruby\ndef employee_with_most_hours(work_hours)\n  work_hours.max_by { |id, hours| hours }[0]\nend\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```ruby\nrequire 'time'\n\nclass LoginSystem\n  def initialize\n    @users = {}\n  end\n\n  def login(username, password)\n    if account_locked?(username)\n      return \"Account locked due to multiple failed attempts.\"\n    end\n\n    if authenticate(username, password)\n      reset_attempts(username)\n      \"Login successful\"\n    else\n      record_failed_attempt(username)\n      \"Login failed\"\n    end\n  end\n\n  private\n\n  def authenticate(username, password)\n    # Placeholder for actual authentication logic\n    username == \"user\" && password == \"password\"\n  end\n\n  def record_failed_attempt(username)\n    @users[username] ||= { attempts: 0, timestamps: [] }\n    @users[username][:attempts] += 1\n    @users[username][:timestamps] << Time.now\n    lock_account(username) if @users[username][:attempts] >= 3\n  end\n\n  def reset_attempts(username)\n    @users[username] = { attempts: 0, timestamps: [] }\n  end\n\n  def account_locked?(username)\n    @users[username] && @users[username][:attempts] >= 3\n  end\n\n  def lock_account(username)\n    @users[username][:locked] = true\n  end\nend\n\n# Example usage\nsystem = LoginSystem.new\nputs system.login(\"user\", \"wrongpassword\")\nputs system.login(\"user\", \"wrongpassword\")\nputs system.login(\"user\", \"wrongpassword\")\nputs system.login(\"user\", \"password\")\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```ruby\nclass Phonebook\n  def initialize\n    @contacts = {}\n  end\n\n  def add_contact(name, phone_number)\n    @contacts[name] = phone_number\n  end\n\n  def remove_contact(name)\n    @contacts.delete(name)\n  end\n\n  def lookup_contact(name)\n    @contacts[name]\n  end\nend\n\nphonebook = Phonebook.new\nphonebook.add_contact('Alice', '123-456-7890')\nphonebook.add_contact('Bob', '987-654-3210')\nputs phonebook.lookup_contact('Alice')\nphonebook.remove_contact('Bob')\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```ruby\ncities = {\n  \"New York\" => 8419600,\n  \"Los Angeles\" => 3980400,\n  \"Chicago\" => 2716000,\n  \"Houston\" => 2328000,\n  \"Phoenix\" => 1690000\n}\n\ncity_with_max_population = cities.max_by { |_, population| population }.first\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```ruby\ndictionary = {\n  \"hello\" => \"hola\",\n  \"world\" => \"mundo\",\n  \"good\" => \"bueno\",\n  \"morning\" => \"ma\u00f1ana\",\n  \"evening\" => \"tarde\",\n  \"night\" => \"noche\"\n}\n\ndef translate_sentence(sentence, dictionary)\n  words = sentence.downcase.split\n  translated_words = words.map { |word| dictionary[word] || word }\n  translated_words.join(' ')\nend\n\nsentence = \"Hello world, good morning\"\ntranslated_sentence = translate_sentence(sentence, dictionary)\nputs translated_sentence\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```ruby\nclass Library\n  def initialize\n    @books = {}\n  end\n\n  def add_book(title, author)\n    @books[title] = author\n  end\n\n  def find_books_by_author(author)\n    @books.select { |title, book_author| book_author == author }.keys\n  end\nend\n\nlibrary = Library.new\nlibrary.add_book(\"1984\", \"George Orwell\")\nlibrary.add_book(\"Animal Farm\", \"George Orwell\")\nlibrary.add_book(\"Brave New World\", \"Aldous Huxley\")\n\nputs library.find_books_by_author(\"George Orwell\").inspect\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```ruby\n# Create a map to store product IDs and their stock levels\nproduct_stock = {\n  \"product_1\" => 100,\n  \"product_2\" => 50,\n  \"product_3\" => 75\n}\n\n# Function to update stock levels after a sale\ndef update_stock(product_stock, product_id, quantity_sold)\n  if product_stock.key?(product_id)\n    product_stock[product_id] -= quantity_sold\n  end\nend\n\n# Example usage\nupdate_stock(product_stock, \"product_1\", 5)\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```ruby\ncountry_codes = {\n  'US' => 'United States',\n  'CA' => 'Canada',\n  'MX' => 'Mexico',\n  'FR' => 'France',\n  'DE' => 'Germany'\n}\n\ngiven_code = 'CA'\nputs country_codes[given_code]\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```ruby\nstudents = {\n  101 => \"Alice\",\n  102 => \"Bob\",\n  103 => \"Charlie\"\n}\n\ndef get_student_name_by_id(students, id)\n  students[id]\nend\n\n# Example usage\nstudent_id = 101\nputs \"Student Name: #{get_student_name_by_id(students, student_id)}\"\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```ruby\nclass ConfigSettings\n  def initialize\n    @settings = {}\n  end\n\n  def set(key, value)\n    @settings[key] = value\n  end\n\n  def get(key)\n    @settings[key]\n  end\nend\n\n# Example usage\nconfig = ConfigSettings.new\nconfig.set('theme', 'dark')\nputs config.get('theme') # Output: dark\nconfig.set('language', 'en')\nputs config.get('language') # Output: en\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```ruby\ndictionary = {\n  \"apple\" => \"A fruit that is typically round and red or green.\",\n  \"banana\" => \"A long, curved fruit with a thick peel.\",\n  \"cherry\" => \"A small, round fruit that is typically red or black.\",\n  \"date\" => \"A sweet fruit from the date palm, often dried.\",\n  \"apricot\" => \"A small, orange fruit with a soft flesh.\"\n}\n\ndef display_words_starting_with(letter, dictionary)\n  dictionary.each_key do |word|\n    puts word if word.start_with?(letter)\n  end\nend\n\n# Example usage:\ndisplay_words_starting_with(\"a\", dictionary)\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```ruby\nusers = {\n  \"alice\" => \"password123\",\n  \"bob\" => \"qwerty\",\n  \"charlie\" => \"letmein\"\n}\n\ndef verify_login(users, username, password)\n  if users.key?(username) && users[username] == password\n    \"Login successful\"\n  else\n    \"Invalid username or password\"\n  end\nend\n\n# Example usage\nputs verify_login(users, \"alice\", \"password123\")\nputs verify_login(users, \"bob\", \"wrongpassword\")\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```ruby\npurchases = [\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\"]\n\npurchase_count = Hash.new(0)\n\npurchases.each do |item|\n  purchase_count[item] += 1\nend\n\nmost_popular_item = purchase_count.max_by { |item, count| count }.first\n\nputs most_popular_item\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```ruby\nfile_associations = {\n  'txt' => 'Text Editor',\n  'jpg' => 'Image Viewer',\n  'png' => 'Image Viewer',\n  'pdf' => 'PDF Reader',\n  'docx' => 'Word Processor',\n  'xlsx' => 'Spreadsheet Application'\n}\n\ndef open_file(file_name, associations)\n  extension = file_name.split('.').last\n  application = associations[extension]\n  if application\n    \"Open '#{file_name}' with #{application}.\"\n  else\n    \"No application found for '#{file_name}'.\"\n  end\nend\n\n# Example usage\nputs open_file('document.txt', file_associations)\nputs open_file('photo.jpg', file_associations)\nputs open_file('presentation.pptx', file_associations)\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```ruby\nmenu = {\n  \"Burger\" => 5.99,\n  \"Fries\" => 2.99,\n  \"Salad\" => 4.99,\n  \"Soda\" => 1.49\n}\n\ndef calculate_total(menu, order)\n  total = 0\n  order.each do |item, quantity|\n    if menu.has_key?(item)\n      total += menu[item] * quantity\n    end\n  end\n  total\nend\n\ncustomer_order = {\n  \"Burger\" => 2,\n  \"Fries\" => 1,\n  \"Soda\" => 3\n}\n\ntotal = calculate_total(menu, customer_order)\nputs \"Total Bill: $#{'%.2f' % total}\"\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```ruby\nclass WarehouseInventory\n  def initialize\n    @inventory = {}\n  end\n\n  def add_item(item, quantity)\n    @inventory[item] = (@inventory[item] || 0) + quantity\n  end\n\n  def remove_item(item, quantity)\n    if @inventory[item]\n      @inventory[item] -= quantity\n      @inventory.delete(item) if @inventory[item] <= 0\n    end\n  end\n\n  def check_inventory(item)\n    @inventory[item] || 0\n  end\nend\n\n# Example usage:\n# warehouse = WarehouseInventory.new\n# warehouse.add_item(\"apple\", 10)\n# warehouse.remove_item(\"apple\", 3)\n# puts warehouse.check_inventory(\"apple\") # Output: 7\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```ruby\ndef roman_to_integer(roman)\n  roman_map = {\n    'I' => 1,\n    'V' => 5,\n    'X' => 10,\n    'L' => 50,\n    'C' => 100,\n    'D' => 500,\n    'M' => 1000\n  }\n  \n  total = 0\n  prev_value = 0\n\n  roman.reverse.each_char do |char|\n    current_value = roman_map[char]\n    if current_value < prev_value\n      total -= current_value\n    else\n      total += current_value\n    end\n    prev_value = current_value\n  end\n\n  total\nend\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```ruby\ndef letter_frequency(string)\n  frequency = Hash.new(0)\n  string.each_char do |char|\n    frequency[char] += 1 if char =~ /[a-zA-Z]/\n  end\n  frequency\nend\n\ninput_string = \"example string\"\nputs letter_frequency(input_string)\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```ruby\nscores = {\n  \"Team A\" => 85,\n  \"Team B\" => 90,\n  \"Team C\" => 78\n}\n\nhighest_scoring_team = scores.max_by { |team, score| score }.first\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```ruby\ndef total_weight(items)\n  items.values.sum\nend\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```ruby\nwebsites = {\n  \"https://example.com\" => 120,\n  \"https://another-site.com\" => 98,\n  \"https://popular-site.com\" => 250,\n  \"https://less-visited.com\" => 45\n}\n\nmost_visited = websites.max_by { |_, visits| visits }.first\nputs most_visited\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```ruby\nerror_codes = {\n  404 => \"Not Found\",\n  500 => \"Internal Server Error\",\n  403 => \"Forbidden\",\n  401 => \"Unauthorized\"\n}\n\ncode = 404\nputs error_codes[code]\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```ruby\ncontacts = {}\n\n# Adding or updating contact information\ndef add_or_update_contact(contacts, name, phone_number)\n  contacts[name] = phone_number\nend\n\n# Looking up a contact's phone number\ndef lookup_contact(contacts, name)\n  contacts[name]\nend\n\n# Example usage\nadd_or_update_contact(contacts, \"John Doe\", \"123-456-7890\")\nadd_or_update_contact(contacts, \"Jane Smith\", \"098-765-4321\")\n\nputs lookup_contact(contacts, \"John Doe\")   # Outputs: 123-456-7890\nputs lookup_contact(contacts, \"Jane Smith\") # Outputs: 098-765-4321\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```ruby\ntasks = {\n  \"Alice\" => \"Design\",\n  \"Bob\" => \"Development\",\n  \"Charlie\" => \"Testing\"\n}\n\nemployees = {\n  \"Design\" => [\"Alice\"],\n  \"Development\" => [\"Bob\"],\n  \"Testing\" => [\"Charlie\"]\n}\n\ntask_assignment = {}\n\nemployees.each do |task, employee_list|\n  employee_list.each do |employee|\n    if tasks[employee] == task\n      task_assignment[employee] = task\n    end\n  end\nend\n\nputs task_assignment\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```ruby\nairport_codes = {\n  \"LAX\" => \"Los Angeles\",\n  \"JFK\" => \"New York\",\n  \"ORD\" => \"Chicago\",\n  \"ATL\" => \"Atlanta\",\n  \"DFW\" => \"Dallas/Fort Worth\"\n}\n\ndef get_city_name_by_code(code, airport_codes)\n  airport_codes[code]\nend\n\n# Example retrieval\ncity_name = get_city_name_by_code(\"LAX\", airport_codes)\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```ruby\nmovies = {\n  \"The Shawshank Redemption\" => 1994,\n  \"The Godfather\" => 1972,\n  \"The Dark Knight\" => 2008,\n  \"Pulp Fiction\" => 1994,\n  \"The Lord of the Rings: The Return of the King\" => 2003,\n  \"Forrest Gump\" => 1994,\n  \"Inception\" => 2010\n}\n\ndef movies_released_in_decade(movies, decade_start_year)\n  decade_end_year = decade_start_year + 9\n  movies.select { |title, year| year >= decade_start_year && year <= decade_end_year }\nend\n\ndecade_start_year = 1990\nmovies_in_decade = movies_released_in_decade(movies, decade_start_year)\n\nputs movies_in_decade\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```ruby\ndef group_students_by_grades(students)\n  grouped_by_grades = Hash.new { |hash, key| hash[key] = [] }\n  students.each do |student, grade|\n    grouped_by_grades[grade] << student\n  end\n  grouped_by_grades\nend\n\n# Example usage:\nstudents = { \"Alice\" => \"A\", \"Bob\" => \"B\", \"Charlie\" => \"A\", \"David\" => \"C\" }\ngrouped_students = group_students_by_grades(students)\nputs grouped_students\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```ruby\nvisitors = {\n  \"home\" => 150,\n  \"about\" => 120,\n  \"contact\" => 90,\n  \"blog\" => 200,\n  \"shop\" => 180\n}\n\nmost_visited_section = visitors.max_by { |section, count| count }[0]\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```ruby\nclass ProjectManager\n  def initialize\n    @deadlines = {}\n  end\n\n  def assign_deadline(member, deadline)\n    @deadlines[member] = deadline\n  end\n\n  def extend_deadline(member, extra_days)\n    if @deadlines.key?(member)\n      @deadlines[member] += extra_days\n    else\n      puts \"No deadline assigned to #{member}.\"\n    end\n  end\n\n  def display_deadlines\n    @deadlines.each do |member, deadline|\n      puts \"#{member}: #{deadline} days\"\n    end\n  end\nend\n\nmanager = ProjectManager.new\nmanager.assign_deadline(\"Alice\", 10)\nmanager.assign_deadline(\"Bob\", 15)\nmanager.extend_deadline(\"Alice\", 5)\nmanager.display_deadlines\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```ruby\nclass Library\n  def initialize\n    @books = {}\n  end\n\n  def add_book(title)\n    @books[title] = true\n  end\n\n  def borrow_book(title)\n    if @books[title]\n      @books[title] = false\n      \"#{title} has been borrowed.\"\n    else\n      \"#{title} is not available.\"\n    end\n  end\n\n  def return_book(title)\n    if @books.key?(title)\n      @books[title] = true\n      \"#{title} has been returned.\"\n    else\n      \"#{title} does not belong to our library.\"\n    end\n  end\n\n  def available_books\n    @books.select { |title, available| available }.keys\n  end\nend\n\nlibrary = Library.new\nlibrary.add_book(\"1984\")\nlibrary.add_book(\"Brave New World\")\nputs library.borrow_book(\"1984\")\nputs library.available_books\nputs library.return_book(\"1984\")\nputs library.available_books\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```ruby\nplanets_distances = {\n  \"Mercury\" => 57.9,\n  \"Venus\" => 108.2,\n  \"Earth\" => 149.6,\n  \"Mars\" => 227.9,\n  \"Jupiter\" => 778.3,\n  \"Saturn\" => 1427,\n  \"Uranus\" => 2871,\n  \"Neptune\" => 4497.1\n}\n\nearth_distance = planets_distances[\"Earth\"]\nclosest_planet = planets_distances.reject { |name, _| name == \"Earth\" }\n                                  .min_by { |_, distance| (distance - earth_distance).abs }\n                                  .first\n\nputs closest_planet\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```ruby\nmorse_to_text = {\n  '.-' => 'A', '-...' => 'B', '-.-.' => 'C', '-..' => 'D', '.' => 'E',\n  '..-.' => 'F', '--.' => 'G', '....' => 'H', '..' => 'I', '.---' => 'J',\n  '-.-' => 'K', '.-..' => 'L', '--' => 'M', '-.' => 'N', '---' => 'O',\n  '.--.' => 'P', '--.-' => 'Q', '.-.' => 'R', '...' => 'S', '-' => 'T',\n  '..-' => 'U', '...-' => 'V', '.--' => 'W', '-..-' => 'X', '-.--' => 'Y',\n  '--..' => 'Z', '-----' => '0', '.----' => '1', '..---' => '2', '...--' => '3',\n  '....-' => '4', '.....' => '5', '-....' => '6', '--...' => '7', '---..' => '8',\n  '----.' => '9', ' ' => ' '\n}\n\ndef translate_morse(morse_code, morse_to_text)\n  words = morse_code.split('   ')\n  translated_words = words.map do |word|\n    word.split.map { |char| morse_to_text[char] }.join\n  end\n  translated_words.join(' ')\nend\n\nmorse_code = \"... --- ...\"\nputs translate_morse(morse_code, morse_to_text)\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```ruby\nvehicle_registry = {\n  \"ABC123\" => \"John Doe\",\n  \"XYZ789\" => \"Jane Smith\",\n  \"LMN456\" => \"Alice Johnson\"\n}\n\n# Example usage\nowner = vehicle_registry[\"ABC123\"]\nputs \"The owner of vehicle ABC123 is #{owner}.\"\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```ruby\nteams = {\n  \"Lions\" => { wins: 10, losses: 2 },\n  \"Tigers\" => { wins: 8, losses: 4 },\n  \"Bears\" => { wins: 12, losses: 1 },\n  \"Wolves\" => { wins: 9, losses: 3 }\n}\n\nbest_team = teams.max_by { |_team, record| record[:wins].to_f / (record[:wins] + record[:losses]) }\nbest_team_name, best_record = best_team\n\nputs \"The team with the best record is #{best_team_name} with a record of #{best_record[:wins]} wins and #{best_record[:losses]} losses.\"\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```ruby\ndef currency_code_to_name(code)\n  currency_map = {\n    'USD' => 'United States Dollar',\n    'EUR' => 'Euro',\n    'JPY' => 'Japanese Yen',\n    'GBP' => 'British Pound Sterling',\n    'AUD' => 'Australian Dollar',\n    'CAD' => 'Canadian Dollar',\n    'CHF' => 'Swiss Franc',\n    'CNY' => 'Chinese Yuan',\n    'SEK' => 'Swedish Krona',\n    'NZD' => 'New Zealand Dollar'\n  }\n  \n  currency_map[code]\nend\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```ruby\nstudents_attendance = {\n  \"Alice\" => 5,\n  \"Bob\" => 7,\n  \"Charlie\" => 3,\n  \"David\" => 8\n}\n\nhighest_attendance_student = students_attendance.max_by { |name, attendance| attendance }\n\nputs \"Student with the highest attendance: #{highest_attendance_student[0]}\"\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```ruby\ncountry_capitals = {\n  \"United States\" => \"Washington, D.C.\",\n  \"Canada\" => \"Ottawa\",\n  \"United Kingdom\" => \"London\",\n  \"France\" => \"Paris\",\n  \"Germany\" => \"Berlin\"\n}\n\ndef capital_lookup(country, capitals_map)\n  capitals_map[country]\nend\n\nputs capital_lookup(\"France\", country_capitals)\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```ruby\ningredients = {\n  \"flour\" => \"2 cups\",\n  \"sugar\" => \"1 cup\",\n  \"eggs\" => \"2\",\n  \"milk\" => \"1 cup\",\n  \"butter\" => \"100 grams\"\n}\n\ningredients.each do |ingredient, quantity|\n  puts \"#{ingredient}: #{quantity}\"\nend\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```ruby\nclass UserProfile\n  attr_accessor :name, :email, :bio\n\n  def initialize(name, email, bio)\n    @name = name\n    @email = email\n    @bio = bio\n  end\nend\n\nclass SocialMediaSystem\n  def initialize\n    @user_profiles = {}\n  end\n\n  def add_user(username, profile)\n    @user_profiles[username] = profile\n  end\n\n  def get_user_profile(username)\n    @user_profiles[username]\n  end\nend\n\n# Example usage:\nsystem = SocialMediaSystem.new\nprofile = UserProfile.new(\"John Doe\", \"john@example.com\", \"Software Developer\")\nsystem.add_user(\"johndoe\", profile)\n\nputs system.get_user_profile(\"johndoe\").name\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```ruby\ndef list_products_in_category(products, category)\n  products.fetch(category, [])\nend\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```ruby\nshopping_list = {\n  \"apples\" => 3,\n  \"bananas\" => 5,\n  \"carrots\" => 2\n}\n\ndef update_quantity(shopping_list, item, quantity)\n  shopping_list[item] = quantity\nend\n\nupdate_quantity(shopping_list, \"apples\", 4)\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```ruby\nevents = {\n  \"Moon Landing\" => 1969,\n  \"Fall of the Berlin Wall\" => 1989,\n  \"Y2K\" => 2000,\n  \"World War II ends\" => 1945,\n  \"First iPhone Released\" => 2007\n}\n\ndef events_in_year(events, year)\n  events.select { |event, event_year| event_year == year }.keys\nend\n\nyear = 1989\nevents_that_year = events_in_year(events, year)\nputs \"Events in #{year}: #{events_that_year.join(', ')}\"\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```ruby\nclass RoleManager\n  def initialize\n    @roles_permissions = {}\n  end\n\n  def add_role(role, permissions = [])\n    @roles_permissions[role] = permissions\n  end\n\n  def add_permission_to_role(role, permission)\n    @roles_permissions[role] ||= []\n    @roles_permissions[role] << permission unless @roles_permissions[role].include?(permission)\n  end\n\n  def remove_permission_from_role(role, permission)\n    return unless @roles_permissions[role]\n\n    @roles_permissions[role].delete(permission)\n  end\n\n  def get_permissions(role)\n    @roles_permissions[role] || []\n  end\n\n  def has_permission?(role, permission)\n    @roles_permissions.fetch(role, []).include?(permission)\n  end\nend\n\nrole_manager = RoleManager.new\nrole_manager.add_role(\"admin\", [\"read\", \"write\", \"delete\"])\nrole_manager.add_permission_to_role(\"user\", \"read\")\nputs role_manager.get_permissions(\"admin\")\nputs role_manager.has_permission?(\"user\", \"write\")\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```ruby\ndef numeric_to_letter_grade(numeric_grade)\n  grade_map = {\n    (90..100) => 'A',\n    (80...90) => 'B',\n    (70...80) => 'C',\n    (60...70) => 'D',\n    (0...60) => 'F'\n  }\n  \n  grade_map.each do |range, letter|\n    return letter if range.include?(numeric_grade)\n  end\n  \n  'Invalid grade'\nend\n\n# Example usage:\nputs numeric_to_letter_grade(85) # Output: B\nputs numeric_to_letter_grade(72) # Output: C\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```ruby\nholidays = {\n  \"New Year's Day\" => '2024-01-01',\n  \"Valentine's Day\" => '2024-02-14',\n  \"Independence Day\" => '2024-07-04',\n  \"Halloween\" => '2024-10-31',\n  \"Christmas\" => '2024-12-25'\n}\n\ndef holiday_date(holidays, holiday_name)\n  holidays[holiday_name]\nend\n\n# Example usage:\ndate = holiday_date(holidays, \"Christmas\")\nputs date  # Output: 2024-12-25\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```ruby\nclass OrderStatusTracker\n  def initialize\n    @orders = {}\n  end\n\n  def add_order(order_id, status)\n    @orders[order_id] = status\n  end\n\n  def update_order_status(order_id, new_status)\n    if @orders.key?(order_id)\n      @orders[order_id] = new_status\n    else\n      \"Order ID not found.\"\n    end\n  end\n\n  def get_order_status(order_id)\n    @orders[order_id]\n  end\nend\n\n# Example usage:\ntracker = OrderStatusTracker.new\ntracker.add_order(101, \"Processing\")\ntracker.update_order_status(101, \"Shipped\")\nputs tracker.get_order_status(101)  # Output: \"Shipped\"\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```ruby\nfood_nutrition = {\n  \"apple\" => { calories: 52, protein: 0.3, fat: 0.2, carbohydrates: 14 },\n  \"banana\" => { calories: 96, protein: 1.3, fat: 0.3, carbohydrates: 27 },\n  \"carrot\" => { calories: 41, protein: 0.9, fat: 0.2, carbohydrates: 10 },\n  \"broccoli\" => { calories: 55, protein: 3.7, fat: 0.6, carbohydrates: 11 },\n  \"chicken breast\" => { calories: 165, protein: 31, fat: 3.6, carbohydrates: 0 }\n}\n\n# Example of accessing nutritional information\nfood_item = \"apple\"\nnutrition_info = food_nutrition[food_item]\nputs \"Nutritional information for #{food_item}:\"\nputs \"Calories: #{nutrition_info[:calories]}\"\nputs \"Protein: #{nutrition_info[:protein]}g\"\nputs \"Fat: #{nutrition_info[:fat]}g\"\nputs \"Carbohydrates: #{nutrition_info[:carbohydrates]}g\"\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```ruby\nbook_genres = {\n  \"Science Fiction\" => [\"Dune\", \"Neuromancer\", \"The Left Hand of Darkness\"],\n  \"Fantasy\" => [\"The Hobbit\", \"Harry Potter and the Sorcerer's Stone\", \"The Name of the Wind\"],\n  \"Mystery\" => [\"The Da Vinci Code\", \"Gone Girl\", \"The Girl with the Dragon Tattoo\"]\n}\n\ndef books_in_genre(genre, book_genres)\n  book_genres[genre] || []\nend\n\n# Example usage:\nputs books_in_genre(\"Fantasy\", book_genres).join(\", \")\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```ruby\ndef state_abbreviation_to_name(abbreviation)\n  states = {\n    'AL' => 'Alabama',\n    'AK' => 'Alaska',\n    'AZ' => 'Arizona',\n    'AR' => 'Arkansas',\n    'CA' => 'California',\n    'CO' => 'Colorado',\n    'CT' => 'Connecticut',\n    'DE' => 'Delaware',\n    'FL' => 'Florida',\n    'GA' => 'Georgia',\n    'HI' => 'Hawaii',\n    'ID' => 'Idaho',\n    'IL' => 'Illinois',\n    'IN' => 'Indiana',\n    'IA' => 'Iowa',\n    'KS' => 'Kansas',\n    'KY' => 'Kentucky',\n    'LA' => 'Louisiana',\n    'ME' => 'Maine',\n    'MD' => 'Maryland',\n    'MA' => 'Massachusetts',\n    'MI' => 'Michigan',\n    'MN' => 'Minnesota',\n    'MS' => 'Mississippi',\n    'MO' => 'Missouri',\n    'MT' => 'Montana',\n    'NE' => 'Nebraska',\n    'NV' => 'Nevada',\n    'NH' => 'New Hampshire',\n    'NJ' => 'New Jersey',\n    'NM' => 'New Mexico',\n    'NY' => 'New York',\n    'NC' => 'North Carolina',\n    'ND' => 'North Dakota',\n    'OH' => 'Ohio',\n    'OK' => 'Oklahoma',\n    'OR' => 'Oregon',\n    'PA' => 'Pennsylvania',\n    'RI' => 'Rhode Island',\n    'SC' => 'South Carolina',\n    'SD' => 'South Dakota',\n    'TN' => 'Tennessee',\n    'TX' => 'Texas',\n    'UT' => 'Utah',\n    'VT' => 'Vermont',\n    'VA' => 'Virginia',\n    'WA' => 'Washington',\n    'WV' => 'West Virginia',\n    'WI' => 'Wisconsin',\n    'WY' => 'Wyoming'\n  }\n\n  states[abbreviation]\nend\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```ruby\ncustomer_orders = {\n  \"Alice\" => [\"Order1\", \"Order2\"],\n  \"Bob\" => [\"Order3\"],\n  \"Charlie\" => [\"Order4\", \"Order5\", \"Order6\"]\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```ruby\nclass ParkingLot\n  def initialize\n    @spaces = {}\n  end\n\n  def occupy_space(space_number)\n    @spaces[space_number] = true\n  end\n\n  def free_space(space_number)\n    @spaces[space_number] = false\n  end\n\n  def occupied?(space_number)\n    @spaces[space_number] == true\n  end\n\n  def all_spaces\n    @spaces\n  end\nend\n\n# Example usage\nparking_lot = ParkingLot.new\nparking_lot.occupy_space(1)\nparking_lot.occupy_space(2)\nputs parking_lot.occupied?(1) # true\nputs parking_lot.occupied?(3) # false\nparking_lot.free_space(1)\nputs parking_lot.occupied?(1) # false\nputs parking_lot.all_spaces\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```ruby\nscores = {}\n\n# Example of adding/updating scores\nscores['Alice'] = 10\nscores['Bob'] = 15\n\n# Example of accessing a score\nputs scores['Alice'] # Output: 10\n\n# Example of updating a score\nscores['Alice'] += 5\n\n# Example of iterating over the dictionary\nscores.each do |player, score|\n  puts \"#{player}: #{score}\"\nend\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```ruby\nscientific_terms = {\n  \"photosynthesis\" => \"The process by which green plants and some other organisms use sunlight to synthesize foods with the help of chlorophyll.\",\n  \"gravity\" => \"A natural phenomenon by which all things with mass or energy are brought toward one another.\",\n  \"evolution\" => \"The process by which different kinds of living organisms are thought to have developed and diversified from earlier forms during the history of the earth.\",\n  \"atom\" => \"The basic unit of a chemical element, consisting of a nucleus of protons and neutrons with electrons orbiting this nucleus.\",\n  \"osmosis\" => \"The spontaneous movement of solvent molecules through a selectively permeable membrane from a region of lower solute concentration to a region of higher solute concentration.\"\n}\n\ndef lookup_definition(dictionary, term)\n  dictionary[term] || \"Definition not found.\"\nend\n\nputs lookup_definition(scientific_terms, \"photosynthesis\")\nputs lookup_definition(scientific_terms, \"gravity\")\nputs lookup_definition(scientific_terms, \"evolution\")\nputs lookup_definition(scientific_terms, \"unknown_term\")\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```ruby\ndef convert_temperature(scale, temperature)\n  conversion_map = {\n    'Celsius' => ->(temp) { temp * 9.0 / 5.0 + 32 },\n    'Fahrenheit' => ->(temp) { (temp - 32) * 5.0 / 9.0 }\n  }\n  \n  conversion_map[scale].call(temperature)\nend\n\n# Example usage:\n# puts convert_temperature('Celsius', 100) # => 212.0\n# puts convert_temperature('Fahrenheit', 212) # => 100.0\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```ruby\nemployees = {\n  \"Alice\" => \"Engineering\",\n  \"Bob\" => \"Marketing\",\n  \"Charlie\" => \"Human Resources\",\n  \"David\" => \"Finance\"\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```ruby\ntourist_attractions = {\n  \"Eiffel Tower\" => \"Paris, France\",\n  \"Statue of Liberty\" => \"New York City, USA\",\n  \"Colosseum\" => \"Rome, Italy\",\n  \"Great Wall of China\" => \"China\",\n  \"Taj Mahal\" => \"Agra, India\"\n}\n\ntourist_attractions.each do |attraction, location|\n  puts \"#{attraction} is located in #{location}.\"\nend\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```ruby\nclass MusicCollection\n  def initialize\n    @albums = {}\n  end\n\n  def add_album(title, artist)\n    @albums[title] = artist\n  end\n\n  def remove_album(title)\n    @albums.delete(title)\n  end\n\n  def list_albums\n    @albums.each do |title, artist|\n      puts \"Title: #{title}, Artist: #{artist}\"\n    end\n  end\nend\n\ncollection = MusicCollection.new\ncollection.add_album(\"The Dark Side of the Moon\", \"Pink Floyd\")\ncollection.add_album(\"Abbey Road\", \"The Beatles\")\ncollection.remove_album(\"Abbey Road\")\ncollection.list_albums\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```ruby\ninventory = {\n  \"apple\" => 50,\n  \"banana\" => 30,\n  \"orange\" => 20,\n  \"grape\" => 15\n}\n\n# Example operations on the inventory\ninventory[\"banana\"] += 10  # Restocking bananas\ninventory[\"apple\"] -= 5    # Selling some apples\n\n# Adding a new item\ninventory[\"pear\"] = 25\n\n# Removing an item\ninventory.delete(\"grape\")\n\nputs inventory\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```ruby\nrivers = {\n  \"Nile\" => 6650,\n  \"Amazon\" => 6400,\n  \"Yangtze\" => 6300,\n  \"Mississippi\" => 3730,\n  \"Yenisei\" => 5539\n}\n\ndef river_length(rivers, name)\n  rivers[name]\nend\n\n# Example usage:\nlength_of_nile = river_length(rivers, \"Nile\")\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```ruby\nclass ConferenceRoomTracker\n  def initialize\n    @rooms = {}\n  end\n\n  def add_room(room_name)\n    @rooms[room_name] = :available\n  end\n\n  def reserve_room(room_name)\n    if @rooms[room_name] == :available\n      @rooms[room_name] = :reserved\n      true\n    else\n      false\n    end\n  end\n\n  def release_room(room_name)\n    if @rooms[room_name] == :reserved\n      @rooms[room_name] = :available\n      true\n    else\n      false\n    end\n  end\n\n  def room_status(room_name)\n    @rooms[room_name]\n  end\n\n  def list_rooms\n    @rooms\n  end\nend\n\n# Example usage\ntracker = ConferenceRoomTracker.new\ntracker.add_room(\"Room A\")\ntracker.add_room(\"Room B\")\ntracker.reserve_room(\"Room A\")\nputs tracker.room_status(\"Room A\") # :reserved\nputs tracker.room_status(\"Room B\") # :available\ntracker.release_room(\"Room A\")\nputs tracker.list_rooms # {\"Room A\"=>:available, \"Room B\"=>:available}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```ruby\nanimal_habitats = {\n  \"Lion\" => \"Savannah\",\n  \"Polar Bear\" => \"Arctic\",\n  \"Kangaroo\" => \"Grassland\",\n  \"Penguin\" => \"Antarctica\",\n  \"Elephant\" => \"Forest\"\n}\n\nanimal_habitats.each do |animal, habitat|\n  puts \"#{animal} lives in the #{habitat}.\"\nend\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```ruby\nmountains = {\n  \"Everest\" => 8848,\n  \"K2\" => 8611,\n  \"Kangchenjunga\" => 8586,\n  \"Lhotse\" => 8516,\n  \"Makalu\" => 8485\n}\n\ntallest_mountain = mountains.max_by { |name, elevation| elevation }\n\nputs \"The tallest mountain is #{tallest_mountain[0]} with an elevation of #{tallest_mountain[1]} meters.\"\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```ruby\ndef time_zone_to_utc_offset(time_zone)\n  time_zone_map = {\n    \"PST\" => \"-08:00\",\n    \"MST\" => \"-07:00\",\n    \"CST\" => \"-06:00\",\n    \"EST\" => \"-05:00\",\n    \"GMT\" => \"+00:00\",\n    \"CET\" => \"+01:00\",\n    \"EET\" => \"+02:00\",\n    \"IST\" => \"+05:30\",\n    \"CST China\" => \"+08:00\",\n    \"JST\" => \"+09:00\"\n  }\n  \n  time_zone_map[time_zone]\nend\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```ruby\nprogramming_languages = {\n  \"Ruby\" => \"Yukihiro Matsumoto\",\n  \"Python\" => \"Guido van Rossum\",\n  \"JavaScript\" => \"Brendan Eich\",\n  \"Java\" => \"James Gosling\",\n  \"C\" => \"Dennis Ritchie\",\n  \"C++\" => \"Bjarne Stroustrup\",\n  \"C#\" => \"Anders Hejlsberg\",\n  \"PHP\" => \"Rasmus Lerdorf\",\n  \"Swift\" => \"Chris Lattner\",\n  \"Go\" => \"Robert Griesemer, Rob Pike, Ken Thompson\"\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```ruby\nclass Newsletter\n  def initialize\n    @subscribers = {}\n  end\n\n  def subscribe(email)\n    @subscribers[email] = true\n  end\n\n  def unsubscribe(email)\n    @subscribers.delete(email)\n  end\n\n  def list_subscribers\n    @subscribers.keys\n  end\nend\n\nnewsletter = Newsletter.new\nnewsletter.subscribe(\"user1@example.com\")\nnewsletter.subscribe(\"user2@example.com\")\nnewsletter.unsubscribe(\"user1@example.com\")\nputs newsletter.list_subscribers\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```ruby\nlikes = {}\n\ndef add_like(post_id, likes)\n  if likes.key?(post_id)\n    likes[post_id] += 1\n  else\n    likes[post_id] = 1\n  end\nend\n\ndef display_likes(likes)\n  likes.each do |post_id, count|\n    puts \"Post ID: #{post_id} has #{count} likes.\"\n  end\nend\n\n# Example usage\nadd_like('post1', likes)\nadd_like('post2', likes)\nadd_like('post1', likes)\n\ndisplay_likes(likes)\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```ruby\nelements = {\n  \"Hydrogen\" => 1,\n  \"Helium\" => 2,\n  \"Lithium\" => 3,\n  \"Beryllium\" => 4,\n  \"Boron\" => 5,\n  \"Carbon\" => 6,\n  \"Nitrogen\" => 7,\n  \"Oxygen\" => 8,\n  \"Fluorine\" => 9,\n  \"Neon\" => 10\n}\n\n# Example of a lookup\nelement_name = \"Oxygen\"\natomic_number = elements[element_name]\nputs atomic_number\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```ruby\ndef group_movies_by_director(movies)\n  movies_by_director = Hash.new { |hash, key| hash[key] = [] }\n  \n  movies.each do |movie|\n    director = movie[:director]\n    movies_by_director[director] << movie[:title]\n  end\n  \n  movies_by_director\nend\n\n# Example usage:\nmovies = [\n  { title: 'Inception', director: 'Christopher Nolan' },\n  { title: 'Dunkirk', director: 'Christopher Nolan' },\n  { title: 'Pulp Fiction', director: 'Quentin Tarantino' },\n  { title: 'Kill Bill', director: 'Quentin Tarantino' }\n]\n\ngrouped_movies = group_movies_by_director(movies)\nputs grouped_movies\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```ruby\nhistorical_figures = {\n  \"Albert Einstein\" => 1879,\n  \"Isaac Newton\" => 1643,\n  \"Marie Curie\" => 1867,\n  \"Galileo Galilei\" => 1564,\n  \"Leonardo da Vinci\" => 1452\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```ruby\nplanets = {\n  \"Mercury\" => 4879,\n  \"Venus\" => 12104,\n  \"Earth\" => 12742,\n  \"Mars\" => 6779,\n  \"Jupiter\" => 139820,\n  \"Saturn\" => 116460,\n  \"Uranus\" => 50724,\n  \"Neptune\" => 49244\n}\n\nplanets.each do |name, diameter|\n  puts \"#{name}: #{diameter} km\"\nend\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```ruby\nclass RestaurantRatings\n  def initialize\n    @ratings = {}\n  end\n\n  def add_rating(restaurant, rating)\n    @ratings[restaurant] = rating\n  end\n\n  def update_rating(restaurant, new_rating)\n    if @ratings.include?(restaurant)\n      @ratings[restaurant] = new_rating\n    else\n      \"Restaurant not found.\"\n    end\n  end\n\n  def get_rating(restaurant)\n    @ratings[restaurant]\n  end\nend\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```ruby\nbinary_to_decimal = {\n  '0' => 0,\n  '1' => 1,\n  '10' => 2,\n  '11' => 3,\n  '100' => 4,\n  '101' => 5,\n  '110' => 6,\n  '111' => 7,\n  '1000' => 8,\n  '1001' => 9,\n  '1010' => 10,\n  '1011' => 11,\n  '1100' => 12,\n  '1101' => 13,\n  '1110' => 14,\n  '1111' => 15\n}\n\n# Example usage\nbinary_numbers = ['0', '1', '10', '101', '1111']\ndecimal_numbers = binary_numbers.map { |binary| binary_to_decimal[binary] }\n\nputs decimal_numbers\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```ruby\nartists_works = {\n  \"Leonardo da Vinci\" => \"Mona Lisa\",\n  \"Vincent van Gogh\" => \"Starry Night\",\n  \"Pablo Picasso\" => \"Guernica\",\n  \"Claude Monet\" => \"Water Lilies\",\n  \"Frida Kahlo\" => \"The Two Fridas\"\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```ruby\nclass VehicleMaintenance\n  def initialize\n    @maintenance_schedule = {}\n  end\n\n  def add_vehicle_schedule(vehicle_id, schedule)\n    @maintenance_schedule[vehicle_id] = schedule\n  end\n\n  def get_schedule(vehicle_id)\n    @maintenance_schedule[vehicle_id]\n  end\n\n  def update_schedule(vehicle_id, new_schedule)\n    if @maintenance_schedule.key?(vehicle_id)\n      @maintenance_schedule[vehicle_id] = new_schedule\n    else\n      \"Vehicle not found\"\n    end\n  end\n\n  def remove_vehicle(vehicle_id)\n    @maintenance_schedule.delete(vehicle_id)\n  end\n\n  def all_schedules\n    @maintenance_schedule\n  end\nend\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```ruby\nlanguages_speakers = {\n  \"English\" => 1500_000_000,\n  \"Mandarin\" => 1100_000_000,\n  \"Hindi\" => 600_000_000,\n  \"Spanish\" => 460_000_000,\n  \"French\" => 280_000_000,\n  \"Arabic\" => 310_000_000,\n  \"Bengali\" => 230_000_000,\n  \"Russian\" => 258_000_000,\n  \"Portuguese\" => 221_000_000,\n  \"Indonesian\" => 199_000_000\n}\n\nlanguages_speakers.each do |language, speakers|\n  puts \"#{language}: #{speakers} speakers\"\nend\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```ruby\ncity_temperatures = {\n  \"New York\" => 12.5,\n  \"Los Angeles\" => 18.5,\n  \"Chicago\" => 10.2,\n  \"Houston\" => 20.6,\n  \"Phoenix\" => 23.5\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```ruby\ndef convert_metric_to_imperial(value, unit)\n  conversion_factors = {\n    'meter' => 3.28084,\n    'kilogram' => 2.20462,\n    'liter' => 0.264172\n  }\n\n  if conversion_factors.key?(unit)\n    value * conversion_factors[unit]\n  else\n    nil\n  end\nend\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```ruby\nworld_records = {\n  \"100m Sprint\" => \"9.58 seconds\",\n  \"Marathon\" => \"2:01:09 hours\",\n  \"Long Jump\" => \"8.95 meters\",\n  \"High Jump\" => \"2.45 meters\",\n  \"Pole Vault\" => \"6.18 meters\",\n  \"Shot Put\" => \"23.37 meters\",\n  \"Javelin Throw\" => \"98.48 meters\",\n  \"100m Freestyle Swim\" => \"46.91 seconds\",\n  \"200m Butterfly Swim\" => \"1:50.73 minutes\",\n  \"Weightlifting\" => \"263.5 kg\"\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```ruby\nclass FavoriteMovies\n  def initialize\n    @movies = {}\n  end\n\n  def add_movie(title, rating)\n    @movies[title] = rating\n  end\n\n  def remove_movie(title)\n    @movies.delete(title)\n  end\n\n  def list_movies\n    @movies.each do |title, rating|\n      puts \"#{title}: #{rating}\"\n    end\n  end\nend\n\nfavorites = FavoriteMovies.new\nfavorites.add_movie(\"Inception\", 9)\nfavorites.add_movie(\"The Matrix\", 8)\nfavorites.remove_movie(\"Inception\")\nfavorites.list_movies\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```ruby\ndistances = {\n  [\"New York\", \"Los Angeles\"] => 2445,\n  [\"Chicago\", \"Houston\"] => 1084,\n  [\"San Francisco\", \"Seattle\"] => 807,\n  [\"Boston\", \"Miami\"] => 1506\n}\n\n# Example of accessing the distance between two cities\ncity_pair = [\"New York\", \"Los Angeles\"]\nputs \"Distance between #{city_pair[0]} and #{city_pair[1]} is #{distances[city_pair]} miles.\"\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```ruby\nplanet_orbital_periods = {\n  \"Mercury\" => 88,\n  \"Venus\" => 225,\n  \"Earth\" => 365,\n  \"Mars\" => 687,\n  \"Jupiter\" => 4333,\n  \"Saturn\" => 10759,\n  \"Uranus\" => 30687,\n  \"Neptune\" => 60190\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```ruby\ndef html_color_to_name(code)\n  color_map = {\n    \"#FFFFFF\" => \"White\",\n    \"#000000\" => \"Black\",\n    \"#FF0000\" => \"Red\",\n    \"#00FF00\" => \"Lime\",\n    \"#0000FF\" => \"Blue\",\n    \"#FFFF00\" => \"Yellow\",\n    \"#00FFFF\" => \"Cyan\",\n    \"#FF00FF\" => \"Magenta\",\n    \"#C0C0C0\" => \"Silver\",\n    \"#808080\" => \"Gray\",\n    \"#800000\" => \"Maroon\",\n    \"#808000\" => \"Olive\",\n    \"#008000\" => \"Green\",\n    \"#800080\" => \"Purple\",\n    \"#008080\" => \"Teal\",\n    \"#000080\" => \"Navy\"\n  }\n  color_map[code.upcase] || \"Unknown\"\nend\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```ruby\ncomposers = {\n  \"Ludwig van Beethoven\" => \"Symphony No. 9\",\n  \"Wolfgang Amadeus Mozart\" => \"The Magic Flute\",\n  \"Johann Sebastian Bach\" => \"Brandenburg Concertos\",\n  \"Pyotr Ilyich Tchaikovsky\" => \"Swan Lake\",\n  \"Fr\u00e9d\u00e9ric Chopin\" => \"Nocturnes\"\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```ruby\nbridges = {\n  \"Golden Gate Bridge\" => \"2,737 meters\",\n  \"Brooklyn Bridge\" => \"1,834 meters\",\n  \"Tower Bridge\" => \"244 meters\",\n  \"Sydney Harbour Bridge\" => \"1,149 meters\"\n}\n\nputs bridges\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```ruby\nclass GoalManager\n  def initialize\n    @goals = {}\n  end\n\n  def add_goal(name, description)\n    @goals[name] = description\n  end\n\n  def update_goal(name, new_description)\n    if @goals.key?(name)\n      @goals[name] = new_description\n      true\n    else\n      false\n    end\n  end\n\n  def get_goal(name)\n    @goals[name]\n  end\n\n  def list_goals\n    @goals\n  end\nend\n\n# Example usage:\n# manager = GoalManager.new\n# manager.add_goal(\"Learn Ruby\", \"Complete Ruby programming course\")\n# manager.update_goal(\"Learn Ruby\", \"Finish Ruby course by end of month\")\n# puts manager.get_goal(\"Learn Ruby\")\n# puts manager.list_goals\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```ruby\nhex_to_binary_map = {\n  '0' => '0000', '1' => '0001', '2' => '0010', '3' => '0011',\n  '4' => '0100', '5' => '0101', '6' => '0110', '7' => '0111',\n  '8' => '1000', '9' => '1001', 'A' => '1010', 'B' => '1011',\n  'C' => '1100', 'D' => '1101', 'E' => '1110', 'F' => '1111'\n}\n\ndef hex_to_binary(hex_string, map)\n  hex_string.upcase.chars.map { |char| map[char] }.join\nend\n\nhexadecimal_number = '1A3F'\nbinary_representation = hex_to_binary(hexadecimal_number, hex_to_binary_map)\nputs binary_representation\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```ruby\ntrees = {\n  \"Oak\" => 70,\n  \"Pine\" => 80,\n  \"Maple\" => 50,\n  \"Birch\" => 40,\n  \"Spruce\" => 60\n}\n```"
+  }
+]

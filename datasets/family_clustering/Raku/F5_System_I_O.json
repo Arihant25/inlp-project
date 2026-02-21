@@ -1,0 +1,358 @@
+[
+  {
+    "task": "Write a program that reads a user's name and age from the input, then prints a greeting message using both values.",
+    "code": "```raku\nsay \"Enter your name:\";\nmy $name = prompt;\nsay \"Enter your age:\";\nmy $age = prompt;\nsay \"Hello, $name! You are $age years old.\";\n```"
+  },
+  {
+    "task": "Create a script that continuously reads numbers from the input and prints their running total until a negative number is entered.",
+    "code": "```raku\nmy $total = 0;\nloop {\n    my $input = prompt \"Enter a number: \";\n    my $number = $input.Int;\n    last if $number < 0;\n    $total += $number;\n    say \"Running total: $total\";\n}\n```"
+  },
+  {
+    "task": "Design a program that asks the user for a sentence and outputs the number of words it contains.",
+    "code": "```raku\nsay \"Enter a sentence:\";\nmy $sentence = prompt;\nmy $word-count = $sentence.words.elems;\nsay \"Number of words: $word-count\";\n```"
+  },
+  {
+    "task": "Build a command-line tool that reads a list of integers and outputs them in sorted order.",
+    "code": "```raku\nsub MAIN() {\n    my @numbers = $*IN.lines\u00bb.Int;\n    say @numbers.sort.join(' ');\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a file name from the input, then prints the number of lines in that file.",
+    "code": "```raku\nmy $filename = prompt('Enter the file name: ');\nmy $line-count = 0;\n\ntry {\n    if $filename.IO.e {\n        $line-count = $filename.IO.lines.elems;\n    }\n    else {\n        say \"File not found.\";\n    }\n    CATCH {\n        default {\n            say \"An error occurred: $_\";\n        }\n    }\n}\n\nsay \"Number of lines: $line-count\";\n```"
+  },
+  {
+    "task": "Implement a calculator that reads two numbers and an operator (+, -, *, /) from the input and prints the result.",
+    "code": "```raku\nmy $input = prompt \"Enter two numbers and an operator (+, -, *, /): \";\nmy ($num1, $op, $num2) = $input.split;\n\nmy %operations = (\n    '+' => sub ($a, $b) { $a + $b },\n    '-' => sub ($a, $b) { $a - $b },\n    '*' => sub ($a, $b) { $a * $b },\n    '/' => sub ($a, $b) { $a / $b },\n);\n\nif %operations{$op}:exists {\n    say %operations{$op}($num1.Num, $num2.Num);\n} else {\n    say \"Invalid operator.\";\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a user's full name and prints it in reverse order.",
+    "code": "```raku\nsay \"Enter your full name: \";\nmy $name = $*IN.get;\nsay $name.flip;\n```"
+  },
+  {
+    "task": "Create a program that asks for a word and checks if it is a palindrome, printing the appropriate message.",
+    "code": "```raku\nsay \"Enter a word:\";\nmy $word = prompt;\nif $word eq $word.flip {\n    say \"The word is a palindrome.\";\n} else {\n    say \"The word is not a palindrome.\";\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads multiple lines of text and outputs the longest line.",
+    "code": "```raku\nmy $longest-line = \"\";\nwhile my $line = $*IN.get {\n    $longest-line = $line if $line.chars > $longest-line.chars;\n}\nsay $longest-line;\n```"
+  },
+  {
+    "task": "Design a script that reads a number 'n' and prints the first 'n' Fibonacci numbers.",
+    "code": "```raku\nsub MAIN() {\n    my $n = prompt(\"Enter a number: \").trim.Int;\n    my @fibonacci = 0, 1;\n    for 2..^$n {\n        @fibonacci[$_] = @fibonacci[$_ - 1] + @fibonacci[$_ - 2];\n    }\n    say @fibonacci[0 ..^ $n].join(', ');\n}\n```"
+  },
+  {
+    "task": "Write a program that takes a list of numbers from the input and prints only the even ones.",
+    "code": "```raku\nmy @numbers = get.words;\nsay $_ for @numbers.grep(* %% 2);\n```"
+  },
+  {
+    "task": "Create a script that reads a date (day, month, year) and prints the day of the week for that date.",
+    "code": "```raku\nuse Date::Utils;\n\nsub MAIN() {\n    my $input = prompt('Enter a date (day month year): ');\n    my ($day, $month, $year) = $input.split(' ');\n\n    my $date = Date.new(:day($day), :month($month), :year($year));\n    say $date.day-of-week;\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a paragraph and counts the frequency of each letter in the text.",
+    "code": "```raku\nmy %frequency;\n\nwhile my $line = $*IN.get {\n    for $line.comb(/\\w/) -> $char {\n        %frequency{$char.lc}++;\n    }\n}\n\nfor %frequency.keys.sort -> $letter {\n    say \"$letter: %frequency{$letter}\";\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and a word, then prints the number of times the word appears in the text.",
+    "code": "```raku\nsub MAIN($text, $word) {\n    my $count = $text.words.grep($_ eq $word).elems;\n    say $count;\n}\n```"
+  },
+  {
+    "task": "Implement a script that reads a temperature in Celsius and converts it to Fahrenheit, printing the result.",
+    "code": "```raku\nsay \"Enter temperature in Celsius:\";\nmy $celsius = prompt();\nmy $fahrenheit = $celsius * 9/5 + 32;\nsay \"Temperature in Fahrenheit: \" ~ $fahrenheit;\n```"
+  },
+  {
+    "task": "Write a program that continuously reads input until the word 'exit' is entered, then prints all entered inputs.",
+    "code": "```raku\nmy @inputs;\nloop {\n    my $input = prompt 'Enter input (type \"exit\" to finish): ';\n    last if $input eq 'exit';\n    @inputs.push: $input;\n}\nsay @inputs;\n```"
+  },
+  {
+    "task": "Create a tool that prompts for a filename, reads the file, and prints its content in uppercase.",
+    "code": "```raku\nsub MAIN {\n    print \"Enter the filename: \";\n    my $filename = $*IN.get.chomp;\n    \n    if $filename.IO.e {\n        my $content = $filename.IO.slurp;\n        say $content.uc;\n    } else {\n        say \"File not found.\";\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a series of email addresses and prints the unique domain names.",
+    "code": "```raku\nmy %domains;\nfor $*IN.lines -> $email {\n    if $email ~~ / '@' (\\S+) $/ {\n        %domains{$0} = True;\n    }\n}\n.say for %domains.keys;\n```"
+  },
+  {
+    "task": "Design a script that reads a string and prints whether it contains all the letters of the alphabet.",
+    "code": "```raku\nmy $input = prompt(\"Enter a string: \");\nmy @alphabet = 'a' .. 'z';\nmy $contains-all = @alphabet.all({ $input.lc.contains($_) });\nsay $contains-all ?? \"Contains all letters of the alphabet.\" !! \"Does not contain all letters of the alphabet.\";\n```"
+  },
+  {
+    "task": "Write a program that reads a number and prints its factorial.",
+    "code": "```raku\nsay \"Enter a number:\";\nmy $number = prompt();\nmy $factorial = [*] 1..$number;\nsay \"The factorial of $number is $factorial\";\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of names and prints them in alphabetical order.",
+    "code": "```raku\nmy @names = $*IN.lines;\nsay $_ for @names.sort;\n```"
+  },
+  {
+    "task": "Develop a program that asks for a sentence and prints each word on a new line.",
+    "code": "```raku\nsay \"Please enter a sentence:\";\nmy $sentence = $*IN.get;\nfor $sentence.split(/\\s+/) -> $word {\n    say $word;\n}\n```"
+  },
+  {
+    "task": "Build a script that reads a time in 12-hour format and converts it to 24-hour format.",
+    "code": "```raku\nsub MAIN() {\n    my $time12 = prompt \"Enter time in 12-hour format (e.g., 02:30 PM): \";\n    if $time12 ~~ / ^(\\d\\d?):(\\d\\d) <[AP]M> $/ {\n        my ($hour, $minute, $ampm) = $0, $1, $2;\n        $hour += 12 if $ampm eq 'PM' and $hour != 12;\n        $hour = 0 if $ampm eq 'AM' and $hour == 12;\n        say sprintf(\"%02d:%02d\", $hour, $minute);\n    } else {\n        say \"Invalid time format!\";\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads two strings and checks if they are anagrams, printing the result.",
+    "code": "```raku\nsub MAIN() {\n    my $str1 = prompt('Enter first string: ');\n    my $str2 = prompt('Enter second string: ');\n\n    my $is-anagram = $str1.comb.sort eqv $str2.comb.sort;\n    say $is-anagram ?? 'The strings are anagrams.' !! 'The strings are not anagrams.';\n}\n```"
+  },
+  {
+    "task": "Write a tool that reads a paragraph and prints the first and last sentence.",
+    "code": "```raku\nmy $paragraph = prompt('Enter a paragraph: ');\nmy @sentences = $paragraph.split(/<[.!?]>/).grep(*.chars);\nsay \"First sentence: \", @sentences[0];\nsay \"Last sentence: \", @sentences[*-1];\n```"
+  },
+  {
+    "task": "Create a program that reads a binary number and converts it to decimal.",
+    "code": "```raku\nmy $binary = prompt \"Enter a binary number: \";\nmy $decimal = :2($binary);\nsay \"Decimal: $decimal\";\n```"
+  },
+  {
+    "task": "Develop a script that reads a series of scores and prints the average score.",
+    "code": "```raku\nmy $total = 0;\nmy $count = 0;\n\nwhile my $line = $*IN.get {\n    $total += $line;\n    $count++;\n}\n\nif $count > 0 {\n    say $total / $count;\n} else {\n    say \"No scores entered.\";\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of integers and prints the prime numbers.",
+    "code": "```raku\nsub is-prime(Int $n) {\n    return False if $n < 2;\n    return True if $n == 2;\n    return False if $n %% 2;\n    for 3, 5 ... sqrt($n) -> $i {\n        return False if $n %% $i == 0;\n    }\n    return True;\n}\n\nmy @input = prompt(\"Enter a list of integers separated by spaces: \").split.map(*.Int);\nmy @primes = @input.grep(&is-prime);\nsay \"Prime numbers: {@primes.join(', ')}\";\n```"
+  },
+  {
+    "task": "Write a script that reads a word and prints its Pig Latin translation.",
+    "code": "```raku\nsub pig_latin(Str $word) {\n    if $word ~~ /^<[aeiouAEIOU]>/ {\n        return $word ~ 'way';\n    }\n    my $index = $word.index(/<[aeiouAEIOU]>/);\n    return $word.substr($index) ~ $word.substr(0, $index) ~ 'ay';\n}\n\nsay \"Enter a word:\";\nmy $input = $*IN.get.trim;\nsay pig_latin($input);\n```"
+  },
+  {
+    "task": "Create a tool that reads a matrix of numbers and prints its transpose.",
+    "code": "```raku\nmy @matrix;\nwhile my $line = $*IN.get {\n    last if $line.trim eq '';\n    @matrix.push: [ $line.split(/\\s+/).map(*.Num) ];\n}\n\nmy @transpose = @matrix.transpose;\nfor @transpose -> $row {\n    say $row.join(' ');\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a URL and prints the domain name.",
+    "code": "```raku\nuse URI;\n\nsub MAIN(Str $url) {\n    my $uri = URI.new($url);\n    say $uri.host;\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a number and prints its multiplication table up to 12.",
+    "code": "```raku\nsay \"Enter a number:\";\nmy $num = prompt().Int;\nfor 1..12 -> $i {\n    say \"$num x $i = \", $num * $i;\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dates and prints them in order of occurrence.",
+    "code": "```raku\nmy @dates = $*IN.lines.map({ Date.new($_) });\nsay @dates.sort.join(\"\\n\");\n```"
+  },
+  {
+    "task": "Create a tool that reads a text and prints it with each sentence capitalized.",
+    "code": "```raku\nsub MAIN() {\n    my $text = $*IN.slurp-rest;\n    my $capitalized = $text.split(/<[\\.\\!\\?]> \\s*/).map({ .ucfirst ~ '.' }).join(' ');\n    say $capitalized;\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of words and prints them in reverse alphabetical order.",
+    "code": "```raku\nmy @words = $*IN.get.words;\nsay @words.sort({ $^b cmp $^a });\n```"
+  },
+  {
+    "task": "Write a script that asks for two times and prints the difference in minutes.",
+    "code": "```raku\nsub MAIN() {\n    say \"Enter first time (HH:MM): \";\n    my $time1 = prompt();\n    say \"Enter second time (HH:MM): \";\n    my $time2 = prompt();\n\n    my ($h1, $m1) = $time1.split(':').map(*.Int);\n    my ($h2, $m2) = $time2.split(':').map(*.Int);\n\n    my $minutes1 = $h1 * 60 + $m1;\n    my $minutes2 = $h2 * 60 + $m2;\n\n    my $difference = abs($minutes1 - $minutes2);\n    say \"Difference in minutes: $difference\";\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a text and prints the number of vowels and consonants.",
+    "code": "```raku\nsub MAIN() {\n    my Str $text = prompt('Enter a text: ');\n    my $vowels = $text.comb(/<:i<aeiou>>/).elems;\n    my $consonants = $text.comb(/<:i<bcdfghjklmnpqrstvwxyz>>/).elems;\n    say \"Vowels: $vowels\";\n    say \"Consonants: $consonants\";\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a JSON object from input and prints its keys.",
+    "code": "```raku\nuse JSON::Fast;\n\nmy $json-input = $*IN.slurp-rest;\nmy $data = from-json $json-input;\nfor $data.keys -> $key {\n    say $key;\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a CSV file from input and prints each row as a dictionary.",
+    "code": "```raku\nuse Text::CSV;\n\nmy $csv = Text::CSV.new;\nmy $fh  = $*IN;\n\nmy $header = $csv.parse($fh.lines[0]);\nfor $fh.lines -> $line {\n    my @fields = $csv.parse($line);\n    my %row = $header Z=> @fields;\n    say %row;\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with the words in reverse order.",
+    "code": "```raku\nmy $input = prompt \"Enter a sentence: \";\nsay $input.split.reverse.join(' ');\n```"
+  },
+  {
+    "task": "Develop a tool that reads a list of numbers and prints their median.",
+    "code": "```raku\nsub MAIN() {\n    my @numbers = $*IN.words.map(*.Numeric).sort;\n    my $count = @numbers.elems;\n    my $median = $count %% 2\n        ?? (@numbers[$count div 2 - 1] + @numbers[$count div 2]) / 2\n        !! @numbers[$count div 2];\n    say $median;\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a sequence of characters and prints the first non-repeated character.",
+    "code": "```raku\nmy %char-count;\nfor lines() -> $line {\n    for $line.comb -> $char {\n        %char-count{$char}++;\n    }\n    for $line.comb -> $char {\n        if %char-count{$char} == 1 {\n            say $char;\n            last;\n        }\n    }\n    %char-count{} = Nil; # Reset for next line\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of tuples and prints them sorted by the second element.",
+    "code": "```raku\nmy @tuples = (('apple', 3), ('banana', 1), ('cherry', 2));\n\n@tuples.sort({ $^a[1] <=> $^b[1] }).map({ .perl.say });\n```"
+  },
+  {
+    "task": "Create a program that reads a list of cities and prints them grouped by their starting letter.",
+    "code": "```raku\nmy %cities-by-letter;\n\nfor $*IN.lines -> $city {\n    %cities-by-letter{$city.substr(0, 1).uc} //= [];\n    %cities-by-letter{$city.substr(0, 1).uc}.push($city);\n}\n\nfor %cities-by-letter.kv -> $letter, $cities {\n    say \"$letter: \" ~ $cities.join(', ');\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the longest word.",
+    "code": "```raku\nsub MAIN() {\n    my $input = $*IN.slurp;\n    my $longest-word = $input.words.max: *.chars;\n    say $longest-word;\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a string and prints the number of unique characters.",
+    "code": "```raku\nmy $input = prompt \"Enter a string: \";\nmy %unique;\n%unique{$_}++ for $input.comb;\nsay %unique.keys.elems;\n```"
+  },
+  {
+    "task": "Write a script that reads two strings and prints the longest common substring.",
+    "code": "```raku\nsub longest-common-substring(Str $s1, Str $s2) {\n    my $max-len = 0;\n    my $end = 0;\n    my @dp = (0 xx ($s1.chars + 1));\n    \n    for $s2.comb.kv -> $i, $c2 {\n        for $s1.comb.kv -> $j, $c1 {\n            @dp[$j + 1] = $c1 eq $c2 ?? (@dp[$j] + 1) !! 0;\n            if @dp[$j + 1] > $max-len {\n                $max-len = @dp[$j + 1];\n                $end = $j + 1;\n            }\n        }\n    }\n    \n    return $s1.substr($end - $max-len, $max-len);\n}\n\nmy $str1 = prompt \"Enter first string: \";\nmy $str2 = prompt \"Enter second string: \";\nsay longest-common-substring($str1, $str2);\n```"
+  },
+  {
+    "task": "Develop a program that reads a chessboard position and prints all possible moves for a knight.",
+    "code": "```raku\nsub knight-moves($position) {\n    my %file = 'a'..'h' Z=> 1..8;\n    my ($file, $rank) = $position.comb;\n    my $x = %file{$file};\n    my $y = $rank.Int;\n\n    my @possible-moves = \n        ([2, 1], [2, -1], [-2, 1], [-2, -1], \n         [1, 2], [1, -2], [-1, 2], [-1, -2]);\n\n    my @valid-moves;\n    for @possible-moves -> $move {\n        my ($dx, $dy) = $move;\n        my $new-x = $x + $dx;\n        my $new-y = $y + $dy;\n        if 1 <= $new-x <= 8 && 1 <= $new-y <= 8 {\n            my $new-file = %file.key($new-x);\n            push @valid-moves, \"$new-file$new-y\";\n        }\n    }\n    return @valid-moves;\n}\n\nsub MAIN() {\n    say \"Enter chessboard position for the knight (e.g., 'e4'): \";\n    my $input = prompt('> ');\n    my @moves = knight-moves($input);\n    say \"Possible moves for the knight at $input:\";\n    say $_ for @moves;\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of numbers and prints the mode.",
+    "code": "```raku\nsub mode(@numbers) {\n    my %frequency;\n    for @numbers -> $num {\n        %frequency{$num}++;\n    }\n    my $max-frequency = %frequency.values.max;\n    my @modes = %frequency.grep({ .value == $max-frequency }).keys;\n    return @modes.sort;\n}\n\nsay \"Enter numbers separated by spaces:\";\nmy $input = $*IN.get;\nmy @numbers = $input.split.map(*.Int);\nmy @modes = mode(@numbers);\n\nif @modes.elems == 1 {\n    say \"The mode is: {@modes[0]}\";\n} else {\n    say \"The modes are: {@modes.join(', ')}\";\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of file paths and prints the largest file.",
+    "code": "```raku\nsub MAIN(*@file-paths) {\n    my $largest-file = @file-paths.map({ $_ => .IO.e && .IO.f ?? .IO.s !! -1 }).maxkey(*.value).key;\n    say $largest-file;\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of prices and prints the total cost with tax.",
+    "code": "```raku\nsub MAIN() {\n    my $tax-rate = 0.07; # Tax rate of 7%\n    my $total = 0;\n\n    while my $line = $*IN.get {\n        my $price = $line.trim.Num;\n        $total += $price;\n    }\n\n    my $total-with-tax = $total * (1 + $tax-rate);\n    say \"Total cost with tax: $total-with-tax\";\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of temperatures and prints them in Fahrenheit.",
+    "code": "```raku\nfor $*IN.lines -> $temp {\n    my $fahrenheit = $temp * 9 / 5 + 32;\n    say $fahrenheit;\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of book titles and prints them sorted by length.",
+    "code": "```raku\nsub MAIN(Str $filename) {\n    my @titles = $filename.IO.lines;\n    my @sorted = @titles.sort: *.chars;\n    .say for @sorted;\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a directory path and prints all file names.",
+    "code": "```raku\nsub MAIN(Str $dir) {\n    for dir($dir).entries -> $file {\n        say $file.basename;\n    }\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a list of URLs and prints those with a secure connection.",
+    "code": "```raku\nmy @urls = $*IN.lines;\nfor @urls -> $url {\n    say $url if $url ~~ /^ 'https://' /;\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a sequence of numbers and prints if it is strictly increasing.",
+    "code": "```raku\nsub MAIN() {\n    my @numbers = $*IN.words\u00bb.Int;\n    my $is_increasing = @numbers == @numbers.sort;\n    say $is_increasing ?? 'Strictly increasing' !! 'Not strictly increasing';\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of products and prints them grouped by category.",
+    "code": "```raku\nuse v6;\n\nmy %products = (\n    'Fruits' => ['Apple', 'Banana', 'Orange'],\n    'Vegetables' => ['Carrot', 'Broccoli', 'Spinach'],\n    'Dairy' => ['Milk', 'Cheese', 'Yogurt']\n);\n\nfor %products.kv -> $category, $items {\n    say \"$category:\";\n    for $items -> $item {\n        say \"  $item\";\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a sentence and prints it with alternating word capitalization.",
+    "code": "```raku\nsub MAIN() {\n    my $sentence = $*IN.get;\n    my @words = $sentence.split(/\\s+/);\n    my $toggle = False;\n    for @words -> $word {\n        $toggle = !$toggle;\n        print $toggle ?? $word.uc !! $word.lc;\n        print ' ' unless $word eq @words[*-1];\n    }\n    say '';\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a list of grades and prints the highest and lowest grade.",
+    "code": "```raku\nmy @grades = prompt(\"Enter grades separated by spaces: \").words.map(*.Int);\nsay \"Highest grade: \", @grades.max;\nsay \"Lowest grade: \", @grades.min;\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the number of sentences.",
+    "code": "```raku\nuse v6;\n\nsub count-sentences(Str $text) {\n    return $text.split(/<[.!?]>/).elems;\n}\n\nmy $input = $*IN.slurp;\nmy $sentence-count = count-sentences($input);\nsay $sentence-count;\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of integers and prints the sum of all odd numbers.",
+    "code": "```raku\nmy @numbers = get.split.map(*.Int);\nmy $sum = [+,] @numbers.grep(* %% 2 == False);\nsay $sum;\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the shortest sentence.",
+    "code": "```raku\nsub shortest-sentence($text) {\n    my @sentences = $text.split(/<[.!?]>/);\n    return @sentences.sort({ .chars })[0];\n}\n\nmy $text = $*IN.slurp;\nsay shortest-sentence($text);\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dictionaries and prints them sorted by a specific key.",
+    "code": "```raku\nmy @dicts = gather {\n    while my $line = $*IN.get {\n        take from-json $line;\n    }\n}\n\nmy $key = prompt \"Enter the key to sort by: \";\n@dicts.sort({ $_{$key} }).map({ say to-json $_ });\n```"
+  },
+  {
+    "task": "Create a tool that reads a sequence of strings and prints the common prefix.",
+    "code": "```raku\nsub common-prefix(@strings) {\n    return '' if @strings.elems == 0;\n    my $prefix = @strings[0];\n    for @strings -> $string {\n        while $string.substr(0, $prefix.chars) ne $prefix {\n            $prefix = $prefix.substr(0, *-1);\n        }\n        last if $prefix eq '';\n    }\n    return $prefix;\n}\n\nmy @strings = lines();\nsay common-prefix(@strings);\n```"
+  },
+  {
+    "task": "Design a program that reads a number and prints all of its divisors.",
+    "code": "```raku\nsay \"Enter a number:\";\nmy $number = prompt().Int;\nsay \"Divisors of $number:\";\nsay $_ for 1..$number -> $i {\n    $i if $number %% $i\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints each word with its length.",
+    "code": "```raku\nfor $*IN.words -> $word {\n    say \"$word: {$word.chars}\";\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of colors and prints them in a rainbow order.",
+    "code": "```raku\nmy @rainbow-order = <red orange yellow green blue indigo violet>;\nmy @colors = $*IN.get.words;\nmy @sorted-colors = @rainbow-order.grep({ $_ ~~ @colors });\nsay @sorted-colors.join(' ');\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of names and prints them with their initials.",
+    "code": "```raku\nsub MAIN(Str $filename) {\n    my @names = $filename.IO.lines;\n    for @names -> $name {\n        my @initials = $name.words.map({ .substr(0, 1).uc });\n        say \"{$name}: {@initials.join('.')}.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a series of coordinates and prints the center point.",
+    "code": "```raku\nsub center(@coords) {\n    my $length = @coords.elems;\n    my $sum-x = 0;\n    my $sum-y = 0;\n    for @coords -> ($x, $y) {\n        $sum-x += $x;\n        $sum-y += $y;\n    }\n    return ($sum-x / $length, $sum-y / $length);\n}\n\nmy @coords;\nwhile my $line = $*IN.get {\n    last if $line ~~ /^\\s*$/;\n    my @parts = $line.split(',').map: *.trim;\n    @coords.push: [+@parts[0, 1]];\n}\n\nmy ($center-x, $center-y) = center(@coords);\nsay \"Center point: ($center-x, $center-y)\";\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each vowel replaced by its uppercase form.",
+    "code": "```raku\nmy $sentence = prompt('Enter a sentence: ');\nsay $sentence.trans('aeiou' => 'AEIOU', 'AEIOU' => 'AEIOU');\n```"
+  },
+  {
+    "task": "Develop a tool that reads a mathematical expression and evaluates its result.",
+    "code": "```raku\nsub MAIN() {\n    print \"Enter a mathematical expression: \";\n    my $expression = $*IN.get;\n    try {\n        my $result = EVAL $expression;\n        if $! {\n            say \"Error: Invalid expression.\";\n        } else {\n            say \"Result: $result\";\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a text and prints the first three words.",
+    "code": "```raku\nmy $text = $*IN.get;\nmy @words = $text.split(/\\s+/);\nsay @words[0..2];\n```"
+  },
+  {
+    "task": "Write a script that reads a list of numbers and prints them without duplicates.",
+    "code": "```raku\nmy @numbers = $*IN.get.split(' ');\nsay @numbers.unique.join(' ');\n```"
+  },
+  {
+    "task": "Create a program that reads a string and prints it with spaces between each character.",
+    "code": "```raku\nmy $input = prompt 'Enter a string: ';\nsay $input.comb.join: ' ';\n```"
+  },
+  {
+    "task": "Build a tool that reads a list of events with dates and prints them by chronological order.",
+    "code": "```raku\nuse v6;\n\nsub MAIN(Str $filename) {\n    my @events = $filename.IO.lines.map: {\n        my ($date, $event) = $_.split(/\\s+/, 2);\n        ($date.Date, $event);\n    }\n\n    for @events.sort(*.key) -> ($date, $event) {\n        say \"$date $event\";\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of fractions and prints their sum as a reduced fraction.",
+    "code": "```raku\nsub gcd(Int $a, Int $b) {\n    ($a, $b) = ($b, $a % $b) while $b;\n    return $a;\n}\n\nsub reduce-fraction(Int $num, Int $den) {\n    my $g = gcd($num, $den);\n    return ($num div $g, $den div $g);\n}\n\nmulti MAIN() {\n    my ($num-sum, $den-sum) = (0, 1);\n    while my $input = $*IN.get {\n        for $input.split(/\\s+/) -> $fraction {\n            my ($num, $den) = $fraction.split('/').map(*.Int);\n            $num-sum = $num-sum * $den + $num * $den-sum;\n            $den-sum *= $den;\n            ($num-sum, $den-sum) = reduce-fraction($num-sum, $den-sum);\n        }\n    }\n    ($num-sum, $den-sum) = reduce-fraction($num-sum, $den-sum);\n    say \"$num-sum/$den-sum\";\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints it with each consonant doubled.",
+    "code": "```raku\nmy $text = $*IN.get;\n$text.trans(/<:alpha>/ => { $_ ~~ /<:Ll> && !<:Llm>/ ?? $_ ~ $_ !! $_ }).say;\n```"
+  },
+  {
+    "task": "Develop a program that reads a number and prints its representation in Roman numerals.",
+    "code": "```raku\nsub to-roman(Int $number) {\n    my %roman = (\n        1000 => 'M', 900 => 'CM', 500 => 'D', 400 => 'CD',\n        100 => 'C', 90 => 'XC', 50 => 'L', 40 => 'XL',\n        10 => 'X', 9 => 'IX', 5 => 'V', 4 => 'IV',\n        1 => 'I'\n    );\n    my $roman-numeral = '';\n    for %roman.kv -> $value, $symbol {\n        while $number >= $value {\n            $roman-numeral ~= $symbol;\n            $number -= $value;\n        }\n    }\n    return $roman-numeral;\n}\n\nsay \"Enter a number:\";\nmy $input = prompt();\nif $input ~~ /^\\d+$/ {\n    my $number = $input.Int;\n    say \"Roman numeral: \" ~ to-roman($number);\n} else {\n    say \"Invalid input. Please enter a valid number.\";\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of words and prints them with each letter in reverse order.",
+    "code": "```raku\nmy @words = $*IN.get.lines;\nfor @words -> $word {\n    say $word.comb.reverse.join;\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a set of points and prints the one closest to the origin.",
+    "code": "```raku\nmy @points;\nwhile my $line = $*IN.get {\n    last if $line ~~ /^\\s*$/;\n    my @coords = $line.split(/\\s+/).map(*.Numeric);\n    @points.push(@coords);\n}\n\nmy @sorted = @points.sort({\n    ($^a[0] ** 2 + $^a[1] ** 2) <=> ($^b[0] ** 2 + $^b[1] ** 2)\n});\n\nsay @sorted[0].join(' ');\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the frequency of each word.",
+    "code": "```raku\nmy %frequency;\nfor 'input.txt'.IO.lines -> $line {\n    for $line.words -> $word {\n        %frequency{$word}++;\n    }\n}\nfor %frequency.keys.sort -> $word {\n    say \"$word: %frequency{$word}\";\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of integers and prints the second smallest.",
+    "code": "```raku\nmy @numbers = get.words\u00bb.Int;\nsay @numbers.sort.unique[1];\n```"
+  },
+  {
+    "task": "Implement a tool that reads a string and prints all its substrings.",
+    "code": "```raku\nsub MAIN() {\n    my $input = prompt \"Enter a string: \";\n    for 0 ..^ $input.chars -> $start {\n        for $start + 1 ..^ $input.chars + 1 -> $end {\n            say $input.substr($start, $end - $start);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a number and generates a random number up to that number.",
+    "code": "```raku\nmy $input = prompt('Enter a number: ');\nsay 1 + (1..$input).pick;\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each word reversed.",
+    "code": "```raku\nsay $_.reverse for get.words;\n```"
+  },
+  {
+    "task": "Develop a tool that reads a text and prints it with each sentence on a new line.",
+    "code": "```raku\nmy $text = $*IN.slurp;\n$text.split(/<[\\.\\!\\?]> <[\\s\\n]>+/).map({ .trim.say });\n```"
+  },
+  {
+    "task": "Design a program that reads a list of numbers and prints the product of all negative numbers.",
+    "code": "```raku\nmy @numbers = $*IN.lines.map(*.Int);\nmy $product = [*] @numbers.grep(* < 0);\nsay $product;\n```"
+  },
+  {
+    "task": "Write a script that reads a dictionary and prints the keys and values in sorted order.",
+    "code": "```raku\nuse v6;\n\nmy %dictionary = (\n    \"apple\" => \"fruit\",\n    \"carrot\" => \"vegetable\",\n    \"banana\" => \"fruit\",\n    \"broccoli\" => \"vegetable\"\n);\n\nfor %dictionary.sort -> $key {\n    say \"$key => {%dictionary{$key}}\";\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a text and prints the number of unique words.",
+    "code": "```raku\nmy %words;\nfor lines() -> $line {\n    %words{$_}++ for $line.words;\n}\nsay %words.keys.elems;\n```"
+  }
+]

@@ -1,0 +1,386 @@
+[
+  {
+    "task": "Create a base class for a vehicle with methods for speed and fuel efficiency, then derive a car class that overrides these methods to provide specific implementations.",
+    "code": "```kotlin\nopen class Vehicle {\n    open fun speed(): String {\n        return \"Generic speed\"\n    }\n\n    open fun fuelEfficiency(): String {\n        return \"Generic fuel efficiency\"\n    }\n}\n\nclass Car : Vehicle() {\n    override fun speed(): String {\n        return \"Car specific speed\"\n    }\n\n    override fun fuelEfficiency(): String {\n        return \"Car specific fuel efficiency\"\n    }\n}\n\nfun main() {\n    val vehicle = Vehicle()\n    println(\"Vehicle speed: ${vehicle.speed()}\")\n    println(\"Vehicle fuel efficiency: ${vehicle.fuelEfficiency()}\")\n\n    val car = Car()\n    println(\"Car speed: ${car.speed()}\")\n    println(\"Car fuel efficiency: ${car.fuelEfficiency()}\")\n}\n```"
+  },
+  {
+    "task": "Design a base class for a multimedia file with properties like duration and format, then extend it with a video class that includes resolution and frame rate.",
+    "code": "```kotlin\nopen class MultimediaFile(val duration: Int, val format: String)\n\nclass VideoFile(duration: Int, format: String, val resolution: String, val frameRate: Double) : MultimediaFile(duration, format)\n```"
+  },
+  {
+    "task": "Develop a superclass for bank accounts with methods for deposit and withdrawal, then create a savings account subclass that overrides the withdrawal method to incorporate interest deductions.",
+    "code": "```kotlin\nopen class BankAccount(var balance: Double) {\n    open fun deposit(amount: Double) {\n        if (amount > 0) {\n            balance += amount\n        }\n    }\n\n    open fun withdraw(amount: Double) {\n        if (amount > 0 && balance >= amount) {\n            balance -= amount\n        }\n    }\n}\n\nclass SavingsAccount(balance: Double, private val interestRate: Double) : BankAccount(balance) {\n    override fun withdraw(amount: Double) {\n        val interestDeduction = amount * interestRate / 100\n        val totalAmount = amount + interestDeduction\n        if (totalAmount > 0 && balance >= totalAmount) {\n            balance -= totalAmount\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a geometric shape with methods to calculate area and perimeter, then create a rectangle subclass that provides specific calculations for these methods.",
+    "code": "```kotlin\nopen class Shape {\n    open fun calculateArea(): Double {\n        return 0.0\n    }\n\n    open fun calculatePerimeter(): Double {\n        return 0.0\n    }\n}\n\nclass Rectangle(private val width: Double, private val height: Double) : Shape() {\n    override fun calculateArea(): Double {\n        return width * height\n    }\n\n    override fun calculatePerimeter(): Double {\n        return 2 * (width + height)\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for employees with a method to calculate salary, then derive a manager class that overrides this method to include bonuses.",
+    "code": "```kotlin\nopen class Employee {\n    open fun calculateSalary(baseSalary: Double): Double {\n        return baseSalary\n    }\n}\n\nclass Manager : Employee() {\n    override fun calculateSalary(baseSalary: Double): Double {\n        val bonus = 1000.0\n        return baseSalary + bonus\n    }\n}\n\nfun main() {\n    val employee = Employee()\n    val manager = Manager()\n\n    val employeeSalary = employee.calculateSalary(3000.0)\n    val managerSalary = manager.calculateSalary(3000.0)\n\n    println(\"Employee Salary: $$employeeSalary\")\n    println(\"Manager Salary: $$managerSalary\")\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a library item with properties like title and author, and extend it with a book subclass that adds a number of pages property.",
+    "code": "```kotlin\nopen class LibraryItem(val title: String, val author: String)\n\nclass Book(title: String, author: String, val numberOfPages: Int) : LibraryItem(title, author)\n```"
+  },
+  {
+    "task": "Create a foundation class for an electronic device with a method to turn on and off, and derive a smartphone class that overrides the turn on method to require a passcode.",
+    "code": "```kotlin\nopen class ElectronicDevice {\n    open fun turnOn() {\n        println(\"Device is turning on.\")\n    }\n\n    fun turnOff() {\n        println(\"Device is turning off.\")\n    }\n}\n\nclass Smartphone : ElectronicDevice() {\n    override fun turnOn() {\n        println(\"Enter passcode to turn on the smartphone.\")\n        // Suppose passcode is verified here\n        println(\"Smartphone is turning on.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Design a base class for an animal with a method to make a sound, then create a dog subclass that overrides this method to bark.",
+    "code": "```kotlin\nopen class Animal {\n    open fun makeSound() {\n        println(\"Some generic animal sound\")\n    }\n}\n\nclass Dog : Animal() {\n    override fun makeSound() {\n        println(\"Bark\")\n    }\n}\n\nfun main() {\n    val genericAnimal = Animal()\n    genericAnimal.makeSound()\n\n    val dog = Dog()\n    dog.makeSound()\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for meals with a method to calculate calories, then create a dessert subclass that overrides it to add extra sugar calories.",
+    "code": "```kotlin\nopen class Meal {\n    open fun calculateCalories(): Int {\n        // Base calorie calculation for a meal\n        return 500\n    }\n}\n\nclass Dessert : Meal() {\n    override fun calculateCalories(): Int {\n        val baseCalories = super.calculateCalories()\n        val sugarCalories = 200\n        return baseCalories + sugarCalories\n    }\n}\n\nfun main() {\n    val meal = Meal()\n    val dessert = Dessert()\n    println(\"Meal Calories: ${meal.calculateCalories()}\")\n    println(\"Dessert Calories: ${dessert.calculateCalories()}\")\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a transportation mode with a method to calculate travel time, then extend it with a plane subclass that overrides the method to calculate based on speed.",
+    "code": "```kotlin\nopen class TransportationMode {\n    open fun calculateTravelTime(distance: Double): Double {\n        // Default implementation (hours at 50 km/h)\n        return distance / 50.0\n    }\n}\n\nclass Plane(private val speed: Double) : TransportationMode() {\n    override fun calculateTravelTime(distance: Double): Double {\n        return distance / speed\n    }\n}\n\nfun main() {\n    val car = TransportationMode()\n    val plane = Plane(speed = 800.0)\n\n    val carTravelTime = car.calculateTravelTime(400.0)\n    val planeTravelTime = plane.calculateTravelTime(400.0)\n\n    println(\"Car travel time: $carTravelTime hours\")\n    println(\"Plane travel time: $planeTravelTime hours\")\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a musical instrument with a method to play sound, then derive a piano class that overrides the method to play specific notes.",
+    "code": "```kotlin\nopen class MusicalInstrument {\n    open fun playSound() {\n        println(\"Playing a generic sound\")\n    }\n}\n\nclass Piano : MusicalInstrument() {\n    override fun playSound() {\n        println(\"Playing piano notes\")\n    }\n}\n\nfun main() {\n    val instrument = MusicalInstrument()\n    instrument.playSound()\n\n    val piano = Piano()\n    piano.playSound()\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a user account with a method to reset password, and extend it with an admin account subclass that overrides it to include security questions.",
+    "code": "```kotlin\nopen class UserAccount {\n    open fun resetPassword() {\n        println(\"Password reset link sent to registered email.\")\n    }\n}\n\nclass AdminAccount : UserAccount() {\n    override fun resetPassword() {\n        println(\"Answer security questions to reset password.\")\n    }\n}\n\nfun main() {\n    val user = UserAccount()\n    user.resetPassword()  // Output: Password reset link sent to registered email.\n\n    val admin = AdminAccount()\n    admin.resetPassword()  // Output: Answer security questions to reset password.\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a beverage with properties like volume and temperature, and derive a coffee class that overrides the temperature property to be hot.",
+    "code": "```kotlin\nopen class Beverage(open var volume: Int, open var temperature: String)\n\nclass Coffee(override var volume: Int) : Beverage(volume, \"hot\")\n```"
+  },
+  {
+    "task": "Design a base class for a service appointment with a method to schedule time, then create a doctor appointment subclass that overrides this method to include consultation duration.",
+    "code": "```kotlin\nopen class ServiceAppointment {\n    open fun scheduleTime(time: String) {\n        println(\"Service scheduled at $time\")\n    }\n}\n\nclass DoctorAppointment : ServiceAppointment() {\n    override fun scheduleTime(time: String, duration: Int) {\n        println(\"Doctor appointment scheduled at $time for $duration minutes\")\n    }\n}\n\nfun main() {\n    val serviceAppointment = ServiceAppointment()\n    serviceAppointment.scheduleTime(\"10:00 AM\")\n\n    val doctorAppointment = DoctorAppointment()\n    doctorAppointment.scheduleTime(\"11:00 AM\", 30)\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for electronic gadgets with a method to calculate battery life, then extend it with a laptop class that overrides this method to consider usage patterns.",
+    "code": "```kotlin\nopen class ElectronicGadget {\n    open fun calculateBatteryLife(): Double {\n        // Basic calculation for battery life (in hours)\n        return 10.0\n    }\n}\n\nclass Laptop : ElectronicGadget() {\n    override fun calculateBatteryLife(): Double {\n        // Calculation considering usage patterns\n        val baseBatteryLife = super.calculateBatteryLife()\n        val usageFactor = 0.8 // Example usage pattern factor\n        return baseBatteryLife * usageFactor\n    }\n}\n\nfun main() {\n    val genericGadget = ElectronicGadget()\n    println(\"Generic Gadget Battery Life: ${genericGadget.calculateBatteryLife()} hours\")\n\n    val myLaptop = Laptop()\n    println(\"Laptop Battery Life: ${myLaptop.calculateBatteryLife()} hours\")\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a website component with a method to render content, then create a blog post subclass that overrides this method to include author information.",
+    "code": "```kotlin\nopen class WebsiteComponent {\n    open fun renderContent(): String {\n        return \"Rendering website component content.\"\n    }\n}\n\nclass BlogPost(val author: String) : WebsiteComponent() {\n    override fun renderContent(): String {\n        return \"Rendering blog post content by $author.\"\n    }\n}\n\nfun main() {\n    val component = WebsiteComponent()\n    println(component.renderContent())\n\n    val blogPost = BlogPost(\"John Doe\")\n    println(blogPost.renderContent())\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a recipe with methods for ingredients and instructions, then derive a cake recipe class that overrides these methods to add baking steps.",
+    "code": "```kotlin\nopen class Recipe {\n    open fun ingredients(): List<String> {\n        return listOf(\"Generic Ingredient 1\", \"Generic Ingredient 2\")\n    }\n\n    open fun instructions(): List<String> {\n        return listOf(\"Generic Instruction 1\", \"Generic Instruction 2\")\n    }\n}\n\nclass CakeRecipe : Recipe() {\n    override fun ingredients(): List<String> {\n        return listOf(\"Flour\", \"Sugar\", \"Eggs\", \"Butter\", \"Vanilla\")\n    }\n\n    override fun instructions(): List<String> {\n        return listOf(\n            \"Preheat oven to 350\u00b0F (175\u00b0C).\",\n            \"Mix flour and sugar.\",\n            \"Add eggs and butter.\",\n            \"Stir in vanilla.\",\n            \"Pour into a pan and bake for 30 minutes.\"\n        )\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a plant with methods for sunlight and water needs, and extend it with a cactus subclass that overrides these methods to require less water.",
+    "code": "```kotlin\nopen class Plant {\n    open fun sunlightNeeds(): String {\n        return \"Requires moderate sunlight.\"\n    }\n\n    open fun waterNeeds(): String {\n        return \"Requires regular watering.\"\n    }\n}\n\nclass Cactus : Plant() {\n    override fun waterNeeds(): String {\n        return \"Requires minimal watering.\"\n    }\n}\n\nfun main() {\n    val genericPlant = Plant()\n    println(\"Generic Plant: ${genericPlant.sunlightNeeds()} ${genericPlant.waterNeeds()}\")\n\n    val cactus = Cactus()\n    println(\"Cactus: ${cactus.sunlightNeeds()} ${cactus.waterNeeds()}\")\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a building with properties like height and material, and derive a skyscraper class that overrides the height property to be significantly taller.",
+    "code": "```kotlin\nopen class Building(var height: Double, var material: String)\n\nclass Skyscraper(height: Double, material: String) : Building(height, material) {\n    init {\n        this.height = height * 10 // Assuming skyscrapers are 10 times taller\n    }\n}\n```"
+  },
+  {
+    "task": "Design a base class for a payment method with a method to process transactions, then create a credit card subclass that overrides this method to include credit limits.",
+    "code": "```kotlin\nopen class PaymentMethod {\n    open fun processTransaction(amount: Double): Boolean {\n        // Base transaction processing logic\n        println(\"Processing transaction of amount: $amount\")\n        return true\n    }\n}\n\nclass CreditCard(private val creditLimit: Double) : PaymentMethod() {\n    private var currentBalance: Double = 0.0\n\n    override fun processTransaction(amount: Double): Boolean {\n        return if (currentBalance + amount <= creditLimit) {\n            currentBalance += amount\n            println(\"Credit card transaction approved for amount: $amount\")\n            true\n        } else {\n            println(\"Credit card transaction denied. Exceeds credit limit.\")\n            false\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a computer program with methods for input and output, then extend it with a game subclass that overrides these methods to include player interactions.",
+    "code": "```kotlin\n// Superclass\nopen class ComputerProgram {\n    open fun input() {\n        println(\"Default input method\")\n    }\n\n    open fun output() {\n        println(\"Default output method\")\n    }\n}\n\n// Subclass\nclass Game : ComputerProgram() {\n    override fun input() {\n        println(\"Game input method for player interactions\")\n    }\n\n    override fun output() {\n        println(\"Game output method for player interactions\")\n    }\n}\n\nfun main() {\n    val program = ComputerProgram()\n    program.input()\n    program.output()\n\n    val game = Game()\n    game.input()\n    game.output()\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a dining establishment with a method to calculate wait time, then create a fast food subclass that overrides this method to be shorter.",
+    "code": "```kotlin\nopen class DiningEstablishment {\n    open fun calculateWaitTime(): Int {\n        return 30 // Default wait time in minutes\n    }\n}\n\nclass FastFood : DiningEstablishment() {\n    override fun calculateWaitTime(): Int {\n        return 10 // Shorter wait time in minutes for fast food\n    }\n}\n\nfun main() {\n    val restaurant = DiningEstablishment()\n    println(\"Dining Establishment Wait Time: ${restaurant.calculateWaitTime()} minutes\")\n\n    val fastFood = FastFood()\n    println(\"Fast Food Wait Time: ${fastFood.calculateWaitTime()} minutes\")\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a social media profile with methods for posting and liking, then derive a business profile class that overrides these methods to include promotions.",
+    "code": "```kotlin\nopen class SocialMediaProfile {\n    open fun post(content: String) {\n        println(\"Posting content: $content\")\n    }\n\n    open fun like(postId: Int) {\n        println(\"Liking post with ID: $postId\")\n    }\n}\n\nclass BusinessProfile : SocialMediaProfile() {\n    override fun post(content: String) {\n        println(\"Posting business content: $content\")\n        promote()\n    }\n\n    override fun like(postId: Int) {\n        println(\"Liking post with ID: $postId as a business\")\n        promote()\n    }\n\n    private fun promote() {\n        println(\"Promoting content\")\n    }\n}\n\nfun main() {\n    val personalProfile = SocialMediaProfile()\n    personalProfile.post(\"Hello World!\")\n    personalProfile.like(101)\n\n    val businessProfile = BusinessProfile()\n    businessProfile.post(\"Launching new product!\")\n    businessProfile.like(202)\n}\n```"
+  },
+  {
+    "task": "Set up a base class for an educational course with methods for syllabus and grading, and extend it with an online course subclass that overrides these methods for remote learning.",
+    "code": "```kotlin\nopen class EducationalCourse {\n    open fun syllabus(): String {\n        return \"General syllabus details for educational course.\"\n    }\n\n    open fun grading(): String {\n        return \"General grading criteria for educational course.\"\n    }\n}\n\nclass OnlineCourse : EducationalCourse() {\n    override fun syllabus(): String {\n        return \"Online course syllabus tailored for remote learning.\"\n    }\n\n    override fun grading(): String {\n        return \"Online course grading criteria designed for virtual assessments.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a sports team with properties like team name and coach, and derive a football team class that overrides the coach property with a specific person.",
+    "code": "```kotlin\nopen class SportsTeam(\n    open val teamName: String,\n    open val coach: String\n)\n\nclass FootballTeam(\n    teamName: String,\n    override val coach: String = \"Specific Coach\"\n) : SportsTeam(teamName, coach)\n```"
+  },
+  {
+    "task": "Design a base class for a document with methods for printing and saving, then create a PDF document subclass that overrides these methods to include encryption.",
+    "code": "```kotlin\nopen class Document {\n    open fun print() {\n        println(\"Printing document...\")\n    }\n\n    open fun save() {\n        println(\"Saving document...\")\n    }\n}\n\nclass PDFDocument : Document() {\n    override fun print() {\n        println(\"Printing PDF with encryption...\")\n    }\n\n    override fun save() {\n        println(\"Saving PDF with encryption...\")\n    }\n}\n\nfun main() {\n    val pdf = PDFDocument()\n    pdf.print()\n    pdf.save()\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a retail product with methods for pricing and discount, then extend it with an electronics product class that overrides the discount method to offer more.",
+    "code": "```kotlin\nopen class RetailProduct(val name: String, val price: Double) {\n    open fun calculatePrice(): Double {\n        return price\n    }\n\n    open fun calculateDiscount(): Double {\n        return 0.0\n    }\n}\n\nclass ElectronicsProduct(name: String, price: Double) : RetailProduct(name, price) {\n    override fun calculateDiscount(): Double {\n        return price * 0.10 // 10% discount for electronics\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a subscription service with a method to renew membership, then create a monthly subscription subclass that overrides this method for automatic renewal.",
+    "code": "```kotlin\nopen class SubscriptionService {\n    open fun renewMembership() {\n        println(\"Renewing membership manually.\")\n    }\n}\n\nclass MonthlySubscription : SubscriptionService() {\n    override fun renewMembership() {\n        println(\"Automatically renewing monthly membership.\")\n    }\n}\n\nfun main() {\n    val baseSubscription = SubscriptionService()\n    baseSubscription.renewMembership()\n    \n    val monthlySubscription = MonthlySubscription()\n    monthlySubscription.renewMembership()\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a language translator with a method to translate text, then derive a French translator class that overrides this method for French language specifics.",
+    "code": "```kotlin\nopen class LanguageTranslator {\n    open fun translate(text: String): String {\n        return \"Translation not available\"\n    }\n}\n\nclass FrenchTranslator : LanguageTranslator() {\n    override fun translate(text: String): String {\n        return \"Traduction fran\u00e7aise de: $text\"\n    }\n}\n\nfun main() {\n    val frenchTranslator = FrenchTranslator()\n    println(frenchTranslator.translate(\"Hello\"))\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a customer order with methods for placing and tracking, and extend it with a food order subclass that overrides tracking for delivery status.",
+    "code": "```kotlin\nopen class CustomerOrder {\n    open fun placeOrder() {\n        println(\"Order placed.\")\n    }\n\n    open fun trackOrder() {\n        println(\"Tracking order.\")\n    }\n}\n\nclass FoodOrder : CustomerOrder() {\n    override fun trackOrder() {\n        println(\"Tracking food delivery status.\")\n    }\n}\n\nfun main() {\n    val order = CustomerOrder()\n    order.placeOrder()\n    order.trackOrder()\n\n    val foodOrder = FoodOrder()\n    foodOrder.placeOrder()\n    foodOrder.trackOrder()\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for an artwork with properties like artist and medium, and derive a painting class that overrides the medium property to be 'canvas'.",
+    "code": "```kotlin\nopen class Artwork(val artist: String, open val medium: String)\n\nclass Painting(artist: String) : Artwork(artist, \"canvas\")\n```"
+  },
+  {
+    "task": "Design a base class for a computer network with methods for connectivity and bandwidth, then create a wireless network subclass that overrides these methods for signal strength.",
+    "code": "```kotlin\nopen class ComputerNetwork {\n    open fun connectivity(): String {\n        return \"Standard connectivity\"\n    }\n\n    open fun bandwidth(): String {\n        return \"Standard bandwidth\"\n    }\n}\n\nclass WirelessNetwork : ComputerNetwork() {\n    override fun connectivity(): String {\n        return \"Wireless connectivity with signal strength\"\n    }\n\n    override fun bandwidth(): String {\n        return \"Wireless bandwidth with signal strength\"\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a messaging app with methods for sending and receiving messages, then extend it with a secure messaging subclass that overrides these methods for encryption.",
+    "code": "```kotlin\nopen class MessagingApp {\n    open fun sendMessage(message: String) {\n        println(\"Sending message: $message\")\n    }\n\n    open fun receiveMessage(): String {\n        val message = \"Received message\"\n        println(message)\n        return message\n    }\n}\n\nclass SecureMessagingApp : MessagingApp() {\n    override fun sendMessage(message: String) {\n        val encryptedMessage = encryptMessage(message)\n        println(\"Sending encrypted message: $encryptedMessage\")\n    }\n\n    override fun receiveMessage(): String {\n        val encryptedMessage = \"Received encrypted message\"\n        println(encryptedMessage)\n        return decryptMessage(encryptedMessage)\n    }\n\n    private fun encryptMessage(message: String): String {\n        // Placeholder encryption logic\n        return message.reversed()\n    }\n\n    private fun decryptMessage(encryptedMessage: String): String {\n        // Placeholder decryption logic\n        return encryptedMessage.reversed()\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a travel itinerary with methods for destinations and activities, then create a vacation itinerary subclass that overrides these methods for leisure activities.",
+    "code": "```kotlin\nopen class TravelItinerary {\n    open fun destinations(): List<String> {\n        return listOf(\"Default Destination\")\n    }\n\n    open fun activities(): List<String> {\n        return listOf(\"Default Activity\")\n    }\n}\n\nclass VacationItinerary : TravelItinerary() {\n    override fun destinations(): List<String> {\n        return listOf(\"Beach\", \"Mountain\", \"City\")\n    }\n\n    override fun activities(): List<String> {\n        return listOf(\"Swimming\", \"Hiking\", \"Sightseeing\")\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a healthcare record with methods for patient data and treatment history, then derive a pediatric record class that overrides these methods for child-specific data.",
+    "code": "```kotlin\nopen class HealthcareRecord {\n    open fun patientData(): String {\n        return \"General patient data\"\n    }\n    \n    open fun treatmentHistory(): String {\n        return \"General treatment history\"\n    }\n}\n\nclass PediatricRecord : HealthcareRecord() {\n    override fun patientData(): String {\n        return \"Child-specific patient data\"\n    }\n    \n    override fun treatmentHistory(): String {\n        return \"Child-specific treatment history\"\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a culinary dish with methods for preparation and serving, and extend it with an appetizer subclass that overrides these methods for smaller portions.",
+    "code": "```kotlin\nopen class CulinaryDish {\n    open fun prepare() {\n        println(\"Preparing the dish.\")\n    }\n\n    open fun serve() {\n        println(\"Serving the dish.\")\n    }\n}\n\nclass Appetizer : CulinaryDish() {\n    override fun prepare() {\n        println(\"Preparing a smaller portion for the appetizer.\")\n    }\n\n    override fun serve() {\n        println(\"Serving the appetizer.\")\n    }\n}\n\nfun main() {\n    val dish = CulinaryDish()\n    dish.prepare()\n    dish.serve()\n\n    val appetizer = Appetizer()\n    appetizer.prepare()\n    appetizer.serve()\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a book collection with properties like genre and author, and derive a mystery collection class that overrides the genre property to be 'mystery'.",
+    "code": "```kotlin\nopen class BookCollection(open val genre: String, val author: String)\n\nclass MysteryCollection(author: String) : BookCollection(genre = \"mystery\", author = author)\n```"
+  },
+  {
+    "task": "Design a base class for a file storage system with methods for saving and deleting files, then create a cloud storage subclass that overrides these methods for remote access.",
+    "code": "```kotlin\nopen class FileStorage {\n    open fun saveFile(fileName: String, content: String) {\n        println(\"Saving file '$fileName' locally with content: $content\")\n    }\n\n    open fun deleteFile(fileName: String) {\n        println(\"Deleting file '$fileName' locally\")\n    }\n}\n\nclass CloudStorage : FileStorage() {\n    override fun saveFile(fileName: String, content: String) {\n        println(\"Saving file '$fileName' to cloud with content: $content\")\n    }\n\n    override fun deleteFile(fileName: String) {\n        println(\"Deleting file '$fileName' from cloud\")\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a seasonal sale event with methods for discounts and promotions, then extend it with a summer sale subclass that overrides these methods for summer items.",
+    "code": "```kotlin\nopen class SeasonalSaleEvent {\n    open fun discount(): Double {\n        return 10.0 // Base discount percentage\n    }\n\n    open fun promotion(): String {\n        return \"Standard promotion for all items\"\n    }\n}\n\nclass SummerSale : SeasonalSaleEvent() {\n    override fun discount(): Double {\n        return 15.0 // Increased discount percentage for summer sale\n    }\n\n    override fun promotion(): String {\n        return \"Special summer promotion for selected items\"\n    }\n}\n\nfun main() {\n    val summerSale = SummerSale()\n    println(\"Discount: ${summerSale.discount()}%\")\n    println(\"Promotion: ${summerSale.promotion()}\")\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a personal budget with methods for income and expenses, then create a student budget subclass that overrides these methods for tuition and fees.",
+    "code": "```kotlin\nopen class PersonalBudget {\n    open fun addIncome(amount: Double) {\n        println(\"Income added: $$amount\")\n    }\n\n    open fun addExpense(amount: Double) {\n        println(\"Expense added: $$amount\")\n    }\n}\n\nclass StudentBudget : PersonalBudget() {\n    override fun addIncome(amount: Double) {\n        println(\"Student income added: $$amount\")\n    }\n\n    override fun addExpense(amount: Double) {\n        println(\"Student expense added for tuition/fees: $$amount\")\n    }\n}\n\nfun main() {\n    val personalBudget = PersonalBudget()\n    personalBudget.addIncome(1000.0)\n    personalBudget.addExpense(500.0)\n\n    val studentBudget = StudentBudget()\n    studentBudget.addIncome(800.0)\n    studentBudget.addExpense(400.0)\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a fitness routine with methods for exercises and duration, then derive a yoga routine class that overrides these methods for flexibility exercises.",
+    "code": "```kotlin\nopen class FitnessRoutine {\n    open fun exercises(): String {\n        return \"General fitness exercises\"\n    }\n\n    open fun duration(): String {\n        return \"60 minutes\"\n    }\n}\n\nclass YogaRoutine : FitnessRoutine() {\n    override fun exercises(): String {\n        return \"Flexibility exercises\"\n    }\n\n    override fun duration(): String {\n        return \"45 minutes\"\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a transportation ticket with methods for pricing and validity, and extend it with an airline ticket subclass that overrides these methods for baggage allowance.",
+    "code": "```kotlin\nopen class TransportationTicket {\n    open fun pricing(): Double {\n        return 100.0\n    }\n\n    open fun validity(): String {\n        return \"Valid for 1 day\"\n    }\n}\n\nclass AirlineTicket : TransportationTicket() {\n    override fun pricing(): Double {\n        return 150.0\n    }\n\n    override fun validity(): String {\n        return \"Valid for 1 year\"\n    }\n\n    fun baggageAllowance(): String {\n        return \"Baggage allowance: 20kg\"\n    }\n}\n\nfun main() {\n    val ticket = AirlineTicket()\n    println(\"Price: ${ticket.pricing()}\")\n    println(\"Validity: ${ticket.validity()}\")\n    println(ticket.baggageAllowance())\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a digital photo album with properties like album name and date, and derive a vacation album class that overrides the date property to be specific.",
+    "code": "```kotlin\nopen class DigitalPhotoAlbum(var albumName: String, open var date: String)\n\nclass VacationAlbum(albumName: String, override var date: String) : DigitalPhotoAlbum(albumName, date)\n```"
+  },
+  {
+    "task": "Design a base class for a home appliance with methods for power usage and warranty, then create a refrigerator subclass that overrides these methods for energy efficiency.",
+    "code": "```kotlin\n// Base class for a home appliance\nopen class HomeAppliance {\n    open fun powerUsage(): String {\n        return \"General power usage\"\n    }\n\n    open fun warranty(): String {\n        return \"Standard warranty period\"\n    }\n}\n\n// Subclass for a refrigerator\nclass Refrigerator : HomeAppliance() {\n    override fun powerUsage(): String {\n        return \"Energy-efficient power usage\"\n    }\n\n    override fun warranty(): String {\n        return \"Extended warranty for energy-efficient models\"\n    }\n}\n\nfun main() {\n    val appliance = HomeAppliance()\n    println(\"Appliance Power Usage: ${appliance.powerUsage()}\")\n    println(\"Appliance Warranty: ${appliance.warranty()}\")\n\n    val fridge = Refrigerator()\n    println(\"Refrigerator Power Usage: ${fridge.powerUsage()}\")\n    println(\"Refrigerator Warranty: ${fridge.warranty()}\")\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a software update with methods for versioning and patch notes, then extend it with a security update subclass that overrides these methods for vulnerabilities.",
+    "code": "```kotlin\nopen class SoftwareUpdate {\n    open fun versioning(): String {\n        return \"Software Version: 1.0\"\n    }\n\n    open fun patchNotes(): String {\n        return \"General improvements and bug fixes.\"\n    }\n}\n\nclass SecurityUpdate : SoftwareUpdate() {\n    override fun versioning(): String {\n        return \"Security Version: 1.0\"\n    }\n\n    override fun patchNotes(): String {\n        return \"Security vulnerabilities fixed.\"\n    }\n}\n\nfun main() {\n    val update = SoftwareUpdate()\n    println(update.versioning())\n    println(update.patchNotes())\n\n    val securityUpdate = SecurityUpdate()\n    println(securityUpdate.versioning())\n    println(securityUpdate.patchNotes())\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a musical performance with methods for rehearsal and execution, then create a concert performance subclass that overrides these methods for live audience.",
+    "code": "```kotlin\nopen class MusicalPerformance {\n    open fun rehearse() {\n        println(\"Rehearsing the musical performance.\")\n    }\n\n    open fun execute() {\n        println(\"Executing the musical performance.\")\n    }\n}\n\nclass ConcertPerformance : MusicalPerformance() {\n    override fun rehearse() {\n        println(\"Rehearsing the concert performance for a live audience.\")\n    }\n\n    override fun execute() {\n        println(\"Executing the concert performance in front of a live audience.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for an academic degree with methods for course requirements and credits, then derive a master's degree class that overrides these methods for advanced studies.",
+    "code": "```kotlin\nopen class AcademicDegree {\n    open fun courseRequirements(): String {\n        return \"General degree course requirements\"\n    }\n\n    open fun credits(): Int {\n        return 120\n    }\n}\n\nclass MastersDegree : AcademicDegree() {\n    override fun courseRequirements(): String {\n        return \"Advanced degree course requirements\"\n    }\n\n    override fun credits(): Int {\n        return 180\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a weather forecast with methods for temperature and conditions, and extend it with a winter forecast subclass that overrides these methods for snow conditions.",
+    "code": "```kotlin\nopen class WeatherForecast {\n    open fun getTemperature(): String {\n        return \"The temperature is 20\u00b0C.\"\n    }\n\n    open fun getConditions(): String {\n        return \"The weather is clear.\"\n    }\n}\n\nclass WinterForecast : WeatherForecast() {\n    override fun getTemperature(): String {\n        return \"The temperature is -5\u00b0C.\"\n    }\n\n    override fun getConditions(): String {\n        return \"It's snowing.\"\n    }\n}\n\nfun main() {\n    val generalForecast = WeatherForecast()\n    println(generalForecast.getTemperature())\n    println(generalForecast.getConditions())\n\n    val winterForecast = WinterForecast()\n    println(winterForecast.getTemperature())\n    println(winterForecast.getConditions())\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal diary with properties like date and entries, and derive a travel diary class that overrides the date property with travel dates.",
+    "code": "```kotlin\nopen class PersonalDiary(open var date: String, var entries: List<String>)\n\nclass TravelDiary(override var date: String, entries: List<String>, var travelDates: List<String>) : PersonalDiary(date, entries)\n```"
+  },
+  {
+    "task": "Design a base class for a pet with methods for feeding and grooming, then create a cat subclass that overrides these methods with specific food preferences.",
+    "code": "```kotlin\nopen class Pet {\n    open fun feed() {\n        println(\"Feeding the pet.\")\n    }\n\n    open fun groom() {\n        println(\"Grooming the pet.\")\n    }\n}\n\nclass Cat : Pet() {\n    override fun feed() {\n        println(\"Feeding the cat with cat food.\")\n    }\n\n    override fun groom() {\n        println(\"Grooming the cat specifically.\")\n    }\n}\n\nfun main() {\n    val myPet: Pet = Cat()\n    myPet.feed()\n    myPet.groom()\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a software library with methods for installation and updates, then extend it with a graphics library subclass that overrides these methods for rendering capabilities.",
+    "code": "```kotlin\nopen class SoftwareLibrary {\n    open fun install() {\n        println(\"Installing software library...\")\n    }\n    \n    open fun update() {\n        println(\"Updating software library...\")\n    }\n}\n\nclass GraphicsLibrary : SoftwareLibrary() {\n    override fun install() {\n        println(\"Installing graphics library with rendering capabilities...\")\n    }\n    \n    override fun update() {\n        println(\"Updating graphics library with rendering enhancements...\")\n    }\n}\n\nfun main() {\n    val softwareLibrary = SoftwareLibrary()\n    softwareLibrary.install()\n    softwareLibrary.update()\n    \n    val graphicsLibrary = GraphicsLibrary()\n    graphicsLibrary.install()\n    graphicsLibrary.update()\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a political campaign with methods for fundraising and events, then create a presidential campaign subclass that overrides these methods for national scale.",
+    "code": "```kotlin\nopen class PoliticalCampaign {\n    open fun fundraise() {\n        println(\"Fundraising for the campaign.\")\n    }\n\n    open fun hostEvent() {\n        println(\"Hosting a campaign event.\")\n    }\n}\n\nclass PresidentialCampaign : PoliticalCampaign() {\n    override fun fundraise() {\n        println(\"Fundraising on a national scale for the presidential campaign.\")\n    }\n\n    override fun hostEvent() {\n        println(\"Hosting a national scale event for the presidential campaign.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for an automotive part with methods for durability and replacement, then derive an engine part class that overrides these methods for performance.",
+    "code": "```kotlin\nopen class AutomotivePart {\n    open fun durability(): String {\n        return \"General durability of the automotive part.\"\n    }\n\n    open fun replacement(): String {\n        return \"General replacement procedure for the automotive part.\"\n    }\n}\n\nclass EnginePart : AutomotivePart() {\n    override fun durability(): String {\n        return \"Engine part durability is high due to advanced materials.\"\n    }\n\n    override fun replacement(): String {\n        return \"Engine part replacement requires specialized tools and expertise.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for an online tutorial with methods for lessons and quizzes, and extend it with a coding tutorial subclass that overrides these methods for interactive exercises.",
+    "code": "```kotlin\nopen class OnlineTutorial {\n    open fun lessons() {\n        println(\"General lessons content.\")\n    }\n\n    open fun quizzes() {\n        println(\"General quizzes content.\")\n    }\n}\n\nclass CodingTutorial : OnlineTutorial() {\n    override fun lessons() {\n        println(\"Interactive coding lessons content.\")\n    }\n\n    override fun quizzes() {\n        println(\"Interactive coding quizzes content.\")\n    }\n}\n\nfun main() {\n    val generalTutorial = OnlineTutorial()\n    generalTutorial.lessons()\n    generalTutorial.quizzes()\n\n    val codingTutorial = CodingTutorial()\n    codingTutorial.lessons()\n    codingTutorial.quizzes()\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal collection with properties like item type and value, and derive a stamp collection class that overrides the item type property to be 'stamps'.",
+    "code": "```kotlin\nopen class PersonalCollection(var itemType: String, var value: Double)\n\nclass StampCollection(value: Double) : PersonalCollection(\"stamps\", value)\n```"
+  },
+  {
+    "task": "Design a base class for a video game character with methods for health and abilities, then create a warrior character subclass that overrides these methods for strength.",
+    "code": "```kotlin\nopen class GameCharacter {\n    open val health: Int = 100\n    open fun abilities(): String {\n        return \"Basic Abilities\"\n    }\n}\n\nclass Warrior : GameCharacter() {\n    override val health: Int = 150\n    override fun abilities(): String {\n        return \"Enhanced Strength\"\n    }\n}\n\nfun main() {\n    val warrior = Warrior()\n    println(\"Warrior Health: ${warrior.health}\")\n    println(\"Warrior Abilities: ${warrior.abilities()}\")\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for an event planner with methods for scheduling and budgeting, then extend it with a wedding planner subclass that overrides these methods for ceremony details.",
+    "code": "```kotlin\nopen class EventPlanner {\n    open fun scheduleEvent(): String {\n        return \"Scheduling a generic event.\"\n    }\n\n    open fun budgetEvent(): String {\n        return \"Budgeting for a generic event.\"\n    }\n}\n\nclass WeddingPlanner : EventPlanner() {\n    override fun scheduleEvent(): String {\n        return \"Scheduling a wedding ceremony.\"\n    }\n\n    override fun budgetEvent(): String {\n        return \"Budgeting for a wedding ceremony.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a software feature with methods for functionality and user feedback, then create a beta feature subclass that overrides these methods for testing.",
+    "code": "```kotlin\nopen class SoftwareFeature {\n    open fun functionality() {\n        println(\"Executing base feature functionality.\")\n    }\n\n    open fun userFeedback() {\n        println(\"Base feature user feedback.\")\n    }\n}\n\nclass BetaFeature : SoftwareFeature() {\n    override fun functionality() {\n        println(\"Executing beta feature functionality for testing.\")\n    }\n\n    override fun userFeedback() {\n        println(\"Beta feature user feedback for testing.\")\n    }\n}\n\nfun main() {\n    val baseFeature = SoftwareFeature()\n    baseFeature.functionality()\n    baseFeature.userFeedback()\n\n    val betaFeature = BetaFeature()\n    betaFeature.functionality()\n    betaFeature.userFeedback()\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a gardening tool with methods for usage and maintenance, then derive a lawn mower class that overrides these methods for grass cutting.",
+    "code": "```kotlin\nopen class GardeningTool {\n    open fun use() {\n        println(\"Using the gardening tool.\")\n    }\n\n    open fun maintain() {\n        println(\"Maintaining the gardening tool.\")\n    }\n}\n\nclass LawnMower : GardeningTool() {\n    override fun use() {\n        println(\"Using the lawn mower to cut grass.\")\n    }\n\n    override fun maintain() {\n        println(\"Maintaining the lawn mower for optimal grass cutting.\")\n    }\n}\n\nfun main() {\n    val tool: GardeningTool = LawnMower()\n    tool.use()\n    tool.maintain()\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a household chore with methods for time and effort, and extend it with a cleaning chore subclass that overrides these methods for dirt removal.",
+    "code": "```kotlin\nopen class HouseholdChore {\n    open fun time(): String {\n        return \"General time for chore\"\n    }\n\n    open fun effort(): String {\n        return \"General effort for chore\"\n    }\n}\n\nclass CleaningChore : HouseholdChore() {\n    override fun time(): String {\n        return \"Time required for cleaning chore\"\n    }\n\n    override fun effort(): String {\n        return \"Effort required for cleaning chore\"\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal project with properties like name and deadline, and derive a coding project class that overrides the deadline property for milestones.",
+    "code": "```kotlin\nopen class Project(val name: String, open val deadline: String)\n\nclass CodingProject(name: String, override val deadline: String, val milestones: List<String>) : Project(name, deadline)\n```"
+  },
+  {
+    "task": "Design a base class for a holiday celebration with methods for traditions and activities, then create a Christmas celebration subclass that overrides these methods for gift exchange.",
+    "code": "```kotlin\nopen class HolidayCelebration {\n    open fun traditions(): String {\n        return \"Generic holiday traditions\"\n    }\n\n    open fun activities(): String {\n        return \"Generic holiday activities\"\n    }\n}\n\nclass ChristmasCelebration : HolidayCelebration() {\n    override fun traditions(): String {\n        return \"Christmas traditions like decorating a tree\"\n    }\n\n    override fun activities(): String {\n        return \"Christmas activities like gift exchange\"\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a customer feedback system with methods for collecting and analyzing, then extend it with a product feedback subclass that overrides these methods for reviews.",
+    "code": "```kotlin\nopen class CustomerFeedback {\n    open fun collectFeedback(): String {\n        return \"Collecting general customer feedback\"\n    }\n\n    open fun analyzeFeedback(feedback: String): String {\n        return \"Analyzing general feedback: $feedback\"\n    }\n}\n\nclass ProductFeedback : CustomerFeedback() {\n    override fun collectFeedback(): String {\n        return \"Collecting product-specific feedback\"\n    }\n\n    override fun analyzeFeedback(feedback: String): String {\n        return \"Analyzing product review: $feedback\"\n    }\n}\n\nfun main() {\n    val generalFeedback = CustomerFeedback()\n    println(generalFeedback.collectFeedback())\n    println(generalFeedback.analyzeFeedback(\"Great service!\"))\n\n    val productFeedback = ProductFeedback()\n    println(productFeedback.collectFeedback())\n    println(productFeedback.analyzeFeedback(\"Excellent product quality!\"))\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a civic service with methods for public engagement and policy, then create a community service subclass that overrides these methods for local impact.",
+    "code": "```kotlin\nopen class CivicService {\n    open fun publicEngagement() {\n        println(\"Engaging with public at a national level.\")\n    }\n\n    open fun policy() {\n        println(\"Implementing national policies.\")\n    }\n}\n\nclass CommunityService : CivicService() {\n    override fun publicEngagement() {\n        println(\"Engaging with public at a local level.\")\n    }\n\n    override fun policy() {\n        println(\"Implementing local community policies.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a culinary ingredient with methods for flavor and preparation, then derive a spice ingredient class that overrides these methods for seasoning.",
+    "code": "```kotlin\nopen class Ingredient {\n    open fun flavor(): String {\n        return \"Generic flavor\"\n    }\n\n    open fun preparation(): String {\n        return \"Generic preparation\"\n    }\n}\n\nclass Spice : Ingredient() {\n    override fun flavor(): String {\n        return \"Spicy\"\n    }\n\n    override fun preparation(): String {\n        return \"Grind into powder\"\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific experiment with methods for hypothesis and testing, and extend it with a chemistry experiment subclass that overrides these methods for reactions.",
+    "code": "```kotlin\nopen class ScientificExperiment {\n    open fun hypothesis() {\n        println(\"Formulating a general hypothesis for the experiment.\")\n    }\n\n    open fun testing() {\n        println(\"Conducting general testing for the experiment.\")\n    }\n}\n\nclass ChemistryExperiment : ScientificExperiment() {\n    override fun hypothesis() {\n        println(\"Formulating a hypothesis specific to chemical reactions.\")\n    }\n\n    override fun testing() {\n        println(\"Performing tests specific to chemical reactions.\")\n    }\n}\n\nfun main() {\n    val experiment = ChemistryExperiment()\n    experiment.hypothesis()\n    experiment.testing()\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for an inventory system with properties like item ID and quantity, and derive a warehouse inventory class that overrides the quantity property for bulk storage.",
+    "code": "```kotlin\n// Base class for inventory system\nopen class InventoryItem(val itemId: String, open val quantity: Int)\n\n// Derived class for warehouse inventory\nclass WarehouseInventory(itemId: String, override val quantity: Int) : InventoryItem(itemId, quantity)\n```"
+  },
+  {
+    "task": "Design a base class for a travel agency with methods for itinerary and bookings, then create a luxury travel subclass that overrides these methods for premium services.",
+    "code": "```kotlin\nopen class TravelAgency {\n    open fun itinerary(): String {\n        return \"Standard itinerary includes basic travel information.\"\n    }\n\n    open fun bookings(): String {\n        return \"Standard booking includes economy class services.\"\n    }\n}\n\nclass LuxuryTravel : TravelAgency() {\n    override fun itinerary(): String {\n        return \"Luxury itinerary includes personalized travel experiences and exclusive activities.\"\n    }\n\n    override fun bookings(): String {\n        return \"Luxury booking includes first-class services and premium accommodations.\"\n    }\n}\n\nfun main() {\n    val standardTravel = TravelAgency()\n    println(standardTravel.itinerary())\n    println(standardTravel.bookings())\n\n    val luxuryTravel = LuxuryTravel()\n    println(luxuryTravel.itinerary())\n    println(luxuryTravel.bookings())\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for an educational tool with methods for teaching and assessment, then extend it with a math tool subclass that overrides these methods for problem-solving.",
+    "code": "```kotlin\nopen class EducationalTool {\n    open fun teach() {\n        println(\"Teaching a subject.\")\n    }\n\n    open fun assess() {\n        println(\"Assessing student knowledge.\")\n    }\n}\n\nclass MathTool : EducationalTool() {\n    override fun teach() {\n        println(\"Teaching math concepts.\")\n    }\n\n    override fun assess() {\n        println(\"Assessing math problem-solving skills.\")\n    }\n}\n\nfun main() {\n    val mathTool = MathTool()\n    mathTool.teach()\n    mathTool.assess()\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a community project with methods for planning and execution, then create a park renovation subclass that overrides these methods for landscaping.",
+    "code": "```kotlin\nopen class CommunityProject {\n    open fun plan() {\n        println(\"Planning the community project.\")\n    }\n\n    open fun execute() {\n        println(\"Executing the community project.\")\n    }\n}\n\nclass ParkRenovation : CommunityProject() {\n    override fun plan() {\n        println(\"Planning the park renovation with landscaping details.\")\n    }\n\n    override fun execute() {\n        println(\"Executing the park renovation with landscaping tasks.\")\n    }\n}\n\nfun main() {\n    val project = CommunityProject()\n    project.plan()\n    project.execute()\n\n    val parkRenovation = ParkRenovation()\n    parkRenovation.plan()\n    parkRenovation.execute()\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a digital marketing strategy with methods for targeting and engagement, then derive a social media strategy class that overrides these methods for platforms.",
+    "code": "```kotlin\n// Parent class for a digital marketing strategy\nopen class DigitalMarketingStrategy {\n    open fun targeting() {\n        println(\"General targeting strategy\")\n    }\n\n    open fun engagement() {\n        println(\"General engagement strategy\")\n    }\n}\n\n// Derived class for a social media strategy\nclass SocialMediaStrategy : DigitalMarketingStrategy() {\n    override fun targeting() {\n        println(\"Social media targeting strategy for platforms\")\n    }\n\n    override fun engagement() {\n        println(\"Social media engagement strategy for platforms\")\n    }\n}\n\nfun main() {\n    val strategy = SocialMediaStrategy()\n    strategy.targeting()\n    strategy.engagement()\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific publication with methods for research and review, and extend it with a journal article subclass that overrides these methods for peer review.",
+    "code": "```kotlin\nopen class ScientificPublication {\n    open fun research() {\n        println(\"Conducting general research...\")\n    }\n\n    open fun review() {\n        println(\"Conducting general review...\")\n    }\n}\n\nclass JournalArticle : ScientificPublication() {\n    override fun research() {\n        println(\"Conducting in-depth research specific to journal articles...\")\n    }\n\n    override fun review() {\n        println(\"Conducting peer review specific to journal articles...\")\n    }\n}\n\nfun main() {\n    val publication = ScientificPublication()\n    publication.research()\n    publication.review()\n\n    val journalArticle = JournalArticle()\n    journalArticle.research()\n    journalArticle.review()\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a software module with properties like name and dependencies, and derive a user interface module class that overrides the dependencies property for UI libraries.",
+    "code": "```kotlin\nopen class SoftwareModule(val name: String, open val dependencies: List<String>)\n\nclass UserInterfaceModule(name: String, override val dependencies: List<String>) : SoftwareModule(name, dependencies)\n```"
+  },
+  {
+    "task": "Design a base class for a fashion line with methods for design and production, then create a summer collection subclass that overrides these methods for seasonal trends.",
+    "code": "```kotlin\nopen class FashionLine {\n    open fun design() {\n        println(\"Designing a general fashion line.\")\n    }\n\n    open fun production() {\n        println(\"Producing a general fashion line.\")\n    }\n}\n\nclass SummerCollection : FashionLine() {\n    override fun design() {\n        println(\"Designing a summer collection with seasonal trends.\")\n    }\n\n    override fun production() {\n        println(\"Producing a summer collection with seasonal trends.\")\n    }\n}\n\nfun main() {\n    val summerCollection = SummerCollection()\n    summerCollection.design()\n    summerCollection.production()\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a family tree with methods for ancestry and descendants, then extend it with a royal lineage subclass that overrides these methods for historical accuracy.",
+    "code": "```kotlin\nopen class FamilyTree {\n    open fun ancestry(): String {\n        return \"General ancestry information.\"\n    }\n\n    open fun descendants(): String {\n        return \"General descendants information.\"\n    }\n}\n\nclass RoyalLineage : FamilyTree() {\n    override fun ancestry(): String {\n        return \"Historical royal ancestry information.\"\n    }\n\n    override fun descendants(): String {\n        return \"Historical royal descendants information.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a musical score with methods for composition and arrangement, then create a symphony subclass that overrides these methods for orchestration.",
+    "code": "```kotlin\nopen class MusicalScore {\n    open fun compose(): String {\n        return \"Composing a generic piece of music.\"\n    }\n\n    open fun arrange(): String {\n        return \"Arranging the music for a general ensemble.\"\n    }\n}\n\nclass Symphony : MusicalScore() {\n    override fun compose(): String {\n        return \"Composing a symphony.\"\n    }\n\n    override fun arrange(): String {\n        return \"Arranging the symphony for an orchestra.\"\n    }\n}\n\nfun main() {\n    val generalScore = MusicalScore()\n    println(generalScore.compose())\n    println(generalScore.arrange())\n\n    val symphony = Symphony()\n    println(symphony.compose())\n    println(symphony.arrange())\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a historical record with methods for events and dates, then derive a war history class that overrides these methods for battles.",
+    "code": "```kotlin\nopen class HistoricalRecord {\n    open fun events(): String {\n        return \"General historical events\"\n    }\n    \n    open fun dates(): String {\n        return \"General historical dates\"\n    }\n}\n\nclass WarHistory : HistoricalRecord() {\n    override fun events(): String {\n        return \"War battles\"\n    }\n    \n    override fun dates(): String {\n        return \"Dates of battles\"\n    }\n}\n\nfun main() {\n    val generalRecord = HistoricalRecord()\n    println(generalRecord.events())\n    println(generalRecord.dates())\n\n    val warRecord = WarHistory()\n    println(warRecord.events())\n    println(warRecord.dates())\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a pet adoption service with methods for application and approval, and extend it with a dog adoption subclass that overrides these methods for breed compatibility.",
+    "code": "```kotlin\nopen class PetAdoptionService {\n    open fun applyForAdoption(petName: String): String {\n        return \"Application received for adopting $petName.\"\n    }\n\n    open fun approveAdoption(applicantName: String, petName: String): String {\n        return \"Adoption approved for $applicantName to adopt $petName.\"\n    }\n}\n\nclass DogAdoptionService : PetAdoptionService() {\n    override fun applyForAdoption(petName: String): String {\n        return \"Dog adoption application received for $petName.\"\n    }\n\n    override fun approveAdoption(applicantName: String, petName: String): String {\n        return \"Dog adoption approved for $applicantName to adopt $petName. Please ensure breed compatibility.\"\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a financial report with properties like fiscal year and summary, and derive an annual report class that overrides the fiscal year property for yearly data.",
+    "code": "```kotlin\nopen class FinancialReport(open var fiscalYear: String, var summary: String)\n\nclass AnnualReport(override var fiscalYear: String, summary: String) : FinancialReport(fiscalYear, summary)\n```"
+  },
+  {
+    "task": "Design a base class for a movie franchise with methods for casting and production, then create a sequel subclass that overrides these methods for continuity.",
+    "code": "```kotlin\nopen class Movie {\n    open fun cast() {\n        println(\"Casting for the original movie\")\n    }\n\n    open fun production() {\n        println(\"Production of the original movie\")\n    }\n}\n\nclass Sequel : Movie() {\n    override fun cast() {\n        println(\"Casting for the sequel movie\")\n    }\n\n    override fun production() {\n        println(\"Production of the sequel movie\")\n    }\n}\n\nfun main() {\n    val originalMovie = Movie()\n    originalMovie.cast()\n    originalMovie.production()\n\n    val sequelMovie = Sequel()\n    sequelMovie.cast()\n    sequelMovie.production()\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a real estate listing with methods for pricing and description, then extend it with a luxury listing subclass that overrides these methods for high-end features.",
+    "code": "```kotlin\nopen class RealEstateListing(\n    private val address: String,\n    private val price: Double\n) {\n    open fun getPrice(): String {\n        return \"The price is \\$$price\"\n    }\n\n    open fun getDescription(): String {\n        return \"Property located at $address\"\n    }\n}\n\nclass LuxuryListing(\n    address: String,\n    price: Double,\n    private val amenities: List<String>\n) : RealEstateListing(address, price) {\n\n    override fun getPrice(): String {\n        return \"The luxury price is \\$$price\"\n    }\n\n    override fun getDescription(): String {\n        val amenitiesList = amenities.joinToString(\", \")\n        return \"Luxury property located at $address with amenities: $amenitiesList\"\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a mobile app with methods for user interface and performance, then create a gaming app subclass that overrides these methods for graphics and speed.",
+    "code": "```kotlin\nopen class MobileApp {\n    open fun userInterface() {\n        println(\"Standard user interface\")\n    }\n\n    open fun performance() {\n        println(\"Standard performance\")\n    }\n}\n\nclass GamingApp : MobileApp() {\n    override fun userInterface() {\n        println(\"Enhanced graphics user interface\")\n    }\n\n    override fun performance() {\n        println(\"High-speed performance\")\n    }\n}\n\nfun main() {\n    val app = MobileApp()\n    app.userInterface()\n    app.performance()\n\n    val gameApp = GamingApp()\n    gameApp.userInterface()\n    gameApp.performance()\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a corporate policy with methods for compliance and enforcement, then derive an HR policy class that overrides these methods for employee relations.",
+    "code": "```kotlin\nopen class CorporatePolicy {\n    open fun compliance() {\n        println(\"Corporate compliance policy\")\n    }\n\n    open fun enforcement() {\n        println(\"Corporate enforcement policy\")\n    }\n}\n\nclass HRPolicy : CorporatePolicy() {\n    override fun compliance() {\n        println(\"HR compliance policy for employee relations\")\n    }\n\n    override fun enforcement() {\n        println(\"HR enforcement policy for employee relations\")\n    }\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific calculator with methods for basic operations and advanced functions, and extend it with a graphing calculator subclass that overrides these methods for plotting.",
+    "code": "```kotlin\nopen class ScientificCalculator {\n    open fun add(a: Double, b: Double): Double {\n        return a + b\n    }\n\n    open fun subtract(a: Double, b: Double): Double {\n        return a - b\n    }\n\n    open fun multiply(a: Double, b: Double): Double {\n        return a * b\n    }\n\n    open fun divide(a: Double, b: Double): Double {\n        if (b == 0.0) throw ArithmeticException(\"Division by zero\")\n        return a / b\n    }\n\n    open fun sin(x: Double): Double {\n        return kotlin.math.sin(x)\n    }\n\n    open fun cos(x: Double): Double {\n        return kotlin.math.cos(x)\n    }\n\n    open fun tan(x: Double): Double {\n        return kotlin.math.tan(x)\n    }\n}\n\nclass GraphingCalculator : ScientificCalculator() {\n    override fun add(a: Double, b: Double): Double {\n        // Implement plotting logic for addition\n        println(\"Plotting addition operation\")\n        return super.add(a, b)\n    }\n\n    override fun subtract(a: Double, b: Double): Double {\n        // Implement plotting logic for subtraction\n        println(\"Plotting subtraction operation\")\n        return super.subtract(a, b)\n    }\n\n    override fun multiply(a: Double, b: Double): Double {\n        // Implement plotting logic for multiplication\n        println(\"Plotting multiplication operation\")\n        return super.multiply(a, b)\n    }\n\n    override fun divide(a: Double, b: Double): Double {\n        // Implement plotting logic for division\n        println(\"Plotting division operation\")\n        return super.divide(a, b)\n    }\n\n    override fun sin(x: Double): Double {\n        // Implement plotting logic for sine\n        println(\"Plotting sine function\")\n        return super.sin(x)\n    }\n\n    override fun cos(x: Double): Double {\n        // Implement plotting logic for cosine\n        println(\"Plotting cosine function\")\n        return super.cos(x)\n    }\n\n    override fun tan(x: Double): Double {\n        // Implement plotting logic for tangent\n        println(\"Plotting tangent function\")\n        return super.tan(x)\n    }\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a children's book with properties like age group and illustrations, and derive a picture book class that overrides the illustrations property to be more prominent.",
+    "code": "```kotlin\nopen class ChildrensBook(open val ageGroup: String, open val illustrations: String)\n\nclass PictureBook(ageGroup: String, override val illustrations: String) : ChildrensBook(ageGroup, illustrations) {\n    val prominentIllustrations: String\n        get() = \"Prominent illustrations: $illustrations\"\n}\n\nfun main() {\n    val pictureBook = PictureBook(\"5-8 years\", \"Colorful images\")\n    println(pictureBook.prominentIllustrations)\n}\n```"
+  },
+  {
+    "task": "Design a base class for a cooking class with methods for ingredients and techniques, then create a baking class subclass that overrides these methods for dough preparation.",
+    "code": "```kotlin\nopen class CookingClass {\n    open fun ingredients(): List<String> {\n        return listOf(\"Generic ingredients\")\n    }\n\n    open fun techniques(): List<String> {\n        return listOf(\"Generic techniques\")\n    }\n}\n\nclass BakingClass : CookingClass() {\n    override fun ingredients(): List<String> {\n        return listOf(\"Flour\", \"Yeast\", \"Water\", \"Salt\")\n    }\n\n    override fun techniques(): List<String> {\n        return listOf(\"Mixing\", \"Kneading\", \"Proofing\", \"Baking\")\n    }\n}\n\nfun main() {\n    val cookingClass = CookingClass()\n    println(\"Cooking Class Ingredients: ${cookingClass.ingredients()}\")\n    println(\"Cooking Class Techniques: ${cookingClass.techniques()}\")\n\n    val bakingClass = BakingClass()\n    println(\"Baking Class Ingredients: ${bakingClass.ingredients()}\")\n    println(\"Baking Class Techniques: ${bakingClass.techniques()}\")\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a public transportation system with methods for routes and schedules, then extend it with a metro system subclass that overrides these methods for urban areas.",
+    "code": "```kotlin\nopen class PublicTransportationSystem {\n    open fun getRoutes(): List<String> {\n        return listOf(\"Route 1\", \"Route 2\", \"Route 3\")\n    }\n\n    open fun getSchedules(): Map<String, String> {\n        return mapOf(\n            \"Route 1\" to \"6:00 AM - 10:00 PM\",\n            \"Route 2\" to \"5:30 AM - 11:00 PM\",\n            \"Route 3\" to \"6:15 AM - 9:45 PM\"\n        )\n    }\n}\n\nclass MetroSystem : PublicTransportationSystem() {\n    override fun getRoutes(): List<String> {\n        return listOf(\"Metro Line A\", \"Metro Line B\", \"Metro Line C\")\n    }\n\n    override fun getSchedules(): Map<String, String> {\n        return mapOf(\n            \"Metro Line A\" to \"5:00 AM - 12:00 AM\",\n            \"Metro Line B\" to \"5:15 AM - 12:30 AM\",\n            \"Metro Line C\" to \"5:30 AM - 1:00 AM\"\n        )\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a music store inventory with methods for stock and sales, then create a vinyl record subclass that overrides these methods for collectible items.",
+    "code": "```kotlin\nopen class MusicStoreItem {\n    open fun stock(): String {\n        return \"Checking stock for general music item.\"\n    }\n\n    open fun sales(): String {\n        return \"Processing sales for general music item.\"\n    }\n}\n\nclass VinylRecord : MusicStoreItem() {\n    override fun stock(): String {\n        return \"Checking stock for collectible vinyl record.\"\n    }\n\n    override fun sales(): String {\n        return \"Processing sales for collectible vinyl record.\"\n    }\n}\n\nfun main() {\n    val generalItem = MusicStoreItem()\n    println(generalItem.stock())\n    println(generalItem.sales())\n\n    val vinylRecord = VinylRecord()\n    println(vinylRecord.stock())\n    println(vinylRecord.sales())\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a legal contract with methods for terms and conditions, then derive a rental agreement class that overrides these methods for tenant rights.",
+    "code": "```kotlin\nopen class LegalContract {\n    open fun termsAndConditions(): String {\n        return \"Generic terms and conditions of the legal contract.\"\n    }\n}\n\nclass RentalAgreement : LegalContract() {\n    override fun termsAndConditions(): String {\n        return \"Terms and conditions specific to tenant rights in a rental agreement.\"\n    }\n}\n\nfun main() {\n    val contract = LegalContract()\n    println(contract.termsAndConditions())\n\n    val rentalAgreement = RentalAgreement()\n    println(rentalAgreement.termsAndConditions())\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a journalism piece with methods for reporting and editing, and extend it with an investigative article subclass that overrides these methods for in-depth analysis.",
+    "code": "```kotlin\nopen class JournalismPiece {\n    open fun report() {\n        println(\"Reporting the news\")\n    }\n\n    open fun edit() {\n        println(\"Editing the piece\")\n    }\n}\n\nclass InvestigativeArticle : JournalismPiece() {\n    override fun report() {\n        println(\"Reporting an in-depth investigation\")\n    }\n\n    override fun edit() {\n        println(\"Editing the investigative article\")\n    }\n}\n\nfun main() {\n    val article = JournalismPiece()\n    article.report()\n    article.edit()\n\n    val investigativeArticle = InvestigativeArticle()\n    investigativeArticle.report()\n    investigativeArticle.edit()\n}\n```"
+  },
+  {
+    "task": "Create a foundational class for a wildlife reserve with properties like area and species, and derive a bird sanctuary class that overrides the species property for avians.",
+    "code": "```kotlin\nopen class WildlifeReserve(open val area: Double, open val species: List<String>)\n\nclass BirdSanctuary(override val area: Double, override val species: List<String>) : WildlifeReserve(area, species)\n```"
+  },
+  {
+    "task": "Design a base class for a subscription box service with methods for curation and delivery, then create a gourmet food box subclass that overrides these methods for artisanal products.",
+    "code": "```kotlin\nopen class SubscriptionBoxService {\n    open fun curate() {\n        println(\"Curating a general selection of items.\")\n    }\n\n    open fun deliver() {\n        println(\"Delivering the box to the customer.\")\n    }\n}\n\nclass GourmetFoodBox : SubscriptionBoxService() {\n    override fun curate() {\n        println(\"Curating a selection of artisanal gourmet foods.\")\n    }\n\n    override fun deliver() {\n        println(\"Delivering the gourmet food box with care.\")\n    }\n}\n\nfun main() {\n    val generalBox = SubscriptionBoxService()\n    generalBox.curate()\n    generalBox.deliver()\n\n    val gourmetBox = GourmetFoodBox()\n    gourmetBox.curate()\n    gourmetBox.deliver()\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for a fitness app with methods for tracking and motivation, then extend it with a running app subclass that overrides these methods for pace and distance.",
+    "code": "```kotlin\nopen class FitnessApp {\n    open fun trackActivity() {\n        println(\"Tracking general fitness activity.\")\n    }\n\n    open fun provideMotivation() {\n        println(\"Stay motivated to reach your fitness goals!\")\n    }\n}\n\nclass RunningApp : FitnessApp() {\n    override fun trackActivity() {\n        println(\"Tracking running activity with pace and distance.\")\n    }\n\n    override fun provideMotivation() {\n        println(\"Keep pushing your pace and distance!\")\n    }\n}\n\nfun main() {\n    val fitnessApp = FitnessApp()\n    fitnessApp.trackActivity()\n    fitnessApp.provideMotivation()\n\n    val runningApp = RunningApp()\n    runningApp.trackActivity()\n    runningApp.provideMotivation()\n}\n```"
+  },
+  {
+    "task": "Implement a base class for a digital portfolio with methods for showcasing and updating, then create an artist portfolio subclass that overrides these methods for galleries.",
+    "code": "```kotlin\nopen class DigitalPortfolio {\n    open fun showcase() {\n        println(\"Showcasing the digital portfolio.\")\n    }\n\n    open fun update() {\n        println(\"Updating the digital portfolio.\")\n    }\n}\n\nclass ArtistPortfolio : DigitalPortfolio() {\n    override fun showcase() {\n        println(\"Showcasing the artist portfolio in a gallery.\")\n    }\n\n    override fun update() {\n        println(\"Updating the artist portfolio in a gallery.\")\n    }\n}\n```"
+  },
+  {
+    "task": "Construct a parent class for a gaming console with methods for performance and compatibility, then derive a next-gen console class that overrides these methods for new features.",
+    "code": "```kotlin\nopen class GamingConsole {\n    open fun performance(): String {\n        return \"Standard performance\"\n    }\n    \n    open fun compatibility(): String {\n        return \"Compatible with previous generation games\"\n    }\n}\n\nclass NextGenConsole : GamingConsole() {\n    override fun performance(): String {\n        return \"Enhanced performance with 4K resolution\"\n    }\n    \n    override fun compatibility(): String {\n        return \"Compatible with all previous generation games plus new generation games\"\n    }\n}\n\nfun main() {\n    val console = GamingConsole()\n    println(console.performance())\n    println(console.compatibility())\n    \n    val nextGenConsole = NextGenConsole()\n    println(nextGenConsole.performance())\n    println(nextGenConsole.compatibility())\n}\n```"
+  },
+  {
+    "task": "Set up a base class for a cultural festival with methods for events and participation, and extend it with a music festival subclass that overrides these methods for performances.",
+    "code": "```kotlin\nopen class CulturalFestival {\n    open fun events() {\n        println(\"Cultural festival events include art exhibitions and food fairs.\")\n    }\n\n    open fun participation() {\n        println(\"Participation is open to all age groups.\")\n    }\n}\n\nclass MusicFestival : CulturalFestival() {\n    override fun events() {\n        println(\"Music festival events include live band performances and DJ nights.\")\n    }\n\n    override fun participation() {\n        println(\"Participation is open to musicians and music enthusiasts.\")\n    }\n}\n\nfun main() {\n    val culturalFestival = CulturalFestival()\n    culturalFestival.events()\n    culturalFestival.participation()\n\n    val musicFestival = MusicFestival()\n    musicFestival.events()\n    musicFestival.participation()\n}\n```"
+  }
+]

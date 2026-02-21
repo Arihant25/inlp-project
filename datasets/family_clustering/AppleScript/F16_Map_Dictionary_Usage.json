@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```applescript\nset studentGrades to { \"Alice\": 85, \"Bob\": 92, \"Charlie\": 78, \"Diana\": 90 }\nset total to 0\nset count to 0\n\nrepeat with grade in studentGrades's values\n    set total to total + grade\n    set count to count + 1\nend repeat\n\nset averageGrade to total / count\naverageGrade\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```applescript\non calculateTotalCost(products)\n\tset totalCost to 0\n\trepeat with productPrice in products's values\n\t\tset totalCost to totalCost + productPrice\n\tend repeat\n\treturn totalCost\nend calculateTotalCost\n\n-- Example usage\nset products to {Apple: 1.99, Banana: 0.99, Orange: 2.49}\nset total to calculateTotalCost(products)\ndisplay dialog \"Total cost: $\" & total\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```applescript\nset inputText to \"This is a sample text with sample words and words that repeat words\"\nset wordCounts to {}\n\nset theWords to words of inputText\nrepeat with aWord in theWords\n    set aWord to aWord as string\n    if wordCounts's hasKey(aWord) then\n        set currentCount to wordCounts's valueForKey(aWord)\n        wordCounts's setValue:(currentCount + 1) forKey:aWord\n    else\n        wordCounts's setValue:(1) forKey:aWord\n    end if\nend repeat\n\nreturn wordCounts\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```applescript\non findEmployeeWithMostHours(employeeDict)\n    set maxHours to 0\n    set employeeID to \"\"\n    repeat with empID in (keys of employeeDict)\n        set hours to (employeeDict's item empID)\n        if hours > maxHours then\n            set maxHours to hours\n            set employeeID to empID\n        end if\n    end repeat\n    return employeeID\nend findEmployeeWithMostHours\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```applescript\nproperty loginAttempts : {}\n\non logAttempt(username, isSuccess)\n\tset currentTime to current date\n\tif not isSuccess then\n\t\tif username is not in loginAttempts then\n\t\t\tset end of loginAttempts to {username, {currentTime}}\n\t\telse\n\t\t\trepeat with attempt in loginAttempts\n\t\t\t\tif item 1 of attempt is username then\n\t\t\t\t\tcopy item 2 of attempt to attemptList\n\t\t\t\t\tset end of attemptList to currentTime\n\t\t\t\t\tset item 2 of attempt to attemptList\n\t\t\t\t\tif (count of attemptList) \u2265 3 then\n\t\t\t\t\t\tset timeDiff to (currentTime - item 1 of attemptList) / minutes\n\t\t\t\t\t\tif timeDiff \u2264 5 then\n\t\t\t\t\t\t\tlockAccount(username)\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tset item 2 of attempt to {currentTime}\n\t\t\t\t\t\tend if\n\t\t\t\t\tend if\n\t\t\t\t\texit repeat\n\t\t\t\tend if\n\t\t\tend repeat\n\t\tend if\n\telse\n\t\tclearAttempts(username)\n\tend if\nend logAttempt\n\non lockAccount(username)\n\tdisplay dialog \"Account \" & username & \" is locked due to multiple failed login attempts.\"\nend lockAccount\n\non clearAttempts(username)\n\trepeat with i from count of loginAttempts to 1 by -1\n\t\tif item 1 of item i of loginAttempts is username then\n\t\t\tset loginAttempts to (items 1 thru (i - 1) of loginAttempts) & (items (i + 1) thru -1 of loginAttempts)\n\t\t\texit repeat\n\t\tend if\n\tend repeat\nend clearAttempts\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```applescript\nproperty phonebook : {}\n\non addContact(name, number)\n    set phonebook to phonebook & {name:number}\nend addContact\n\non removeContact(name)\n    if name is in phonebook then\n        set phonebook to phonebook's dictionaryWithoutKey(name)\n    end if\nend removeContact\n\non lookupContact(name)\n    if name is in phonebook then\n        return phonebook's item name\n    else\n        return \"Contact not found\"\n    end if\nend lookupContact\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```applescript\nset cityPopulation to {{\"New York\", 8419000}, {\"Los Angeles\", 3980000}, {\"Chicago\", 2716000}, {\"Houston\", 2328000}, {\"Phoenix\", 1690000}}\n\nset highestPopulation to 0\nset cityWithHighestPopulation to \"\"\n\nrepeat with cityInfo in cityPopulation\n    set {cityName, population} to cityInfo\n    if population > highestPopulation then\n        set highestPopulation to population\n        set cityWithHighestPopulation to cityName\n    end if\nend repeat\n\ncityWithHighestPopulation\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```applescript\nset translationDictionary to {en:\"Hello\", es:\"Hola\", fr:\"Bonjour\", de:\"Hallo\"}\n\non translateWord(word, lang)\n\tif translationDictionary's lang is not missing value then\n\t\treturn word & \" in \" & lang & \" is \" & (translationDictionary's lang)\n\telse\n\t\treturn \"No translation available for \" & word\n\tend if\nend translateWord\n\non translateSentence(sentence, lang)\n\tset wordList to words of sentence\n\tset translatedSentence to \"\"\n\trepeat with aWord in wordList\n\t\tset translatedWord to translateWord(aWord, lang)\n\t\tset translatedSentence to translatedSentence & translatedWord & \" \"\n\tend repeat\n\treturn translatedSentence\nend translateSentence\n\nset sentenceToTranslate to \"Hello\"\nset languageCode to \"es\"\nset translatedSentence to translateSentence(sentenceToTranslate, languageCode)\ndisplay dialog translatedSentence\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```applescript\nset bookDictionary to {\u00ac\n\t\"The Great Gatsby\":\"F. Scott Fitzgerald\", \u00ac\n\t\"1984\":\"George Orwell\", \u00ac\n\t\"To Kill a Mockingbird\":\"Harper Lee\", \u00ac\n\t\"Pride and Prejudice\":\"Jane Austen\", \u00ac\n\t\"The Catcher in the Rye\":\"J.D. Salinger\"}\n\non findBooksByAuthor(authorName)\n\tset matchingBooks to {}\n\trepeat with bookTitle in the keys of bookDictionary\n\t\tif (item bookTitle of bookDictionary) is equal to authorName then\n\t\t\tcopy bookTitle to end of matchingBooks\n\t\tend if\n\tend repeat\n\treturn matchingBooks\nend findBooksByAuthor\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```applescript\nset productStock to {1001:5, 1002:10, 1003:15}\n\non updateStock(productID, soldQuantity)\n    if productStock's productID is not missing value then\n        set currentStock to productStock's productID\n        set productStock's productID to currentStock - soldQuantity\n    else\n        display dialog \"Product ID not found.\"\n    end if\nend updateStock\n\nupdateStock(1002, 3)\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```applescript\nset countryDictionary to {US:\"United States\", CA:\"Canada\", MX:\"Mexico\", FR:\"France\", DE:\"Germany\"}\n\nset countryCode to \"CA\"\nset countryName to countryDictionary's item countryCode\n\nif countryName is not missing value then\n    display dialog \"The country name for code \" & countryCode & \" is \" & countryName\nelse\n    display dialog \"Country code \" & countryCode & \" is not in the dictionary\"\nend if\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```applescript\nset studentDictionary to {1001:\"Alice\", 1002:\"Bob\", 1003:\"Charlie\"}\n\non getStudentNameByID(studentID)\n    if studentDictionary contains studentID then\n        return studentDictionary's item studentID\n    else\n        return \"Student ID not found\"\n    end if\nend getStudentNameByID\n\n-- Example Usage:\ngetStudentNameByID(1001)\ngetStudentNameByID(1004)\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```applescript\nset configSettings to {setting1:\"value1\", setting2:\"value2\", setting3:\"value3\"}\n\non updateSetting(configDict, settingKey, settingValue)\n\tset configDict's settingKey to settingValue\nend updateSetting\n\non getSetting(configDict, settingKey)\n\treturn configDict's settingKey\nend getSetting\n\n-- Example updates and retrievals\nupdateSetting(configSettings, \"setting1\", \"newValue1\")\nset retrievedValue to getSetting(configSettings, \"setting1\")\ndisplay dialog (\"Retrieved Value: \" & retrievedValue)\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```applescript\nset wordDefinitions to {(\"apple\" : \"A fruit that grows on trees\"), (\"banana\" : \"A long yellow fruit\"), (\"cat\" : \"A small domesticated carnivorous mammal\"), (\"dog\" : \"A domesticated carnivorous mammal\")}\n\non displayWordsStartingWith(letter)\n\tset startingWords to {}\n\trepeat with wordDef in wordDefinitions\n\t\tset theWord to first item of wordDef\n\t\tif theWord starts with letter then\n\t\t\tset end of startingWords to theWord\n\t\tend if\n\tend repeat\n\treturn startingWords\nend displayWordsStartingWith\n\ndisplayWordsStartingWith(\"a\")\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```applescript\nset userCredentials to {user1:\"password123\", user2:\"qwerty\", user3:\"letmein\"}\n\non verifyLogin(username, password)\n    if userCredentials's username is not missing value then\n        if userCredentials's username is equal to password then\n            return \"Login successful\"\n        else\n            return \"Incorrect password\"\n        end if\n    else\n        return \"Username not found\"\n    end if\nend verifyLogin\n\n-- Example usage\nset loginResult1 to verifyLogin(\"user1\", \"password123\")\nset loginResult2 to verifyLogin(\"user2\", \"wrongpassword\")\nset loginResult3 to verifyLogin(\"nonexistentuser\", \"password\")\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```applescript\nset purchaseData to {\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\"}\nset itemCountMap to {}\n\nrepeat with item in purchaseData\n    if itemCountMap contains item then\n        set itemCount to itemCountMap's item\n        set itemCountMap's item to itemCount + 1\n    else\n        set itemCountMap's item to 1\n    end if\nend repeat\n\nset mostPopularItem to \"\"\nset highestCount to 0\n\nrepeat with item in itemCountMap's keys()\n    set itemCount to itemCountMap's item\n    if itemCount > highestCount then\n        set highestCount to itemCount\n        set mostPopularItem to item\n    end if\nend repeat\n\nreturn mostPopularItem\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```applescript\nset fileAssociations to { \"txt\":\"TextEdit\", \"jpg\":\"Preview\", \"png\":\"Preview\", \"pdf\":\"Preview\", \"docx\":\"Microsoft Word\", \"xlsx\":\"Microsoft Excel\" }\n\non openFileWithApp(filePath)\n\tset fileExtension to do shell script \"echo \" & quoted form of filePath & \" | awk -F . '{print $NF}'\"\n\tif fileAssociations contains fileExtension then\n\t\tset appName to item (fileExtension of fileAssociations as integer) of fileAssociations\n\t\ttell application appName\n\t\t\topen filePath\n\t\t\tactivate\n\t\tend tell\n\telse\n\t\tdisplay dialog \"No application association found for this file type.\"\n\tend if\nend openFileWithApp\n\nopenFileWithApp(\"/path/to/your/file.txt\")\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```applescript\nset menu to {(\"Burger\"): 5.99, (\"Fries\"): 2.99, (\"Soda\"): 1.50, (\"Salad\"): 4.50}\n\nset customerOrder to {\"Burger\", \"Fries\", \"Soda\"}\nset totalBill to 0\n\nrepeat with item in customerOrder\n    set totalBill to totalBill + (item of menu)\nend repeat\n\nreturn totalBill\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```applescript\n-- Create the dictionary to track inventory\nset inventory to {}\n\n\n-- Function to add items to the inventory\non addItem(itemName, quantity)\n    if inventory's |itemName| is missing value then\n        set inventory's |itemName| to quantity\n    else\n        set inventory's |itemName| to ((inventory's |itemName|) + quantity)\n    end if\nend addItem\n\n\n-- Function to remove items from the inventory\non removeItem(itemName, quantity)\n    if inventory's |itemName| is missing value then\n        display dialog \"Item not found in inventory.\"\n    else\n        set currentQuantity to inventory's |itemName|\n        if currentQuantity \u2264 quantity then\n            set inventory's |itemName| to missing value\n        else\n            set inventory's |itemName| to (currentQuantity - quantity)\n        end if\n    end if\nend removeItem\n\n\n-- Function to check current inventory of an item\non checkInventory(itemName)\n    if inventory's |itemName| is missing value then\n        return \"Item not found in inventory.\"\n    else\n        return inventory's |itemName|\n    end if\nend checkInventory\n\n\n-- Example usage\naddItem(\"Apples\", 50)\naddItem(\"Oranges\", 30)\nremoveItem(\"Apples\", 10)\ncheckInventory(\"Apples\")\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```applescript\non romanToInteger(romanNumeral)\n    set romanMap to {I:1, V:5, X:10, L:50, C:100, D:500, M:1000}\n    set total to 0\n    set prevValue to 0\n    set romanList to reverse of characters of romanNumeral\n    \n    repeat with romanChar in romanList\n        set value to romanMap's (romanChar as text)\n        if value < prevValue then\n            set total to total - value\n        else\n            set total to total + value\n        end if\n        set prevValue to value\n    end repeat\n    \n    return total\nend romanToInteger\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```applescript\nset inputString to \"example string with letters\"\nset letterCount to {}\n\nrepeat with i from 1 to count of characters of inputString\n    set currentChar to character i of inputString\n    if currentChar is not in {\" \", \"-\", \"_\"} then\n        if letterCount's |currentChar| is missing value then\n            set letterCount's |currentChar| to 1\n        else\n            set letterCount's |currentChar| to (letterCount's |currentChar|) + 1\n        end if\n    end if\nend repeat\n\nletterCount\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```applescript\nset teamScores to {TeamA: 10, TeamB: 25, TeamC: 18}\nset highestScore to -1\nset topTeam to \"\"\n\nrepeat with aTeam in teamScores\n\tset teamName to item 1 of aTeam\n\tset teamScore to item 2 of aTeam\n\tif teamScore > highestScore then\n\t\tset highestScore to teamScore\n\t\tset topTeam to teamName\n\tend if\nend repeat\n\nreturn topTeam\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```applescript\non calculateTotalWeight(itemWeights)\n\tset totalWeight to 0\n\trepeat with item in itemWeights's allKeys()\n\t\tset weight to itemWeights's valueForKey:item\n\t\tset totalWeight to totalWeight + weight\n\tend repeat\n\treturn totalWeight\nend calculateTotalWeight\n\n-- Example usage:\nset itemWeights to {apple:2.5, banana:1.2, orange:1.5}\nset total to calculateTotalWeight(itemWeights)\ndisplay dialog \"Total Weight: \" & total\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```applescript\nset websiteVisits to {(\"https://example.com\":5), (\"https://apple.com\":10), (\"https://opensource.org\":3), (\"https://developer.apple.com\":8)} as record\n\nset maxVisits to -1\nset mostVisitedWebsite to \"\"\n\nrepeat with website in websiteVisits\n\tset url to |1| of website\n\tset visits to |2| of website\n\tif visits > maxVisits then\n\t\tset maxVisits to visits\n\t\tset mostVisitedWebsite to url\n\tend if\nend repeat\n\nreturn mostVisitedWebsite\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```applescript\nset errorDictionary to {1001:\"Invalid input\", 1002:\"Connection failed\", 1003:\"File not found\", 1004:\"Access denied\"}\n\nset errorCode to 1002\nset errorMessage to \"\"\n\nif errorDictionary contains errorCode then\n    set errorMessage to errorDictionary's item errorCode\nelse\n    set errorMessage to \"Unknown error code\"\nend if\n\ndisplay dialog errorMessage\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```applescript\n-- Create a dictionary to store contact information\nset contacts to {{\"John Doe\", \"555-1234\"}, {\"Jane Smith\", \"555-5678\"}, {\"Alice Johnson\", \"555-8765\"}}\n\n-- Function to update a contact's phone number\non updateContact(name, newNumber)\n    repeat with contact in contacts\n        if item 1 of contact is name then\n            set item 2 of contact to newNumber\n            exit repeat\n        end if\n    end repeat\nend updateContact\n\n-- Function to look up a contact's phone number\non lookupContact(name)\n    repeat with contact in contacts\n        if item 1 of contact is name then\n            return item 2 of contact\n        end if\n    end repeat\n    return \"Contact not found\"\nend lookupContact\n\n-- Example usage:\nupdateContact(\"John Doe\", \"555-9999\")\nset johnNumber to lookupContact(\"John Doe\")\ndisplay dialog johnNumber\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```applescript\n-- Create a dictionary to map skill levels to tasks\nset skillTaskMap to {beginner:\"Data Entry\", intermediate:\"Report Writing\", expert:\"Project Management\"}\n\n-- Create a list of employees with their skill levels\nset employees to {{\"Alice\", \"beginner\"}, {\"Bob\", \"intermediate\"}, {\"Charlie\", \"expert\"}}\n\n-- Assign tasks to employees based on their skill levels\nrepeat with employee in employees\n\tset {employeeName, skillLevel} to employee\n\tset task to skillTaskMap's item skillLevel\n\tdisplay dialog employeeName & \" is assigned to: \" & task\nend repeat\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```applescript\nset airportMap to {LAX:\"Los Angeles\", JFK:\"New York\", SFO:\"San Francisco\", ORD:\"Chicago\", ATL:\"Atlanta\"}\n\non getCityName(airportCode)\n\tset cityName to item 2 of (airportCode, airportMap's (airportCode as string))\n\treturn cityName\nend getCityName\n\n-- Example usage:\nset cityName to getCityName(\"LAX\")\ndisplay dialog \"City for LAX: \" & cityName\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```applescript\nset movieMap to {\u00ac\n    \"The Shawshank Redemption\":1994, \u00ac\n    \"The Godfather\":1972, \u00ac\n    \"The Dark Knight\":2008, \u00ac\n    \"Pulp Fiction\":1994, \u00ac\n    \"Schindler's List\":1993, \u00ac\n    \"The Lord of the Rings: The Return of the King\":2003, \u00ac\n    \"Star Wars\":1977}\n\nset targetDecade to 1990\nset moviesInDecade to {}\n\nrepeat with movieTitle in movieMap's keys\n    set movieYear to movieMap's item movieTitle\n    if movieYear \u2265 targetDecade and movieYear < targetDecade + 10 then\n        set end of moviesInDecade to movieTitle\n    end if\nend repeat\n\nreturn moviesInDecade\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```applescript\non groupStudentsByGrades(students)\n\tset gradeMap to {}\n\trepeat with student in students\n\t\tset {name:name, grade:grade} to student\n\t\tif gradeMap's |grade| is missing value then\n\t\t\tset gradeMap's |grade| to {}\n\t\tend if\n\t\tset end of gradeMap's |grade| to name\n\tend repeat\n\treturn gradeMap\nend groupStudentsByGrades\n\n-- Example usage:\nset studentsList to {{name:\"Alice\", grade:\"A\"}, {name:\"Bob\", grade:\"B\"}, {name:\"Charlie\", grade:\"A\"}}\nset groupedStudents to groupStudentsByGrades(studentsList)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```applescript\nset visitorCounts to {home:5, about:3, contact:8, blog:4}\nset mostVisitedSection to \"\"\nset maxVisits to -1\n\nrepeat with section in visitorCounts\n    if (visitorCounts's item section) > maxVisits then\n        set maxVisits to (visitorCounts's item section)\n        set mostVisitedSection to section\n    end if\nend repeat\n\nreturn mostVisitedSection\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```applescript\nset projectDeadlines to {John:\"2023-11-01\", Sarah:\"2023-11-05\", Mike:\"2023-11-10\"}\n\n-- Function to extend a deadline\non extendDeadline(teamMember, newDeadline)\n\tif teamMember is in (keys of projectDeadlines) then\n\t\tset projectDeadlines's item teamMember to newDeadline\n\tend if\nend extendDeadline\n\n-- Example usage: Extend John's deadline\nextendDeadline(\"John\", \"2023-11-15\")\n\n-- Resulting map\nreturn projectDeadlines\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```applescript\nset libraryDictionary to {}\n\n\non addBook(bookName, isBorrowed)\n\tif isBorrowed is false then\n\t\tset end of libraryDictionary to {bookName: bookName, status: \"Available\"}\n\telse\n\t\tset end of libraryDictionary to {bookName: bookName, status: \"Borrowed\"}\n\tend if\nend addBook\n\n\non checkAvailability(bookName)\n\trepeat with aBook in libraryDictionary\n\t\tif bookName is equal to (bookName of aBook) then\n\t\t\treturn status of aBook\n\t\tend if\n\tend repeat\n\treturn \"Book not found\"\nend checkAvailability\n\n\n-- Example Usage:\naddBook(\"The Great Gatsby\", false)\naddBook(\"1984\", true)\n\ncheckAvailability(\"The Great Gatsby\")\ncheckAvailability(\"1984\")\ncheckAvailability(\"Moby Dick\")\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```applescript\nset planetDistances to {Mercury: 57.9, Venus: 108.2, Earth: 149.6, Mars: 227.9, Jupiter: 778.6, Saturn: 1433.5, Uranus: 2872.5, Neptune: 4495.1}\n\nset closestPlanet to missing value\nset minDistance to 1.0E+7\n\nrepeat with planetName in keys of planetDistances\n    set distance to planetDistances's item planetName\n    if planetName is not \"Earth\" and distance < minDistance then\n        set minDistance to distance\n        set closestPlanet to planetName\n    end if\nend repeat\n\nclosestPlanet\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```applescript\nset morseDictionary to {\".-\":\"A\", \"-...\":\"B\", \"-.-.\":\"C\", \"-..\":\"D\", \".\":\"E\", \"..-.\":\"F\", \"--.\":\"G\", \"....\":\"H\", \"..\":\"I\", \".---\":\"J\", \"-.-\":\"K\", \".-..\":\"L\", \"--\":\"M\", \"-.\":\"N\", \"---\":\"O\", \".--.\":\"P\", \"--.-\":\"Q\", \".-.\":\"R\", \"...\":\"S\", \"-\":\"T\", \"..-\":\"U\", \"...-\":\"V\", \".--\":\"W\", \"-..-\":\"X\", \"-.--\":\"Y\", \"--..\":\"Z\", \".----\":\"1\", \"..---\":\"2\", \"...--\":\"3\", \"....-\":\"4\", \".....\":\"5\", \"-....\":\"6\", \"--...\":\"7\", \"---..\":\"8\", \"----.\":\"9\", \"-----\":\"0\", \"/\":\" \"}\n\nset morseInput to \".-- .... .- - / .. ... / -.-- --- ..- .-. / -. .- -- .\"\nset splitMorse to my splitMorseCode(morseInput, \" \")\n\nset plainText to \"\"\nrepeat with code in splitMorse\n    set plainText to plainText & morseDictionary's item code\nend repeat\n\nplainText\n\non splitMorseCode(myText, delimiter)\n    set AppleScript's text item delimiters to delimiter\n    set textItems to text items of myText\n    set AppleScript's text item delimiters to \"\"\n    return textItems\nend splitMorseCode\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```applescript\nset vehicleRegistry to { \"ABC123\": \"John Doe\", \"XYZ789\": \"Jane Smith\", \"LMN456\": \"Alex Johnson\" }\n\n-- Example to retrieve an owner's name using a registration number\nset registrationNumber to \"ABC123\"\nset ownerName to vehicleRegistry's item registrationNumber\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```applescript\nset sportsTeams to {teamA:{wins:12, losses:3}, teamB:{wins:15, losses:5}, teamC:{wins:9, losses:2}}\n\nset bestTeam to \"\"\nset bestRecord to {wins:0, losses:0}\n\nrepeat with team in sportsTeams\n\tset wins to wins of (contents of team)\n\tset losses to losses of (contents of team)\n\tif wins - losses > wins of bestRecord - losses of bestRecord then\n\t\tset bestTeam to (first item of team)\n\t\tset bestRecord to {wins:wins, losses:losses}\n\tend if\nend repeat\n\nreturn bestTeam\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```applescript\non currencyNameForCode(currencyCode)\n    set currencyMap to {USD:\"United States Dollar\", EUR:\"Euro\", JPY:\"Japanese Yen\", GBP:\"British Pound\", AUD:\"Australian Dollar\", CAD:\"Canadian Dollar\"}\n    if currencyCode is in currencyMap then\n        return (currencyMap's item currencyCode)\n    else\n        return \"Unknown Currency Code\"\n    end if\nend currencyNameForCode\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```applescript\nset attendanceDict to {Alice:5, Bob:8, Charlie:3, Diana:9}\n\nset highestAttendance to 0\nset studentWithHighest to \"\"\n\nrepeat with student in attendanceDict's keys\n\tset attendanceCount to attendanceDict's item student\n\tif attendanceCount > highestAttendance then\n\t\tset highestAttendance to attendanceCount\n\t\tset studentWithHighest to student\n\tend if\nend repeat\n\nreturn studentWithHighest\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```applescript\nset countryCapitals to {USA:\"Washington, D.C.\", Canada:\"Ottawa\", UK:\"London\", France:\"Paris\", Germany:\"Berlin\"}\n\non getCapital(countryName)\n\tif countryCapitals contains countryName then\n\t\treturn countryCapitals's (countryName as text)\n\telse\n\t\treturn \"Country not found\"\n\tend if\nend getCapital\n\ngetCapital(\"USA\") -- Example usage\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```applescript\nset recipeIngredients to {flour: \"2 cups\", sugar: \"1 cup\", butter: \"1/2 cup\", eggs: \"2 large\"}\n\n-- Example usage\nset flourQuantity to flour of recipeIngredients\nset sugarQuantity to sugar of recipeIngredients\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```applescript\nset userProfiles to {\u00ac\n\t\"username1\": {name:\"John Doe\", age:30, location:\"New York\"}, \u00ac\n\t\"username2\": {name:\"Jane Smith\", age:25, location:\"Los Angeles\"}, \u00ac\n\t\"username3\": {name:\"Alice Johnson\", age:28, location:\"Chicago\"} \u00ac\n}\n\n-- Example usage\nset usernameToLookup to \"username1\"\nset userProfile to item usernameToLookup of userProfiles\n\ndisplay dialog \"Name: \" & name of userProfile & \u00ac\n\t\", Age: \" & age of userProfile & \u00ac\n\t\", Location: \" & location of userProfile\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```applescript\non listProductsInCategory(productCategories, targetCategory)\n\tset productList to {}\n\t\n\tif productCategories contains targetCategory then\n\t\tset productList to productCategories's item targetCategory\n\tend if\n\t\n\treturn productList\nend listProductsInCategory\n\n-- Example usage:\nset products to {|Electronics|: {\"TV\", \"Radio\"}, |Furniture|: {\"Sofa\", \"Table\"}}\nset result to listProductsInCategory(products, \"Electronics\")\nresult\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```applescript\nset shoppingList to {apple:1, banana:2, orange:3}\n\non updateQuantity(itemName, newQuantity)\n\tif shoppingList's itemName is not missing value then\n\t\tset shoppingList's itemName to newQuantity\n\tend if\nend updateQuantity\n\nupdateQuantity(\"banana\", 5)\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```applescript\nset historicalEvents to {1957:\"Sputnik 1 Launched\", 1969:\"Moon Landing\", 1989:\"Fall of Berlin Wall\", 2001:\"Wikipedia Launched\", 2020:\"Global Pandemic\"}\n\nset targetYear to 1969\nset eventFound to \"\"\n\nif historicalEvents's contains targetYear then\n\tset eventFound to historicalEvents's item targetYear\nend if\n\nif eventFound is not \"\" then\n\tdisplay dialog \"Event in \" & targetYear & \": \" & eventFound\nelse\n\tdisplay dialog \"No events found for the year \" & targetYear\nend if\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```applescript\nset userRoles to {admin: {\"read\", \"write\", \"delete\"}, editor: {\"read\", \"write\"}, viewer: {\"read\"}}\n\n-- Example usage\nset userRole to \"editor\"\nif userRole is in userRoles then\n    set permissions to item userRole of userRoles\n    log \"User role: \" & userRole & \", Permissions: \" & permissions\nelse\n    log \"Unknown user role: \" & userRole\nend if\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```applescript\nset gradeMap to {100:\"A+\", 90:\"A\", 80:\"B\", 70:\"C\", 60:\"D\", 0:\"F\"}\n\non getLetterGrade(numericGrade)\n    repeat with grade in gradeMap\n        if numericGrade \u2265 (grade's first item) then\n            return grade's second item\n        end if\n    end repeat\n    return \"Invalid grade\"\nend getLetterGrade\n\nset numericGrade to 85\nset letterGrade to getLetterGrade(numericGrade)\ndisplay dialog \"Numeric Grade: \" & numericGrade & \", Letter Grade: \" & letterGrade\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```applescript\nset holidayDict to { \"New Year's Day\": date \"January 1, 2023\", \u00ac\n                     \"Independence Day\": date \"July 4, 2023\", \u00ac\n                     \"Thanksgiving\": date \"November 23, 2023\", \u00ac\n                     \"Christmas\": date \"December 25, 2023\"}\n\non lookupHolidayDate(holidayName)\n    if holidayDict's contains key holidayName then\n        return holidayDict's item holidayName\n    else\n        return \"Holiday not found\"\n    end if\nend lookupHolidayDate\n\n-- Example of usage:\nset holidayDate to lookupHolidayDate(\"Christmas\")\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```applescript\nset orderStatusMap to {1:\"Pending\", 2:\"Processing\", 3:\"Shipped\", 4:\"Delivered\"}\n\non updateOrderStatus(orderID, newStatus)\n\tif orderStatusMap contains orderID then\n\t\tset orderStatusMap's item orderID to newStatus\n\telse\n\t\tset end of orderStatusMap's items to orderID\n\t\tset orderStatusMap's item orderID to newStatus\n\tend if\nend updateOrderStatus\n\non getOrderStatus(orderID)\n\tif orderStatusMap contains orderID then\n\t\treturn orderStatusMap's item orderID\n\telse\n\t\treturn \"Order ID not found\"\n\tend if\nend getOrderStatus\n\n-- Example usage\nupdateOrderStatus(1, \"Shipped\")\ndisplay dialog getOrderStatus(1)\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```applescript\nset foodDictionary to {apple:{calories:52, protein:0.3, fat:0.2, carbs:14}, banana:{calories:89, protein:1.1, fat:0.3, carbs:23}, carrot:{calories:41, protein:0.9, fat:0.2, carbs:10}}\n\n-- Example of accessing the nutritional information\nset appleInfo to foodDictionary's apple\nset appleCalories to appleInfo's calories\nset appleProtein to appleInfo's protein\nset appleFat to appleInfo's fat\nset appleCarbs to appleInfo's carbs\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```applescript\nset bookMap to {fiction: {\"To Kill a Mockingbird\", \"1984\", \"The Great Gatsby\"}, \n    mystery: {\"The Hound of the Baskervilles\", \"Gone Girl\", \"The Da Vinci Code\"}, \n    scienceFiction: {\"Dune\", \"Neuromancer\", \"Ender's Game\"}}\n\non getBooksByGenre(theGenre)\n    if bookMap's theGenre is not missing value then\n        return bookMap's theGenre\n    else\n        return \"Genre not found\"\n    end if\nend getBooksByGenre\n\n-- Example usage\nset selectedGenre to \"mystery\"\nset booksInGenre to getBooksByGenre(selectedGenre)\ndisplay dialog (booksInGenre as string)\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```applescript\non convertAbbreviationToState(abbreviation)\n\tset stateDictionary to {AL:\"Alabama\", AK:\"Alaska\", AZ:\"Arizona\", AR:\"Arkansas\", CA:\"California\", CO:\"Colorado\", CT:\"Connecticut\", DE:\"Delaware\", FL:\"Florida\", GA:\"Georgia\", HI:\"Hawaii\", ID:\"Idaho\", IL:\"Illinois\", IN:\"Indiana\", IA:\"Iowa\", KS:\"Kansas\", KY:\"Kentucky\", LA:\"Louisiana\", ME:\"Maine\", MD:\"Maryland\", MA:\"Massachusetts\", MI:\"Michigan\", MN:\"Minnesota\", MS:\"Mississippi\", MO:\"Missouri\", MT:\"Montana\", NE:\"Nebraska\", NV:\"Nevada\", NH:\"New Hampshire\", NJ:\"New Jersey\", NM:\"New Mexico\", NY:\"New York\", NC:\"North Carolina\", ND:\"North Dakota\", OH:\"Ohio\", OK:\"Oklahoma\", OR:\"Oregon\", PA:\"Pennsylvania\", RI:\"Rhode Island\", SC:\"South Carolina\", SD:\"South Dakota\", TN:\"Tennessee\", TX:\"Texas\", UT:\"Utah\", VT:\"Vermont\", VA:\"Virginia\", WA:\"Washington\", WV:\"West Virginia\", WI:\"Wisconsin\", WY:\"Wyoming\"}\n\t\n\tif abbreviation is in keys of stateDictionary then\n\t\treturn stateDictionary's item abbreviation\n\telse\n\t\treturn \"Unknown abbreviation\"\n\tend if\nend convertAbbreviationToState\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```applescript\nset ordersDictionary to {}\n\n\nset customer1 to \"Alice\"\nset orderHistory1 to {\"Order1\", \"Order2\", \"Order3\"}\nset ordersDictionary's item customer1 to orderHistory1\n\n\nset customer2 to \"Bob\"\nset orderHistory2 to {\"OrderA\", \"OrderB\"}\nset ordersDictionary's item customer2 to orderHistory2\n\n\nset customer3 to \"Charlie\"\nset orderHistory3 to {\"OrderX\"}\nset ordersDictionary's item customer3 to orderHistory3\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```applescript\nset parkingLot to {101:\"occupied\", 102:\"vacant\", 103:\"occupied\", 104:\"vacant\"}\n\n-- Function to check the status of a parking space\non checkSpaceStatus(spaceNumber)\n    if parkingLot contains spaceNumber then\n        return (item spaceNumber of parkingLot)\n    else\n        return \"Space not found\"\n    end if\nend checkSpaceStatus\n\n-- Function to update the status of a parking space\non updateSpaceStatus(spaceNumber, status)\n    if parkingLot contains spaceNumber then\n        set item spaceNumber of parkingLot to status\n        return \"Status updated\"\n    else\n        return \"Space not found\"\n    end if\nend updateSpaceStatus\n\n-- Example usage\nset status101 to checkSpaceStatus(101)\nset updateResult to updateSpaceStatus(102, \"occupied\")\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```applescript\nset playerScores to {player1: 0, player2: 0, player3: 0}\n\n-- Example of updating scores\nset playerScores's player1 to (playerScores's player1) + 10\nset playerScores's player2 to (playerScores's player2) + 5\nset playerScores's player3 to (playerScores's player3) + 7\n\n-- Example of accessing scores\nget playerScores's player1\nget playerScores's player2\nget playerScores's player3\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```applescript\nproperty scientificTerms : {(\"Atom\" : \"The basic unit of a chemical element.\"), (\"Molecule\" : \"A group of atoms bonded together.\"), (\"Photosynthesis\" : \"The process by which green plants and some other organisms use sunlight to synthesize foods with the help of chlorophyll.\")}\n\non lookupDefinition(term)\n    if scientificTerms' term is not missing value then\n        return scientificTerms's term\n    else\n        return \"Definition not found.\"\n    end if\nend lookupDefinition\n\n-- Example usage:\ndisplay dialog lookupDefinition(\"Atom\")\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```applescript\non convertTemperature(scale, temp)\n\tset conversionMap to {CelsiusToFahrenheit: {factor: 1.8, offset: 32}, FahrenheitToCelsius: {factor: 5 / 9, offset: -32 * 5 / 9}}\n\tset conversion to conversionMap's (scale as text)\n\tset factor to conversion's factor\n\tset offset to conversion's offset\n\treturn temp * factor + offset\nend convertTemperature\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```applescript\nset employeeDepartments to {John:\"HR\", Sarah:\"Finance\", Mark:\"IT\", Emily:\"Marketing\"}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```applescript\nset touristAttractions to {\u00ac\n\t\"Statue of Liberty\": \"New York, USA\", \u00ac\n\t\"Eiffel Tower\": \"Paris, France\", \u00ac\n\t\"Great Wall of China\": \"China\", \u00ac\n\t\"Colosseum\": \"Rome, Italy\", \u00ac\n\t\"Christ the Redeemer\": \"Rio de Janeiro, Brazil\"}\n\n-- Example of accessing a value\nset location of EiffelTower to touristAttractions's \"Eiffel Tower\"\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```applescript\n-- Create an empty dictionary to store albums\nset albums to {}\n\n-- Function to add an album\non addAlbum(albumName, artistName)\n    set albums's end to {albumName:artistName}\nend addAlbum\n\n-- Function to remove an album\non removeAlbum(albumName)\n    set newAlbums to {}\n    repeat with album in albums\n        if (album's albumName) is not albumName then\n            set end of newAlbums to album\n        end if\n    end repeat\n    set albums to newAlbums\nend removeAlbum\n\n-- Example usage\naddAlbum(\"Abbey Road\", \"The Beatles\")\naddAlbum(\"The Dark Side of the Moon\", \"Pink Floyd\")\nremoveAlbum(\"Abbey Road\")\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```applescript\nset inventory to {apple:5, banana:10, orange:7}\n\n-- Add items to inventory\nset inventory's apple to (inventory's apple) + 3\nset inventory's banana to (inventory's banana) + 2\n\n-- Remove items from inventory\nset inventory's orange to (inventory's orange) - 2\n\n-- Check inventory\nset appleCount to inventory's apple\nset bananaCount to inventory's banana\nset orangeCount to inventory's orange\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```applescript\nset riverLengths to {Amazon:7000, Nile:6650, Yangtze:6300, Mississippi:6275, Yenisei:5539}\n\non getLengthOfRiver(riverName)\n    if riverLengths's riverName is missing value then\n        return \"River not found\"\n    else\n        return riverLengths's riverName\n    end if\nend getLengthOfRiver\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```applescript\nset conferenceRooms to {roomA:true, roomB:false, roomC:true, roomD:true}\n\n-- Check availability of a specific room\non isRoomAvailable(roomName)\n    if conferenceRooms contains roomName then\n        return (conferenceRooms's item roomName)\n    else\n        return \"Room not found\"\n    end if\nend isRoomAvailable\n\n-- Update availability of a specific room\non setRoomAvailability(roomName, availability)\n    if conferenceRooms contains roomName then\n        set conferenceRooms's item roomName to availability\n    else\n        return \"Room not found\"\n    end if\nend setRoomAvailability\n\n-- Example usage\nset roomName to \"roomA\"\nset availability to isRoomAvailable(roomName)\nif availability is true then\n    display dialog roomName & \" is available.\"\nelse if availability is false then\n    display dialog roomName & \" is not available.\"\nelse\n    display dialog availability\nend if\n\nsetRoomAvailability(\"roomB\", true)\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```applescript\nset animalHabitats to {lion:\"savanna\", penguin:\"antarctica\", kangaroo:\"australia\", panda:\"forest\", dolphin:\"ocean\"}\n\n-- Accessing the habitat of a lion\nset lionHabitat to animalHabitats's lion\n\n-- Adding a new animal and habitat\nset animalHabitats's eagle to \"mountains\"\n\n-- Modifying an existing habitat\nset animalHabitats's panda to \"bamboo forest\"\n\n-- Deleting an animal and its habitat\nset animalHabitats to animalHabitats - {penguin:\"antarctica\"}\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```applescript\nset mountainElevations to {Everest:29029, K2:28251, Kangchenjunga:28169, Lhotse:27940, Makalu:27838}\n\nset tallestMountain to \"\"\nset highestElevation to 0\n\nrepeat with mountain in mountainElevations\n    set mountainName to |1| of mountain\n    set elevation to |2| of mountain\n    if elevation > highestElevation then\n        set highestElevation to elevation\n        set tallestMountain to mountainName\n    end if\nend repeat\n\nreturn tallestMountain\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```applescript\non timeZoneToUTCOffset(timeZone)\n\tset timeZones to {(\"EST\"): \"-05:00\", (\"CST\"): \"-06:00\", (\"MST\"): \"-07:00\", (\"PST\"): \"-08:00\", (\"UTC\"): \"+00:00\", (\"GMT\"): \"+00:00\", (\"CET\"): \"+01:00\", (\"EET\"): \"+02:00\", (\"IST\"): \"+05:30\"}\n\tif (timeZones contains timeZone) then\n\t\treturn item timeZone of timeZones\n\telse\n\t\treturn \"Unknown Time Zone\"\n\tend if\nend timeZoneToUTCOffset\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```applescript\nset programmingLanguages to {Python:\"Guido van Rossum\", Java:\"James Gosling\", Ruby:\"Yukihiro Matsumoto\", JavaScript:\"Brendan Eich\", C:\"Dennis Ritchie\"}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```applescript\nproperty subscribers : {}\n\non subscribe(email)\n    set subscribers to subscribers & {email}\nend subscribe\n\non cancelSubscription(email)\n    set newSubscribers to {}\n    repeat with subscriber in subscribers\n        if subscriber is not email then\n            set end of newSubscribers to subscriber\n        end if\n    end repeat\n    set subscribers to newSubscribers\nend cancelSubscription\n\non listSubscribers()\n    return subscribers\nend listSubscribers\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```applescript\nset postLikes to {post1:0, post2:0, post3:0}\n\n-- Function to add a like to a post\non addLike(postName)\n    if postLikes's hasKey(postName) then\n        set postLikes's postName to postLikes's postName + 1\n    else\n        display dialog \"Post not found.\"\n    end if\nend addLike\n\n-- Function to get likes count for a post\non getLikes(postName)\n    if postLikes's hasKey(postName) then\n        return postLikes's postName\n    else\n        display dialog \"Post not found.\"\n        return 0\n    end if\nend getLikes\n\n-- Example usage\naddLike(\"post1\")\naddLike(\"post2\")\naddLike(\"post2\")\n\nset likesPost1 to getLikes(\"post1\")\nset likesPost2 to getLikes(\"post2\")\nset likesPost3 to getLikes(\"post3\")\n\ndisplay dialog \"Post1 likes: \" & likesPost1\ndisplay dialog \"Post2 likes: \" & likesPost2\ndisplay dialog \"Post3 likes: \" & likesPost3\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```applescript\nset elementDictionary to {Hydrogen:1, Helium:2, Lithium:3, Beryllium:4, Boron:5, Carbon:6, Nitrogen:7, Oxygen:8, Fluorine:9, Neon:10}\n\non lookupAtomicNumber(elementName)\n\tif elementDictionary's hasKey(elementName) then\n\t\treturn elementDictionary's item elementName\n\telse\n\t\treturn \"Element not found\"\n\tend if\nend lookupAtomicNumber\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```applescript\non groupMoviesByDirector(movies)\n\tset directorMap to {}\n\trepeat with movie in movies\n\t\tset {director, title} to movie\n\t\tif directorMap's does not contain director then\n\t\t\tset directorMap's director to {}\n\t\tend if\n\t\tset end of (directorMap's director) to title\n\tend repeat\n\treturn directorMap\nend groupMoviesByDirector\n\n-- Example usage\nset movies to {{\"Christopher Nolan\", \"Inception\"}, {\"Steven Spielberg\", \"Jurassic Park\"}, {\"Christopher Nolan\", \"The Dark Knight\"}}\nset groupedMovies to groupMoviesByDirector(movies)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```applescript\nset historicalFigures to { \"Albert Einstein\":1879, \"Isaac Newton\":1643, \"Marie Curie\":1867, \"Galileo Galilei\":1564, \"Leonardo da Vinci\":1452 }\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```applescript\nset planetDiameters to {Mercury: 4879, Venus: 12104, Earth: 12742, Mars: 6779, Jupiter: 139820, Saturn: 116460, Uranus: 50724, Neptune: 49244}\n\n-- Example of accessing the diameter of a specific planet\nset earthDiameter to Earth of planetDiameters\ndisplay dialog \"The diameter of Earth is \" & earthDiameter & \" km\"\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```applescript\nset restaurantRatings to {}\n\n\non addOrUpdateRating(restaurantName, rating)\n\tif restaurantRatings's hasKey(restaurantName) then\n\t\tset restaurantRatings's item restaurantName to rating\n\telse\n\t\tset restaurantRatings's end to {restaurantName:rating}\n\tend if\nend addOrUpdateRating\n\n\non getRating(restaurantName)\n\tif restaurantRatings's hasKey(restaurantName) then\n\t\treturn restaurantRatings's item restaurantName\n\telse\n\t\treturn \"No rating found for \" & restaurantName\n\tend if\nend getRating\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```applescript\nset binaryToDecimalMap to {binary1:\"1\", binary10:\"2\", binary11:\"3\", binary100:\"4\", binary101:\"5\", binary110:\"6\", binary111:\"7\", binary1000:\"8\", binary1001:\"9\", binary1010:\"10\"}\n\non translateBinaryToDecimal(binaryNumber)\n    if binaryToDecimalMap's hasKey(\"binary\" & binaryNumber) then\n        return binaryToDecimalMap's (\"binary\" & binaryNumber) as string\n    else\n        return \"Unknown binary number\"\n    end if\nend translateBinaryToDecimal\n\n-- Example usage:\ntranslateBinaryToDecimal(\"101\") -- returns \"5\"\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```applescript\nset artistWorks to {\u00ac\n    \"Vincent van Gogh\":\"Starry Night\", \u00ac\n    \"Leonardo da Vinci\":\"Mona Lisa\", \u00ac\n    \"Pablo Picasso\":\"Guernica\", \u00ac\n    \"Claude Monet\":\"Water Lilies\", \u00ac\n    \"Frida Kahlo\":\"The Two Fridas\" \u00ac\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```applescript\nset vehicleMaintenance to {}\n\n\n-- Function to add a vehicle and its maintenance schedule\non addVehicle(vehicleID, schedule)\n\tset vehicleMaintenance's end of vehicleMaintenance to {vehicleID:vehicleID, schedule:schedule}\nend addVehicle\n\n-- Function to get the maintenance schedule of a vehicle\non getSchedule(vehicleID)\n\trepeat with record in vehicleMaintenance\n\t\tif vehicleID of record is vehicleID then\n\t\t\treturn schedule of record\n\t\tend if\n\tend repeat\n\treturn \"Schedule not found\"\nend getSchedule\n\n-- Function to update the maintenance schedule of a vehicle\non updateSchedule(vehicleID, newSchedule)\n\trepeat with i from 1 to count of vehicleMaintenance\n\t\tif vehicleID of item i of vehicleMaintenance is vehicleID then\n\t\t\tset schedule of item i of vehicleMaintenance to newSchedule\n\t\t\treturn \"Schedule updated\"\n\t\tend if\n\tend repeat\n\treturn \"Vehicle not found\"\nend updateSchedule\n\n-- Example usage\naddVehicle(\"12345\", \"2023-12-10\")\naddVehicle(\"67890\", \"2024-01-15\")\ngetSchedule(\"12345\")\nupdateSchedule(\"12345\", \"2023-12-20\")\ngetSchedule(\"12345\")\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```applescript\nset languageSpeakers to {\u00ac\n\t\"English\": 1500, \u00ac\n\t\"Mandarin\": 1117, \u00ac\n\t\"Hindi\": 615, \u00ac\n\t\"Spanish\": 534, \u00ac\n\t\"French\": 280, \u00ac\n\t\"Arabic\": 274, \u00ac\n\t\"Bengali\": 265, \u00ac\n\t\"Russian\": 258, \u00ac\n\t\"Portuguese\": 234, \u00ac\n\t\"Indonesian\": 199}\n\n-- Example of accessing the dictionary\nset englishSpeakers to item \"English\" of languageSpeakers\nset mandarinSpeakers to item \"Mandarin\" of languageSpeakers\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```applescript\nset cityTemperatures to {NewYork: 12, LosAngeles: 18, Chicago: 10, Miami: 24, Dallas: 20}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```applescript\non convertMetricToImperial(metricValue, unitType)\n\tset conversionDictionary to {meters: 3.28084, kilograms: 2.20462, liters: 0.264172}\n\tif conversionDictionary's |unitType| is not missing value then\n\t\tset conversionFactor to conversionDictionary's |unitType|\n\t\treturn metricValue * conversionFactor\n\telse\n\t\treturn \"Invalid unit type\"\n\tend if\nend convertMetricToImperial\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```applescript\nset sportsRecords to {Athletics:\"Usain Bolt - 9.58 seconds\", Swimming:\"Cesar Cielo - 46.91 seconds\", Marathon:\"Eliud Kipchoge - 2:01:39\", HighJump:\"Javier Sotomayor - 2.45 meters\"}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```applescript\n-- Initialize the map for favorite movies\nset favoriteMovies to {}\n\n-- Function to add a movie\non addMovie(movieName, rating)\n\tset favoriteMovies's end to {movieName:rating}\nend addMovie\n\n-- Function to remove a movie\non removeMovie(movieName)\n\tset updatedMovies to {}\n\trepeat with movie in favoriteMovies\n\t\tif movieName is not in movie then\n\t\t\tset end of updatedMovies to movie\n\t\tend if\n\tend repeat\n\tset favoriteMovies to updatedMovies\nend removeMovie\n\n-- Example usage\naddMovie(\"Inception\", 5)\naddMovie(\"The Matrix\", 4)\nremoveMovie(\"Inception\")\nreturn favoriteMovies\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```applescript\nset cityDistances to {{\"New York-Boston\": 215}, {\"Los Angeles-San Francisco\": 380}, {\"Chicago-Detroit\": 280}}\n\n-- Example of accessing a distance\nset distanceBetweenNYAndBoston to item 1 of (lookup(\"New York-Boston\", cityDistances))\n\non lookup(key, dict)\n\trepeat with entry in dict\n\t\tif key is equal to (first item of entry) then\n\t\t\treturn rest of entry\n\t\tend if\n\tend repeat\n\treturn missing value\nend lookup\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```applescript\nset planetOrbitalPeriods to {Mercury: 88, Venus: 225, Earth: 365, Mars: 687, Jupiter: 4333, Saturn: 10759, Uranus: 30687, Neptune: 60190}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```applescript\non colorNameFromHTMLCode(htmlCode)\n    set colorMap to {(\"#FFFFFF\": \"White\"), (\"#000000\": \"Black\"), (\"#FF0000\": \"Red\"), (\"#00FF00\": \"Green\"), (\"#0000FF\": \"Blue\"), (\"#FFFF00\": \"Yellow\"), (\"#FFA500\": \"Orange\"), (\"#800080\": \"Purple\"), (\"#008080\": \"Teal\")}\n    if colorMap contains htmlCode then\n        return colorMap's item htmlCode\n    else\n        return \"Unknown\"\n    end if\nend colorNameFromHTMLCode\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```applescript\nset composerDictionary to {\u00ac\n    \"Ludwig van Beethoven\": \"Symphony No. 9\", \u00ac\n    \"Wolfgang Amadeus Mozart\": \"The Magic Flute\", \u00ac\n    \"Johann Sebastian Bach\": \"Brandenburg Concertos\", \u00ac\n    \"Fr\u00e9d\u00e9ric Chopin\": \"Nocturnes\", \u00ac\n    \"Pyotr Ilyich Tchaikovsky\": \"Swan Lake\", \u00ac\n    \"Igor Stravinsky\": \"The Firebird\", \u00ac\n    \"Antonio Vivaldi\": \"The Four Seasons\", \u00ac\n    \"Franz Schubert\": \"Ave Maria\"}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```applescript\nset bridgeMap to {GoldenGate: 2737, Brooklyn: 1595, London: 886, Tower: 801}\n\n-- Example of accessing the map\nset goldenGateLength to GoldenGate of bridgeMap\nset brooklynLength to Brooklyn of bridgeMap\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```applescript\nset personalGoals to {goal1:\"Read a book\", goal2:\"Exercise daily\", goal3:\"Learn a new language\"}\n\n-- Update a goal\nset goalKey to \"goal2\"\nset newGoal to \"Run a marathon\"\nset personalGoals's goalKey to newGoal\n\n-- Access a goal\nset accessedGoal to personalGoals's goal1\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```applescript\nset hexToBinaryMap to {A:\"1010\", B:\"1011\", C:\"1100\", D:\"1101\", E:\"1110\", F:\"1111\", \"0\":\"0000\", \"1\":\"0001\", \"2\":\"0010\", \"3\":\"0011\", \"4\":\"0100\", \"5\":\"0101\", \"6\":\"0110\", \"7\":\"0111\", \"8\":\"1000\", \"9\":\"1001\"}\n\non hexToBinary(hexNum)\n\tset binaryResult to \"\"\n\trepeat with i from 1 to (length of hexNum)\n\t\tset hexDigit to character i of hexNum\n\t\tset binaryResult to binaryResult & hexToBinaryMap's item hexDigit\n\tend repeat\n\treturn binaryResult\nend hexToBinary\n\nset hexValue to \"1A3F\"\nset binaryValue to hexToBinary(hexValue)\ndisplay dialog \"The binary representation of \" & hexValue & \" is \" & binaryValue\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```applescript\nset treeHeights to {Oak:\"70 feet\", Pine:\"60 feet\", Maple:\"50 feet\", Birch:\"40 feet\"}\n```"
+  }
+]

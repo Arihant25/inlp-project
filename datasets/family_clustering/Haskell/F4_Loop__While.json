@@ -1,0 +1,374 @@
+[
+  {
+    "task": "Create a program that continuously asks the user to enter a number until they input a negative number.",
+    "code": "```haskell\nimport Control.Monad\n\nmain :: IO ()\nmain = do\n    let loop = do\n            putStrLn \"Enter a number:\"\n            input <- getLine\n            let number = read input :: Int\n            when (number >= 0) loop\n    loop\n```"
+  },
+  {
+    "task": "Write a function that doubles a number and repeats the process until the number is greater than 1000.",
+    "code": "```haskell\ndoubleUntilGreaterThan1000 :: (Num a, Ord a) => a -> a\ndoubleUntilGreaterThan1000 n = loop n\n  where\n    loop x\n      | x > 1000  = x\n      | otherwise = loop (x * 2)\n```"
+  },
+  {
+    "task": "Develop a routine to keep printing 'Hello, World!' until a counter reaches 10.",
+    "code": "```haskell\nmain :: IO ()\nmain = loop 0\n  where\n    loop :: Int -> IO ()\n    loop counter\n      | counter >= 10 = return ()\n      | otherwise = do\n          putStrLn \"Hello, World!\"\n          loop (counter + 1)\n```"
+  },
+  {
+    "task": "Construct a loop that checks if a randomly generated number is even, repeating until an odd number is found.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\nmain :: IO ()\nmain = do\n    let checkIfOdd = do\n            n <- randomRIO (1, 100)\n            putStrLn $ \"Generated number: \" ++ show n\n            if odd n\n                then return ()\n                else checkIfOdd\n    checkIfOdd\n```"
+  },
+  {
+    "task": "Design a countdown timer that prints each second until it reaches zero.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\n\ncountdown :: Int -> IO ()\ncountdown n = loop n\n  where\n    loop k\n      | k < 0     = return ()\n      | otherwise = do\n          print k\n          threadDelay 1000000\n          loop (k - 1)\n\nmain :: IO ()\nmain = countdown 10\n```"
+  },
+  {
+    "task": "Implement a system where a user can keep adding items to a list until they type 'stop'.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = do\n    items <- loop []\n    putStrLn \"Final list of items:\"\n    mapM_ putStrLn items\n\nloop :: [String] -> IO [String]\nloop items = do\n    putStrLn \"Enter an item (or type 'stop' to finish):\"\n    input <- getLine\n    if input == \"stop\"\n        then return items\n        else loop (items ++ [input])\n```"
+  },
+  {
+    "task": "Write a script that simulates rolling a die and continues until a six is rolled.",
+    "code": "```haskell\nimport System.Random\n\nmain :: IO ()\nmain = do\n    gen <- getStdGen\n    rollDie gen\n\nrollDie :: StdGen -> IO ()\nrollDie gen = do\n    let (roll, newGen) = randomR (1, 6) gen\n    putStrLn $ \"Rolled: \" ++ show roll\n    if roll /= 6\n        then rollDie newGen\n        else return ()\n```"
+  },
+  {
+    "task": "Create a program that asks for a password and keeps prompting until the correct password is entered.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = do\n    let correctPassword = \"secret\"\n    promptPassword correctPassword\n\npromptPassword :: String -> IO ()\npromptPassword correctPassword = do\n    putStrLn \"Enter password:\"\n    password <- getLine\n    when (password /= correctPassword) $ promptPassword correctPassword\n```"
+  },
+  {
+    "task": "Design a loop that calculates the sum of entered numbers until the user enters zero.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter numbers to sum, end with 0:\"\n    sumLoop 0\n\nsumLoop :: Int -> IO ()\nsumLoop acc = do\n    input <- getLine\n    let num = read input :: Int\n    when (num /= 0) $ sumLoop (acc + num)\n    when (num == 0) $ putStrLn $ \"Total sum: \" ++ show acc\n```"
+  },
+  {
+    "task": "Implement a feature that prints Fibonacci numbers until a number exceeds 100.",
+    "code": "```haskell\nmain :: IO ()\nmain = printFibs 0 1\n  where\n    printFibs a b\n      | a > 100 = return ()\n      | otherwise = do\n          print a\n          printFibs b (a + b)\n```"
+  },
+  {
+    "task": "Develop a loop that keeps halving a number until it becomes less than one.",
+    "code": "```haskell\nhalveUntilLessThanOne :: Double -> Double\nhalveUntilLessThanOne x = loop x\n  where\n    loop n\n      | n < 1     = n\n      | otherwise = loop (n / 2)\n```"
+  },
+  {
+    "task": "Write a program that asks for names and keeps storing them until the user enters 'done'.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = loop []\n\nloop :: [String] -> IO ()\nloop names = do\n    putStrLn \"Enter a name (or 'done' to finish):\"\n    name <- getLine\n    when (name /= \"done\") $ loop (name:names)\n```"
+  },
+  {
+    "task": "Create a process that keeps flipping a coin, recording results until there have been five heads.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\nflipCoin :: IO String\nflipCoin = do\n    result <- randomRIO (0, 1) :: IO Int\n    return $ if result == 0 then \"Heads\" else \"Tails\"\n\ncoinFlipper :: Int -> IO [String]\ncoinFlipper headsCount\n    | headsCount >= 5 = return []\n    | otherwise = do\n        result <- flipCoin\n        rest <- coinFlipper (if result == \"Heads\" then headsCount + 1 else headsCount)\n        return (result : rest)\n\nmain :: IO ()\nmain = do\n    results <- coinFlipper 0\n    mapM_ putStrLn results\n```"
+  },
+  {
+    "task": "Implement a countdown that decreases by two each time, starting from 20, until it reaches zero.",
+    "code": "```haskell\ncountdown :: Int -> IO ()\ncountdown n = do\n    if n <= 0\n        then return ()\n        else do\n            print n\n            countdown (n - 2)\n\nmain :: IO ()\nmain = countdown 20\n```"
+  },
+  {
+    "task": "Design a solution that repeatedly asks for user input and repeats it back until they type 'exit'.",
+    "code": "```haskell\nimport Control.Monad (unless)\nimport System.IO (hFlush, stdout)\n\nmain :: IO ()\nmain = loop\n\nloop :: IO ()\nloop = do\n    putStr \"Enter input: \"\n    hFlush stdout\n    input <- getLine\n    unless (input == \"exit\") $ do\n        putStrLn input\n        loop\n```"
+  },
+  {
+    "task": "Develop a loop to simulate a bank account balance, repeatedly deducting a fee until the balance is below zero.",
+    "code": "```haskell\nsimulateBalance :: Double -> Double -> Double\nsimulateBalance balance fee = loop balance\n  where\n    loop b\n      | b < 0     = b\n      | otherwise = loop (b - fee)\n\nmain :: IO ()\nmain = do\n  let initialBalance = 100.0\n  let fee = 10.0\n  print $ simulateBalance initialBalance fee\n```"
+  },
+  {
+    "task": "Create a sequence generator that multiplies a number by three each time until it reaches or exceeds 100.",
+    "code": "```haskell\ngenerateSequence :: Int -> [Int]\ngenerateSequence n = takeWhile (< 100) (iterate (*3) n)\n\nmain :: IO ()\nmain = print (generateSequence 1)\n```"
+  },
+  {
+    "task": "Write a program that keeps generating random numbers between 1 and 10 until it gets a five.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\nmain :: IO ()\nmain = loop\n\nloop :: IO ()\nloop = do\n  num <- randomRIO (1, 10)\n  print num\n  if num /= 5 then loop else return ()\n```"
+  },
+  {
+    "task": "Implement a system to keep checking the temperature and only stop when it falls below freezing.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = checkTemperature\n\ncheckTemperature :: IO ()\ncheckTemperature = do\n    putStrLn \"Enter current temperature:\"\n    tempStr <- getLine\n    let temp = read tempStr :: Double\n    when (temp >= 0) checkTemperature\n```"
+  },
+  {
+    "task": "Construct a quiz game that continues asking questions until the player answers incorrectly.",
+    "code": "```haskell\nimport System.IO\n\nquizGame :: IO ()\nquizGame = do\n    hSetBuffering stdout NoBuffering\n    putStrLn \"Welcome to the quiz game!\"\n    loop\n\nloop :: IO ()\nloop = do\n    putStr \"What is the capital of France? \"\n    answer <- getLine\n    if answer == \"Paris\"\n        then do\n            putStrLn \"Correct! Let's go to the next question.\"\n            loop\n        else\n            putStrLn \"Incorrect! Game over.\"\n\nmain :: IO ()\nmain = quizGame\n```"
+  },
+  {
+    "task": "Write a function that calculates factorials of a number, repeating the process for numbers 1 through 5.",
+    "code": "```haskell\nfactorial :: Integer -> Integer\nfactorial n = loop n 1\n  where\n    loop x acc\n      | x <= 1    = acc\n      | otherwise = loop (x - 1) (acc * x)\n\nfactorials :: [Integer] -> [Integer]\nfactorials nums = map factorial nums\n\nmain :: IO ()\nmain = print $ factorials [1..5]\n```"
+  },
+  {
+    "task": "Create a loop that prints all even numbers between 1 and 50.",
+    "code": "```haskell\nmain :: IO ()\nmain = loop 2\n  where\n    loop n\n      | n > 50    = return ()\n      | otherwise = do\n          print n\n          loop (n + 2)\n```"
+  },
+  {
+    "task": "Design a program that continuously asks for user input until a palindrome is entered.",
+    "code": "```haskell\nimport Control.Monad (unless)\n\nmain :: IO ()\nmain = do\n    let loop = do\n            putStrLn \"Enter a string:\"\n            input <- getLine\n            unless (input == reverse input) loop\n    loop\n```"
+  },
+  {
+    "task": "Implement a countdown that decreases by one each second, starting from 100.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\n\ncountdown :: Int -> IO ()\ncountdown n = do\n    if n > 0\n        then do\n            print n\n            threadDelay 1000000\n            countdown (n - 1)\n        else\n            return ()\n\nmain :: IO ()\nmain = countdown 100\n```"
+  },
+  {
+    "task": "Write a script that repeatedly asks for a number and adds it to a total until the total exceeds 500.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = loop 0\n  where\n    loop total = do\n      when (total <= 500) $ do\n        putStrLn \"Enter a number:\"\n        input <- getLine\n        let number = read input :: Int\n        let newTotal = total + number\n        putStrLn $ \"New total: \" ++ show newTotal\n        loop newTotal\n```"
+  },
+  {
+    "task": "Create a loop that generates random letters until the letter 'Z' appears.",
+    "code": "```haskell\nimport System.Random (randomRIO)\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = loop\n\nloop :: IO ()\nloop = do\n    letter <- randomRIO ('A', 'Z')\n    when (letter /= 'Z') $ do\n        putStrLn [letter]\n        loop\n```"
+  },
+  {
+    "task": "Write a process that continues prompting for two numbers and prints their sum if it's even.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = loop\n  where\n    loop = do\n      putStrLn \"Enter the first number:\"\n      input1 <- getLine\n      putStrLn \"Enter the second number:\"\n      input2 <- getLine\n      let num1 = read input1 :: Int\n      let num2 = read input2 :: Int\n      let sumNum = num1 + num2\n      when (even sumNum) $ print sumNum\n      loop\n```"
+  },
+  {
+    "task": "Develop a loop that simulates a traffic light sequence until a manual stop command is received.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\nimport System.IO (hSetBuffering, BufferMode(NoBuffering), stdin)\nimport Control.Monad (when)\n\ndata TrafficLight = Red | Yellow | Green deriving (Show, Eq, Enum, Bounded)\n\nnextLight :: TrafficLight -> TrafficLight\nnextLight light\n  | light == maxBound = minBound\n  | otherwise = succ light\n\nsimulateTrafficLight :: IO ()\nsimulateTrafficLight = do\n    hSetBuffering stdin NoBuffering\n    loop Red\n  where\n    loop light = do\n      putStrLn $ \"Traffic Light: \" ++ show light\n      threadDelay 1000000  -- Wait for 1 second\n      inputAvailable <- hReady stdin\n      if inputAvailable\n        then do\n          c <- getChar\n          when (c /= 'q') $ loop (nextLight light)\n        else loop (nextLight light)\n\nmain :: IO ()\nmain = simulateTrafficLight\n```"
+  },
+  {
+    "task": "Implement a feature that keeps printing numbers in reverse order starting from 10.",
+    "code": "```haskell\nmain :: IO ()\nmain = loop 10\n  where\n    loop n\n      | n >= 1 = do\n          print n\n          loop (n - 1)\n      | otherwise = return ()\n```"
+  },
+  {
+    "task": "Create a program that rolls two dice and continues until the sum is exactly seven.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\nrollDie :: IO Int\nrollDie = randomRIO (1, 6)\n\nrollDiceUntilSeven :: IO ()\nrollDiceUntilSeven = do\n    die1 <- rollDie\n    die2 <- rollDie\n    let sumDice = die1 + die2\n    putStrLn $ \"Rolled: \" ++ show die1 ++ \" + \" ++ show die2 ++ \" = \" ++ show sumDice\n    if sumDice == 7 then return () else rollDiceUntilSeven\n\nmain :: IO ()\nmain = rollDiceUntilSeven\n```"
+  },
+  {
+    "task": "Design a loop that keeps asking for ages and prints the average once a negative age is entered.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = do\n    let loop ages sumAges count = do\n            putStrLn \"Enter age:\"\n            input <- getLine\n            let age = read input :: Int\n            if age < 0\n                then when (count > 0) $ \n                         putStrLn $ \"Average age: \" ++ show (sumAges / fromIntegral count)\n                else loop (age : ages) (sumAges + fromIntegral age) (count + 1)\n    loop [] 0 0\n```"
+  },
+  {
+    "task": "Write a routine that squares numbers starting from 1 until the square is greater than 500.",
+    "code": "```haskell\nsquareNumbers :: IO ()\nsquareNumbers = loop 1\n  where\n    loop n\n      | n * n > 500 = return ()\n      | otherwise   = print (n * n) >> loop (n + 1)\n```"
+  },
+  {
+    "task": "Implement a system to ask for a string and append it to a file until 'end' is typed.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    let filename = \"output.txt\"\n    handle <- openFile filename AppendMode\n    loop handle\n    hClose handle\n\nloop :: Handle -> IO ()\nloop handle = do\n    input <- getLine\n    if input /= \"end\"\n        then do\n            hPutStrLn handle input\n            loop handle\n        else return ()\n```"
+  },
+  {
+    "task": "Create a script that checks if a number is prime, repeating for each number entered by the user.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nisPrime :: Int -> Bool\nisPrime n\n  | n <= 1 = False\n  | otherwise = all (\\x -> n `mod` x /= 0) [2 .. floor . sqrt $ fromIntegral n]\n\nmain :: IO ()\nmain = do\n  let loop = do\n        putStrLn \"Enter a number (or type 'exit' to quit):\"\n        input <- getLine\n        when (input /= \"exit\") $ do\n          let number = read input :: Int\n          if isPrime number\n            then putStrLn \"The number is prime.\"\n            else putStrLn \"The number is not prime.\"\n          loop\n  loop\n```"
+  },
+  {
+    "task": "Develop a countdown that prints numbers starting from 50 down to 1.",
+    "code": "```haskell\nmain :: IO ()\nmain = countdown 50\n\ncountdown :: Int -> IO ()\ncountdown n = do\n  if n > 0\n    then do\n      print n\n      countdown (n - 1)\n    else return ()\n```"
+  },
+  {
+    "task": "Write a program that keeps doubling the value of a variable until it exceeds 200.",
+    "code": "```haskell\nmain :: IO ()\nmain = print (loop 1)\n  where\n    loop x\n      | x > 200   = x\n      | otherwise = loop (x * 2)\n```"
+  },
+  {
+    "task": "Design a loop that keeps generating a random string of letters until a specific word is formed.",
+    "code": "```haskell\nimport System.Random\nimport Control.Monad (replicateM)\n\ntargetWord :: String\ntargetWord = \"Haskell\"\n\nrandomString :: Int -> IO String\nrandomString n = replicateM n $ randomRIO ('a', 'z')\n\nmain :: IO ()\nmain = loop\n  where\n    loop = do\n      str <- randomString (length targetWord)\n      putStrLn str\n      if str == targetWord\n        then return ()\n        else loop\n```"
+  },
+  {
+    "task": "Implement a system that continuously fetches data from a sensor until a threshold is crossed.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nfetchSensorData :: IO Double\nfetchSensorData = do\n    -- Simulated sensor data fetch\n    return 42.0 -- Replace this with actual data fetching logic\n\nmain :: IO ()\nmain = loop\n\nloop :: IO ()\nloop = do\n    sensorData <- fetchSensorData\n    when (sensorData <= threshold) loop\n  where\n    threshold = 50.0\n```"
+  },
+  {
+    "task": "Create a game where a player guesses a number, and the game continues until the player guesses correctly.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\nmain :: IO ()\nmain = do\n    target <- randomRIO (1, 100) :: IO Int\n    putStrLn \"Guess the number between 1 and 100:\"\n    gameLoop target\n\ngameLoop :: Int -> IO ()\ngameLoop target = do\n    guess <- getLine\n    let guessedNumber = read guess :: Int\n    if guessedNumber == target\n        then putStrLn \"Congratulations! You guessed correctly.\"\n        else do\n            putStrLn \"Wrong guess, try again:\"\n            gameLoop target\n```"
+  },
+  {
+    "task": "Write a loop that continues to add random numbers to a list until the list has 10 even numbers.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\naddEvenNumbers :: IO [Int]\naddEvenNumbers = go []\n  where\n    go evens\n      | length evens >= 10 = return evens\n      | otherwise = do\n          num <- randomRIO (1, 100)\n          let newEvens = if even num then evens ++ [num] else evens\n          go newEvens\n```"
+  },
+  {
+    "task": "Design a routine that keeps removing elements from a list until it is empty.",
+    "code": "```haskell\nremoveUntilEmpty :: [a] -> [a]\nremoveUntilEmpty lst = go lst\n  where\n    go xs = if null xs then xs else go (tail xs)\n```"
+  },
+  {
+    "task": "Implement a sequence that prints the alphabet repeatedly until interrupted by the user.",
+    "code": "```haskell\nimport Control.Monad (forever)\nimport System.IO (hSetBuffering, BufferMode(NoBuffering), stdout)\n\nmain :: IO ()\nmain = do\n    hSetBuffering stdout NoBuffering\n    forever $ putStrLn ['A'..'Z']\n```"
+  },
+  {
+    "task": "Create a program that continuously checks for updates and stops once an update is available.",
+    "code": "```haskell\nimport Control.Monad (when)\nimport System.Random (randomRIO)\n\ncheckForUpdate :: IO Bool\ncheckForUpdate = do\n    -- Simulating update check with random boolean\n    randomRIO (0, 1 :: Int) >>= return . (== 1)\n\nmain :: IO ()\nmain = do\n    let loop = do\n            updateAvailable <- checkForUpdate\n            when (not updateAvailable) loop\n    loop\n```"
+  },
+  {
+    "task": "Write a function that keeps dividing a number by two until it results in a fractional value.",
+    "code": "```haskell\ndivideUntilFractional :: Integral a => a -> Double\ndivideUntilFractional n = loop (fromIntegral n)\n  where\n    loop x\n      | x == fromIntegral (truncate x) = loop (x / 2)\n      | otherwise = x\n```"
+  },
+  {
+    "task": "Develop a loop that keeps asking for student's grades and calculates the average until a grade of -1 is entered.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter grades (-1 to finish):\"\n    averageLoop 0 0\n\naverageLoop :: Int -> Int -> IO ()\naverageLoop total count = do\n    input <- getLine\n    let grade = read input :: Int\n    when (grade /= -1) $ do\n        let newTotal = total + grade\n        let newCount = count + 1\n        averageLoop newTotal newCount\n    when (count > 0 && grade == -1) $ do\n        let average = fromIntegral total / fromIntegral count :: Double\n        putStrLn $ \"Average grade: \" ++ show average\n```"
+  },
+  {
+    "task": "Design a feature that continuously monitors a file for changes and stops when no changes are detected for a minute.",
+    "code": "```haskell\nimport System.Directory (getModificationTime)\nimport Control.Concurrent (threadDelay)\nimport Data.Time.Clock (getCurrentTime, diffUTCTime)\n\nmonitorFile :: FilePath -> IO ()\nmonitorFile filePath = do\n    initialTime <- getModificationTime filePath\n    monitorLoop initialTime\n  where\n    monitorLoop lastChangeTime = do\n        currentTime <- getModificationTime filePath\n        now <- getCurrentTime\n        let timeSinceChange = diffUTCTime now lastChangeTime\n        if timeSinceChange >= 60\n            then return ()\n            else do\n                threadDelay (10 * 1000000) -- check every 10 seconds\n                monitorLoop (max currentTime lastChangeTime)\n\nmain :: IO ()\nmain = monitorFile \"path/to/your/file\"\n```"
+  },
+  {
+    "task": "Implement a process where a motor runs until a certain distance is reached.",
+    "code": "```haskell\nrunMotorUntilDistance :: IO ()\nrunMotorUntilDistance = do\n    let targetDistance = 100 -- Example distance\n    let increment = 5 -- Distance covered per loop iteration\n    let loop currentDistance\n            | currentDistance >= targetDistance = return ()\n            | otherwise = do\n                putStrLn \"Motor running...\"\n                let newDistance = currentDistance + increment\n                loop newDistance\n    loop 0\n```"
+  },
+  {
+    "task": "Create a script that keeps generating random numbers and stops when it generates a prime number.",
+    "code": "```haskell\nimport System.Random (randomRIO)\nimport Control.Monad (when)\n\nisPrime :: Int -> Bool\nisPrime n\n  | n <= 1 = False\n  | n == 2 = True\n  | otherwise = all (\\d -> n `mod` d /= 0) [2 .. isqrt n]\n  where\n    isqrt = floor . sqrt . fromIntegral\n\nmain :: IO ()\nmain = do\n  let loop = do\n        num <- randomRIO (1, 100)  -- You can change the range if desired\n        putStrLn $ \"Generated: \" ++ show num\n        when (not $ isPrime num) loop\n  loop\n```"
+  },
+  {
+    "task": "Write a program that asks for the user's favorite color and keeps asking until they say 'blue'.",
+    "code": "```haskell\nimport Control.Monad (unless)\n\nmain :: IO ()\nmain = askFavoriteColor\n\naskFavoriteColor :: IO ()\naskFavoriteColor = do\n  putStrLn \"What is your favorite color?\"\n  color <- getLine\n  unless (color == \"blue\") askFavoriteColor\n```"
+  },
+  {
+    "task": "Develop a loop that continuously prints the time every second until a key is pressed.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\nimport System.IO (hSetBuffering, stdin, BufferMode(NoBuffering))\nimport System.Timeout (timeout)\nimport Data.Time (getCurrentTime)\n\nmain :: IO ()\nmain = do\n    hSetBuffering stdin NoBuffering\n    loop\n\nloop :: IO ()\nloop = do\n    currentTime <- getCurrentTime\n    putStrLn $ show currentTime\n    keyPressed <- timeout 1000000 getChar\n    case keyPressed of\n        Nothing -> loop\n        Just _  -> return ()\n```"
+  },
+  {
+    "task": "Create a system to keep downloading data from a server until the connection is lost.",
+    "code": "```haskell\nimport Control.Monad (when)\n\n-- Simulated function to check if connection is active\nisConnectionActive :: IO Bool\nisConnectionActive = return True -- Replace with actual connection check\n\n-- Simulated function to download data\ndownloadData :: IO ()\ndownloadData = putStrLn \"Downloading data...\" -- Replace with actual download code\n\nmain :: IO ()\nmain = downloadLoop\n\ndownloadLoop :: IO ()\ndownloadLoop = do\n    active <- isConnectionActive\n    when active $ do\n        downloadData\n        downloadLoop\n```"
+  },
+  {
+    "task": "Write a process to keep a light on until the ambient light level is sufficient.",
+    "code": "```haskell\nimport Control.Monad (when)\nimport System.IO (hFlush, stdout)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the ambient light level (0-100):\"\n    checkLightLevel\n\ncheckLightLevel :: IO ()\ncheckLightLevel = do\n    putStr \"Ambient light level: \"\n    hFlush stdout\n    input <- getLine\n    let lightLevel = read input :: Int\n    when (lightLevel < 50) $ do\n        putStrLn \"Light is ON\"\n        checkLightLevel\n    putStrLn \"Ambient light level is sufficient. Light is OFF.\"\n```"
+  },
+  {
+    "task": "Implement a feature that continuously plays a sound until the user presses a button.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\nimport Control.Monad (when)\nimport System.IO (BufferMode(NoBuffering), hSetBuffering, stdin)\nimport System.IO.Unsafe (unsafePerformIO)\n\n-- Dummy function to represent playing a sound\nplaySound :: IO ()\nplaySound = putStrLn \"Playing sound...\"\n\n-- Dummy function to check if a button is pressed\nisButtonPressed :: IO Bool\nisButtonPressed = do\n    input <- getLine\n    return (input == \"button\")\n\nmain :: IO ()\nmain = do\n    hSetBuffering stdin NoBuffering\n    let loop = do\n            playSound\n            threadDelay 1000000 -- Wait for 1 second\n            buttonPressed <- isButtonPressed\n            when (not buttonPressed) loop\n    loop\n```"
+  },
+  {
+    "task": "Design a program that keeps multiplying a matrix by itself until its determinant is greater than 1000.",
+    "code": "```haskell\nimport Data.Matrix (Matrix, multStd, detLU, fromLists)\n\nmultiplyUntilDetGT1000 :: Matrix Double -> Matrix Double\nmultiplyUntilDetGT1000 matrix = go matrix\n  where\n    go mat\n      | detLU mat > 1000 = mat\n      | otherwise = go (multStd mat mat)\n\nmain :: IO ()\nmain = do\n  let matrix = fromLists [[1.0, 2.0], [3.0, 4.0]]\n  print $ multiplyUntilDetGT1000 matrix\n```"
+  },
+  {
+    "task": "Create a script that keeps prompting the user to guess a word until they get it right.",
+    "code": "```haskell\nimport Control.Monad (unless)\n\nmain :: IO ()\nmain = do\n    let secretWord = \"haskell\"\n    putStrLn \"Guess the word:\"\n    guessLoop secretWord\n\nguessLoop :: String -> IO ()\nguessLoop secretWord = do\n    guess <- getLine\n    unless (guess == secretWord) $ do\n        putStrLn \"Wrong, try again:\"\n        guessLoop secretWord\n```"
+  },
+  {
+    "task": "Write a loop that simulates a car's fuel consumption and stops when the tank is empty.",
+    "code": "```haskell\nsimulateFuelConsumption :: Double -> Double -> IO ()\nsimulateFuelConsumption fuelRate fuelLevel = loop fuelLevel\n  where\n    loop fuel\n      | fuel <= 0 = putStrLn \"The tank is empty.\"\n      | otherwise = do\n          putStrLn $ \"Current fuel level: \" ++ show fuel\n          loop (fuel - fuelRate)\n\nmain :: IO ()\nmain = simulateFuelConsumption 0.5 10.0\n```"
+  },
+  {
+    "task": "Develop a routine that keeps checking if a file exists and stops once it does.",
+    "code": "```haskell\nimport System.Directory (doesFileExist)\n\ncheckFileExists :: FilePath -> IO ()\ncheckFileExists path = do\n    fileExists <- doesFileExist path\n    unless fileExists $ checkFileExists path\n```"
+  },
+  {
+    "task": "Implement a feature that continuously calculates the square root of a number until it's less than 0.1.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = loop 10 -- Example starting value\n\nloop :: Double -> IO ()\nloop n = do\n    let n' = sqrt n\n    print n'\n    when (n' >= 0.1) $ loop n'\n```"
+  },
+  {
+    "task": "Create a system that prints 'Processing...' every second until a task is complete.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\nimport Control.Monad (when)\nimport System.IO (hFlush, stdout)\n\nmain :: IO ()\nmain = loop\n\nloop :: IO ()\nloop = do\n    complete <- taskComplete\n    when (not complete) $ do\n        putStrLn \"Processing...\"\n        hFlush stdout\n        threadDelay 1000000\n        loop\n\ntaskComplete :: IO Bool\ntaskComplete = return False\n```"
+  },
+  {
+    "task": "Write a loop that repeatedly checks the status of a process until it reports 'complete'.",
+    "code": "```haskell\ncheckProcessStatus :: IO String\ncheckProcessStatus = do\n    -- Simulated function to get the status of a process\n    -- Replace this with actual process status check\n    return \"complete\"\n\nmain :: IO ()\nmain = whileM_ (fmap (/= \"complete\") checkProcessStatus) (return ())\n  where\n    whileM_ :: Monad m => m Bool -> m a -> m ()\n    whileM_ p f = do\n        x <- p\n        when x $ do\n            _ <- f\n            whileM_ p f\n```"
+  },
+  {
+    "task": "Design a routine to keep pinging a server and alert when the connection is lost.",
+    "code": "```haskell\nimport Network.HTTP\nimport Control.Concurrent\nimport Control.Monad\n\npingServer :: String -> IO ()\npingServer url = do\n    response <- simpleHTTP (getRequest url)\n    case response of\n        Left _ -> putStrLn \"Alert: Connection lost!\"\n        Right _ -> return ()\n\nmain :: IO ()\nmain = forever $ do\n    pingServer \"http://example.com\"\n    threadDelay 5000000  -- Wait for 5 seconds\n```"
+  },
+  {
+    "task": "Implement a loop that counts down from 100 by fives until it reaches zero.",
+    "code": "```haskell\nmain :: IO ()\nmain = countdown 100\n\ncountdown :: Int -> IO ()\ncountdown n = \n    if n >= 0 \n    then do\n        print n\n        countdown (n - 5)\n    else return ()\n```"
+  },
+  {
+    "task": "Create a script that keeps track of inventory items being added or removed until an end signal is given.",
+    "code": "```haskell\nimport Control.Monad (unless)\nimport qualified Data.Map as Map\n\ntype Inventory = Map.Map String Int\n\nupdateInventory :: Inventory -> String -> Int -> Inventory\nupdateInventory inv item change =\n    Map.insertWith (+) item change inv\n\nmain :: IO ()\nmain = loop Map.empty\n  where\n    loop inv = do\n        putStrLn \"Enter item and change (e.g. apple 3, or enter 'end' to finish):\"\n        input <- getLine\n        unless (input == \"end\") $ do\n            let (item, changeStr) = span (/= ' ') input\n                change = read (dropWhile (== ' ') changeStr) :: Int\n                newInv = updateInventory inv item change\n            print newInv\n            loop newInv\n```"
+  },
+  {
+    "task": "Write a program that keeps calculating the power of two for numbers until a result is greater than 1000.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = loop 1\n  where\n    loop n = do\n      let result = 2 ^ n\n      when (result <= 1000) $ do\n        print result\n        loop (n + 1)\n```"
+  },
+  {
+    "task": "Develop a sequence that keeps appending random numbers to an array until its length is 20.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\nappendRandomNumbers :: IO [Int]\nappendRandomNumbers = go []\n  where\n    go arr\n      | length arr >= 20 = return arr\n      | otherwise = do\n          num <- randomRIO (0, 100)\n          go (arr ++ [num])\n\nmain :: IO ()\nmain = do\n  sequence <- appendRandomNumbers\n  print sequence\n```"
+  },
+  {
+    "task": "Implement a routine that continuously rotates an image until it matches a reference orientation.",
+    "code": "```haskell\nimport Data.Maybe (isNothing)\n\n-- Assume `rotateImage` and `compareImages` are defined elsewhere\nrotateUntilMatch :: Image -> Image -> Image\nrotateUntilMatch img ref = loop img\n  where\n    loop currentImage\n      | compareImages currentImage ref = currentImage\n      | otherwise = loop (rotateImage currentImage)\n```"
+  },
+  {
+    "task": "Design a loop that keeps printing random jokes until the user stops it.",
+    "code": "```haskell\nimport System.Random (randomRIO)\nimport Control.Monad (forever)\nimport System.IO (hFlush, stdout)\n\njokes :: [String]\njokes = [ \"Why don't scientists trust atoms? Because they make up everything!\"\n        , \"I'm reading a book on anti-gravity. It's impossible to put down!\"\n        , \"What do you call fake spaghetti? An impasta!\"\n        , \"Why did the scarecrow win an award? Because he was outstanding in his field!\"\n        ]\n\ngetRandomJoke :: IO String\ngetRandomJoke = do\n    index <- randomRIO (0, length jokes - 1)\n    return (jokes !! index)\n\nmain :: IO ()\nmain = forever $ do\n    joke <- getRandomJoke\n    putStrLn joke\n    putStr \"Press Enter to continue or type 'stop' to quit: \"\n    hFlush stdout\n    input <- getLine\n    if input == \"stop\"\n        then return ()\n        else return ()\n```"
+  },
+  {
+    "task": "Create a program that accepts user feedback and continues until a positive feedback is received.",
+    "code": "```haskell\nimport Control.Monad (unless)\n\nmain :: IO ()\nmain = feedbackLoop\n\nfeedbackLoop :: IO ()\nfeedbackLoop = do\n    putStrLn \"Please enter your feedback:\"\n    feedback <- getLine\n    unless (isPositive feedback) feedbackLoop\n\nisPositive :: String -> Bool\nisPositive feedback = any (`elem` positiveWords) (words feedback)\n  where positiveWords = [\"good\", \"great\", \"excellent\", \"positive\", \"fantastic\", \"awesome\"]\n```"
+  },
+  {
+    "task": "Write a loop that repeatedly reads sensor data and stops when a stable reading is observed.",
+    "code": "```haskell\nimport System.IO (hFlush, stdout)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter sensor data readings (type 'stable' to stop):\"\n    loop\n\nloop :: IO ()\nloop = do\n    putStr \"Reading: \"\n    hFlush stdout\n    input <- getLine\n    if input == \"stable\"\n        then putStrLn \"Stable reading observed. Stopping.\"\n        else loop\n```"
+  },
+  {
+    "task": "Develop a system that simulates a stopwatch, counting seconds until stopped manually.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\nimport Control.Monad (when)\nimport System.IO (hSetBuffering, BufferMode(NoBuffering), stdin, hGetChar)\n\nmain :: IO ()\nmain = do\n    hSetBuffering stdin NoBuffering\n    putStrLn \"Stopwatch started. Press 's' to stop.\"\n    stopwatch 0\n\nstopwatch :: Int -> IO ()\nstopwatch count = do\n    threadDelay 1000000  -- 1 second delay\n    putStrLn $ \"Seconds elapsed: \" ++ show count\n    inputAvailable <- hReady stdin\n    if inputAvailable\n        then do\n            char <- hGetChar stdin\n            when (char /= 's') $ stopwatch (count + 1)\n        else stopwatch (count + 1)\n```"
+  },
+  {
+    "task": "Create a script that continues adding random integers to a sum until the sum exceeds 100.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\nmain :: IO ()\nmain = loop 0\n\nloop :: Int -> IO ()\nloop sum = do\n  if sum > 100\n    then putStrLn $ \"Final sum: \" ++ show sum\n    else do\n      num <- randomRIO (1, 100)\n      loop (sum + num)\n```"
+  },
+  {
+    "task": "Implement a process to track a moving object until it stops.",
+    "code": "```haskell\ntrackObject :: IO ()\ntrackObject = do\n    let isMoving = True\n    while isMoving getPosition\n\nwhile :: Bool -> IO () -> IO ()\nwhile condition action = do\n    if condition\n        then do\n            action\n            while condition action\n        else return ()\n\ngetPosition :: IO ()\ngetPosition = do\n    putStrLn \"Tracking object position...\"\n    -- Simulate the process of retrieving and checking position\n    -- In practice, this would involve actual position tracking code\n    -- Here, we simulate by just stopping after one iteration\n    return ()\n```"
+  },
+  {
+    "task": "Design a routine to keep checking user login attempts until a successful login occurs.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    hSetBuffering stdout NoBuffering\n    putStrLn \"Enter username:\"\n    username <- getLine\n    putStrLn \"Enter password:\"\n    password <- getLine\n    whileLogin username password\n\nwhileLogin :: String -> String -> IO ()\nwhileLogin username password = do\n    if loginSuccessful username password\n        then putStrLn \"Login successful!\"\n        else do\n            putStrLn \"Login failed. Try again.\"\n            putStrLn \"Enter username:\"\n            newUsername <- getLine\n            putStrLn \"Enter password:\"\n            newPassword <- getLine\n            whileLogin newUsername newPassword\n\nloginSuccessful :: String -> String -> Bool\nloginSuccessful username password =\n    username == \"admin\" && password == \"password\"\n```"
+  },
+  {
+    "task": "Write a loop that repeatedly calculates the area of a circle for radii from 1 to 10.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = loop 1\n  where\n    loop r = when (r <= 10) $ do\n      let area = pi * fromIntegral (r * r)\n      print area\n      loop (r + 1)\n```"
+  },
+  {
+    "task": "Create a program that continues flipping a card from a deck until an ace is drawn.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\ndata Card = Ace | King | Queen | Jack | Number Int deriving (Eq, Show)\n\ndeck :: [Card]\ndeck = replicate 4 Ace ++ replicate 4 King ++ replicate 4 Queen ++ replicate 4 Jack ++ [Number n | n <- [2..10], _ <- [1..4]]\n\ndrawCard :: IO Card\ndrawCard = do\n  index <- randomRIO (0, length deck - 1)\n  return $ deck !! index\n\nflipCards :: IO ()\nflipCards = do\n  card <- drawCard\n  putStrLn $ \"Drew: \" ++ show card\n  if card == Ace\n    then putStrLn \"Drew an Ace!\"\n    else flipCards\n\nmain :: IO ()\nmain = flipCards\n```"
+  },
+  {
+    "task": "Develop a loop that keeps asking for a word and stores it until a word with more than five letters is entered.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = loop []\n\nloop :: [String] -> IO ()\nloop words = do\n    putStrLn \"Enter a word:\"\n    word <- getLine\n    if length word > 5\n        then putStrLn \"Stopping, word with more than five letters entered.\"\n        else loop (word : words)\n```"
+  },
+  {
+    "task": "Implement a feature that continuously calculates the exponential growth of a population until it doubles.",
+    "code": "```haskell\nmodule Main where\n\ncalculateGrowth :: Double -> Double -> Double\ncalculateGrowth population rate = population * rate\n\nwhileLoop :: (Double -> Bool) -> (Double -> Double) -> Double -> Double\nwhileLoop condition update population\n  | condition population = whileLoop condition update (update population)\n  | otherwise = population\n\nmain :: IO ()\nmain = do\n  let initialPopulation = 1000.0\n  let growthRate = 1.1\n  let targetPopulation = initialPopulation * 2\n  let finalPopulation = whileLoop (< targetPopulation) (\\p -> calculateGrowth p growthRate) initialPopulation\n  print finalPopulation\n```"
+  },
+  {
+    "task": "Write a script that repeats a string a certain number of times until a limit is reached.",
+    "code": "```haskell\nrepeatString :: String -> Int -> Int -> String\nrepeatString str n limit = go str n limit \"\"\n  where\n    go _ 0 _ acc = acc\n    go s count l acc \n      | length acc >= l = acc\n      | otherwise = go s (count - 1) l (acc ++ s)\n\nmain :: IO ()\nmain = do\n  let result = repeatString \"Hello\" 5 20\n  putStrLn result\n```"
+  },
+  {
+    "task": "Create a routine that keeps accessing an API endpoint until it returns a specific result.",
+    "code": "```haskell\nimport Network.HTTP.Simple\nimport Control.Monad (unless)\n\ncheckApiResult :: IO Bool\ncheckApiResult = do\n    response <- httpLBS \"http://api.example.com/endpoint\"\n    let result = getResponseBody response\n    return (result == \"desired result\")\n\naccessApiUntilDesiredResult :: IO ()\naccessApiUntilDesiredResult = do\n    result <- checkApiResult\n    unless result accessApiUntilDesiredResult\n\nmain :: IO ()\nmain = accessApiUntilDesiredResult\n```"
+  },
+  {
+    "task": "Design a loop that continues to fetch stock prices until a certain price threshold is crossed.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\n-- A mock function to simulate fetching a stock price\nfetchStockPrice :: IO Double\nfetchStockPrice = randomRIO (10.0, 200.0)\n\n-- A function that continues to fetch stock prices until a threshold is crossed\ncheckStockPrice :: Double -> IO ()\ncheckStockPrice threshold = do\n    price <- fetchStockPrice\n    putStrLn $ \"Fetched stock price: \" ++ show price\n    if price > threshold\n        then putStrLn \"Threshold crossed!\"\n        else checkStockPrice threshold\n\nmain :: IO ()\nmain = do\n    let priceThreshold = 150.0\n    checkStockPrice priceThreshold\n```"
+  },
+  {
+    "task": "Implement a process that keeps monitoring CPU usage until it drops below 10%.",
+    "code": "```haskell\nimport Control.Monad (when)\nimport System.Random (randomRIO)\n\ngetCpuUsage :: IO Int\ngetCpuUsage = randomRIO (5, 50)  -- Simulating CPU usage percentage\n\nmonitorCpuUsage :: IO ()\nmonitorCpuUsage = do\n    usage <- getCpuUsage\n    when (usage >= 10) $ do\n        putStrLn $ \"Current CPU Usage: \" ++ show usage ++ \"%\"\n        monitorCpuUsage\n\nmain :: IO ()\nmain = monitorCpuUsage\n```"
+  },
+  {
+    "task": "Write a program that asks for a series of numbers and prints the largest once a negative number is entered.",
+    "code": "```haskell\nimport Control.Monad (unless)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter numbers, end with a negative number:\"\n    largestNumber <- findLargest\n    putStrLn $ \"The largest number entered was: \" ++ show largestNumber\n\nfindLargest :: IO Int\nfindLargest = findLargestHelper 0\n\nfindLargestHelper :: Int -> IO Int\nfindLargestHelper currentLargest = do\n    input <- getLine\n    let number = read input :: Int\n    if number < 0 \n        then return currentLargest\n        else findLargestHelper (max currentLargest number)\n```"
+  },
+  {
+    "task": "Develop a system that keeps a heater on until the room reaches a desired temperature.",
+    "code": "```haskell\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter desired temperature:\"\n    desiredTemperature <- readLn\n    heaterLoop desiredTemperature\n\nheaterLoop :: Double -> IO ()\nheaterLoop desiredTemperature = do\n    putStrLn \"Enter current room temperature:\"\n    currentTemperature <- readLn\n    when (currentTemperature < desiredTemperature) $ do\n        putStrLn \"Heater is ON\"\n        heaterLoop desiredTemperature\n    putStrLn \"Heater is OFF\"\n```"
+  },
+  {
+    "task": "Create a loop that repeatedly checks if a door is open and alerts if it remains open for too long.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\n\nmain :: IO ()\nmain = checkDoor 0\n\ncheckDoor :: Int -> IO ()\ncheckDoor consecutiveOpens = do\n    let maxOpens = 5\n    isOpen <- checkIfDoorIsOpen\n    if isOpen\n        then do\n            if consecutiveOpens >= maxOpens\n                then putStrLn \"Alert: The door has been open for too long!\"\n                else return ()\n            threadDelay (1 * 1000000) -- Wait for 1 second\n            checkDoor (consecutiveOpens + 1)\n        else checkDoor 0\n\ncheckIfDoorIsOpen :: IO Bool\ncheckIfDoorIsOpen = do\n    -- Simulated function to check if the door is open\n    -- In a real scenario, replace this with actual I/O or hardware interaction\n    return True -- Always returns True for simulation purposes\n```"
+  },
+  {
+    "task": "Implement a feature that keeps adding random characters to a string until its length is 8.",
+    "code": "```haskell\nimport System.Random (randomRIO)\nimport Control.Monad (when)\n\nrandomChar :: IO Char\nrandomChar = randomRIO ('a', 'z')\n\naddRandomChars :: String -> IO String\naddRandomChars str = do\n    let len = length str\n    if len >= 8\n        then return str\n        else do\n            c <- randomChar\n            addRandomChars (str ++ [c])\n\nmain :: IO ()\nmain = do\n    result <- addRandomChars \"\"\n    putStrLn result\n```"
+  },
+  {
+    "task": "Design a routine that simulates a race and continues until a participant crosses the finish line.",
+    "code": "```haskell\nimport System.Random (randomRIO)\n\n-- Function to simulate a race\nsimulateRace :: IO ()\nsimulateRace = do\n    let finishLine = 100\n    raceLoop 0\n\n-- Loop that continues until a participant crosses the finish line\nraceLoop :: Int -> IO ()\nraceLoop position = do\n    if position >= 100\n        then putStrLn \"A participant has crossed the finish line!\"\n        else do\n            step <- randomRIO (1, 10) -- Random step between 1 and 10\n            let newPosition = position + step\n            putStrLn $ \"Current position: \" ++ show newPosition\n            raceLoop newPosition\n\nmain :: IO ()\nmain = simulateRace\n```"
+  },
+  {
+    "task": "Write a script that keeps checking an email inbox until a specific email is received.",
+    "code": "```haskell\nimport Control.Monad (when)\nimport System.IO (hSetBuffering, stdout, BufferMode(NoBuffering))\n\n-- Dummy function to check for a specific email\nisSpecificEmailReceived :: IO Bool\nisSpecificEmailReceived = do\n    -- In a real implementation, this function would check the inbox\n    return False\n\ncheckInbox :: IO ()\ncheckInbox = do\n    received <- isSpecificEmailReceived\n    when (not received) checkInbox\n\nmain :: IO ()\nmain = do\n    hSetBuffering stdout NoBuffering\n    putStrLn \"Checking email inbox...\"\n    checkInbox\n    putStrLn \"Specific email received!\"\n```"
+  },
+  {
+    "task": "Create a loop that continues to play a video on repeat until the user interrupts.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\nimport System.IO (hSetBuffering, stdin, BufferMode(NoBuffering))\nimport System.IO (hReady)\n\nplayVideo :: IO ()\nplayVideo = putStrLn \"Playing video\"\n\nwaitForInterrupt :: IO Bool\nwaitForInterrupt = do\n  hSetBuffering stdin NoBuffering\n  interrupted <- hReady stdin\n  return interrupted\n\nmain :: IO ()\nmain = loop\n  where\n    loop = do\n      playVideo\n      threadDelay 2000000 -- Simulate video length (2 seconds)\n      interrupted <- waitForInterrupt\n      if interrupted\n        then return ()\n        else loop\n```"
+  },
+  {
+    "task": "Develop a process that keeps scanning for Bluetooth devices until a specific device is found.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\nimport System.Random (randomRIO)\n\n-- Mock function to simulate scanning for Bluetooth devices\nscanBluetoothDevices :: IO [String]\nscanBluetoothDevices = do\n    -- Simulate a delay for scanning\n    threadDelay 1000000\n    -- Generate a random list of device names\n    n <- randomRIO (1, 5)\n    devices <- mapM (\\_ -> randomRIO ('A', 'Z') >>= \\c -> return [c]) [1..n]\n    return devices\n\n-- Function to keep scanning until a specific device is found\nscanUntilFound :: String -> IO ()\nscanUntilFound targetDevice = do\n    devices <- scanBluetoothDevices\n    putStrLn $ \"Devices found: \" ++ show devices\n    if targetDevice `elem` devices\n        then putStrLn $ \"Device \" ++ targetDevice ++ \" found!\"\n        else scanUntilFound targetDevice\n\nmain :: IO ()\nmain = do\n    putStrLn \"Scanning for Bluetooth devices...\"\n    scanUntilFound \"X\" -- Replace \"X\" with the specific device you want to find\n```"
+  },
+  {
+    "task": "Implement a script that continuously captures images from a webcam until a motion is detected.",
+    "code": "```haskell\nimport Control.Monad (when)\nimport Data.IORef\nimport Graphics.UI.Gtk\nimport Graphics.UI.Gtk.Gdk.Pixbuf\nimport System.Directory\nimport System.FilePath\nimport System.Process\nimport System.IO\nimport System.Random\n\ncheckMotion :: FilePath -> FilePath -> IO Bool\ncheckMotion img1 img2 = do\n  (_, Just hout, _, _) <- createProcess (proc \"compare\" [\"-metric\", \"AE\", img1, img2, \"/dev/null\"]) { std_out = CreatePipe }\n  diff <- hGetContents hout\n  return (read diff :: Int > 0)\n\nmain :: IO ()\nmain = do\n  initGUI\n  cam <- initCamera\n  prevImageRef <- newIORef Nothing\n  let loop = do\n        img <- captureImage cam\n        prevImage <- readIORef prevImageRef\n        case prevImage of\n          Just prevImg -> do\n            motionDetected <- checkMotion prevImg img\n            when motionDetected $ putStrLn \"Motion detected!\"\n          Nothing -> return ()\n        writeIORef prevImageRef (Just img)\n        loop\n  loop\n\ninitCamera :: IO Camera\ninitCamera = -- Initialize webcam (implementation depends on the webcam library used)\n\ncaptureImage :: Camera -> IO FilePath\ncaptureImage cam = do\n  -- Capture image and return the file path (implementation depends on the webcam library used)\n```"
+  },
+  {
+    "task": "Design a program that keeps playing a sound file until the user presses a mute button.",
+    "code": "```haskell\nimport Control.Concurrent (threadDelay)\nimport System.IO (hSetBuffering, stdin, BufferMode(NoBuffering), hGetChar)\n\nplaySound :: IO ()\nplaySound = putStrLn \"Playing sound...\"\n\ncheckMuteButton :: IO Bool\ncheckMuteButton = do\n    char <- hGetChar stdin\n    return (char == 'm')\n\nmain :: IO ()\nmain = do\n    hSetBuffering stdin NoBuffering\n    let loop = do\n            playSound\n            threadDelay 1000000\n            muted <- checkMuteButton\n            if muted then return () else loop\n    loop\n```"
+  },
+  {
+    "task": "Create a loop that repeatedly generates a random password until it meets certain security criteria.",
+    "code": "```haskell\nimport System.Random (randomRIO)\nimport Control.Monad (when)\n\nmain :: IO ()\nmain = generateSecurePassword\n\ngenerateSecurePassword :: IO ()\ngenerateSecurePassword = do\n    password <- generateRandomPassword\n    if isSecure password\n        then putStrLn $ \"Generated secure password: \" ++ password\n        else generateSecurePassword\n\ngenerateRandomPassword :: IO String\ngenerateRandomPassword = do\n    length <- randomRIO (8, 12)\n    mapM randomChar [1..length]\n\nrandomChar :: Int -> IO Char\nrandomChar _ = do\n    idx <- randomRIO (0, length charset - 1)\n    return $ charset !! idx\n\ncharset :: [Char]\ncharset = ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ \"!@#$%^&*\"\n\nisSecure :: String -> Bool\nisSecure password =\n    length password >= 8 &&\n    any (`elem` ['a'..'z']) password &&\n    any (`elem` ['A'..'Z']) password &&\n    any (`elem` ['0'..'9']) password &&\n    any (`elem` \"!@#$%^&*\") password\n```"
+  },
+  {
+    "task": "Write a process that keeps checking for file changes in a directory and logs them until stopped.",
+    "code": "```haskell\nimport System.Directory\nimport System.FilePath\nimport Control.Concurrent\nimport Control.Monad\nimport Data.Time.Clock\nimport Data.List\n\nlogFileChanges :: FilePath -> IO ()\nlogFileChanges dir = do\n    initialFiles <- listDirectory dir\n    let initialState = (initialFiles, UTCTime (toEnum 0) 0)\n    checkLoop initialState\n  where\n    checkLoop (prevFiles, lastChecked) = do\n        threadDelay 1000000 -- 1 second delay\n        currentFiles <- listDirectory dir\n        currentTime <- getCurrentTime\n        let newFiles = currentFiles \\\\ prevFiles\n        let deletedFiles = prevFiles \\\\ currentFiles\n        unless (null newFiles && null deletedFiles) $ do\n            putStrLn $ \"Changes detected at \" ++ show currentTime\n            unless (null newFiles) $ putStrLn $ \"New files: \" ++ show newFiles\n            unless (null deletedFiles) $ putStrLn $ \"Deleted files: \" ++ show deletedFiles\n        checkLoop (currentFiles, currentTime)\n\nmain :: IO ()\nmain = logFileChanges \"your/directory/path\"\n```"
+  }
+]

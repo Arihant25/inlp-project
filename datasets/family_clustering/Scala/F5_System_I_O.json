@@ -1,0 +1,358 @@
+[
+  {
+    "task": "Write a program that reads a user's name and age from the input, then prints a greeting message using both values.",
+    "code": "```scala\nobject GreetingApp {\n  def main(args: Array[String]): Unit = {\n    val scanner = new java.util.Scanner(System.in)\n\n    print(\"Enter your name: \")\n    val name = scanner.nextLine()\n\n    print(\"Enter your age: \")\n    val age = scanner.nextLine()\n\n    println(s\"Hello, $name! You are $age years old.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a script that continuously reads numbers from the input and prints their running total until a negative number is entered.",
+    "code": "```scala\nobject RunningTotal extends App {\n  var total = 0\n  var continue = true\n  while (continue) {\n    val input = scala.io.StdIn.readLine(\"Enter a number: \").toInt\n    if (input < 0) {\n      continue = false\n    } else {\n      total += input\n      println(s\"Running total: $total\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that asks the user for a sentence and outputs the number of words it contains.",
+    "code": "```scala\nobject WordCounter extends App {\n  import scala.io.StdIn.readLine\n\n  println(\"Please enter a sentence:\")\n  val sentence = readLine()\n  val wordCount = sentence.split(\"\\\\s+\").count(_.nonEmpty)\n  println(s\"The sentence contains $wordCount words.\")\n}\n```"
+  },
+  {
+    "task": "Build a command-line tool that reads a list of integers and outputs them in sorted order.",
+    "code": "```scala\nobject SortIntegersApp extends App {\n  println(\"Enter a list of integers separated by spaces:\")\n  val input = scala.io.StdIn.readLine()\n  val integers = input.split(\"\\\\s+\").map(_.toInt)\n  val sortedIntegers = integers.sorted\n  println(\"Sorted integers:\")\n  println(sortedIntegers.mkString(\" \"))\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a file name from the input, then prints the number of lines in that file.",
+    "code": "```scala\nimport scala.io.Source\nimport scala.util.{Try, Using}\n\nobject LineCounter extends App {\n  println(\"Enter the file name:\")\n  val fileName = scala.io.StdIn.readLine()\n  \n  val lineCount = Using(Source.fromFile(fileName)) { source =>\n    source.getLines().size\n  }\n\n  lineCount match {\n    case scala.util.Success(count) => println(s\"Number of lines: $count\")\n    case scala.util.Failure(exception) => println(s\"Error reading file: ${exception.getMessage}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a calculator that reads two numbers and an operator (+, -, *, /) from the input and prints the result.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject Calculator {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter first number:\")\n    val num1 = readLine().toDouble\n    println(\"Enter an operator (+, -, *, /):\")\n    val operator = readLine()\n    println(\"Enter second number:\")\n    val num2 = readLine().toDouble\n\n    val result = operator match {\n      case \"+\" => num1 + num2\n      case \"-\" => num1 - num2\n      case \"*\" => num1 * num2\n      case \"/\" => num1 / num2\n      case _ => \"Invalid operator\"\n    }\n\n    println(s\"Result: $result\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a user's full name and prints it in reverse order.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject ReverseName {\n  def main(args: Array[String]): Unit = {\n    print(\"Enter your full name: \")\n    val fullName = readLine()\n    val reversedName = fullName.reverse\n    println(s\"Reversed name: $reversedName\")\n  }\n}\n\nReverseName.main(Array())\n```"
+  },
+  {
+    "task": "Create a program that asks for a word and checks if it is a palindrome, printing the appropriate message.",
+    "code": "```scala\nobject PalindromeChecker {\n  def main(args: Array[String]): Unit = {\n    val scanner = new java.util.Scanner(System.in)\n    println(\"Enter a word:\")\n    val word = scanner.nextLine()\n    if (word == word.reverse) {\n      println(\"The word is a palindrome.\")\n    } else {\n      println(\"The word is not a palindrome.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads multiple lines of text and outputs the longest line.",
+    "code": "```scala\nobject LongestLineFinder extends App {\n  val lines = Iterator.continually(scala.io.StdIn.readLine()).takeWhile(_ != null).toList\n  if (lines.nonEmpty) {\n    val longestLine = lines.maxBy(_.length)\n    println(longestLine)\n  }\n}\n```"
+  },
+  {
+    "task": "Design a script that reads a number 'n' and prints the first 'n' Fibonacci numbers.",
+    "code": "```scala\nobject Fibonacci extends App {\n  import scala.io.StdIn.readInt\n\n  def fibonacci(n: Int): List[Int] = {\n    def fibHelper(x: Int, a: Int, b: Int, acc: List[Int]): List[Int] = {\n      if (x <= 0) acc\n      else fibHelper(x - 1, b, a + b, acc :+ a)\n    }\n    fibHelper(n, 0, 1, List())\n  }\n\n  println(\"Enter a number:\")\n  val n = readInt()\n  val fibNumbers = fibonacci(n)\n  fibNumbers.foreach(println)\n}\n```"
+  },
+  {
+    "task": "Write a program that takes a list of numbers from the input and prints only the even ones.",
+    "code": "```scala\nobject EvenNumbers {\n  def main(args: Array[String]): Unit = {\n    val input = io.StdIn.readLine(\"Enter numbers separated by spaces: \")\n    val numbers = input.split(\" \").map(_.toInt)\n    val evenNumbers = numbers.filter(_ % 2 == 0)\n    evenNumbers.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a date (day, month, year) and prints the day of the week for that date.",
+    "code": "```scala\nimport java.time.LocalDate\nimport java.time.format.DateTimeFormatter\nimport java.time.format.DateTimeParseException\nimport scala.io.StdIn.readLine\n\nobject DateToDayOfWeek extends App {\n  try {\n    println(\"Enter the date in format dd-MM-yyyy:\")\n    val input = readLine()\n    val formatter = DateTimeFormatter.ofPattern(\"dd-MM-yyyy\")\n    val date = LocalDate.parse(input, formatter)\n    println(s\"The day of the week is: ${date.getDayOfWeek}\")\n  } catch {\n    case e: DateTimeParseException =>\n      println(\"Invalid date format. Please enter the date in dd-MM-yyyy format.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a paragraph and counts the frequency of each letter in the text.",
+    "code": "```scala\nimport scala.io.StdIn\n\nobject LetterFrequencyCounter {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter a paragraph:\")\n    val input = StdIn.readLine().toLowerCase.replaceAll(\"[^a-z]\", \"\")\n    val frequency = input.groupBy(identity).view.mapValues(_.length).toMap\n    frequency.foreach { case (letter, count) =>\n      println(s\"$letter: $count\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and a word, then prints the number of times the word appears in the text.",
+    "code": "```scala\nobject WordCountTool {\n  def main(args: Array[String]): Unit = {\n    val input = scala.io.StdIn.readLine(\"Enter the text: \")\n    val word = scala.io.StdIn.readLine(\"Enter the word to count: \")\n    val count = input.split(\"\\\\s+\").count(_ == word)\n    println(s\"The word '$word' appears $count times in the text.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a script that reads a temperature in Celsius and converts it to Fahrenheit, printing the result.",
+    "code": "```scala\nobject CelsiusToFahrenheit {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter temperature in Celsius:\")\n    val celsius = scala.io.StdIn.readLine().toDouble\n    val fahrenheit = celsius * 9 / 5 + 32\n    println(s\"Temperature in Fahrenheit: $fahrenheit\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that continuously reads input until the word 'exit' is entered, then prints all entered inputs.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject ContinuousInput {\n  def main(args: Array[String]): Unit = {\n    var inputs = List[String]()\n    var continue = true\n\n    while (continue) {\n      val input = readLine()\n      if (input == \"exit\") {\n        continue = false\n      } else {\n        inputs = inputs :+ input\n      }\n    }\n\n    inputs.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Create a tool that prompts for a filename, reads the file, and prints its content in uppercase.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport scala.io.Source\n\nobject FileToUpper {\n  def main(args: Array[String]): Unit = {\n    print(\"Enter the filename: \")\n    val filename = readLine()\n    val fileContent = Source.fromFile(filename).getLines().mkString(\"\\n\").toUpperCase\n    println(fileContent)\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a series of email addresses and prints the unique domain names.",
+    "code": "```scala\nobject UniqueDomainsApp extends App {\n  val emailAddresses = Iterator.continually(scala.io.StdIn.readLine()).takeWhile(_ != null)\n  val domains = emailAddresses.map(_.split(\"@\").last).toSet\n  domains.foreach(println)\n}\n```"
+  },
+  {
+    "task": "Design a script that reads a string and prints whether it contains all the letters of the alphabet.",
+    "code": "```scala\nobject AlphabetCheck extends App {\n  val alphabetSet = ('a' to 'z').toSet\n  val input = scala.io.StdIn.readLine(\"Enter a string: \")\n  val inputSet = input.toLowerCase.toSet\n  if (alphabetSet.subsetOf(inputSet)) {\n    println(\"The string contains all the letters of the alphabet.\")\n  } else {\n    println(\"The string does not contain all the letters of the alphabet.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a number and prints its factorial.",
+    "code": "```scala\nimport scala.io.StdIn\n\nobject FactorialCalculator extends App {\n  def factorial(n: Int): BigInt = {\n    if (n == 0) 1\n    else n * factorial(n - 1)\n  }\n\n  print(\"Enter a number: \")\n  val number = StdIn.readInt()\n  println(s\"The factorial of $number is ${factorial(number)}\")\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of names and prints them in alphabetical order.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject NameSorter {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter names separated by commas:\")\n    val input = readLine()\n    val names = input.split(\",\").map(_.trim)\n    val sortedNames = names.sorted\n    println(\"Names in alphabetical order:\")\n    sortedNames.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that asks for a sentence and prints each word on a new line.",
+    "code": "```scala\nobject SentenceSplitter extends App {\n  println(\"Please enter a sentence:\")\n  val sentence = scala.io.StdIn.readLine()\n  sentence.split(\"\\\\s+\").foreach(println)\n}\n```"
+  },
+  {
+    "task": "Build a script that reads a time in 12-hour format and converts it to 24-hour format.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject TimeConverter {\n  def main(args: Array[String]): Unit = {\n    val inputTime = readLine(\"Enter time in 12-hour format (hh:mm AM/PM): \")\n\n    val Array(time, period) = inputTime.split(\" \")\n    val Array(hours, minutes) = time.split(\":\").map(_.toInt)\n\n    val (convertedHours, convertedMinutes) = period.toUpperCase match {\n      case \"AM\" if hours == 12 => (0, minutes)\n      case \"AM\" => (hours, minutes)\n      case \"PM\" if hours != 12 => (hours + 12, minutes)\n      case \"PM\" => (hours, minutes)\n    }\n\n    println(f\"$convertedHours%02d:$convertedMinutes%02d\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads two strings and checks if they are anagrams, printing the result.",
+    "code": "```scala\nobject AnagramChecker extends App {\n  def areAnagrams(s1: String, s2: String): Boolean = {\n    s1.toLowerCase.sorted == s2.toLowerCase.sorted\n  }\n\n  val input1 = scala.io.StdIn.readLine(\"Enter the first string: \")\n  val input2 = scala.io.StdIn.readLine(\"Enter the second string: \")\n\n  if (areAnagrams(input1, input2)) {\n    println(\"The strings are anagrams.\")\n  } else {\n    println(\"The strings are not anagrams.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a tool that reads a paragraph and prints the first and last sentence.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject SentenceExtractor {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter a paragraph:\")\n    val paragraph = readLine()\n    val sentences = paragraph.split(\"(?<=[.!?])\\\\s+\")\n    if (sentences.nonEmpty) {\n      println(\"First sentence: \" + sentences.head)\n      println(\"Last sentence: \" + sentences.last)\n    } else {\n      println(\"No sentences found.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a binary number and converts it to decimal.",
+    "code": "```scala\nobject BinaryToDecimal extends App {\n  println(\"Enter a binary number:\")\n  val binaryString = scala.io.StdIn.readLine()\n  \n  try {\n    val decimal = Integer.parseInt(binaryString, 2)\n    println(s\"Decimal value: $decimal\")\n  } catch {\n    case _: NumberFormatException => println(\"Invalid binary number\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a script that reads a series of scores and prints the average score.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject AverageScoreCalculator extends App {\n  println(\"Enter scores separated by spaces:\")\n  val input = readLine()\n  val scores = input.split(\" \").map(_.toDouble)\n  val average = scores.sum / scores.length\n  println(f\"Average score: $average%.2f\")\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of integers and prints the prime numbers.",
+    "code": "```scala\nobject PrimeNumbers extends App {\n  def isPrime(n: Int): Boolean = {\n    if (n <= 1) false\n    else if (n == 2) true\n    else !(2 until n).exists(i => n % i == 0)\n  }\n\n  println(\"Enter a list of integers separated by spaces:\")\n  val input = scala.io.StdIn.readLine()\n  val numbers = input.split(\"\\\\s+\").map(_.toInt)\n  val primes = numbers.filter(isPrime)\n  println(\"Prime numbers: \" + primes.mkString(\" \"))\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a word and prints its Pig Latin translation.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject PigLatinTranslator extends App {\n  def toPigLatin(word: String): String = {\n    val vowels = Set('a', 'e', 'i', 'o', 'u')\n    if (vowels.contains(word.head.toLower)) {\n      word + \"yay\"\n    } else {\n      val (consonants, rest) = word.span(c => !vowels.contains(c.toLower))\n      rest + consonants + \"ay\"\n    }\n  }\n\n  print(\"Enter a word: \")\n  val word = readLine()\n  println(s\"Pig Latin: ${toPigLatin(word)}\")\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a matrix of numbers and prints its transpose.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject MatrixTranspose extends App {\n  println(\"Enter the number of rows:\")\n  val rows = readInt()\n  println(\"Enter the number of columns:\")\n  val cols = readInt()\n\n  println(\"Enter the matrix:\")\n  val matrix = Array.ofDim[Int](rows, cols)\n  for (i <- 0 until rows) {\n    matrix(i) = readLine().split(\" \").map(_.toInt)\n  }\n\n  println(\"Transpose of the matrix:\")\n  for (j <- 0 until cols) {\n    for (i <- 0 until rows) {\n      print(matrix(i)(j) + \" \")\n    }\n    println()\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a URL and prints the domain name.",
+    "code": "```scala\nobject DomainExtractor {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter a URL:\")\n    val url = scala.io.StdIn.readLine()\n    val domain = getDomainName(url)\n    println(s\"Domain name: $domain\")\n  }\n\n  def getDomainName(url: String): String = {\n    try {\n      val uri = new java.net.URI(url)\n      uri.getHost\n    } catch {\n      case e: Exception => \"Invalid URL\"\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a number and prints its multiplication table up to 12.",
+    "code": "```scala\nobject MultiplicationTable extends App {\n  println(\"Enter a number:\")\n  val number = scala.io.StdIn.readInt()\n  for (i <- 1 to 12) {\n    println(s\"$number * $i = ${number * i}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dates and prints them in order of occurrence.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport java.time.LocalDate\nimport java.time.format.DateTimeFormatter\n\nobject DateSorter extends App {\n  val dateFormat = DateTimeFormatter.ofPattern(\"yyyy-MM-dd\")\n  println(\"Enter the number of dates:\")\n  val n = readLine().toInt\n\n  println(s\"Enter $n dates (format: yyyy-MM-dd):\")\n  val dates = (1 to n).map(_ => LocalDate.parse(readLine(), dateFormat))\n  val sortedDates = dates.sorted\n\n  println(\"Dates in order:\")\n  sortedDates.foreach(date => println(date.format(dateFormat)))\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a text and prints it with each sentence capitalized.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject SentenceCapitalizer extends App {\n  def capitalizeSentences(text: String): String = {\n    text.split(\"(?<=[.!?])\\\\s+\").map(_.capitalize).mkString(\" \")\n  }\n\n  println(\"Enter the text:\")\n  val inputText = readLine()\n  val result = capitalizeSentences(inputText)\n  println(\"Capitalized Text:\")\n  println(result)\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of words and prints them in reverse alphabetical order.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject ReverseAlphabeticalOrder {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter words separated by spaces:\")\n    val input = readLine()\n    val words = input.split(\"\\\\s+\")\n    val sortedWords = words.sorted(Ordering[String].reverse)\n    println(\"Words in reverse alphabetical order:\")\n    sortedWords.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that asks for two times and prints the difference in minutes.",
+    "code": "```scala\nimport java.time.LocalTime\nimport java.time.format.DateTimeFormatter\nimport scala.io.StdIn.readLine\n\nobject TimeDifferenceCalculator extends App {\n  val formatter = DateTimeFormatter.ofPattern(\"HH:mm\")\n\n  // Read first time\n  println(\"Enter the first time (HH:mm):\")\n  val firstTimeInput = readLine()\n  val firstTime = LocalTime.parse(firstTimeInput, formatter)\n\n  // Read second time\n  println(\"Enter the second time (HH:mm):\")\n  val secondTimeInput = readLine()\n  val secondTime = LocalTime.parse(secondTimeInput, formatter)\n\n  // Calculate difference in minutes\n  val differenceInMinutes = java.time.Duration.between(firstTime, secondTime).toMinutes.abs\n\n  // Print the difference\n  println(s\"Difference in minutes: $differenceInMinutes\")\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a text and prints the number of vowels and consonants.",
+    "code": "```scala\nobject VowelConsonantCounter extends App {\n  println(\"Enter the text:\")\n  val input = scala.io.StdIn.readLine()\n\n  val vowels = \"AEIOUaeiou\"\n  var vowelCount, consonantCount = 0\n\n  for (char <- input) {\n    if (vowels.contains(char)) {\n      vowelCount += 1\n    } else if (char.isLetter) {\n      consonantCount += 1\n    }\n  }\n\n  println(s\"Number of vowels: $vowelCount\")\n  println(s\"Number of consonants: $consonantCount\")\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a JSON object from input and prints its keys.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport play.api.libs.json._\n\nobject JsonKeyPrinter extends App {\n  val input = readLine()\n  val json: JsValue = Json.parse(input)\n  json.as[JsObject].keys.foreach(println)\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a CSV file from input and prints each row as a dictionary.",
+    "code": "```scala\nimport scala.io.Source\nimport scala.util.Using\n\nobject CsvToDict {\n  def main(args: Array[String]): Unit = {\n    val input = scala.io.StdIn.readLine(\"Enter the CSV file path: \")\n    Using(Source.fromFile(input)) { source =>\n      val lines = source.getLines().toList\n      if (lines.nonEmpty) {\n        val headers = lines.head.split(\",\").map(_.trim)\n        val data = lines.tail\n        data.foreach { line =>\n          val values = line.split(\",\").map(_.trim)\n          val rowDict = headers.zip(values).toMap\n          println(rowDict)\n        }\n      }\n    }.recover {\n      case e: Exception => println(s\"An error occurred: ${e.getMessage}\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with the words in reverse order.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject ReverseWords extends App {\n  val sentence = readLine(\"Enter a sentence: \")\n  val reversed = sentence.split(\" \").reverse.mkString(\" \")\n  println(reversed)\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a list of numbers and prints their median.",
+    "code": "```scala\nobject MedianCalculator extends App {\n  def calculateMedian(numbers: List[Double]): Double = {\n    val sortedNumbers = numbers.sorted\n    val size = sortedNumbers.size\n    if (size % 2 == 1) {\n      sortedNumbers(size / 2)\n    } else {\n      val (lower, upper) = sortedNumbers.splitAt(size / 2)\n      (lower.last + upper.head) / 2\n    }\n  }\n\n  println(\"Enter numbers separated by spaces:\")\n  val input = scala.io.StdIn.readLine()\n  val numbers = input.split(\"\\\\s+\").map(_.toDouble).toList\n  val median = calculateMedian(numbers)\n  println(s\"The median is: $median\")\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a sequence of characters and prints the first non-repeated character.",
+    "code": "```scala\nobject FirstNonRepeatedCharacter extends App {\n  def firstNonRepeatedChar(s: String): Option[Char] = {\n    val charCounts = s.foldLeft(Map.empty[Char, Int]) { (counts, char) =>\n      counts + (char -> (counts.getOrElse(char, 0) + 1))\n    }\n    s.find(char => charCounts(char) == 1)\n  }\n\n  println(\"Enter a sequence of characters:\")\n  val input = scala.io.StdIn.readLine()\n  firstNonRepeatedChar(input) match {\n    case Some(char) => println(s\"First non-repeated character: $char\")\n    case None => println(\"No non-repeated character found\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of tuples and prints them sorted by the second element.",
+    "code": "```scala\nobject TupleSorter extends App {\n  val tuples = List((3, \"apple\"), (1, \"orange\"), (2, \"banana\"))\n  val sortedTuples = tuples.sortBy(_._2)\n  sortedTuples.foreach(println)\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a list of cities and prints them grouped by their starting letter.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject CityGrouper extends App {\n  println(\"Enter cities line by line, and type 'done' when finished:\")\n\n  val cities = Iterator.continually(readLine()).takeWhile(_ != \"done\").toList\n  val groupedCities = cities.groupBy(_.head.toUpper)\n\n  groupedCities.foreach { case (letter, cities) =>\n    println(s\"$letter: ${cities.mkString(\", \")}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the longest word.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject LongestWordFinder {\n  def main(args: Array[String]): Unit = {\n    println(\"Please enter a text:\")\n    val input = readLine()\n    val longestWord = input.split(\"\\\\s+\").maxBy(_.length)\n    println(s\"The longest word is: $longestWord\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a string and prints the number of unique characters.",
+    "code": "```scala\nobject UniqueCharacterCounter {\n  def main(args: Array[String]): Unit = {\n    val input = scala.io.StdIn.readLine()\n    val uniqueChars = input.toSet\n    println(uniqueChars.size)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads two strings and prints the longest common substring.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject LongestCommonSubstring {\n  def main(args: Array[String]): Unit = {\n    val str1 = readLine(\"Enter first string: \")\n    val str2 = readLine(\"Enter second string: \")\n\n    def longestCommonSubstring(s1: String, s2: String): String = {\n      val lengths = Array.ofDim[Int](s1.length, s2.length)\n      var maxLength = 0\n      var endIndex = 0\n\n      for (i <- s1.indices; j <- s2.indices) {\n        if (s1(i) == s2(j)) {\n          lengths(i)(j) = if (i == 0 || j == 0) 1 else lengths(i - 1)(j - 1) + 1\n          if (lengths(i)(j) > maxLength) {\n            maxLength = lengths(i)(j)\n            endIndex = i\n          }\n        }\n      }\n\n      if (maxLength == 0) \"\"\n      else s1.substring(endIndex - maxLength + 1, endIndex + 1)\n    }\n\n    val result = longestCommonSubstring(str1, str2)\n    println(s\"Longest common substring: $result\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a chessboard position and prints all possible moves for a knight.",
+    "code": "```scala\nimport scala.io.StdIn\n\nobject KnightMoves {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter the knight's position (e.g., d4):\")\n    val input = StdIn.readLine()\n    val moves = getKnightMoves(input)\n    println(\"Possible moves:\")\n    moves.foreach(println)\n  }\n\n  def getKnightMoves(position: String): Seq[String] = {\n    val file = position.charAt(0)\n    val rank = position.charAt(1)\n    \n    val fileIndex = file - 'a'\n    val rankIndex = rank - '1'\n    \n    val possibleMoves = Seq(\n      (fileIndex + 2, rankIndex + 1),\n      (fileIndex + 2, rankIndex - 1),\n      (fileIndex - 2, rankIndex + 1),\n      (fileIndex - 2, rankIndex - 1),\n      (fileIndex + 1, rankIndex + 2),\n      (fileIndex + 1, rankIndex - 2),\n      (fileIndex - 1, rankIndex + 2),\n      (fileIndex - 1, rankIndex - 2)\n    )\n    \n    possibleMoves\n      .filter { case (f, r) => f >= 0 && f < 8 && r >= 0 && r < 8 }\n      .map { case (f, r) => s\"${(f + 'a').toChar}${(r + '1').toChar}\" }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of numbers and prints the mode.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject ModeCalculator extends App {\n  def findMode(numbers: List[Int]): Option[Int] = {\n    numbers.groupBy(identity).mapValues(_.size).maxByOption(_._2).map(_._1)\n  }\n\n  println(\"Enter numbers separated by spaces:\")\n  val input = readLine()\n  val numbers = input.split(\"\\\\s+\").map(_.toInt).toList\n  val mode = findMode(numbers)\n\n  mode match {\n    case Some(m) => println(s\"The mode is: $m\")\n    case None => println(\"No mode found.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of file paths and prints the largest file.",
+    "code": "```scala\nimport java.io.File\n\nobject LargestFileFinder {\n  def main(args: Array[String]): Unit = {\n    if (args.isEmpty) {\n      println(\"No file paths provided.\")\n      return\n    }\n\n    val largestFile = args.map(new File(_))\n      .filter(_.exists)\n      .maxByOption(_.length)\n\n    largestFile match {\n      case Some(file) => println(s\"Largest file: ${file.getPath}, Size: ${file.length} bytes\")\n      case None => println(\"No valid files found.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of prices and prints the total cost with tax.",
+    "code": "```scala\nobject TotalCostWithTax extends App {\n  val taxRate = 0.07 // 7% tax\n  println(\"Enter prices (separated by spaces):\")\n  val input = scala.io.StdIn.readLine()\n  val prices = input.split(\"\\\\s+\").map(_.toDouble)\n  val totalCost = prices.sum\n  val totalCostWithTax = totalCost * (1 + taxRate)\n  println(f\"Total cost with tax: $$${totalCostWithTax}%.2f\")\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of temperatures and prints them in Fahrenheit.",
+    "code": "```scala\nobject TemperatureConverter {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter temperatures in Celsius, separated by spaces:\")\n    val input = scala.io.StdIn.readLine()\n    val temperaturesInCelsius = input.split(\" \").map(_.toDouble)\n    val temperaturesInFahrenheit = temperaturesInCelsius.map(celsius => celsius * 9 / 5 + 32)\n    println(\"Temperatures in Fahrenheit:\")\n    temperaturesInFahrenheit.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of book titles and prints them sorted by length.",
+    "code": "```scala\nobject BookTitleSorter extends App {\n  val titles = scala.io.Source.stdin.getLines().toList\n  titles.sortBy(_.length).foreach(println)\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a directory path and prints all file names.",
+    "code": "```scala\nimport java.io.File\n\nobject ListFiles extends App {\n  if (args.length != 1) {\n    println(\"Please provide a directory path.\")\n  } else {\n    val directory = new File(args(0))\n    if (directory.exists && directory.isDirectory) {\n      directory.listFiles.filter(_.isFile).foreach(file => println(file.getName))\n    } else {\n      println(\"The given path is not a valid directory.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a list of URLs and prints those with a secure connection.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject SecureURLs {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter URLs, separated by commas:\")\n    val input = readLine()\n    val urls = input.split(\",\").map(_.trim)\n    val secureUrls = urls.filter(url => url.startsWith(\"https://\"))\n    println(\"Secure URLs:\")\n    secureUrls.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a sequence of numbers and prints if it is strictly increasing.",
+    "code": "```scala\nobject IncreasingSequenceChecker {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter a sequence of numbers separated by spaces:\")\n    val input = scala.io.StdIn.readLine()\n    val numbers = input.split(\"\\\\s+\").map(_.toInt)\n\n    val isStrictlyIncreasing = numbers.sliding(2).forall {\n      case Array(x, y) => x < y\n      case _ => true\n    }\n\n    if (isStrictlyIncreasing) {\n      println(\"The sequence is strictly increasing.\")\n    } else {\n      println(\"The sequence is not strictly increasing.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of products and prints them grouped by category.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport scala.collection.mutable.ListBuffer\n\nobject ProductGrouper {\n  def main(args: Array[String]): Unit = {\n    val products = ListBuffer[(String, String)]()\n    var input = \"\"\n\n    println(\"Enter product and category pairs (format: product,category). Type 'done' to finish:\")\n    while ({ input = readLine(); input != \"done\" }) {\n      val Array(product, category) = input.split(\",\")\n      products += ((product.trim, category.trim))\n    }\n\n    val grouped = products.groupBy(_._2)\n    println(\"\\nProducts grouped by category:\")\n    for ((category, items) <- grouped) {\n      println(s\"$category:\")\n      items.foreach { case (product, _) => println(s\"  - $product\") }\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a sentence and prints it with alternating word capitalization.",
+    "code": "```scala\nobject AlternatingCapitalization extends App {\n  val input = scala.io.StdIn.readLine(\"Enter a sentence: \")\n  val result = input.split(\" \").zipWithIndex.map {\n    case (word, index) =>\n      if (index % 2 == 0) word.toLowerCase else word.toUpperCase\n  }.mkString(\" \")\n  println(result)\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a list of grades and prints the highest and lowest grade.",
+    "code": "```scala\nobject GradeProcessor extends App {\n  println(\"Enter grades separated by spaces:\")\n  val input = scala.io.StdIn.readLine()\n  val grades = input.split(\" \").map(_.toInt)\n  val highestGrade = grades.max\n  val lowestGrade = grades.min\n  println(s\"Highest grade: $highestGrade\")\n  println(s\"Lowest grade: $lowestGrade\")\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the number of sentences.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport java.text.BreakIterator\n\nobject SentenceCounter extends App {\n  println(\"Enter text:\")\n  val text = readLine()\n\n  def countSentences(text: String): Int = {\n    val iterator = BreakIterator.getSentenceInstance\n    iterator.setText(text)\n    var count = 0\n    while (iterator.next() != BreakIterator.DONE) {\n      count += 1\n    }\n    count\n  }\n\n  val numSentences = countSentences(text)\n  println(s\"Number of sentences: $numSentences\")\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of integers and prints the sum of all odd numbers.",
+    "code": "```scala\nobject SumOddNumbers extends App {\n  println(\"Enter numbers separated by spaces:\")\n  val input = scala.io.StdIn.readLine()\n  val numbers = input.split(\"\\\\s+\").map(_.toInt)\n  val sumOfOdds = numbers.filter(_ % 2 != 0).sum\n  println(s\"Sum of odd numbers: $sumOfOdds\")\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the shortest sentence.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject ShortestSentenceFinder {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter the text:\")\n    val inputText = readLine()\n    val sentences = inputText.split(\"(?<=[.!?])\\\\s+\")\n    val shortestSentence = sentences.minBy(_.length)\n    println(\"Shortest sentence:\")\n    println(shortestSentence)\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dictionaries and prints them sorted by a specific key.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport scala.util.parsing.json.JSON\n\nobject SortDictionariesByKey {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter JSON list of dictionaries:\")\n    val input = readLine()\n    \n    JSON.parseFull(input) match {\n      case Some(list: List[Map[String, Any]]) =>\n        println(\"Enter the key to sort by:\")\n        val sortKey = readLine()\n        \n        val sortedList = list.sortBy(_.getOrElse(sortKey, \"\").toString)\n        sortedList.foreach(println)\n        \n      case _ => println(\"Invalid input\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a sequence of strings and prints the common prefix.",
+    "code": "```scala\nobject CommonPrefixTool {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter strings separated by spaces:\")\n    val input = scala.io.StdIn.readLine()\n    val strings = input.split(\" \")\n    if (strings.isEmpty) {\n      println(\"No common prefix\")\n    } else {\n      val commonPrefix = strings.reduce((a, b) => a.zip(b).takeWhile { case (x, y) => x == y }.map(_._1).mkString)\n      println(s\"Common prefix: $commonPrefix\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a number and prints all of its divisors.",
+    "code": "```scala\nobject Divisors {\n  def main(args: Array[String]): Unit = {\n    val input = scala.io.StdIn.readLine(\"Enter a number: \").toInt\n    for (i <- 1 to input) {\n      if (input % i == 0) println(i)\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints each word with its length.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject WordLengthPrinter extends App {\n  val inputText = readLine(\"Enter text: \")\n  inputText.split(\"\\\\s+\").foreach(word => println(s\"$word: ${word.length}\"))\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of colors and prints them in a rainbow order.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject RainbowColors {\n  def main(args: Array[String]): Unit = {\n    val rainbowOrder = List(\"red\", \"orange\", \"yellow\", \"green\", \"blue\", \"indigo\", \"violet\")\n    \n    println(\"Enter colors separated by space:\")\n    val inputColors = readLine().split(\" \").map(_.toLowerCase).toList\n    \n    val sortedColors = inputColors.filter(rainbowOrder.contains).sorted(Ordering.by(rainbowOrder.indexOf))\n    \n    println(\"Colors in rainbow order:\")\n    sortedColors.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of names and prints them with their initials.",
+    "code": "```scala\nobject NameInitials extends App {\n  def getInitials(name: String): String = {\n    name.split(\" \").map(_.charAt(0).toUpper).mkString(\".\")\n  }\n\n  println(\"Enter names (one per line), and type 'end' to finish:\")\n  Iterator.continually(scala.io.StdIn.readLine())\n    .takeWhile(_ != \"end\")\n    .foreach(name => println(s\"$name -> ${getInitials(name)}\"))\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a series of coordinates and prints the center point.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject CenterPointCalculator {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter the number of coordinates:\")\n    val n = readInt()\n    var sumX, sumY = 0.0\n\n    for (_ <- 1 to n) {\n      val Array(x, y) = readLine().split(\" \").map(_.toDouble)\n      sumX += x\n      sumY += y\n    }\n\n    val centerX = sumX / n\n    val centerY = sumY / n\n\n    println(s\"Center Point: ($centerX, $centerY)\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each vowel replaced by its uppercase form.",
+    "code": "```scala\nobject VowelUpperCase extends App {\n  println(\"Enter a sentence:\")\n  val input = scala.io.StdIn.readLine()\n  val result = input.map {\n    case c if \"aeiou\".contains(c.toLower) => c.toUpper\n    case c => c\n  }\n  println(result)\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a mathematical expression and evaluates its result.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport scala.util.Try\n\nobject MathEvaluator extends App {\n  def evaluateExpression(expression: String): Option[Double] = {\n    Try(scala.tools.reflect.ToolBox(scala.reflect.runtime.universe.runtimeMirror(getClass.getClassLoader))\n      .eval(scala.reflect.runtime.universe.reify(scala.util.parsing.combinator.RegexParsers.parseAll(\n        new scala.util.parsing.combinator.JavaTokenParsers {\n          def expr: Parser[Double] = term ~ rep(\"+\" ~ term | \"-\" ~ term) ^^ { case t ~ lst =>\n            lst.foldLeft(t) { case (acc, \"+\" ~ x) => acc + x; case (acc, \"-\" ~ x) => acc - x }\n          }\n          def term: Parser[Double] = factor ~ rep(\"*\" ~ factor | \"/\" ~ factor) ^^ { case f ~ lst =>\n            lst.foldLeft(f) { case (acc, \"*\" ~ x) => acc * x; case (acc, \"/\" ~ x) => acc / x }\n          }\n          def factor: Parser[Double] = floatingPointNumber ^^ (_.toDouble) | \"(\" ~> expr <~ \")\"\n        }.expr, expression).get)).asInstanceOf[Double]).toOption\n  }\n\n  println(\"Enter a mathematical expression:\")\n  val input = readLine()\n  evaluateExpression(input) match {\n    case Some(result) => println(s\"The result is: $result\")\n    case None => println(\"Invalid expression.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a text and prints the first three words.",
+    "code": "```scala\nobject FirstThreeWords extends App {\n  val input = scala.io.StdIn.readLine(\"Enter text: \")\n  val words = input.split(\"\\\\s+\").take(3)\n  println(words.mkString(\" \"))\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of numbers and prints them without duplicates.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject UniqueNumbers {\n  def main(args: Array[String]): Unit = {\n    val input = readLine(\"Enter numbers separated by spaces: \")\n    val numbers = input.split(\" \").map(_.toInt).distinct\n    println(\"Unique numbers: \" + numbers.mkString(\" \"))\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a string and prints it with spaces between each character.",
+    "code": "```scala\nobject Main extends App {\n  val input = scala.io.StdIn.readLine()\n  val spacedOutput = input.mkString(\" \")\n  println(spacedOutput)\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a list of events with dates and prints them by chronological order.",
+    "code": "```scala\nimport scala.io.StdIn\nimport java.time.LocalDate\nimport java.time.format.DateTimeFormatter\n\nobject EventSorter {\n  case class Event(date: LocalDate, description: String)\n\n  def main(args: Array[String]): Unit = {\n    val dateFormat = DateTimeFormatter.ofPattern(\"yyyy-MM-dd\")\n    println(\"Enter the number of events:\")\n    val n = StdIn.readInt()\n\n    val events = (1 to n).map { _ =>\n      println(\"Enter event date (yyyy-MM-dd) and description:\")\n      val input = StdIn.readLine().split(\" \", 2)\n      val date = LocalDate.parse(input(0), dateFormat)\n      val description = input(1)\n      Event(date, description)\n    }\n\n    val sortedEvents = events.sortBy(_.date)\n\n    println(\"Events in chronological order:\")\n    sortedEvents.foreach { event =>\n      println(s\"${event.date.format(dateFormat)}: ${event.description}\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of fractions and prints their sum as a reduced fraction.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport scala.annotation.tailrec\n\nobject FractionSum {\n  case class Fraction(numerator: Int, denominator: Int) {\n    def +(other: Fraction): Fraction = {\n      val commonDenominator = denominator * other.denominator\n      val newNumerator = numerator * other.denominator + other.numerator * denominator\n      Fraction(newNumerator, commonDenominator).reduce\n    }\n    \n    def reduce: Fraction = {\n      val gcdValue = gcd(numerator, denominator)\n      Fraction(numerator / gcdValue, denominator / gcdValue)\n    }\n    \n    @tailrec\n    private def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)\n    \n    override def toString: String = s\"$numerator/$denominator\"\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(\"Enter fractions separated by space (e.g., 1/2 3/4):\")\n    val input = readLine()\n    val fractions = input.split(\" \").map(parseFraction)\n    val sum = fractions.reduce(_ + _)\n    println(s\"Sum of fractions: $sum\")\n  }\n\n  def parseFraction(fraction: String): Fraction = {\n    val parts = fraction.split(\"/\")\n    Fraction(parts(0).toInt, parts(1).toInt).reduce\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints it with each consonant doubled.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject DoubleConsonants extends App {\n  val inputText = readLine(\"Enter the text: \")\n\n  val outputText = inputText.flatMap {\n    case c if \"bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ\".contains(c) => s\"$c$c\"\n    case c => c.toString\n  }\n\n  println(outputText)\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a number and prints its representation in Roman numerals.",
+    "code": "```scala\nobject RomanNumeralConverter {\n  def main(args: Array[String]): Unit = {\n    val number = scala.io.StdIn.readInt()\n    println(intToRoman(number))\n  }\n\n  def intToRoman(num: Int): String = {\n    val romanNumerals = List(\n      (1000, \"M\"), (900, \"CM\"), (500, \"D\"), (400, \"CD\"),\n      (100, \"C\"), (90, \"XC\"), (50, \"L\"), (40, \"XL\"),\n      (10, \"X\"), (9, \"IX\"), (5, \"V\"), (4, \"IV\"), (1, \"I\")\n    )\n    var n = num\n    val result = new StringBuilder\n    for ((value, symbol) <- romanNumerals) {\n      while (n >= value) {\n        result.append(symbol)\n        n -= value\n      }\n    }\n    result.toString()\n  }\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of words and prints them with each letter in reverse order.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject ReverseLettersInWords {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter a list of words separated by spaces:\")\n    val input = readLine()\n    val words = input.split(\" \")\n    val reversedWords = words.map(word => word.reverse)\n    reversedWords.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a set of points and prints the one closest to the origin.",
+    "code": "```scala\nimport scala.io.StdIn\n\nobject ClosestPoint extends App {\n  case class Point(x: Double, y: Double) {\n    def distanceToOrigin: Double = math.sqrt(x * x + y * y)\n  }\n\n  def readPoints(): List[Point] = {\n    println(\"Enter number of points:\")\n    val n = StdIn.readInt()\n    (1 to n).map { _ =>\n      println(\"Enter point coordinates (x y):\")\n      val line = StdIn.readLine()\n      val parts = line.split(\" \")\n      Point(parts(0).toDouble, parts(1).toDouble)\n    }.toList\n  }\n\n  val points = readPoints()\n  val closestPoint = points.minBy(_.distanceToOrigin)\n\n  println(s\"The point closest to the origin is: (${closestPoint.x}, ${closestPoint.y})\")\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the frequency of each word.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport scala.collection.mutable\n\nobject WordFrequencyCounter extends App {\n  println(\"Enter text:\")\n  val text = readLine().toLowerCase\n  val words = text.split(\"\\\\W+\")\n  val frequencyMap = mutable.Map[String, Int]()\n\n  words.foreach { word =>\n    if (word.nonEmpty) {\n      frequencyMap(word) = frequencyMap.getOrElse(word, 0) + 1\n    }\n  }\n\n  frequencyMap.foreach { case (word, count) =>\n    println(s\"$word: $count\")\n  }\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of integers and prints the second smallest.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject SecondSmallest {\n  def main(args: Array[String]): Unit = {\n    val input = readLine(\"Enter a list of integers separated by spaces: \")\n    val numbers = input.split(\" \").map(_.toInt).distinct.sorted\n    if (numbers.length >= 2) {\n      println(s\"The second smallest number is: ${numbers(1)}\")\n    } else {\n      println(\"Not enough unique numbers to determine the second smallest.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a string and prints all its substrings.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject SubstringTool {\n  def main(args: Array[String]): Unit = {\n    val input = readLine(\"Enter a string: \")\n    for {\n      start <- 0 until input.length\n      end <- start + 1 to input.length\n    } println(input.substring(start, end))\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a number and generates a random number up to that number.",
+    "code": "```scala\nimport scala.util.Random\nimport scala.io.StdIn.readLine\n\nobject RandomNumberGenerator extends App {\n  val input = readLine(\"Enter a number: \")\n  val maxNumber = input.toInt\n  val randomNumber = Random.nextInt(maxNumber)\n  println(s\"Random number up to $maxNumber: $randomNumber\")\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each word reversed.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject ReverseWordsApp extends App {\n  val sentence = readLine(\"Enter a sentence: \")\n  val reversed = sentence.split(\" \").map(_.reverse).mkString(\" \")\n  println(reversed)\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a text and prints it with each sentence on a new line.",
+    "code": "```scala\nimport scala.io.StdIn\n\nobject SentenceSplitter {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter a text:\")\n    val inputText = StdIn.readLine()\n    val sentences = inputText.split(\"(?<=[.!?])\\\\s*\")\n    sentences.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of numbers and prints the product of all negative numbers.",
+    "code": "```scala\nimport scala.io.StdIn._\n\nobject ProductOfNegatives extends App {\n  println(\"Enter numbers separated by spaces:\")\n  val numbers = readLine().split(\"\\\\s+\").map(_.toInt)\n  val productOfNegatives = numbers.filter(_ < 0).product\n  println(s\"Product of negative numbers: $productOfNegatives\")\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a dictionary and prints the keys and values in sorted order.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\nimport scala.collection.immutable.TreeMap\n\nobject DictionaryPrinter extends App {\n  println(\"Enter dictionary items (key:value), one per line. Type 'done' to finish:\")\n  val inputLines = Iterator.continually(readLine()).takeWhile(_ != \"done\").toList\n\n  val dictionary = inputLines.foldLeft(Map[String, String]()) { (map, line) =>\n    val parts = line.split(\":\")\n    if (parts.length == 2) map + (parts(0) -> parts(1)) else map\n  }\n\n  val sortedDictionary = TreeMap(dictionary.toSeq: _*)\n\n  println(\"Sorted dictionary:\")\n  sortedDictionary.foreach { case (key, value) =>\n    println(s\"$key: $value\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a text and prints the number of unique words.",
+    "code": "```scala\nimport scala.io.StdIn.readLine\n\nobject UniqueWordCounter {\n  def main(args: Array[String]): Unit = {\n    println(\"Enter text:\")\n    val text = readLine()\n    val words = text.split(\"\\\\W+\")\n    val uniqueWords = words.map(_.toLowerCase).toSet\n    println(s\"Number of unique words: ${uniqueWords.size}\")\n  }\n}\n```"
+  }
+]

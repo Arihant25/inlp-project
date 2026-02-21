@@ -1,0 +1,378 @@
+[
+  {
+    "task": "Create a function that initializes an array with the first ten prime numbers.",
+    "code": "```raku\nsub first-ten-primes {\n    my @primes = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29);\n    return @primes;\n}\n```"
+  },
+  {
+    "task": "Write a program to reverse the elements of a given array.",
+    "code": "```raku\nmy @array = <1 2 3 4 5>;\nmy @reversed = @array.reverse;\nsay @reversed;\n```"
+  },
+  {
+    "task": "Implement an algorithm that finds the maximum value in an array of integers.",
+    "code": "```raku\nsub max-value(@array) {\n    my $max = @array[0];\n    for @array -> $elem {\n        $max = $elem if $elem > $max;\n    }\n    return $max;\n}\n\nmy @integers = (3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5);\nsay max-value(@integers);\n```"
+  },
+  {
+    "task": "Design a routine to rotate an array to the right by a given number of steps.",
+    "code": "```raku\nsub rotate-array(@array, $steps) {\n    my $len = @array.elems;\n    return @array if $len == 0;\n    $steps %= $len;\n    return (@array[*-$steps..*], @array[0..*-($steps+1)]);\n}\n\nmy @array = 1, 2, 3, 4, 5;\nmy $steps = 2;\nsay rotate-array(@array, $steps); # Output: (4, 5, 1, 2, 3)\n```"
+  },
+  {
+    "task": "Develop a function to merge two sorted arrays into one sorted array.",
+    "code": "```raku\nsub merge-sorted-arrays(@array1, @array2) {\n    my @result;\n    my $i = 0;\n    my $j = 0;\n    \n    while $i < @array1.elems && $j < @array2.elems {\n        if @array1[$i] <= @array2[$j] {\n            @result.push(@array1[$i]);\n            $i++;\n        } else {\n            @result.push(@array2[$j]);\n            $j++;\n        }\n    }\n    \n    @result.append(@array1[$i..^*]) if $i < @array1.elems;\n    @result.append(@array2[$j..^*]) if $j < @array2.elems;\n    \n    return @result;\n}\n```"
+  },
+  {
+    "task": "Create a method to remove duplicate values from an array.",
+    "code": "```raku\nsub remove-duplicates(@array) {\n    my %seen;\n    @array.grep({ %seen{$_}++ == 0 });\n}\n\nmy @array = <1 2 3 2 4 5 3 6>;\nmy @unique = remove-duplicates(@array);\nsay @unique;\n```"
+  },
+  {
+    "task": "Write a script to calculate the sum of all elements in an array.",
+    "code": "```raku\nmy @array = <1 2 3 4 5>;\nmy $sum = [+] @array;\nsay $sum;\n```"
+  },
+  {
+    "task": "Construct a function that finds the second largest element in an array.",
+    "code": "```raku\nsub second-largest(@array) {\n    @array = @array.sort.reverse.uniq;\n    return @array[1] if @array.elems >= 2;\n    return Nil;\n}\n\n# Example usage:\nmy @numbers = (3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5);\nsay second-largest(@numbers);  # Output: 6\n```"
+  },
+  {
+    "task": "Design a program to check if an array contains a specific value.",
+    "code": "```raku\nmy @array = <apple banana cherry>;\nmy $value = 'banana';\n\nif $value \u2208 @array {\n    say \"The value '$value' is in the array.\";\n} else {\n    say \"The value '$value' is not in the array.\";\n}\n```"
+  },
+  {
+    "task": "Implement a function to sort an array of strings alphabetically.",
+    "code": "```raku\nsub sort_strings(@array) {\n    return @array.sort;\n}\n\nmy @strings = <banana apple orange grape>;\nmy @sorted = sort_strings(@strings);\nsay @sorted;\n```"
+  },
+  {
+    "task": "Create a method to search for a value in an array using binary search.",
+    "code": "```raku\nsub binary-search(@array, $value) {\n    my $low = 0;\n    my $high = @array.elems - 1;\n    \n    while $low <= $high {\n        my $mid = ($low + $high) div 2;\n        if @array[$mid] == $value {\n            return $mid;\n        }\n        elsif @array[$mid] < $value {\n            $low = $mid + 1;\n        }\n        else {\n            $high = $mid - 1;\n        }\n    }\n    \n    return Nil;\n}\n\nmy @sorted-array = <1 2 3 4 5 6 7 8 9>;\nsay binary-search(@sorted-array, 7); # Output: 6\nsay binary-search(@sorted-array, 10); # Output: Nil\n```"
+  },
+  {
+    "task": "Write a routine to calculate the average of numbers in an array.",
+    "code": "```raku\nsub calculate-average(@numbers) {\n    return @numbers.sum / @numbers.elems;\n}\n```"
+  },
+  {
+    "task": "Develop a function to find the intersection of two arrays.",
+    "code": "```raku\nsub intersection(@array1, @array2) {\n    my %set1 = @array1.map({ $_ => 1 }).hash;\n    my @intersection = @array2.grep({ %set1{$_}:exists });\n    return @intersection;\n}\n\n# Example usage\nmy @array1 = <1 2 3 4 5>;\nmy @array2 = <3 4 5 6 7>;\nsay intersection(@array1, @array2); # Output: (3 4 5)\n```"
+  },
+  {
+    "task": "Implement a method to find the union of two arrays without duplicates.",
+    "code": "```raku\nsub array-union(@array1, @array2) {\n    my %seen;\n    return @array1, @array2>>.grep({ not %seen{$_}++ });\n}\n\n# Example usage\nmy @array1 = <1 2 3 4>;\nmy @array2 = <3 4 5 6>;\nsay array-union(@array1, @array2); # Output: (1 2 3 4 5 6)\n```"
+  },
+  {
+    "task": "Create a program that shifts all zeroes in an array to the end.",
+    "code": "```raku\nmy @array = <0 1 0 3 12>;\n@array .= grep(*.so) ~ @array.grep(*.not);\nsay @array;\n```"
+  },
+  {
+    "task": "Write a function to split an array into two parts at a given index.",
+    "code": "```raku\nsub split-array(@array, $index) {\n    return (@array[0 ..^ $index], @array[$index .. *]);\n}\n\nmy @original = <a b c d e>;\nmy ($first-part, $second-part) = split-array(@original, 2);\nsay $first-part;  # (a b)\nsay $second-part; # (c d e)\n```"
+  },
+  {
+    "task": "Design a script to find all pairs in an array that sum up to a specific target.",
+    "code": "```raku\nsub find_pairs(@array, $target) {\n    my @pairs;\n    for ^@array.elems -> $i {\n        for $i+1..^@array.elems -> $j {\n            if @array[$i] + @array[$j] == $target {\n                @pairs.push: [@array[$i], @array[$j]];\n            }\n        }\n    }\n    return @pairs;\n}\n\nmy @array = (2, 4, 3, 5, 7, 8, 9);\nmy $target = 10;\nmy @result = find_pairs(@array, $target);\nsay @result;\n```"
+  },
+  {
+    "task": "Construct a method to remove all occurrences of a specific value from an array.",
+    "code": "```raku\nsub remove-value(@array, $value) {\n    return @array.grep({ $_ ne $value });\n}\n\n# Example usage\nmy @original = <1 2 3 4 2 5 2>;\nmy @result = remove-value(@original, 2);\nsay @result; # Output: [1 3 4 5]\n```"
+  },
+  {
+    "task": "Write a function to find the longest increasing subsequence in an array.",
+    "code": "```raku\nsub longest-increasing-subsequence(@array) {\n    my @lis;\n    my @lis-length = (1 xx @array.elems);\n    \n    for 1 ..^ @array.elems -> $i {\n        for 0 ..^ $i -> $j {\n            if @array[$i] > @array[$j] && @lis-length[$i] < @lis-length[$j] + 1 {\n                @lis-length[$i] = @lis-length[$j] + 1;\n            }\n        }\n    }\n    \n    my $max = @lis-length.max;\n    my $index = @lis-length.first-index($max);\n    @lis.unshift(@array[$index]);\n    \n    for $index - 1 ... 0 -> $i {\n        if @lis-length[$i] == $max - 1 && @array[$i] < @lis[0] {\n            @lis.unshift(@array[$i]);\n            $max--;\n        }\n    }\n    \n    return @lis;\n}\n```"
+  },
+  {
+    "task": "Develop an algorithm to find the missing number in a sequential array.",
+    "code": "```raku\nsub find-missing-number(@array) {\n    my $n = @array.elems + 1;\n    my $expected-sum = $n * ($n + 1) / 2;\n    my $actual-sum = [+] @array;\n    return $expected-sum - $actual-sum;\n}\n\n# Example usage\nmy @sequential-array = 1, 2, 4, 5, 6;\nsay find-missing-number(@sequential-array); # Output: 3\n```"
+  },
+  {
+    "task": "Create a program to find the common elements between two arrays.",
+    "code": "```raku\nmy @array1 = <1 2 3 4 5>;\nmy @array2 = <3 4 5 6 7>;\n\nmy @common = @array1 \u2229 @array2;\nsay @common;\n```"
+  },
+  {
+    "task": "Implement a function to move all negative numbers to the beginning of an array.",
+    "code": "```raku\nsub move_negatives(@array) {\n    @array.sort({ $^b < 0 <=> $^a < 0 });\n}\n\nmy @numbers = 3, -1, 2, -5, 0, -2, 4;\n@numbers = move_negatives(@numbers);\nsay @numbers; # Output: [-1, -5, -2, 3, 2, 0, 4]\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a palindrome.",
+    "code": "```raku\nsub is-palindrome(@array) {\n    return @array eqv @array.reverse;\n}\n\n# Example usage:\nsay is-palindrome(<a b c b a>);   # True\nsay is-palindrome(<1 2 3 4 5>);   # False\n```"
+  },
+  {
+    "task": "Design a routine to create a new array that is the element-wise sum of two input arrays.",
+    "code": "```raku\nsub elementwise-sum(@array1, @array2) {\n    return [Z+] @array1, @array2;\n}\n\nmy @array1 = 1, 2, 3;\nmy @array2 = 4, 5, 6;\nmy @result = elementwise-sum(@array1, @array2);\nsay @result; # Output: [5 7 9]\n```"
+  },
+  {
+    "task": "Create a function to find the product of all elements in an array, excluding the current element.",
+    "code": "```raku\nsub product-excluding-current(@array) {\n    @array.map: -> $i {\n        [+] @array.grep(* !=== $i);\n    }\n}\n\nmy @array = 2, 3, 4, 5;\nmy @result = product-excluding-current(@array);\nsay @result;\n```"
+  },
+  {
+    "task": "Develop a script to remove elements from an array that are smaller than a given threshold.",
+    "code": "```raku\nmy @array = <1 5 3 7 2 8>;\nmy $threshold = 4;\n@array .= grep(* >= $threshold);\nsay @array;\n```"
+  },
+  {
+    "task": "Implement a method to clone an array without using built-in functions.",
+    "code": "```raku\nsub clone-array(@original) {\n    my @cloned;\n    for @original -> $elem {\n        @cloned.push($elem);\n    }\n    return @cloned;\n}\n\nmy @array = 1, 2, 3, 4, 5;\nmy @cloned-array = clone-array(@array);\nsay @cloned-array;\n```"
+  },
+  {
+    "task": "Create a program that rotates a 2D array (matrix) 90 degrees clockwise.",
+    "code": "```raku\nsub rotate-matrix(@matrix) {\n    my $rows = @matrix.elems;\n    my $cols = @matrix[0].elems;\n    my @rotated = [ (0 xx $rows) xx $cols ];\n    for ^$rows -> $r {\n        for ^$cols -> $c {\n            @rotated[$c][$rows - $r - 1] = @matrix[$r][$c];\n        }\n    }\n    return @rotated;\n}\n\nmy @matrix = [ [1, 2, 3], [4, 5, 6], [7, 8, 9] ];\nmy @rotated = rotate-matrix(@matrix);\nsay @rotated;\n```"
+  },
+  {
+    "task": "Write a function to find the kth smallest element in an unsorted array.",
+    "code": "```raku\nsub kth-smallest(@array, $k) {\n    @array.sort[$k - 1];\n}\n\n# Example usage:\nmy @array = 5, 3, 1, 2, 4;\nmy $k = 3;\nsay kth-smallest(@array, $k);  # Output: 3\n```"
+  },
+  {
+    "task": "Design a routine to partition an array into even and odd numbers.",
+    "code": "```raku\nsub partition-even-odd(@array) {\n    my @evens = @array.grep(* %% 2);\n    my @odds = @array.grep(* !%% 2);\n    return @evens, @odds;\n}\n\nmy @numbers = 1..10;\nmy (@evens, @odds) = partition-even-odd(@numbers);\nsay \"Evens: @evens\";\nsay \"Odds: @odds\";\n```"
+  },
+  {
+    "task": "Create a method to merge overlapping intervals in an array.",
+    "code": "```raku\nsub merge-intervals(@intervals) {\n    return @intervals if @intervals.elems < 2;\n    \n    @intervals .= sort({ $^a[0] <=> $^b[0] });\n    my @merged;\n    \n    for @intervals -> $interval {\n        if @merged.elems && @merged[*-1][1] >= $interval[0] {\n            @merged[*-1][1] = max(@merged[*-1][1], $interval[1]);\n        } else {\n            @merged.push($interval);\n        }\n    }\n    \n    return @merged;\n}\n```"
+  },
+  {
+    "task": "Develop a function to count the frequency of each unique element in an array.",
+    "code": "```raku\nsub count-frequency(@array) {\n    my %frequency;\n    for @array -> $element {\n        %frequency{$element}++;\n    }\n    return %frequency;\n}\n\nmy @data = <apple orange apple banana orange apple>;\nmy %result = count-frequency(@data);\nsay %result;\n```"
+  },
+  {
+    "task": "Write a program to generate all possible subsets of an array.",
+    "code": "```raku\nsub subsets(@array) {\n    my @subsets;\n    for 0 ..^ (1 << @array.elems) -> $i {\n        @subsets.push: @array.grep(-> $elem, $idx { $i +& (1 << $idx) });\n    }\n    return @subsets;\n}\n\nmy @array = <a b c>;\nsay subsets(@array);\n```"
+  },
+  {
+    "task": "Implement a routine to cyclically permute the elements of an array.",
+    "code": "```raku\nsub cyclic-permute(@array) {\n    @array.unshift(@array.pop);\n    return @array;\n}\n\n# Example usage\nmy @data = 1, 2, 3, 4, 5;\nsay cyclic-permute(@data); # Output: [5 1 2 3 4]\n```"
+  },
+  {
+    "task": "Create a function that checks if two arrays are equal regardless of element order.",
+    "code": "```raku\nsub arrays-equal(@a, @b) {\n    return @a.Bag == @b.Bag;\n}\n\n# Example usage\nsay arrays-equal([1, 2, 3], [3, 2, 1]);  # True\nsay arrays-equal([1, 2, 3], [4, 5, 6]);  # False\n```"
+  },
+  {
+    "task": "Design a script to initialize an array with random integers within a specified range.",
+    "code": "```raku\nmy @array = (^10).map({ (1..100).pick });\nsay @array;\n```"
+  },
+  {
+    "task": "Write a method to convert an array of integers to a single concatenated number.",
+    "code": "```raku\nsub concatenate-array(@array) {\n    return +@array.join;\n}\n\nmy @integers = <1 2 3 4>;\nsay concatenate-array(@integers); # Output: 1234\n```"
+  },
+  {
+    "task": "Develop a function to find the median value of an unsorted array.",
+    "code": "```raku\nsub find-median(@array) {\n    my @sorted = @array.sort;\n    my $len = @sorted.elems;\n    return $len %% 2 ?? @sorted[$len div 2] !! (@sorted[$len div 2 - 1] + @sorted[$len div 2]) / 2;\n}\n\nmy @unsorted = 3, 1, 4, 1, 5, 9;\nsay find-median(@unsorted);\n```"
+  },
+  {
+    "task": "Create a routine to determine if an array is sorted in ascending order.",
+    "code": "```raku\nsub is-sorted(@array) {\n    return True if @array.elems <= 1;\n    for 0..^@array.end {\n        return False if @array[$_] > @array[$_ + 1];\n    }\n    return True;\n}\n\n# Example usage\nsay is-sorted(1, 2, 3, 4, 5); # True\nsay is-sorted(5, 3, 4, 1, 2); # False\n```"
+  },
+  {
+    "task": "Implement a method to find the longest contiguous subarray with equal number of 0s and 1s.",
+    "code": "```raku\nsub longest_equal_subarray(@arr) {\n    my %index = 0 => -1;\n    my $max_length = 0;\n    my $count = 0;\n    \n    for @arr.kv -> $i, $val {\n        $count += $val == 1 ?? 1 !! -1;\n        \n        if %index.exists($count) {\n            $max_length = max($max_length, $i - %index{$count});\n        } else {\n            %index{$count} = $i;\n        }\n    }\n    \n    return $max_length;\n}\n\nmy @arr = <0 1 0 0 1 1 0>;\nsay longest_equal_subarray(@arr);  # Output: 6\n```"
+  },
+  {
+    "task": "Write a function to interleave two arrays of equal length.",
+    "code": "```raku\nsub interleave(@a, @b) {\n    return flat @a Z @b;\n}\n```"
+  },
+  {
+    "task": "Design a program to replace each element in an array with the next greatest element.",
+    "code": "```raku\nsub next_greatest(@array) {\n    my @result = @array;\n    for @array.keys -> $i {\n        @result[$i] = @array[$i+1..*].grep(* > @array[$i]).sort.head // @array[$i];\n    }\n    return @result;\n}\n\nmy @array = <4 5 2 25>;\nmy @updated = next_greatest(@array);\nsay @updated;\n```"
+  },
+  {
+    "task": "Create a function to calculate the dot product of two numeric arrays.",
+    "code": "```raku\nsub dot-product(@array1, @array2) {\n    return [+] @array1 Z* @array2;\n}\n\n# Example usage\nmy @a = 1, 2, 3;\nmy @b = 4, 5, 6;\nsay dot-product(@a, @b); # Output: 32\n```"
+  },
+  {
+    "task": "Develop a script to find the first recurring element in an array.",
+    "code": "```raku\nmy @array = <your array elements here>;\nmy %seen;\nfor @array -> $elem {\n    if %seen{$elem}:exists {\n        say $elem;\n        last;\n    }\n    %seen{$elem} = True;\n}\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a subset of another array.",
+    "code": "```raku\nsub is_subset(@subset, @set) {\n    return all(@subset.map({ @set.first(* eq $_, :k) }));\n}\n\n# Example usage:\nmy @a = <1 2 3>;\nmy @b = <1 2 3 4 5>;\nsay is_subset(@a, @b);  # True\n\nmy @c = <1 2 6>;\nsay is_subset(@c, @b);  # False\n```"
+  },
+  {
+    "task": "Implement a function to add a specific value to each element in an array.",
+    "code": "```raku\nsub add-to-each(@array, $value) {\n    return @array.map({ $_ + $value });\n}\n\nmy @numbers = 1, 2, 3, 4, 5;\nmy $increment = 3;\nmy @result = add-to-each(@numbers, $increment);\nsay @result; # Output: (4 5 6 7 8)\n```"
+  },
+  {
+    "task": "Create a program that finds the largest product of three numbers in an array.",
+    "code": "```raku\nmy @array = <your array here>;\nmy $max-product = @array.sort(* > *).head(3).reduce(* *);\nsay $max-product;\n```"
+  },
+  {
+    "task": "Design a routine to find all unique permutations of an array.",
+    "code": "```raku\nsub unique-permutations(@array) {\n    @array.unique.permutations\n}\n\n# Example usage:\nmy @array = <a b b>;\nmy @perms = unique-permutations(@array);\n.say for @perms;\n```"
+  },
+  {
+    "task": "Write a function to transpose a square matrix represented as a 2D array.",
+    "code": "```raku\nsub transpose-matrix(@matrix) {\n    my $n = @matrix.elems;\n    my @transposed-matrix;\n    for ^$n -> $i {\n        @transposed-matrix[$i] = [@matrix>>.[$i]];\n    }\n    return @transposed-matrix;\n}\n```"
+  },
+  {
+    "task": "Develop a method to find the longest common prefix in an array of strings.",
+    "code": "```raku\nsub longest-common-prefix(@strings) {\n    return '' unless @strings.elems;\n    my $prefix = @strings[0];\n    for @strings -> $string {\n        while $string.substr(0, $prefix.chars) ne $prefix {\n            $prefix = $prefix.substr(0, $prefix.chars - 1);\n            return '' unless $prefix.chars;\n        }\n    }\n    return $prefix;\n}\n\nmy @example = <flower flow flight>;\nsay longest-common-prefix(@example); # Output: \"fl\"\n```"
+  },
+  {
+    "task": "Implement a function to flatten a multi-dimensional array into a single array.",
+    "code": "```raku\nsub flatten-array(@array) {\n    my @result;\n    for @array -> $item {\n        if $item ~~ Positional {\n            @result.append: flatten-array($item);\n        } else {\n            @result.push: $item;\n        }\n    }\n    return @result;\n}\n\n# Example usage:\nmy @multi_array = (1, [2, 3], [[4, 5], 6], [[[7]]]);\nmy @flattened = flatten-array(@multi_array);\nsay @flattened; # Output: (1 2 3 4 5 6 7)\n```"
+  },
+  {
+    "task": "Create a script to shift elements of an array to the left by a given number of positions.",
+    "code": "```raku\nsub shift-left(@array, $positions) {\n    return @array[$positions..*], @array[0..^$positions];\n}\n\nmy @array = <1 2 3 4 5>;\nmy $positions = 2;\nmy @shifted = shift-left(@array, $positions);\nsay @shifted;\n```"
+  },
+  {
+    "task": "Write a routine to sort an array of objects based on a specific property.",
+    "code": "```raku\nclass MyObject {\n    has $.property;\n}\n\nsub sort_objects_by_property(@objects) {\n    return @objects.sort(*.property);\n}\n\nmy @objects = MyObject.new(property => 3), MyObject.new(property => 1), MyObject.new(property => 2);\nmy @sorted_objects = sort_objects_by_property(@objects);\n\nsay @sorted_objects.map(*.property); # Output: [1 2 3]\n```"
+  },
+  {
+    "task": "Design a program to find the smallest missing positive integer in an array.",
+    "code": "```raku\nsub smallest-missing-positive(@arr) {\n    my %seen;\n    for @arr -> $n {\n        %seen{$n} = True if $n > 0;\n    }\n    my $i = 1;\n    $i++ while %seen{$i};\n    return $i;\n}\n\nmy @array = (3, 4, -1, 1);\nsay smallest-missing-positive(@array); # Output: 2\n```"
+  },
+  {
+    "task": "Create a function to calculate the cumulative sum of an array.",
+    "code": "```raku\nsub cumulative-sum(@array) {\n    my @cumsum;\n    my $sum = 0;\n    for @array -> $num {\n        $sum += $num;\n        @cumsum.push($sum);\n    }\n    return @cumsum;\n}\n```"
+  },
+  {
+    "task": "Develop a function to remove consecutive duplicate elements in an array.",
+    "code": "```raku\nsub remove-consecutive-duplicates(@arr) {\n    my @result;\n    for @arr.kv -> $index, $elem {\n        @result.push($elem) if $index == 0 || $elem ne @arr[$index - 1];\n    }\n    return @result;\n}\n\nmy @array = <a a b b c a a>;\nmy @deduped = remove-consecutive-duplicates(@array);\nsay @deduped; # Output: (a b c a)\n```"
+  },
+  {
+    "task": "Implement a method to find the majority element in an array, if any.",
+    "code": "```raku\nsub majority-element(@array) {\n    my %count;\n    for @array -> $element {\n        %count{$element}++;\n    }\n    for %count.kv -> $key, $value {\n        return $key if $value > @array.elems / 2;\n    }\n    return Nil;\n}\n\nmy @array = <1 2 3 2 2 2 5 2>;\nsay majority-element(@array);\n```"
+  },
+  {
+    "task": "Write a script to split an array into chunks of a given size.",
+    "code": "```raku\nsub chunk-array(@array, $chunk-size) {\n    my @chunks;\n    for @array.rotor($chunk-size => -1) -> @chunk {\n        @chunks.push(@chunk);\n    }\n    return @chunks;\n}\n\nmy @array = 1..10;\nmy $chunk-size = 3;\nmy @result = chunk-array(@array, $chunk-size);\nsay @result;\n```"
+  },
+  {
+    "task": "Create a program to calculate the difference between the largest and smallest values in an array.",
+    "code": "```raku\nmy @array = <10 4 5 99 23 1>;\nmy $max = @array.max;\nmy $min = @array.min;\nsay $max - $min;\n```"
+  },
+  {
+    "task": "Design a routine to find the starting index of a target subarray in a larger array.",
+    "code": "```raku\nsub find-subarray-index(@array, @subarray) {\n    for @array.kv -> $i, $elem {\n        return $i if @array[$i ..^ $i + @subarray.elems] eqv @subarray;\n    }\n    return Nil;\n}\n\nmy @array = <1 2 3 4 5 6>;\nmy @subarray = <3 4>;\n\nsay find-subarray-index(@array, @subarray); # Output: 2\n```"
+  },
+  {
+    "task": "Write a function to compress an array by eliminating zero values.",
+    "code": "```raku\nsub compress-array(@array) {\n    return @array.grep(* != 0);\n}\n\nmy @original = (1, 0, 2, 0, 3, 0, 4);\nmy @compressed = compress-array(@original);\nsay @compressed;\n```"
+  },
+  {
+    "task": "Develop a method to determine if an array can be split into two parts with equal sums.",
+    "code": "```raku\nsub can-split-array(@array) {\n    my $total-sum = @array.sum;\n    return False if $total-sum %% 2;\n\n    my $half-sum = $total-sum div 2;\n    my $current-sum = 0;\n    \n    for @array -> $element {\n        $current-sum += $element;\n        return True if $current-sum == $half-sum;\n    }\n    \n    return False;\n}\n\n# Example usage\nsay can-split-array(1, 2, 3, 4); # False\nsay can-split-array(1, 1, 1, 1, 2, 2); # True\n```"
+  },
+  {
+    "task": "Implement a function to round each element in an array to the nearest integer.",
+    "code": "```raku\nsub round-elements(@array) {\n    @array.map({ .round });\n}\n\nmy @numbers = (1.2, 2.5, 3.7, 4.4);\nmy @rounded = round-elements(@numbers);\nsay @rounded;  # Output: [1 3 4 4]\n```"
+  },
+  {
+    "task": "Create a routine to generate an array of the Fibonacci sequence up to a given number.",
+    "code": "```raku\nsub fibonacci-sequence(Int $n) {\n    my @fib = 0, 1;\n    while @fib[*-1] + @fib[*-2] <= $n {\n        @fib.append(@fib[*-1] + @fib[*-2]);\n    }\n    return @fib;\n}\n\nsay fibonacci-sequence(100);\n```"
+  },
+  {
+    "task": "Write a program to find the longest repeating sequence in an array.",
+    "code": "```raku\nsub longest-repeating-sequence(@array) {\n    my ($max-seq, $current-seq) = ((), []);\n    for ^@array.elems -> $i {\n        if $i == 0 || @array[$i] == @array[$i - 1] {\n            $current-seq.push(@array[$i]);\n        } else {\n            $current-seq = [@array[$i]];\n        }\n        $max-seq = $current-seq if $current-seq.elems > $max-seq.elems;\n    }\n    return $max-seq;\n}\n\nmy @arr = <1 2 2 3 3 3 4 4 5 5 5 5 6>;\nsay longest-repeating-sequence(@arr);\n```"
+  },
+  {
+    "task": "Design a function to multiply each element of an array by its index.",
+    "code": "```raku\nsub multiply_by_index(@array) {\n    @array.map: -> $element, $index { $element * $index }\n}\n```"
+  },
+  {
+    "task": "Create a method to convert an array of characters into a single string.",
+    "code": "```raku\nsub array-to-string(@chars) {\n    return @chars.join('');\n}\n\nmy @characters = <H e l l o>;\nsay array-to-string(@characters); # Outputs: Hello\n```"
+  },
+  {
+    "task": "Develop a function to fill an array with a specified value.",
+    "code": "```raku\nsub fill-array(@array, $value) {\n    @array .= map({ $value });\n    return @array;\n}\n\nmy @array;\n@array = fill-array(@array, 'X');\nsay @array;\n```"
+  },
+  {
+    "task": "Implement a routine to determine if an array has any duplicate elements.",
+    "code": "```raku\nsub has-duplicates(@array) {\n    return @array.elems != @array.unique.elems;\n}\n\nmy @test-array = <1 2 3 4 5 6 1>;\nsay has-duplicates(@test-array); # Output: True\n```"
+  },
+  {
+    "task": "Write a script to reverse the order of words in an array of strings.",
+    "code": "```raku\nmy @words = <one two three>;\nmy @reversed = @words.reverse;\nsay @reversed;\n```"
+  },
+  {
+    "task": "Create a function to calculate the total number of distinct elements in an array.",
+    "code": "```raku\nsub count-distinct(@array) {\n    return @array.unique.elems;\n}\n```"
+  },
+  {
+    "task": "Design a program to find the largest gap between consecutive elements in a sorted array.",
+    "code": "```raku\nsub largest-gap(@arr) {\n    return 0 if @arr.elems < 2;\n    my $max-gap = 0;\n    for @arr.kv -> $i, $value {\n        next if $i == 0;\n        my $gap = $value - @arr[$i - 1];\n        $max-gap = $gap if $gap > $max-gap;\n    }\n    return $max-gap;\n}\n\nmy @sorted-array = (1, 3, 7, 9, 12);\nsay largest-gap(@sorted-array);\n```"
+  },
+  {
+    "task": "Write a routine to perform element-wise multiplication of two arrays.",
+    "code": "```raku\nsub elementwise-multiply(@a, @b) {\n    return (@a Z* @b).flat;\n}\n\nmy @array1 = (1, 2, 3);\nmy @array2 = (4, 5, 6);\nmy @result = elementwise-multiply(@array1, @array2);\nsay @result;  # Output: (4 10 18)\n```"
+  },
+  {
+    "task": "Develop a method to split a string into an array of words.",
+    "code": "```raku\nsub split-into-words(Str $input) {\n    return $input.split(' ');\n}\n\nmy $sentence = \"Develop a method to split a string into an array of words.\";\nmy @words = split-into-words($sentence);\nsay @words;\n```"
+  },
+  {
+    "task": "Implement a function to find the longest contiguous subarray with a sum less than a target.",
+    "code": "```raku\nsub longest-subarray(@arr, $target) {\n    my $max-length = 0;\n    my $start = 0;\n    my $current-sum = 0;\n\n    for ^@arr.elems -> $end {\n        $current-sum += @arr[$end];\n\n        while $current-sum >= $target {\n            $current-sum -= @arr[$start];\n            $start++;\n        }\n\n        $max-length = max($max-length, $end - $start + 1);\n    }\n\n    return $max-length;\n}\n\n# Example usage\nsay longest-subarray([1, 2, 3, 4, 5], 10); # Output: 3\n```"
+  },
+  {
+    "task": "Create a script to rotate a 2D array (matrix) 180 degrees.",
+    "code": "```raku\nsub rotate-180(@matrix) {\n    @matrix.reverse.map({ .reverse }).map(*.join(' ')).join(\"\\n\");\n}\n\nmy @matrix = (\n    [1, 2, 3],\n    [4, 5, 6],\n    [7, 8, 9]\n);\n\nsay rotate-180(@matrix);\n```"
+  },
+  {
+    "task": "Write a program to convert an array of binary digits to its decimal equivalent.",
+    "code": "```raku\nmy @binary = <1 0 1 1>;\nmy $decimal = [+] map { @binary[*-$_] * 2**($_-1) }, 1..@binary.elems;\nsay $decimal;\n```"
+  },
+  {
+    "task": "Design a function to return a new array with elements squared from the input array.",
+    "code": "```raku\nsub square-elements(@input-array) {\n    return @input-array.map(* ** 2);\n}\n```"
+  },
+  {
+    "task": "Create a method to check if all elements in an array are unique.",
+    "code": "```raku\nsub all-unique(@array) {\n    @array.elems == @array.unique.elems;\n}\n\n# Example usage:\nmy @example = (1, 2, 3, 4, 5);\nsay all-unique(@example); # True\n\n@another-example = (1, 2, 2, 3, 4);\nsay all-unique(@another-example); # False\n```"
+  },
+  {
+    "task": "Develop a routine to find the indices of all occurrences of a specific element in an array.",
+    "code": "```raku\nsub find-indices(@array, $element) {\n    @array.kv.grep({ .value eq $element }).map({ .key });\n}\n\nmy @array = <a b c a d e a>;\nmy $element = 'a';\nmy @indices = find-indices(@array, $element);\nsay @indices; # Output: (0 3 6)\n```"
+  },
+  {
+    "task": "Implement a function to merge multiple arrays into one.",
+    "code": "```raku\nsub merge-arrays(@arrays) {\n    return @arrays.flat;\n}\n\nmy @array1 = (1, 2, 3);\nmy @array2 = (4, 5, 6);\nmy @array3 = (7, 8, 9);\n\nmy @merged = merge-arrays(@array1, @array2, @array3);\nsay @merged;\n```"
+  },
+  {
+    "task": "Write a script to convert an array of integers into a formatted string.",
+    "code": "```raku\nmy @integers = 1, 2, 3, 4, 5;\nmy $formatted-string = @integers.join(', ');\nsay $formatted-string;\n```"
+  },
+  {
+    "task": "Create a program to find the largest sum of any contiguous subarray.",
+    "code": "```raku\nsub max-subarray-sum(@array) {\n    my $max-so-far = @array[0];\n    my $max-ending-here = @array[0];\n    \n    for @array[1..*] -> $value {\n        $max-ending-here = $value max ($max-ending-here + $value);\n        $max-so-far = $max-so-far max $max-ending-here;\n    }\n    \n    return $max-so-far;\n}\n\nmy @input = <1 -3 2 1 -1 3 -2>;\nsay max-subarray-sum(@input);\n```"
+  },
+  {
+    "task": "Design a function to compare two arrays and return the differences.",
+    "code": "```raku\nsub compare-arrays(@array1, @array2) {\n    my @differences;\n    for @array1 -> $elem {\n        push @differences, $elem unless $elem \u2208 @array2;\n    }\n    for @array2 -> $elem {\n        push @differences, $elem unless $elem \u2208 @array1;\n    }\n    return @differences;\n}\n\nmy @a = <1 2 3 4>;\nmy @b = <3 4 5 6>;\nsay compare-arrays(@a, @b);\n```"
+  },
+  {
+    "task": "Write a method to find the longest subarray with elements in arithmetic progression.",
+    "code": "```raku\nsub longest-arithmetic-subarray(@array) {\n    return @array.elems if @array.elems \u2264 2;\n    \n    my $max-length = 2;\n    my $current-length = 2;\n    my $diff = @array[1] - @array[0];\n    \n    for 2 ..^ @array.elems -> $i {\n        if @array[$i] - @array[$i - 1] == $diff {\n            $current-length++;\n        } else {\n            $diff = @array[$i] - @array[$i - 1];\n            $current-length = 2;\n        }\n        $max-length = $current-length if $current-length > $max-length;\n    }\n    return $max-length;\n}\n\nmy @test-array = (1, 3, 5, 7, 9, 2, 4, 6, 8);\nsay longest-arithmetic-subarray(@test-array);\n```"
+  },
+  {
+    "task": "Develop a routine to remove elements from an array based on a predicate function.",
+    "code": "```raku\nsub remove-elements(@array, &predicate) {\n    @array .= grep( { !&predicate($_) } );\n}\n\nmy @numbers = 1..10;\nremove-elements(@numbers, -> $n { $n %% 2 });\nsay @numbers; # Output: [1 3 5 7 9]\n```"
+  },
+  {
+    "task": "Implement a function to determine if two arrays have any common elements.",
+    "code": "```raku\nsub arrays_have_common_elements(@array1, @array2) {\n    my %elements = @array1.map({ $_ => True }).hash;\n    for @array2 -> $elem {\n        return True if %elements{$elem}:exists;\n    }\n    return False;\n}\n\nmy @array1 = <1 2 3 4>;\nmy @array2 = <5 6 3 7>;\nsay arrays_have_common_elements(@array1, @array2); # True\n\nmy @array3 = <8 9 10>;\nsay arrays_have_common_elements(@array1, @array3); # False\n```"
+  },
+  {
+    "task": "Create a script to initialize an empty array and populate it with user input.",
+    "code": "```raku\nmy @array;\nsay \"Enter elements to populate the array, type 'done' to finish:\";\nwhile my $input = prompt(\"> \") {\n    last if $input eq 'done';\n    @array.push($input);\n}\nsay \"Array contents: @array[]\";\n```"
+  },
+  {
+    "task": "Write a program to find the maximum sum of non-adjacent elements in an array.",
+    "code": "```raku\nsub max_non_adjacent_sum(@array) {\n    my $incl = 0;\n    my $excl = 0;\n    for @array -> $num {\n        my $new_excl = $incl max $excl;\n        $incl = $excl + $num;\n        $excl = $new_excl;\n    }\n    return $incl max $excl;\n}\n\nmy @array = <3 2 5 10 7>;\nsay max_non_adjacent_sum(@array);\n```"
+  },
+  {
+    "task": "Design a function to shuffle an array randomly.",
+    "code": "```raku\nsub shuffle-array(@array) {\n    @array.sort({ rand }).list;\n}\n\nmy @original = <a b c d e>;\nmy @shuffled = shuffle-array(@original);\nsay @shuffled;\n```"
+  },
+  {
+    "task": "Create a method to generate a new array where each element is the cumulative product of the input array.",
+    "code": "```raku\nsub cumulative-product(@input) {\n    my @result;\n    my $product = 1;\n    for @input -> $elem {\n        $product *= $elem;\n        @result.push($product);\n    }\n    return @result;\n}\n```"
+  },
+  {
+    "task": "Develop a routine to find the largest element in each row of a 2D array.",
+    "code": "```raku\nmy @matrix = [\n    [1, 5, 3],\n    [9, 2, 8],\n    [4, 6, 7]\n];\n\nsub largest-in-rows(@matrix) {\n    @matrix.map({ .max });\n}\n\nmy @largest = largest-in-rows(@matrix);\nsay @largest;\n```"
+  },
+  {
+    "task": "Implement a function to count the number of negative numbers in an array.",
+    "code": "```raku\nsub count-negatives(@array) {\n    return @array.grep(* < 0).elems;\n}\n\n# Example usage:\nmy @numbers = (-3, 0, 1, -2, 4, -5);\nsay count-negatives(@numbers);  # Output: 3\n```"
+  },
+  {
+    "task": "Write a script to find the longest subarray with all distinct elements.",
+    "code": "```raku\nsub longest-distinct-subarray(@array) {\n    my %seen;\n    my $max-length = 0;\n    my $start = 0;\n    for ^@array.elems -> $end {\n        if %seen{@array[$end]}:exists && %seen{@array[$end]} >= $start {\n            $start = %seen{@array[$end]} + 1;\n        }\n        %seen{@array[$end]} = $end;\n        $max-length = $max-length max ($end - $start + 1);\n    }\n    return $max-length;\n}\n\nmy @array = <1 2 3 2 4 5 3 6 7 8>;\nsay longest-distinct-subarray(@array);\n```"
+  }
+]

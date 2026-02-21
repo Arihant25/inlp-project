@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```haskell\nmodifyFirstElement :: [Int] -> [Int]\nmodifyFirstElement [] = []\nmodifyFirstElement (_:xs) = 0 : xs\n\nmain :: IO ()\nmain = do\n    let originalArray = [1, 2, 3, 4]\n    let modifiedArray = modifyFirstElement originalArray\n    putStrLn $ \"Original array: \" ++ show originalArray\n    putStrLn $ \"Modified array: \" ++ show modifiedArray\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```haskell\nimport Data.IORef\n\nswap :: IORef a -> IORef a -> IO ()\nswap refX refY = do\n    x <- readIORef refX\n    y <- readIORef refY\n    writeIORef refX y\n    writeIORef refY x\n\nmain :: IO ()\nmain = do\n    refA <- newIORef 5\n    refB <- newIORef 10\n    putStrLn \"Before swap:\"\n    a <- readIORef refA\n    b <- readIORef refB\n    print (a, b)\n    swap refA refB\n    putStrLn \"After swap:\"\n    a' <- readIORef refA\n    b' <- readIORef refB\n    print (a', b')\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```haskell\nimport Control.DeepSeq (force)\nimport Criterion.Main\nimport System.Mem (performGC)\n\n-- Define a large data structure\ndata LargeData = LargeData [Int] deriving (Show, Eq)\n\n-- Function to manipulate data by value\nmanipulateByValue :: LargeData -> Int\nmanipulateByValue (LargeData xs) = sum xs\n\n-- Function to manipulate data by reference (in Haskell, this means not forcing evaluation)\nmanipulateByReference :: LargeData -> Int\nmanipulateByReference (LargeData xs) = sum xs\n\n-- Generate a large data structure\ngenerateLargeData :: Int -> LargeData\ngenerateLargeData n = LargeData [1..n]\n\nmain :: IO ()\nmain = do\n  let largeData = generateLargeData 1000000\n  performGC -- Ensure previous operations do not affect measurements\n\n  defaultMain\n    [ bgroup \"Parameter Passing\"\n      [ bench \"Pass by Value\" $ whnf (force . manipulateByValue) largeData\n      , bench \"Pass by Reference\" $ whnf manipulateByReference largeData\n      ]\n    ]\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```haskell\n-- Haskell uses immutable variables, so we can only demonstrate pass-by-value\ndoubleValue :: Int -> Int\ndoubleValue x = x * 2\n\nmain :: IO ()\nmain = do\n    let originalValue = 10\n    let doubledValue = doubleValue originalValue\n    putStrLn $ \"Original Value: \" ++ show originalValue\n    putStrLn $ \"Doubled Value: \" ++ show doubledValue\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```haskell\ndoubleElements :: [Int] -> [Int]\ndoubleElements xs = map (*2) xs\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```haskell\nappendChar :: String -> Char -> String\nappendChar str c = str ++ [c]\n\nmain :: IO ()\nmain = do\n    let originalString = \"Hello\"\n    let newString = appendChar originalString '!'\n    putStrLn (\"Original String: \" ++ originalString)\n    putStrLn (\"New String: \" ++ newString)\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```haskell\nimport Control.Monad.State\n\nincrementCounter :: State Int ()\nincrementCounter = modify (+1)\n\nmain :: IO ()\nmain = do\n    let initialCounter = 0\n    let ((), finalCounter) = runState (replicateM_ 10 incrementCounter) initialCounter\n    print finalCounter\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nremoveItem :: Ord k => k -> Map.Map k v -> Map.Map k v\nremoveItem key dict = Map.delete key dict\n\nmain :: IO ()\nmain = do\n    let originalDict = Map.fromList [(1, \"a\"), (2, \"b\"), (3, \"c\")]\n    let modifiedDict = removeItem 2 originalDict\n    putStrLn \"Original Dictionary:\"\n    print originalDict\n    putStrLn \"Modified Dictionary:\"\n    print modifiedDict\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```haskell\ntransposeMatrix :: [[a]] -> [[a]]\ntransposeMatrix ([]:_) = []\ntransposeMatrix x = map head x : transposeMatrix (map tail x)\n\nmain :: IO ()\nmain = do\n    let originalMatrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n    let transposedMatrix = transposeMatrix originalMatrix\n    putStrLn \"Original Matrix:\"\n    print originalMatrix\n    putStrLn \"Transposed Matrix:\"\n    print transposedMatrix\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```haskell\nroundFloat :: Float -> Int\nroundFloat x = round x\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```haskell\nimport Data.IORef\nimport qualified Data.Map as Map\n\naddKeyValuePair :: IORef (Map.Map String String) -> String -> String -> IO ()\naddKeyValuePair dictRef key value = do\n    dict <- readIORef dictRef\n    let newDict = Map.insert key value dict\n    writeIORef dictRef newDict\n\nmain :: IO ()\nmain = do\n    let initialDict = Map.empty\n    dictRef <- newIORef initialDict\n    addKeyValuePair dictRef \"newKey\" \"newValue\"\n    updatedDict <- readIORef dictRef\n    print updatedDict\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```haskell\nimport Data.Char (toUpper)\n\nconvertToUpper :: String -> String\nconvertToUpper = map toUpper\n\nmain :: IO ()\nmain = do\n    let original = \"hello, world\"\n    let uppercased = convertToUpper original\n    putStrLn $ \"Original: \" ++ original\n    putStrLn $ \"Uppercased: \" ++ uppercased\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```haskell\n-- Haskell uses immutable data structures and does not allow modification of tuples directly\n\nmodifyTuple :: (Int, Int) -> (Int, Int)\nmodifyTuple (x, y) = (x + 1, y)\n\nmain :: IO ()\nmain = do\n    let originalTuple = (5, 10)\n    let modifiedTuple = modifyTuple originalTuple\n    putStrLn $ \"Original Tuple: \" ++ show originalTuple\n    putStrLn $ \"Modified Tuple: \" ++ show modifiedTuple\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```haskell\n{-# LANGUAGE DuplicateRecordFields #-}\n\ndata Person = Person { name :: String, age :: Int } deriving Show\n\nmodifyAge :: Person -> Int -> Person\nmodifyAge person newAge = person { age = newAge }\n\nmain :: IO ()\nmain = do\n    let originalPerson = Person { name = \"Alice\", age = 30 }\n    let modifiedPerson = modifyAge originalPerson 35\n    putStrLn $ \"Original Person: \" ++ show originalPerson\n    putStrLn $ \"Modified Person: \" ++ show modifiedPerson\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```haskell\nsumArray :: [Int] -> Int\nsumArray arr = sum arr\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```haskell\ntoggleFlag :: IORef Bool -> IO ()\ntoggleFlag flagRef = do\n    currentValue <- readIORef flagRef\n    writeIORef flagRef (not currentValue)\n\nmain :: IO ()\nmain = do\n    flag <- newIORef True\n    putStrLn \"Initial flag value:\"\n    readIORef flag >>= print\n    toggleFlag flag\n    putStrLn \"Flag value after toggle:\"\n    readIORef flag >>= print\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```haskell\n{-# LANGUAGE DeriveGeneric #-}\n\nimport GHC.Generics (Generic)\nimport Control.DeepSeq (NFData, deepseq)\nimport Data.Aeson (FromJSON, ToJSON, decode, encode)\n\n-- Define a data type for the object\ndata MyObject = MyObject\n  { field1 :: Int\n  , field2 :: String\n  } deriving (Show, Generic)\n\ninstance NFData MyObject\ninstance FromJSON MyObject\ninstance ToJSON MyObject\n\n-- Function to clone an object using JSON encoding/decoding\ncloneObject :: MyObject -> MyObject\ncloneObject obj = case decode (encode obj) of\n  Just clonedObj -> clonedObj\n  Nothing -> error \"Cloning failed\"\n\n-- Function to modify the cloned object\nmodifyClone :: MyObject -> MyObject\nmodifyClone obj = obj { field1 = field1 obj + 1, field2 = field2 obj ++ \"!\" }\n\n-- Main function to demonstrate parameter passing and immutability\nmain :: IO ()\nmain = do\n  let original = MyObject { field1 = 42, field2 = \"Hello\" }\n  let cloned = cloneObject original\n  let modifiedClone = modifyClone cloned\n\n  -- Force evaluation to demonstrate immutability\n  original `deepseq` putStrLn (\"Original: \" ++ show original)\n  modifiedClone `deepseq` putStrLn (\"Modified Clone: \" ++ show modifiedClone)\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```haskell\nremoveEvens :: [Int] -> [Int]\nremoveEvens = filter odd\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```haskell\ndata Complex = Complex Double Double\n\nconjugate :: Complex -> Complex\nconjugate (Complex real imag) = Complex real (-imag)\n\n-- Example Usage\nmain :: IO ()\nmain = do\n    let z = Complex 3.0 4.0\n    let zConj = conjugate z\n    print z\n    print zConj\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```haskell\ndata Tree a = Empty | Node a (Tree a) (Tree a)\n\ninvertTree :: Tree a -> Tree a\ninvertTree Empty = Empty\ninvertTree (Node x left right) = Node x (invertTree right) (invertTree left)\n\n-- Example usage:\n-- let tree = Node 1 (Node 2 Empty Empty) (Node 3 Empty Empty)\n-- let invertedTree = invertTree tree\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```haskell\nimport Data.Set (Set)\nimport qualified Data.Set as Set\n\n-- Function that adds an element to a set\naddElementToSet :: Ord a => a -> Set a -> Set a\naddElementToSet element set = Set.insert element set\n\n-- Example usage:\n-- Since Haskell uses immutable data structures, the original set remains unchanged\nmain :: IO ()\nmain = do\n    let originalSet = Set.fromList [1, 2, 3]\n    let newSet = addElementToSet 4 originalSet\n    putStrLn $ \"Original set: \" ++ show originalSet\n    putStrLn $ \"New set: \" ++ show newSet\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```haskell\nimport Data.List (sort)\n\nsortArray :: [Int] -> [Int]\nsortArray arr = sort arr\n\nmain :: IO ()\nmain = do\n    let originalArray = [5, 3, 8, 1, 2]\n    let sortedArray = sortArray originalArray\n    putStrLn $ \"Original Array: \" ++ show originalArray\n    putStrLn $ \"Sorted Array: \" ++ show sortedArray\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```haskell\n{-# LANGUAGE DuplicateRecordFields #-}\n\ndata Config = Config { setting :: Bool } deriving Show\n\ntoggleSetting :: Config -> IO ()\ntoggleSetting config = do\n    let newConfig = config { setting = not (setting config) }\n    putStrLn $ \"Old Config: \" ++ show config\n    putStrLn $ \"New Config: \" ++ show newConfig\n\nmain :: IO ()\nmain = do\n    let initialConfig = Config { setting = False }\n    toggleSetting initialConfig\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```haskell\nimport System.IO\n\nreadFileContent :: FilePath -> IO String\nreadFileContent path = readFile path\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```haskell\ntype Stack a = [a]\n\nreverseStack :: Stack a -> Stack a\nreverseStack = reverse\n\nmain :: IO ()\nmain = do\n    let stack = [1, 2, 3, 4, 5]\n    let reversedStack = reverseStack stack\n    print reversedStack\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```haskell\nimport Data.IORef\nimport Data.Maybe (fromMaybe)\n\ntype Queue a = ([a], [a])\n\ndequeue :: IORef (Queue a) -> IO (Maybe a)\ndequeue queueRef = do\n    (front, rear) <- readIORef queueRef\n    case (front, rear) of\n        ([], [])     -> return Nothing\n        ([], _)      -> do\n            let (x:xs) = reverse rear\n            writeIORef queueRef (xs, [])\n            return (Just x)\n        (x:xs, rear) -> do\n            writeIORef queueRef (xs, rear)\n            return (Just x)\n\nshowResult :: IORef (Queue a) -> IO (Maybe a)\nshowResult = dequeue\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```haskell\nimport qualified Data.Map as Map\n\nupdateValue :: Ord k => k -> v -> Map.Map k v -> Map.Map k v\nupdateValue key newValue hashmap = Map.insert key newValue hashmap\n\nmain :: IO ()\nmain = do\n    let hashmap = Map.fromList [(\"key1\", 1), (\"key2\", 2)]\n    let updatedHashmap = updateValue \"key1\" 10 hashmap\n    putStrLn $ \"Original Hashmap: \" ++ show hashmap\n    putStrLn $ \"Updated Hashmap: \" ++ show updatedHashmap\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nimport Data.Aeson\nimport Data.HashMap.Strict as HM\nimport Data.Text\n\naddProperty :: Text -> Value -> Value -> Value\naddProperty key value (Object obj) = Object $ HM.insert key value obj\naddProperty _ _ val = val\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport qualified Data.Set as Set\n\ntype Node = String\ntype Graph = Map.Map Node (Set.Set Node)\n\naddNode :: Node -> Graph -> Graph\naddNode newNode graph = Map.insert newNode Set.empty graph\n\n-- Example usage:\nmain :: IO ()\nmain = do\n    let initialGraph = Map.fromList [(\"A\", Set.fromList [\"B\"]), (\"B\", Set.fromList [\"A\"])]\n    let updatedGraph = addNode \"C\" initialGraph\n    print updatedGraph\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```haskell\ntype Point = (Double, Double)\n\nshiftPoint :: Point -> (Double, Double) -> Point\nshiftPoint (x, y) (dx, dy) = (x + dx, y + dy)\n\nmain :: IO ()\nmain = do\n    let originalPoint = (3.0, 4.0)\n    let shiftAmount = (1.0, 2.0)\n    let newPoint = shiftPoint originalPoint shiftAmount\n    putStrLn $ \"Original Point: \" ++ show originalPoint\n    putStrLn $ \"Shifted Point: \" ++ show newPoint\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```haskell\ndata Date = Date { year :: Int, month :: Int, day :: Int } deriving (Show)\n\nnextDay :: Date -> Date\nnextDay (Date year month day)\n  | day < daysInMonth year month = Date year month (day + 1)\n  | month < 12 = Date year (month + 1) 1\n  | otherwise = Date (year + 1) 1 1\n\ndaysInMonth :: Int -> Int -> Int\ndaysInMonth year month\n  | month == 2 = if leapYear year then 29 else 28\n  | month `elem` [4, 6, 9, 11] = 30\n  | otherwise = 31\n\nleapYear :: Int -> Bool\nleapYear year\n  | year `mod` 400 == 0 = True\n  | year `mod` 100 == 0 = False\n  | year `mod` 4 == 0 = True\n  | otherwise = False\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```haskell\ndifferentiate :: [Int] -> [Int]\ndifferentiate [] = []\ndifferentiate (_:xs) = zipWith (*) xs [1..]\n\nmain :: IO ()\nmain = do\n    let originalPoly = [3, 6, 2, 4] -- Represents 3 + 6x + 2x^2 + 4x^3\n    let differentiatedPoly = differentiate originalPoly\n    putStrLn $ \"Original: \" ++ show originalPoly\n    putStrLn $ \"Differentiated: \" ++ show differentiatedPoly\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```haskell\ntype Stack a = [a]\n\nclearStack :: Stack a -> Stack a\nclearStack _ = []\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```haskell\ndata LinkedList a = Node a (LinkedList a) | Empty deriving Show\n\nappendNode :: LinkedList a -> a -> LinkedList a\nappendNode Empty newVal = Node newVal Empty\nappendNode (Node val next) newVal = Node val (appendNode next newVal)\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let list = Node 1 (Node 2 (Node 3 Empty))\n    let newList = appendNode list 4\n    print newList\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```haskell\nimport Network.URI (parseURI, uriAuthority, uriRegName)\n\nextractDomainName :: String -> Maybe String\nextractDomainName url =\n  case parseURI url of\n    Just uri -> uriAuthority uri >>= return . uriRegName\n    Nothing  -> Nothing\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```haskell\nimport Data.List (delete)\nimport Data.Maybe (fromJust)\n\ntype PriorityQueue a = [(Int, a)]\n\nchangePriority :: Eq a => PriorityQueue a -> a -> Int -> PriorityQueue a\nchangePriority pq element newPriority =\n    let oldEntry = fromJust (lookup element (map (\\(p, e) -> (e, p)) pq))\n        pqWithoutElement = delete (oldEntry, element) pq\n    in (newPriority, element) : pqWithoutElement\n\nmain :: IO ()\nmain = do\n    let pq = [(1, \"task1\"), (2, \"task2\"), (3, \"task3\")]\n    let pq' = changePriority pq \"task2\" 5\n    print pq'\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```haskell\nmodule CircularBuffer where\n\ndata CircularBuffer a = CircularBuffer [a] [a]\n\nreadElement :: CircularBuffer a -> (Maybe a, CircularBuffer a)\nreadElement (CircularBuffer [] []) = (Nothing, CircularBuffer [] [])\nreadElement (CircularBuffer [] ys) = readElement (CircularBuffer (reverse ys) [])\nreadElement (CircularBuffer (x:xs) ys) = (Just x, CircularBuffer xs ys)\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```haskell\n{-# LANGUAGE RecordWildCards #-}\n\n-- Define a record\ndata Person = Person { name :: String, age :: Int } deriving Show\n\n-- Function to update the age field\nupdateAge :: Person -> Int -> Person\nupdateAge person newAge = person { age = newAge }\n\n-- Main function\nmain :: IO ()\nmain = do\n    let originalPerson = Person { name = \"Alice\", age = 30 }\n    putStrLn $ \"Original: \" ++ show originalPerson\n    \n    -- Update the age\n    let updatedPerson = updateAge originalPerson 35\n    putStrLn $ \"Updated: \" ++ show updatedPerson\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```haskell\nnormalizeFrequencies :: [Double] -> [Double]\nnormalizeFrequencies freqs = map (/ total) freqs\n  where total = sum freqs\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```haskell\ntype Chessboard = [[Char]]\ntype Position = (Int, Int)\n\nmakeMove :: Chessboard -> Position -> Position -> Chessboard\nmakeMove board (x1, y1) (x2, y2) =\n    let piece = board !! x1 !! y1\n        updatedRow1 = take y1 (board !! x1) ++ [' '] ++ drop (y1 + 1) (board !! x1)\n        updatedRow2 = take y2 (board !! x2) ++ [piece] ++ drop (y2 + 1) (board !! x2)\n    in take x1 board ++ [updatedRow1] ++ take (x2 - x1 - 1) (drop (x1 + 1) board) ++ [updatedRow2] ++ drop (x2 + 1) board\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```haskell\ndecimalToBinary :: Int -> String\ndecimalToBinary n\n  | n < 2     = show n\n  | otherwise = decimalToBinary (n `div` 2) ++ show (n `mod` 2)\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```haskell\nmodule Main where\n\nimport qualified Data.Map as Map\n\ncountNucleotides :: String -> Map.Map Char Int\ncountNucleotides dnaSequence = foldr countNucleotide Map.empty dnaSequence\n  where\n    countNucleotide nucleotide acc = Map.insertWith (+) nucleotide 1 acc\n\nmain :: IO ()\nmain = do\n    let dnaSequence = \"AGCTAGCCTAGGCTA\"\n    let nucleotideCounts = countNucleotides dnaSequence\n    putStrLn $ \"Original DNA sequence: \" ++ dnaSequence\n    putStrLn $ \"Nucleotide counts: \" ++ show nucleotideCounts\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```haskell\n{-# LANGUAGE RecordWildCards #-}\n\ndata ShoppingCart = ShoppingCart { items :: [(String, Double)], discount :: Double }\n\napplyDiscount :: ShoppingCart -> Double -> ShoppingCart\napplyDiscount cart@ShoppingCart{..} discountRate = \n    let discountedItems = map (\\(name, price) -> (name, price * (1 - discountRate))) items\n    in cart { items = discountedItems, discount = discountRate }\n\nmain :: IO ()\nmain = do\n    let cart = ShoppingCart [(\"Apple\", 1.0), (\"Banana\", 0.5)] 0.0\n    let updatedCart = applyDiscount cart 0.1\n    print updatedCart\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```haskell\ntype Song = String\ntype Playlist = [Song]\n\naddSong :: Playlist -> Song -> Playlist\naddSong playlist song = playlist ++ [song]\n\nmain :: IO ()\nmain = do\n    let originalPlaylist = [\"Song1\", \"Song2\"]\n    let newPlaylist = addSong originalPlaylist \"Song3\"\n    putStrLn \"Original Playlist:\"\n    print originalPlaylist\n    putStrLn \"New Playlist:\"\n    print newPlaylist\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```haskell\ndata Sprite = Sprite { x :: Int, y :: Int } deriving (Show)\n\nmoveSprite :: Sprite -> Int -> Int -> Sprite\nmoveSprite sprite dx dy = sprite { x = x sprite + dx, y = y sprite + dy }\n\nmain :: IO ()\nmain = do\n    let sprite1 = Sprite 0 0\n    let movedSprite = moveSprite sprite1 5 10\n    print sprite1\n    print movedSprite\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```haskell\n{-# LANGUAGE RecordWildCards #-}\n\ndata Book = Book { title :: String } deriving (Show)\n\nupdateTitle :: Book -> String -> Book\nupdateTitle book newTitle = book { title = newTitle }\n\nmain :: IO ()\nmain = do\n    let originalBook = Book { title = \"Original Title\" }\n    putStrLn $ \"Before update: \" ++ show originalBook\n    let updatedBook = updateTitle originalBook \"New Title\"\n    putStrLn $ \"After update: \" ++ show updatedBook\n    putStrLn $ \"Original object remains unchanged: \" ++ show originalBook\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```haskell\nnormalizeSoundWave :: [Float] -> [Float]\nnormalizeSoundWave wave = map (/ maxAmplitude) wave\n  where maxAmplitude = maximum (map abs wave)\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```haskell\ndata BankAccount = BankAccount { balance :: Double } deriving Show\n\ncreditAccount :: BankAccount -> Double -> BankAccount\ncreditAccount account amount = account { balance = balance account + amount }\n\nmain :: IO ()\nmain = do\n    let account = BankAccount 100.0\n    let updatedAccount = creditAccount account 50.0\n    print updatedAccount\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```haskell\nimport Data.List (nub)\n\ntype Email = String\n\nisValidEmail :: Email -> Bool\nisValidEmail email = '@' `elem` email && '.' `elem` email\n\nfilterInvalidEmails :: [Email] -> [Email]\nfilterInvalidEmails emails = filter isValidEmail emails\n\nmain :: IO ()\nmain = do\n    let emailList = [\"valid@example.com\", \"invalidexample.com\", \"another@valid.com\", \"notvalid@com\"]\n    let filteredEmails = filterInvalidEmails emailList\n    putStrLn \"Original list:\"\n    print emailList\n    putStrLn \"Filtered list:\"\n    print filteredEmails\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```haskell\nimport Data.IORef\n\ntype Point3D = (Double, Double, Double)\ntype Model3D = [Point3D]\n\nscaleModel :: IORef Model3D -> Double -> IO ()\nscaleModel modelRef factor = do\n    model <- readIORef modelRef\n    let scaledModel = map (\\(x, y, z) -> (x * factor, y * factor, z * factor)) model\n    writeIORef modelRef scaledModel\n\nmain :: IO ()\nmain = do\n    let originalModel = [(1.0, 2.0, 3.0), (4.0, 5.0, 6.0)]\n    modelRef <- newIORef originalModel\n    print =<< readIORef modelRef\n    scaleModel modelRef 2.0\n    print =<< readIORef modelRef\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```haskell\nimport Data.Text (Text)\nimport qualified Data.Text as T\n\n-- Function to redact sensitive information\nredactSensitiveInfo :: Text -> Text\nredactSensitiveInfo document = T.unwords $ map redactWord (T.words document)\n  where\n    redactWord word\n      | isSensitive word = T.replicate (T.length word) \"*\"\n      | otherwise = word\n    isSensitive word = word `elem` sensitiveWords\n\n-- List of sensitive words (placeholder)\nsensitiveWords :: [Text]\nsensitiveWords = [\"password\", \"ssn\", \"secret\"]\n\n-- Example usage\nmain :: IO ()\nmain = do\n  let document = \"This is a secret document containing a password and ssn.\"\n  let redactedDocument = redactSensitiveInfo document\n  T.putStrLn redactedDocument\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```haskell\nadjustTemperature :: Double -> Double -> Double\nadjustTemperature reading calibration = reading + calibration\n\nmain :: IO ()\nmain = do\n    let originalReading = 25.0\n    let calibrationValue = 1.5\n    let adjustedReading = adjustTemperature originalReading calibrationValue\n    putStrLn $ \"Original Reading: \" ++ show originalReading\n    putStrLn $ \"Adjusted Reading: \" ++ show adjustedReading\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```haskell\n{-# LANGUAGE RecordWildCards #-}\n\ndata BugReport = BugReport { reportId :: Int, status :: String } deriving Show\n\nupdateBugStatus :: BugReport -> String -> IO ()\nupdateBugStatus bugReport newStatus = do\n    let updatedBugReport = bugReport { status = newStatus }\n    print updatedBugReport\n\nmain :: IO ()\nmain = do\n    let bugReport = BugReport { reportId = 1, status = \"Open\" }\n    putStrLn \"Original Bug Report:\"\n    print bugReport\n    putStrLn \"\\nUpdating Bug Report Status...\"\n    updateBugStatus bugReport \"Closed\"\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```haskell\nimport Data.IORef\n\ntype SensorArray = IORef [Double]\n\ncalibrateSensor :: SensorArray -> IO ()\ncalibrateSensor sensorsRef = do\n    sensors <- readIORef sensorsRef\n    let calibratedSensors = map (+1.0) sensors\n    writeIORef sensorsRef calibratedSensors\n\nmain :: IO ()\nmain = do\n    sensors <- newIORef [10.0, 20.0, 30.0, 40.0]\n    putStrLn \"Original sensor values:\"\n    readIORef sensors >>= print\n    \n    calibrateSensor sensors\n\n    putStrLn \"Calibrated sensor values:\"\n    readIORef sensors >>= print\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```haskell\nrotateVector :: [a] -> [a]\nrotateVector [] = []\nrotateVector (x:xs) = xs ++ [x]\n\nmain :: IO ()\nmain = do\n    let originalVector = [1, 2, 3, 4, 5]\n    let rotatedVector = rotateVector originalVector\n    print originalVector\n    print rotatedVector\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```haskell\ncompressLog :: [String] -> [String]\ncompressLog [] = []\ncompressLog (x:xs) = compress x xs []\n  where\n    compress current [] acc = reverse (current:acc)\n    compress current (y:ys) acc\n      | current == y = compress current ys acc\n      | otherwise    = compress y ys (current:acc)\n\nmain :: IO ()\nmain = do\n  let operationLog = [\"start\", \"start\", \"update\", \"update\", \"end\", \"end\"]\n  let compressedLog = compressLog operationLog\n  print compressedLog\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```haskell\nmodule Main where\n\nimport Control.Monad.ST\nimport Data.STRef\n\ntype Model = [Double]\n\nupdateWeights :: STRef s Model -> [Double] -> ST s ()\nupdateWeights modelRef newWeights = do\n    model <- readSTRef modelRef\n    let updatedModel = zipWith (+) model newWeights\n    writeSTRef modelRef updatedModel\n\nmain :: IO ()\nmain = do\n    let initialModel = [0.1, 0.2, 0.3]\n    let newWeights = [0.01, 0.01, 0.01]\n    let updatedModel = runST $ do\n            modelRef <- newSTRef initialModel\n            updateWeights modelRef newWeights\n            readSTRef modelRef\n    print updatedModel\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```haskell\nimport Data.IORef\n\ntype Command = IO ()  -- Define a Command as an IO action\ntype CommandHistory = [Command]\n\nrevertLastCommand :: IORef CommandHistory -> IO ()\nrevertLastCommand historyRef = do\n    history <- readIORef historyRef\n    case history of\n        [] -> return ()\n        (_:rest) -> writeIORef historyRef rest\n\n-- Example usage:\n-- main :: IO ()\n-- main = do\n--     historyRef <- newIORef []\n--     let cmd1 = putStrLn \"Command 1\"\n--     let cmd2 = putStrLn \"Command 2\"\n--     modifyIORef historyRef (cmd1 :)\n--     modifyIORef historyRef (cmd2 :)\n--     revertLastCommand historyRef\n--     finalHistory <- readIORef historyRef\n--     sequence_ finalHistory\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```haskell\ndata UserProfile = UserProfile {\n    name :: String,\n    email :: String,\n    age :: Int\n} deriving (Show)\n\nanonymizeProfile :: UserProfile -> UserProfile\nanonymizeProfile profile = profile { name = \"Anonymous\", email = \"anonymous@example.com\" }\n\n-- Usage example:\n-- let originalProfile = UserProfile \"John Doe\" \"john@example.com\" 30\n-- let anonymizedProfile = anonymizeProfile originalProfile\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```haskell\nevaluatePolynomial :: [Double] -> Double -> Double\nevaluatePolynomial coeffs x = sum $ zipWith (*) coeffs (map (x^) [0..])\n\nmain :: IO ()\nmain = do\n  let polynomial = [1, 0, -2, 3] -- Represents 1 - 2x^2 + 3x^3\n  let point = 2.0\n  print $ evaluatePolynomial polynomial point\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```haskell\nimport Data.IORef\nimport Control.Monad (forM_)\n\ntype VideoStream = IORef [String] -- Simulating a video stream as a list of frames\n\napplyFilter :: VideoStream -> IO ()\napplyFilter stream = do\n    frames <- readIORef stream\n    let filteredFrames = map (\"Filtered: \" ++) frames\n    writeIORef stream filteredFrames\n\nmain :: IO ()\nmain = do\n    let initialFrames = [\"Frame1\", \"Frame2\", \"Frame3\"]\n    videoStream <- newIORef initialFrames\n    \n    putStrLn \"Original Stream:\"\n    readIORef videoStream >>= print\n    \n    applyFilter videoStream\n    \n    putStrLn \"\\nFiltered Stream:\"\n    readIORef videoStream >>= print\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```haskell\nimport Data.List (sortBy)\nimport Data.Function (on)\n\ndata Task = Task { taskName :: String, priority :: Int }\n\nreorderTasks :: [Task] -> IO ()\nreorderTasks tasksRef = do\n    let sortedTasks = sortBy (compare `on` priority) tasksRef\n    putStrLn \"Original task queue:\"\n    mapM_ (putStrLn . taskName) tasksRef\n    putStrLn \"\\nReordered task queue:\"\n    mapM_ (putStrLn . taskName) sortedTasks\n\nmain :: IO ()\nmain = do\n    let tasks = [Task \"Task1\" 3, Task \"Task2\" 1, Task \"Task3\" 2]\n    reorderTasks tasks\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```haskell\ntype Transaction = (String, Double) -- (recipient, amount)\ntype Block = [Transaction]\ntype Blockchain = [Block]\n\nverifyTransaction :: Blockchain -> Transaction -> Bool\nverifyTransaction blockchain transaction = any (elem transaction) blockchain\n\nmain :: IO ()\nmain = do\n    let blockchain = [[(\"Alice\", 50.0), (\"Bob\", 20.0)], [(\"Charlie\", 30.0)]]\n    let transaction = (\"Alice\", 50.0)\n    print $ verifyTransaction blockchain transaction\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```haskell\nimport Data.IORef\nimport Data.List (find)\nimport Control.Monad (when)\n\ntype Player = String\ntype Score = Int\ntype Leaderboard = IORef [(Player, Score)]\n\nupdateScore :: Leaderboard -> Player -> Score -> IO ()\nupdateScore leaderboardRef player newScore = do\n    leaderboard <- readIORef leaderboardRef\n    let updatedLeaderboard = map (\\(p, s) -> if p == player then (p, s + newScore) else (p, s)) leaderboard\n    writeIORef leaderboardRef updatedLeaderboard\n\nmain :: IO ()\nmain = do\n    leaderboard <- newIORef [(\"Alice\", 10), (\"Bob\", 20), (\"Charlie\", 15)]\n    \n    putStrLn \"Original leaderboard:\"\n    readIORef leaderboard >>= print\n    \n    updateScore leaderboard \"Bob\" 5\n    \n    putStrLn \"Updated leaderboard:\"\n    readIORef leaderboard >>= print\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```haskell\nadjustTimeline :: [Int] -> Int -> [Int]\nadjustTimeline timeline delay = map (+ delay) timeline\n\nmain :: IO ()\nmain = do\n  let originalTimeline = [5, 10, 15, 20]\n  let delay = 3\n  let adjustedTimeline = adjustTimeline originalTimeline delay\n  putStrLn $ \"Original Timeline: \" ++ show originalTimeline\n  putStrLn $ \"Adjusted Timeline: \" ++ show adjustedTimeline\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```haskell\nimport Data.IORef\n\ntype Task = String\ntype ToDoList = [Task]\n\ncompleteTask :: IORef ToDoList -> Task -> IO ()\ncompleteTask todoListRef task = do\n    todoList <- readIORef todoListRef\n    let updatedList = filter (/= task) todoList\n    writeIORef todoListRef updatedList\n\nmain :: IO ()\nmain = do\n    let initialList = [\"Task 1\", \"Task 2\", \"Task 3\"]\n    todoListRef <- newIORef initialList\n    putStrLn \"Before completing a task:\"\n    readIORef todoListRef >>= print\n    completeTask todoListRef \"Task 2\"\n    putStrLn \"After completing a task:\"\n    readIORef todoListRef >>= print\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```haskell\ntype Canvas = [String]\ntype Layer = String\n\naddLayer :: Canvas -> Layer -> Canvas\naddLayer canvas layer = canvas ++ [layer]\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let canvas = [\"background\"]\n    let newCanvas = addLayer canvas \"foreground\"\n    print newCanvas\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```haskell\nimport Network.HTTP.Conduit (simpleHttp)\nimport qualified Data.ByteString.Lazy.Char8 as L8\n\nfetchContentsByValue :: [String] -> IO [L8.ByteString]\nfetchContentsByValue urls = do\n    fetchedContents <- mapM simpleHttp urls\n    let modifiedUrls = map (++ \"?modified\") urls\n    putStrLn \"Modified URLs (pass-by-value):\"\n    print modifiedUrls\n    return fetchedContents\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```haskell\nimport Data.IORef\n\ntype Board = [[Int]]\n\nresetBoard :: IORef Board -> IO ()\nresetBoard boardRef = writeIORef boardRef (replicate 3 (replicate 3 0))\n\nmain :: IO ()\nmain = do\n    boardRef <- newIORef [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n    putStrLn \"Original Board:\"\n    readIORef boardRef >>= print\n\n    resetBoard boardRef\n\n    putStrLn \"Reset Board:\"\n    readIORef boardRef >>= print\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```haskell\nmodule SoundEffect where\n\ndata SoundEffect = SoundEffect { volume :: Int }\n\nincreaseVolume :: SoundEffect -> SoundEffect\nincreaseVolume sound = sound { volume = volume sound + 10 }\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```haskell\nmodule WeatherForecast where\n\ntype Temperature = Double\ntype Forecast = [Temperature]\n\nupdateTemperaturePredictions :: Forecast -> Temperature -> Forecast\nupdateTemperaturePredictions forecast delta = map (+ delta) forecast\n\nmain :: IO ()\nmain = do\n    let forecast = [20.0, 21.5, 19.0, 22.3]\n    let updatedForecast = updateTemperaturePredictions forecast 1.5\n    print updatedForecast\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```haskell\ntype Log = [String]\ntype ErrorMessages = [String]\n\nextractErrors :: Log -> ErrorMessages\nextractErrors log = filter isError log\n  where\n    isError :: String -> Bool\n    isError message = \"ERROR\" `isInfixOf` message\n\n-- Example usage\nmain :: IO ()\nmain = do\n  let systemLog = [\"INFO: System started\", \"ERROR: Disk full\", \"WARNING: Low memory\"]\n  let errors = extractErrors systemLog\n  putStrLn \"Error Messages:\"\n  mapM_ putStrLn errors\n  putStrLn \"\\nOriginal Log:\"\n  mapM_ putStrLn systemLog\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```haskell\nmodule Main where\n\nimport Data.Char (chr, ord)\n\ntype DataPacket = String\n\nencrypt :: DataPacket -> DataPacket\nencrypt packet = map shiftChar packet\n  where\n    shiftChar c = chr ((ord c + 3) `mod` 256)\n\nmain :: IO ()\nmain = do\n    let originalPacket = \"Hello, World!\"\n    let encryptedPacket = encrypt originalPacket\n    putStrLn $ \"Original Packet: \" ++ originalPacket\n    putStrLn $ \"Encrypted Packet: \" ++ encryptedPacket\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```haskell\n-- Define a data type for Theme\ndata Theme = Theme { color :: String } deriving (Show)\n\n-- Function to apply a color change\napplyColorChange :: Theme -> String -> Theme\napplyColorChange theme newColor = theme { color = newColor }\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let originalTheme = Theme { color = \"Blue\" }\n    let modifiedTheme = applyColorChange originalTheme \"Red\"\n    putStrLn (\"Original Theme: \" ++ show originalTheme)\n    putStrLn (\"Modified Theme: \" ++ show modifiedTheme)\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```haskell\nimport Crypto.Hash\nimport Crypto.PubKey.ECC.ECDSA\nimport Crypto.PubKey.ECC.Generate\nimport Crypto.PubKey.ECC.Types\nimport Crypto.PubKey.ECC.Prim\nimport Crypto.Error\n\n-- Function to verify a digital signature\nverifySignature :: PublicKey -> Signature -> Digest SHA256 -> Bool\nverifySignature pubKey signature digest =\n    verify SHA256 pubKey signature digest\n\nmain :: IO ()\nmain = do\n    -- Example parameters (normally you would obtain these from a real source)\n    let curve = getCurveByName SEC_p256r1\n    let pubKey = PublicKey curve (Point 0 0) -- Placeholder, use a real public key\n    let signature = Signature 0 0           -- Placeholder, use a real signature\n    let digest = hashWith SHA256 (\"message\" :: ByteString)\n\n    -- Verify the signature\n    let result = verifySignature pubKey signature digest\n    print result\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```haskell\nimport Data.List\n\noptimizePath :: [String] -> [String]\noptimizePath = foldl' optimize []\n\noptimize :: [String] -> String -> [String]\noptimize acc \"UP\" \n  | not (null acc) && last acc == \"DOWN\" = init acc\n  | otherwise = acc ++ [\"UP\"]\noptimize acc \"DOWN\"\n  | not (null acc) && last acc == \"UP\" = init acc\n  | otherwise = acc ++ [\"DOWN\"]\noptimize acc \"LEFT\"\n  | not (null acc) && last acc == \"RIGHT\" = init acc\n  | otherwise = acc ++ [\"LEFT\"]\noptimize acc \"RIGHT\"\n  | not (null acc) && last acc == \"LEFT\" = init acc\n  | otherwise = acc ++ [\"RIGHT\"]\noptimize acc move = acc ++ [move]\n\nmain :: IO ()\nmain = do\n  let path = [\"UP\", \"DOWN\", \"LEFT\", \"RIGHT\", \"UP\", \"UP\", \"DOWN\"]\n  let optimizedPath = optimizePath path\n  print optimizedPath\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```haskell\nimport System.Random\nimport Control.Monad.State\n\ntype Playlist = [String]\n\nshuffle :: Playlist -> IO Playlist\nshuffle playlist = do\n    gen <- getStdGen\n    let shuffled = evalState (shuffleM playlist) gen\n    return shuffled\n\nshuffleM :: [a] -> State StdGen [a]\nshuffleM [] = return []\nshuffleM xs = do\n    gen <- get\n    let (n, newGen) = randomR (0, length xs - 1) gen\n    put newGen\n    let (left, (a:right)) = splitAt n xs\n    rest <- shuffleM (left ++ right)\n    return (a : rest)\n\nmain :: IO ()\nmain = do\n    let originalPlaylist = [\"Song1\", \"Song2\", \"Song3\", \"Song4\", \"Song5\"]\n    putStrLn \"Original Playlist:\"\n    print originalPlaylist\n    shuffledPlaylist <- shuffle originalPlaylist\n    putStrLn \"Shuffled Playlist:\"\n    print shuffledPlaylist\n    putStrLn \"Original Playlist after shuffle (showing pass-by-reference effect):\"\n    print originalPlaylist\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```haskell\nimport Data.List (nub)\n\nremoveDuplicates :: Eq a => [a] -> [a]\nremoveDuplicates feed = nub feed\n\nmain :: IO ()\nmain = do\n    let feed = [\"post1\", \"post2\", \"post1\", \"post3\", \"post2\"]\n    let updatedFeed = removeDuplicates feed\n    putStrLn \"Original Feed:\"\n    print feed\n    putStrLn \"Updated Feed with Duplicates Removed:\"\n    print updatedFeed\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```haskell\ntype Challenge = String\ntype TestCases = [String]\n\naddTestCases :: Challenge -> IO ()\naddTestCases challenge = do\n    let testCases = generateTestCases challenge\n    putStrLn $ \"Original Challenge: \" ++ challenge\n    putStrLn \"Added Test Cases:\"\n    mapM_ putStrLn testCases\n\ngenerateTestCases :: Challenge -> TestCases\ngenerateTestCases challenge = \n    [\"Test case 1 for: \" ++ challenge, \n     \"Test case 2 for: \" ++ challenge]\n\nmain :: IO ()\nmain = do\n    let challenge = \"Sample Coding Challenge\"\n    addTestCases challenge\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```haskell\nreverseAnimation :: [a] -> [a]\nreverseAnimation sequence = reverse sequence\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```haskell\nmodule Main where\n\ntype GPSPoint = (Double, Double)\ntype Route = [GPSPoint]\n\n-- Function to recalculate the route\nrecalculateRoute :: Route -> Route\nrecalculateRoute route = map adjustPoint route\n  where\n    adjustPoint (lat, lon) = (lat + 0.01, lon + 0.01) -- Example adjustment\n\n-- Function to illustrate impact of pass-by-reference\nillustratePassByReference :: Route -> Route\nillustratePassByReference route = recalculateRoute route\n\nmain :: IO ()\nmain = do\n  let originalRoute = [(51.5074, -0.1278), (48.8566, 2.3522), (40.7128, -74.0060)]\n  let newRoute = illustratePassByReference originalRoute\n  putStrLn \"Original Route:\"\n  print originalRoute\n  putStrLn \"New Route:\"\n  print newRoute\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```haskell\nimport Data.List (isInfixOf)\n\ntype ChatHistory = [String]\n\ncensorLanguage :: ChatHistory -> [String] -> IO ()\ncensorLanguage history bannedWords = mapM_ censor history\n  where\n    censor msg = if any (`isInfixOf` msg) bannedWords\n                 then putStrLn \"Censored\"\n                 else putStrLn msg\n\nmain :: IO ()\nmain = do\n  let chatHistory = [\"Hello there!\", \"This is inappropriate!\", \"Nice to meet you.\"]\n  let bannedWords = [\"inappropriate\"]\n  censorLanguage chatHistory bannedWords\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```haskell\ndata LightingSetup = LightingSetup { brightness :: Int } deriving Show\n\nadjustBrightness :: LightingSetup -> Int -> LightingSetup\nadjustBrightness setup newBrightness = setup { brightness = newBrightness }\n\nmain :: IO ()\nmain = do\n    let initialSetup = LightingSetup { brightness = 50 }\n    let adjustedSetup = adjustBrightness initialSetup 75\n    putStrLn $ \"Initial setup: \" ++ show initialSetup\n    putStrLn $ \"Adjusted setup: \" ++ show adjustedSetup\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```haskell\ndata VREnvironment = VREnvironment { scenery :: String } deriving Show\n\nchangeScenery :: VREnvironment -> IO ()\nchangeScenery env = do\n    putStrLn $ \"Original scenery: \" ++ scenery env\n    let newEnv = env { scenery = \"New Scenery\" }\n    putStrLn $ \"Changed scenery: \" ++ scenery newEnv\n\nmain :: IO ()\nmain = do\n    let vrEnv = VREnvironment \"Old Scenery\"\n    changeScenery vrEnv\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```haskell\ntype Block = String\ntype Ledger = [Block]\n\naddBlock :: Ledger -> Block -> Ledger\naddBlock ledger newBlock = ledger ++ [newBlock]\n\n-- Example usage:\n-- let ledger = [\"Block1\", \"Block2\"]\n-- let updatedLedger = addBlock ledger \"Block3\"\n-- The original ledger remains unchanged because Haskell uses pass-by-value (immutability).\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```haskell\ntype Packet = (String, String)  -- (Header, Payload)\n\nalterHeaders :: Packet -> Packet\nalterHeaders (header, payload) = (newHeader, payload)\n  where newHeader = \"Altered: \" ++ header\n\nmain :: IO ()\nmain = do\n    let packet = (\"OriginalHeader\", \"DataPayload\")\n    let alteredPacket = alterHeaders packet\n    print (\"Original Packet: \" ++ show packet)\n    print (\"Altered Packet: \" ++ show alteredPacket)\n```"
+  }
+]

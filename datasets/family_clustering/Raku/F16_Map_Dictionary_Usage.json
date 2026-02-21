@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```raku\nmy %grades = (\n    'Alice' => 85,\n    'Bob' => 92,\n    'Charlie' => 78,\n    'Diana' => 90,\n    'Ethan' => 88\n);\n\nmy $average-grade = %grades.values.sum / %grades.elems;\nsay \"The average grade is: $average-grade\";\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```raku\nsub total-cost(%products) {\n    return [+] %products.values;\n}\n\nmy %product-prices = 'Apple' => 1.20, 'Banana' => 0.50, 'Cherry' => 2.00;\nsay total-cost(%product-prices); # Output: 3.70\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```raku\nmy $text = \"This is a sample text with several words. This text is just a sample.\";\n\nmy %word-frequency;\nfor $text.words -> $word {\n    %word-frequency{$word}++;\n}\n\nfor %word-frequency.kv -> $word, $count {\n    say \"$word: $count\";\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```raku\nsub employee-with-most-hours(%work-hours) {\n    %work-hours.keys.max: { %work-hours{$_} }\n}\n\nmy %employee-hours = (\n    'E001' => 35,\n    'E002' => 40,\n    'E003' => 25,\n    'E004' => 45\n);\n\nsay employee-with-most-hours(%employee-hours);\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```raku\nclass UserAccount {\n    has Str $.username;\n    has Int $.failed-attempts = 0;\n    has Bool $.locked = False;\n    has Map $.attempts-log = Map.new;\n\n    method login(Str $password) {\n        if $.locked {\n            say \"Account is locked.\";\n            return;\n        }\n        \n        if self.check-password($password) {\n            $.failed-attempts = 0;\n            $.attempts-log = Map.new;\n            say \"Login successful.\";\n        } else {\n            $.failed-attempts++;\n            $.attempts-log{$*TIMESTAMP.Str} = \"Failed attempt\";\n            if $.failed-attempts >= 3 {\n                $.locked = True;\n                say \"Account locked due to too many failed attempts.\";\n            } else {\n                say \"Login failed. Attempt {$.failed-attempts}/3.\";\n            }\n        }\n    }\n\n    method check-password(Str $password) {\n        # Placeholder for password verification logic\n        return False;\n    }\n}\n\nmy UserAccount $user .= new(username => \"example_user\");\n$user.login(\"wrong_password\");\n$user.login(\"wrong_password\");\n$user.login(\"wrong_password\");\n$user.login(\"wrong_password\");\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```raku\nmy %phonebook;\n\nsub add-contact(Str $name, Str $number) {\n    %phonebook{$name} = $number;\n}\n\nsub remove-contact(Str $name) {\n    %phonebook{$name}:delete;\n}\n\nsub lookup-contact(Str $name) {\n    return %phonebook{$name} // \"Contact not found\";\n}\n\n# Example usage\nadd-contact(\"Alice\", \"123-456-7890\");\nadd-contact(\"Bob\", \"987-654-3210\");\n\nsay lookup-contact(\"Alice\"); # Outputs: 123-456-7890\nremove-contact(\"Alice\");\nsay lookup-contact(\"Alice\"); # Outputs: Contact not found\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```raku\nmy %city-population = (\n    'New York'   => 8419600,\n    'Los Angeles'=> 3980400,\n    'Chicago'    => 2716000,\n    'Houston'    => 2328000,\n    'Phoenix'    => 1690000\n);\n\nmy $city-with-highest-population = %city-population.keys.max: { %city-population{$_} };\nsay $city-with-highest-population;\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```raku\nmy %dictionary = (\n    'hello' => 'hola',\n    'world' => 'mundo',\n    'good'  => 'bueno',\n    'morning' => 'ma\u00f1ana'\n);\n\nsub translate-sentence($sentence) {\n    return $sentence.split(' ').map({ %dictionary{$_} // $_ }).join(' ');\n}\n\nmy $english-sentence = \"hello world good morning\";\nmy $translated-sentence = translate-sentence($english-sentence);\n\nsay $translated-sentence;\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```raku\nmy %books = (\n    '1984' => 'George Orwell',\n    'Animal Farm' => 'George Orwell',\n    'Brave New World' => 'Aldous Huxley',\n    'Fahrenheit 451' => 'Ray Bradbury',\n);\n\nsub find-books-by-author(%books, $author) {\n    return %books.keys.grep({ %books{$_} eq $author });\n}\n\nmy @orwell-books = find-books-by-author(%books, 'George Orwell');\nsay @orwell-books;\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```raku\nmy %stock = (\n    'product1' => 100,\n    'product2' => 150,\n    'product3' => 200,\n);\n\nsub update-stock($product-id, $sold-quantity) {\n    %stock{$product-id} -= $sold-quantity if %stock{$product-id}:exists;\n}\n\n# Example usage\nupdate-stock('product1', 10);\nsay %stock<product1>; # Output will be 90\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```raku\nmy %country-code-to-name = 'US' => 'United States', 'CA' => 'Canada', 'FR' => 'France', 'DE' => 'Germany';\n\nmy $code = 'US'; # Example country code\nsay %country-code-to-name{$code} // 'Unknown country code';\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```raku\nmy %students = 101 => 'Alice', 102 => 'Bob', 103 => 'Charlie';\n\nsub get-student-name($id) {\n    return %students{$id} // 'Student ID not found';\n}\n\nsay get-student-name(101);  # Outputs: Alice\nsay get-student-name(105);  # Outputs: Student ID not found\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```raku\nmy %config-settings = (\n    'app-name' => 'SampleApp',\n    'version' => '1.0',\n    'debug-mode' => False,\n);\n\nsub update-setting(Str $key, $value) {\n    %config-settings{$key} = $value;\n}\n\nsub get-setting(Str $key) {\n    return %config-settings{$key};\n}\n\n# Example usage:\nupdate-setting('version', '1.1');\nsay get-setting('version'); # Outputs: 1.1\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```raku\nmy %dictionary = (\n    'apple' => 'A fruit that is typically red, green, or yellow.',\n    'banana' => 'A long curved fruit that grows in clusters and has soft pulpy flesh.',\n    'cherry' => 'A small, round stone fruit that is typically bright or dark red.',\n    'date' => 'The sweet fruit of a tropical palm tree.',\n    'elderberry' => 'A berry from the elder tree, used in making wines and syrups.',\n);\n\nsub display-words-starting-with(Str $letter) {\n    for %dictionary.keys.grep({ .starts-with($letter.lc) }) -> $word {\n        say $word;\n    }\n}\n\ndisplay-words-starting-with('a');\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```raku\nmy %credentials = (\n    'user1' => 'password1',\n    'user2' => 'password2',\n    'user3' => 'password3'\n);\n\nsub verify-login($username, $password) {\n    if %credentials{$username}:exists && %credentials{$username} eq $password {\n        say \"Login successful for $username.\";\n    } else {\n        say \"Login failed for $username.\";\n    }\n}\n\nverify-login('user1', 'password1'); # Output: Login successful for user1.\nverify-login('user2', 'wrongpassword'); # Output: Login failed for user2.\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```raku\nmy %purchases;\n%purchases{'apple'} = 4;\n%purchases{'banana'} = 2;\n%purchases{'orange'} = 5;\n%purchases{'grape'} = 3;\n\nmy $most-popular-item = %purchases.keys.sort({ %purchases{$_} }).reverse[0];\nsay \"The most popular item is: $most-popular-item\";\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```raku\nmy %file-associations = (\n    'txt'  => 'Text Editor',\n    'jpg'  => 'Image Viewer',\n    'png'  => 'Image Viewer',\n    'pdf'  => 'PDF Reader',\n    'docx' => 'Word Processor',\n);\n\nsub open-file($filename) {\n    my $extension = $filename.split('.').[*-1];\n    if %file-associations{$extension}:exists {\n        say \"Open $filename with \" ~ %file-associations{$extension};\n    } else {\n        say \"No application associated with .$extension files.\";\n    }\n}\n\nopen-file('example.txt');\nopen-file('photo.jpg');\nopen-file('document.docx');\nopen-file('presentation.pptx');\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```raku\nmy %menu = \n    \"Burger\" => 5.99, \n    \"Fries\" => 2.49, \n    \"Soda\" => 1.99, \n    \"Salad\" => 4.99;\n\nsub calculate-total-bill(@orders) {\n    my $total = 0;\n    for @orders -> $item {\n        $total += %menu{$item} // 0;\n    }\n    return $total;\n}\n\nmy @customer-orders = <Burger Fries Soda>;\nsay \"Total Bill: \\$\" ~ calculate-total-bill(@customer-orders);\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```raku\nmy %inventory;\n\nsub add-item(Str $item, Int $quantity) {\n    %inventory{$item} += $quantity;\n}\n\nsub remove-item(Str $item, Int $quantity) {\n    %inventory{$item} -= $quantity;\n    %inventory{$item} = 0 if %inventory{$item} < 0;\n}\n\nsub check-inventory(Str $item) {\n    return %inventory{$item} // 0;\n}\n\n# Example usage:\nadd-item('widget', 10);\nsay check-inventory('widget'); # Output: 10\nremove-item('widget', 3);\nsay check-inventory('widget'); # Output: 7\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```raku\nsub roman-to-int(Str $roman) {\n    my %roman-map = 'I' => 1, 'V' => 5, 'X' => 10, 'L' => 50, 'C' => 100, 'D' => 500, 'M' => 1000;\n    my $total = 0;\n    my $prev-value = 0;\n    for $roman.comb.reverse -> $char {\n        my $value = %roman-map{$char};\n        $total += $value < $prev-value ?? -$value !! $value;\n        $prev-value = $value;\n    }\n    return $total;\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```raku\nsub count-letter-occurrences(Str $input) {\n    my %letter-count;\n    for $input.comb -> $letter {\n        %letter-count{$letter}++;\n    }\n    return %letter-count;\n}\n\nmy $string = \"example string\";\nmy %occurrences = count-letter-occurrences($string);\nfor %occurrences.kv -> $letter, $count {\n    say \"$letter: $count\";\n}\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```raku\nmy %scores = 'TeamA' => 42, 'TeamB' => 55, 'TeamC' => 63, 'TeamD' => 47;\nmy ($top-team, $top-score) = %scores.kv.maxpair({ $^b <=> $^a });\nsay \"The team with the highest score is $top-team with a score of $top-score.\";\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```raku\nsub total-weight(%items) {\n    return [+] %items.values;\n}\n\nmy %item-weights = a => 2, b => 3, c => 5;\nsay total-weight(%item-weights); # Example usage\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```raku\nmy %website-visits = (\n    'https://example.com' => 150,\n    'https://raku.org'    => 200,\n    'https://perl.org'    => 180,\n    'https://example.net' => 220\n);\n\nmy $most-visited = %website-visits.keys.max({ %website-visits{$_} });\nsay \"The most visited website is $most-visited with %website-visits{$most-visited} visits.\";\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```raku\nmy %error-messages = (\n    404 => \"Not Found\",\n    500 => \"Internal Server Error\",\n    403 => \"Forbidden\",\n    200 => \"OK\"\n);\n\nmy $error-code = 404; # Example error code\nsay %error-messages{$error-code} // \"Unknown Error Code\";\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```raku\nmy %contacts = (\n    'Alice' => '555-1234',\n    'Bob'   => '555-5678',\n);\n\n# Update a contact's phone number\n%contacts{'Alice'} = '555-4321';\n\n# Lookup a contact's phone number\nmy $alice_number = %contacts{'Alice'};\nsay \"Alice's number is $alice_number\";\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```raku\nmy %tasks-for-employees = (\n    \"Alice\" => \"Data Analysis\",\n    \"Bob\"   => \"Software Development\",\n    \"Carol\" => \"Technical Writing\",\n    \"Dave\"  => \"Project Management\"\n);\n\nfor %tasks-for-employees.kv -> $employee, $task {\n    say \"$employee is assigned to $task.\";\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```raku\nmy %airport-codes = 'JFK' => 'New York', 'LAX' => 'Los Angeles', 'ORD' => 'Chicago';\n\nsub get-city-name(Str $code) {\n    return %airport-codes{$code} // 'Unknown Code';\n}\n\nsay get-city-name('JFK'); # Outputs: New York\nsay get-city-name('LAX'); # Outputs: Los Angeles\nsay get-city-name('ORD'); # Outputs: Chicago\nsay get-city-name('ATL'); # Outputs: Unknown Code\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```raku\nmy %movies = (\n    'The Shawshank Redemption' => 1994,\n    'The Godfather'            => 1972,\n    'The Dark Knight'          => 2008,\n    'Pulp Fiction'             => 1994,\n    'The Lord of the Rings'    => 2001,\n    'Forrest Gump'             => 1994,\n    'Inception'                => 2010,\n    'Fight Club'               => 1999,\n);\n\nsub movies-in-decade(%movies, $decade) {\n    %movies.grep(*.value ~~ /^ $decade/).keys\n}\n\nmy $decade = 1990;\nmy @movies-in-decade = movies-in-decade(%movies, $decade);\nsay @movies-in-decade;\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```raku\nsub group-students-by-grade(@students) {\n    my %grade-groups;\n    for @students -> $student {\n        my ($name, $grade) = $student;\n        %grade-groups{$grade}.push: $name;\n    }\n    return %grade-groups;\n}\n\nmy @students = [\n    ['Alice', 'A'],\n    ['Bob', 'B'],\n    ['Charlie', 'A'],\n    ['David', 'C'],\n    ['Eve', 'B']\n];\n\nmy %grouped = group-students-by-grade(@students);\nsay %grouped;\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```raku\nmy %visitors = (\n    'home'       => 1500,\n    'about'      => 300,\n    'contact'    => 450,\n    'blog'       => 700,\n    'services'   => 1200,\n);\n\nmy $most_visited = %visitors.keys.max({ %visitors{$_} });\n\nsay \"The most visited section is: $most_visited\";\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```raku\nmy %project-deadlines = (\n    \"Alice\" => \"2023-11-01\",\n    \"Bob\"   => \"2023-11-05\",\n    \"Cathy\" => \"2023-11-10\"\n);\n\nsub extend-deadline(%deadlines, $member, $new-date) {\n    %deadlines{$member} = $new-date if %deadlines{$member}:exists;\n}\n\n# Example of extending a deadline\nextend-deadline(%project-deadlines, \"Alice\", \"2023-11-15\");\n\nsay %project-deadlines;\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```raku\nmy %library = (\n    'The Hobbit' => True,\n    '1984' => True,\n    'Brave New World' => True,\n    'To Kill a Mockingbird' => True\n);\n\nsub borrow-book(Str $book) {\n    if %library{$book}:exists {\n        if %library{$book} {\n            %library{$book} = False;\n            say \"$book has been borrowed.\";\n        } else {\n            say \"$book is already borrowed.\";\n        }\n    } else {\n        say \"$book is not available in the library.\";\n    }\n}\n\nsub check-availability(Str $book) {\n    if %library{$book}:exists {\n        if %library{$book} {\n            say \"$book is available.\";\n        } else {\n            say \"$book is not available.\";\n        }\n    } else {\n        say \"$book is not in the library.\";\n    }\n}\n\nborrow-book('1984');\ncheck-availability('1984');\ncheck-availability('The Hobbit');\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```raku\nmy %planet-distances = (\n    Mercury => 57.91,\n    Venus   => 108.2,\n    Earth   => 149.6,\n    Mars    => 227.9,\n    Jupiter => 778.5,\n    Saturn  => 1434,\n    Uranus  => 2871,\n    Neptune => 4495\n);\n\nmy $closest-planet = %planet-distances.keys.grep({ $_ ne \"Earth\" }).min({ %planet-distances{$_} });\n\nsay $closest-planet;\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```raku\nmy %morse-to-text = (\n    '.-'    => 'A', '-...'  => 'B', '-.-.'  => 'C', '-..'   => 'D',\n    '.'     => 'E', '..-.'  => 'F', '--.'   => 'G', '....'  => 'H',\n    '..'    => 'I', '.---'  => 'J', '-.-'   => 'K', '.-..'  => 'L',\n    '--'    => 'M', '-.'    => 'N', '---'   => 'O', '.--.'  => 'P',\n    '--.-'  => 'Q', '.-.'   => 'R', '...'   => 'S', '-'     => 'T',\n    '..-'   => 'U', '...-'  => 'V', '.--'   => 'W', '-..-'  => 'X',\n    '-.--'  => 'Y', '--..'  => 'Z', '-----' => '0', '.----' => '1',\n    '..---' => '2', '...--' => '3', '....-' => '4', '.....' => '5',\n    '-....' => '6', '--...' => '7', '---..' => '8', '----.' => '9'\n);\n\nsub translate-morse($morse-code) {\n    return $morse-code.split(' ').map({ %morse-to-text{$_} // '?' }).join('');\n}\n\nmy $morse-code = '.- -... -.-. -.. .';\nsay translate-morse($morse-code); # Outputs: ABCDE\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```raku\nmy %vehicle-owners = (\n    'ABC123' => 'Alice Johnson',\n    'XYZ789' => 'Bob Smith',\n    'LMN456' => 'Carol White',\n);\n\nsay %vehicle-owners{'ABC123'}; # Example usage: fetch owner by registration number\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```raku\nmy %teams = (\n    'Tigers' => { wins => 10, losses => 2 },\n    'Lions' => { wins => 8, losses => 4 },\n    'Bears' => { wins => 12, losses => 1 },\n    'Wolves' => { wins => 5, losses => 7 }\n);\n\nmy $best-team = %teams.keys.sort({ %teams{$_}<wins> - %teams{$_}<losses> }).reverse[0];\nsay \"The team with the best record is $best-team.\";\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```raku\nsub currency_name(Str $code) {\n    my %currency_map = (\n        'USD' => 'United States Dollar',\n        'EUR' => 'Euro',\n        'JPY' => 'Japanese Yen',\n        'GBP' => 'British Pound',\n        'AUD' => 'Australian Dollar',\n        'CAD' => 'Canadian Dollar',\n        'CHF' => 'Swiss Franc',\n        'CNY' => 'Chinese Yuan',\n        'SEK' => 'Swedish Krona',\n        'NZD' => 'New Zealand Dollar'\n    );\n    return %currency_map{$code} // 'Unknown Currency Code';\n}\n\nsay currency_name('USD'); # Example usage\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```raku\nmy %attendance = (\n    'Alice' => 5,\n    'Bob' => 8,\n    'Charlie' => 7,\n    'David' => 9,\n);\n\nmy $highest = %attendance.keys.sort({ %attendance{$_} }).reverse[0];\nsay \"Student with the highest attendance: $highest\";\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```raku\nmy %countries-capitals = 'France' => 'Paris', 'Japan' => 'Tokyo', 'Kenya' => 'Nairobi';\n\nsub get-capital(Str $country) {\n    return %countries-capitals{$country} // 'Capital not found';\n}\n\nsay get-capital('France'); # Paris\nsay get-capital('Japan'); # Tokyo\nsay get-capital('Brazil'); # Capital not found\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```raku\nmy %ingredients = (\n    'flour'   => '2 cups',\n    'sugar'   => '1 cup',\n    'eggs'    => '2 pieces',\n    'milk'    => '1 cup',\n    'butter'  => '100 grams',\n    'vanilla' => '1 teaspoon'\n);\n\nfor %ingredients.kv -> $ingredient, $quantity {\n    say \"$ingredient: $quantity\";\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```raku\nmy %user-profiles = (\n    'user123' => { name => 'Alice', age => 30, location => 'Wonderland' },\n    'john_doe' => { name => 'John', age => 25, location => 'Doeville' },\n    'jane_smith' => { name => 'Jane', age => 28, location => 'Smithtown' }\n);\n\n# Access a user profile\nsay %user-profiles{'user123'};\n\n# Add or update a user profile\n%user-profiles{'new_user'} = { name => 'New', age => 22, location => 'New City' };\n\n# Remove a user profile\n%user-profiles{'john_doe'}:delete;\n\n# Iterate over user profiles\nfor %user-profiles.kv -> $username, $profile {\n    say \"$username: $profile\";\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```raku\nsub list-products(%products, Str $category) {\n    return %products{$category} // [];\n}\n\nmy %product-categories = (\n    'Electronics' => ['TV', 'Radio', 'Laptop'],\n    'Groceries' => ['Apple', 'Banana', 'Carrot'],\n    'Clothing' => ['Shirt', 'Jeans', 'Hat']\n);\n\nmy @electronics = list-products(%product-categories, 'Electronics');\nsay @electronics;\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```raku\nmy %shopping-list = (\n    'apples'  => 5,\n    'bananas' => 3,\n    'milk'    => 2,\n);\n\nsub update-quantity(%list, $item, $quantity) {\n    %list{$item} = $quantity;\n}\n\nupdate-quantity(%shopping-list, 'apples', 10);\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```raku\nmy %historical-events = (\n    'Moon Landing' => 1969,\n    'Fall of Berlin Wall' => 1989,\n    'Start of World War II' => 1939,\n    'End of World War II' => 1945,\n    'American Independence' => 1776,\n);\n\nsub events-in-year(Int $year) {\n    %historical-events.grep({ .value == $year }).map({ .key });\n}\n\nmy $year = prompt(\"Enter a year to find historical events: \").Int;\nmy @events = events-in-year($year);\n\nif @events.elems {\n    say \"Events in $year: \", @events.join(', ');\n} else {\n    say \"No events found in $year.\";\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```raku\nmy %user_roles = (\n    'admin' => ['create', 'read', 'update', 'delete'],\n    'editor' => ['read', 'update'],\n    'viewer' => ['read']\n);\n\nsub add_role(Str $role, @permissions) {\n    %user_roles{$role} = @permissions;\n}\n\nsub get_permissions(Str $role) {\n    return %user_roles{$role} // [];\n}\n\nsub has_permission(Str $role, Str $permission) {\n    return %user_roles{$role} && %user_roles{$role}.grep(* eq $permission).elems > 0;\n}\n\n# Example usage\nadd_role('contributor', ['create', 'read']);\nsay get_permissions('admin'); # ['create', 'read', 'update', 'delete']\nsay has_permission('editor', 'update'); # True\nsay has_permission('viewer', 'delete'); # False\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```raku\nmy %grade-map = (\n    90..100 => 'A',\n    80..89  => 'B',\n    70..79  => 'C',\n    60..69  => 'D',\n    0..59   => 'F'\n);\n\nsub convert-to-letter-grade(Int $numeric-grade) {\n    for %grade-map.kv -> $range, $letter {\n        return $letter if $numeric-grade \u2208 $range;\n    }\n    return 'Invalid grade';\n}\n\nmy @grades = (95, 82, 67, 58, 100, 73);\nmy @letter-grades = @grades.map({ convert-to-letter-grade($_) });\n\nsay @letter-grades;\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```raku\nmy %holidays = (\n    'New Year' => '2023-01-01',\n    'Christmas' => '2023-12-25',\n    'Independence Day' => '2023-07-04',\n    'Thanksgiving' => '2023-11-23',\n);\n\nsub lookup-holiday($name) {\n    return %holidays{$name} // \"Holiday not found\";\n}\n\nsay lookup-holiday('Christmas'); # Example usage\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```raku\nmy %order-status = (\n    'order1' => 'pending',\n    'order2' => 'shipped',\n    'order3' => 'delivered'\n);\n\nsub update-order-status(Str $order-id, Str $new-status) {\n    %order-status{$order-id} = $new-status;\n}\n\n# Example usage:\nupdate-order-status('order1', 'shipped');\nsay %order-status; # Output: {order1 => \"shipped\", order2 => \"shipped\", order3 => \"delivered\"}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```raku\nmy %food-nutrition = (\n    'Apple' => { calories => 52, protein => 0.3, fat => 0.2, carbs => 14 },\n    'Banana' => { calories => 89, protein => 1.1, fat => 0.3, carbs => 23 },\n    'Carrot' => { calories => 41, protein => 0.9, fat => 0.2, carbs => 10 },\n    'Salmon' => { calories => 208, protein => 20, fat => 13, carbs => 0 },\n);\n\nfor %food-nutrition.kv -> $food, $nutrition {\n    say \"$food:\";\n    for $nutrition.kv -> $key, $value {\n        say \"  $key: $value\";\n    }\n}\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```raku\nmy %books-by-genre = (\n    'Science Fiction' => ['Dune', 'Neuromancer'],\n    'Fantasy' => ['The Hobbit', 'Harry Potter'],\n    'Mystery' => ['The Hound of the Baskervilles', 'Gone Girl'],\n);\n\nsub get-books-by-genre($genre) {\n    return %books-by-genre{$genre} // [];\n}\n\n# Example usage:\nmy @sci-fi-books = get-books-by-genre('Science Fiction');\nsay @sci-fi-books; # Output: [Dune Neuromancer]\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```raku\nsub state-abbreviation-to-name(Str $abbreviation) {\n    my %state-names = (\n        'AL' => 'Alabama',\n        'AK' => 'Alaska',\n        'AZ' => 'Arizona',\n        'AR' => 'Arkansas',\n        'CA' => 'California',\n        'CO' => 'Colorado',\n        'CT' => 'Connecticut',\n        'DE' => 'Delaware',\n        'FL' => 'Florida',\n        'GA' => 'Georgia',\n        'HI' => 'Hawaii',\n        'ID' => 'Idaho',\n        'IL' => 'Illinois',\n        'IN' => 'Indiana',\n        'IA' => 'Iowa',\n        'KS' => 'Kansas',\n        'KY' => 'Kentucky',\n        'LA' => 'Louisiana',\n        'ME' => 'Maine',\n        'MD' => 'Maryland',\n        'MA' => 'Massachusetts',\n        'MI' => 'Michigan',\n        'MN' => 'Minnesota',\n        'MS' => 'Mississippi',\n        'MO' => 'Missouri',\n        'MT' => 'Montana',\n        'NE' => 'Nebraska',\n        'NV' => 'Nevada',\n        'NH' => 'New Hampshire',\n        'NJ' => 'New Jersey',\n        'NM' => 'New Mexico',\n        'NY' => 'New York',\n        'NC' => 'North Carolina',\n        'ND' => 'North Dakota',\n        'OH' => 'Ohio',\n        'OK' => 'Oklahoma',\n        'OR' => 'Oregon',\n        'PA' => 'Pennsylvania',\n        'RI' => 'Rhode Island',\n        'SC' => 'South Carolina',\n        'SD' => 'South Dakota',\n        'TN' => 'Tennessee',\n        'TX' => 'Texas',\n        'UT' => 'Utah',\n        'VT' => 'Vermont',\n        'VA' => 'Virginia',\n        'WA' => 'Washington',\n        'WV' => 'West Virginia',\n        'WI' => 'Wisconsin',\n        'WY' => 'Wyoming'\n    );\n    return %state-names{$abbreviation} // \"Unknown abbreviation\";\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```raku\nmy %customer_orders = (\n    'Alice' => ['Order1', 'Order2', 'Order3'],\n    'Bob'   => ['Order4', 'Order5'],\n    'Carol' => ['Order6'],\n);\n\n# Example of accessing the order history for a customer\nmy @alice_orders = %customer_orders{'Alice'};\nsay @alice_orders; # Output: Order1 Order2 Order3\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```raku\nmy %parking-lot;\n\nsub occupy-space(Str $space, Str $vehicle) {\n    %parking-lot{$space} = $vehicle;\n}\n\nsub free-space(Str $space) {\n    %parking-lot{$space}:delete;\n}\n\nsub is-occupied(Str $space) {\n    return %parking-lot{$space}:exists;\n}\n\nsub get-occupant(Str $space) {\n    return %parking-lot{$space} // 'Empty';\n}\n\n# Example usage:\noccupy-space(\"A1\", \"Car1\");\noccupy-space(\"B2\", \"Car2\");\n\nsay is-occupied(\"A1\"); # True\nsay get-occupant(\"A1\"); # Car1\n\nfree-space(\"A1\");\n\nsay is-occupied(\"A1\"); # False\nsay get-occupant(\"A1\"); # Empty\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```raku\nmy %scores = (\n    'Alice' => 0,\n    'Bob'   => 0,\n    'Clara' => 0,\n);\n\n# Example: updating scores\n%scores{'Alice'} += 10;\n%scores{'Bob'} += 15;\n%scores{'Clara'} += 20;\n\n# Example: printing scores\nfor %scores.kv -> $player, $score {\n    say \"$player's score is $score\";\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```raku\nmy %scientific-terms = (\n    \"Photosynthesis\" => \"The process by which green plants and some other organisms use sunlight to synthesize foods with the help of chlorophyll.\",\n    \"Atom\"           => \"The smallest unit of a chemical element, consisting of a nucleus and one or more electrons.\",\n    \"Gene\"           => \"A unit of heredity which is transferred from a parent to offspring and is held to determine some characteristic of the offspring.\",\n    \"Evolution\"      => \"The process by which different kinds of living organisms are thought to have developed and diversified from earlier forms during the history of the earth.\"\n);\n\nsub lookup-term($term) {\n    %scientific-terms{$term} // \"Definition not found\";\n}\n\nsay lookup-term(\"Photosynthesis\");\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```raku\nsub convert-temperature($temp, $scale) {\n    my %conversion = (\n        'Celsius-to-Fahrenheit' => -> $c { $c * 9/5 + 32 },\n        'Fahrenheit-to-Celsius' => -> $f { ($f - 32) * 5/9 },\n    );\n    return %conversion{$scale}($temp);\n}\n\nsay convert-temperature(0, 'Celsius-to-Fahrenheit'); # Output: 32\nsay convert-temperature(32, 'Fahrenheit-to-Celsius'); # Output: 0\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```raku\nmy %employees = (\n    'Alice' => 'HR',\n    'Bob' => 'IT',\n    'Carol' => 'Finance',\n    'Dave' => 'Marketing'\n);\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```raku\nmy %tourist-attractions = (\n    'Statue of Liberty' => 'New York, USA',\n    'Eiffel Tower'      => 'Paris, France',\n    'Great Wall'        => 'China',\n    'Taj Mahal'         => 'Agra, India',\n    'Colosseum'         => 'Rome, Italy'\n);\n\nfor %tourist-attractions.kv -> $attraction, $location {\n    say \"$attraction is located in $location.\";\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```raku\nmy %albums;\n\nsub add-album(Str $title, Str $artist) {\n    %albums{$title} = $artist;\n}\n\nsub remove-album(Str $title) {\n    %albums{$title}:delete;\n}\n\nsub show-albums {\n    for %albums.kv -> $title, $artist {\n        say \"$title by $artist\";\n    }\n}\n\n# Example usage\nadd-album('The Dark Side of the Moon', 'Pink Floyd');\nadd-album('Thriller', 'Michael Jackson');\nshow-albums();\nremove-album('Thriller');\nshow-albums();\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```raku\nmy %inventory = (\n    'apple'  => 50,\n    'banana' => 30,\n    'orange' => 20\n);\n\n# Function to add items to inventory\nsub add-to-inventory(%inventory, $item, $quantity) {\n    %inventory{$item} += $quantity;\n}\n\n# Function to remove items from inventory\nsub remove-from-inventory(%inventory, $item, $quantity) {\n    if %inventory{$item} >= $quantity {\n        %inventory{$item} -= $quantity;\n    } else {\n        say \"Not enough stock of $item to remove.\";\n    }\n}\n\n# Function to display inventory\nsub display-inventory(%inventory) {\n    for %inventory.kv -> $item, $quantity {\n        say \"$item: $quantity\";\n    }\n}\n\n# Example usage\nadd-to-inventory(%inventory, 'banana', 10);\nremove-from-inventory(%inventory, 'apple', 5);\ndisplay-inventory(%inventory);\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```raku\nmy %rivers = (\n    'Nile' => 6650,\n    'Amazon' => 6400,\n    'Yangtze' => 6300,\n    'Mississippi' => 3730,\n);\n\nsub river-length($name) {\n    %rivers{$name};\n}\n\nsay river-length('Nile'); # Example lookup\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```raku\nclass ConferenceRoomManager {\n    has %!rooms;\n    \n    method add-room(Str $room-name) {\n        %!rooms{$room-name} = True;\n    }\n\n    method book-room(Str $room-name) {\n        if %!rooms{$room-name}:exists && %!rooms{$room-name} {\n            %!rooms{$room-name} = False;\n            return \"Room '$room-name' is now booked.\";\n        }\n        return \"Room '$room-name' is not available.\";\n    }\n\n    method release-room(Str $room-name) {\n        if %!rooms{$room-name}:exists && !%!rooms{$room-name} {\n            %!rooms{$room-name} = True;\n            return \"Room '$room-name' is now available.\";\n        }\n        return \"Room '$room-name' was not booked.\";\n    }\n\n    method room-status(Str $room-name) {\n        if %!rooms{$room-name}:exists {\n            return %!rooms{$room-name} ?? \"Room '$room-name' is available.\" !! \"Room '$room-name' is booked.\";\n        }\n        return \"Room '$room-name' does not exist.\";\n    }\n}\n\nmy $manager = ConferenceRoomManager.new;\n$manager.add-room('Room A');\n$manager.add-room('Room B');\nsay $manager.room-status('Room A');  # Room 'Room A' is available.\nsay $manager.book-room('Room A');    # Room 'Room A' is now booked.\nsay $manager.room-status('Room A');  # Room 'Room A' is booked.\nsay $manager.release-room('Room A'); # Room 'Room A' is now available.\nsay $manager.room-status('Room A');  # Room 'Room A' is available.\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```raku\nmy %animal_habitats = (\n    'Lion'       => 'Savanna',\n    'Penguin'    => 'Antarctica',\n    'Kangaroo'   => 'Australian Outback',\n    'Polar Bear' => 'Arctic',\n    'Tiger'      => 'Rainforest',\n);\n\nfor %animal_habitats.kv -> $animal, $habitat {\n    say \"$animal lives in the $habitat.\";\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```raku\nmy %mountains = (\n    'Everest' => 8848,\n    'K2' => 8611,\n    'Kangchenjunga' => 8586,\n    'Lhotse' => 8516,\n    'Makalu' => 8485\n);\n\nmy $tallest-mountain = %mountains.keys.max({ %mountains{$_} });\nsay \"The tallest mountain is $tallest-mountain with an elevation of %mountains{$tallest-mountain} meters.\";\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```raku\nsub time-zone-to-utc-offset(Str $time-zone) {\n    my %time-zone-offsets = (\n        'PST' => '-08:00',\n        'MST' => '-07:00',\n        'CST' => '-06:00',\n        'EST' => '-05:00',\n        'GMT' => '+00:00',\n        'CET' => '+01:00',\n        'EET' => '+02:00',\n        'IST' => '+05:30',\n        'CST' => '+08:00',\n        'JST' => '+09:00',\n    );\n\n    return %time-zone-offsets{$time-zone} // 'Unknown time zone';\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```raku\nmy %programming_languages = (\n    'Python' => 'Guido van Rossum',\n    'Perl' => 'Larry Wall',\n    'Ruby' => 'Yukihiro Matsumoto',\n    'Java' => 'James Gosling',\n    'C' => 'Dennis Ritchie',\n    'C++' => 'Bjarne Stroustrup',\n    'JavaScript' => 'Brendan Eich',\n    'PHP' => 'Rasmus Lerdorf',\n    'Swift' => 'Chris Lattner',\n    'Go' => 'Robert Griesemer, Rob Pike, and Ken Thompson'\n);\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```raku\nmy %subscribers;\n\nsub subscribe($email) {\n    %subscribers{$email} = True;\n}\n\nsub unsubscribe($email) {\n    %subscribers{$email}:delete;\n}\n\nsub is_subscribed($email) {\n    return %subscribers{$email}:exists;\n}\n\n# Example usage\nsubscribe('user1@example.com');\nunsubscribe('user2@example.com');\nsay is_subscribed('user1@example.com'); # True\nsay is_subscribed('user2@example.com'); # False\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```raku\nmy %likes;\n\nsub add-like(Str $post) {\n    %likes{$post}++;\n}\n\nsub get-likes(Str $post) {\n    return %likes{$post} // 0;\n}\n\n# Example usage:\nadd-like('Post1');\nadd-like('Post1');\nadd-like('Post2');\n\nsay \"Post1 has {get-likes('Post1')} likes.\"; # Post1 has 2 likes.\nsay \"Post2 has {get-likes('Post2')} likes.\"; # Post2 has 1 like.\nsay \"Post3 has {get-likes('Post3')} likes.\"; # Post3 has 0 likes.\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```raku\nmy %elements = (\n    Hydrogen => 1,\n    Helium => 2,\n    Lithium => 3,\n    Beryllium => 4,\n    Boron => 5,\n    Carbon => 6,\n    Nitrogen => 7,\n    Oxygen => 8,\n    Fluorine => 9,\n    Neon => 10\n);\n\nsub lookup-element($name) {\n    return %elements{$name};\n}\n\nsay lookup-element('Oxygen'); # Output: 8\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```raku\nsub group-movies-by-director(@movies) {\n    my %grouped;\n    for @movies -> $movie {\n        my $director = $movie<director>;\n        %grouped{$director} //= [];\n        %grouped{$director}.push($movie<title>);\n    }\n    return %grouped;\n}\n\n# Example usage\nmy @movies = (\n    { title => \"Movie 1\", director => \"Director A\" },\n    { title => \"Movie 2\", director => \"Director B\" },\n    { title => \"Movie 3\", director => \"Director A\" },\n    { title => \"Movie 4\", director => \"Director C\" }\n);\n\nmy %result = group-movies-by-director(@movies);\nsay %result;\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```raku\nmy %historical_figures = (\n    'Albert Einstein' => 1879,\n    'Isaac Newton'    => 1643,\n    'Marie Curie'     => 1867,\n    'Leonardo da Vinci' => 1452,\n    'Cleopatra'       => 69,\n);\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```raku\nmy %planets = (\n    'Mercury' => 4879,\n    'Venus'   => 12104,\n    'Earth'   => 12742,\n    'Mars'    => 6779,\n    'Jupiter' => 139820,\n    'Saturn'  => 116460,\n    'Uranus'  => 50724,\n    'Neptune' => 49244\n);\n\nfor %planets.kv -> $planet, $diameter {\n    say \"$planet: $diameter km\";\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```raku\nmy %restaurant-ratings;\n\nsub update-rating(Str $restaurant, Int $rating) {\n    %restaurant-ratings{$restaurant} = $rating;\n}\n\nsub get-rating(Str $restaurant) {\n    %restaurant-ratings{$restaurant} // \"No rating available\";\n}\n\n# Example usage\nupdate-rating(\"Pizza Place\", 5);\nupdate-rating(\"Burger Joint\", 4);\n\nsay get-rating(\"Pizza Place\");    # Outputs: 5\nsay get-rating(\"Burger Joint\");   # Outputs: 4\nsay get-rating(\"Sushi Spot\");     # Outputs: No rating available\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```raku\nmy %binary-to-decimal = \n    '0000' => 0, '0001' => 1, '0010' => 2, '0011' => 3, \n    '0100' => 4, '0101' => 5, '0110' => 6, '0111' => 7, \n    '1000' => 8, '1001' => 9, '1010' => 10, '1011' => 11, \n    '1100' => 12, '1101' => 13, '1110' => 14, '1111' => 15;\n\nmy @binary-numbers = <0001 0110 1011 1111>;\nmy @decimal-numbers = @binary-numbers.map: {%binary-to-decimal{$_}};\n\nsay @decimal-numbers;\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```raku\nmy %artists-works = (\n    \"Leonardo da Vinci\" => \"Mona Lisa\",\n    \"Vincent van Gogh\"  => \"Starry Night\",\n    \"Pablo Picasso\"     => \"Guernica\",\n    \"Claude Monet\"      => \"Water Lilies\",\n    \"Salvador Dal\u00ed\"     => \"The Persistence of Memory\"\n);\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```raku\nmy %maintenance-schedule = (\n    'Car1' => '2023-11-05',\n    'Car2' => '2023-12-15',\n    'Truck1' => '2024-01-10',\n    'Van1' => '2023-11-20',\n);\n\nsub add-maintenance-schedule(Str $vehicle, Str $date) {\n    %maintenance-schedule{$vehicle} = $date;\n}\n\nsub get-maintenance-schedule(Str $vehicle) {\n    return %maintenance-schedule{$vehicle};\n}\n\nsub list-all-schedules() {\n    for %maintenance-schedule.kv -> $vehicle, $date {\n        say \"$vehicle: $date\";\n    }\n}\n\n# Example usage\nadd-maintenance-schedule('Bike1', '2023-11-30');\nsay get-maintenance-schedule('Car1'); # Outputs: 2023-11-05\nlist-all-schedules();\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```raku\nmy %languages = (\n    'English'    => 1500_000_000,\n    'Mandarin'   => 1100_000_000,\n    'Hindi'      => 600_000_000,\n    'Spanish'    => 480_000_000,\n    'French'     => 280_000_000,\n);\n\nfor %languages.kv -> $language, $speakers {\n    say \"$language: $speakers speakers\";\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```raku\nmy %city-temperatures = (\n    'New York' => 12.5,\n    'Los Angeles' => 18.6,\n    'Chicago' => 10.3,\n    'Houston' => 20.8,\n    'Phoenix' => 23.1\n);\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```raku\nsub convert-metric-to-imperial(Str $unit, Num $value) {\n    my %conversion = (\n        'meter'   => 3.28084,\n        'kilogram'=> 2.20462,\n        'liter'   => 0.264172\n    );\n    \n    if %conversion{$unit}:exists {\n        return $value * %conversion{$unit};\n    } else {\n        die \"Unknown unit: $unit\";\n    }\n}\n\nsay convert-metric-to-imperial('meter', 10);     # Example usage\nsay convert-metric-to-imperial('kilogram', 5);   # Example usage\nsay convert-metric-to-imperial('liter', 3);      # Example usage\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```raku\nmy %world-records = (\n    '100m Sprint' => '9.58 seconds',\n    'Long Jump' => '8.95 meters',\n    'Marathon' => '2:01:39 hours',\n    'High Jump' => '2.45 meters',\n    'Pole Vault' => '6.18 meters'\n);\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```raku\nmy %favorite-movies;\n\n# Add a movie\nsub add-movie(Str $title, Str $genre) {\n    %favorite-movies{$title} = $genre;\n}\n\n# Remove a movie\nsub remove-movie(Str $title) {\n    %favorite-movies{$title}:delete;\n}\n\n# Example usage\nadd-movie('Inception', 'Sci-Fi');\nadd-movie('The Godfather', 'Crime');\nremove-movie('Inception');\n\nsay %favorite-movies;\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```raku\nmy %city-distances = (\n    'New York' => {\n        'Los Angeles' => 2445,\n        'Chicago' => 790,\n        'Houston' => 1627\n    },\n    'Los Angeles' => {\n        'New York' => 2445,\n        'Chicago' => 2015,\n        'Houston' => 1374\n    },\n    'Chicago' => {\n        'New York' => 790,\n        'Los Angeles' => 2015,\n        'Houston' => 1084\n    },\n    'Houston' => {\n        'New York' => 1627,\n        'Los Angeles' => 1374,\n        'Chicago' => 1084\n    }\n);\n\n# Example of accessing the distance between New York and Los Angeles\nsay %city-distances<New York><Los Angeles>;  # Output: 2445\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```raku\nmy %planets = (\n    Mercury => 88,\n    Venus   => 225,\n    Earth   => 365,\n    Mars    => 687,\n    Jupiter => 4333,\n    Saturn  => 10759,\n    Uranus  => 30687,\n    Neptune => 60190\n);\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```raku\nsub html-color-to-name(Str $color-code) {\n    my %color-map = (\n        '#FFFFFF' => 'White',\n        '#000000' => 'Black',\n        '#FF0000' => 'Red',\n        '#00FF00' => 'Lime',\n        '#0000FF' => 'Blue',\n        '#FFFF00' => 'Yellow',\n        '#00FFFF' => 'Cyan',\n        '#FF00FF' => 'Magenta',\n        '#C0C0C0' => 'Silver',\n        '#808080' => 'Gray',\n        '#800000' => 'Maroon',\n        '#808000' => 'Olive',\n        '#008000' => 'Green',\n        '#800080' => 'Purple',\n        '#008080' => 'Teal',\n        '#FFA500' => 'Orange',\n    );\n\n    return %color-map{$color-code} // 'Unknown';\n}\n\n# Example usage\nsay html-color-to-name('#FF0000'); # Outputs: Red\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```raku\nmy %composers = (\n    'Ludwig van Beethoven' => 'Symphony No. 9',\n    'Wolfgang Amadeus Mozart' => 'Eine kleine Nachtmusik',\n    'Johann Sebastian Bach' => 'Brandenburg Concertos',\n    'Pyotr Ilyich Tchaikovsky' => 'Swan Lake',\n    'Fr\u00e9d\u00e9ric Chopin' => 'Nocturne in E-flat major',\n);\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```raku\nmy %bridges = (\n    'Golden Gate Bridge' => 2737,\n    'Brooklyn Bridge'    => 1595,\n    'London Bridge'      => 928,\n    'Sydney Harbour Bridge' => 3770\n);\n\nfor %bridges.kv -> $name, $length {\n    say \"$name is $length meters long.\";\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```raku\nmy %goals = (\n    'Health' => 'Exercise daily',\n    'Career' => 'Learn Raku',\n    'Finance' => 'Save 20% of income',\n);\n\n# Update a goal\n%goals{'Health'} = 'Exercise three times a week';\n\n# Add a new goal\n%goals{'Personal Development'} = 'Read a book every month';\n\n# Print all goals\nfor %goals.kv -> $key, $value {\n    say \"$key: $value\";\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```raku\nmy %hex-to-bin = (\n    '0' => '0000', '1' => '0001', '2' => '0010', '3' => '0011',\n    '4' => '0100', '5' => '0101', '6' => '0110', '7' => '0111',\n    '8' => '1000', '9' => '1001', 'A' => '1010', 'B' => '1011',\n    'C' => '1100', 'D' => '1101', 'E' => '1110', 'F' => '1111',\n);\n\nsub hex-to-bin(Str $hex) {\n    return $hex.uc.comb.map({ %hex-to-bin{$_} // '' }).join;\n}\n\nmy $hex-number = \"1A3F\";\nsay hex-to-bin($hex-number);\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```raku\nmy %tree_heights = (\n    'Oak' => 70,\n    'Pine' => 80,\n    'Maple' => 50,\n    'Birch' => 40,\n    'Cedar' => 60\n);\n```"
+  }
+]

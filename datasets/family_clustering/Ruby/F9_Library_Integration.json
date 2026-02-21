@@ -1,0 +1,382 @@
+[
+  {
+    "task": "Create a program that reads a CSV file using a library designed for parsing CSV data.",
+    "code": "```ruby\nrequire 'csv'\n\nCSV.foreach('your_file.csv', headers: true) do |row|\n  puts row.to_h\nend\n```"
+  },
+  {
+    "task": "Implement a function that generates a random number using a standard library for random number generation.",
+    "code": "```ruby\nrequire 'securerandom'\n\ndef generate_random_number\n  SecureRandom.random_number\nend\n```"
+  },
+  {
+    "task": "Use a third-party library to send an HTTP GET request to a public API and print the response.",
+    "code": "```ruby\nrequire 'net/http'\nrequire 'uri'\n\nuri = URI.parse('https://api.example.com/data')\nresponse = Net::HTTP.get_response(uri)\nputs response.body\n```"
+  },
+  {
+    "task": "Write a script that extracts the text from a PDF file using a library for PDF manipulation.",
+    "code": "```ruby\nrequire 'pdf-reader'\n\ndef extract_text_from_pdf(file_path)\n  reader = PDF::Reader.new(file_path)\n  text = \"\"\n  reader.pages.each do |page|\n    text << page.text\n  end\n  text\nend\n\nfile_path = \"path_to_your_pdf_file.pdf\"\nputs extract_text_from_pdf(file_path)\n```"
+  },
+  {
+    "task": "Develop a tool that resizes images by integrating an image processing library.",
+    "code": "```ruby\nrequire 'mini_magick'\n\ndef resize_image(input_path, output_path, width, height)\n  image = MiniMagick::Image.open(input_path)\n  image.resize \"#{width}x#{height}\"\n  image.write output_path\nend\n\n# Example usage:\n# resize_image('input.jpg', 'output.jpg', 200, 200)\n```"
+  },
+  {
+    "task": "Create a program that connects to a database using a library for database interaction.",
+    "code": "```ruby\nrequire 'pg'\n\nbegin\n  connection = PG.connect(\n    dbname: 'your_database',\n    user: 'your_username',\n    password: 'your_password',\n    host: 'localhost'\n  )\n  puts \"Connected to the database successfully!\"\nensure\n  connection.close if connection\nend\n```"
+  },
+  {
+    "task": "Build an application that converts Markdown text to HTML using a Markdown parsing library.",
+    "code": "```ruby\nrequire 'kramdown'\n\ndef convert_markdown_to_html(markdown_text)\n  Kramdown::Document.new(markdown_text).to_html\nend\n\nmarkdown_text = \"# Sample Markdown\\n\\nThis is a **bold** text.\"\nhtml_output = convert_markdown_to_html(markdown_text)\nputs html_output\n```"
+  },
+  {
+    "task": "Use a library to transform XML data into JSON format for easier manipulation.",
+    "code": "```ruby\nrequire 'nokogiri'\nrequire 'json'\n\ndef xml_to_json(xml_data)\n  doc = Nokogiri::XML(xml_data)\n  hash = Hash.from_xml(doc.to_s)\n  JSON.pretty_generate(hash)\nend\n\nxml_data = <<-XML\n<root>\n  <item>\n    <name>Item 1</name>\n    <value>Value 1</value>\n  </item>\n  <item>\n    <name>Item 2</name>\n    <value>Value 2</value>\n  </item>\n</root>\nXML\n\nputs xml_to_json(xml_data)\n```"
+  },
+  {
+    "task": "Implement a feature that schedules tasks at regular intervals using a scheduler library.",
+    "code": "```ruby\nrequire 'rufus-scheduler'\n\nscheduler = Rufus::Scheduler.new\n\n# Schedule a task to run every 5 minutes\nscheduler.every '5m' do\n  puts \"Task executed at #{Time.now}\"\nend\n\nscheduler.join\n```"
+  },
+  {
+    "task": "Develop a chat application that utilizes a library for WebSocket communication.",
+    "code": "```ruby\nrequire 'faye/websocket'\nrequire 'eventmachine'\n\nEM.run do\n  ws = Faye::WebSocket::Client.new('ws://localhost:3000/')\n\n  ws.on :open do |event|\n    puts 'Connection opened'\n    ws.send('Hello, server!')\n  end\n\n  ws.on :message do |event|\n    puts \"Received message: #{event.data}\"\n  end\n\n  ws.on :close do |event|\n    puts \"Connection closed, code: #{event.code}, reason: #{event.reason}\"\n    EM.stop\n  end\nend\n```"
+  },
+  {
+    "task": "Create a game that uses a library to handle physics simulations for realistic movements.",
+    "code": "```ruby\nrequire 'chipmunk'\n\nclass Game\n  def initialize\n    @space = CP::Space.new\n    @space.gravity = CP::Vec2.new(0, -9.8)\n    setup_objects\n  end\n\n  def setup_objects\n    body = CP::Body.new(1.0, 150.0)\n    body.position = CP::Vec2.new(0, 100)\n    shape = CP::Shape::Circle.new(body, 5.0, CP::Vec2.new(0, 0))\n    @space.add_body(body)\n    @space.add_shape(shape)\n  end\n\n  def simulate\n    100.times do\n      @space.step(1.0 / 60.0)\n      puts \"Object position: #{object_position}\"\n    end\n  end\n\n  def object_position\n    @space.bodies.first.position\n  end\nend\n\ngame = Game.new\ngame.simulate\n```"
+  },
+  {
+    "task": "Write a function that hashes a string using a cryptographic hashing library.",
+    "code": "```ruby\nrequire 'digest'\n\ndef hash_string(input)\n  Digest::SHA256.hexdigest(input)\nend\n```"
+  },
+  {
+    "task": "Build a program that validates email addresses using a library for regular expression matching.",
+    "code": "```ruby\nrequire 'uri'\n\ndef valid_email?(email)\n  email =~ URI::MailTo::EMAIL_REGEXP\nend\n\nputs valid_email?('test@example.com') ? 'Valid' : 'Invalid'\nputs valid_email?('invalid-email') ? 'Valid' : 'Invalid'\n```"
+  },
+  {
+    "task": "Implement a feature that reads and writes Excel files using a library tailored for Excel file manipulation.",
+    "code": "```ruby\nrequire 'rubyXL'\n\n# Read an Excel file\nworkbook = RubyXL::Parser.parse('example.xlsx')\nworksheet = workbook[0]\n\n# Access a cell value\ncell_value = worksheet[0][0].value\nputs \"The cell value is: #{cell_value}\"\n\n# Write to an Excel file\nworksheet.add_cell(0, 1, 'New Value')\n\n# Save the modified workbook\nworkbook.write('modified_example.xlsx')\n```"
+  },
+  {
+    "task": "Use a library to translate text from one language to another in your application.",
+    "code": "```ruby\nrequire 'google/cloud/translate/v2'\n\ntranslate = Google::Cloud::Translate::V2.new project_id: \"your-project-id\"\n\ntext = \"Hello, world!\"\ntarget_language = \"es\"\n\ntranslation = translate.translate text, to: target_language\n\nputs translation.text # Outputs: \"\u00a1Hola, mundo!\"\n```"
+  },
+  {
+    "task": "Create a script that generates QR codes using a library for QR code creation.",
+    "code": "```ruby\nrequire 'rqrcode'\n\n# Create a new QR Code\nqr = RQRCode::QRCode.new(\"https://www.example.com\")\n\n# Export the QR Code to a PNG file\npng = qr.as_png(\n  resize_gte_to: false,\n  resize_exactly_to: false,\n  fill: 'white',\n  color: 'black',\n  size: 120,\n  border_modules: 4,\n  module_px_size: 6,\n  file: nil # path to write\n)\n\nFile.open(\"qrcode.png\", 'wb') do |file|\n  file.write(png.to_s)\nend\n```"
+  },
+  {
+    "task": "Build an app that plays audio files using a library for audio processing.",
+    "code": "```ruby\nrequire 'ruby-audio'\n\ndef play_audio(file_path)\n  buffer_size = 4096\n  RubyAudio::Sound.open(file_path) do |sound|\n    buffer = RubyAudio::Buffer.float(buffer_size, sound.info.channels)\n    while sound.read(buffer) > 0\n      # audio processing logic can be applied here\n    end\n  end\nend\n\nplay_audio('path_to_audio_file.wav')\n```"
+  },
+  {
+    "task": "Develop a tool that scrapes web pages for specific data using a web scraping library.",
+    "code": "```ruby\nrequire 'nokogiri'\nrequire 'open-uri'\n\ndef scrape_web_page(url, css_selector)\n  page = Nokogiri::HTML(URI.open(url))\n  data = page.css(css_selector)\n  data.map(&:text)\nend\n\nurl = 'http://example.com'\ncss_selector = 'h1'\nscraped_data = scrape_web_page(url, css_selector)\n\nputs scraped_data\n```"
+  },
+  {
+    "task": "Implement a service that sends emails using a library that facilitates SMTP communication.",
+    "code": "```ruby\nrequire 'net/smtp'\n\nclass EmailService\n  def initialize(smtp_server, port, domain, username, password)\n    @smtp_server = smtp_server\n    @port = port\n    @domain = domain\n    @username = username\n    @password = password\n  end\n\n  def send_email(from, to, subject, body)\n    message = <<~MESSAGE_END\n      From: #{from}\n      To: #{to}\n      Subject: #{subject}\n      \n      #{body}\n    MESSAGE_END\n\n    Net::SMTP.start(@smtp_server, @port, @domain, @username, @password, :plain) do |smtp|\n      smtp.send_message message, from, to\n    end\n  end\nend\n\n# Example usage:\n# email_service = EmailService.new('smtp.example.com', 587, 'example.com', 'user', 'pass')\n# email_service.send_email('from@example.com', 'to@example.com', 'Subject', 'Email body')\n```"
+  },
+  {
+    "task": "Create a program that visualizes data in charts using a charting library.",
+    "code": "```ruby\nrequire 'gruff'\n\ndata = [20, 30, 40, 50, 60, 70, 80, 90]\nlabels = { 0 => 'Jan', 1 => 'Feb', 2 => 'Mar', 3 => 'Apr', 4 => 'May', 5 => 'Jun', 6 => 'Jul', 7 => 'Aug' }\n\ng = Gruff::Line.new\ng.title = 'Monthly Data Visualization'\ng.labels = labels\ng.data :Data, data\n\ng.write('chart.png')\n```"
+  },
+  {
+    "task": "Write a script that compresses files into a zip archive using a standard library.",
+    "code": "```ruby\nrequire 'zip'\n\ndef compress_files_to_zip(file_paths, output_zip)\n  Zip::File.open(output_zip, Zip::File::CREATE) do |zipfile|\n    file_paths.each do |file|\n      zipfile.add(File.basename(file), file)\n    end\n  end\nend\n\nfile_paths = ['file1.txt', 'file2.txt'] # Replace with your file paths\noutput_zip = 'output.zip' # Replace with your output zip file name\n\ncompress_files_to_zip(file_paths, output_zip)\n```"
+  },
+  {
+    "task": "Use a library to parse command-line arguments in your application.",
+    "code": "```ruby\nrequire 'optparse'\n\noptions = {}\nOptionParser.new do |opts|\n  opts.banner = \"Usage: example.rb [options]\"\n\n  opts.on(\"-n\", \"--name NAME\", \"Specify a name\") do |name|\n    options[:name] = name\n  end\n\n  opts.on(\"-a\", \"--age AGE\", Integer, \"Specify an age\") do |age|\n    options[:age] = age\n  end\n\n  opts.on(\"-h\", \"--help\", \"Displays Help\") do\n    puts opts\n    exit\n  end\nend.parse!\n\nputs \"Name: #{options[:name]}\" if options[:name]\nputs \"Age: #{options[:age]}\" if options[:age]\n```"
+  },
+  {
+    "task": "Build a weather application that displays data from a weather API using a library for JSON parsing.",
+    "code": "```ruby\nrequire 'net/http'\nrequire 'json'\n\ndef fetch_weather(api_url)\n  uri = URI(api_url)\n  response = Net::HTTP.get(uri)\n  JSON.parse(response)\nend\n\ndef display_weather(data)\n  puts \"Location: #{data['name']}\"\n  puts \"Temperature: #{data['main']['temp']}\u00b0C\"\n  puts \"Weather: #{data['weather'][0]['description']}\"\nend\n\napi_key = 'your_api_key_here'\nlocation = 'London'\napi_url = \"http://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=#{api_key}&units=metric\"\n\nweather_data = fetch_weather(api_url)\ndisplay_weather(weather_data)\n```"
+  },
+  {
+    "task": "Create a video player application using a library that handles video playback.",
+    "code": "```ruby\nrequire 'vlc-client'\n\nclass VideoPlayer\n  def initialize(video_path)\n    @video_path = video_path\n    @vlc = VLC::System.new\n  end\n\n  def play\n    @vlc.play(@video_path)\n  end\n\n  def pause\n    @vlc.pause\n  end\n\n  def stop\n    @vlc.stop\n  end\nend\n\nplayer = VideoPlayer.new('path_to_your_video.mp4')\nplayer.play\n\n# Use player.pause or player.stop as needed\n```"
+  },
+  {
+    "task": "Develop a system that logs application events using a logging library for better traceability.",
+    "code": "```ruby\nrequire 'logger'\n\nclass ApplicationLogger\n  def initialize(log_file = 'application.log')\n    @logger = Logger.new(log_file)\n    @logger.level = Logger::DEBUG\n  end\n\n  def log_event(event_message)\n    @logger.info(event_message)\n  end\n\n  def log_error(error_message)\n    @logger.error(error_message)\n  end\nend\n\n# Example usage\nlogger = ApplicationLogger.new\nlogger.log_event('Application started')\nlogger.log_error('An error occurred')\n```"
+  },
+  {
+    "task": "Implement a feature that encrypts and decrypts data using a library for encryption.",
+    "code": "```ruby\nrequire 'openssl'\n\nclass DataEncryptor\n  def initialize(key, iv)\n    @cipher = OpenSSL::Cipher.new('aes-256-cbc')\n    @key = key\n    @iv = iv\n  end\n\n  def encrypt(data)\n    @cipher.encrypt\n    @cipher.key = @key\n    @cipher.iv = @iv\n    encrypted = @cipher.update(data) + @cipher.final\n    encrypted\n  end\n\n  def decrypt(encrypted_data)\n    @cipher.decrypt\n    @cipher.key = @key\n    @cipher.iv = @iv\n    decrypted = @cipher.update(encrypted_data) + @cipher.final\n    decrypted\n  end\nend\n\nkey = OpenSSL::Random.random_bytes(32)\niv = OpenSSL::Random.random_bytes(16)\nencryptor = DataEncryptor.new(key, iv)\n\ndata = \"Sensitive data\"\nencrypted_data = encryptor.encrypt(data)\ndecrypted_data = encryptor.decrypt(encrypted_data)\n\nputs \"Original: #{data}\"\nputs \"Encrypted: #{encrypted_data}\"\nputs \"Decrypted: #{decrypted_data}\"\n```"
+  },
+  {
+    "task": "Write a program that fetches and displays cryptocurrency prices using a third-party library for API interaction.",
+    "code": "```ruby\nrequire 'net/http'\nrequire 'json'\n\ndef fetch_crypto_prices\n  uri = URI('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd')\n  response = Net::HTTP.get(uri)\n  JSON.parse(response)\nend\n\nprices = fetch_crypto_prices\nputs \"Bitcoin Price: $#{prices['bitcoin']['usd']}\"\nputs \"Ethereum Price: $#{prices['ethereum']['usd']}\"\n```"
+  },
+  {
+    "task": "Use a library to implement OAuth authentication for secure user login in your application.",
+    "code": "```ruby\nrequire 'oauth2'\n\nclient = OAuth2::Client.new('your_client_id', 'your_client_secret', site: 'https://provider.com')\n\n# Redirect user to provider's authorization URL\nauth_url = client.auth_code.authorize_url(redirect_uri: 'https://yourapp.com/callback')\nputs \"Open the following URL in your browser to authorize: #{auth_url}\"\n\n# After user authorizes, they are redirected to your callback URL with a code\n# Simulating the code received in the callback for demonstration\nauthorization_code = 'received_authorization_code'\n\n# Exchange the authorization code for an access token\ntoken = client.auth_code.get_token(authorization_code, redirect_uri: 'https://yourapp.com/callback')\n\n# Use the access token to access protected resources\nresponse = token.get('/api/resource')\nputs response.body\n```"
+  },
+  {
+    "task": "Build a calculator that evaluates mathematical expressions using a math parsing library.",
+    "code": "```ruby\nrequire 'dentaku'\n\ncalculator = Dentaku::Calculator.new\n\nexpression = \"5 + (3 * 2) - 4 / 2\"\nresult = calculator.evaluate(expression)\n\nputs \"The result of the expression '#{expression}' is: #{result}\"\n```"
+  },
+  {
+    "task": "Create a chatbot that integrates a natural language processing library for understanding user input.",
+    "code": "```ruby\nrequire 'openai'\n\nclass Chatbot\n  def initialize(api_key)\n    @client = OpenAI::Client.new(api_key: api_key)\n  end\n\n  def understand(input)\n    response = @client.completions(\n      engine: 'text-davinci-003',\n      parameters: {\n        prompt: input,\n        max_tokens: 150\n      }\n    )\n    response.choices.first.text.strip\n  end\nend\n\n# Example usage:\n# chatbot = Chatbot.new('your_openai_api_key')\n# puts chatbot.understand(\"Hello, how are you?\")\n```"
+  },
+  {
+    "task": "Develop a tool that detects faces in images using a computer vision library.",
+    "code": "```ruby\nrequire 'opencv'\n\ninclude OpenCV\n\ndef detect_faces(image_path)\n  image = CvMat.load(image_path)\n  detector = CvHaarClassifierCascade::load('haarcascade_frontalface_default.xml')\n\n  faces = detector.detect_objects(image)\n  faces.each do |region|\n    image.rectangle!(region.top_left, region.bottom_right, color: CvColor::Red, thickness: 2)\n  end\n\n  output_path = \"output_#{File.basename(image_path)}\"\n  image.save_image(output_path)\n  output_path\nend\n\n# Example usage\nputs detect_faces('input_image.jpg')\n```"
+  },
+  {
+    "task": "Implement a program that converts date and time across different time zones using a library for date manipulation.",
+    "code": "```ruby\nrequire 'date'\nrequire 'active_support'\nrequire 'active_support/core_ext/time'\n\ndef convert_time_zone(time_str, from_zone, to_zone)\n  time = Time.find_zone(from_zone).parse(time_str)\n  time.in_time_zone(to_zone)\nend\n\n# Example usage:\noriginal_time = \"2023-10-01 12:00:00\"\nfrom_zone = \"UTC\"\nto_zone = \"America/New_York\"\n\nconverted_time = convert_time_zone(original_time, from_zone, to_zone)\nputs \"Original time: #{original_time} #{from_zone}\"\nputs \"Converted time: #{converted_time} #{to_zone}\"\n```"
+  },
+  {
+    "task": "Write a utility that uploads files to a cloud storage service using a library that interfaces with the service's API.",
+    "code": "```ruby\nrequire 'cloud_storage_sdk' # hypothetical library for cloud storage\n\nclass CloudStorageUploader\n  def initialize(api_key)\n    @client = CloudStorageSdk::Client.new(api_key: api_key)\n  end\n\n  def upload_file(file_path, destination_path)\n    File.open(file_path, 'rb') do |file|\n      @client.upload(destination_path, file)\n    end\n  end\nend\n\n# Usage example\nuploader = CloudStorageUploader.new('your_api_key_here')\nuploader.upload_file('local_file.txt', 'remote_folder/remote_file.txt')\n```"
+  },
+  {
+    "task": "Create a real-time chat system using a library that supports asynchronous communication.",
+    "code": "```ruby\nrequire 'async'\nrequire 'async/websocket'\nrequire 'json'\n\nclass ChatServer\n  def initialize\n    @clients = []\n  end\n\n  def broadcast(message, exclude_client = nil)\n    @clients.each do |client|\n      next if client == exclude_client\n      client.async.send_text(message)\n    end\n  end\n\n  def run\n    Async do |task|\n      Async::Reactor.run do |reactor|\n        endpoint = Async::IO::Endpoint.tcp('0.0.0.0', 8080)\n        endpoint.accept do |socket|\n          client_task = reactor.async do\n            client = Async::WebSocket::Client.new(socket)\n\n            @clients << client\n\n            while message = client.read\n              broadcast(message, client)\n            end\n\n            @clients.delete(client)\n          end\n\n          client_task.wait\n        end\n      end\n    end\n  end\nend\n\nserver = ChatServer.new\nserver.run\n```"
+  },
+  {
+    "task": "Use a library to generate and manipulate UUIDs for unique identification in your application.",
+    "code": "```ruby\nrequire 'securerandom'\n\n# Generate a new UUID\nuuid = SecureRandom.uuid\nputs \"Generated UUID: #{uuid}\"\n\n# Example manipulation: convert the UUID to uppercase\nmanipulated_uuid = uuid.upcase\nputs \"Manipulated UUID: #{manipulated_uuid}\"\n```"
+  },
+  {
+    "task": "Build a desktop application that uses a library for creating graphical user interfaces.",
+    "code": "```ruby\nrequire 'tk'\n\nroot = TkRoot.new { title \"My Desktop Application\" }\n\nTkLabel.new(root) do\n  text 'Hello, World!'\n  pack { padx 15; pady 15; side 'left' }\nend\n\nTk.mainloop\n```"
+  },
+  {
+    "task": "Develop an algorithm that finds the shortest path in a graph using a library that provides graph algorithms.",
+    "code": "```ruby\nrequire 'rgl/adjacency'\nrequire 'rgl/dijkstra'\n\ngraph = RGL::DirectedAdjacencyGraph.new\n# Add edges to the graph\n# Example: graph.add_edge('A', 'B', 1)\n\n# Define a hash with edge weights\nweights = {\n  ['A', 'B'] => 1,\n  # Add more edges with weights here\n}\n\nstart_vertex = 'A'\nend_vertex = 'B'\n\nshortest_path = graph.dijkstra_shortest_path(weights, start_vertex, end_vertex)\nputs \"Shortest path: #{shortest_path.join(' -> ')}\"\n```"
+  },
+  {
+    "task": "Create a digital clock application that uses a library for handling time events.",
+    "code": "```ruby\nrequire 'tk'\nrequire 'time'\n\nclass DigitalClock\n  def initialize\n    @root = TkRoot.new { title \"Digital Clock\" }\n    @time_label = TkLabel.new(@root) do\n      font TkFont.new('times 50 bold')\n      pack { padx 15; pady 15; side 'top' }\n    end\n    update_time\n    Tk.mainloop\n  end\n\n  def update_time\n    @time_label.text = Time.now.strftime(\"%H:%M:%S\")\n    Tk.after(1000) { update_time }\n  end\nend\n\nDigitalClock.new\n```"
+  },
+  {
+    "task": "Write a program that uses a library to convert between different units of measurement.",
+    "code": "```ruby\nrequire 'unitwise'\n\n# Example: Convert 10 miles to kilometers\nmiles = Unitwise(10, 'mile')\nkilometers = miles.convert_to('kilometer')\n\nputs \"#{miles.scalar} miles is equal to #{kilometers.scalar.round(2)} kilometers\"\n```"
+  },
+  {
+    "task": "Use a library to implement a caching mechanism for improving application performance.",
+    "code": "```ruby\nrequire 'redis'\nrequire 'redis-namespace'\n\nclass Cache\n  def initialize\n    @redis = Redis.new\n    @namespace = Redis::Namespace.new(:cache, redis: @redis)\n  end\n\n  def fetch(key)\n    @namespace.get(key)\n  end\n\n  def store(key, value, ttl = 3600)\n    @namespace.set(key, value)\n    @namespace.expire(key, ttl)\n  end\nend\n\n# Example usage\ncache = Cache.new\ncache.store('key', 'value')\nputs cache.fetch('key')\n```"
+  },
+  {
+    "task": "Build an e-commerce platform that integrates a payment processing library for handling transactions.",
+    "code": "```ruby\n# Gemfile\ngem 'sinatra'\ngem 'stripe'\n\n# app.rb\nrequire 'sinatra'\nrequire 'stripe'\n\nStripe.api_key = 'sk_test_your_secret_key'\n\nget '/' do\n  erb :index\nend\n\npost '/charge' do\n  begin\n    charge = Stripe::Charge.create(\n      amount: params[:amount],\n      currency: 'usd',\n      source: params[:stripeToken],\n      description: 'E-commerce transaction'\n    )\n    \"Charge successful\"\n  rescue Stripe::CardError => e\n    \"Charge failed: #{e.message}\"\n  end\nend\n\n# views/index.erb\n<form action=\"/charge\" method=\"post\" id=\"payment-form\">\n  <input type=\"text\" name=\"amount\" placeholder=\"Amount in cents\">\n  <input type=\"hidden\" name=\"stripeToken\" id=\"stripeToken\">\n  <button type=\"submit\">Pay</button>\n</form>\n\n<script src=\"https://js.stripe.com/v3/\"></script>\n<script>\n  var stripe = Stripe('pk_test_your_publishable_key');\n  var elements = stripe.elements();\n  var card = elements.create('card');\n  card.mount('#card-element');\n  \n  var form = document.getElementById('payment-form');\n  form.addEventListener('submit', function(event) {\n    event.preventDefault();\n    stripe.createToken(card).then(function(result) {\n      if (result.error) {\n        // Display error.message in your UI.\n      } else {\n        // Send the token to your server.\n        var hiddenInput = document.createElement('input');\n        hiddenInput.setAttribute('type', 'hidden');\n        hiddenInput.setAttribute('name', 'stripeToken');\n        hiddenInput.setAttribute('value', result.token.id);\n        form.appendChild(hiddenInput);\n        form.submit();\n      }\n    });\n  });\n</script>\n```"
+  },
+  {
+    "task": "Create a to-do list application that stores data locally using a library for file management.",
+    "code": "```ruby\nrequire 'json'\n\nclass TodoList\n  FILE_NAME = 'todo_list.json'\n\n  def initialize\n    @todos = load_todos\n  end\n\n  def add_task(task)\n    @todos << { task: task, completed: false }\n    save_todos\n  end\n\n  def complete_task(index)\n    @todos[index][:completed] = true if @todos[index]\n    save_todos\n  end\n\n  def list_tasks\n    @todos.each_with_index do |todo, index|\n      status = todo[:completed] ? 'Completed' : 'Pending'\n      puts \"#{index + 1}. [#{status}] #{todo[:task]}\"\n    end\n  end\n\n  private\n\n  def load_todos\n    if File.exist?(FILE_NAME)\n      JSON.parse(File.read(FILE_NAME), symbolize_names: true)\n    else\n      []\n    end\n  end\n\n  def save_todos\n    File.write(FILE_NAME, JSON.pretty_generate(@todos))\n  end\nend\n\n# Example usage:\n# todo_list = TodoList.new\n# todo_list.add_task('Buy groceries')\n# todo_list.add_task('Write Ruby code')\n# todo_list.list_tasks\n# todo_list.complete_task(0)\n# todo_list.list_tasks\n```"
+  },
+  {
+    "task": "Develop a system that monitors server health using a library that provides network utilities.",
+    "code": "```ruby\nrequire 'net/ping'\n\nclass ServerMonitor\n  def initialize(host)\n    @host = host\n    @ping = Net::Ping::External.new(host)\n  end\n\n  def check_health\n    if @ping.ping?\n      puts \"#{@host} is online\"\n    else\n      puts \"#{@host} is offline\"\n    end\n  end\nend\n\n# Usage\nmonitor = ServerMonitor.new('example.com')\nmonitor.check_health\n```"
+  },
+  {
+    "task": "Implement a program that detects language from a given text using a language detection library.",
+    "code": "```ruby\nrequire 'whatlanguage'\n\ndef detect_language(text)\n  lang_detector = WhatLanguage.new(:all)\n  lang = lang_detector.language(text)\n  lang.nil? ? \"Unknown\" : lang.to_s.capitalize\nend\n\ntext = \"Bonjour, comment \u00e7a va?\"\nputs \"Detected Language: #{detect_language(text)}\"\n```"
+  },
+  {
+    "task": "Write a script that sends notifications to a mobile device using a push notification library.",
+    "code": "```ruby\nrequire 'fcm'\n\nserver_key = 'YOUR_SERVER_KEY'\ndevice_token = 'DEVICE_REGISTRATION_TOKEN'\n\nfcm = FCM.new(server_key)\n\noptions = {\n  priority: 'high',\n  notification: {\n    title: 'Hello!',\n    body: 'This is a push notification.'\n  }\n}\n\nresponse = fcm.send([device_token], options)\nputs response\n```"
+  },
+  {
+    "task": "Use a library to generate reports in PDF format from application data.",
+    "code": "```ruby\nrequire 'prawn'\n\ndef generate_pdf_report(data, file_name)\n  Prawn::Document.generate(file_name) do\n    text \"Report\", size: 30, style: :bold\n    move_down 20\n    data.each do |key, value|\n      text \"#{key}: #{value}\"\n    end\n  end\nend\n\n# Example usage\ndata = { \"Title\" => \"Monthly Report\", \"Total Sales\" => \"$5000\", \"Total Customers\" => \"150\" }\ngenerate_pdf_report(data, \"report.pdf\")\n```"
+  },
+  {
+    "task": "Build a program that performs statistical analysis on datasets using a statistical computing library.",
+    "code": "```ruby\nrequire 'statsample'\n\n# Generate a sample dataset\ndata = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n# Create a Statsample::Vector object\nvector = Statsample::Vector.new(data)\n\n# Perform statistical analysis\nmean = vector.mean\nmedian = vector.median\nstandard_deviation = vector.sd\nvariance = vector.variance\n\n# Output the results\nputs \"Mean: #{mean}\"\nputs \"Median: #{median}\"\nputs \"Standard Deviation: #{standard_deviation}\"\nputs \"Variance: #{variance}\"\n```"
+  },
+  {
+    "task": "Create an image gallery application that uses a library for image caching and lazy loading.",
+    "code": "```ruby\nrequire 'sinatra'\nrequire 'sinatra/reloader' if development?\nrequire 'sinatra/json'\nrequire 'active_support/cache'\nrequire 'mini_magick'\nrequire 'sprockets'\nrequire 'sprockets-helpers'\n\nset :cache, ActiveSupport::Cache::MemoryStore.new\n\nhelpers do\n  Sprockets::Helpers.configure do |config|\n    config.environment = Sprockets::Environment.new\n    config.prefix = '/assets'\n    config.public_path = public_folder\n    config.digest = true\n  end\n\n  def cache_image(image_path)\n    settings.cache.fetch(image_path) do\n      MiniMagick::Image.open(image_path)\n    end\n  end\n\n  def lazy_load_image(image_path)\n    %Q(<img src=\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\" data-src=\"#{image_path}\" class=\"lazyload\">)\n  end\nend\n\nget '/' do\n  @images = Dir.glob(\"public/images/*.{jpg,png,gif}\")\n  erb :gallery\nend\n\n__END__\n\n@@layout\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Image Gallery</title>\n  <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.css\">\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js\" async></script>\n</head>\n<body>\n  <%= yield %>\n</body>\n</html>\n\n@@gallery\n<h1>Image Gallery</h1>\n<div id=\"gallery\">\n  <% @images.each do |image| %>\n    <%= lazy_load_image(image.sub('public/', '')) %>\n  <% end %>\n</div>\n```"
+  },
+  {
+    "task": "Develop a machine learning model that predicts outcomes using a machine learning library.",
+    "code": "```ruby\nrequire 'rumale'\n\n# Generate some dummy data\nx = Rumale::Dataset.make_classification(n_samples: 100, n_features: 2, n_classes: 2, random_seed: 1)\ny = x[1]\nx = x[0]\n\n# Initialize the model\nmodel = Rumale::LinearModel::LogisticRegression.new\n\n# Train the model\nmodel.fit(x, y)\n\n# Predict outcomes\npredictions = model.predict(x)\n\n# Output predictions\nputs predictions.to_a\n```"
+  },
+  {
+    "task": "Implement a feature that automatically formats code according to style guidelines using a code formatter library.",
+    "code": "```ruby\nrequire 'rubocop'\n\ndef format_code(code)\n  cli = RuboCop::CLI.new\n  Tempfile.create(['temp_code', '.rb']) do |file|\n    file.write(code)\n    file.rewind\n    cli.run(['--auto-correct', file.path])\n    file.rewind\n    formatted_code = file.read\n  end\n  formatted_code\nend\n\ncode_snippet = <<~CODE\n  def test_method\n    puts 'Hello World'\n  end\nCODE\n\nputs format_code(code_snippet)\n```"
+  },
+  {
+    "task": "Write a program that generates barcodes using a library for barcode generation.",
+    "code": "```ruby\nrequire 'barby'\nrequire 'barby/barcode/code_128'\nrequire 'barby/outputter/png_outputter'\n\nbarcode = Barby::Code128B.new('1234567890')\nFile.open('barcode.png', 'wb') do |file|\n  file.write barcode.to_png\nend\n```"
+  },
+  {
+    "task": "Use a library to create interactive maps for displaying geographical data in your application.",
+    "code": "```ruby\nrequire 'sinatra'\nrequire 'sinatra/reloader' if development?\nrequire 'json'\nrequire 'dotenv/load'\n\n# Gem for interactive maps\nrequire 'leaflet-rails'\n\nget '/' do\n  erb :map\nend\n\n__END__\n\n@@ layout\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Interactive Map</title>\n  <%= leaflet_stylesheet %>\n  <%= leaflet_javascript %>\n</head>\n<body>\n  <%= yield %>\n</body>\n</html>\n\n@@ map\n<div id=\"map\" style=\"height: 500px;\"></div>\n<script>\n  var map = L.map('map').setView([51.505, -0.09], 13);\n\n  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {\n    attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'\n  }).addTo(map);\n\n  L.marker([51.5, -0.09]).addTo(map)\n    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')\n    .openPopup();\n</script>\n```"
+  },
+  {
+    "task": "Build a simulation that models fluid dynamics using a library for physics simulations.",
+    "code": "```ruby\nrequire 'chipmunk'\n\n# Initialize the Chipmunk space for the simulation\nspace = CP::Space.new\nspace.gravity = CP::Vec2.new(0, -9.8)\n\n# Create a fluid particle class\nclass FluidParticle\n  attr_accessor :body, :shape\n\n  def initialize(x, y)\n    mass = 1.0\n    radius = 5.0\n    moment_of_inertia = CP.moment_for_circle(mass, 0, radius, CP::Vec2.new(0, 0))\n    @body = CP::Body.new(mass, moment_of_inertia)\n    @body.p = CP::Vec2.new(x, y)\n    @shape = CP::Shape::Circle.new(@body, radius, CP::Vec2.new(0, 0))\n    @shape.collision_type = :fluid_particle\n  end\nend\n\n# Add boundaries for the simulation\ndef add_boundary(space, start_point, end_point)\n  static_body = space.static_body\n  shape = CP::Shape::Segment.new(static_body, start_point, end_point, 0.0)\n  shape.e = 0.8 # elasticity\n  shape.u = 0.5 # friction\n  space.add_shape(shape)\nend\n\n# Define boundaries of the simulation area\nadd_boundary(space, CP::Vec2.new(0, 0), CP::Vec2.new(640, 0))\nadd_boundary(space, CP::Vec2.new(0, 0), CP::Vec2.new(0, 480))\nadd_boundary(space, CP::Vec2.new(640, 0), CP::Vec2.new(640, 480))\nadd_boundary(space, CP::Vec2.new(0, 480), CP::Vec2.new(640, 480))\n\n# Create and add fluid particles to the space\nparticles = []\n100.times do |i|\n  particle = FluidParticle.new(rand(100..540), rand(300..450))\n  particles << particle\n  space.add_body(particle.body)\n  space.add_shape(particle.shape)\nend\n\n# Simulation loop\n1000.times do\n  space.step(1.0 / 60.0)\n  particles.each do |particle|\n    puts \"Particle at position: #{particle.body.p}\"\n  end\nend\n```"
+  },
+  {
+    "task": "Create a program that reads barcodes from images using a library for barcode scanning.",
+    "code": "```ruby\nrequire 'chunky_png'\nrequire 'barby'\nrequire 'barby/barcode/code_128'\nrequire 'barby/outputter/png_outputter'\nrequire 'rmagick'\n\ninclude Magick\n\ndef read_barcode_from_image(image_path)\n  image = Image.read(image_path).first\n  barcode = Barby::Barcode::Code128.from_image(image)\n  barcode.data\nend\n\nputs read_barcode_from_image('path_to_your_image.png')\n```"
+  },
+  {
+    "task": "Develop a feature that performs spell checking using a library for text processing.",
+    "code": "```ruby\nrequire 'ffi/aspell'\n\ndef spell_check(text)\n  speller = FFI::Aspell::Speller.new('en_US')\n  words = text.split\n  misspelled_words = words.select { |word| !speller.correct?(word) }\n  speller.close\n  misspelled_words\nend\n\ntext = \"Thiss is an exmple text with speling errors.\"\nmisspelled = spell_check(text)\nputs \"Misspelled words: #{misspelled.join(', ')}\"\n```"
+  },
+  {
+    "task": "Implement a service that aggregates news articles from various sources using a library for web content aggregation.",
+    "code": "```ruby\nrequire 'rss'\nrequire 'open-uri'\n\nclass NewsAggregator\n  def initialize(feeds)\n    @feeds = feeds\n  end\n\n  def aggregate\n    articles = []\n    @feeds.each do |feed_url|\n      open(feed_url) do |rss|\n        feed = RSS::Parser.parse(rss)\n        feed.items.each do |item|\n          articles << { title: item.title, link: item.link, date: item.pubDate }\n        end\n      end\n    end\n    articles\n  end\nend\n\nfeeds = [\n  'http://rss.cnn.com/rss/edition.rss',\n  'http://feeds.bbci.co.uk/news/rss.xml'\n]\n\naggregator = NewsAggregator.new(feeds)\nnews_articles = aggregator.aggregate\nnews_articles.each do |article|\n  puts \"Title: #{article[:title]}, Link: #{article[:link]}, Date: #{article[:date]}\"\nend\n```"
+  },
+  {
+    "task": "Write a script that converts spoken language to text using a speech recognition library.",
+    "code": "```ruby\nrequire 'speech_to_text'\n\nspeech_to_text = SpeechToText::Client.new(api_key: 'your_api_key_here')\n\naudio_file_path = 'path_to_your_audio_file.wav'\n\nbegin\n  response = speech_to_text.recognize(audio: audio_file_path)\n  puts \"Transcribed Text: #{response.transcript}\"\nrescue StandardError => e\n  puts \"An error occurred: #{e.message}\"\nend\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that tracks user behavior in a web application.",
+    "code": "```ruby\nrequire 'sinatra'\nrequire 'sinatra/activerecord'\nrequire 'rack/tracker'\n\nclass UserBehavior < ActiveRecord::Base\nend\n\nuse Rack::Tracker do\n  handler :google_analytics, { tracker: 'UA-XXXXX-Y' }\nend\n\nclass MyApp < Sinatra::Base\n  register Sinatra::ActiveRecordExtension\n\n  get '/' do\n    # Simulating user behavior tracking\n    UserBehavior.create(event: 'page_view', url: request.path_info)\n    erb :index\n  end\n\n  post '/action' do\n    # Simulating user action tracking\n    UserBehavior.create(event: 'user_action', action: params[:action])\n    redirect '/'\n  end\nend\n```"
+  },
+  {
+    "task": "Build a program that analyzes sentiment in social media posts using a sentiment analysis library.",
+    "code": "```ruby\nrequire 'sentimental'\n\n# Initialize the Sentimental analyzer\nanalyzer = Sentimental.new\nanalyzer.load_defaults\n\n# Sample social media posts\nposts = [\n  \"I love this product! It's amazing!\",\n  \"This is the worst experience I've ever had.\",\n  \"I'm feeling okay about the new update.\",\n  \"Absolutely fantastic service!\",\n  \"I don't like the new design.\"\n]\n\n# Analyze the sentiment of each post\nposts.each do |post|\n  sentiment = analyzer.sentiment(post)\n  puts \"Post: '#{post}' - Sentiment: #{sentiment}\"\nend\n```"
+  },
+  {
+    "task": "Create a utility that detects plagiarism in text using a library for text comparison.",
+    "code": "```ruby\nrequire 'similar_text'\n\nclass PlagiarismDetector\n  def initialize(threshold = 0.8)\n    @threshold = threshold\n  end\n\n  def detect_plagiarism(text1, text2)\n    similarity_ratio = text1.similar(text2)\n    similarity_ratio >= @threshold\n  end\nend\n\n# Example usage\ndetector = PlagiarismDetector.new\nputs detector.detect_plagiarism(\"This is a sample text.\", \"This is a sample text with some changes.\")\n```"
+  },
+  {
+    "task": "Develop a program that predicts weather trends using a library for time series forecasting.",
+    "code": "```ruby\nrequire 'daru'\nrequire 'statsample-timeseries'\n\n# Load the time series data\ndata = Daru::Vector.new([23, 24, 22, 26, 28, 27, 25, 29, 30, 31, 28, 27])\n\n# Fit an ARIMA model\nmodel = Statsample::TimeSeries::ARIMA.new(data, p: 1, d: 1, q: 1)\n\n# Forecast future values\nforecast = model.forecast(steps: 5)\n\nputs \"Predicted weather trends for the next 5 days: #{forecast.to_a}\"\n```"
+  },
+  {
+    "task": "Implement a feature that performs facial recognition using a library specialized for biometric analysis.",
+    "code": "```ruby\nrequire 'facial_recognition_library' # hypothetical library for facial recognition\n\nclass FacialRecognition\n  def initialize\n    @recognizer = FacialRecognitionLibrary::Recognizer.new\n  end\n\n  def perform_recognition(image_path)\n    image = FacialRecognitionLibrary::Image.load(image_path)\n    results = @recognizer.recognize(image)\n    results.each do |result|\n      puts \"Detected face with confidence: #{result.confidence}\"\n    end\n  end\nend\n\n# Usage\nrecognition = FacialRecognition.new\nrecognition.perform_recognition('path/to/image.jpg')\n```"
+  },
+  {
+    "task": "Write a program that interacts with blockchain networks using a library for blockchain communication.",
+    "code": "```ruby\nrequire 'eth'\n\n# Create a client to connect to the blockchain\nclient = Eth::Client.create('https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID')\n\n# Get the balance of a specific Ethereum address\naddress = '0xYourEthereumAddressHere'\nbalance = client.get_balance(address)\n\nputs \"Balance of address #{address}: #{balance} wei\"\n\n# Sending a transaction (example)\ntransaction = Eth::Tx.new({\n  from: '0xYourEthereumAddressHere',\n  to: '0xRecipientEthereumAddressHere',\n  value: 1_000_000_000_000_000, # Amount in wei\n  gas_limit: 21_000,\n  gas_price: 20_000_000_000\n})\n\n# Sign the transaction with your private key\nprivate_key = Eth::Key.new(priv: '0xYourPrivateKeyHere')\ntransaction.sign(private_key)\n\n# Send the transaction\ntx_hash = client.eth_send_raw_transaction(transaction.hex)\n\nputs \"Transaction sent, tx hash: #{tx_hash}\"\n```"
+  },
+  {
+    "task": "Use a library to perform image recognition tasks in your application.",
+    "code": "```ruby\nrequire 'rubygems'\nrequire 'aws-sdk-rekognition'\n\nclient = Aws::Rekognition::Client.new(region: 'us-west-2')\n\nimage = {\n  s3_object: {\n    bucket: 'your-bucket-name',\n    name: 'your-image.jpg'\n  }\n}\n\nresponse = client.detect_labels({\n  image: image,\n  max_labels: 10,\n  min_confidence: 75\n})\n\nresponse.labels.each do |label|\n  puts \"#{label.name} - #{label.confidence.round(2)}%\"\nend\n```"
+  },
+  {
+    "task": "Build a program that converts audio files from one format to another using an audio conversion library.",
+    "code": "```ruby\nrequire 'audio_converter'\n\ndef convert_audio(input_file, output_file, output_format)\n  AudioConverter.convert(input_file: input_file, output_file: output_file, format: output_format)\nend\n\ninput_file = 'input.mp3'\noutput_file = 'output.wav'\noutput_format = 'wav'\n\nconvert_audio(input_file, output_file, output_format)\n```"
+  },
+  {
+    "task": "Create a web application that uses a library for rendering 3D graphics.",
+    "code": "```ruby\n# Gemfile\nsource \"https://rubygems.org\"\n\ngem 'sinatra'\ngem 'opal'\ngem 'opal-browser'\n```\n\n```ruby\n# app.rb\nrequire 'sinatra'\nrequire 'opal'\nrequire 'opal-browser'\n\nget '/' do\n  opal_code = Opal.compile(<<~RUBY)\n    require 'browser'\n\n    class App\n      def initialize\n        setup_canvas\n        render_scene\n      end\n\n      def setup_canvas\n        @canvas = $document['canvas']\n        @gl = @canvas.dom_context('webgl')\n      end\n\n      def render_scene\n        # Placeholder for 3D rendering logic\n        @gl.clear_color(0.0, 0.0, 0.0, 1.0)\n        @gl.clear(@gl::COLOR_BUFFER_BIT)\n      end\n    end\n\n    $document.ready do\n      App.new\n    end\n  RUBY\n\n  erb :index, locals: { opal_code: opal_code }\nend\n```\n\n```html\n<!-- views/index.erb -->\n<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"UTF-8\">\n  <title>3D Web App</title>\n  <script src=\"https://cdn.opalrb.com/opal/current/opal.js\"></script>\n  <script src=\"https://cdn.opalrb.com/opal/current/opal-browser.js\"></script>\n</head>\n<body>\n  <canvas id=\"canvas\" width=\"800\" height=\"600\"></canvas>\n  <script>\n    <%= opal_code %>\n  </script>\n</body>\n</html>\n```\n\n```bash\n# Run the application\nbundle install\nruby app.rb\n```"
+  },
+  {
+    "task": "Develop a feature that performs currency conversion using a library for financial calculations.",
+    "code": "```ruby\nrequire 'money'\nrequire 'money/bank/open_exchange_rates_bank'\n\n# Configure the OpenExchangeRates bank\noxr = Money::Bank::OpenExchangeRatesBank.new\noxr.app_id = 'YOUR_APP_ID' # Replace with your OpenExchangeRates App ID\noxr.update_rates\n\n# Set the default bank to use OpenExchangeRates\nMoney.default_bank = oxr\n\n# Example conversion: Convert 100 USD to EUR\namount_in_usd = Money.new(100_00, \"USD\")\namount_in_eur = amount_in_usd.exchange_to(\"EUR\")\n\nputs \"100 USD is #{amount_in_eur.format}\"\n```"
+  },
+  {
+    "task": "Implement a program that manages user sessions using a library for session handling.",
+    "code": "```ruby\nrequire 'rack'\nrequire 'rack/session/cookie'\n\napp = Rack::Builder.new do\n  use Rack::Session::Cookie, key: 'rack.session',\n                             path: '/',\n                             secret: 'some_random_secret'\n\n  run lambda { |env|\n    session = env['rack.session']\n    session['visit_count'] ||= 0\n    session['visit_count'] += 1\n\n    [\n      200,\n      { 'Content-Type' => 'text/html' },\n      [\"Visit count: #{session['visit_count']}\"]\n    ]\n  }\nend\n\nRack::Handler::WEBrick.run app, Port: 9292\n```"
+  },
+  {
+    "task": "Write a script that automates browser actions using a browser automation library.",
+    "code": "```ruby\nrequire 'selenium-webdriver'\n\n# Initialize the browser\ndriver = Selenium::WebDriver.for :chrome\n\n# Navigate to a webpage\ndriver.navigate.to \"https://www.example.com\"\n\n# Perform actions on the webpage\nelement = driver.find_element(name: 'q')\nelement.send_keys \"Hello World\"\nelement.submit\n\n# Wait for results and print the page title\nwait = Selenium::WebDriver::Wait.new(timeout: 10)\nwait.until { driver.title.downcase.start_with? \"hello world\" }\nputs \"Page title is #{driver.title}\"\n\n# Close the browser\ndriver.quit\n```"
+  },
+  {
+    "task": "Use a library to implement data serialization and deserialization in your application.",
+    "code": "```ruby\nrequire 'json'\n\n# Serialization\ndata = { name: 'John Doe', age: 30, city: 'New York' }\nserialized_data = JSON.generate(data)\n\n# Deserialization\ndeserialized_data = JSON.parse(serialized_data)\n```"
+  },
+  {
+    "task": "Build an application that generates interactive reports using a library for data visualization.",
+    "code": "```ruby\nrequire 'sinatra'\nrequire 'chartkick'\n\nget '/' do\n  @data = [\n    { name: \"Product A\", data: { \"2019\" => 100, \"2020\" => 120, \"2021\" => 130 } },\n    { name: \"Product B\", data: { \"2019\" => 80, \"2020\" => 90, \"2021\" => 100 } }\n  ]\n  erb :index\nend\n\n__END__\n\n@@ index\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Interactive Reports</title>\n  <%= Chartkick::Helper.line_chart @data, height: \"300px\", library: {animation: {easing: 'easeOutBounce'}} %>\n</head>\n<body>\n  <h1>Interactive Reports</h1>\n  <div id=\"chart\">\n    <%= line_chart @data %>\n  </div>\n</body>\n</html>\n```"
+  },
+  {
+    "task": "Create a system that backs up and restores data using a library for file system operations.",
+    "code": "```ruby\nrequire 'fileutils'\n\nclass BackupSystem\n  def initialize(source, backup)\n    @source = source\n    @backup = backup\n  end\n\n  def backup\n    FileUtils.cp_r(@source, @backup)\n  end\n\n  def restore\n    FileUtils.cp_r(@backup, @source)\n  end\nend\n\n# Example usage:\n# system = BackupSystem.new('/path/to/source', '/path/to/backup')\n# system.backup\n# system.restore\n```"
+  },
+  {
+    "task": "Develop a feature that performs real-time language translation using a translation library.",
+    "code": "```ruby\nrequire 'google/cloud/translate'\n\ndef translate_text(text, target_language)\n  project_id = \"your_project_id\"\n  credentials = \"path_to_your_credentials.json\"\n\n  translate = Google::Cloud::Translate.new(\n    project_id: project_id,\n    credentials: credentials\n  )\n\n  translation = translate.translate text, to: target_language\n\n  translation.text\nend\n\nputs translate_text(\"Hello, world!\", \"es\")\n```"
+  },
+  {
+    "task": "Implement a program that tracks stock market prices using a library for financial data retrieval.",
+    "code": "```ruby\nrequire 'yahoo_fin'\n\nclass StockMarketTracker\n  def initialize(symbol)\n    @symbol = symbol\n    @client = YahooFin.client\n  end\n\n  def get_stock_price\n    @client.quotes(@symbol).fetch['regularMarketPrice']\n  end\nend\n\ntracker = StockMarketTracker.new('AAPL')\nputs \"The current price of AAPL is: $#{tracker.get_stock_price}\"\n```"
+  },
+  {
+    "task": "Write a script that generates and validates JSON Web Tokens using a library for JWT handling.",
+    "code": "```ruby\nrequire 'jwt'\n\n# Secret key to encode and decode the token\nsecret_key = 'your_secret_key'\n\n# Function to generate a JWT\ndef generate_token(payload, secret_key)\n  JWT.encode(payload, secret_key, 'HS256')\nend\n\n# Function to validate a JWT\ndef validate_token(token, secret_key)\n  begin\n    decoded_token = JWT.decode(token, secret_key, true, { algorithm: 'HS256' })\n    decoded_token[0] # Return the payload\n  rescue JWT::DecodeError => e\n    puts \"Invalid token: #{e.message}\"\n    nil\n  end\nend\n\n# Example payload\npayload = { data: 'test' }\n\n# Generate a token\ntoken = generate_token(payload, secret_key)\nputs \"Generated Token: #{token}\"\n\n# Validate the token\nvalidated_payload = validate_token(token, secret_key)\nputs \"Validated Payload: #{validated_payload}\"\n```"
+  },
+  {
+    "task": "Use a library to build a feature that synchronizes data across multiple devices.",
+    "code": "```ruby\nrequire 'dropbox_api'\n\nclass DataSynchronizer\n  def initialize(access_token)\n    @client = DropboxApi::Client.new(access_token)\n  end\n\n  def upload_file(local_path, dropbox_path)\n    File.open(local_path, 'r') do |file|\n      @client.upload(dropbox_path, file.read)\n    end\n  end\n\n  def download_file(dropbox_path, local_path)\n    file_content = @client.download(dropbox_path)\n    File.open(local_path, 'w') do |file|\n      file.write(file_content)\n    end\n  end\nend\n\n# Usage example:\n# synchronizer = DataSynchronizer.new('YOUR_ACCESS_TOKEN')\n# synchronizer.upload_file('local_file.txt', '/remote_file.txt')\n# synchronizer.download_file('/remote_file.txt', 'local_file.txt')\n```"
+  },
+  {
+    "task": "Build a program that implements pattern recognition using a library for machine learning.",
+    "code": "```ruby\nrequire 'daru'\nrequire 'numo/narray'\nrequire 'rumale'\n\n# Sample data\nx = Numo::DFloat[[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]]\ny = Numo::Int32[0, 0, 1, 1, 1]\n\n# Create and train a pattern recognition model using Rumale\nmodel = Rumale::LinearModel::SVC.new\nmodel.fit(x, y)\n\n# Predict new data\ntest_data = Numo::DFloat[[1.5, 2.5], [3.5, 4.5]]\npredictions = model.predict(test_data)\n\nputs \"Predicted labels: #{predictions.to_a}\"\n```"
+  },
+  {
+    "task": "Create an email client that uses a library for IMAP and POP3 communication.",
+    "code": "```ruby\nrequire 'net/imap'\nrequire 'net/pop'\n\nclass EmailClient\n  def initialize(imap_settings, pop_settings)\n    @imap_settings = imap_settings\n    @pop_settings = pop_settings\n  end\n\n  def fetch_emails_with_imap\n    imap = Net::IMAP.new(@imap_settings[:server], @imap_settings[:port], @imap_settings[:ssl])\n    imap.login(@imap_settings[:username], @imap_settings[:password])\n    imap.select('INBOX')\n    emails = imap.search(['ALL']).map do |message_id|\n      imap.fetch(message_id, 'RFC822')[0].attr['RFC822']\n    end\n    imap.logout\n    imap.disconnect\n    emails\n  end\n\n  def fetch_emails_with_pop\n    pop = Net::POP3.new(@pop_settings[:server], @pop_settings[:port])\n    pop.enable_ssl if @pop_settings[:ssl]\n    pop.start(@pop_settings[:username], @pop_settings[:password])\n    emails = if pop.mails.empty?\n               []\n             else\n               pop.mails.map do |mail|\n                 mail.pop\n               end\n             end\n    pop.finish\n    emails\n  end\nend\n\n# Example usage:\nimap_settings = { server: 'imap.example.com', port: 993, ssl: true, username: 'user@example.com', password: 'password' }\npop_settings = { server: 'pop.example.com', port: 995, ssl: true, username: 'user@example.com', password: 'password' }\n\nclient = EmailClient.new(imap_settings, pop_settings)\nimap_emails = client.fetch_emails_with_imap\npop_emails = client.fetch_emails_with_pop\n```"
+  },
+  {
+    "task": "Develop a feature that analyzes network traffic using a library for network monitoring.",
+    "code": "```ruby\nrequire 'pcaprub'\n\ndef analyze_network_traffic(interface)\n  pcap = PCAPRUB::Pcap.open_live(interface, 65535, true, 0)\n  pcap.each_packet do |packet|\n    # Analyze the packet. For simplicity, we'll just print its length\n    puts \"Packet length: #{packet.length}\"\n  end\nend\n\n# Example usage: analyze network traffic on 'eth0' interface\nanalyze_network_traffic('eth0')\n```"
+  },
+  {
+    "task": "Implement a program that manages user authentication and authorization using a security library.",
+    "code": "```ruby\nrequire 'bcrypt'\nrequire 'jwt'\n\nclass User\n  attr_accessor :username, :password_hash, :roles\n\n  def initialize(username, password, roles = [])\n    @username = username\n    @password_hash = BCrypt::Password.create(password)\n    @roles = roles\n  end\n\n  def authenticate(password)\n    BCrypt::Password.new(@password_hash) == password\n  end\n\n  def generate_token\n    payload = { username: @username, roles: @roles }\n    JWT.encode(payload, 'my_secret', 'HS256')\n  end\nend\n\nclass AuthManager\n  def initialize\n    @users = []\n  end\n\n  def add_user(username, password, roles = [])\n    @users << User.new(username, password, roles)\n  end\n\n  def authenticate_user(username, password)\n    user = @users.find { |u| u.username == username }\n    user && user.authenticate(password) ? user.generate_token : nil\n  end\n\n  def authorize_user(token, required_role)\n    decoded_token = JWT.decode(token, 'my_secret', true, { algorithm: 'HS256' })\n    user_data = decoded_token[0]\n    user_data['roles'].include?(required_role)\n  rescue JWT::DecodeError\n    false\n  end\nend\n\nauth_manager = AuthManager.new\nauth_manager.add_user('john_doe', 'password123', ['admin'])\n\ntoken = auth_manager.authenticate_user('john_doe', 'password123')\nputs \"Authenticated\" if token\n\nauthorized = auth_manager.authorize_user(token, 'admin')\nputs \"Authorized\" if authorized\n```"
+  },
+  {
+    "task": "Write a script that generates word clouds from text data using a library for text visualization.",
+    "code": "```ruby\nrequire 'wordcloud'\n\n# Example text data\ntext_data = \"Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.\"\n\n# Create a new WordCloud instance\nwordcloud = WordCloud.new(text_data)\n\n# Generate the word cloud\nwordcloud.generate\n\n# Save the word cloud to a file\nwordcloud.save('wordcloud.png')\n```"
+  },
+  {
+    "task": "Use a library to create a feature that schedules and sends automated emails.",
+    "code": "```ruby\nrequire 'mail'\nrequire 'rufus-scheduler'\n\nscheduler = Rufus::Scheduler.new\n\nMail.defaults do\n  delivery_method :smtp, {\n    address: 'smtp.example.com',\n    port: 587,\n    user_name: 'your_username',\n    password: 'your_password',\n    authentication: 'plain',\n    enable_starttls_auto: true\n  }\nend\n\nscheduler.every '1d', first_in: '0s' do\n  Mail.deliver do\n    from    'from@example.com'\n    to      'to@example.com'\n    subject 'Automated Email'\n    body    'This is an automated email sent by the scheduler.'\n  end\nend\n\nscheduler.join\n```"
+  },
+  {
+    "task": "Build a mobile application that accesses device sensors using a library for hardware interaction.",
+    "code": "```ruby\nrequire 'motion-sensor'\n\nclass SensorApp\n  def initialize\n    @sensor_manager = MotionSensor::Manager.new\n  end\n\n  def start\n    @sensor_manager.start_sensors do |data|\n      handle_sensor_data(data)\n    end\n  end\n\n  def handle_sensor_data(data)\n    puts \"Sensor Data: #{data}\"\n  end\nend\n\napp = SensorApp.new\napp.start\n```"
+  },
+  {
+    "task": "Create a system that audits and logs file system changes using a library for filesystem monitoring.",
+    "code": "```ruby\nrequire 'rb-inotify'\n\nnotifier = INotify::Notifier.new\n\nnotifier.watch(\"/path/to/directory\", :modify, :create, :delete) do |event|\n  File.open(\"audit_log.txt\", \"a\") do |f|\n    f.puts \"Event: #{event.flags.join(', ')} | Path: #{event.absolute_name} | Time: #{Time.now}\"\n  end\nend\n\nnotifier.run\n```"
+  },
+  {
+    "task": "Develop a feature that visualizes geospatial data using a library for geographic information systems.",
+    "code": "```ruby\nrequire 'rgeo'\nrequire 'rgeo/geo_json'\n\n# Sample geospatial data (GeoJSON format)\ngeojson_data = '{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": [-104.99404, 39.75621]\n      },\n      \"properties\": {\n        \"name\": \"Sample Location\"\n      }\n    }\n  ]\n}'\n\n# Parse the GeoJSON data\nfactory = RGeo::Geographic.spherical_factory(srid: 4326)\ngeojson_parser = RGeo::GeoJSON::Coder.new(factory: factory)\nfeatures = geojson_parser.decode(geojson_data, json_parser: :json)\n\n# Visualize the data (using a simple terminal output here)\nfeatures.each do |feature|\n  geom = feature.geometry\n  puts \"Feature: #{feature.properties['name']}, Coordinates: #{geom.coordinates}\"\nend\n```"
+  },
+  {
+    "task": "Implement a program that performs clustering analysis using a library for statistical computing.",
+    "code": "```ruby\nrequire 'statsample'\n\n# Generate some sample data\ndata = Matrix[[1.0, 2.0], [2.0, 3.0], [5.0, 8.0], [8.0, 8.0], [1.0, 0.6], [9.0, 11.0], [8.0, 2.0], [10.0, 2.0], [9.0, 3.0]]\n\n# Perform K-Means clustering\nkmeans = Statsample::Cluster::KMeans.new(data, 2)\nkmeans.cluster\n\n# Output results\nputs \"Cluster centers:\"\nkmeans.centroids.each_with_index do |centroid, index|\n  puts \"Cluster #{index + 1}: #{centroid.to_a}\"\nend\n\nputs \"Data point assignments:\"\ndata.row_vectors.each_with_index do |point, index|\n  cluster = kmeans.predict(point)\n  puts \"Data point #{index + 1} (#{point.to_a}): Cluster #{cluster + 1}\"\nend\n```"
+  },
+  {
+    "task": "Write a script that monitors and analyzes CPU and memory usage using a library for system diagnostics.",
+    "code": "```ruby\nrequire 'sys-proctable'\n\ndef monitor_system\n  loop do\n    proc_info = Sys::ProcTable.ps(Process.pid)\n    cpu_usage = proc_info.pctcpu\n    memory_usage = proc_info.rss / 1024.0\n\n    puts \"CPU Usage: #{cpu_usage.round(2)}%\"\n    puts \"Memory Usage: #{memory_usage.round(2)} MB\"\n    sleep 5\n  end\nend\n\nmonitor_system\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that provides voice commands in your application.",
+    "code": "```ruby\nrequire 'speech'\n\nSpeech.listen do |command|\n  puts \"You said: #{command}\"\n  # Here you can implement actions based on the command\nend\n```"
+  },
+  {
+    "task": "Build a tool that converts video files to different resolutions using a video processing library.",
+    "code": "```ruby\nrequire 'streamio-ffmpeg'\n\ndef convert_video_to_resolutions(input_file, resolutions)\n  movie = FFMPEG::Movie.new(input_file)\n  resolutions.each do |resolution|\n    output_file = \"output_#{resolution}.mp4\"\n    movie.transcode(output_file, resolution: resolution)\n  end\nend\n\ninput_file = 'input_video.mp4'\nresolutions = ['640x360', '1280x720', '1920x1080']\nconvert_video_to_resolutions(input_file, resolutions)\n```"
+  },
+  {
+    "task": "Create a program that detects and classifies objects in images using a library for image recognition.",
+    "code": "```ruby\nrequire 'bundler/inline'\n\ngemfile do\n  source 'https://rubygems.org'\n  gem 'opencv', '~> 0.0.19'\nend\n\nrequire 'opencv'\n\ninclude OpenCV\n\ndef detect_and_classify_objects(image_path)\n  # Load the image\n  image = CvMat.load(image_path)\n\n  # Load a pre-trained object detection model\n  detector = CvHaarClassifierCascade::load('path/to/haarcascade_frontalface_alt.xml')\n\n  # Detect objects in the image\n  objects = detector.detect_objects(image)\n\n  # Draw rectangles around detected objects\n  objects.each do |obj|\n    image.rectangle!(obj.top_left, obj.bottom_right, color: CvColor::Red, thickness: 2)\n  end\n\n  # Display the image with detected objects\n  window = GUI::Window.new('Object Detection')\n  window.show(image)\n  GUI::wait_key\nend\n\ndetect_and_classify_objects('path/to/image.jpg')\n```"
+  },
+  {
+    "task": "Develop a feature that generates synthetic test data using a data generation library.",
+    "code": "```ruby\nrequire 'faker'\n\ndef generate_synthetic_data\n  {\n    name: Faker::Name.name,\n    email: Faker::Internet.email,\n    address: Faker::Address.full_address,\n    phone: Faker::PhoneNumber.phone_number\n  }\nend\n\n# Example usage\n10.times do\n  puts generate_synthetic_data\nend\n```"
+  },
+  {
+    "task": "Implement a script that interacts with IoT devices using a library for IoT communication.",
+    "code": "```ruby\nrequire 'mqtt'\n\n# Connect to an MQTT broker\nclient = MQTT::Client.connect('mqtt://broker.hivemq.com')\n\n# Subscribe to a topic\nclient.subscribe('iot/devices/status')\n\n# Publish a message to a topic\nclient.publish('iot/devices/control', 'turn_on')\n\n# Handle incoming messages\nclient.get do |topic, message|\n  puts \"#{topic}: #{message}\"\nend\n```"
+  },
+  {
+    "task": "Write a program that compresses and decompresses data using a data compression library.",
+    "code": "```ruby\nrequire 'zlib'\n\ndef compress(data)\n  Zlib::Deflate.deflate(data)\nend\n\ndef decompress(compressed_data)\n  Zlib::Inflate.inflate(compressed_data)\nend\n\n# Example usage\ndata = \"This is a test string to be compressed and decompressed.\"\ncompressed_data = compress(data)\nputs \"Compressed: #{compressed_data}\"\ndecompressed_data = decompress(compressed_data)\nputs \"Decompressed: #{decompressed_data}\"\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that generates dynamic web content from templates.",
+    "code": "```ruby\nrequire 'erb'\n\ntemplate = ERB.new <<-TEMPLATE\n<html>\n  <head>\n    <title><%= title %></title>\n  </head>\n  <body>\n    <h1><%= heading %></h1>\n    <p><%= content %></p>\n  </body>\n</html>\nTEMPLATE\n\ntitle = \"Dynamic Web Page\"\nheading = \"Welcome to My Website\"\ncontent = \"This content was generated using a template.\"\n\nputs template.result(binding)\n```"
+  },
+  {
+    "task": "Build an application that integrates with social media platforms using a library for API communication.",
+    "code": "```ruby\nrequire 'net/http'\nrequire 'json'\nrequire 'oauth2'\n\n# OAuth2 client setup (example for a generic social media platform)\nclient_id = 'YOUR_CLIENT_ID'\nclient_secret = 'YOUR_CLIENT_SECRET'\nsite = 'https://api.socialmedia.com'\n\nclient = OAuth2::Client.new(client_id, client_secret, :site => site)\n\n# Obtain an access token (you'll need to redirect the user to this URL and get the authorization code)\nauthorization_url = client.auth_code.authorize_url(:redirect_uri => 'http://localhost:3000/callback')\nputs \"Open the following URL in your browser to authorize: #{authorization_url}\"\n\n# Assuming you've obtained the authorization code from the redirect\nauthorization_code = 'YOUR_AUTHORIZATION_CODE'\ntoken = client.auth_code.get_token(authorization_code, :redirect_uri => 'http://localhost:3000/callback')\n\n# Example API request to get user profile information\nresponse = token.get('/v1/me')\nuser_info = JSON.parse(response.body)\n\nputs \"User information: #{user_info}\"\n```"
+  }
+]

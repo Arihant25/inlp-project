@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc modifyFirstElement(arr *[5]int) {\n\tarr[0] = 100\n}\n\nfunc main() {\n\tarray := [5]int{1, 2, 3, 4, 5}\n\tmodifyFirstElement(&array)\n\tfmt.Println(array)\n}\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc swap(a, b *int) {\n\t*a, *b = *b, *a\n}\n\nfunc main() {\n\tx, y := 5, 10\n\tfmt.Println(\"Before swap:\", x, y)\n\tswap(&x, &y)\n\tfmt.Println(\"After swap:\", x, y)\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"runtime\"\n\t\"time\"\n)\n\ntype LargeData struct {\n\tvalues [1000000]int\n}\n\n// Function that takes a LargeData structure by value\nfunc processByValue(data LargeData) {\n\tsum := 0\n\tfor _, v := range data.values {\n\t\tsum += v\n\t}\n}\n\n// Function that takes a LargeData structure by reference\nfunc processByReference(data *LargeData) {\n\tsum := 0\n\tfor _, v := range data.values {\n\t\tsum += v\n\t}\n}\n\nfunc main() {\n\tdata := LargeData{}\n\n\t// Measure time and memory for passing by value\n\tstart := time.Now()\n\tprocessByValue(data)\n\tdurationValue := time.Since(start)\n\n\tvar m runtime.MemStats\n\truntime.ReadMemStats(&m)\n\tmemoryValue := m.TotalAlloc\n\n\t// Measure time and memory for passing by reference\n\tstart = time.Now()\n\tprocessByReference(&data)\n\tdurationReference := time.Since(start)\n\n\truntime.ReadMemStats(&m)\n\tmemoryReference := m.TotalAlloc\n\n\tfmt.Printf(\"Time taken by value: %v, Memory used: %v bytes\\n\", durationValue, memoryValue)\n\tfmt.Printf(\"Time taken by reference: %v, Memory used: %v bytes\\n\", durationReference, memoryReference)\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// Function that doubles the value using pass-by-value\nfunc doubleByValue(num int) int {\n\treturn num * 2\n}\n\n// Function that doubles the value using pass-by-reference\nfunc doubleByReference(num *int) {\n\t*num = *num * 2\n}\n\nfunc main() {\n\t// Pass-by-value\n\toriginalValue := 5\n\tdoubledValue := doubleByValue(originalValue)\n\tfmt.Printf(\"Original (pass-by-value): %d, Doubled: %d\\n\", originalValue, doubledValue)\n\n\t// Pass-by-reference\n\toriginalReference := 5\n\tdoubleByReference(&originalReference)\n\tfmt.Printf(\"Original (pass-by-reference): %d\\n\", originalReference)\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc doubleElements(input []int) []int {\n    result := make([]int, len(input))\n    for i, v := range input {\n        result[i] = v * 2\n    }\n    return result\n}\n\nfunc main() {\n    original := []int{1, 2, 3, 4, 5}\n    doubled := doubleElements(original)\n    fmt.Println(\"Original:\", original)\n    fmt.Println(\"Doubled:\", doubled)\n}\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc appendCharacter(s string, c rune) string {\n\ts += string(c)\n\treturn s\n}\n\nfunc main() {\n\toriginal := \"Hello\"\n\tresult := appendCharacter(original, '!')\n\tfmt.Println(\"Original:\", original)\n\tfmt.Println(\"Result:\", result)\n}\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc increment(counter *int) {\n\t*counter++\n}\n\nfunc main() {\n\tcounter := 0\n\tincrement(&counter)\n\tfmt.Println(counter)\n}\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc removeItem(data map[string]int, key string) {\n\tdelete(data, key)\n}\n\nfunc main() {\n\tmyDict := map[string]int{\n\t\t\"apple\":  3,\n\t\t\"banana\": 5,\n\t\t\"cherry\": 7,\n\t}\n\n\tfmt.Println(\"Before:\", myDict)\n\tremoveItem(myDict, \"banana\")\n\tfmt.Println(\"After:\", myDict)\n}\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc transpose(matrix [][]int) {\n\tfor i := 0; i < len(matrix); i++ {\n\t\tfor j := i + 1; j < len(matrix[i]); j++ {\n\t\t\tmatrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]\n\t\t}\n\t}\n}\n\nfunc main() {\n\tmatrix := [][]int{\n\t\t{1, 2, 3},\n\t\t{4, 5, 6},\n\t\t{7, 8, 9},\n\t}\n\n\tfmt.Println(\"Original matrix:\")\n\tfor _, row := range matrix {\n\t\tfmt.Println(row)\n\t}\n\n\ttranspose(matrix)\n\n\tfmt.Println(\"Transposed matrix:\")\n\tfor _, row := range matrix {\n\t\tfmt.Println(row)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc roundNumber(num float64) float64 {\n\treturn math.Round(num)\n}\n\nfunc main() {\n\tnumber := 3.14159\n\troundedNumber := roundNumber(number)\n\tfmt.Printf(\"Original: %f, Rounded: %f\\n\", number, roundedNumber)\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc addKeyValue(dict map[string]string, key string, value string) {\n\tdict[key] = value\n}\n\nfunc main() {\n\tmyDict := map[string]string{\n\t\t\"language\": \"Go\",\n\t\t\"version\":  \"1.18\",\n\t}\n\n\tfmt.Println(\"Before:\", myDict)\n\taddKeyValue(myDict, \"author\", \"Google\")\n\tfmt.Println(\"After:\", myDict)\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc toUpper(s string) string {\n\treturn strings.ToUpper(s)\n}\n\nfunc main() {\n\toriginal := \"hello, world\"\n\tuppercased := toUpper(original)\n\tfmt.Println(\"Original:\", original)\n\tfmt.Println(\"Uppercased:\", uppercased)\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Tuple struct {\n\tfirst  int\n\tsecond int\n}\n\nfunc modifyTuple(t Tuple) {\n\tt.first = 100\n}\n\nfunc main() {\n\tt := Tuple{first: 1, second: 2}\n\tfmt.Println(\"Before:\", t)\n\tmodifyTuple(t)\n\tfmt.Println(\"After:\", t)\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Person struct {\n\tname string\n\tage  int\n}\n\nfunc modifyAge(p *Person, newAge int) {\n\tp.age = newAge\n}\n\nfunc main() {\n\tperson := Person{name: \"Alice\", age: 30}\n\tfmt.Printf(\"Before modification: %v\\n\", person)\n\n\tmodifyAge(&person, 35)\n\tfmt.Printf(\"After modification: %v\\n\", person)\n}\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc sumArray(arr [5]int) int {\n    sum := 0\n    for _, value := range arr {\n        sum += value\n    }\n    return sum\n}\n\nfunc main() {\n    originalArray := [5]int{1, 2, 3, 4, 5}\n    sum := sumArray(originalArray)\n    fmt.Println(\"Sum:\", sum)\n    fmt.Println(\"Original Array:\", originalArray)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc toggleFlag(flag *bool) {\n\t*flag = !*flag\n}\n\nfunc main() {\n\tmyFlag := true\n\tfmt.Println(\"Original flag:\", myFlag)\n\n\ttoggleFlag(&myFlag)\n\tfmt.Println(\"Toggled flag:\", myFlag)\n\n\ttoggleFlag(&myFlag)\n\tfmt.Println(\"Toggled again:\", myFlag)\n}\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype MyObject struct {\n\tField1 string\n\tField2 int\n}\n\nfunc cloneObject(original MyObject) MyObject {\n\treturn MyObject{\n\t\tField1: original.Field1,\n\t\tField2: original.Field2,\n\t}\n}\n\nfunc main() {\n\toriginal := MyObject{\n\t\tField1: \"Original\",\n\t\tField2: 42,\n\t}\n\n\tclone := cloneObject(original)\n\n\t// Modify the clone\n\tclone.Field1 = \"Modified Clone\"\n\tclone.Field2 = 100\n\n\tfmt.Printf(\"Original: %+v\\n\", original)\n\tfmt.Printf(\"Clone: %+v\\n\", clone)\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// Pass-by-value\nfunc removeEvensByValue(nums []int) []int {\n\tresult := []int{}\n\tfor _, num := range nums {\n\t\tif num%2 != 0 {\n\t\t\tresult = append(result, num)\n\t\t}\n\t}\n\treturn result\n}\n\n// Pass-by-reference\nfunc removeEvensByReference(nums *[]int) {\n\tresult := []int{}\n\tfor _, num := range *nums {\n\t\tif num%2 != 0 {\n\t\t\tresult = append(result, num)\n\t\t}\n\t}\n\t*nums = result\n}\n\nfunc main() {\n\t// Example usage\n\tnums := []int{1, 2, 3, 4, 5, 6}\n\n\t// Using pass-by-value\n\tresultByValue := removeEvensByValue(nums)\n\tfmt.Println(\"After removeEvensByValue:\", resultByValue)\n\tfmt.Println(\"Original slice:\", nums)\n\n\t// Using pass-by-reference\n\tremoveEvensByReference(&nums)\n\tfmt.Println(\"After removeEvensByReference:\", nums)\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc conjugate(c complex128) complex128 {\n\treturn complex(real(c), -imag(c))\n}\n\nfunc main() {\n\toriginal := complex(3, 4)\n\tconj := conjugate(original)\n\tfmt.Printf(\"Original: %v\\n\", original)\n\tfmt.Printf(\"Conjugate: %v\\n\", conj)\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// TreeNode represents a node in a binary tree.\ntype TreeNode struct {\n\tValue int\n\tLeft  *TreeNode\n\tRight *TreeNode\n}\n\n// invertTree inverts a binary tree.\nfunc invertTree(node *TreeNode) {\n\tif node == nil {\n\t\treturn\n\t}\n\tnode.Left, node.Right = node.Right, node.Left\n\tinvertTree(node.Left)\n\tinvertTree(node.Right)\n}\n\n// inorderTraversal prints the tree in inorder fashion.\nfunc inorderTraversal(node *TreeNode) {\n\tif node == nil {\n\t\treturn\n\t}\n\tinorderTraversal(node.Left)\n\tfmt.Printf(\"%d \", node.Value)\n\tinorderTraversal(node.Right)\n}\n\nfunc main() {\n\troot := &TreeNode{\n\t\tValue: 4,\n\t\tLeft: &TreeNode{\n\t\t\tValue: 2,\n\t\t\tLeft: &TreeNode{Value: 1},\n\t\t\tRight: &TreeNode{Value: 3},\n\t\t},\n\t\tRight: &TreeNode{\n\t\t\tValue: 7,\n\t\t\tLeft: &TreeNode{Value: 6},\n\t\t\tRight: &TreeNode{Value: 9},\n\t\t},\n\t}\n\n\tfmt.Println(\"Original tree (inorder):\")\n\tinorderTraversal(root)\n\tfmt.Println()\n\n\tinvertTree(root)\n\n\tfmt.Println(\"Inverted tree (inorder):\")\n\tinorderTraversal(root)\n\tfmt.Println()\n}\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc addElementToSet(set *map[string]struct{}, element string) {\n\t(*set)[element] = struct{}{}\n}\n\nfunc main() {\n\tmySet := make(map[string]struct{})\n\tmySet[\"apple\"] = struct{}{}\n\tmySet[\"banana\"] = struct{}{}\n\n\tfmt.Println(\"Original set:\", mySet)\n\n\taddElementToSet(&mySet, \"cherry\")\n\n\tfmt.Println(\"Modified set:\", mySet)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\nfunc sortArrayByValue(arr []int) []int {\n\tnewArr := make([]int, len(arr))\n\tcopy(newArr, arr)\n\tsort.Ints(newArr)\n\treturn newArr\n}\n\nfunc main() {\n\toriginal := []int{5, 3, 4, 1, 2}\n\n\t// Sort array by value\n\tsorted := sortArrayByValue(original)\n\n\tfmt.Println(\"Original array:\", original)\n\tfmt.Println(\"Sorted array:\", sorted)\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype Config struct {\n\tSetting bool\n}\n\nfunc toggleSetting(config *Config) {\n\tconfig.Setting = !config.Setting\n}\n\nfunc main() {\n\tconfig := &Config{Setting: false}\n\tfmt.Println(\"Before toggle:\", config.Setting)\n\n\ttoggleSetting(config)\n\tfmt.Println(\"After toggle:\", config.Setting)\n}\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"log\"\n)\n\nfunc readFile(filePath string) {\n\tdata, err := ioutil.ReadFile(filePath)\n\tif err != nil {\n\t\tlog.Fatalf(\"Failed to read file: %s\", err)\n\t}\n\tfmt.Println(string(data))\n}\n\nfunc main() {\n\tfilePath := \"example.txt\"\n\treadFile(filePath)\n}\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// Stack represents a simple stack structure\ntype Stack struct {\n\telements []int\n}\n\n// Push adds an element to the stack\nfunc (s *Stack) Push(value int) {\n\ts.elements = append(s.elements, value)\n}\n\n// Pop removes and returns the top element of the stack\nfunc (s *Stack) Pop() int {\n\tif len(s.elements) == 0 {\n\t\treturn 0 // or panic, depending on requirements\n\t}\n\tvalue := s.elements[len(s.elements)-1]\n\ts.elements = s.elements[:len(s.elements)-1]\n\treturn value\n}\n\n// ReverseStack reverses the elements of the stack\nfunc ReverseStack(s *Stack) {\n\tn := len(s.elements)\n\tfor i := 0; i < n/2; i++ {\n\t\ts.elements[i], s.elements[n-i-1] = s.elements[n-i-1], s.elements[i]\n\t}\n}\n\nfunc main() {\n\tstack := &Stack{}\n\tstack.Push(1)\n\tstack.Push(2)\n\tstack.Push(3)\n\n\tfmt.Println(\"Original stack:\", stack.elements)\n\n\tReverseStack(stack)\n\n\tfmt.Println(\"Reversed stack:\", stack.elements)\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Queue []int\n\nfunc dequeue(q *Queue) {\n\tif len(*q) > 0 {\n\t\t*q = (*q)[1:]\n\t}\n}\n\nfunc main() {\n\tqueue := Queue{1, 2, 3, 4, 5}\n\tdequeue(&queue)\n\tfmt.Println(queue) // Outputs: [2 3 4 5]\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc updateValue(m map[string]int, key string, newValue int) {\n\tm[key] = newValue\n}\n\nfunc main() {\n\tmyMap := map[string]int{\"a\": 1, \"b\": 2, \"c\": 3}\n\tfmt.Println(\"Before update:\", myMap)\n\n\tupdateValue(myMap, \"b\", 42)\n\tfmt.Println(\"After update:\", myMap)\n}\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```go\npackage main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\nfunc addProperty(obj map[string]interface{}, key string, value interface{}) {\n\tobj[key] = value\n}\n\nfunc main() {\n\tjsonStr := `{\"name\": \"Alice\", \"age\": 30}`\n\tvar obj map[string]interface{}\n\tjson.Unmarshal([]byte(jsonStr), &obj)\n\n\taddProperty(obj, \"city\", \"New York\")\n\n\tmodifiedJSON, _ := json.Marshal(obj)\n\tfmt.Println(string(modifiedJSON))\n}\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype Graph struct {\n\tnodes []string\n\tedges map[string][]string\n}\n\nfunc addNode(g *Graph, node string) {\n\tg.nodes = append(g.nodes, node)\n\tg.edges[node] = []string{}\n}\n\nfunc main() {\n\tgraph := Graph{\n\t\tnodes: []string{\"A\", \"B\"},\n\t\tedges: map[string][]string{\n\t\t\t\"A\": {\"B\"},\n\t\t\t\"B\": {\"A\"},\n\t\t},\n\t}\n\n\tfmt.Println(\"Before adding node:\", graph.nodes)\n\n\taddNode(&graph, \"C\")\n\n\tfmt.Println(\"After adding node:\", graph.nodes)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Coordinates struct {\n\tx, y int\n}\n\nfunc shiftCoordinates(coords Coordinates, dx, dy int) Coordinates {\n\tcoords.x += dx\n\tcoords.y += dy\n\treturn coords\n}\n\nfunc main() {\n\toriginal := Coordinates{x: 5, y: 10}\n\tfmt.Printf(\"Original: (%d, %d)\\n\", original.x, original.y)\n\n\tshifted := shiftCoordinates(original, 3, 4)\n\tfmt.Printf(\"Shifted: (%d, %d)\\n\", shifted.x, shifted.y)\n\n\tfmt.Printf(\"Original after shift: (%d, %d)\\n\", original.x, original.y)\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc main() {\n\tdate := time.Date(2023, time.October, 5, 0, 0, 0, 0, time.UTC)\n\tfmt.Println(\"Original date:\", date)\n\n\tsetToNextDay(&date)\n\tfmt.Println(\"Next day:\", date)\n}\n\nfunc setToNextDay(date *time.Time) {\n\t*date = date.AddDate(0, 0, 1)\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc differentiatePolynomial(coefficients []int) []int {\n\tif len(coefficients) <= 1 {\n\t\treturn []int{0}\n\t}\n\tderivative := make([]int, len(coefficients)-1)\n\tfor i := 1; i < len(coefficients); i++ {\n\t\tderivative[i-1] = coefficients[i] * i\n\t}\n\treturn derivative\n}\n\nfunc main() {\n\toriginalPolynomial := []int{3, 2, 1} // Represents 3 + 2x + x^2\n\tderivative := differentiatePolynomial(originalPolynomial)\n\n\tfmt.Println(\"Original Polynomial Coefficients:\", originalPolynomial)\n\tfmt.Println(\"Derivative Polynomial Coefficients:\", derivative)\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// Stack represents a simple stack data structure\ntype Stack struct {\n\telements []int\n}\n\n// ClearStack clears the stack by modifying it directly\nfunc ClearStack(s *Stack) {\n\ts.elements = nil\n}\n\nfunc main() {\n\tstack := &Stack{elements: []int{1, 2, 3, 4, 5}}\n\tfmt.Println(\"Original stack:\", stack.elements)\n\n\tClearStack(stack)\n\tfmt.Println(\"Cleared stack:\", stack.elements)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Node struct {\n    value int\n    next  *Node\n}\n\ntype LinkedList struct {\n    head *Node\n}\n\nfunc (list *LinkedList) Append(value int) {\n    newNode := &Node{value: value}\n    if list.head == nil {\n        list.head = newNode\n    } else {\n        current := list.head\n        for current.next != nil {\n            current = current.next\n        }\n        current.next = newNode\n    }\n}\n\nfunc (list *LinkedList) Display() {\n    current := list.head\n    for current != nil {\n        fmt.Print(current.value, \" -> \")\n        current = current.next\n    }\n    fmt.Println(\"nil\")\n}\n\nfunc main() {\n    list := &LinkedList{}\n    list.Append(1)\n    list.Append(2)\n    fmt.Println(\"Before appending a new node:\")\n    list.Display()\n\n    appendNode(list, 3)\n    fmt.Println(\"After appending a new node by reference:\")\n    list.Display()\n}\n\nfunc appendNode(list *LinkedList, value int) {\n    list.Append(value)\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"net/url\"\n)\n\nfunc extractDomain(urlStr string) string {\n\tparsedURL, err := url.Parse(urlStr)\n\tif err != nil {\n\t\treturn \"\"\n\t}\n\treturn parsedURL.Hostname()\n}\n\nfunc main() {\n\turlStr := \"https://www.example.com/path\"\n\tdomain := extractDomain(urlStr)\n\tfmt.Println(\"Domain:\", domain)\n\tfmt.Println(\"Original URL:\", urlStr) // Demonstrating pass-by-value\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```go\npackage main\n\nimport (\n\t\"container/heap\"\n\t\"fmt\"\n)\n\n// Item defines an element in the priority queue\ntype Item struct {\n\tvalue    string\n\tpriority int\n\tindex    int\n}\n\n// PriorityQueue implements heap.Interface and holds Items\ntype PriorityQueue []*Item\n\nfunc (pq PriorityQueue) Len() int { return len(pq) }\n\nfunc (pq PriorityQueue) Less(i, j int) bool {\n\treturn pq[i].priority < pq[j].priority\n}\n\nfunc (pq PriorityQueue) Swap(i, j int) {\n\tpq[i], pq[j] = pq[j], pq[i]\n\tpq[i].index = i\n\tpq[j].index = j\n}\n\nfunc (pq *PriorityQueue) Push(x interface{}) {\n\tn := len(*pq)\n\titem := x.(*Item)\n\titem.index = n\n\t*pq = append(*pq, item)\n}\n\nfunc (pq *PriorityQueue) Pop() interface{} {\n\told := *pq\n\tn := len(old)\n\titem := old[n-1]\n\told[n-1] = nil\n\titem.index = -1\n\t*pq = old[0 : n-1]\n\treturn item\n}\n\n// Update modifies the priority of an item in the queue\nfunc (pq *PriorityQueue) Update(item *Item, priority int) {\n\titem.priority = priority\n\theap.Fix(pq, item.index)\n}\n\n// ChangePriority illustrates the effect of pass-by-reference\nfunc ChangePriority(pq *PriorityQueue, item *Item, newPriority int) {\n\tpq.Update(item, newPriority)\n}\n\nfunc main() {\n\tpq := make(PriorityQueue, 0)\n\theap.Init(&pq)\n\n\titem1 := &Item{\n\t\tvalue:    \"task1\",\n\t\tpriority: 3,\n\t}\n\titem2 := &Item{\n\t\tvalue:    \"task2\",\n\t\tpriority: 1,\n\t}\n\theap.Push(&pq, item1)\n\theap.Push(&pq, item2)\n\n\tfmt.Println(\"Before change:\")\n\tfor _, item := range pq {\n\t\tfmt.Printf(\"%s: %d\\n\", item.value, item.priority)\n\t}\n\n\tChangePriority(&pq, item1, 0)\n\n\tfmt.Println(\"After change:\")\n\tfor _, item := range pq {\n\t\tfmt.Printf(\"%s: %d\\n\", item.value, item.priority)\n\t}\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype CircularBuffer struct {\n\tbuffer []int\n\thead   int\n\ttail   int\n\tsize   int\n}\n\nfunc NewCircularBuffer(size int) *CircularBuffer {\n\treturn &CircularBuffer{\n\t\tbuffer: make([]int, size),\n\t\tsize:   size,\n\t}\n}\n\nfunc (cb *CircularBuffer) Read() (int, bool) {\n\tif cb.head == cb.tail {\n\t\treturn 0, false // Buffer is empty\n\t}\n\tval := cb.buffer[cb.head]\n\tcb.head = (cb.head + 1) % cb.size\n\treturn val, true\n}\n\nfunc main() {\n\tcb := NewCircularBuffer(5)\n\tcb.buffer = []int{1, 2, 3, 4, 5}\n\tcb.tail = 5\n\n\tval, ok := cb.Read()\n\tif ok {\n\t\tfmt.Println(\"Read value:\", val)\n\t} else {\n\t\tfmt.Println(\"Buffer is empty\")\n\t}\n\n\tval, ok = cb.Read()\n\tif ok {\n\t\tfmt.Println(\"Read value:\", val)\n\t} else {\n\t\tfmt.Println(\"Buffer is empty\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Record struct {\n    Field string\n}\n\nfunc updateField(r *Record, newValue string) {\n    r.Field = newValue\n}\n\nfunc main() {\n    rec := Record{Field: \"Original Value\"}\n    fmt.Println(\"Before update:\", rec.Field)\n    \n    updateField(&rec, \"Updated Value\")\n    fmt.Println(\"After update:\", rec.Field)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc normalizeFrequencyList(freqList []float64) []float64 {\n\t// Compute the sum of the frequencies\n\tvar sum float64\n\tfor _, value := range freqList {\n\t\tsum += value\n\t}\n\n\t// Create a new list to store normalized values\n\tnormalizedList := make([]float64, len(freqList))\n\n\t// Normalize the frequencies\n\tfor i, value := range freqList {\n\t\tnormalizedList[i] = value / sum\n\t}\n\n\treturn normalizedList\n}\n\nfunc main() {\n\tfreqList := []float64{10, 20, 30, 40}\n\tnormalizedList := normalizeFrequencyList(freqList)\n\n\tfmt.Println(\"Original List:\", freqList)\n\tfmt.Println(\"Normalized List:\", normalizedList)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype ChessBoard [8][8]string\n\nfunc makeMove(board *ChessBoard, fromX, fromY, toX, toY int) {\n\t// Move the piece from (fromX, fromY) to (toX, toY)\n\tboard[toY][toX] = board[fromY][fromX]\n\tboard[fromY][fromX] = \"\"\n}\n\nfunc printBoard(board ChessBoard) {\n\tfor _, row := range board {\n\t\tfmt.Println(row)\n\t}\n}\n\nfunc main() {\n\tvar board ChessBoard\n\tboard[1][0] = \"P\" // Example piece placement, a pawn at starting position\n\n\tfmt.Println(\"Before move:\")\n\tprintBoard(board)\n\n\tmakeMove(&board, 0, 1, 0, 3) // Move the pawn forward\n\n\tfmt.Println(\"After move:\")\n\tprintBoard(board)\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc decimalToBinary(n int) string {\n\tif n == 0 {\n\t\treturn \"0\"\n\t}\n\tbinary := \"\"\n\tfor n > 0 {\n\t\tbinary = string(n%2+'0') + binary\n\t\tn = n / 2\n\t}\n\treturn binary\n}\n\nfunc main() {\n\toriginalNumber := 10\n\tbinaryRepresentation := decimalToBinary(originalNumber)\n\tfmt.Printf(\"Decimal: %d, Binary: %s\\n\", originalNumber, binaryRepresentation)\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc countNucleotides(dna string) map[rune]int {\n\tcounts := map[rune]int{'A': 0, 'C': 0, 'G': 0, 'T': 0}\n\tfor _, nucleotide := range dna {\n\t\tif _, ok := counts[nucleotide]; ok {\n\t\t\tcounts[nucleotide]++\n\t\t}\n\t}\n\treturn counts\n}\n\nfunc main() {\n\toriginalDNA := \"AGCTAGCCTAGG\"\n\tcounts := countNucleotides(originalDNA)\n\tfmt.Println(\"Original DNA:\", originalDNA)\n\tfmt.Println(\"Nucleotide Counts:\", counts)\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype ShoppingCart struct {\n\tTotalAmount float64\n}\n\nfunc applyDiscount(cart *ShoppingCart, discountRate float64) {\n\tcart.TotalAmount = cart.TotalAmount * (1 - discountRate)\n}\n\nfunc main() {\n\tcart := ShoppingCart{TotalAmount: 100.0}\n\tfmt.Printf(\"Before discount: $%.2f\\n\", cart.TotalAmount)\n\tapplyDiscount(&cart, 0.2) // 20% discount\n\tfmt.Printf(\"After discount: $%.2f\\n\", cart.TotalAmount)\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Playlist struct {\n\tSongs []string\n}\n\nfunc addSong(playlist *Playlist, song string) {\n\tplaylist.Songs = append(playlist.Songs, song)\n}\n\nfunc main() {\n\tmyPlaylist := Playlist{Songs: []string{\"Song A\", \"Song B\"}}\n\tfmt.Println(\"Original Playlist:\", myPlaylist.Songs)\n\n\taddSong(&myPlaylist, \"Song C\")\n\tfmt.Println(\"Updated Playlist:\", myPlaylist.Songs)\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Sprite struct {\n\tx, y int\n}\n\nfunc moveSprite(s *Sprite, dx, dy int) {\n\ts.x += dx\n\ts.y += dy\n}\n\nfunc main() {\n\tsprite := Sprite{x: 0, y: 0}\n\tfmt.Println(\"Before move:\", sprite)\n\n\tmoveSprite(&sprite, 10, 5)\n\tfmt.Println(\"After move:\", sprite)\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype Book struct {\n\tTitle string\n}\n\nfunc UpdateTitle(b *Book, newTitle string) {\n\tb.Title = newTitle\n}\n\nfunc main() {\n\tbook := Book{Title: \"Original Title\"}\n\tfmt.Println(\"Before update:\", book.Title)\n\n\tUpdateTitle(&book, \"Updated Title\")\n\tfmt.Println(\"After update:\", book.Title)\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc normalizeSoundWave(wave []float64) []float64 {\n\tmaxAmplitude := findMaxAmplitude(wave)\n\tnormalizedWave := make([]float64, len(wave))\n\tfor i, v := range wave {\n\t\tnormalizedWave[i] = v / maxAmplitude\n\t}\n\treturn normalizedWave\n}\n\nfunc findMaxAmplitude(wave []float64) float64 {\n\tmax := 0.0\n\tfor _, v := range wave {\n\t\tif math.Abs(v) > max {\n\t\t\tmax = math.Abs(v)\n\t\t}\n\t}\n\treturn max\n}\n\nfunc main() {\n\toriginalWave := []float64{0.2, 0.5, 0.7, 1.0, 0.9}\n\tnormalizedWave := normalizeSoundWave(originalWave)\n\tfmt.Println(\"Original Wave:\", originalWave)\n\tfmt.Println(\"Normalized Wave:\", normalizedWave)\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype BankAccount struct {\n\tbalance float64\n}\n\nfunc creditAmount(account *BankAccount, amount float64) {\n\taccount.balance += amount\n}\n\nfunc main() {\n\taccount := BankAccount{balance: 100.0}\n\tfmt.Printf(\"Initial Balance: %.2f\\n\", account.balance)\n\n\tcreditAmount(&account, 50.0)\n\tfmt.Printf(\"Balance after credit: %.2f\\n\", account.balance)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"regexp\"\n)\n\nfunc filterInvalidEmails(emails []string) []string {\n\tvalidEmailPattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$`\n\tre := regexp.MustCompile(validEmailPattern)\n\tvar filteredEmails []string\n\tfor _, email := range emails {\n\t\tif re.MatchString(email) {\n\t\t\tfilteredEmails = append(filteredEmails, email)\n\t\t}\n\t}\n\treturn filteredEmails\n}\n\nfunc main() {\n\temailList := []string{\n\t\t\"valid.email@example.com\",\n\t\t\"invalid-email\",\n\t\t\"another.valid.email@example.com\",\n\t\t\"yet.another_invalid.email\",\n\t}\n\n\tfmt.Println(\"Original email list:\", emailList)\n\n\t// Pass-by-value, emailList remains unchanged\n\tfilteredEmails := filterInvalidEmails(emailList)\n\n\tfmt.Println(\"Filtered email list:\", filteredEmails)\n\tfmt.Println(\"Original email list after filtering:\", emailList)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Model struct {\n\twidth, height, depth float64\n}\n\nfunc scaleModel(m *Model, factor float64) {\n\tm.width *= factor\n\tm.height *= factor\n\tm.depth *= factor\n}\n\nfunc main() {\n\tmodel := Model{width: 1.0, height: 2.0, depth: 3.0}\n\tfmt.Println(\"Original model:\", model)\n\n\tscaleModel(&model, 2.0)\n\tfmt.Println(\"Scaled model:\", model)\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"regexp\"\n)\n\nfunc redactSensitiveInfo(doc *string) {\n\tredactedPattern := regexp.MustCompile(`(?i)(\\b\\d{3}-\\d{2}-\\d{4}\\b|\\b\\d{4}-\\d{4}-\\d{4}-\\d{4}\\b)`)\n\t*doc = redactedPattern.ReplaceAllString(*doc, \"[REDACTED]\")\n}\n\nfunc main() {\n\tdocument := \"This document contains sensitive information: 123-45-6789 and 1234-5678-9123-4567.\"\n\tfmt.Println(\"Before redaction:\", document)\n\tredactSensitiveInfo(&document)\n\tfmt.Println(\"After redaction:\", document)\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// adjustTemperature takes a temperature reading and a calibration offset,\n// and returns the adjusted temperature.\nfunc adjustTemperature(temp float64, offset float64) float64 {\n\treturn temp + offset\n}\n\nfunc main() {\n\toriginalReading := 25.5\n\tcalibrationOffset := 1.5\n\n\t// Adjust the temperature using the calibration offset\n\tadjustedReading := adjustTemperature(originalReading, calibrationOffset)\n\n\t// Output the original and adjusted readings\n\tfmt.Printf(\"Original Reading: %.2f\\n\", originalReading)\n\tfmt.Printf(\"Adjusted Reading: %.2f\\n\", adjustedReading)\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype BugReport struct {\n\tID     int\n\tTitle  string\n\tStatus string\n}\n\nfunc updateBugReportStatus(report *BugReport, newStatus string) {\n\treport.Status = newStatus\n}\n\nfunc main() {\n\tbug := BugReport{ID: 1, Title: \"Sample Bug\", Status: \"Open\"}\n\tfmt.Printf(\"Before update: %+v\\n\", bug)\n\n\tupdateBugReportStatus(&bug, \"Closed\")\n\tfmt.Printf(\"After update: %+v\\n\", bug)\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc calibrateSensorArray(sensors *[]float64) {\n\tfor i := range *sensors {\n\t\t(*sensors)[i] += 1.0 // Simple calibration by adding 1.0\n\t}\n}\n\nfunc main() {\n\tsensorArray := []float64{0.5, 1.2, 3.8, 4.4}\n\tfmt.Println(\"Before calibration:\", sensorArray)\n\tcalibrateSensorArray(&sensorArray)\n\tfmt.Println(\"After calibration:\", sensorArray)\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype Vector struct {\n\tx, y, z int\n}\n\nfunc rotateVector(v Vector) Vector {\n\treturn Vector{-v.y, v.x, v.z}\n}\n\nfunc main() {\n\toriginal := Vector{1, 2, 3}\n\trotated := rotateVector(original)\n\tfmt.Printf(\"Original Vector: %+v\\n\", original)\n\tfmt.Printf(\"Rotated Vector: %+v\\n\", rotated)\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc compressLog(log *[]string) {\n\tif log == nil || len(*log) == 0 {\n\t\treturn\n\t}\n\n\tvar compressedLog []string\n\tcounter := 1\n\n\tfor i := 1; i < len(*log); i++ {\n\t\tif (*log)[i] == (*log)[i-1] {\n\t\t\tcounter++\n\t\t} else {\n\t\t\tcompressedLog = append(compressedLog, fmt.Sprintf(\"%s x%d\", (*log)[i-1], counter))\n\t\t\tcounter = 1\n\t\t}\n\t}\n\tcompressedLog = append(compressedLog, fmt.Sprintf(\"%s x%d\", (*log)[len(*log)-1], counter))\n\n\t*log = compressedLog\n}\n\nfunc main() {\n\tlog := []string{\"start\", \"start\", \"stop\", \"stop\", \"stop\", \"restart\", \"restart\", \"start\"}\n\tcompressLog(&log)\n\tfmt.Println(strings.Join(log, \", \"))\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype NeuralNetwork struct {\n\tWeights []float64\n}\n\nfunc updateWeights(nn *NeuralNetwork, newWeights []float64) {\n\tfor i := range nn.Weights {\n\t\tnn.Weights[i] = newWeights[i]\n\t}\n}\n\nfunc main() {\n\tmodel := NeuralNetwork{Weights: []float64{0.1, 0.2, 0.3}}\n\tfmt.Println(\"Before update:\", model.Weights)\n\n\tnewWeights := []float64{0.4, 0.5, 0.6}\n\tupdateWeights(&model, newWeights)\n\n\tfmt.Println(\"After update:\", model.Weights)\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc revertLastCommand(commandHistory *[]string) {\n\tif len(*commandHistory) > 0 {\n\t\t*commandHistory = (*commandHistory)[:len(*commandHistory)-1]\n\t}\n}\n\nfunc main() {\n\thistory := []string{\"command1\", \"command2\", \"command3\"}\n\tfmt.Println(\"Before revert:\", history)\n\n\trevertLastCommand(&history)\n\tfmt.Println(\"After revert:\", history)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype UserProfile struct {\n\tName    string\n\tEmail   string\n\tAddress string\n}\n\nfunc anonymizeProfile(profile *UserProfile) {\n\tprofile.Name = \"Anonymous\"\n\tprofile.Email = \"anonymous@example.com\"\n\tprofile.Address = \"Unknown\"\n}\n\nfunc main() {\n\tprofile := UserProfile{\n\t\tName:    \"John Doe\",\n\t\tEmail:   \"johndoe@example.com\",\n\t\tAddress: \"123 Main St\",\n\t}\n\n\tfmt.Println(\"Before anonymization:\", profile)\n\n\tanonymizeProfile(&profile)\n\n\tfmt.Println(\"After anonymization:\", profile)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc evaluatePolynomial(coefficients []float64, x float64) float64 {\n\tresult := 0.0\n\tfor i, coeff := range coefficients {\n\t\tresult += coeff * math.Pow(x, float64(i))\n\t}\n\treturn result\n}\n\nfunc main() {\n\tpolynomial := []float64{1, 0, 3} // Represents 1 + 0*x + 3*x^2\n\tpoint := 2.0\n\tvalue := evaluatePolynomial(polynomial, point)\n\tfmt.Printf(\"The polynomial evaluated at x=%.2f is %.2f\\n\", point, value)\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\n// VideoStream represents a simple video stream\ntype VideoStream struct {\n\tdata []string\n}\n\n// ApplyFilter simulates applying a filter to a video stream\nfunc ApplyFilter(stream *VideoStream) {\n\tfor i := range stream.data {\n\t\tstream.data[i] = \"filtered_\" + stream.data[i]\n\t}\n}\n\nfunc main() {\n\tstream := VideoStream{\n\t\tdata: []string{\"frame1\", \"frame2\", \"frame3\"},\n\t}\n\n\tfmt.Println(\"Before applying filter:\", stream.data)\n\tApplyFilter(&stream)\n\tfmt.Println(\"After applying filter:\", stream.data)\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\ntype Task struct {\n\tName     string\n\tPriority int\n}\n\nfunc reorderTasksByReference(tasks *[]Task) {\n\tsort.Slice(*tasks, func(i, j int) bool {\n\t\treturn (*tasks)[i].Priority > (*tasks)[j].Priority\n\t})\n}\n\nfunc main() {\n\ttaskQueue := []Task{\n\t\t{\"Task1\", 3},\n\t\t{\"Task2\", 1},\n\t\t{\"Task3\", 2},\n\t}\n\n\tfmt.Println(\"Before reordering:\", taskQueue)\n\treorderTasksByReference(&taskQueue)\n\tfmt.Println(\"After reordering:\", taskQueue)\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Transaction struct {\n\tID     string\n\tAmount float64\n}\n\ntype Block struct {\n\tTransactions []Transaction\n}\n\ntype Blockchain []Block\n\nfunc verifyTransaction(blockchain *Blockchain, transactionID string) bool {\n\tfor _, block := range *blockchain {\n\t\tfor _, transaction := range block.Transactions {\n\t\t\tif transaction.ID == transactionID {\n\t\t\t\treturn true\n\t\t\t}\n\t\t}\n\t}\n\treturn false\n}\n\nfunc main() {\n\tblockchain := Blockchain{\n\t\t{\n\t\t\tTransactions: []Transaction{\n\t\t\t\t{ID: \"tx1\", Amount: 100.0},\n\t\t\t\t{ID: \"tx2\", Amount: 50.0},\n\t\t\t},\n\t\t},\n\t\t{\n\t\t\tTransactions: []Transaction{\n\t\t\t\t{ID: \"tx3\", Amount: 75.0},\n\t\t\t\t{ID: \"tx4\", Amount: 200.0},\n\t\t\t},\n\t\t},\n\t}\n\n\ttransactionID := \"tx3\"\n\tisVerified := verifyTransaction(&blockchain, transactionID)\n\tfmt.Printf(\"Transaction %s verified: %v\\n\", transactionID, isVerified)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Player struct {\n\tName  string\n\tScore int\n}\n\nfunc updateScores(leaderboard *[]Player, updates map[string]int) {\n\tfor i, player := range *leaderboard {\n\t\tif newScore, exists := updates[player.Name]; exists {\n\t\t\t(*leaderboard)[i].Score += newScore\n\t\t}\n\t}\n}\n\nfunc main() {\n\tleaderboard := []Player{\n\t\t{\"Alice\", 100},\n\t\t{\"Bob\", 150},\n\t\t{\"Charlie\", 200},\n\t}\n\n\tupdates := map[string]int{\n\t\t\"Alice\":   50,\n\t\t\"Charlie\": -30,\n\t}\n\n\tupdateScores(&leaderboard, updates)\n\n\tfor _, player := range leaderboard {\n\t\tfmt.Printf(\"Player: %s, Score: %d\\n\", player.Name, player.Score)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\ntype Timeline struct {\n\tProjectName string\n\tDays        int\n}\n\nfunc adjustForDelays(t *Timeline, delayDays int) {\n\tt.Days += delayDays\n}\n\nfunc main() {\n\ttimeline := Timeline{\n\t\tProjectName: \"New Website Launch\",\n\t\tDays:        30,\n\t}\n\n\tfmt.Printf(\"Original timeline for %s: %d days\\n\", timeline.ProjectName, timeline.Days)\n\n\t// Adjust timeline for delays\n\tadjustForDelays(&timeline, 5)\n\n\tfmt.Printf(\"Adjusted timeline for %s: %d days\\n\", timeline.ProjectName, timeline.Days)\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc completeTask(todoList *[]string, taskIndex int) {\n\tif taskIndex >= 0 && taskIndex < len(*todoList) {\n\t\t*todoList = append((*todoList)[:taskIndex], (*todoList)[taskIndex+1:]...)\n\t}\n}\n\nfunc main() {\n\ttodoList := []string{\"Buy groceries\", \"Clean the house\", \"Pay bills\", \"Read a book\"}\n\tfmt.Println(\"Original To-Do List:\", todoList)\n\n\tcompleteTask(&todoList, 2)\n\tfmt.Println(\"Updated To-Do List:\", todoList)\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Canvas struct {\n\tlayers []string\n}\n\nfunc addLayer(canvas *Canvas, layer string) {\n\tcanvas.layers = append(canvas.layers, layer)\n}\n\nfunc main() {\n\tcanvas := Canvas{layers: []string{\"base\"}}\n\tfmt.Println(\"Before:\", canvas.layers)\n\n\taddLayer(&canvas, \"layer1\")\n\tfmt.Println(\"After:\", canvas.layers)\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n)\n\nfunc fetchContentByValue(urls []string) {\n\tfor i, url := range urls {\n\t\tresp, err := http.Get(url)\n\t\tif err != nil {\n\t\t\turls[i] = \"Error fetching\"\n\t\t\tcontinue\n\t\t}\n\t\tbody, err := ioutil.ReadAll(resp.Body)\n\t\tif err != nil {\n\t\t\turls[i] = \"Error reading\"\n\t\t\tresp.Body.Close()\n\t\t\tcontinue\n\t\t}\n\t\turls[i] = string(body)\n\t\tresp.Body.Close()\n\t}\n}\n\nfunc main() {\n\turls := []string{\n\t\t\"https://example.com\",\n\t\t\"https://example.org\",\n\t}\n\n\toriginalUrls := make([]string, len(urls))\n\tcopy(originalUrls, urls)\n\n\tfetchContentByValue(urls)\n\n\tfmt.Println(\"Original URLs:\", originalUrls)\n\tfmt.Println(\"Fetched Content URLs:\", urls)\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc resetBoard(board *[3][3]string) {\n\tfor i := range board {\n\t\tfor j := range board[i] {\n\t\t\tboard[i][j] = \"\"\n\t\t}\n\t}\n}\n\nfunc main() {\n\tboard := [3][3]string{\n\t\t{\"X\", \"O\", \"X\"},\n\t\t{\"O\", \"X\", \"O\"},\n\t\t{\"X\", \"O\", \"X\"},\n\t}\n\n\tfmt.Println(\"Before reset:\")\n\tfor _, row := range board {\n\t\tfmt.Println(row)\n\t}\n\n\tresetBoard(&board)\n\n\tfmt.Println(\"After reset:\")\n\tfor _, row := range board {\n\t\tfmt.Println(row)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype SoundEffect struct {\n\tVolume int\n\tName   string\n}\n\nfunc increaseVolume(sound *SoundEffect, increment int) {\n\tsound.Volume += increment\n}\n\nfunc main() {\n\tsound := SoundEffect{Volume: 5, Name: \"Explosion\"}\n\tfmt.Printf(\"Original Volume: %d\\n\", sound.Volume)\n\tincreaseVolume(&sound, 10)\n\tfmt.Printf(\"Increased Volume: %d\\n\", sound.Volume)\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Forecast struct {\n\tTemperature int\n}\n\nfunc updateTemperature(f *Forecast) {\n\tf.Temperature += 5 // Example adjustment\n}\n\nfunc main() {\n\tforecast := Forecast{Temperature: 20}\n\tfmt.Println(\"Before update:\", forecast.Temperature)\n\t\n\tupdateTemperature(&forecast)\n\tfmt.Println(\"After update:\", forecast.Temperature)\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc extractErrors(log string) []string {\n\tlines := strings.Split(log, \"\\n\")\n\tvar errors []string\n\tfor _, line := range lines {\n\t\tif strings.Contains(line, \"ERROR\") {\n\t\t\terrors = append(errors, line)\n\t\t}\n\t}\n\treturn errors\n}\n\nfunc main() {\n\tsystemLog := `INFO: System started\nERROR: Failed to load configuration\nINFO: Service running\nERROR: Connection lost\nINFO: System shutdown`\n\n\terrorMessages := extractErrors(systemLog)\n\tfmt.Println(\"Errors extracted:\")\n\tfor _, err := range errorMessages {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(\"\\nOriginal system log remains unchanged:\")\n\tfmt.Println(systemLog)\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```go\npackage main\n\nimport (\n\t\"crypto/aes\"\n\t\"crypto/cipher\"\n\t\"crypto/rand\"\n\t\"encoding/hex\"\n\t\"fmt\"\n\t\"io\"\n)\n\nfunc encryptPacket(packet []byte) []byte {\n\tkey := []byte(\"thisis32bitlongpassphraseimusing!\")\n\tblock, err := aes.NewCipher(key)\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tnonce := make([]byte, 12)\n\tif _, err := io.ReadFull(rand.Reader, nonce); err != nil {\n\t\tpanic(err)\n\t}\n\n\taesgcm, err := cipher.NewGCM(block)\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tencryptedPacket := aesgcm.Seal(nonce, nonce, packet, nil)\n\treturn encryptedPacket\n}\n\nfunc main() {\n\toriginalPacket := []byte(\"SensitiveData\")\n\tfmt.Println(\"Original Packet:\", string(originalPacket))\n\n\tencryptedPacket := encryptPacket(originalPacket)\n\tfmt.Println(\"Encrypted Packet:\", hex.EncodeToString(encryptedPacket))\n\n\tfmt.Println(\"Original Packet after encryption:\", string(originalPacket))\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Theme struct {\n\tColor string\n}\n\nfunc applyColorChange(theme *Theme, newColor string) {\n\ttheme.Color = newColor\n}\n\nfunc main() {\n\tmyTheme := Theme{Color: \"blue\"}\n\tfmt.Printf(\"Original theme color: %s\\n\", myTheme.Color)\n\n\tapplyColorChange(&myTheme, \"green\")\n\tfmt.Printf(\"Updated theme color: %s\\n\", myTheme.Color)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```go\npackage main\n\nimport (\n\t\"crypto/ecdsa\"\n\t\"crypto/elliptic\"\n\t\"crypto/rand\"\n\t\"crypto/sha256\"\n\t\"fmt\"\n\t\"math/big\"\n)\n\nfunc verifySignature(publicKey ecdsa.PublicKey, data []byte, r, s *big.Int) bool {\n\t// Hash the data\n\thashed := sha256.Sum256(data)\n\t// Verify the signature\n\treturn ecdsa.Verify(&publicKey, hashed[:], r, s)\n}\n\nfunc main() {\n\t// Generate a key pair for testing\n\tprivateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)\n\tif err != nil {\n\t\tfmt.Println(\"Error generating key:\", err)\n\t\treturn\n\t}\n\n\tdata := []byte(\"Sample data to sign\")\n\thashed := sha256.Sum256(data)\n\n\t// Sign the data\n\tr, s, err := ecdsa.Sign(rand.Reader, privateKey, hashed[:])\n\tif err != nil {\n\t\tfmt.Println(\"Error signing data:\", err)\n\t\treturn\n\t}\n\n\t// Verify the signature\n\tvalid := verifySignature(privateKey.PublicKey, data, r, s)\n\tif valid {\n\t\tfmt.Println(\"Signature is valid.\")\n\t} else {\n\t\tfmt.Println(\"Signature is invalid.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc optimizePath(path *[]string) {\n\toptimized := []string{}\n\tfor i := 0; i < len(*path); i++ {\n\t\tif i+1 < len(*path) && (*path)[i] == \"N\" && (*path)[i+1] == \"S\" || \n\t\t   (*path)[i] == \"S\" && (*path)[i+1] == \"N\" || \n\t\t   (*path)[i] == \"E\" && (*path)[i+1] == \"W\" || \n\t\t   (*path)[i] == \"W\" && (*path)[i+1] == \"E\" {\n\t\t\ti++ // skip the next step since they cancel each other out\n\t\t} else {\n\t\t\toptimized = append(optimized, (*path)[i])\n\t\t}\n\t}\n\t*path = optimized\n}\n\nfunc main() {\n\tpath := []string{\"N\", \"S\", \"E\", \"W\", \"N\", \"E\", \"E\", \"W\", \"S\"}\n\tfmt.Println(\"Original Path:\", path)\n\toptimizePath(&path)\n\tfmt.Println(\"Optimized Path:\", path)\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math/rand\"\n\t\"time\"\n)\n\nfunc shufflePlaylist(playlist *[]string) {\n\trand.Seed(time.Now().UnixNano())\n\tn := len(*playlist)\n\tfor i := n - 1; i > 0; i-- {\n\t\tj := rand.Intn(i + 1)\n\t\t(*playlist)[i], (*playlist)[j] = (*playlist)[j], (*playlist)[i]\n\t}\n}\n\nfunc main() {\n\tplaylist := []string{\"Song1\", \"Song2\", \"Song3\", \"Song4\", \"Song5\"}\n\tfmt.Println(\"Original Playlist:\", playlist)\n\tshufflePlaylist(&playlist)\n\tfmt.Println(\"Shuffled Playlist:\", playlist)\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc removeDuplicates(feed *[]string) {\n\tseen := make(map[string]bool)\n\tj := 0\n\tfor _, item := range *feed {\n\t\tif !seen[item] {\n\t\t\tseen[item] = true\n\t\t\t(*feed)[j] = item\n\t\t\tj++\n\t\t}\n\t}\n\t*feed = (*feed)[:j]\n}\n\nfunc main() {\n\tfeed := []string{\"post1\", \"post2\", \"post1\", \"post3\", \"post2\"}\n\tfmt.Println(\"Before:\", feed)\n\tremoveDuplicates(&feed)\n\tfmt.Println(\"After:\", feed)\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype Challenge struct {\n\tDescription string\n\tTestCases   []string\n}\n\nfunc addTestCases(challenge *Challenge, testCases []string) {\n\tfor _, testCase := range testCases {\n\t\tchallenge.TestCases = append(challenge.TestCases, testCase)\n\t}\n}\n\nfunc main() {\n\tchallenge := &Challenge{\n\t\tDescription: \"Solve the Fibonacci sequence problem.\",\n\t\tTestCases:   []string{},\n\t}\n\n\ttestCases := []string{\n\t\t\"Test Case 1: Input 5, Expected Output: 5\",\n\t\t\"Test Case 2: Input 10, Expected Output: 55\",\n\t}\n\n\taddTestCases(challenge, testCases)\n\n\tfmt.Println(\"Challenge Description:\", challenge.Description)\n\tfmt.Println(\"Challenge Test Cases:\", challenge.TestCases)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc reverseSequence(seq []string) []string {\n\treversed := make([]string, len(seq))\n\tcopy(reversed, seq)\n\tfor i, j := 0, len(seq)-1; i < j; i, j = i+1, j-1 {\n\t\treversed[i], reversed[j] = reversed[j], reversed[i]\n\t}\n\treturn reversed\n}\n\nfunc main() {\n\toriginalSequence := []string{\"frame1\", \"frame2\", \"frame3\", \"frame4\"}\n\treversedSequence := reverseSequence(originalSequence)\n\tfmt.Println(\"Original Sequence:\", originalSequence)\n\tfmt.Println(\"Reversed Sequence:\", reversedSequence)\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Point struct {\n\tLatitude, Longitude float64\n}\n\ntype Route []Point\n\nfunc recalculateRoute(route *Route) {\n\tfor i := range *route {\n\t\t// Example recalculation: shift each point by a small amount\n\t\t(*route)[i].Latitude += 0.001\n\t\t(*route)[i].Longitude += 0.001\n\t}\n}\n\nfunc main() {\n\troute := Route{\n\t\t{Latitude: 37.7749, Longitude: -122.4194},\n\t\t{Latitude: 34.0522, Longitude: -118.2437},\n\t}\n\n\tfmt.Println(\"Before recalculation:\", route)\n\trecalculateRoute(&route)\n\tfmt.Println(\"After recalculation:\", route)\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc censorChatHistory(history *[]string, inappropriateWords []string) {\n\tfor i, message := range *history {\n\t\tfor _, word := range inappropriateWords {\n\t\t\tif strings.Contains(message, word) {\n\t\t\t\t(*history)[i] = strings.ReplaceAll(message, word, \"****\")\n\t\t\t}\n\t\t}\n\t}\n}\n\nfunc main() {\n\tchatHistory := []string{\n\t\t\"Hello there!\",\n\t\t\"This is a bad word example.\",\n\t\t\"Another inappropriate phrase here.\",\n\t}\n\tinappropriateWords := []string{\"bad\", \"inappropriate\"}\n\n\tcensorChatHistory(&chatHistory, inappropriateWords)\n\n\tfor _, msg := range chatHistory {\n\t\tfmt.Println(msg)\n\t}\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype LightingSetup struct {\n\tBrightness int\n}\n\nfunc adjustBrightness(setup *LightingSetup, adjustment int) {\n\tsetup.Brightness += adjustment\n}\n\nfunc main() {\n\tlighting := LightingSetup{Brightness: 50}\n\tfmt.Println(\"Before adjustment:\", lighting.Brightness)\n\n\tadjustBrightness(&lighting, 20)\n\tfmt.Println(\"After adjustment:\", lighting.Brightness)\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype VREnvironment struct {\n\tscenery string\n}\n\nfunc changeScenery(env *VREnvironment, newScenery string) {\n\tenv.scenery = newScenery\n}\n\nfunc main() {\n\tvrEnv := VREnvironment{scenery: \"Mountains\"}\n\tfmt.Println(\"Before change:\", vrEnv.scenery)\n\n\tchangeScenery(&vrEnv, \"Beach\")\n\tfmt.Println(\"After change:\", vrEnv.scenery)\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```go\npackage main\n\nimport (\n\t\"crypto/sha256\"\n\t\"encoding/hex\"\n\t\"fmt\"\n\t\"time\"\n)\n\ntype Block struct {\n\tIndex     int\n\tTimestamp string\n\tData      string\n\tHash      string\n\tPrevHash  string\n}\n\ntype Blockchain struct {\n\tBlocks []Block\n}\n\nfunc calculateHash(block Block) string {\n\trecord := fmt.Sprintf(\"%d%s%s%s\", block.Index, block.Timestamp, block.Data, block.PrevHash)\n\th := sha256.New()\n\th.Write([]byte(record))\n\thashed := h.Sum(nil)\n\treturn hex.EncodeToString(hashed)\n}\n\nfunc addBlock(ledger *Blockchain, data string) {\n\tnewBlock := Block{}\n\tif len(ledger.Blocks) == 0 {\n\t\tnewBlock.Index = 0\n\t\tnewBlock.PrevHash = \"\"\n\t} else {\n\t\tlastBlock := ledger.Blocks[len(ledger.Blocks)-1]\n\t\tnewBlock.Index = lastBlock.Index + 1\n\t\tnewBlock.PrevHash = lastBlock.Hash\n\t}\n\tnewBlock.Timestamp = time.Now().String()\n\tnewBlock.Data = data\n\tnewBlock.Hash = calculateHash(newBlock)\n\tledger.Blocks = append(ledger.Blocks, newBlock)\n}\n\nfunc main() {\n\tledger := &Blockchain{}\n\taddBlock(ledger, \"First Block Data\")\n\taddBlock(ledger, \"Second Block Data\")\n\n\tfor _, block := range ledger.Blocks {\n\t\tfmt.Printf(\"Index: %d\\nTimestamp: %s\\nData: %s\\nHash: %s\\nPrevHash: %s\\n\\n\",\n\t\t\tblock.Index, block.Timestamp, block.Data, block.Hash, block.PrevHash)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// Packet represents a network packet with headers.\ntype Packet struct {\n\tSource      string\n\tDestination string\n}\n\n// modifyPacketHeaders alters the headers of the packet.\nfunc modifyPacketHeaders(p Packet) {\n\tp.Source = \"192.168.1.1\"\n\tp.Destination = \"10.0.0.1\"\n}\n\n// Implication of pass-by-value: the original packet is not altered.\nfunc main() {\n\toriginalPacket := Packet{\n\t\tSource:      \"127.0.0.1\",\n\t\tDestination: \"8.8.8.8\",\n\t}\n\n\tfmt.Println(\"Before modification:\", originalPacket)\n\n\tmodifyPacketHeaders(originalPacket)\n\n\tfmt.Println(\"After modification:\", originalPacket)\n}\n```"
+  }
+]

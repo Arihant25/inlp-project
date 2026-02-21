@@ -1,0 +1,338 @@
+[
+  {
+    "task": "Define a class representing a book with attributes for title, author, and number of pages, and a method to display the book's information.",
+    "code": "```haskell\nclass Book a where\n    title :: a -> String\n    author :: a -> String\n    numberOfPages :: a -> Int\n    displayBookInfo :: a -> String\n    displayBookInfo book = \"Title: \" ++ title book ++ \", Author: \" ++ author book ++ \", Pages: \" ++ show (numberOfPages book)\n\ndata MyBook = MyBook {\n    myTitle :: String,\n    myAuthor :: String,\n    myNumberOfPages :: Int\n}\n\ninstance Book MyBook where\n    title = myTitle\n    author = myAuthor\n    numberOfPages = myNumberOfPages\n```"
+  },
+  {
+    "task": "Create a class for a bank account that includes attributes for account number, balance, and a method to deposit funds.",
+    "code": "```haskell\nclass BankAccount a where\n    accountNumber :: a -> String\n    balance :: a -> Double\n    deposit :: a -> Double -> a\n```"
+  },
+  {
+    "task": "Design a class for a vehicle with properties for make, model, and year, and a method to start the engine.",
+    "code": "```haskell\nclass Vehicle v where\n    make :: v -> String\n    model :: v -> String\n    year :: v -> Int\n    startEngine :: v -> String\n```"
+  },
+  {
+    "task": "Implement a class that models a student with attributes for name, ID, and grades, and a method to calculate the GPA.",
+    "code": "```haskell\nclass Student a where\n    getName :: a -> String\n    getID :: a -> Int\n    getGrades :: a -> [Double]\n    calculateGPA :: a -> Double\n\ndata StudentRecord = StudentRecord {\n    name :: String,\n    studentID :: Int,\n    grades :: [Double]\n}\n\ninstance Student StudentRecord where\n    getName = name\n    getID = studentID\n    getGrades = grades\n    calculateGPA student = \n        let gs = getGrades student\n        in if null gs then 0 else sum gs / fromIntegral (length gs)\n```"
+  },
+  {
+    "task": "Construct a class for a rectangle that has attributes for width and height, and methods to calculate area and perimeter.",
+    "code": "```haskell\nclass Rectangle a where\n    width :: a -> Double\n    height :: a -> Double\n    area :: a -> Double\n    area rect = width rect * height rect\n    perimeter :: a -> Double\n    perimeter rect = 2 * (width rect + height rect)\n\ndata MyRectangle = MyRectangle { rectWidth :: Double, rectHeight :: Double }\n\ninstance Rectangle MyRectangle where\n    width = rectWidth\n    height = rectHeight\n```"
+  },
+  {
+    "task": "Formulate a class for a smartphone with properties for brand, model, and battery life, and a method to make a call.",
+    "code": "```haskell\nclass Smartphone a where\n    brand :: a -> String\n    model :: a -> String\n    batteryLife :: a -> Int\n    makeCall :: a -> String -> IO ()\n\ndata Phone = Phone {\n    phoneBrand :: String,\n    phoneModel :: String,\n    phoneBatteryLife :: Int\n}\n\ninstance Smartphone Phone where\n    brand = phoneBrand\n    model = phoneModel\n    batteryLife = phoneBatteryLife\n    makeCall phone number = putStrLn $ \"Calling \" ++ number ++ \" using \" ++ brand phone ++ \" \" ++ model phone\n```"
+  },
+  {
+    "task": "Build a class representing a movie with attributes for title, director, and duration, and a method to play the movie.",
+    "code": "```haskell\nclass Movie m where\n    getTitle :: m -> String\n    getDirector :: m -> String\n    getDuration :: m -> Int\n    playMovie :: m -> String\n\ndata MovieInfo = MovieInfo {\n    title :: String,\n    director :: String,\n    duration :: Int\n}\n\ninstance Movie MovieInfo where\n    getTitle = title\n    getDirector = director\n    getDuration = duration\n    playMovie m = \"Playing \" ++ getTitle m\n```"
+  },
+  {
+    "task": "Create a class for an employee with attributes for name, position, and salary, and a method to display their profile.",
+    "code": "```haskell\nclass Employee a where\n    name :: a -> String\n    position :: a -> String\n    salary :: a -> Double\n    displayProfile :: a -> String\n\ndata EmployeeData = EmployeeData\n    { employeeName :: String\n    , employeePosition :: String\n    , employeeSalary :: Double\n    }\n\ninstance Employee EmployeeData where\n    name = employeeName\n    position = employeePosition\n    salary = employeeSalary\n    displayProfile emp = \"Name: \" ++ name emp ++ \", Position: \" ++ position emp ++ \", Salary: \" ++ show (salary emp)\n```"
+  },
+  {
+    "task": "Design a class for a library that includes attributes for name, location, and books available, and a method to add a new book.",
+    "code": "```haskell\nclass Library a where\n    getName :: a -> String\n    getLocation :: a -> String\n    getBooks :: a -> [String]\n    addBook :: a -> String -> a\n\ndata MyLibrary = MyLibrary {\n    name :: String,\n    location :: String,\n    books :: [String]\n}\n\ninstance Library MyLibrary where\n    getName = name\n    getLocation = location\n    getBooks = books\n    addBook lib newBook = lib { books = newBook : books lib }\n```"
+  },
+  {
+    "task": "Develop a class for a shopping cart with properties for items and total cost, and methods to add and remove items.",
+    "code": "```haskell\nclass ShoppingCart a where\n    items :: a -> [String]\n    totalCost :: a -> Double\n    addItem :: a -> String -> Double -> a\n    removeItem :: a -> String -> a\n\ndata Cart = Cart { cartItems :: [String], cartTotalCost :: Double }\n\ninstance ShoppingCart Cart where\n    items = cartItems\n    totalCost = cartTotalCost\n    addItem (Cart items cost) item price = Cart (item:items) (cost + price)\n    removeItem (Cart items cost) item =\n        let newItems = filter (/= item) items\n            newCost = if length newItems < length items\n                      then cost - (cost / fromIntegral (length items))\n                      else cost\n        in Cart newItems newCost\n```"
+  },
+  {
+    "task": "Implement a class for a thermostat with attributes for current temperature and desired temperature, and a method to adjust the temperature.",
+    "code": "```haskell\nclass Thermostat a where\n  getCurrentTemperature :: a -> Double\n  getDesiredTemperature :: a -> Double\n  adjustTemperature :: a -> a\n  \ndata SimpleThermostat = SimpleThermostat\n  { currentTemperature :: Double\n  , desiredTemperature :: Double\n  }\n\ninstance Thermostat SimpleThermostat where\n  getCurrentTemperature = currentTemperature\n  getDesiredTemperature = desiredTemperature\n  adjustTemperature t = t { currentTemperature = desiredTemperature t }\n```"
+  },
+  {
+    "task": "Formulate a class for a person with attributes for first name, last name, and age, and a method to return the full name.",
+    "code": "```haskell\nclass Person a where\n    firstName :: a -> String\n    lastName :: a -> String\n    age :: a -> Int\n    fullName :: a -> String\n    fullName p = firstName p ++ \" \" ++ lastName p\n\ndata SomePerson = SomePerson { firstN :: String, lastN :: String, personAge :: Int }\n\ninstance Person SomePerson where\n    firstName = firstN\n    lastName = lastN\n    age = personAge\n```"
+  },
+  {
+    "task": "Construct a class for a game character with properties for health, strength, and inventory, and a method to attack.",
+    "code": "```haskell\nclass GameCharacter a where\n    getHealth :: a -> Int\n    getStrength :: a -> Int\n    getInventory :: a -> [String]\n    attack :: a -> a -> a\n\ndata Character = Character {\n    health :: Int,\n    strength :: Int,\n    inventory :: [String]\n}\n\ninstance GameCharacter Character where\n    getHealth = health\n    getStrength = strength\n    getInventory = inventory\n    attack attacker defender = defender { health = health defender - strength attacker }\n```"
+  },
+  {
+    "task": "Create a class for a calendar event with attributes for title, date, and location, and a method to reschedule the event.",
+    "code": "```haskell\nclass CalendarEvent a where\n    title :: a -> String\n    date :: a -> String\n    location :: a -> String\n    reschedule :: a -> String -> a\n\ndata Event = Event {\n    eventTitle :: String,\n    eventDate :: String,\n    eventLocation :: String\n}\n\ninstance CalendarEvent Event where\n    title = eventTitle\n    date = eventDate\n    location = eventLocation\n    reschedule event newDate = event { eventDate = newDate }\n```"
+  },
+  {
+    "task": "Design a class representing a song with properties for title, artist, and duration, and a method to play the song.",
+    "code": "```haskell\nclass Song a where\n    getTitle :: a -> String\n    getArtist :: a -> String\n    getDuration :: a -> Int\n    play :: a -> IO ()\n\ndata MySong = MySong {\n    title :: String,\n    artist :: String,\n    duration :: Int\n}\n\ninstance Song MySong where\n    getTitle = title\n    getArtist = artist\n    getDuration = duration\n    play song = putStrLn $ \"Playing: \" ++ getTitle song ++ \" by \" ++ getArtist song\n```"
+  },
+  {
+    "task": "Develop a class for an order in an e-commerce system with attributes for order ID, customer, and items, and a method to calculate total price.",
+    "code": "```haskell\n{-# LANGUAGE RecordWildCards #-}\n\nclass Order a where\n    calculateTotalPrice :: a -> Double\n\ndata OrderData = OrderData\n    { orderId :: Int\n    , customer :: String\n    , items :: [(String, Double)]  -- list of (item name, item price)\n    }\n\ninstance Order OrderData where\n    calculateTotalPrice OrderData{..} = sum (map snd items)\n```"
+  },
+  {
+    "task": "Build a class for a social media post with attributes for content, author, and timestamp, and a method to like the post.",
+    "code": "```haskell\nclass SocialMediaPost a where\n    content :: a -> String\n    author :: a -> String\n    timestamp :: a -> String\n    likePost :: a -> a\n\ndata Post = Post\n    { postContent :: String\n    , postAuthor :: String\n    , postTimestamp :: String\n    , postLikes :: Int\n    } deriving Show\n\ninstance SocialMediaPost Post where\n    content = postContent\n    author = postAuthor\n    timestamp = postTimestamp\n    likePost post = post { postLikes = postLikes post + 1 }\n```"
+  },
+  {
+    "task": "Create a class for a computer with properties for processor, RAM, and storage, and a method to display system specifications.",
+    "code": "```haskell\nclass Computer a where\n    processor :: a -> String\n    ram :: a -> Int\n    storage :: a -> Int\n    displaySpecs :: a -> String\n\ndata MyComputer = MyComputer {\n    myProcessor :: String,\n    myRam :: Int,\n    myStorage :: Int\n}\n\ninstance Computer MyComputer where\n    processor = myProcessor\n    ram = myRam\n    storage = myStorage\n    displaySpecs c = \"Processor: \" ++ processor c ++ \", RAM: \" ++ show (ram c) ++ \"GB, Storage: \" ++ show (storage c) ++ \"GB\"\n\n-- Example usage:\n-- let myComp = MyComputer \"Intel i7\" 16 512\n-- putStrLn $ displaySpecs myComp\n```"
+  },
+  {
+    "task": "Implement a class for a restaurant menu item with attributes for name, price, and description, and a method to update the price.",
+    "code": "```haskell\nclass MenuItem a where\n    getName :: a -> String\n    getPrice :: a -> Double\n    getDescription :: a -> String\n    updatePrice :: a -> Double -> a\n\ndata MenuItemImpl = MenuItemImpl\n    { name :: String\n    , price :: Double\n    , description :: String\n    }\n\ninstance MenuItem MenuItemImpl where\n    getName = name\n    getPrice = price\n    getDescription = description\n    updatePrice item newPrice = item { price = newPrice }\n```"
+  },
+  {
+    "task": "Design a class for a package delivery with attributes for tracking number, destination, and status, and a method to update the status.",
+    "code": "```haskell\nclass PackageDelivery a where\n    getTrackingNumber :: a -> String\n    getDestination :: a -> String\n    getStatus :: a -> String\n    updateStatus :: a -> String -> a\n\ndata Delivery = Delivery {\n    trackingNumber :: String,\n    destination :: String,\n    status :: String\n}\n\ninstance PackageDelivery Delivery where\n    getTrackingNumber = trackingNumber\n    getDestination = destination\n    getStatus = status\n    updateStatus d newStatus = d { status = newStatus }\n```"
+  },
+  {
+    "task": "Construct a class representing a pet with attributes for species, age, and name, and a method to display its details.",
+    "code": "```haskell\nclass Pet a where\n    species :: a -> String\n    age :: a -> Int\n    name :: a -> String\n    displayDetails :: a -> String\n    displayDetails pet = \"Species: \" ++ species pet ++ \", Age: \" ++ show (age pet) ++ \", Name: \" ++ name pet\n\ndata MyPet = MyPet { petSpecies :: String, petAge :: Int, petName :: String }\n\ninstance Pet MyPet where\n    species = petSpecies\n    age = petAge\n    name = petName\n```"
+  },
+  {
+    "task": "Formulate a class for a product in a store with properties for SKU, name, and price, and a method to apply a discount.",
+    "code": "```haskell\nclass Product a where\n    getSKU :: a -> String\n    getName :: a -> String\n    getPrice :: a -> Double\n    applyDiscount :: a -> Double -> a\n```"
+  },
+  {
+    "task": "Develop a class for a university course with attributes for course code, title, and credits, and a method to enroll a student.",
+    "code": "```haskell\nclass UniversityCourse c where\n    courseCode :: c -> String\n    courseTitle :: c -> String\n    courseCredits :: c -> Int\n    enrollStudent :: c -> String -> c\n\ndata Course = Course { code :: String, title :: String, credits :: Int, students :: [String] }\n\ninstance UniversityCourse Course where\n    courseCode = code\n    courseTitle = title\n    courseCredits = credits\n    enrollStudent course student = course { students = student : students course }\n```"
+  },
+  {
+    "task": "Create a class for a smart light bulb with attributes for color, brightness, and state (on/off), and a method to change the color.",
+    "code": "```haskell\nclass SmartLightBulb a where\n    getColor :: a -> String\n    getBrightness :: a -> Int\n    getState :: a -> Bool\n    changeColor :: a -> String -> a\n\ndata LightBulb = LightBulb\n    { color :: String\n    , brightness :: Int\n    , state :: Bool\n    }\n\ninstance SmartLightBulb LightBulb where\n    getColor = color\n    getBrightness = brightness\n    getState = state\n    changeColor bulb newColor = bulb { color = newColor }\n```"
+  },
+  {
+    "task": "Design a class for a blog post with properties for title, content, and date published, and a method to edit the content.",
+    "code": "```haskell\nclass BlogPost a where\n    getTitle :: a -> String\n    getContent :: a -> String\n    getDatePublished :: a -> String\n    editContent :: a -> String -> a\n\ndata Post = Post {\n    title :: String,\n    content :: String,\n    datePublished :: String\n}\n\ninstance BlogPost Post where\n    getTitle = title\n    getContent = content\n    getDatePublished = datePublished\n    editContent post newContent = post { content = newContent }\n```"
+  },
+  {
+    "task": "Build a class for a bank transaction with attributes for transaction ID, amount, and type, and a method to reverse the transaction.",
+    "code": "```haskell\nclass Transaction t where\n    transactionId :: t -> Int\n    amount :: t -> Double\n    transactionType :: t -> String\n    reverseTransaction :: t -> t\n\ndata BankTransaction = BankTransaction \n    { tId :: Int\n    , amt :: Double\n    , tType :: String\n    }\n\ninstance Transaction BankTransaction where\n    transactionId = tId\n    amount = amt\n    transactionType = tType\n    reverseTransaction (BankTransaction tid am ttype) = BankTransaction tid (-am) ttype\n```"
+  },
+  {
+    "task": "Implement a class for a city with properties for name, population, and area, and a method to calculate population density.",
+    "code": "```haskell\nclass City a where\n    name :: a -> String\n    population :: a -> Int\n    area :: a -> Double\n    populationDensity :: a -> Double\n    populationDensity city = fromIntegral (population city) / area city\n\ndata CityData = CityData { cityName :: String\n                         , cityPopulation :: Int\n                         , cityArea :: Double }\n\ninstance City CityData where\n    name = cityName\n    population = cityPopulation\n    area = cityArea\n```"
+  },
+  {
+    "task": "Construct a class for a library member with attributes for member ID, name, and borrowed books, and a method to borrow a book.",
+    "code": "```haskell\nclass LibraryMember a where\n  memberId :: a -> Int\n  memberName :: a -> String\n  borrowedBooks :: a -> [String]\n  borrowBook :: a -> String -> a\n\ndata Member = Member {\n  mId :: Int,\n  mName :: String,\n  mBorrowedBooks :: [String]\n}\n\ninstance LibraryMember Member where\n  memberId = mId\n  memberName = mName\n  borrowedBooks = mBorrowedBooks\n  borrowBook member book = member { mBorrowedBooks = book : mBorrowedBooks member }\n```"
+  },
+  {
+    "task": "Create a class for a flight reservation with attributes for flight number, passenger name, and seat number, and a method to change the seat.",
+    "code": "```haskell\nclass FlightReservation a where\n    flightNumber :: a -> String\n    passengerName :: a -> String\n    seatNumber :: a -> String\n    changeSeat :: a -> String -> a\n\ndata Reservation = Reservation\n    { _flightNumber :: String\n    , _passengerName :: String\n    , _seatNumber :: String\n    }\n\ninstance FlightReservation Reservation where\n    flightNumber = _flightNumber\n    passengerName = _passengerName\n    seatNumber = _seatNumber\n    changeSeat res newSeat = res { _seatNumber = newSeat }\n```"
+  },
+  {
+    "task": "Develop a class for a digital photo album with properties for album name, photos, and a method to add a new photo.",
+    "code": "```haskell\nclass DigitalPhotoAlbum a where\n    getAlbumName :: a -> String\n    getPhotos :: a -> [String]\n    addPhoto :: a -> String -> a\n\ndata PhotoAlbum = PhotoAlbum {\n    albumName :: String,\n    photos :: [String]\n}\n\ninstance DigitalPhotoAlbum PhotoAlbum where\n    getAlbumName = albumName\n    getPhotos = photos\n    addPhoto album photo = album { photos = photos album ++ [photo] }\n```"
+  },
+  {
+    "task": "Design a class for a task in a to-do list with attributes for description, deadline, and status, and a method to mark it as complete.",
+    "code": "```haskell\nclass Task a where\n    description :: a -> String\n    deadline :: a -> String\n    status :: a -> String\n    markComplete :: a -> a\n\ndata ToDoTask = ToDoTask {\n    taskDescription :: String,\n    taskDeadline :: String,\n    taskStatus :: String\n}\n\ninstance Task ToDoTask where\n    description = taskDescription\n    deadline = taskDeadline\n    status = taskStatus\n    markComplete task = task { taskStatus = \"Complete\" }\n```"
+  },
+  {
+    "task": "Formulate a class for a conference speaker with attributes for name, topic, and time slot, and a method to update the time slot.",
+    "code": "```haskell\nclass Speaker a where\n    getName :: a -> String\n    getTopic :: a -> String\n    getTimeSlot :: a -> String\n    updateTimeSlot :: a -> String -> a\n\ndata ConferenceSpeaker = ConferenceSpeaker {\n    name :: String,\n    topic :: String,\n    timeSlot :: String\n}\n\ninstance Speaker ConferenceSpeaker where\n    getName = name\n    getTopic = topic\n    getTimeSlot = timeSlot\n    updateTimeSlot speaker newTimeSlot = speaker { timeSlot = newTimeSlot }\n```"
+  },
+  {
+    "task": "Construct a class for a real estate property with attributes for address, price, and square footage, and a method to change the price.",
+    "code": "```haskell\nclass RealEstateProperty a where\n    getAddress :: a -> String\n    getPrice :: a -> Double\n    getSquareFootage :: a -> Int\n    changePrice :: a -> Double -> a\n\ndata Property = Property {\n    address :: String,\n    price :: Double,\n    squareFootage :: Int\n}\n\ninstance RealEstateProperty Property where\n    getAddress = address\n    getPrice = price\n    getSquareFootage = squareFootage\n    changePrice prop newPrice = prop { price = newPrice }\n```"
+  },
+  {
+    "task": "Create a class for a weather forecast with properties for temperature, humidity, and condition, and a method to update the forecast.",
+    "code": "```haskell\nclass WeatherForecast a where\n    getTemperature :: a -> Double\n    getHumidity :: a -> Double\n    getCondition :: a -> String\n    updateForecast :: a -> Double -> Double -> String -> a\n\ndata Forecast = Forecast\n    { temperature :: Double\n    , humidity :: Double\n    , condition :: String\n    }\n\ninstance WeatherForecast Forecast where\n    getTemperature = temperature\n    getHumidity = humidity\n    getCondition = condition\n    updateForecast _ newTemp newHumidity newCondition = Forecast newTemp newHumidity newCondition\n```"
+  },
+  {
+    "task": "Build a class for a musical instrument with attributes for type, brand, and model, and a method to play a note.",
+    "code": "```haskell\nclass MusicalInstrument a where\n    type_ :: a -> String\n    brand :: a -> String\n    model :: a -> String\n    playNote :: a -> String -> String\n\ndata Instrument = Instrument {\n    instrumentType :: String,\n    instrumentBrand :: String,\n    instrumentModel :: String\n}\n\ninstance MusicalInstrument Instrument where\n    type_ = instrumentType\n    brand = instrumentBrand\n    model = instrumentModel\n    playNote _ note = \"Playing note: \" ++ note\n```"
+  },
+  {
+    "task": "Design a class for a sports team with attributes for team name, players, and coach, and a method to add a new player.",
+    "code": "```haskell\nclass SportsTeam a where\n    teamName :: a -> String\n    players :: a -> [String]\n    coach :: a -> String\n    addPlayer :: String -> a -> a\n\ndata Team = Team\n    { teamName' :: String\n    , players' :: [String]\n    , coach' :: String\n    } deriving (Show)\n\ninstance SportsTeam Team where\n    teamName = teamName'\n    players = players'\n    coach = coach'\n    addPlayer player team = team { players' = player : players' team }\n```"
+  },
+  {
+    "task": "Implement a class for a podcast episode with attributes for title, duration, and host, and a method to play the episode.",
+    "code": "```haskell\nclass PodcastEpisode a where\n    title :: a -> String\n    duration :: a -> Int\n    host :: a -> String\n    playEpisode :: a -> IO ()\n\ndata Episode = Episode {\n    episodeTitle :: String,\n    episodeDuration :: Int,\n    episodeHost :: String\n}\n\ninstance PodcastEpisode Episode where\n    title = episodeTitle\n    duration = episodeDuration\n    host = episodeHost\n    playEpisode ep = putStrLn $ \"Playing episode: \" ++ title ep\n```"
+  },
+  {
+    "task": "Develop a class for a space mission with properties for mission name, crew, and launch date, and a method to launch the mission.",
+    "code": "```haskell\nclass SpaceMission a where\n    missionName :: a -> String\n    crew :: a -> [String]\n    launchDate :: a -> String\n    launchMission :: a -> String\n\ndata Mission = Mission\n    { name :: String\n    , crewMembers :: [String]\n    , date :: String\n    }\n\ninstance SpaceMission Mission where\n    missionName = name\n    crew = crewMembers\n    launchDate = date\n    launchMission mission = \"Launching mission: \" ++ missionName mission\n```"
+  },
+  {
+    "task": "Create a class for a virtual assistant with attributes for name, language, and skills, and a method to add a new skill.",
+    "code": "```haskell\nclass VirtualAssistant a where\n  getName :: a -> String\n  getLanguage :: a -> String\n  getSkills :: a -> [String]\n  addSkill :: a -> String -> a\n\ndata Assistant = Assistant {\n  name :: String,\n  language :: String,\n  skills :: [String]\n} deriving Show\n\ninstance VirtualAssistant Assistant where\n  getName = name\n  getLanguage = language\n  getSkills = skills\n  addSkill assistant newSkill = assistant { skills = newSkill : skills assistant }\n```"
+  },
+  {
+    "task": "Formulate a class for a news article with attributes for headline, content, and author, and a method to publish the article.",
+    "code": "```haskell\nclass NewsArticle a where\n    getHeadline :: a -> String\n    getContent :: a -> String\n    getAuthor :: a -> String\n    publish :: a -> String\n\ndata Article = Article {\n    headline :: String,\n    content :: String,\n    author :: String\n}\n\ninstance NewsArticle Article where\n    getHeadline = headline\n    getContent = content\n    getAuthor = author\n    publish article = \"Publishing Article: \" ++ getHeadline article ++ \"\\n\" ++ getContent article ++ \"\\nAuthor: \" ++ getAuthor article\n```"
+  },
+  {
+    "task": "Construct a class for a hiking trail with attributes for trail name, length, and difficulty, and a method to update the difficulty.",
+    "code": "```haskell\nclass HikingTrail a where\n    getTrailName :: a -> String\n    getTrailLength :: a -> Double\n    getTrailDifficulty :: a -> String\n    updateDifficulty :: a -> String -> a\n\ndata Trail = Trail {\n    trailName :: String,\n    trailLength :: Double,\n    trailDifficulty :: String\n}\n\ninstance HikingTrail Trail where\n    getTrailName = trailName\n    getTrailLength = trailLength\n    getTrailDifficulty = trailDifficulty\n    updateDifficulty trail newDifficulty = trail { trailDifficulty = newDifficulty }\n```"
+  },
+  {
+    "task": "Design a class for a subscription service with properties for service name, subscriber count, and subscription fee, and a method to update the fee.",
+    "code": "```haskell\nclass SubscriptionService a where\n    serviceName :: a -> String\n    subscriberCount :: a -> Int\n    subscriptionFee :: a -> Double\n    updateFee :: a -> Double -> a\n\ndata Service = Service {\n    name :: String,\n    count :: Int,\n    fee :: Double\n}\n\ninstance SubscriptionService Service where\n    serviceName = name\n    subscriberCount = count\n    subscriptionFee = fee\n    updateFee service newFee = service { fee = newFee }\n```"
+  },
+  {
+    "task": "Build a class for a digital wallet with attributes for balance, transaction history, and a method to add funds.",
+    "code": "```haskell\nclass DigitalWallet a where\n    getBalance :: a -> Double\n    getTransactionHistory :: a -> [String]\n    addFunds :: a -> Double -> a\n\ndata Wallet = Wallet { balance :: Double, transactionHistory :: [String] }\n\ninstance DigitalWallet Wallet where\n    getBalance (Wallet b _) = b\n    getTransactionHistory (Wallet _ t) = t\n    addFunds (Wallet b t) amount = Wallet (b + amount) (t ++ [\"Added \" ++ show amount])\n```"
+  },
+  {
+    "task": "Implement a class for a cooking recipe with attributes for name, ingredients, and instructions, and a method to update the instructions.",
+    "code": "```haskell\nclass Recipe a where\n    getName :: a -> String\n    getIngredients :: a -> [String]\n    getInstructions :: a -> String\n    updateInstructions :: a -> String -> a\n\ndata CookingRecipe = CookingRecipe\n    { name :: String\n    , ingredients :: [String]\n    , instructions :: String\n    }\n\ninstance Recipe CookingRecipe where\n    getName = name\n    getIngredients = ingredients\n    getInstructions = instructions\n    updateInstructions recipe newInstructions = recipe { instructions = newInstructions }\n```"
+  },
+  {
+    "task": "Develop a class for a time zone with properties for zone name, offset, and a method to convert time from another time zone.",
+    "code": "```haskell\nclass TimeZone a where\n    zoneName :: a -> String\n    offset :: a -> Int\n    convertTime :: a -> Int -> Int -> Int\n\ndata MyTimeZone = MyTimeZone { name :: String, offsetMinutes :: Int }\n\ninstance TimeZone MyTimeZone where\n    zoneName = name\n    offset = offsetMinutes\n    convertTime tz fromOffset time =\n        let diff = offset tz - fromOffset\n        in time + diff\n```"
+  },
+  {
+    "task": "Create a class for a camera with attributes for resolution, brand, and model, and a method to take a picture.",
+    "code": "```haskell\nclass Camera a where\n    resolution :: a -> String\n    brand :: a -> String\n    model :: a -> String\n    takePicture :: a -> String\n\ndata MyCamera = MyCamera {\n    camResolution :: String,\n    camBrand :: String,\n    camModel :: String\n}\n\ninstance Camera MyCamera where\n    resolution = camResolution\n    brand = camBrand\n    model = camModel\n    takePicture _ = \"Picture taken\"\n```"
+  },
+  {
+    "task": "Design a class for a gaming console with properties for brand, model, and storage capacity, and a method to install a game.",
+    "code": "```haskell\nclass GamingConsole a where\n    brand :: a -> String\n    model :: a -> String\n    storageCapacity :: a -> Int\n    installGame :: a -> String -> a\n\ndata Console = Console\n    { consoleBrand :: String\n    , consoleModel :: String\n    , consoleStorageCapacity :: Int\n    }\n\ninstance GamingConsole Console where\n    brand = consoleBrand\n    model = consoleModel\n    storageCapacity = consoleStorageCapacity\n    installGame console _ = console -- Simplified implementation\n```"
+  },
+  {
+    "task": "Formulate a class for a museum exhibit with attributes for exhibit name, artist, and year, and a method to update the year.",
+    "code": "```haskell\nclass Exhibit a where\n    getName :: a -> String\n    getArtist :: a -> String\n    getYear :: a -> Int\n    updateYear :: a -> Int -> a\n\ndata MuseumExhibit = MuseumExhibit {\n    exhibitName :: String,\n    exhibitArtist :: String,\n    exhibitYear :: Int\n}\n\ninstance Exhibit MuseumExhibit where\n    getName = exhibitName\n    getArtist = exhibitArtist\n    getYear = exhibitYear\n    updateYear exhibit newYear = exhibit { exhibitYear = newYear }\n```"
+  },
+  {
+    "task": "Construct a class for a fitness tracker with attributes for steps, calories burned, and heart rate, and a method to add steps.",
+    "code": "```haskell\nclass FitnessTracker a where\n    getSteps :: a -> Int\n    getCaloriesBurned :: a -> Int\n    getHeartRate :: a -> Int\n    addSteps :: Int -> a -> a\n\ndata Tracker = Tracker {\n    steps :: Int,\n    caloriesBurned :: Int,\n    heartRate :: Int\n} deriving Show\n\ninstance FitnessTracker Tracker where\n    getSteps = steps\n    getCaloriesBurned = caloriesBurned\n    getHeartRate = heartRate\n    addSteps n tracker = tracker { steps = steps tracker + n }\n```"
+  },
+  {
+    "task": "Build a class for an aquarium with properties for tank size, fish species, and water temperature, and a method to add a new fish.",
+    "code": "```haskell\nclass Aquarium a where\n  tankSize :: a -> Int\n  fishSpecies :: a -> [String]\n  waterTemperature :: a -> Float\n  addFish :: a -> String -> a\n\ndata MyAquarium = MyAquarium {\n  myTankSize :: Int,\n  myFishSpecies :: [String],\n  myWaterTemperature :: Float\n}\n\ninstance Aquarium MyAquarium where\n  tankSize = myTankSize\n  fishSpecies = myFishSpecies\n  waterTemperature = myWaterTemperature\n  addFish aquarium newFish = aquarium { myFishSpecies = newFish : myFishSpecies aquarium }\n```"
+  },
+  {
+    "task": "Create a class for a chat message with attributes for sender, content, and timestamp, and a method to edit the content.",
+    "code": "```haskell\n{-# LANGUAGE FlexibleInstances #-}\n\nimport Data.Time.Clock (UTCTime, getCurrentTime)\n\nclass ChatMessage c where\n    getSender :: c -> String\n    getContent :: c -> String\n    getTimestamp :: c -> UTCTime\n    editContent :: c -> String -> c\n\ndata Message = Message\n    { sender    :: String\n    , content   :: String\n    , timestamp :: UTCTime\n    }\n\ninstance ChatMessage Message where\n    getSender = sender\n    getContent = content\n    getTimestamp = timestamp\n    editContent msg newContent = msg { content = newContent }\n\n-- Example usage:\n-- let msg = Message \"Alice\" \"Hello, World!\" currentTime\n-- let editedMsg = editContent msg \"New Content\"\n```"
+  },
+  {
+    "task": "Design a class for a vending machine with properties for items available, prices, and a method to dispense an item.",
+    "code": "```haskell\nclass VendingMachine vm where\n    getItems :: vm -> [(String, Double)]\n    setItems :: vm -> [(String, Double)] -> vm\n    dispenseItem :: vm -> String -> Maybe (vm, String)\n\ndata SimpleVendingMachine = SimpleVendingMachine {\n    items :: [(String, Double)]\n} deriving Show\n\ninstance VendingMachine SimpleVendingMachine where\n    getItems = items\n    setItems vm newItems = vm { items = newItems }\n    dispenseItem vm itemName =\n        let availableItems = items vm\n            maybeItem = lookup itemName availableItems\n        in case maybeItem of\n            Just price -> Just (vm { items = filter ((/= itemName) . fst) availableItems }, itemName)\n            Nothing -> Nothing\n```"
+  },
+  {
+    "task": "Implement a class for a digital clock with attributes for current time, time zone, and a method to set an alarm.",
+    "code": "```haskell\nclass DigitalClock c where\n    currentTime :: c -> String\n    timeZone :: c -> String\n    setAlarm :: c -> String -> c\n\ndata Clock = Clock { time :: String, zone :: String, alarm :: String }\n\ninstance DigitalClock Clock where\n    currentTime = time\n    timeZone = zone\n    setAlarm clock newAlarm = clock { alarm = newAlarm }\n```"
+  },
+  {
+    "task": "Develop a class for a historical figure with attributes for name, birthdate, and achievements, and a method to add an achievement.",
+    "code": "```haskell\nclass HistoricalFigure a where\n    name :: a -> String\n    birthdate :: a -> String\n    achievements :: a -> [String]\n    addAchievement :: a -> String -> a\n\ndata Figure = Figure\n    { figName :: String\n    , figBirthdate :: String\n    , figAchievements :: [String]\n    }\n\ninstance HistoricalFigure Figure where\n    name = figName\n    birthdate = figBirthdate\n    achievements = figAchievements\n    addAchievement figure achievement = figure { figAchievements = achievement : figAchievements figure }\n```"
+  },
+  {
+    "task": "Formulate a class for a travel itinerary with attributes for destinations, travel dates, and activities, and a method to add a destination.",
+    "code": "```haskell\nclass Itinerary a where\n    destinations :: a -> [String]\n    travelDates :: a -> [(String, String)] -- (start date, end date)\n    activities :: a -> [String]\n    addDestination :: a -> String -> a\n```"
+  },
+  {
+    "task": "Construct a class for a fashion brand with properties for brand name, founder, and product lines, and a method to launch a new product line.",
+    "code": "```haskell\nclass FashionBrand a where\n    getBrandName :: a -> String\n    getFounder :: a -> String\n    getProductLines :: a -> [String]\n    launchNewProductLine :: a -> String -> a\n\ndata Brand = Brand {\n    brandName :: String,\n    founder :: String,\n    productLines :: [String]\n} deriving (Show)\n\ninstance FashionBrand Brand where\n    getBrandName = brandName\n    getFounder = founder\n    getProductLines = productLines\n    launchNewProductLine brand newLine = brand { productLines = newLine : productLines brand }\n```"
+  },
+  {
+    "task": "Create a class for a video game with attributes for title, genre, and rating, and a method to update the rating.",
+    "code": "```haskell\nclass VideoGame a where\n    getTitle :: a -> String\n    getGenre :: a -> String\n    getRating :: a -> Int\n    updateRating :: a -> Int -> a\n\ndata Game = Game\n    { title :: String\n    , genre :: String\n    , rating :: Int\n    }\n\ninstance VideoGame Game where\n    getTitle = title\n    getGenre = genre\n    getRating = rating\n    updateRating game newRating = game { rating = newRating }\n```"
+  },
+  {
+    "task": "Build a class for a scientific experiment with attributes for experiment name, hypothesis, and results, and a method to record results.",
+    "code": "```haskell\nclass ScientificExperiment a where\n    experimentName :: a -> String\n    hypothesis :: a -> String\n    results :: a -> [String]\n    recordResults :: String -> a -> a\n\ndata Experiment = Experiment\n    { expName :: String\n    , expHypothesis :: String\n    , expResults :: [String]\n    }\n\ninstance ScientificExperiment Experiment where\n    experimentName = expName\n    hypothesis = expHypothesis\n    results = expResults\n    recordResults newResult exp = exp { expResults = expResults exp ++ [newResult] }\n```"
+  },
+  {
+    "task": "Design a class for a gourmet dish with properties for dish name, ingredients, and cooking time, and a method to change cooking time.",
+    "code": "```haskell\nclass GourmetDish a where\n    getDishName :: a -> String\n    getIngredients :: a -> [String]\n    getCookingTime :: a -> Int\n    changeCookingTime :: a -> Int -> a\n\ndata Dish = Dish {\n    dishName :: String,\n    ingredients :: [String],\n    cookingTime :: Int\n}\n\ninstance GourmetDish Dish where\n    getDishName = dishName\n    getIngredients = ingredients\n    getCookingTime = cookingTime\n    changeCookingTime dish newTime = dish { cookingTime = newTime }\n```"
+  },
+  {
+    "task": "Implement a class for a political office with attributes for office title, holder, and term length, and a method to change the holder.",
+    "code": "```haskell\nclass PoliticalOffice a where\n    getTitle :: a -> String\n    getHolder :: a -> String\n    getTermLength :: a -> Int\n    changeHolder :: a -> String -> a\n\ndata Office = Office {\n    title :: String,\n    holder :: String,\n    termLength :: Int\n}\n\ninstance PoliticalOffice Office where\n    getTitle = title\n    getHolder = holder\n    getTermLength = termLength\n    changeHolder office newHolder = office { holder = newHolder }\n```"
+  },
+  {
+    "task": "Develop a class for an astronomical object with properties for name, type, and distance from Earth, and a method to update the distance.",
+    "code": "```haskell\nclass AstronomicalObject a where\n    getName :: a -> String\n    getType :: a -> String\n    getDistance :: a -> Double\n    updateDistance :: a -> Double -> a\n\ndata AstronomicalObjectImpl = AstronomicalObjectImpl\n    { name :: String\n    , objType :: String\n    , distance :: Double\n    }\n\ninstance AstronomicalObject AstronomicalObjectImpl where\n    getName = name\n    getType = objType\n    getDistance = distance\n    updateDistance obj newDistance = obj { distance = newDistance }\n```"
+  },
+  {
+    "task": "Formulate a class for a public transportation route with attributes for route number, stops, and schedule, and a method to add a stop.",
+    "code": "```haskell\nclass PublicTransportRoute a where\n    getRouteNumber :: a -> String\n    getStops :: a -> [String]\n    getSchedule :: a -> [String]\n    addStop :: a -> String -> a\n\ndata Route = Route\n    { routeNumber :: String\n    , stops :: [String]\n    , schedule :: [String]\n    } deriving Show\n\ninstance PublicTransportRoute Route where\n    getRouteNumber = routeNumber\n    getStops = stops\n    getSchedule = schedule\n    addStop route newStop = route { stops = stops route ++ [newStop] }\n```"
+  },
+  {
+    "task": "Construct a class for a board game with properties for game name, player count, and rules, and a method to change the rules.",
+    "code": "```haskell\nclass BoardGame a where\n    gameName :: a -> String\n    playerCount :: a -> Int\n    rules :: a -> String\n    changeRules :: a -> String -> a\n\ndata MyBoardGame = MyBoardGame { name :: String, count :: Int, gameRules :: String }\n\ninstance BoardGame MyBoardGame where\n    gameName = name\n    playerCount = count\n    rules = gameRules\n    changeRules game newRules = game { gameRules = newRules }\n```"
+  },
+  {
+    "task": "Create a class for a customer loyalty program with attributes for program name, points, and rewards, and a method to redeem points.",
+    "code": "```haskell\nclass LoyaltyProgram a where\n    getProgramName :: a -> String\n    getPoints :: a -> Int\n    getRewards :: a -> [String]\n    redeemPoints :: a -> Int -> (a, Maybe String)\n\ndata CustomerLoyaltyProgram = CustomerLoyaltyProgram\n    { programName :: String\n    , points :: Int\n    , rewards :: [String]\n    }\n\ninstance LoyaltyProgram CustomerLoyaltyProgram where\n    getProgramName = programName\n    getPoints = points\n    getRewards = rewards\n    redeemPoints program amount =\n        if points program >= amount\n            then let updatedProgram = program { points = points program - amount }\n                 in (updatedProgram, Just \"Points redeemed successfully\")\n            else (program, Nothing)\n```"
+  },
+  {
+    "task": "Design a class for an art gallery with properties for gallery name, location, and exhibitions, and a method to add a new exhibition.",
+    "code": "```haskell\nclass ArtGallery a where\n  getGalleryName :: a -> String\n  getLocation :: a -> String\n  getExhibitions :: a -> [String]\n  addExhibition :: a -> String -> a\n\ndata Gallery = Gallery {\n  galleryName :: String,\n  location :: String,\n  exhibitions :: [String]\n}\n\ninstance ArtGallery Gallery where\n  getGalleryName = galleryName\n  getLocation = location\n  getExhibitions = exhibitions\n  addExhibition gallery newExhibition = gallery { exhibitions = newExhibition : exhibitions gallery }\n```"
+  },
+  {
+    "task": "Build a class for a personal blog with attributes for blog name, posts, and a method to add a new post.",
+    "code": "```haskell\nclass PersonalBlog a where\n    blogName :: a -> String\n    posts :: a -> [String]\n    addPost :: a -> String -> a\n\ndata Blog = Blog {\n    name :: String,\n    blogPosts :: [String]\n} deriving (Show)\n\ninstance PersonalBlog Blog where\n    blogName = name\n    posts = blogPosts\n    addPost blog newPost = blog { blogPosts = blogPosts blog ++ [newPost] }\n```"
+  },
+  {
+    "task": "Implement a class for a mobile application with properties for app name, version, and developer, and a method to update the version.",
+    "code": "```haskell\nclass MobileApp a where\n    getAppName :: a -> String\n    getVersion :: a -> String\n    getDeveloper :: a -> String\n    updateVersion :: a -> String -> a\n\ndata App = App\n    { appName :: String\n    , version :: String\n    , developer :: String\n    }\n\ninstance MobileApp App where\n    getAppName = appName\n    getVersion = version\n    getDeveloper = developer\n    updateVersion app newVersion = app { version = newVersion }\n```"
+  },
+  {
+    "task": "Develop a class for a language translator with attributes for source language, target language, and translation method, and a method to translate a text.",
+    "code": "```haskell\nclass LanguageTranslator a where\n    getSourceLanguage :: a -> String\n    getTargetLanguage :: a -> String\n    getTranslationMethod :: a -> String\n    translate :: a -> String -> String\n```"
+  },
+  {
+    "task": "Formulate a class for a culinary school with properties for school name, courses offered, and a method to add a new course.",
+    "code": "```haskell\nclass CulinarySchool a where\n    schoolName :: a -> String\n    coursesOffered :: a -> [String]\n    addCourse :: String -> a -> a\n\ndata School = School {\n    name :: String,\n    courses :: [String]\n} deriving Show\n\ninstance CulinarySchool School where\n    schoolName = name\n    coursesOffered = courses\n    addCourse newCourse school = school { courses = newCourse : courses school }\n```"
+  },
+  {
+    "task": "Construct a class for a musical band with attributes for band name, members, and genre, and a method to add a new member.",
+    "code": "```haskell\nclass Band a where\n    bandName :: a -> String\n    members :: a -> [String]\n    genre :: a -> String\n    addMember :: a -> String -> a\n\ndata MusicalBand = MusicalBand\n    { name :: String\n    , bandMembers :: [String]\n    , bandGenre :: String\n    }\n\ninstance Band MusicalBand where\n    bandName = name\n    members = bandMembers\n    genre = bandGenre\n    addMember band newMember = band { bandMembers = newMember : bandMembers band }\n```"
+  },
+  {
+    "task": "Create a class for a television series with properties for series title, episodes, and network, and a method to add a new episode.",
+    "code": "```haskell\nclass TelevisionSeries a where\n    seriesTitle :: a -> String\n    episodes :: a -> [String]\n    network :: a -> String\n    addEpisode :: a -> String -> a\n\ndata TVSeries = TVSeries\n    { title :: String\n    , eps :: [String]\n    , net :: String\n    }\n\ninstance TelevisionSeries TVSeries where\n    seriesTitle = title\n    episodes = eps\n    network = net\n    addEpisode series newEpisode = series { eps = eps series ++ [newEpisode] }\n```"
+  },
+  {
+    "task": "Design a class for a wildlife reserve with attributes for reserve name, species protected, and area size, and a method to expand the area.",
+    "code": "```haskell\nclass WildlifeReserve a where\n    reserveName :: a -> String\n    speciesProtected :: a -> [String]\n    areaSize :: a -> Double\n    expandArea :: a -> Double -> a\n\ndata Reserve = Reserve {\n    name :: String,\n    species :: [String],\n    size :: Double\n}\n\ninstance WildlifeReserve Reserve where\n    reserveName = name\n    speciesProtected = species\n    areaSize = size\n    expandArea r additionalSize = r { size = size r + additionalSize }\n```"
+  },
+  {
+    "task": "Build a class for a luxury car with properties for brand, model, and price, and a method to update the price.",
+    "code": "```haskell\nclass LuxuryCar a where\n  getBrand :: a -> String\n  getModel :: a -> String\n  getPrice :: a -> Double\n  updatePrice :: a -> Double -> a\n\ndata Car = Car {\n  brand :: String,\n  model :: String,\n  price :: Double\n}\n\ninstance LuxuryCar Car where\n  getBrand = brand\n  getModel = model\n  getPrice = price\n  updatePrice car newPrice = car { price = newPrice }\n```"
+  },
+  {
+    "task": "Implement a class for a scientific journal with attributes for journal name, articles, and impact factor, and a method to add a new article.",
+    "code": "```haskell\nclass ScientificJournal j where\n    getJournalName :: j -> String\n    getArticles :: j -> [String]\n    getImpactFactor :: j -> Double\n    addArticle :: String -> j -> j\n\ndata Journal = Journal\n    { journalName :: String\n    , articles :: [String]\n    , impactFactor :: Double\n    }\n\ninstance ScientificJournal Journal where\n    getJournalName = journalName\n    getArticles = articles\n    getImpactFactor = impactFactor\n    addArticle newArticle journal =\n        journal { articles = newArticle : articles journal }\n```"
+  },
+  {
+    "task": "Develop a class for a historical monument with properties for monument name, location, and year established, and a method to update the location.",
+    "code": "```haskell\nclass HistoricalMonument a where\n    getName :: a -> String\n    getLocation :: a -> String\n    getYearEstablished :: a -> Int\n    updateLocation :: a -> String -> a\n\ndata Monument = Monument {\n    name :: String,\n    location :: String,\n    yearEstablished :: Int\n}\n\ninstance HistoricalMonument Monument where\n    getName = name\n    getLocation = location\n    getYearEstablished = yearEstablished\n    updateLocation monument newLocation = monument { location = newLocation }\n```"
+  },
+  {
+    "task": "Formulate a class for an educational course with attributes for course title, instructor, and syllabus, and a method to update the syllabus.",
+    "code": "```haskell\nclass EducationalCourse a where\n    getCourseTitle :: a -> String\n    getInstructor :: a -> String\n    getSyllabus :: a -> String\n    updateSyllabus :: a -> String -> a\n\ndata Course = Course {\n    courseTitle :: String,\n    instructor :: String,\n    syllabus :: String\n}\n\ninstance EducationalCourse Course where\n    getCourseTitle = courseTitle\n    getInstructor = instructor\n    getSyllabus = syllabus\n    updateSyllabus course newSyllabus = course { syllabus = newSyllabus }\n```"
+  },
+  {
+    "task": "Construct a class for a city park with properties for park name, facilities, and opening hours, and a method to add a new facility.",
+    "code": "```haskell\nclass CityPark a where\n    getParkName :: a -> String\n    getFacilities :: a -> [String]\n    getOpeningHours :: a -> String\n    addFacility :: a -> String -> a\n\ndata Park = Park {\n    parkName :: String,\n    facilities :: [String],\n    openingHours :: String\n}\n\ninstance CityPark Park where\n    getParkName = parkName\n    getFacilities = facilities\n    getOpeningHours = openingHours\n    addFacility park newFacility = park { facilities = newFacility : facilities park }\n```"
+  },
+  {
+    "task": "Create a class for a fitness class with attributes for class name, instructor, and schedule, and a method to update the schedule.",
+    "code": "```haskell\nclass FitnessClass a where\n    className :: a -> String\n    instructor :: a -> String\n    schedule :: a -> String\n    updateSchedule :: a -> String -> a\n\ndata MyFitnessClass = MyFitnessClass {\n    myClassName :: String,\n    myInstructor :: String,\n    mySchedule :: String\n}\n\ninstance FitnessClass MyFitnessClass where\n    className = myClassName\n    instructor = myInstructor\n    schedule = mySchedule\n    updateSchedule fc newSchedule = fc { mySchedule = newSchedule }\n```"
+  },
+  {
+    "task": "Design a class for a virtual reality game with properties for game name, platform, and VR compatibility, and a method to change the platform.",
+    "code": "```haskell\nclass VRGame a where\n    getName :: a -> String\n    getPlatform :: a -> String\n    isVRCompatible :: a -> Bool\n    changePlatform :: a -> String -> a\n\ndata Game = Game {\n    gameName :: String,\n    platform :: String,\n    vrCompatible :: Bool\n}\n\ninstance VRGame Game where\n    getName = gameName\n    getPlatform = platform\n    isVRCompatible = vrCompatible\n    changePlatform game newPlatform = game { platform = newPlatform }\n```"
+  },
+  {
+    "task": "Build a class for a mountain range with attributes for range name, highest peak, and countries covered, and a method to add a new peak.",
+    "code": "```haskell\nclass MountainRange a where\n    rangeName :: a -> String\n    highestPeak :: a -> String\n    countriesCovered :: a -> [String]\n    addNewPeak :: a -> String -> a\n\ndata Range = Range {\n    rName :: String,\n    hPeak :: String,\n    cCovered :: [String]\n}\n\ninstance MountainRange Range where\n    rangeName = rName\n    highestPeak = hPeak\n    countriesCovered = cCovered\n    addNewPeak range newPeak = range { hPeak = newPeak }\n\n-- Example usage:\n-- let range = Range \"Himalayas\" \"Mount Everest\" [\"Nepal\", \"China\"]\n-- let updatedRange = addNewPeak range \"K2\"\n```"
+  },
+  {
+    "task": "Implement a class for a documentary film with properties for title, director, and subject, and a method to update the subject.",
+    "code": "```haskell\nclass DocumentaryFilm a where\n    getTitle :: a -> String\n    getDirector :: a -> String\n    getSubject :: a -> String\n    updateSubject :: a -> String -> a\n\ndata Film = Film { title :: String, director :: String, subject :: String }\n\ninstance DocumentaryFilm Film where\n    getTitle = title\n    getDirector = director\n    getSubject = subject\n    updateSubject film newSubject = film { subject = newSubject }\n```"
+  },
+  {
+    "task": "Develop a class for a classical music composition with attributes for composition name, composer, and duration, and a method to change the duration.",
+    "code": "```haskell\nclass ClassicalComposition a where\n    getCompositionName :: a -> String\n    getComposer :: a -> String\n    getDuration :: a -> Int\n    setDuration :: a -> Int -> a\n\ndata Composition = Composition {\n    compositionName :: String,\n    composer :: String,\n    duration :: Int\n}\n\ninstance ClassicalComposition Composition where\n    getCompositionName = compositionName\n    getComposer = composer\n    getDuration = duration\n    setDuration comp newDuration = comp { duration = newDuration }\n```"
+  },
+  {
+    "task": "Formulate a class for a public library with properties for library name, books available, and membership, and a method to add a new book.",
+    "code": "```haskell\nclass PublicLibrary a where\n    libraryName :: a -> String\n    booksAvailable :: a -> [String]\n    membership :: a -> [String]\n    addNewBook :: a -> String -> a\n```"
+  },
+  {
+    "task": "Construct a class for a tech startup with attributes for startup name, founder, and funding, and a method to raise additional funding.",
+    "code": "```haskell\nclass TechStartup a where\n    startupName :: a -> String\n    founder :: a -> String\n    funding :: a -> Double\n    raiseFunding :: a -> Double -> a\n\ndata Startup = Startup {\n    name :: String,\n    founderName :: String,\n    currentFunding :: Double\n}\n\ninstance TechStartup Startup where\n    startupName = name\n    founder = founderName\n    funding = currentFunding\n    raiseFunding s amount = s { currentFunding = currentFunding s + amount }\n```"
+  }
+]

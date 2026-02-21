@@ -1,0 +1,370 @@
+[
+  {
+    "task": "Create a set to store unique usernames and demonstrate adding new ones.",
+    "code": "```pascal\nprogram UniqueUsernames;\n\nuses SysUtils;\n\nvar\n  Usernames: set of AnsiString;\n  NewUsername: AnsiString;\nbegin\n  Usernames := [];\n\n  NewUsername := 'Alice';\n  if not (NewUsername in Usernames) then\n    Usernames := Usernames + [NewUsername];\n\n  NewUsername := 'Bob';\n  if not (NewUsername in Usernames) then\n    Usernames := Usernames + [NewUsername];\n\n  NewUsername := 'Charlie';\n  if not (NewUsername in Usernames) then\n    Usernames := Usernames + [NewUsername];\nend.\n```"
+  },
+  {
+    "task": "Write a function that returns the union of two sets of integers.",
+    "code": "```pascal\nprogram SetUnionExample;\n\ntype\n  IntegerSet = set of Integer;\n\nfunction UnionOfSets(set1, set2: IntegerSet): IntegerSet;\nbegin\n  UnionOfSets := set1 + set2;\nend;\n\nvar\n  SetA, SetB, ResultSet: IntegerSet;\nbegin\n  SetA := [1, 2, 3];\n  SetB := [3, 4, 5];\n  ResultSet := UnionOfSets(SetA, SetB);\nend.\n```"
+  },
+  {
+    "task": "Given two sets of strings, find their intersection.",
+    "code": "```pascal\nprogram SetIntersection;\n\nuses\n  SysUtils;\n\nvar\n  Set1, Set2, Intersection: TSet;\n  Strs: TStringList;\n  i: Integer;\n  \nbegin\n  Strs := TStringList.Create;\n  try\n    // Initialize the sets\n    Set1 := TSet.Create;\n    Set2 := TSet.Create;\n\n    // Add elements to Set1\n    Strs.DelimitedText := 'apple,banana,orange';\n    for i := 0 to Strs.Count - 1 do\n      Set1.Add(Strs[i]);\n\n    // Add elements to Set2\n    Strs.DelimitedText := 'banana,kiwi,orange';\n    for i := 0 to Strs.Count - 1 do\n      Set2.Add(Strs[i]);\n\n    // Calculate Intersection\n    Intersection := Set1 * Set2;\n\n    // Display Intersection\n    for i := 0 to Intersection.Count - 1 do\n      WriteLn(Intersection[i]);\n\n  finally\n    Strs.Free;\n    Set1.Free;\n    Set2.Free;\n    Intersection.Free;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Implement a set to track visited web pages and check if a page has been visited.",
+    "code": "```pascal\nprogram TrackVisitedWebPages;\n\ntype\n  TStringSet = set of string[255];\n\nvar\n  VisitedPages: TStringSet;\n  Page: string[255];\n\nprocedure VisitPage(Page: string);\nbegin\n  Include(VisitedPages, Page);\nend;\n\nfunction IsPageVisited(Page: string): Boolean;\nbegin\n  IsPageVisited := Page in VisitedPages;\nend;\n\nbegin\n  VisitedPages := [];\n  \n  VisitPage('https://example.com');\n  VisitPage('https://another-example.com');\n  \n  if IsPageVisited('https://example.com') then\n    writeln('Page has been visited.')\n  else\n    writeln('Page has not been visited.');\nend.\n```"
+  },
+  {
+    "task": "Create a set from a list of numbers and remove duplicates.",
+    "code": "```pascal\nprogram RemoveDuplicates;\n\nuses\n  SysUtils;\n\nvar\n  numbers: array of Integer;\n  uniqueNumbers: set of Integer;\n  i: Integer;\nbegin\n  numbers := [1, 2, 3, 2, 4, 5, 3, 6];\n  uniqueNumbers := [];\n\n  for i := Low(numbers) to High(numbers) do\n    Include(uniqueNumbers, numbers[i]);\n\n  Write('Unique numbers: ');\n  for i := Low(numbers) to High(numbers) do\n    if numbers[i] in uniqueNumbers then\n    begin\n      Write(numbers[i], ' ');\n      Exclude(uniqueNumbers, numbers[i]);\n    end;\n\n  Writeln;\nend.\n```"
+  },
+  {
+    "task": "Check if a set is a subset of another set.",
+    "code": "```pascal\nprogram SubsetCheck;\n\nuses\n  SysUtils;\n\nvar\n  SetA, SetB: set of char;\n  IsSubset: Boolean;\n  c: char;\nbegin\n  SetA := ['a', 'b', 'c'];\n  SetB := ['a', 'b', 'c', 'd', 'e'];\n\n  IsSubset := True;\n  for c in SetA do\n    if not (c in SetB) then\n    begin\n      IsSubset := False;\n      Break;\n    end;\n\n  if IsSubset then\n    WriteLn('SetA is a subset of SetB')\n  else\n    WriteLn('SetA is not a subset of SetB');\nend.\n```"
+  },
+  {
+    "task": "Demonstrate adding and removing elements from a set of book titles.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\ntype\n  TStringSet = set of string[255];\n\nvar\n  BookTitles: TStringSet;\n  TitleToAdd, TitleToRemove: string[255];\n\nbegin\n  { Initialize the set }\n  BookTitles := [];\n\n  { Add titles to the set }\n  TitleToAdd := 'The Great Gatsby';\n  Include(BookTitles, TitleToAdd);\n\n  TitleToAdd := '1984';\n  Include(BookTitles, TitleToAdd);\n\n  TitleToAdd := 'To Kill a Mockingbird';\n  Include(BookTitles, TitleToAdd);\n\n  { Remove a title from the set }\n  TitleToRemove := '1984';\n  Exclude(BookTitles, TitleToRemove);\nend.\n```"
+  },
+  {
+    "task": "Create a set and show how to clear all its elements.",
+    "code": "```pascal\nprogram SetUsage;\n\ntype\n  TIntegerSet = set of 1..100;\n\nvar\n  mySet: TIntegerSet;\n\nbegin\n  mySet := [1, 2, 3, 4, 5];\n  mySet := [];\nend.\n```"
+  },
+  {
+    "task": "Write a program to find the difference between two sets of employee IDs.",
+    "code": "```pascal\nprogram SetDifference;\n\nuses\n  SysUtils;\n\nvar\n  SetA, SetB, Difference: set of 1..1000;\n  i: Integer;\nbegin\n  SetA := [101, 102, 103, 104, 105];\n  SetB := [104, 105, 106, 107, 108];\n  \n  Difference := SetA - SetB;\n  \n  Write('Difference between SetA and SetB: ');\n  for i := 1 to 1000 do\n  begin\n    if i in Difference then\n      Write(i, ' ');\n  end;\n  Writeln;\nend.\n```"
+  },
+  {
+    "task": "Implement a set to store unique email addresses and check membership.",
+    "code": "```pascal\nprogram EmailSet;\n\nuses\n  SysUtils;\n\nvar\n  EmailSet: set of string[100];\n  email: string[100];\n\nprocedure AddEmail(var s: set of string[100]; e: string[100]);\nbegin\n  if not (e in s) then\n    Include(s, e);\nend;\n\nfunction IsMember(var s: set of string[100]; e: string[100]): Boolean;\nbegin\n  IsMember := e in s;\nend;\n\nbegin\n  AddEmail(EmailSet, 'example@example.com');\n  AddEmail(EmailSet, 'user@domain.com');\n\n  email := 'example@example.com';\n  if IsMember(EmailSet, email) then\n    WriteLn(email, ' is in the set.')\n  else\n    WriteLn(email, ' is not in the set.');\n\n  email := 'another@example.com';\n  if IsMember(EmailSet, email) then\n    WriteLn(email, ' is in the set.')\n  else\n    WriteLn(email, ' is not in the set.');\nend.\n```"
+  },
+  {
+    "task": "Use a set to determine if two lists have any common elements.",
+    "code": "```pascal\nprogram CommonElements;\n\nuses\n  SysUtils;\n\nvar\n  list1, list2: array of Integer;\n  set1, set2: set of Byte;\n  i: Integer;\n  common: Boolean;\nbegin\n  list1 := [1, 2, 3, 4, 5];\n  list2 := [4, 5, 6, 7, 8];\n  \n  set1 := [];\n  set2 := [];\n  common := False;\n  \n  for i := Low(list1) to High(list1) do\n    set1 := set1 + [list1[i]];\n    \n  for i := Low(list2) to High(list2) do\n    set2 := set2 + [list2[i]];\n  \n  for i := Low(set1) to High(set1) do\n  begin\n    if i in set1 then\n      if i in set2 then\n      begin\n        common := True;\n        Break;\n      end;\n  end;\n  \n  if common then\n    WriteLn('The lists have common elements.')\n  else\n    WriteLn('The lists do not have common elements.');\nend.\n```"
+  },
+  {
+    "task": "Create a set to represent a group of students and update it with new entries.",
+    "code": "```pascal\nprogram StudentSet;\n\ntype\n  StudentSet = set of string;\n\nvar\n  students: StudentSet;\n  newStudents: array[1..3] of string;\n  i: Integer;\n\nbegin\n  students := [];\n  newStudents[1] := 'Alice';\n  newStudents[2] := 'Bob';\n  newStudents[3] := 'Charlie';\n\n  for i := 1 to 3 do\n    students := students + [newStudents[i]];\n\n  { Output the student set }\n  for i := 1 to 3 do\n    if newStudents[i] in students then\n      writeln(newStudents[i]);\nend.\n```"
+  },
+  {
+    "task": "Write a function to find symmetric difference between two sets of colors.",
+    "code": "```pascal\nprogram SymmetricDifferenceColors;\n\ntype\n  TColorSet = set of string;\n\nfunction SymmetricDifference(set1, set2: TColorSet): TColorSet;\nbegin\n  SymmetricDifference := (set1 - set2) + (set2 - set1);\nend;\n\nvar\n  colors1, colors2, result: TColorSet;\nbegin\n  colors1 := ['red', 'green', 'blue'];\n  colors2 := ['blue', 'yellow', 'green'];\n\n  result := SymmetricDifference(colors1, colors2);\n\n  // Output the result (not required in the task, but for completeness)\n  // This part may need adjustment since Pascal doesn't handle set of strings directly.\nend.\n```"
+  },
+  {
+    "task": "Implement a set to store unique product codes and demonstrate iteration over it.",
+    "code": "```pascal\nprogram ProductCodesSetDemo;\n\ntype\n  TProductCodeSet = set of string[10];\n\nvar\n  ProductCodes: TProductCodeSet;\n  Code: string[10];\n\nbegin\n  ProductCodes := [];\n  \n  ProductCodes := ProductCodes + ['P001'];\n  ProductCodes := ProductCodes + ['P002'];\n  ProductCodes := ProductCodes + ['P003'];\n  ProductCodes := ProductCodes + ['P001'];  // Duplicate, won't be added\n  \n  for Code in ProductCodes do\n    WriteLn(Code);\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `discard` method.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\ntype\n  TIntSet = set of 1..10;\n\nvar\n  mySet: TIntSet;\n\nbegin\n  mySet := [1, 2, 3, 4, 5];\n  mySet := mySet - [3];  { Discard element 3 from the set }\n  writeln(3 in mySet);   { This should output FALSE }\nend.\n```"
+  },
+  {
+    "task": "Given a list of numbers, create a set and check if a specific number is present.",
+    "code": "```pascal\nprogram CheckNumberInSet;\n\nuses SysUtils;\n\nvar\n  Numbers: array of Integer;\n  NumberSet: set of Integer;\n  SpecificNumber: Integer;\n  i: Integer;\n  IsPresent: Boolean;\nbegin\n  Numbers := [1, 2, 3, 4, 5];\n  SpecificNumber := 3;\n  NumberSet := [];\n\n  for i := 0 to High(Numbers) do\n  begin\n    Include(NumberSet, Numbers[i]);\n  end;\n\n  IsPresent := SpecificNumber in NumberSet;\n\n  if IsPresent then\n    WriteLn(SpecificNumber, ' is present in the set.')\n  else\n    WriteLn(SpecificNumber, ' is not present in the set.');\nend.\n```"
+  },
+  {
+    "task": "Use a set to find all unique words in a sentence.",
+    "code": "```pascal\nprogram UniqueWords;\n\nuses\n  SysUtils;\n\nvar\n  sentence: string;\n  words: TStringArray;\n  uniqueWords: TSetOfString;\n  word: string;\nbegin\n  sentence := 'This is a sample sentence with some sample words';\n  words := sentence.Split([' ']);\n  uniqueWords := [];\n\n  for word in words do\n    Include(uniqueWords, word);\n\n  for word in uniqueWords do\n    WriteLn(word);\nend.\n```"
+  },
+  {
+    "task": "Create a set from a sequence of characters and demonstrate set operations.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\nvar\n  charSet1, charSet2, unionSet, intersectionSet, differenceSet: set of char;\n  c: char;\n\nbegin\n  charSet1 := ['a', 'b', 'c', 'd', 'e'];\n  charSet2 := ['c', 'd', 'e', 'f', 'g'];\n\n  unionSet := charSet1 + charSet2;\n  intersectionSet := charSet1 * charSet2;\n  differenceSet := charSet1 - charSet2;\n\n  writeln('Union of charSet1 and charSet2:');\n  for c := 'a' to 'g' do\n    if c in unionSet then\n      write(c, ' ');\n  writeln;\n\n  writeln('Intersection of charSet1 and charSet2:');\n  for c := 'a' to 'g' do\n    if c in intersectionSet then\n      write(c, ' ');\n  writeln;\n\n  writeln('Difference of charSet1 and charSet2:');\n  for c := 'a' to 'g' do\n    if c in differenceSet then\n      write(c, ' ');\n  writeln;\nend.\n```"
+  },
+  {
+    "task": "Write a function to merge two sets and return the result.",
+    "code": "```pascal\nprogram MergeSets;\n\ntype\n  TIntegerSet = set of Integer;\n\nfunction MergeSets(set1, set2: TIntegerSet): TIntegerSet;\nbegin\n  MergeSets := set1 + set2;\nend;\n\nvar\n  setA, setB, resultSet: TIntegerSet;\nbegin\n  setA := [1, 2, 3];\n  setB := [3, 4, 5];\n  resultSet := MergeSets(setA, setB);\nend.\n```"
+  },
+  {
+    "task": "Implement a set to hold unique IP addresses and demonstrate basic operations.",
+    "code": "```pascal\nprogram IPAddressSetDemo;\n\ntype\n  IPAddressSet = set of string[15];\n\nvar\n  ipSet: IPAddressSet;\n  ip: string[15];\n\nbegin\n  ipSet := [];\n  \n  { Add IP addresses to the set }\n  ipSet := ipSet + ['192.168.1.1'];\n  ipSet := ipSet + ['192.168.1.2'];\n  ipSet := ipSet + ['10.0.0.1'];\n\n  { Demonstrate checking membership }\n  ip := '192.168.1.1';\n  if ip in ipSet then\n    writeln(ip, ' is in the set.')\n  else\n    writeln(ip, ' is not in the set.');\n\n  ip := '8.8.8.8';\n  if ip in ipSet then\n    writeln(ip, ' is in the set.')\n  else\n    writeln(ip, ' is not in the set.');\n\n  { Remove an IP address }\n  ipSet := ipSet - ['192.168.1.2'];\n\n  { Check if removal was successful }\n  ip := '192.168.1.2';\n  if ip in ipSet then\n    writeln(ip, ' is in the set.')\n  else\n    writeln(ip, ' is not in the set.');\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to find the size of the set.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\ntype\n  TNumberSet = set of 1..100;\n\nvar\n  numbers: TNumberSet;\n  i, setSize: Integer;\n\nbegin\n  numbers := [];\n  \n  for i := 1 to 10 do\n    numbers := numbers + [i];\n\n  setSize := 0;\n  for i := 1 to 100 do\n    if i in numbers then\n      Inc(setSize);\n\n  WriteLn('The size of the set is: ', setSize);\nend.\n```"
+  },
+  {
+    "task": "Write a program to check if two sets of dates are disjoint.",
+    "code": "```pascal\nprogram CheckDisjointSets;\n\nuses\n  SysUtils;\n\nvar\n  set1, set2: set of 1..31;\n  i: Integer;\n  isDisjoint: Boolean;\n\nbegin\n  { Initialize sets }\n  set1 := [1, 3, 5, 7, 9, 11];\n  set2 := [2, 4, 6, 8, 10, 12];\n\n  isDisjoint := True;\n\n  { Check for common elements }\n  for i := 1 to 31 do\n    if (i in set1) and (i in set2) then\n    begin\n      isDisjoint := False;\n      Break;\n    end;\n\n  { Output result }\n  if isDisjoint then\n    WriteLn('The sets are disjoint.')\n  else\n    WriteLn('The sets are not disjoint.');\nend.\n```"
+  },
+  {
+    "task": "Create a set to manage a collection of tags and demonstrate addition and removal.",
+    "code": "```pascal\nprogram TagManager;\n\ntype\n  TTagSet = set of string[50];\n\nvar\n  Tags: TTagSet;\n  TagToAdd, TagToRemove: string[50];\n\nbegin\n  Tags := [];  { Initialize the set }\n\n  { Add a tag }\n  TagToAdd := 'PascalProgramming';\n  Include(Tags, TagToAdd);\n\n  { Add another tag }\n  TagToAdd := 'CodeGeneration';\n  Include(Tags, TagToAdd);\n\n  { Remove a tag }\n  TagToRemove := 'PascalProgramming';\n  Exclude(Tags, TagToRemove);\n\n  { The set now contains 'CodeGeneration' }\nend.\n```"
+  },
+  {
+    "task": "Implement a set to track unique inventory items in a store.",
+    "code": "```pascal\nprogram InventorySet;\n\ntype\n  InventorySet = set of string;\n\nvar\n  inventory: InventorySet;\n  item: string;\n\nbegin\n  inventory := [];\n  \n  { Add items to the inventory set }\n  item := 'item1';\n  inventory := inventory + [item];\n  \n  item := 'item2';\n  inventory := inventory + [item];\n  \n  item := 'item3';\n  inventory := inventory + [item];\n  \n  { Check if an item is in the inventory }\n  item := 'item1';\n  if item in inventory then\n    writeln(item, ' is in the inventory.')\n  else\n    writeln(item, ' is not in the inventory.');\n  \n  { Remove an item from the inventory }\n  item := 'item2';\n  inventory := inventory - [item];\n  \n  { Display all items in the inventory }\n  for item in inventory do\n    writeln('Inventory item: ', item);\nend.\n```"
+  },
+  {
+    "task": "Create a set of numbers and demonstrate conversion to a list.",
+    "code": "```pascal\nprogram SetToListDemo;\n\ntype\n  TNumberSet = set of 1..100;\n\nvar\n  numberSet: TNumberSet;\n  numberList: array of Integer;\n  i, index: Integer;\n\nbegin\n  numberSet := [5, 10, 15, 20, 25];\n  SetLength(numberList, 0);\n  index := 0;\n\n  for i := 1 to 100 do\n  begin\n    if i in numberSet then\n    begin\n      SetLength(numberList, index + 1);\n      numberList[index] := i;\n      Inc(index);\n    end;\n  end;\n\n  { Output the list }\n  for i := 0 to High(numberList) do\n  begin\n    WriteLn(numberList[i]);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Write a function that returns all elements present in either of two sets but not both.",
+    "code": "```pascal\nprogram SymmetricDifference;\n\ntype\n  TIntegerSet = set of Integer;\n\nfunction SymmetricDifference(set1, set2: TIntegerSet): TIntegerSet;\nbegin\n  SymmetricDifference := (set1 - set2) + (set2 - set1);\nend;\n\nvar\n  set1, set2, result: TIntegerSet;\nbegin\n  set1 := [1, 2, 3, 4];\n  set2 := [3, 4, 5, 6];\n  result := SymmetricDifference(set1, set2);\n  { result will contain 1, 2, 5, 6 }\nend.\n```"
+  },
+  {
+    "task": "Use a set to manage a collection of unique transaction IDs.",
+    "code": "```pascal\nprogram ManageTransactionIDs;\n\ntype\n  TTransactionID = Integer;\n  TTransactionSet = set of TTransactionID;\n\nvar\n  TransactionIDs: TTransactionSet;\n  ID: TTransactionID;\n\nbegin\n  TransactionIDs := [];\n  \n  { Add transaction IDs }\n  TransactionIDs := TransactionIDs + [101];\n  TransactionIDs := TransactionIDs + [202];\n  TransactionIDs := TransactionIDs + [303];\n\n  { Check if a transaction ID exists in the set }\n  ID := 202;\n  if ID in TransactionIDs then\n    Writeln('Transaction ID ', ID, ' exists in the set.')\n  else\n    Writeln('Transaction ID ', ID, ' does not exist in the set.');\n\n  { Remove a transaction ID }\n  TransactionIDs := TransactionIDs - [101];\n\n  { Display all transaction IDs }\n  for ID := 0 to 1000 do\n    if ID in TransactionIDs then\n      Writeln('Transaction ID: ', ID);\nend.\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate the `pop` operation.",
+    "code": "```pascal\nprogram SetDemo;\n\ntype\n  IntSet = set of Integer;\n\nvar\n  mySet: IntSet;\n  num: Integer;\n\nfunction Pop(var s: IntSet): Integer;\nvar\n  x: Integer;\nbegin\n  for x in s do\n  begin\n    Pop := x;\n    s := s - [x];\n    Exit;\n  end;\nend;\n\nbegin\n  mySet := [1, 2, 3, 4, 5];\n  num := Pop(mySet);\n  writeln('Popped element: ', num);\n  writeln('Remaining set size: ', SizeOf(mySet));\nend.\n```"
+  },
+  {
+    "task": "Write a program to find the maximum element in a set of floating-point numbers.",
+    "code": "```pascal\nprogram MaxElementInSet;\n\nvar\n  numbers: set of 0..255;\n  x: Real;\n  max: Real;\n  i: Integer;\n\nbegin\n  numbers := [];\n  max := -MaxInt; { Assuming no negative infinity in Pascal }\n\n  { Sample input - replace with actual input method }\n  numbers := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; \n\n  for i := 0 to 255 do\n    if i in numbers then\n    begin\n      x := i; { Example conversion, assuming integers as float }\n      if x > max then\n        max := x;\n    end;\n\n  WriteLn('The maximum element is: ', max:0:2);\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `update` method with another set.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\ntype\n  TNumberSet = set of 1..100;\n\nvar\n  SetA, SetB: TNumberSet;\n\nbegin\n  SetA := [1, 2, 3, 4, 5];\n  SetB := [4, 5, 6, 7, 8];\n\n  SetA := SetA + SetB; { This is the equivalent of `update` in other languages, updating SetA with the elements from SetB }\n\n  { Optional: Output the resulting set to verify the update }\n  { Code to display SetA can be added if needed }\nend.\n```"
+  },
+  {
+    "task": "Implement a set to keep track of unique file extensions in a directory.",
+    "code": "```pascal\nprogram UniqueFileExtensions;\n\nuses\n  SysUtils, Classes;\n\nvar\n  FileExtSet: TFPStringHashTable;\n  SearchRec: TSearchRec;\n  Extension: string;\n\nbegin\n  FileExtSet := TFPStringHashTable.Create;\n  try\n    if FindFirst('*.*', faAnyFile and not faDirectory, SearchRec) = 0 then\n    begin\n      repeat\n        Extension := ExtractFileExt(SearchRec.Name);\n        if (Extension <> '') and not FileExtSet.Find(Extension) then\n        begin\n          FileExtSet.Add(Extension, nil);\n        end;\n      until FindNext(SearchRec) <> 0;\n      FindClose(SearchRec);\n    end;\n\n    // Output the unique extensions\n    FileExtSet.ForEach(\n      procedure(const Key: string; Value: Pointer)\n      begin\n        WriteLn(Key);\n      end\n    );\n  finally\n    FileExtSet.Free;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a set of strings and demonstrate how to iterate over it in reverse order.",
+    "code": "```pascal\nprogram ReverseSetIteration;\n\ntype\n  TStringSet = set of string[255];\n\nvar\n  s: TStringSet;\n  str: string[255];\n  sortedList: array of string;\n  i: Integer;\n\nbegin\n  s := ['apple', 'banana', 'cherry'];\n\n  SetLength(sortedList, 0);\n  for str in s do\n  begin\n    SetLength(sortedList, Length(sortedList) + 1);\n    sortedList[High(sortedList)] := str;\n  end;\n\n  for i := High(sortedList) downto Low(sortedList) do\n  begin\n    writeln(sortedList[i]);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Write a function to check if a set is empty.",
+    "code": "```pascal\nprogram CheckEmptySet;\n\ntype\n  TIntegerSet = set of Integer;\n\nfunction IsSetEmpty(s: TIntegerSet): Boolean;\nbegin\n  IsSetEmpty := s = [];\nend;\n\nvar\n  mySet: TIntegerSet;\nbegin\n  mySet := [];\n  WriteLn(IsSetEmpty(mySet));  { Output: TRUE }\n  \n  mySet := [1, 2, 3];\n  WriteLn(IsSetEmpty(mySet));  { Output: FALSE }\nend.\n```"
+  },
+  {
+    "task": "Use a set to filter out duplicate entries from a list of participants.",
+    "code": "```pascal\nprogram FilterDuplicates;\nuses SysUtils;\n\nvar\n  participants, uniqueParticipants: set of string;\n  participant: string;\n  n, i: integer;\n\nbegin\n  participants := [];\n  uniqueParticipants := [];\n\n  Write('Enter the number of participants: ');\n  ReadLn(n);\n\n  for i := 1 to n do\n  begin\n    Write('Enter participant name: ');\n    ReadLn(participant);\n    Include(participants, participant);\n  end;\n\n  uniqueParticipants := participants;\n\n  WriteLn('Unique participants:');\n  for participant in uniqueParticipants do\n  begin\n    WriteLn(participant);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a set of tuples and demonstrate basic set operations.",
+    "code": "```pascal\nprogram SetUsageExample;\n\ntype\n  TPair = record\n    First: Integer;\n    Second: Integer;\n  end;\n\n  TPairSet = set of TPair;\n\nvar\n  SetA, SetB, UnionSet, IntersectionSet, DifferenceSet: TPairSet;\n  Pair1, Pair2, Pair3: TPair;\n\nbegin\n  Pair1.First := 1; Pair1.Second := 2;\n  Pair2.First := 3; Pair2.Second := 4;\n  Pair3.First := 5; Pair3.Second := 6;\n\n  SetA := [Pair1, Pair2];\n  SetB := [Pair2, Pair3];\n\n  UnionSet := SetA + SetB;\n  IntersectionSet := SetA * SetB;\n  DifferenceSet := SetA - SetB;\nend.\n```"
+  },
+  {
+    "task": "Write a program to find the common elements between two sets of country names.",
+    "code": "```pascal\nprogram CommonCountries;\n\nuses SysUtils;\n\nvar\n  SetA, SetB, CommonSet: set of string;\n  Country: string;\n\nbegin\n  SetA := ['USA', 'Canada', 'Mexico', 'Brazil'];\n  SetB := ['Brazil', 'Argentina', 'Canada', 'Chile'];\n\n  CommonSet := SetA * SetB;\n\n  for Country in CommonSet do\n    WriteLn(Country);\nend.\n```"
+  },
+  {
+    "task": "Create a set of characters and demonstrate the use of the `issubset` method.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\ntype\n  CharSet = set of Char;\n\nvar\n  set1, set2: CharSet;\n  isSubset: Boolean;\n\nbegin\n  set1 := ['a', 'b', 'c'];\n  set2 := ['a', 'b', 'c', 'd', 'e'];\n\n  isSubset := set1 <= set2;\n\n  if isSubset then\n    WriteLn('set1 is a subset of set2')\n  else\n    WriteLn('set1 is not a subset of set2');\nend.\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique hashtags from social media posts.",
+    "code": "```pascal\nprogram HashtagManager;\n\ntype\n  TStringSet = set of string;\n\nvar\n  Hashtags: TStringSet;\n  Hashtag: string;\n\nprocedure AddHashtag(var S: TStringSet; const Tag: string);\nbegin\n  S := S + [Tag];\nend;\n\nprocedure DisplayHashtags(const S: TStringSet);\nvar\n  Tag: string;\nbegin\n  for Tag in S do\n    WriteLn(Tag);\nend;\n\nbegin\n  Hashtags := [];\n  AddHashtag(Hashtags, '#Pascal');\n  AddHashtag(Hashtags, '#Programming');\n  AddHashtag(Hashtags, '#Code');\n  AddHashtag(Hashtags, '#Pascal'); // Duplicate, won't be added\n\n  WriteLn('Unique Hashtags:');\n  DisplayHashtags(Hashtags);\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to copy it to another set.",
+    "code": "```pascal\nprogram SetUsage;\n\ntype\n  TNumberSet = set of 1..10;\n\nvar\n  OriginalSet, CopiedSet: TNumberSet;\n\nbegin\n  OriginalSet := [1, 3, 5, 7, 9];\n  CopiedSet := OriginalSet;\nend.\n```"
+  },
+  {
+    "task": "Write a function that accepts two sets and returns a new set with elements found in both.",
+    "code": "```pascal\nprogram SetIntersection;\n\ntype\n  TIntegerSet = set of Integer;\n\nfunction Intersection(set1, set2: TIntegerSet): TIntegerSet;\nbegin\n  Intersection := set1 * set2;\nend;\n\nvar\n  setA, setB, resultSet: TIntegerSet;\nbegin\n  setA := [1, 2, 3, 4, 5];\n  setB := [4, 5, 6, 7, 8];\n  \n  resultSet := Intersection(setA, setB);\n  \n  { Output or use resultSet as needed }\nend.\n```"
+  },
+  {
+    "task": "Use a set to determine the unique items purchased in a day.",
+    "code": "```pascal\nprogram UniqueItemsPurchased;\n\ntype\n  TStringSet = set of String;\n\nvar\n  purchasedItems: TStringSet;\n  item: String;\n  i, n: Integer;\n\nbegin\n  purchasedItems := [];\n  \n  Write('Enter the number of items purchased today: ');\n  ReadLn(n);\n  \n  for i := 1 to n do\n  begin\n    Write('Enter item ', i, ': ');\n    ReadLn(item);\n    Include(purchasedItems, item);\n  end;\n  \n  WriteLn('Unique items purchased today:');\n  for item in purchasedItems do\n    WriteLn(item);\nend.\n```"
+  },
+  {
+    "task": "Create a set of student IDs and demonstrate set comprehension to filter IDs.",
+    "code": "```pascal\nprogram FilterStudentIDs;\n\ntype\n  TStudentID = 1..1000;\n  TStudentIDSet = set of TStudentID;\n\nvar\n  AllStudentIDs, FilteredIDs: TStudentIDSet;\n  ID: TStudentID;\n\nbegin\n  AllStudentIDs := [101, 202, 303, 404, 505, 606, 707, 808, 909];\n  \n  FilteredIDs := [ID in AllStudentIDs | ID mod 2 = 0];\n\n  writeln('Filtered Student IDs:');\n  for ID in FilteredIDs do\n    writeln(ID);\nend.\n```"
+  },
+  {
+    "task": "Write a program to check if a set of strings is a superset of another set.",
+    "code": "```pascal\nprogram CheckSuperset;\n\ntype\n  TStringSet = set of string;\n\nvar\n  SetA, SetB: TStringSet;\n  IsSuperset: Boolean;\n  Str: string;\n\nbegin\n  SetA := ['apple', 'banana', 'cherry', 'date'];\n  SetB := ['banana', 'cherry'];\n\n  IsSuperset := True;\n\n  for Str in SetB do\n  begin\n    if not (Str in SetA) then\n    begin\n      IsSuperset := False;\n      Break;\n    end;\n  end;\n\n  if IsSuperset then\n    WriteLn('SetA is a superset of SetB')\n  else\n    WriteLn('SetA is not a superset of SetB');\nend.\n```"
+  },
+  {
+    "task": "Create a set of unique words from a text file.",
+    "code": "```pascal\nprogram UniqueWordsSet;\n\nuses\n  SysUtils, Classes;\n\nvar\n  WordSet: set of string;\n  TextFile: TextFile;\n  Line, Word: string;\n  WordArr: TStringArray;\n  I: Integer;\n\nbegin\n  AssignFile(TextFile, 'input.txt');\n  Reset(TextFile);\n  WordSet := [];\n\n  while not EOF(TextFile) do\n  begin\n    ReadLn(TextFile, Line);\n    WordArr := Line.Split([' ', ',', '.', ';', ':', '!', '?', '-', '\"', ''''], TStringSplitOptions.ExcludeEmpty);\n    for I := 0 to High(WordArr) do\n    begin\n      Word := WordArr[I];\n      WordSet := WordSet + [Word];\n    end;\n  end;\n\n  CloseFile(TextFile);\nend.\n```"
+  },
+  {
+    "task": "Implement a set to store unique project identifiers and demonstrate membership testing.",
+    "code": "```pascal\nprogram ProjectIdentifiers;\n\nuses\n  SysUtils;\n\ntype\n  TIdentifierSet = set of Integer;\n\nvar\n  Identifiers: TIdentifierSet;\n  id: Integer;\nbegin\n  Identifiers := [];\n\n  { Add some identifiers to the set }\n  Identifiers := Identifiers + [101, 203, 304, 405];\n\n  { Test for membership }\n  id := 203;\n  if id in Identifiers then\n    WriteLn('Identifier ', id, ' is in the set.')\n  else\n    WriteLn('Identifier ', id, ' is not in the set.');\n\n  id := 999;\n  if id in Identifiers then\n    WriteLn('Identifier ', id, ' is in the set.')\n  else\n    WriteLn('Identifier ', id, ' is not in the set.');\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `symmetric_difference_update` method.",
+    "code": "```pascal\nprogram SymmetricDifferenceUpdateDemo;\n\ntype\n  TIntegerSet = set of 1..100;\n\nvar\n  Set1, Set2, SymmetricDifference: TIntegerSet;\n  i: Integer;\n\nbegin\n  Set1 := [1, 2, 3, 4, 5];\n  Set2 := [4, 5, 6, 7, 8];\n\n  SymmetricDifference := (Set1 - Set2) + (Set2 - Set1);\n\n  writeln('Symmetric Difference:');\n  for i := 1 to 100 do\n    if i in SymmetricDifference then\n      write(i, ' ');\n  writeln;\nend.\n```"
+  },
+  {
+    "task": "Write a function to remove all elements from a set that are also in another set.",
+    "code": "```pascal\nprogram SetDifference;\n\ntype\n  TIntegerSet = set of Integer;\n\nfunction SubtractSets(SetA, SetB: TIntegerSet): TIntegerSet;\nbegin\n  Result := SetA - SetB;\nend;\n\nvar\n  SetA, SetB, ResultSet: TIntegerSet;\nbegin\n  SetA := [1, 2, 3, 4, 5];\n  SetB := [2, 4];\n  ResultSet := SubtractSets(SetA, SetB);\nend.\n```"
+  },
+  {
+    "task": "Use a set to keep track of unique error codes from server logs.",
+    "code": "```pascal\nprogram UniqueErrorCodes;\n\ntype\n  TErrorCodes = set of Integer;\n\nvar\n  ErrorCodes: TErrorCodes;\n  Code: Integer;\nbegin\n  ErrorCodes := [];\n\n  // Example of adding error codes\n  Code := 1001;\n  Include(ErrorCodes, Code);\n\n  Code := 1002;\n  Include(ErrorCodes, Code);\n\n  Code := 1001; // Duplicate code\n  Include(ErrorCodes, Code);\n\n  // Example of checking if a code is in the set\n  if 1001 in ErrorCodes then\n    WriteLn('Error code 1001 is present');\n\n  if 1003 in ErrorCodes then\n    WriteLn('Error code 1003 is present')\n  else\n    WriteLn('Error code 1003 is not present');\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to find all unique pairs of elements.",
+    "code": "```pascal\nprogram UniquePairs;\n\ntype\n  TElementSet = set of 1..100;\n  TPairSet = record\n    First, Second: Integer;\n  end;\n\nvar\n  ElementSet: TElementSet;\n  UniquePairs: array of TPairSet;\n  i, j, Count: Integer;\n  \nbegin\n  ElementSet := [2, 4, 6, 8, 10];\n  Count := 0;\n  \n  for i := 1 to 100 do\n  begin\n    if i in ElementSet then\n    begin\n      for j := i + 1 to 100 do\n      begin\n        if j in ElementSet then\n        begin\n          SetLength(UniquePairs, Count + 1);\n          UniquePairs[Count].First := i;\n          UniquePairs[Count].Second := j;\n          Inc(Count);\n        end;\n      end;\n    end;\n  end;\n  \n  for i := 0 to High(UniquePairs) do\n  begin\n    WriteLn('Pair: (', UniquePairs[i].First, ', ', UniquePairs[i].Second, ')');\n  end;\nend.\n```"
+  },
+  {
+    "task": "Write a program to find the smallest element in a set of integers.",
+    "code": "```pascal\nprogram FindSmallestElement;\n\nvar\n  numbers: set of -1000..1000;  // Example range\n  num, smallest: Integer;\n  input: string;\n\nbegin\n  numbers := [];\n  WriteLn('Enter integers (type \"done\" to finish):');\n  repeat\n    ReadLn(input);\n    if input <> 'done' then\n    begin\n      Val(input, num);\n      numbers := numbers + [num];\n    end;\n  until input = 'done';\n\n  if numbers <> [] then\n  begin\n    smallest := 1001;  // Assuming the range is -1000..1000\n    for num := -1000 to 1000 do\n      if num in numbers then\n        if num < smallest then\n          smallest := num;\n    WriteLn('The smallest element is: ', smallest);\n  end\n  else\n    WriteLn('No numbers were entered.');\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `add` method with multiple elements.",
+    "code": "```pascal\nprogram SetUsageExample;\n\ntype\n  TIntegerSet = set of 1..100;\n\nvar\n  mySet: TIntegerSet;\n\nbegin\n  mySet := [];\n  mySet := mySet + [10];\n  mySet := mySet + [20, 30, 40];\nend.\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique author names.",
+    "code": "```pascal\nprogram UniqueAuthors;\n\ntype\n  TAuthorSet = set of string;\n\nvar\n  authors: TAuthorSet;\n\nprocedure AddAuthor(var aSet: TAuthorSet; authorName: string);\nbegin\n  aSet := aSet + [authorName];\nend;\n\nprocedure RemoveAuthor(var aSet: TAuthorSet; authorName: string);\nbegin\n  aSet := aSet - [authorName];\nend;\n\nfunction IsAuthorInSet(aSet: TAuthorSet; authorName: string): Boolean;\nbegin\n  IsAuthorInSet := authorName in aSet;\nend;\n\nbegin\n  authors := [];\n  AddAuthor(authors, 'Jane Austen');\n  AddAuthor(authors, 'Mark Twain');\n  if IsAuthorInSet(authors, 'Jane Austen') then\n    writeln('Jane Austen is in the set.');\n  RemoveAuthor(authors, 'Mark Twain');\nend.\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate converting it to a sorted list.",
+    "code": "```pascal\nprogram SetToSortedList;\n\nuses\n  sysutils;\n\nvar\n  intSet: set of 1..100;\n  intList: array of Integer;\n  i, n: Integer;\n\nbegin\n  intSet := [5, 2, 9, 3, 7];\n  \n  n := 0;\n  for i := 1 to 100 do\n    if i in intSet then\n    begin\n      SetLength(intList, n + 1);\n      intList[n] := i;\n      Inc(n);\n    end;\n\n  for i := 0 to n - 2 do\n    for n := i + 1 to High(intList) do\n      if intList[i] > intList[n] then\n      begin\n        intList[i] := intList[i] + intList[n];\n        intList[n] := intList[i] - intList[n];\n        intList[i] := intList[i] - intList[n];\n      end;\n\n  for i := 0 to High(intList) do\n    WriteLn(intList[i]);\nend.\n```"
+  },
+  {
+    "task": "Write a function that returns the union of multiple sets.",
+    "code": "```pascal\nprogram UnionOfSets;\n\ntype\n  TIntegerSet = set of Integer;\n\nfunction UnionOfMultipleSets(Sets: array of TIntegerSet): TIntegerSet;\nvar\n  ResultSet: TIntegerSet;\n  i: Integer;\nbegin\n  ResultSet := [];\n  for i := Low(Sets) to High(Sets) do\n    ResultSet := ResultSet + Sets[i];\n  UnionOfMultipleSets := ResultSet;\nend;\n\nvar\n  Set1, Set2, Set3, UnionSet: TIntegerSet;\nbegin\n  Set1 := [1, 2, 3];\n  Set2 := [3, 4, 5];\n  Set3 := [5, 6, 7];\n  \n  UnionSet := UnionOfMultipleSets([Set1, Set2, Set3]);\n  \n  // Example usage\n  // WriteLn(UnionSet); // Uncomment to display the result\nend.\n```"
+  },
+  {
+    "task": "Use a set to identify unique characters in a string.",
+    "code": "```pascal\nprogram UniqueCharacters;\n\nuses SysUtils;\n\nvar\n  inputString: string;\n  charSet: set of Char;\n  i: Integer;\nbegin\n  inputString := 'example string';\n  charSet := [];\n\n  for i := 1 to Length(inputString) do\n  begin\n    charSet := charSet + [inputString[i]];\n  end;\n\n  for i := 0 to 255 do\n  begin\n    if Chr(i) in charSet then\n      Write(Chr(i));\n  end;\n\n  WriteLn;\nend.\n```"
+  },
+  {
+    "task": "Create a set of prime numbers and demonstrate basic set operations.",
+    "code": "```pascal\nprogram PrimeSetDemo;\ntype\n  TPrimeSet = set of Integer;\nvar\n  PrimeSet1, PrimeSet2, UnionSet, IntersectionSet, DifferenceSet: TPrimeSet;\n  i: Integer;\nbegin\n  PrimeSet1 := [2, 3, 5, 7, 11, 13];\n  PrimeSet2 := [11, 13, 17, 19, 23];\n\n  { Union of two sets }\n  UnionSet := PrimeSet1 + PrimeSet2;\n\n  { Intersection of two sets }\n  IntersectionSet := PrimeSet1 * PrimeSet2;\n\n  { Difference of two sets }\n  DifferenceSet := PrimeSet1 - PrimeSet2;\n\n  { Output the results }\n  WriteLn('Union of PrimeSet1 and PrimeSet2: ');\n  for i := 2 to 23 do\n    if i in UnionSet then\n      Write(i, ' ');\n  WriteLn;\n\n  WriteLn('Intersection of PrimeSet1 and PrimeSet2: ');\n  for i := 2 to 23 do\n    if i in IntersectionSet then\n      Write(i, ' ');\n  WriteLn;\n\n  WriteLn('Difference of PrimeSet1 and PrimeSet2: ');\n  for i := 2 to 23 do\n    if i in DifferenceSet then\n      Write(i, ' ');\n  WriteLn;\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to check for non-membership.",
+    "code": "```pascal\nprogram SetUsage;\n\ntype\n  TIntegerSet = set of 1..10; \n\nvar\n  MySet: TIntegerSet;\n  IsNotMember: Boolean;\n  ElementToCheck: Integer;\n\nbegin\n  MySet := [2, 4, 6, 8, 10];\n  ElementToCheck := 5;\n  IsNotMember := not (ElementToCheck in MySet);\n\n  if IsNotMember then\n    writeln('Element ', ElementToCheck, ' is not in the set.')\n  else\n    writeln('Element ', ElementToCheck, ' is in the set.');\nend.\n```"
+  },
+  {
+    "task": "Write a program to find the largest element in a set of numbers.",
+    "code": "```pascal\nprogram LargestElementInSet;\n\nuses SysUtils;\n\nvar\n  numbers: set of 1..100;\n  i, maxElement: Integer;\n\nbegin\n  numbers := [5, 12, 7, 19, 34, 23];\n  maxElement := Low(Integer);\n  \n  for i := 1 to 100 do\n    if i in numbers then\n      if i > maxElement then\n        maxElement := i;\n        \n  WriteLn('The largest element in the set is: ', maxElement);\nend.\n```"
+  },
+  {
+    "task": "Create a set of unique movie titles and demonstrate membership testing.",
+    "code": "```pascal\nprogram MovieSetDemo;\nuses sysutils;\n\ntype\n  TMovieSet = set of 1..100;\n  TStringArray = array[1..100] of string;\n\nvar\n  movieSet: TMovieSet;\n  movies: TStringArray;\n  i, idx: Integer;\n  movieTitle: string;\n\nfunction GetMovieIndex(const title: string; const titles: TStringArray): Integer;\nbegin\n  for i := 1 to 100 do\n    if titles[i] = title then\n      Exit(i);\n  Exit(-1);\nend;\n\nbegin\n  movies[1] := 'Inception';\n  movies[2] := 'The Matrix';\n  movies[3] := 'Interstellar';\n  movies[4] := 'The Godfather';\n  movies[5] := 'Pulp Fiction';\n\n  movieSet := [1, 2, 3, 4, 5];\n\n  movieTitle := 'The Matrix';\n  idx := GetMovieIndex(movieTitle, movies);\n\n  if (idx <> -1) and (idx in movieSet) then\n    writeln('Movie \"', movieTitle, '\" is in the set.')\n  else\n    writeln('Movie \"', movieTitle, '\" is not in the set.');\nend.\n```"
+  },
+  {
+    "task": "Implement a set to store unique keys from a dictionary.",
+    "code": "```pascal\nprogram UniqueKeysSet;\n\nuses\n  SysUtils, Generics.Collections;\n\nvar\n  Dict: TDictionary<string, Integer>;\n  UniqueKeys: TSet<string>;\n  Key: string;\n\nbegin\n  Dict := TDictionary<string, Integer>.Create;\n  UniqueKeys := TSet<string>.Create;\n\n  try\n    Dict.Add('key1', 1);\n    Dict.Add('key2', 2);\n    Dict.Add('key3', 3);\n\n    for Key in Dict.Keys do\n    begin\n      UniqueKeys.Add(Key);\n    end;\n\n    // Example usage: printing unique keys\n    for Key in UniqueKeys do\n    begin\n      WriteLn(Key);\n    end;\n\n  finally\n    Dict.Free;\n    UniqueKeys.Free;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `difference_update` method.",
+    "code": "```pascal\nprogram SetDemo;\n\ntype\n  TIntegerSet = set of 1..100;\n\nvar\n  SetA, SetB: TIntegerSet;\n\nbegin\n  { Initialize sets with some values }\n  SetA := [1, 2, 3, 4, 5];\n  SetB := [3, 4, 5, 6, 7];\n\n  { Demonstrate difference_update (equivalent in Pascal) }\n  SetA := SetA - SetB;\n\n  { Output the result }\n  WriteLn('SetA after difference_update: ');\n  for var i in SetA do\n    Write(i, ' ');\n  WriteLn;\nend.\n```"
+  },
+  {
+    "task": "Write a function to merge multiple sets into a single set.",
+    "code": "```pascal\nprogram MergeSets;\n\ntype\n  TIntegerSet = set of 0..100;\n\nfunction Merge(var sets: array of TIntegerSet): TIntegerSet;\nvar\n  mergedSet: TIntegerSet;\n  i: Integer;\nbegin\n  mergedSet := [];\n  for i := Low(sets) to High(sets) do\n  begin\n    mergedSet := mergedSet + sets[i];\n  end;\n  Merge := mergedSet;\nend;\n\nvar\n  set1, set2, set3, mergedSet: TIntegerSet;\n  sets: array of TIntegerSet;\nbegin\n  set1 := [1, 3, 5, 7];\n  set2 := [2, 4, 6, 8];\n  set3 := [1, 2, 3, 4];\n\n  SetLength(sets, 3);\n  sets[0] := set1;\n  sets[1] := set2;\n  sets[2] := set3;\n\n  mergedSet := Merge(sets);\n\n  { Output or further processing of mergedSet can be done here }\nend.\n```"
+  },
+  {
+    "task": "Use a set to filter out duplicate letters from a word.",
+    "code": "```pascal\nprogram FilterDuplicates;\n\nuses SysUtils;\n\nvar\n  word: string;\n  letterSet: set of Char;\n  c: Char;\n  result: string;\n\nbegin\n  word := 'exampleword';\n  letterSet := [];\n  result := '';\n  \n  for c in word do\n  begin\n    if not (c in letterSet) then\n    begin\n      result := result + c;\n      Include(letterSet, c);\n    end;\n  end;\n\n  WriteLn('Filtered word: ', result);\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `isdisjoint` method.",
+    "code": "```pascal\nprogram SetUsageExample;\n\nuses\n  SysUtils;\n\ntype\n  TIntegerSet = set of 0..100;\n\nvar\n  setA, setB: TIntegerSet;\n  areDisjoint: Boolean;\n\nbegin\n  setA := [1, 2, 3, 4, 5];\n  setB := [6, 7, 8, 9, 10];\n\n  areDisjoint := setA * setB = [];\n\n  if areDisjoint then\n    WriteLn('The sets are disjoint.')\n  else\n    WriteLn('The sets are not disjoint.');\nend.\n```"
+  },
+  {
+    "task": "Write a program to find all elements that are only in one of two sets.",
+    "code": "```pascal\nprogram UniqueElementsInSets;\n\nuses SysUtils;\n\nvar\n  SetA, SetB, UniqueSet: set of Char;\n  Element: Char;\n\nbegin\n  SetA := ['a', 'b', 'c', 'd'];\n  SetB := ['c', 'd', 'e', 'f'];\n\n  UniqueSet := (SetA + SetB) - (SetA * SetB);\n\n  for Element in UniqueSet do\n    Write(Element, ' ');\n\n  WriteLn;\nend.\n```"
+  },
+  {
+    "task": "Create a set of unique book authors and demonstrate basic set operations.",
+    "code": "```pascal\nprogram BookAuthorsSetDemo;\n\ntype\n  AuthorSet = set of string[50];\n\nvar\n  authors1, authors2, unionSet, intersectionSet, differenceSet: AuthorSet;\n\nbegin\n  authors1 := ['J.K. Rowling', 'George Orwell', 'J.R.R. Tolkien'];\n  authors2 := ['J.R.R. Tolkien', 'Agatha Christie', 'George Orwell'];\n\n  { Union of two sets }\n  unionSet := authors1 + authors2;\n\n  { Intersection of two sets }\n  intersectionSet := authors1 * authors2;\n\n  { Difference of two sets }\n  differenceSet := authors1 - authors2;\n\n  { Output results }\n  WriteLn('Union of authors: ', unionSet);\n  WriteLn('Intersection of authors: ', intersectionSet);\n  WriteLn('Difference of authors: ', differenceSet);\nend.\n```"
+  },
+  {
+    "task": "Implement a set to store unique phone numbers and check for duplicates.",
+    "code": "```pascal\nprogram UniquePhoneNumbers;\n\nuses SysUtils;\n\ntype\n  PhoneNumberSet = set of string;\n\nvar\n  phoneNumbers: PhoneNumberSet;\n  phoneNumber: string;\n  duplicate: Boolean;\n\nbegin\n  phoneNumbers := [];\n  \n  repeat\n    Write('Enter a phone number (or type \"exit\" to finish): ');\n    ReadLn(phoneNumber);\n    if phoneNumber <> 'exit' then\n    begin\n      duplicate := phoneNumber in phoneNumbers;\n      if duplicate then\n        WriteLn('Duplicate phone number found: ', phoneNumber)\n      else\n      begin\n        Include(phoneNumbers, phoneNumber);\n        WriteLn('Phone number added: ', phoneNumber);\n      end;\n    end;\n  until phoneNumber = 'exit';\nend.\n```"
+  },
+  {
+    "task": "Create a set of floating-point numbers and demonstrate rounding each element.",
+    "code": "```pascal\nprogram SetOfFloats;\n\ntype\n  TFloatSet = set of 1..100;\n\nvar\n  floatSet: TFloatSet;\n  roundedSet: array[1..100] of Integer;\n  i: Integer;\n  floatArray: array[1..100] of Real;\n\nbegin\n  floatArray[1] := 1.2;\n  floatArray[2] := 2.8;\n  floatArray[3] := 3.5;\n  floatArray[4] := 4.6;\n\n  for i := 1 to 4 do\n    floatSet := floatSet + [i];\n\n  for i := 1 to 4 do\n    if i in floatSet then\n      roundedSet[i] := Round(floatArray[i]);\n\n  for i := 1 to 4 do\n    if i in floatSet then\n      WriteLn('Original: ', floatArray[i]:0:1, ' Rounded: ', roundedSet[i]);\nend.\n```"
+  },
+  {
+    "task": "Write a function that returns a set of all vowels present in a given sentence.",
+    "code": "```pascal\nprogram VowelSet;\n\nuses SysUtils;\n\ntype\n  CharSet = set of Char;\n\nfunction VowelsInSentence(Sentence: string): CharSet;\nvar\n  Vowels: CharSet;\n  C: Char;\nbegin\n  Vowels := [];\n  Sentence := LowerCase(Sentence);\n  for C in Sentence do\n  begin\n    if C in ['a', 'e', 'i', 'o', 'u'] then\n      Include(Vowels, C);\n  end;\n  VowelsInSentence := Vowels;\nend;\n\nbegin\nend.\n```"
+  },
+  {
+    "task": "Use a set to track unique session IDs for a web application.",
+    "code": "```pascal\nprogram TrackUniqueSessionIDs;\n\ntype\n  TSessionID = Integer;\n  TSessionIDSet = set of TSessionID;\n\nvar\n  SessionIDs: TSessionIDSet;\n  NewSessionID: TSessionID;\n\nbegin\n  SessionIDs := [];\n\n  { Example of adding a session ID }\n  NewSessionID := 101;\n  SessionIDs := SessionIDs + [NewSessionID];\n\n  { Example of adding another session ID }\n  NewSessionID := 102;\n  SessionIDs := SessionIDs + [NewSessionID];\n\n  { Example of checking if a session ID is in the set }\n  if 101 in SessionIDs then\n    WriteLn('Session ID 101 is active.');\n\n  { Example of removing a session ID }\n  SessionIDs := SessionIDs - [101];\n\n  { Example of checking if a session ID is no longer in the set }\n  if not (101 in SessionIDs) then\n    WriteLn('Session ID 101 is no longer active.');\nend.\n```"
+  },
+  {
+    "task": "Create a set of unique city names and demonstrate set operations with it.",
+    "code": "```pascal\nprogram CitySetDemo;\n\ntype\n  CitySet = set of string[20];\n\nvar\n  Cities, MoreCities, CommonCities, UniqueCities: CitySet;\n  City: string[20];\n\nbegin\n  { Initialize the sets }\n  Cities := ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'];\n  MoreCities := ['Phoenix', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'];\n\n  { Union of two sets }\n  UniqueCities := Cities + MoreCities;\n  \n  { Intersection of two sets }\n  CommonCities := Cities * MoreCities;\n\n  { Output the results }\n  writeln('Cities set:');\n  for City in Cities do\n    write(City, ' ');\n  writeln;\n\n  writeln('MoreCities set:');\n  for City in MoreCities do\n    write(City, ' ');\n  writeln;\n\n  writeln('UniqueCities (Union) set:');\n  for City in UniqueCities do\n    write(City, ' ');\n  writeln;\n\n  writeln('CommonCities (Intersection) set:');\n  for City in CommonCities do\n    write(City, ' ');\n  writeln;\nend.\n```"
+  },
+  {
+    "task": "Write a program to find the common elements in three sets.",
+    "code": "```pascal\nprogram CommonElementsInSets;\n\ntype\n  TSet = set of 1..100;\n\nvar\n  Set1, Set2, Set3, CommonSet: TSet;\n  i: Integer;\n\nbegin\n  Set1 := [1, 2, 3, 4, 5];\n  Set2 := [3, 4, 5, 6, 7];\n  Set3 := [5, 6, 7, 8, 9];\n\n  CommonSet := Set1 * Set2 * Set3;\n\n  Write('Common elements: ');\n  for i := 1 to 100 do\n    if i in CommonSet then\n      Write(i, ' ');\n\n  Writeln;\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to remove an element by its value.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\ntype\n  TNumberSet = set of 1..100;\n\nvar\n  numbers: TNumberSet;\n\nbegin\n  numbers := [10, 20, 30, 40, 50];  { Create a set with some initial values }\n  numbers := numbers - [30];        { Remove the element 30 from the set }\nend.\n```"
+  },
+  {
+    "task": "Implement a set to store a collection of unique ISBN numbers.",
+    "code": "```pascal\nprogram ISBNSetExample;\n\nuses\n  SysUtils;\n\ntype\n  TISBNSet = set of string;\n\nvar\n  ISBNSet: TISBNSet;\n  ISBN: string;\n\nbegin\n  ISBNSet := [];\n  \n  ISBN := '978-3-16-148410-0';\n  Include(ISBNSet, ISBN);\n  \n  ISBN := '978-1-4028-9462-6';\n  Include(ISBNSet, ISBN);\n  \n  ISBN := '978-0-596-52068-7';\n  Include(ISBNSet, ISBN);\n\n  ISBN := '978-1-4028-9462-6'; // Duplicate, should not be added again\n  Include(ISBNSet, ISBN);\n  \n  // Example usage to check if an ISBN is in the set\n  ISBN := '978-3-16-148410-0';\n  if ISBN in ISBNSet then\n    WriteLn('ISBN ', ISBN, ' is in the set.')\n  else\n    WriteLn('ISBN ', ISBN, ' is not in the set.');\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `intersection_update` method.",
+    "code": "```pascal\nprogram SetIntersectionUpdate;\n\ntype\n  TNumberSet = set of 1..10;\n\nvar\n  setA, setB: TNumberSet;\n\nbegin\n  setA := [1, 2, 3, 4, 5];\n  setB := [3, 4, 5, 6, 7];\n  \n  setA := setA * setB;\n\n  writeln('Set A after intersection update:');\n  for var num := 1 to 10 do\n    if num in setA then\n      write(num, ' ');\n      \n  writeln;\nend.\n```"
+  },
+  {
+    "task": "Write a function to generate a set of all unique elements in a list.",
+    "code": "```pascal\nprogram UniqueElements;\n\ntype\n  IntegerSet = set of Integer;\n\nfunction UniqueSet(arr: array of Integer): IntegerSet;\nvar\n  i: Integer;\n  resultSet: IntegerSet;\nbegin\n  resultSet := [];\n  for i := Low(arr) to High(arr) do\n  begin\n    resultSet := resultSet + [arr[i]];\n  end;\n  UniqueSet := resultSet;\nend;\n\nvar\n  myArray: array of Integer;\n  mySet: IntegerSet;\n  i: Integer;\nbegin\n  myArray := [1, 2, 2, 3, 4, 4, 5];\n  mySet := UniqueSet(myArray);\n  for i in mySet do\n    WriteLn(i);\nend.\n```"
+  },
+  {
+    "task": "Use a set to determine the unique characters in two strings.",
+    "code": "```pascal\nprogram UniqueCharacters;\n\nuses SysUtils;\n\nvar\n  str1, str2: string;\n  set1, set2, uniqueSet: set of char;\n  ch: char;\n\nbegin\n  str1 := 'example1';\n  str2 := 'example2';\n\n  set1 := [];\n  set2 := [];\n\n  for ch in str1 do\n    set1 := set1 + [ch];\n\n  for ch in str2 do\n    set2 := set2 + [ch];\n\n  uniqueSet := set1 + set2;\n\n  for ch in uniqueSet do\n    write(ch, ' ');\n\n  writeln;\nend.\n```"
+  },
+  {
+    "task": "Create a set of unique animal names and demonstrate the `discard` method.",
+    "code": "```pascal\nprogram AnimalSetExample;\n\ntype\n  TAnimalSet = set of string;\n\nvar\n  AnimalSet: TAnimalSet;\n\nprocedure DiscardAnimal(var ASet: TAnimalSet; const Animal: string);\nbegin\n  Exclude(ASet, Animal);\nend;\n\nbegin\n  AnimalSet := ['Cat', 'Dog', 'Elephant', 'Tiger'];\n  \n  DiscardAnimal(AnimalSet, 'Dog');\n  \n  { The set now no longer contains 'Dog' }\nend.\n```"
+  },
+  {
+    "task": "Write a program to find all elements present in the first set but not in the second.",
+    "code": "```pascal\nprogram SetDifference;\n\nvar\n  SetA, SetB, Difference: set of 1..100;\n  i: Integer;\n\nbegin\n  { Initialize sets }\n  SetA := [1, 2, 3, 4, 5];\n  SetB := [4, 5, 6, 7, 8];\n  \n  { Calculate the difference }\n  Difference := SetA - SetB;\n  \n  { Print the difference }\n  for i := 1 to 100 do\n    if i in Difference then\n      WriteLn(i);\nend.\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate using it to eliminate duplicates from a list.",
+    "code": "```pascal\nprogram RemoveDuplicates;\n\nvar\n  inputList: array[1..10] of Integer = (1, 2, 3, 2, 4, 5, 1, 6, 3, 4);\n  uniqueSet: set of Integer;\n  i: Integer;\n\nbegin\n  uniqueSet := [];\n  \n  for i := 1 to Length(inputList) do\n    uniqueSet := uniqueSet + [inputList[i]];\n\n  for i := 1 to 10 do\n    if inputList[i] in uniqueSet then\n    begin\n      Write(inputList[i], ' ');\n      uniqueSet := uniqueSet - [inputList[i]];\n    end;\nend.\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique car models.",
+    "code": "```pascal\nprogram CarModelsSet;\n\ntype\n  CarModels = set of string;\n\nvar\n  models: CarModels;\n  model: string;\n\nbegin\n  models := [];\n  \n  { Adding models to the set }\n  models := models + ['Tesla Model S'];\n  models := models + ['Ford Mustang'];\n  models := models + ['Chevrolet Camaro'];\n  \n  { Trying to add a duplicate model }\n  models := models + ['Tesla Model S'];  { This will not add a duplicate }\n\n  { Display all models }\n  for model in models do\n    writeln(model);\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `clear` method.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\ntype\n  TCharSet = set of Char;\n\nvar\n  letters: TCharSet;\n\nbegin\n  { Initialize the set with some characters }\n  letters := ['A', 'B', 'C', 'D', 'E'];\n\n  { Clear the set }\n  letters := [];\n\n  { Demonstrate usage by checking if the set is empty }\n  if letters = [] then\n    WriteLn('The set is empty.');\nend.\n```"
+  },
+  {
+    "task": "Write a function that finds the intersection of multiple sets.",
+    "code": "```pascal\nprogram SetIntersection;\n\ntype\n  TIntegerSet = set of Integer;\n\nfunction IntersectSets(Sets: array of TIntegerSet): TIntegerSet;\nvar\n  i: Integer;\nbegin\n  if Length(Sets) = 0 then\n    Exit([]);\n    \n  Result := Sets[0];\n  for i := 1 to High(Sets) do\n    Result := Result * Sets[i];\nend;\n\nvar\n  Set1, Set2, Set3, Intersection: TIntegerSet;\n\nbegin\n  Set1 := [1, 2, 3, 4, 5];\n  Set2 := [3, 4, 5, 6, 7];\n  Set3 := [5, 6, 7, 8, 9];\n\n  Intersection := IntersectSets([Set1, Set2, Set3]);\n\n  WriteLn('Intersection: ');\n  for i in Intersection do\n    Write(i, ' ');\nend.\n```"
+  },
+  {
+    "task": "Use a set to identify unique words in a paragraph.",
+    "code": "```pascal\nprogram UniqueWords;\n\nuses\n  SysUtils, Classes;\n\nvar\n  Paragraph: string;\n  Words: TStringList;\n  UniqueWords: TFPHashObjectSet;\n  Word: string;\n  i: Integer;\n\nbegin\n  Paragraph := 'This is a sample paragraph with some sample words and some unique words.';\n  Words := TStringList.Create;\n  UniqueWords := TFPHashObjectSet.Create(True);\n\n  try\n    Words.Delimiter := ' ';\n    Words.DelimitedText := Paragraph;\n    \n    for i := 0 to Words.Count - 1 do\n    begin\n      Word := LowerCase(Words[i]);\n      if UniqueWords.Find(Word) = nil then\n        UniqueWords.Add(TObject(Pointer(StrNew(PChar(Word)))));\n    end;\n\n    for i := 0 to UniqueWords.Count - 1 do\n      WriteLn(PChar(UniqueWords.Items[i]));\n  finally\n    Words.Free;\n    UniqueWords.Free;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a set of unique country codes and demonstrate membership testing.",
+    "code": "```pascal\nprogram CountryCodeSetUsage;\n\ntype\n  TCountryCodeSet = set of string[3];\n\nvar\n  countryCodes: TCountryCodeSet;\n  code: string[3];\n\nbegin\n  countryCodes := ['USA', 'CAN', 'MEX', 'BRA', 'ARG'];\n\n  code := 'CAN';\n  if code in countryCodes then\n    writeln(code, ' is in the set.')\n  else\n    writeln(code, ' is not in the set.');\n\n  code := 'ESP';\n  if code in countryCodes then\n    writeln(code, ' is in the set.')\n  else\n    writeln(code, ' is not in the set.');\nend.\n```"
+  },
+  {
+    "task": "Write a program to find the union of two sets and return it as a list.",
+    "code": "```pascal\nprogram UnionOfSets;\n\nuses SysUtils;\n\ntype\n  TIntSet = set of Integer;\n  \nvar\n  SetA, SetB, UnionSet: TIntSet;\n  List: array of Integer;\n  i: Integer;\n  \nbegin\n  SetA := [1, 2, 3, 4];\n  SetB := [3, 4, 5, 6];\n  \n  UnionSet := SetA + SetB;\n  \n  SetLength(List, 0);\n  for i := 0 to 100 do\n  begin\n    if i in UnionSet then\n    begin\n      SetLength(List, Length(List) + 1);\n      List[High(List)] := i;\n    end;\n  end;\n  \n  for i := 0 to High(List) do\n    WriteLn(List[i]);\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate using it to check if all elements of another set are present.",
+    "code": "```pascal\nprogram SetUsageExample;\n\ntype\n  TIntegerSet = set of 1..100;\n\nvar\n  MainSet, SubSet: TIntegerSet;\n  IsSubset: Boolean;\n  Element: Integer;\n\nbegin\n  MainSet := [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\n  SubSet := [2, 4, 6];\n\n  IsSubset := True;\n  for Element in SubSet do\n    if not (Element in MainSet) then\n    begin\n      IsSubset := False;\n      Break;\n    end;\n\n  if IsSubset then\n    Writeln('SubSet is a subset of MainSet.')\n  else\n    Writeln('SubSet is not a subset of MainSet.');\nend.\n```"
+  },
+  {
+    "task": "Implement a set to store unique coupon codes and demonstrate adding new codes.",
+    "code": "```pascal\nprogram CouponCodes;\n\ntype\n  TCodeSet = set of string;\n\nvar\n  CouponCodes: TCodeSet;\n  NewCode: string;\nbegin\n  CouponCodes := [];\n  \n  NewCode := 'SAVE10';\n  Include(CouponCodes, NewCode);\n  \n  NewCode := 'DISCOUNT20';\n  Include(CouponCodes, NewCode);\n  \n  NewCode := 'FREEDELIVERY';\n  Include(CouponCodes, NewCode);\n  \n  { Demonstrating the set contents }\n  if 'SAVE10' in CouponCodes then\n    writeln('SAVE10 is in the set.');\n    \n  if 'DISCOUNT20' in CouponCodes then\n    writeln('DISCOUNT20 is in the set.');\n    \n  if 'FREEDELIVERY' in CouponCodes then\n    writeln('FREEDELIVERY is in the set.');\n    \n  if 'EXTRA5' in CouponCodes then\n    writeln('EXTRA5 is in the set.')\n  else\n    writeln('EXTRA5 is not in the set.');\nend.\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `copy` method.",
+    "code": "```pascal\nprogram SetUsageDemo;\n\ntype\n  TIntegerSet = set of 1..100;\n\nvar\n  OriginalSet, CopiedSet: TIntegerSet;\n\nbegin\n  { Initialize the original set with some elements }\n  OriginalSet := [1, 2, 3, 4, 5];\n\n  { Copy the original set into the copied set }\n  CopiedSet := OriginalSet;\n\n  { Output the copied set to demonstrate the usage }\n  if 3 in CopiedSet then\n    WriteLn('3 is in the copied set.')\n  else\n    WriteLn('3 is not in the copied set.');\nend.\n```"
+  },
+  {
+    "task": "Write a function to remove duplicates from a list using a set.",
+    "code": "```pascal\nprogram RemoveDuplicates;\n\nuses\n  SysUtils;\n\nfunction RemoveDuplicatesFromList(const AList: array of Integer): TArray<Integer>;\nvar\n  UniqueSet: TSet<Integer>;\n  Num: Integer;\n  ResultList: array of Integer;\nbegin\n  UniqueSet := TSet<Integer>.Create;\n  try\n    for Num in AList do\n      UniqueSet.Add(Num);\n\n    ResultList := UniqueSet.ToArray;\n    Result := ResultList;\n  finally\n    UniqueSet.Free;\n  end;\nend;\n\nvar\n  OriginalList: array of Integer = (1, 2, 3, 2, 1, 4, 5);\n  ResultList: TArray<Integer>;\n  I: Integer;\nbegin\n  ResultList := RemoveDuplicatesFromList(OriginalList);\n  for I := Low(ResultList) to High(ResultList) do\n    WriteLn(ResultList[I]);\nend.\n```"
+  },
+  {
+    "task": "Use a set to identify unique numbers in a sequence.",
+    "code": "```pascal\nprogram UniqueNumbers;\n\nuses\n  SysUtils;\n\nvar\n  numbers: array of Integer;\n  uniqueNumbers: set of Integer;\n  i, n, inputNumber: Integer;\n\nbegin\n  Write('Enter the number of elements: ');\n  ReadLn(n);\n  SetLength(numbers, n);\n  \n  for i := 0 to n - 1 do\n  begin\n    Write('Enter number ', i + 1, ': ');\n    ReadLn(inputNumber);\n    numbers[i] := inputNumber;\n  end;\n  \n  uniqueNumbers := [];\n  \n  for i := 0 to n - 1 do\n  begin\n    uniqueNumbers := uniqueNumbers + [numbers[i]];\n  end;\n  \n  Write('Unique numbers are: ');\n  for inputNumber in uniqueNumbers do\n    Write(inputNumber, ' ');\n  WriteLn;\nend.\n```"
+  },
+  {
+    "task": "Create a set of unique fruit names and demonstrate set operations with it.",
+    "code": "```pascal\nprogram FruitSetDemo;\n\ntype\n  FruitSet = set of string;\n\nvar\n  fruits1, fruits2, fruitUnion, fruitIntersection, fruitDifference: FruitSet;\nbegin\n  fruits1 := ['Apple', 'Banana', 'Cherry'];\n  fruits2 := ['Banana', 'Dragonfruit', 'Elderberry'];\n\n  { Union of two sets }\n  fruitUnion := fruits1 + fruits2;\n\n  { Intersection of two sets }\n  fruitIntersection := fruits1 * fruits2;\n\n  { Difference of two sets }\n  fruitDifference := fruits1 - fruits2;\n\n  { Display results }\n  writeln('Fruits in the union: ');\n  for fruit in fruitUnion do\n    writeln(fruit);\n\n  writeln('Fruits in the intersection: ');\n  for fruit in fruitIntersection do\n    writeln(fruit);\n\n  writeln('Fruits in the difference: ');\n  for fruit in fruitDifference do\n    writeln(fruit);\nend.\n```"
+  }
+]

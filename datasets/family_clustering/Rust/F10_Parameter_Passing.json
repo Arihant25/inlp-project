@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```rust\nfn modify_first_element(arr: &mut [i32]) {\n    if !arr.is_empty() {\n        arr[0] = 99; // Arbitrary value for modification\n    }\n}\n\nfn main() {\n    let mut my_array = [1, 2, 3, 4, 5];\n    println!(\"Before modification: {:?}\", my_array);\n\n    modify_first_element(&mut my_array);\n    \n    println!(\"After modification: {:?}\", my_array);\n}\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```rust\nfn swap(a: &mut i32, b: &mut i32) {\n    let temp = *a;\n    *a = *b;\n    *b = temp;\n}\n\nfn main() {\n    let mut x = 10;\n    let mut y = 20;\n    \n    println!(\"Before swap: x = {}, y = {}\", x, y);\n    swap(&mut x, &mut y);\n    println!(\"After swap: x = {}, y = {}\", x, y);\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```rust\nuse std::time::Instant;\n\nstruct LargeData {\n    data: Vec<u8>,\n}\n\nfn process_by_value(data: LargeData) {\n    let _sum: u8 = data.data.iter().sum();\n}\n\nfn process_by_reference(data: &LargeData) {\n    let _sum: u8 = data.data.iter().sum();\n}\n\nfn main() {\n    let large_data = LargeData {\n        data: vec![1; 10_000_000],\n    };\n\n    let start = Instant::now();\n    process_by_value(large_data.clone());\n    let duration_by_value = start.elapsed();\n\n    let start = Instant::now();\n    process_by_reference(&large_data);\n    let duration_by_reference = start.elapsed();\n\n    println!(\"Duration by value: {:?}\", duration_by_value);\n    println!(\"Duration by reference: {:?}\", duration_by_reference);\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```rust\nfn double_by_value(mut num: i32) -> i32 {\n    num *= 2;\n    num\n}\n\nfn double_by_reference(num: &mut i32) {\n    *num *= 2;\n}\n\nfn main() {\n    let original_value = 10;\n    let doubled_value = double_by_value(original_value);\n    println!(\"Original value after pass-by-value: {}\", original_value);\n    println!(\"Doubled value by pass-by-value: {}\", doubled_value);\n\n    let mut original_value_ref = 10;\n    double_by_reference(&mut original_value_ref);\n    println!(\"Original value after pass-by-reference: {}\", original_value_ref);\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```rust\nfn double_elements(input: &Vec<i32>) -> Vec<i32> {\n    input.iter().map(|&x| x * 2).collect()\n}\n\nfn main() {\n    let original_list = vec![1, 2, 3, 4, 5];\n    let doubled_list = double_elements(&original_list);\n\n    println!(\"Original list: {:?}\", original_list);\n    println!(\"Doubled list: {:?}\", doubled_list);\n}\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```rust\nfn append_char(mut s: String, c: char) -> String {\n    s.push(c);\n    s\n}\n\nfn main() {\n    let original_string = String::from(\"Hello\");\n    let new_string = append_char(original_string.clone(), '!');\n    println!(\"Original String: {}\", original_string);\n    println!(\"New String: {}\", new_string);\n}\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```rust\nfn increment_counter(counter: &mut i32) {\n    *counter += 1;\n}\n\nfn main() {\n    let mut my_counter = 0;\n    increment_counter(&mut my_counter);\n    println!(\"Counter: {}\", my_counter);\n}\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```rust\nuse std::collections::HashMap;\n\nfn remove_item(dict: &mut HashMap<String, i32>, key: &str) {\n    dict.remove(key);\n}\n\nfn main() {\n    let mut my_dict: HashMap<String, i32> = HashMap::new();\n    my_dict.insert(\"apple\".to_string(), 3);\n    my_dict.insert(\"banana\".to_string(), 5);\n    my_dict.insert(\"orange\".to_string(), 2);\n\n    println!(\"Original dictionary: {:?}\", my_dict);\n\n    remove_item(&mut my_dict, \"banana\");\n\n    println!(\"Modified dictionary: {:?}\", my_dict);\n}\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```rust\nfn transpose(matrix: &mut Vec<Vec<i32>>) {\n    let n = matrix.len();\n    let m = matrix[0].len();\n    \n    let mut transposed = vec![vec![0; n]; m];\n    \n    for i in 0..n {\n        for j in 0..m {\n            transposed[j][i] = matrix[i][j];\n        }\n    }\n    \n    *matrix = transposed;\n}\n\nfn main() {\n    let mut matrix = vec![\n        vec![1, 2, 3],\n        vec![4, 5, 6],\n    ];\n    \n    println!(\"Original matrix: {:?}\", matrix);\n    \n    transpose(&mut matrix);\n    \n    println!(\"Transposed matrix: {:?}\", matrix);\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```rust\nfn round_number(value: f64) -> f64 {\n    value.round()\n}\n\nfn main() {\n    let num = 3.14;\n    let rounded = round_number(num);\n    println!(\"Original: {}, Rounded: {}\", num, rounded);\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```rust\nuse std::collections::HashMap;\n\nfn add_key_value_pair(map: &mut HashMap<String, String>, key: String, value: String) {\n    map.insert(key, value);\n}\n\nfn main() {\n    let mut my_map = HashMap::new();\n    my_map.insert(\"key1\".to_string(), \"value1\".to_string());\n    \n    println!(\"Before: {:?}\", my_map);\n    \n    add_key_value_pair(&mut my_map, \"key2\".to_string(), \"value2\".to_string());\n    \n    println!(\"After: {:?}\", my_map);\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```rust\nfn to_uppercase(s: String) -> String {\n    s.to_uppercase()\n}\n\nfn main() {\n    let original = String::from(\"hello, world\");\n    let uppercased = to_uppercase(original.clone());\n    println!(\"Original: {}\", original);\n    println!(\"Uppercased: {}\", uppercased);\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```rust\nfn modify_tuple(mut t: (i32, i32)) -> (i32, i32) {\n    t.0 += 1;\n    t\n}\n\nfn main() {\n    let original = (5, 10);\n    let modified = modify_tuple(original);\n    println!(\"Original: {:?}\", original);\n    println!(\"Modified: {:?}\", modified);\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```rust\n#[derive(Debug)]\nstruct MyStruct {\n    value: i32,\n}\n\nfn modify_value(obj: &mut MyStruct) {\n    obj.value += 10;\n}\n\nfn main() {\n    let mut my_obj = MyStruct { value: 20 };\n    println!(\"Before modification: {:?}\", my_obj);\n    \n    modify_value(&mut my_obj);\n    \n    println!(\"After modification: {:?}\", my_obj);\n}\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```rust\nfn sum_of_elements(arr: [i32; 5]) -> i32 {\n    arr.iter().sum()\n}\n\nfn main() {\n    let original_array = [1, 2, 3, 4, 5];\n    let sum = sum_of_elements(original_array);\n    println!(\"Sum: {}\", sum);\n    println!(\"Original array: {:?}\", original_array);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```rust\nfn toggle_flag(flag: &mut bool) {\n    *flag = !*flag;\n}\n\nfn main() {\n    let mut my_flag = true;\n    println!(\"Original flag: {}\", my_flag);\n    toggle_flag(&mut my_flag);\n    println!(\"Toggled flag: {}\", my_flag);\n}\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```rust\n#[derive(Clone, Debug)]\nstruct MyStruct {\n    value: i32,\n}\n\nfn modify_clone(original: &MyStruct) -> MyStruct {\n    let mut cloned = original.clone();\n    cloned.value += 10;\n    cloned\n}\n\nfn main() {\n    let original = MyStruct { value: 5 };\n    let modified_clone = modify_clone(&original);\n    \n    println!(\"Original: {:?}\", original);\n    println!(\"Modified Clone: {:?}\", modified_clone);\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```rust\nfn remove_evens_by_value(mut numbers: Vec<i32>) -> Vec<i32> {\n    numbers.retain(|&x| x % 2 != 0);\n    numbers\n}\n\nfn remove_evens_by_reference(numbers: &mut Vec<i32>) {\n    numbers.retain(|&x| x % 2 != 0);\n}\n\nfn main() {\n    // Pass-by-value\n    let nums = vec![1, 2, 3, 4, 5, 6];\n    let result = remove_evens_by_value(nums.clone());\n    println!(\"After remove_evens_by_value: {:?}\", result);\n\n    // Pass-by-reference\n    let mut nums_ref = nums.clone();\n    remove_evens_by_reference(&mut nums_ref);\n    println!(\"After remove_evens_by_reference: {:?}\", nums_ref);\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```rust\nstruct Complex {\n    real: f64,\n    imag: f64,\n}\n\nfn conjugate(c: Complex) -> Complex {\n    Complex {\n        real: c.real,\n        imag: -c.imag,\n    }\n}\n\nfn main() {\n    let original = Complex { real: 3.0, imag: 4.0 };\n    let conj = conjugate(original);\n    \n    println!(\"Original: {} + {}i\", original.real, original.imag);\n    println!(\"Conjugate: {} + {}i\", conj.real, conj.imag);\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```rust\nuse std::rc::Rc;\nuse std::cell::RefCell;\n\n#[derive(Debug)]\nstruct TreeNode {\n    val: i32,\n    left: Option<Rc<RefCell<TreeNode>>>,\n    right: Option<Rc<RefCell<TreeNode>>>,\n}\n\nimpl TreeNode {\n    fn new(val: i32) -> Self {\n        TreeNode { val, left: None, right: None }\n    }\n}\n\nfn invert_tree(node: Option<Rc<RefCell<TreeNode>>>) {\n    if let Some(node_rc) = node {\n        let mut node = node_rc.borrow_mut();\n        let left = node.left.take();\n        let right = node.right.take();\n        node.left = right;\n        node.right = left;\n        \n        invert_tree(node.left.clone());\n        invert_tree(node.right.clone());\n    }\n}\n\nfn main() {\n    let root = Rc::new(RefCell::new(TreeNode::new(1)));\n    root.borrow_mut().left = Some(Rc::new(RefCell::new(TreeNode::new(2))));\n    root.borrow_mut().right = Some(Rc::new(RefCell::new(TreeNode::new(3))));\n    \n    invert_tree(Some(root.clone()));\n}\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn add_element_to_set(set: &mut HashSet<i32>, element: i32) {\n    set.insert(element);\n}\n\nfn main() {\n    let mut my_set = HashSet::new();\n    my_set.insert(1);\n    my_set.insert(2);\n    my_set.insert(3);\n\n    add_element_to_set(&mut my_set, 4);\n\n    for item in &my_set {\n        println!(\"{}\", item);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```rust\nfn sort_array_by_value(mut arr: Vec<i32>) -> Vec<i32> {\n    arr.sort();\n    arr\n}\n\nfn main() {\n    let original_array = vec![5, 3, 8, 6, 2];\n    let sorted_array = sort_array_by_value(original_array.clone());\n\n    println!(\"Original array: {:?}\", original_array);\n    println!(\"Sorted array: {:?}\", sorted_array);\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```rust\nstruct Config {\n    setting: bool,\n}\n\nfn toggle_setting(config: &mut Config) {\n    config.setting = !config.setting;\n}\n\nfn main() {\n    let mut config = Config { setting: false };\n    println!(\"Before: {}\", config.setting);\n    toggle_setting(&mut config);\n    println!(\"After: {}\", config.setting);\n}\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```rust\nuse std::fs::File;\nuse std::io::{self, Read};\n\nfn read_file_content(file_path: String) -> io::Result<String> {\n    let mut file = File::open(file_path)?;\n    let mut contents = String::new();\n    file.read_to_string(&mut contents)?;\n    Ok(contents)\n}\n\nfn main() {\n    let path = String::from(\"example.txt\");\n    match read_file_content(path) {\n        Ok(content) => println!(\"File content: {}\", content),\n        Err(e) => eprintln!(\"Error reading file: {}\", e),\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```rust\nfn reverse_stack(stack: &mut Vec<i32>) {\n    stack.reverse();\n}\n\nfn main() {\n    let mut stack = vec![1, 2, 3, 4, 5];\n    reverse_stack(&mut stack);\n    println!(\"{:?}\", stack);\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```rust\nuse std::collections::VecDeque;\n\nfn dequeue(queue: &mut VecDeque<i32>) -> Option<i32> {\n    queue.pop_front()\n}\n\nfn main() {\n    let mut queue = VecDeque::from(vec![1, 2, 3, 4, 5]);\n    \n    if let Some(element) = dequeue(&mut queue) {\n        println!(\"Dequeued: {}\", element);\n    }\n    \n    println!(\"Queue after dequeue: {:?}\", queue);\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```rust\nuse std::collections::HashMap;\n\nfn update_value(map: &mut HashMap<String, i32>, key: &str, value: i32) {\n    if let Some(v) = map.get_mut(key) {\n        *v = value;\n    }\n}\n\nfn main() {\n    let mut my_map = HashMap::new();\n    my_map.insert(String::from(\"key1\"), 10);\n    my_map.insert(String::from(\"key2\"), 20);\n\n    println!(\"Before update: {:?}\", my_map);\n\n    update_value(&mut my_map, \"key1\", 30);\n\n    println!(\"After update: {:?}\", my_map);\n}\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```rust\nuse serde_json::{Value, json};\n\nfn add_property(obj: &mut Value, key: &str, value: Value) {\n    if let Some(map) = obj.as_object_mut() {\n        map.insert(key.to_string(), value);\n    }\n}\n\nfn main() {\n    let mut data = json!({\n        \"name\": \"Alice\",\n        \"age\": 30\n    });\n\n    add_property(&mut data, \"city\", json!(\"New York\"));\n\n    println!(\"{}\", data);\n}\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```rust\nuse std::collections::HashMap;\n\n// Define a Graph type\ntype Graph = HashMap<String, Vec<String>>;\n\n// Function to add a node to the graph\nfn add_node(graph: &mut Graph, node: String) {\n    graph.entry(node).or_insert(Vec::new());\n}\n\nfn main() {\n    // Create a mutable graph\n    let mut graph: Graph = HashMap::new();\n    \n    // Add some initial nodes\n    graph.insert(\"A\".to_string(), vec![\"B\".to_string()]);\n    graph.insert(\"B\".to_string(), vec![\"C\".to_string()]);\n\n    // Add a new node using pass-by-reference\n    add_node(&mut graph, \"D\".to_string());\n\n    // Print the graph to see the effect of pass-by-reference\n    for (node, edges) in &graph {\n        println!(\"Node: {}, Edges: {:?}\", node, edges);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```rust\nfn shift_coordinates(mut coords: (i32, i32), shift_x: i32, shift_y: i32) -> (i32, i32) {\n    coords.0 += shift_x;\n    coords.1 += shift_y;\n    coords\n}\n\nfn main() {\n    let original_coords = (10, 15);\n    let shifted_coords = shift_coordinates(original_coords, 5, -3);\n\n    println!(\"Original Coordinates: {:?}\", original_coords);\n    println!(\"Shifted Coordinates: {:?}\", shifted_coords);\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```rust\nuse chrono::{NaiveDate, Duration};\n\nfn set_to_next_day(date: &mut NaiveDate) {\n    *date = *date + Duration::days(1);\n}\n\nfn main() {\n    let mut date = NaiveDate::from_ymd(2023, 10, 4);\n    set_to_next_day(&mut date);\n    println!(\"{}\", date);\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```rust\nfn differentiate(polynomial: Vec<i32>) -> Vec<i32> {\n    let mut differentiated = Vec::new();\n    for (i, &coeff) in polynomial.iter().enumerate().skip(1) {\n        differentiated.push(coeff * (i as i32));\n    }\n    differentiated\n}\n\nfn main() {\n    let polynomial = vec![3, 2, 1]; // Represents 3 + 2x + x^2\n    let differentiated = differentiate(polynomial.clone());\n    \n    println!(\"Original polynomial: {:?}\", polynomial);\n    println!(\"Differentiated polynomial: {:?}\", differentiated);\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```rust\nstruct Stack<T> {\n    elements: Vec<T>,\n}\n\nimpl<T> Stack<T> {\n    fn new() -> Self {\n        Stack { elements: Vec::new() }\n    }\n\n    fn push(&mut self, item: T) {\n        self.elements.push(item);\n    }\n\n    fn clear(&mut self) {\n        self.elements.clear();\n    }\n}\n\nfn clear_stack<T>(stack: &mut Stack<T>) {\n    stack.clear();\n}\n\nfn main() {\n    let mut stack = Stack::new();\n    stack.push(1);\n    stack.push(2);\n    stack.push(3);\n\n    clear_stack(&mut stack);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```rust\nuse std::rc::Rc;\nuse std::cell::RefCell;\n\n#[derive(Debug)]\nstruct ListNode {\n    val: i32,\n    next: Option<Rc<RefCell<ListNode>>>,\n}\n\nimpl ListNode {\n    fn new(val: i32) -> Rc<RefCell<Self>> {\n        Rc::new(RefCell::new(ListNode { val, next: None }))\n    }\n}\n\nfn append_node(head: &Rc<RefCell<ListNode>>, val: i32) {\n    let mut current = Rc::clone(head);\n    loop {\n        let next = current.borrow().next.clone();\n        match next {\n            Some(ref next_node) => current = Rc::clone(next_node),\n            None => {\n                current.borrow_mut().next = Some(ListNode::new(val));\n                break;\n            }\n        }\n    }\n}\n\nfn main() {\n    let head = ListNode::new(1);\n    append_node(&head, 2);\n    append_node(&head, 3);\n\n    let mut current = Rc::clone(&head);\n    while let Some(next_node) = current.borrow().next.clone() {\n        println!(\"{}\", current.borrow().val);\n        current = next_node;\n    }\n    println!(\"{}\", current.borrow().val);\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```rust\nfn extract_domain(url: String) -> String {\n    let parts: Vec<&str> = url.split('/').collect();\n    if parts.len() > 2 {\n        let domain = parts[2];\n        return domain.to_string();\n    }\n    String::new()\n}\n\nfn main() {\n    let url = String::from(\"https://www.example.com/some/path\");\n    let domain = extract_domain(url.clone());\n    println!(\"Domain: {}\", domain);\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```rust\nuse std::collections::BinaryHeap;\nuse std::cmp::Reverse;\n\nfn change_priority(queue: &mut BinaryHeap<Reverse<i32>>, element: i32, new_priority: i32) {\n    let mut temp_queue = BinaryHeap::new();\n    while let Some(Reverse(value)) = queue.pop() {\n        if value == element {\n            temp_queue.push(Reverse(new_priority));\n        } else {\n            temp_queue.push(Reverse(value));\n        }\n    }\n    *queue = temp_queue;\n}\n\nfn main() {\n    let mut pq = BinaryHeap::new();\n    pq.push(Reverse(10));\n    pq.push(Reverse(20));\n    pq.push(Reverse(30));\n\n    println!(\"Before change: {:?}\", pq);\n\n    change_priority(&mut pq, 20, 15);\n\n    println!(\"After change: {:?}\", pq);\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```rust\nstruct CircularBuffer<T> {\n    buffer: Vec<T>,\n    head: usize,\n    tail: usize,\n    size: usize,\n    capacity: usize,\n}\n\nimpl<T: Clone> CircularBuffer<T> {\n    fn new(capacity: usize) -> Self {\n        CircularBuffer {\n            buffer: vec![],\n            head: 0,\n            tail: 0,\n            size: 0,\n            capacity,\n        }\n    }\n\n    fn read_element(&mut self) -> Option<T> {\n        if self.size == 0 {\n            None\n        } else {\n            let element = self.buffer[self.head].clone();\n            self.head = (self.head + 1) % self.capacity;\n            self.size -= 1;\n            Some(element)\n        }\n    }\n}\n\nfn main() {\n    let mut buffer = CircularBuffer::new(5);\n    // Assume some elements are added to the buffer here...\n    let element = buffer.read_element();\n    println!(\"{:?}\", element);\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```rust\nstruct Record {\n    field: i32,\n}\n\nfn update_record(record: &mut Record, new_value: i32) {\n    record.field = new_value;\n}\n\nfn main() {\n    let mut my_record = Record { field: 10 };\n    println!(\"Before update: {}\", my_record.field);\n\n    update_record(&mut my_record, 20);\n    println!(\"After update: {}\", my_record.field);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```rust\nfn normalize_frequencies(frequencies: Vec<f32>) -> Vec<f32> {\n    let sum: f32 = frequencies.iter().sum();\n    frequencies.into_iter().map(|f| f / sum).collect()\n}\n\nfn main() {\n    let original_frequencies = vec![2.0, 4.0, 4.0, 10.0];\n    let normalized_frequencies = normalize_frequencies(original_frequencies.clone());\n\n    println!(\"Original: {:?}\", original_frequencies);\n    println!(\"Normalized: {:?}\", normalized_frequencies);\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```rust\n#[derive(Clone, Copy)]\nenum Piece {\n    Empty,\n    Pawn,\n    // Other pieces can be added here\n}\n\nstruct ChessBoard {\n    board: [[Piece; 8]; 8],\n}\n\nfn make_move(chessboard: &mut ChessBoard, from: (usize, usize), to: (usize, usize)) {\n    let piece = chessboard.board[from.0][from.1];\n    chessboard.board[to.0][to.1] = piece;\n    chessboard.board[from.0][from.1] = Piece::Empty;\n}\n\nfn main() {\n    let mut chessboard = ChessBoard {\n        board: [[Piece::Empty; 8]; 8],\n    };\n    make_move(&mut chessboard, (1, 0), (2, 0));\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```rust\nfn decimal_to_binary(mut num: u32) -> String {\n    if num == 0 {\n        return \"0\".to_string();\n    }\n\n    let mut binary = String::new();\n    while num > 0 {\n        binary.insert(0, if num % 2 == 0 { '0' } else { '1' });\n        num /= 2;\n    }\n    binary\n}\n\nfn main() {\n    let original_number = 10;\n    let binary_representation = decimal_to_binary(original_number);\n\n    println!(\"Original number: {}\", original_number);\n    println!(\"Binary representation: {}\", binary_representation);\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```rust\nfn count_nucleotides(dna_sequence: String) -> (usize, usize, usize, usize) {\n    let mut a_count = 0;\n    let mut c_count = 0;\n    let mut g_count = 0;\n    let mut t_count = 0;\n\n    for nucleotide in dna_sequence.chars() {\n        match nucleotide {\n            'A' => a_count += 1,\n            'C' => c_count += 1,\n            'G' => g_count += 1,\n            'T' => t_count += 1,\n            _ => {},\n        }\n    }\n\n    (a_count, c_count, g_count, t_count)\n}\n\nfn main() {\n    let original_sequence = String::from(\"AGCTTAGCTA\");\n    let counts = count_nucleotides(original_sequence.clone());\n\n    println!(\"Original DNA sequence: {}\", original_sequence);\n    println!(\n        \"Counts -> A: {}, C: {}, G: {}, T: {}\",\n        counts.0, counts.1, counts.2, counts.3\n    );\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```rust\nstruct ShoppingCart {\n    total: f64,\n}\n\nfn apply_discount(cart: &mut ShoppingCart, discount: f64) {\n    cart.total -= cart.total * discount;\n}\n\nfn main() {\n    let mut cart = ShoppingCart { total: 100.0 };\n    apply_discount(&mut cart, 0.1);\n    println!(\"Total after discount: {}\", cart.total);\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```rust\nfn add_song(playlist: &mut Vec<String>, song: String) {\n    playlist.push(song);\n}\n\nfn main() {\n    let mut playlist = vec![\n        String::from(\"Song 1\"),\n        String::from(\"Song 2\"),\n        String::from(\"Song 3\"),\n    ];\n\n    let new_song = String::from(\"New Song\");\n    add_song(&mut playlist, new_song);\n\n    for song in &playlist {\n        println!(\"{}\", song);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```rust\nstruct Sprite {\n    x: i32,\n    y: i32,\n}\n\nfn move_sprite(sprite: &mut Sprite, dx: i32, dy: i32) {\n    sprite.x += dx;\n    sprite.y += dy;\n}\n\nfn main() {\n    let mut sprite = Sprite { x: 0, y: 0 };\n    println!(\"Before move: ({}, {})\", sprite.x, sprite.y);\n    move_sprite(&mut sprite, 5, 10);\n    println!(\"After move: ({}, {})\", sprite.x, sprite.y);\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```rust\nstruct Book {\n    title: String,\n}\n\nfn update_title(book: &mut Book, new_title: &str) {\n    book.title = new_title.to_string();\n}\n\nfn main() {\n    let mut my_book = Book {\n        title: String::from(\"Original Title\"),\n    };\n    \n    println!(\"Before update: {}\", my_book.title);\n    \n    update_title(&mut my_book, \"New Title\");\n    \n    println!(\"After update: {}\", my_book.title);\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```rust\nfn normalize_wave(mut wave: Vec<f32>) -> Vec<f32> {\n    let max_amplitude = wave.iter().cloned().fold(0.0_f32, f32::max);\n    if max_amplitude == 0.0 {\n        return wave;\n    }\n    for sample in wave.iter_mut() {\n        *sample /= max_amplitude;\n    }\n    wave\n}\n\nfn main() {\n    let original_wave = vec![0.3, 0.5, 0.9, 0.4];\n    let normalized_wave = normalize_wave(original_wave.clone());\n    println!(\"Original wave: {:?}\", original_wave);\n    println!(\"Normalized wave: {:?}\", normalized_wave);\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```rust\nstruct BankAccount {\n    balance: f64,\n}\n\nfn credit_amount(account: &mut BankAccount, amount: f64) {\n    account.balance += amount;\n}\n\nfn main() {\n    let mut my_account = BankAccount { balance: 1000.0 };\n    credit_amount(&mut my_account, 200.0);\n    println!(\"Updated balance: {}\", my_account.balance);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```rust\nfn filter_invalid_emails(emails: Vec<String>) -> Vec<String> {\n    emails.into_iter().filter(|email| email.contains('@')).collect()\n}\n\nfn main() {\n    let email_list = vec![\n        \"valid@example.com\".to_string(),\n        \"invalidexample.com\".to_string(),\n        \"another@valid.com\".to_string(),\n        \"noatsign.com\".to_string(),\n    ];\n\n    // Pass-by-value\n    let filtered_emails = filter_invalid_emails(email_list.clone());\n    println!(\"Original list: {:?}\", email_list);\n    println!(\"Filtered list: {:?}\", filtered_emails);\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```rust\nstruct Model {\n    vertices: Vec<(f32, f32, f32)>,\n}\n\nfn scale_model(model: &mut Model, scale_factor: f32) {\n    for vertex in &mut model.vertices {\n        vertex.0 *= scale_factor;\n        vertex.1 *= scale_factor;\n        vertex.2 *= scale_factor;\n    }\n}\n\nfn main() {\n    let mut model = Model {\n        vertices: vec![(1.0, 2.0, 3.0), (4.0, 5.0, 6.0)],\n    };\n\n    println!(\"Original model: {:?}\", model.vertices);\n\n    scale_model(&mut model, 2.0);\n\n    println!(\"Scaled model: {:?}\", model.vertices);\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```rust\nfn redact_sensitive_information(document: &mut String) {\n    let sensitive_words = vec![\"password\", \"secret\", \"confidential\"];\n    for word in sensitive_words {\n        let redacted = \"*\".repeat(word.len());\n        *document = document.replace(word, &redacted);\n    }\n}\n\nfn main() {\n    let mut text_document = String::from(\"This is a secret document. Do not share your password.\");\n    redact_sensitive_information(&mut text_document);\n    println!(\"{}\", text_document);\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```rust\nfn adjust_for_calibration(mut temperature: f64, calibration_offset: f64) -> f64 {\n    temperature += calibration_offset;\n    temperature\n}\n\nfn main() {\n    let original_temperature = 25.0;\n    let calibration_offset = 1.5;\n    \n    let adjusted_temperature = adjust_for_calibration(original_temperature, calibration_offset);\n    \n    println!(\"Original Temperature: {}\", original_temperature);\n    println!(\"Adjusted Temperature: {}\", adjusted_temperature);\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```rust\nstruct BugReport {\n    status: String,\n}\n\nfn update_status(report: &mut BugReport, new_status: &str) {\n    report.status = new_status.to_string();\n}\n\nfn main() {\n    let mut report = BugReport {\n        status: String::from(\"open\"),\n    };\n\n    println!(\"Before update: {}\", report.status);\n    update_status(&mut report, \"resolved\");\n    println!(\"After update: {}\", report.status);\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```rust\nfn calibrate_sensor_array(sensor_array: &mut [f64]) {\n    for sensor in sensor_array.iter_mut() {\n        *sensor *= 1.1; // Example calibration by multiplying each element by 1.1\n    }\n}\n\nfn main() {\n    let mut sensors = [10.0, 20.0, 30.0, 40.0];\n    println!(\"Before calibration: {:?}\", sensors);\n    calibrate_sensor_array(&mut sensors);\n    println!(\"After calibration: {:?}\", sensors);\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```rust\nfn rotate_vector(mut v: Vec<i32>) -> Vec<i32> {\n    if !v.is_empty() {\n        let first = v.remove(0);\n        v.push(first);\n    }\n    v\n}\n\nfn main() {\n    let original_vector = vec![1, 2, 3, 4, 5];\n    let rotated_vector = rotate_vector(original_vector.clone());\n\n    println!(\"Original Vector: {:?}\", original_vector);\n    println!(\"Rotated Vector: {:?}\", rotated_vector);\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```rust\nfn compress_log(log: &mut Vec<String>) {\n    let mut i = 0;\n    while i < log.len() - 1 {\n        if log[i] == log[i + 1] {\n            log.remove(i + 1);\n        } else {\n            i += 1;\n        }\n    }\n}\n\nfn main() {\n    let mut operation_log = vec![\n        \"start\".to_string(),\n        \"start\".to_string(),\n        \"process\".to_string(),\n        \"process\".to_string(),\n        \"end\".to_string(),\n    ];\n    compress_log(&mut operation_log);\n    println!(\"{:?}\", operation_log);\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```rust\nstruct NeuralNetwork {\n    weights: Vec<f32>,\n}\n\nfn update_weights(model: &mut NeuralNetwork, new_weights: Vec<f32>) {\n    model.weights = new_weights;\n}\n\nfn main() {\n    let mut model = NeuralNetwork {\n        weights: vec![0.1, 0.2, 0.3],\n    };\n\n    println!(\"Before update: {:?}\", model.weights);\n\n    let new_weights = vec![0.4, 0.5, 0.6];\n    update_weights(&mut model, new_weights);\n\n    println!(\"After update: {:?}\", model.weights);\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```rust\nfn revert_last_command(history: &mut Vec<String>) {\n    if !history.is_empty() {\n        history.pop();\n    }\n}\n\nfn main() {\n    let mut command_history = vec![\n        String::from(\"Open file\"),\n        String::from(\"Edit text\"),\n        String::from(\"Save file\"),\n    ];\n\n    println!(\"History before revert: {:?}\", command_history);\n    revert_last_command(&mut command_history);\n    println!(\"History after revert: {:?}\", command_history);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```rust\nstruct UserProfile {\n    name: String,\n    email: String,\n    age: u8,\n}\n\nfn anonymize_profile(profile: &mut UserProfile) {\n    profile.name = \"Anonymous\".to_string();\n    profile.email = \"anonymous@example.com\".to_string();\n}\n\nfn main() {\n    let mut user = UserProfile {\n        name: \"Alice\".to_string(),\n        email: \"alice@example.com\".to_string(),\n        age: 30,\n    };\n\n    anonymize_profile(&mut user);\n\n    println!(\"Name: {}, Email: {}, Age: {}\", user.name, user.email, user.age);\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```rust\nfn evaluate_polynomial(coefficients: Vec<f64>, x: f64) -> f64 {\n    let mut result = 0.0;\n    for (i, &coeff) in coefficients.iter().enumerate() {\n        result += coeff * x.powi(i as i32);\n    }\n    result\n}\n\nfn main() {\n    let polynomial = vec![2.0, 3.0, 4.0]; // Represents 2 + 3x + 4x^2\n    let point = 2.0;\n    let value = evaluate_polynomial(polynomial.clone(), point);\n    println!(\"The value of the polynomial at x = {} is {}\", point, value);\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```rust\nstruct VideoStream {\n    frames: Vec<String>,\n}\n\nfn apply_filter(stream: &mut VideoStream, filter: fn(&str) -> String) {\n    for frame in &mut stream.frames {\n        *frame = filter(frame);\n    }\n}\n\nfn sample_filter(frame: &str) -> String {\n    format!(\"filtered_{}\", frame)\n}\n\nfn main() {\n    let mut stream = VideoStream {\n        frames: vec![\"frame1\".to_string(), \"frame2\".to_string(), \"frame3\".to_string()],\n    };\n\n    println!(\"Before filtering: {:?}\", stream.frames);\n\n    apply_filter(&mut stream, sample_filter);\n\n    println!(\"After filtering: {:?}\", stream.frames);\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```rust\n#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]\nstruct Task {\n    priority: u32,\n    name: String,\n}\n\nfn reorder_tasks_by_priority(queue: &mut Vec<Task>) {\n    queue.sort_by(|a, b| b.priority.cmp(&a.priority));\n}\n\nfn main() {\n    let mut task_queue = vec![\n        Task { priority: 2, name: \"Task2\".to_string() },\n        Task { priority: 1, name: \"Task1\".to_string() },\n        Task { priority: 3, name: \"Task3\".to_string() },\n    ];\n\n    println!(\"Before reordering: {:?}\", task_queue);\n    reorder_tasks_by_priority(&mut task_queue);\n    println!(\"After reordering: {:?}\", task_queue);\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```rust\n#[derive(Debug, Clone)]\nstruct Transaction {\n    from: String,\n    to: String,\n    amount: f64,\n}\n\n#[derive(Debug, Clone)]\nstruct Block {\n    transactions: Vec<Transaction>,\n}\n\n#[derive(Debug, Clone)]\nstruct Blockchain {\n    blocks: Vec<Block>,\n}\n\nfn verify_transaction(blockchain: &Blockchain, transaction: &Transaction) -> bool {\n    for block in &blockchain.blocks {\n        for tx in &block.transactions {\n            if tx.from == transaction.from && tx.to == transaction.to && tx.amount == transaction.amount {\n                return true;\n            }\n        }\n    }\n    false\n}\n\nfn main() {\n    let transaction = Transaction {\n        from: String::from(\"Alice\"),\n        to: String::from(\"Bob\"),\n        amount: 50.0,\n    };\n\n    let block = Block {\n        transactions: vec![transaction.clone()],\n    };\n\n    let blockchain = Blockchain {\n        blocks: vec![block],\n    };\n\n    let result = verify_transaction(&blockchain, &transaction);\n    println!(\"Transaction verified: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```rust\nfn update_scores(leaderboard: &mut Vec<(String, i32)>, updates: Vec<(String, i32)>) {\n    for (name, score_change) in updates {\n        if let Some(entry) = leaderboard.iter_mut().find(|entry| entry.0 == name) {\n            entry.1 += score_change;\n        } else {\n            leaderboard.push((name, score_change));\n        }\n    }\n}\n\nfn main() {\n    let mut leaderboard = vec![\n        (\"Alice\".to_string(), 50),\n        (\"Bob\".to_string(), 40),\n        (\"Charlie\".to_string(), 30),\n    ];\n\n    let updates = vec![\n        (\"Alice\".to_string(), 20),\n        (\"Dave\".to_string(), 10),\n    ];\n\n    update_scores(&mut leaderboard, updates);\n\n    for (name, score) in &leaderboard {\n        println!(\"{}: {}\", name, score);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```rust\nstruct Timeline {\n    days: i32,\n}\n\nfn adjust_timeline(timeline: &mut Timeline, delay: i32) {\n    timeline.days += delay;\n}\n\nfn main() {\n    let mut project_timeline = Timeline { days: 30 };\n    \n    println!(\"Original timeline: {} days\", project_timeline.days);\n    \n    adjust_timeline(&mut project_timeline, 5);\n    \n    println!(\"Adjusted timeline: {} days\", project_timeline.days);\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```rust\nfn complete_task(todo_list: &mut Vec<String>, task_index: usize) {\n    if task_index < todo_list.len() {\n        todo_list.remove(task_index);\n    }\n}\n\nfn main() {\n    let mut todo_list = vec![\n        String::from(\"Buy groceries\"),\n        String::from(\"Call Alice\"),\n        String::from(\"Finish homework\"),\n    ];\n    \n    println!(\"To-do list before completing a task: {:?}\", todo_list);\n    \n    complete_task(&mut todo_list, 1);\n    \n    println!(\"To-do list after completing a task: {:?}\", todo_list);\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```rust\nstruct Canvas {\n    layers: Vec<String>,\n}\n\nfn add_layer(canvas: &mut Canvas, layer: String) {\n    canvas.layers.push(layer);\n}\n\nfn main() {\n    let mut canvas = Canvas { layers: vec![] };\n    add_layer(&mut canvas, String::from(\"Background Layer\"));\n    add_layer(&mut canvas, String::from(\"Foreground Layer\"));\n    \n    for layer in canvas.layers.iter() {\n        println!(\"{}\", layer);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```rust\nuse reqwest::blocking::get;\n\nfn fetch_content(urls: Vec<String>) {\n    for url in urls {\n        match get(&url) {\n            Ok(response) => {\n                if let Ok(content) = response.text() {\n                    println!(\"Content from {}: {}\", url, content);\n                } else {\n                    println!(\"Failed to read content from {}\", url);\n                }\n            }\n            Err(_) => println!(\"Failed to fetch {}\", url),\n        }\n    }\n}\n\nfn main() {\n    let url_list = vec![\n        \"http://example.com\".to_string(),\n        \"http://example.org\".to_string(),\n    ];\n    \n    fetch_content(url_list.clone());\n    \n    // Demonstrating pass-by-value, the original list is still available\n    for url in url_list {\n        println!(\"Original URL list still available: {}\", url);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```rust\nfn reset_board(board: &mut Vec<Vec<char>>) {\n    for row in board.iter_mut() {\n        for cell in row.iter_mut() {\n            *cell = '-';\n        }\n    }\n}\n\nfn main() {\n    let mut game_board = vec![\n        vec!['X', 'O', 'X'],\n        vec!['O', 'X', 'O'],\n        vec!['X', 'O', 'X'],\n    ];\n\n    println!(\"Before reset:\");\n    for row in &game_board {\n        println!(\"{:?}\", row);\n    }\n\n    reset_board(&mut game_board);\n\n    println!(\"After reset:\");\n    for row in &game_board {\n        println!(\"{:?}\", row);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```rust\nstruct SoundEffect {\n    volume: f32,\n}\n\nfn increase_volume(sound: &mut SoundEffect, increase_by: f32) {\n    sound.volume += increase_by;\n}\n\nfn main() {\n    let mut my_sound = SoundEffect { volume: 0.5 };\n    println!(\"Original volume: {}\", my_sound.volume);\n    increase_volume(&mut my_sound, 0.3);\n    println!(\"Increased volume: {}\", my_sound.volume);\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```rust\nstruct Forecast {\n    temperature: f32,\n    condition: String,\n}\n\nfn update_temperature(forecast: &mut Forecast, new_temperature: f32) {\n    forecast.temperature = new_temperature;\n}\n\nfn main() {\n    let mut weather_forecast = Forecast {\n        temperature: 20.0,\n        condition: String::from(\"Sunny\"),\n    };\n\n    // Pass-by-reference allows the function to modify the original forecast\n    update_temperature(&mut weather_forecast, 25.0);\n\n    println!(\"Updated Forecast: {}\u00b0C, {}\", weather_forecast.temperature, weather_forecast.condition);\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```rust\nfn extract_error_messages(log: Vec<String>) -> Vec<String> {\n    log.into_iter()\n        .filter(|line| line.contains(\"ERROR\"))\n        .collect()\n}\n\nfn main() {\n    let system_log = vec![\n        String::from(\"INFO: System started\"),\n        String::from(\"ERROR: Failed to load configuration\"),\n        String::from(\"INFO: Listening on port 8080\"),\n        String::from(\"ERROR: Failed to connect to database\"),\n    ];\n\n    let error_messages = extract_error_messages(system_log.clone());\n\n    println!(\"Original log:\");\n    for line in system_log {\n        println!(\"{}\", line);\n    }\n\n    println!(\"\\nError messages:\");\n    for error in error_messages {\n        println!(\"{}\", error);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```rust\nfn encrypt_data_packet(mut packet: Vec<u8>) -> Vec<u8> {\n    for byte in packet.iter_mut() {\n        *byte ^= 0xFF; // Simple encryption by inverting all bits\n    }\n    packet\n}\n\nfn main() {\n    let original_packet = vec![0x10, 0x20, 0x30, 0x40];\n    let encrypted_packet = encrypt_data_packet(original_packet.clone());\n\n    println!(\"Original Packet: {:?}\", original_packet);\n    println!(\"Encrypted Packet: {:?}\", encrypted_packet);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```rust\nstruct Theme {\n    background_color: String,\n    text_color: String,\n}\n\nfn apply_color_change(theme: &mut Theme, new_background_color: &str, new_text_color: &str) {\n    theme.background_color = new_background_color.to_string();\n    theme.text_color = new_text_color.to_string();\n}\n\nfn main() {\n    let mut website_theme = Theme {\n        background_color: String::from(\"white\"),\n        text_color: String::from(\"black\"),\n    };\n\n    apply_color_change(&mut website_theme, \"blue\", \"white\");\n\n    println!(\"Background color: {}\", website_theme.background_color);\n    println!(\"Text color: {}\", website_theme.text_color);\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```rust\nuse ring::{digest, signature, rand};\n\nfn verify_signature(signature: &[u8], message: &[u8], public_key: &[u8]) -> bool {\n    let peer_public_key = signature::UnparsedPublicKey::new(&signature::ED25519, public_key);\n    peer_public_key.verify(message, signature).is_ok()\n}\n\nfn main() {\n    // Example usage:\n    let rng = rand::SystemRandom::new();\n    let key_pair = signature::Ed25519KeyPair::generate_pkcs8(&rng).unwrap();\n    let key_pair = signature::Ed25519KeyPair::from_pkcs8(key_pair.as_ref()).unwrap();\n\n    let message: &[u8] = b\"Example message\";\n    let sig = key_pair.sign(message);\n\n    let public_key = key_pair.public_key().as_ref();\n    let is_valid = verify_signature(sig.as_ref(), message, public_key);\n\n    println!(\"Is the signature valid? {}\", is_valid);\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```rust\nfn optimize_path(path: &mut Vec<char>) {\n    let mut i = 0;\n    while i < path.len() - 1 {\n        // Simplify the path by removing 'NS' or 'SN' and 'EW' or 'WE' pairs\n        if (path[i] == 'N' && path[i + 1] == 'S') || (path[i] == 'S' && path[i + 1] == 'N') ||\n           (path[i] == 'E' && path[i + 1] == 'W') || (path[i] == 'W' && path[i + 1] == 'E') {\n            path.remove(i);\n            path.remove(i);\n            if i > 0 {\n                i -= 1;\n            }\n        } else {\n            i += 1;\n        }\n    }\n}\n\nfn main() {\n    let mut robot_path = vec!['N', 'S', 'E', 'W', 'N', 'N', 'S', 'E'];\n    println!(\"Original path: {:?}\", robot_path);\n    optimize_path(&mut robot_path);\n    println!(\"Optimized path: {:?}\", robot_path);\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```rust\nuse rand::seq::SliceRandom;\nuse rand::thread_rng;\n\nfn shuffle_playlist(playlist: &mut Vec<String>) {\n    let mut rng = thread_rng();\n    playlist.shuffle(&mut rng);\n}\n\nfn main() {\n    let mut playlist = vec![\n        String::from(\"Song 1\"),\n        String::from(\"Song 2\"),\n        String::from(\"Song 3\"),\n        String::from(\"Song 4\"),\n    ];\n\n    println!(\"Original playlist: {:?}\", playlist);\n    shuffle_playlist(&mut playlist);\n    println!(\"Shuffled playlist: {:?}\", playlist);\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```rust\nuse std::collections::HashSet;\n\nfn remove_duplicates(feed: &mut Vec<String>) {\n    let mut seen = HashSet::new();\n    feed.retain(|item| seen.insert(item.clone()));\n}\n\nfn main() {\n    let mut social_media_feed = vec![\n        \"Post 1\".to_string(),\n        \"Post 2\".to_string(),\n        \"Post 1\".to_string(),\n        \"Post 3\".to_string(),\n        \"Post 2\".to_string(),\n    ];\n\n    println!(\"Original feed: {:?}\", social_media_feed);\n    remove_duplicates(&mut social_media_feed);\n    println!(\"Feed after removing duplicates: {:?}\", social_media_feed);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```rust\nfn add_test_cases(challenge: &mut String) {\n    challenge.push_str(\"\\n// Test case 1\\n\");\n    challenge.push_str(\"// assert_eq!(function_under_test(input1), expected_output1);\\n\");\n    challenge.push_str(\"\\n// Test case 2\\n\");\n    challenge.push_str(\"// assert_eq!(function_under_test(input2), expected_output2);\\n\");\n}\n\nfn main() {\n    let mut coding_challenge = String::from(\"fn function_under_test(input: i32) -> i32 {\\n    // implementation\\n    input\\n}\");\n    add_test_cases(&mut coding_challenge);\n    println!(\"{}\", coding_challenge);\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```rust\nfn reverse_animation_sequence(sequence: Vec<String>) -> Vec<String> {\n    let mut reversed_sequence = sequence.clone();\n    reversed_sequence.reverse();\n    reversed_sequence\n}\n\nfn main() {\n    let animation_sequence = vec![\n        String::from(\"Frame 1\"),\n        String::from(\"Frame 2\"),\n        String::from(\"Frame 3\"),\n    ];\n    let reversed_sequence = reverse_animation_sequence(animation_sequence.clone());\n    \n    println!(\"Original: {:?}\", animation_sequence);\n    println!(\"Reversed: {:?}\", reversed_sequence);\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```rust\n#[derive(Debug)]\nstruct GPSPoint {\n    latitude: f64,\n    longitude: f64,\n}\n\nfn recalculate_route(route: &mut Vec<GPSPoint>) {\n    for point in route.iter_mut() {\n        point.latitude += 0.001;  // Simulating recalculation\n        point.longitude += 0.001;\n    }\n}\n\nfn main() {\n    let mut route = vec![\n        GPSPoint { latitude: 40.7128, longitude: -74.0060 },\n        GPSPoint { latitude: 34.0522, longitude: -118.2437 },\n        GPSPoint { latitude: 51.5074, longitude: -0.1278 },\n    ];\n\n    println!(\"Original route: {:?}\", route);\n    recalculate_route(&mut route);\n    println!(\"Recalculated route: {:?}\", route);\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```rust\nfn censor_inappropriate_language(history: &mut Vec<String>, inappropriate_words: &[&str]) {\n    for message in history.iter_mut() {\n        for &word in inappropriate_words {\n            let censored = \"*\".repeat(word.len());\n            *message = message.replace(word, &censored);\n        }\n    }\n}\n\nfn main() {\n    let mut chat_history = vec![\n        String::from(\"This is a bad word\"),\n        String::from(\"Another inappropriate language\"),\n    ];\n    \n    let inappropriate_words = [\"bad\", \"inappropriate\"];\n    \n    censor_inappropriate_language(&mut chat_history, &inappropriate_words);\n    \n    for message in &chat_history {\n        println!(\"{}\", message);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```rust\nstruct LightingSetup {\n    brightness: i32,\n}\n\nfn adjust_brightness(lighting_setup: &mut LightingSetup, adjustment: i32) {\n    lighting_setup.brightness += adjustment;\n}\n\nfn main() {\n    let mut setup = LightingSetup { brightness: 50 };\n    adjust_brightness(&mut setup, 10);\n    println!(\"Adjusted brightness: {}\", setup.brightness);\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```rust\nstruct VREnvironment {\n    scenery: String,\n}\n\nfn change_scenery(env: &mut VREnvironment, new_scenery: &str) {\n    env.scenery = new_scenery.to_string();\n}\n\nfn main() {\n    let mut vr_env = VREnvironment {\n        scenery: String::from(\"Forest\"),\n    };\n\n    println!(\"Before change: {}\", vr_env.scenery);\n\n    change_scenery(&mut vr_env, \"Beach\");\n\n    println!(\"After change: {}\", vr_env.scenery);\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```rust\nstruct Block {\n    data: String,\n}\n\nstruct Ledger {\n    blocks: Vec<Block>,\n}\n\nfn add_block(ledger: &mut Ledger, block: Block) {\n    ledger.blocks.push(block);\n}\n\nfn main() {\n    let mut ledger = Ledger { blocks: vec![] };\n    let new_block = Block { data: String::from(\"Block 1 Data\") };\n\n    add_block(&mut ledger, new_block);\n\n    println!(\"Ledger contains {} blocks\", ledger.blocks.len());\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```rust\nstruct NetworkPacket {\n    headers: Vec<String>,\n    data: Vec<u8>,\n}\n\nfn alter_packet_headers(mut packet: NetworkPacket) -> NetworkPacket {\n    packet.headers.push(\"Altered\".to_string());\n    packet\n}\n\nfn main() {\n    let original_packet = NetworkPacket {\n        headers: vec![\"Original\".to_string()],\n        data: vec![0, 1, 2, 3],\n    };\n\n    let altered_packet = alter_packet_headers(original_packet);\n\n    // Here you can print or use the altered_packet\n}\n```"
+  }
+]

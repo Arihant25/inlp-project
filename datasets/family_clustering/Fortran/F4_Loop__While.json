@@ -1,0 +1,374 @@
+[
+  {
+    "task": "Create a program that continuously asks the user to enter a number until they input a negative number.",
+    "code": "```fortran\nprogram ask_for_number\n    implicit none\n    real :: number\n\n    number = 0.0\n    do while (number >= 0.0)\n        print *, 'Enter a number:'\n        read *, number\n    end do\n\nend program ask_for_number\n```"
+  },
+  {
+    "task": "Write a function that doubles a number and repeats the process until the number is greater than 1000.",
+    "code": "```fortran\nprogram double_until_greater_than_1000\n  implicit none\n  real :: number\n\n  print *, \"Enter a number:\"\n  read *, number\n\n  call double_number(number)\n\n  print *, \"Result is:\", number\ncontains\n  subroutine double_number(n)\n    real, intent(inout) :: n\n    do while (n <= 1000)\n      n = n * 2\n    end do\n  end subroutine double_number\nend program double_until_greater_than_1000\n```"
+  },
+  {
+    "task": "Develop a routine to keep printing 'Hello, World!' until a counter reaches 10.",
+    "code": "```fortran\nprogram HelloWorld\n    implicit none\n    integer :: counter\n\n    counter = 0\n    do while (counter < 10)\n        print *, \"Hello, World!\"\n        counter = counter + 1\n    end do\nend program HelloWorld\n```"
+  },
+  {
+    "task": "Construct a loop that checks if a randomly generated number is even, repeating until an odd number is found.",
+    "code": "```fortran\nprogram find_odd_number\n  implicit none\n  integer :: num\n  call random_seed()\n  do\n    call random_number(num)\n    num = int(num * 100)\n    if (mod(num, 2) /= 0) then\n      exit\n    end if\n  end do\n  print *, \"Found an odd number:\", num\nend program find_odd_number\n```"
+  },
+  {
+    "task": "Design a countdown timer that prints each second until it reaches zero.",
+    "code": "```fortran\nprogram countdown_timer\n  integer :: counter\n\n  counter = 10  ! Set initial countdown value\n\n  do while (counter >= 0)\n    print *, counter\n    call sleep(1)\n    counter = counter - 1\n  end do\nend program countdown_timer\n```"
+  },
+  {
+    "task": "Implement a system where a user can keep adding items to a list until they type 'stop'.",
+    "code": "```fortran\nprogram add_items\n    implicit none\n    character(len=100) :: item\n    character(len=100), allocatable :: items(:)\n    integer :: n\n\n    n = 0\n    allocate(items(n))\n\n    do\n        print *, \"Enter an item (or 'stop' to finish):\"\n        read(*, '(A)') item\n\n        if (trim(adjustl(item)) == 'stop') then\n            exit\n        end if\n\n        n = n + 1\n        call move_alloc(from=items, to=items, stat=0)\n        allocate(items(n))\n        items(n) = trim(adjustl(item))\n    end do\n\n    print *, \"Items in the list:\"\n    print *, items\n\nend program add_items\n```"
+  },
+  {
+    "task": "Write a script that simulates rolling a die and continues until a six is rolled.",
+    "code": "```fortran\nprogram roll_die\n  implicit none\n  integer :: die_roll\n  call random_seed()\n\n  call random_number(die_roll)\n  die_roll = int(die_roll * 6) + 1\n\n  do while (die_roll /= 6)\n    print *, \"Rolled: \", die_roll\n    call random_number(die_roll)\n    die_roll = int(die_roll * 6) + 1\n  end do\n\n  print *, \"Rolled a six!\"\nend program roll_die\n```"
+  },
+  {
+    "task": "Create a program that asks for a password and keeps prompting until the correct password is entered.",
+    "code": "```fortran\nprogram password_check\n    implicit none\n    character(len=20) :: input_password\n    character(len=20), parameter :: correct_password = \"secure123\"\n\n    do\n        write(*,*) \"Enter password:\"\n        read(*,*) input_password\n        if (trim(input_password) == correct_password) exit\n    end do\n\n    write(*,*) \"Access granted.\"\nend program password_check\n```"
+  },
+  {
+    "task": "Design a loop that calculates the sum of entered numbers until the user enters zero.",
+    "code": "```fortran\nprogram sum_until_zero\n  implicit none\n  integer :: num, sum\n\n  sum = 0\n\n  print *, 'Enter numbers to sum, zero to stop:'\n\n  do\n     read *, num\n     if (num == 0) exit\n     sum = sum + num\n  end do\n\n  print *, 'The sum is:', sum\n\nend program sum_until_zero\n```"
+  },
+  {
+    "task": "Implement a feature that prints Fibonacci numbers until a number exceeds 100.",
+    "code": "```fortran\nprogram fibonacci_while\n  implicit none\n  integer :: a, b, temp\n\n  a = 0\n  b = 1\n\n  do while (a <= 100)\n    print *, a\n    temp = a + b\n    a = b\n    b = temp\n  end do\nend program fibonacci_while\n```"
+  },
+  {
+    "task": "Develop a loop that keeps halving a number until it becomes less than one.",
+    "code": "```fortran\nprogram halve_until_less_than_one\n  implicit none\n  real :: number\n\n  ! Initialize the number\n  number = 64.0\n\n  ! Loop: While\n  do while (number >= 1.0)\n    number = number / 2.0\n  end do\n\n  print *, \"Final number:\", number\nend program halve_until_less_than_one\n```"
+  },
+  {
+    "task": "Write a program that asks for names and keeps storing them until the user enters 'done'.",
+    "code": "```fortran\nprogram store_names\n    implicit none\n    character(len=100) :: name\n\n    do\n        print *, 'Enter a name (or type \"done\" to finish):'\n        read *, name\n        if (trim(adjustl(name)) == 'done') exit\n        ! Here you can store the name as needed\n    end do\n\nend program store_names\n```"
+  },
+  {
+    "task": "Create a process that keeps flipping a coin, recording results until there have been five heads.",
+    "code": "```fortran\nprogram coin_flip\n    implicit none\n    integer :: heads_count\n    integer :: flip_result\n\n    heads_count = 0\n\n    call random_seed()\n    do while (heads_count < 5)\n        call random_number(flip_result)\n        flip_result = int(flip_result * 2)\n        if (flip_result == 1) then\n            heads_count = heads_count + 1\n        end if\n    end do\n\nend program coin_flip\n```"
+  },
+  {
+    "task": "Implement a countdown that decreases by two each time, starting from 20, until it reaches zero.",
+    "code": "```fortran\nprogram countdown\n    implicit none\n    integer :: n\n\n    n = 20\n    do while (n > 0)\n        print *, n\n        n = n - 2\n    end do\nend program countdown\n```"
+  },
+  {
+    "task": "Design a solution that repeatedly asks for user input and repeats it back until they type 'exit'.",
+    "code": "```fortran\nprogram echo_until_exit\n    implicit none\n    character(len=100) :: user_input\n\n    do\n        ! Prompt the user for input\n        print *, 'Enter text (type \"exit\" to quit): '\n        read(*, '(A)') user_input\n\n        ! Check for exit condition\n        if (trim(user_input) == 'exit') then\n            exit\n        end if\n\n        ! Echo the input back to the user\n        print *, 'You entered: ', trim(user_input)\n    end do\n\nend program echo_until_exit\n```"
+  },
+  {
+    "task": "Develop a loop to simulate a bank account balance, repeatedly deducting a fee until the balance is below zero.",
+    "code": "```fortran\nprogram bank_balance\n    implicit none\n    real :: balance, fee\n\n    balance = 100.0\n    fee = 10.0\n\n    do while (balance >= 0.0)\n        balance = balance - fee\n    end do\n\n    print *, \"Final balance:\", balance\nend program bank_balance\n```"
+  },
+  {
+    "task": "Create a sequence generator that multiplies a number by three each time until it reaches or exceeds 100.",
+    "code": "```fortran\nprogram sequence_generator\n    implicit none\n    integer :: number\n\n    number = 1\n    do while (number < 100)\n        number = number * 3\n    end do\n\n    print *, \"Final number:\", number\nend program sequence_generator\n```"
+  },
+  {
+    "task": "Write a program that keeps generating random numbers between 1 and 10 until it gets a five.",
+    "code": "```fortran\nprogram random_until_five\n  implicit none\n  integer :: num\n  call random_seed()\n\n  do\n    call random_number(num)\n    num = int(num * 10) + 1\n    if (num == 5) exit\n    print *, 'Generated number:', num\n  end do\n\n  print *, 'Generated number:', num\nend program random_until_five\n```"
+  },
+  {
+    "task": "Implement a system to keep checking the temperature and only stop when it falls below freezing.",
+    "code": "```fortran\nprogram temperature_check\n  implicit none\n  real :: temperature\n\n  print *, \"Enter the temperature:\"\n  read *, temperature\n\n  do while (temperature >= 0.0)\n     print *, \"Temperature is above freezing. Enter new temperature:\"\n     read *, temperature\n  end do\n\n  print *, \"Temperature has fallen below freezing. Exiting.\"\nend program temperature_check\n```"
+  },
+  {
+    "task": "Construct a quiz game that continues asking questions until the player answers incorrectly.",
+    "code": "```fortran\nprogram quiz_game\n    implicit none\n    character(len=100) :: question, answer, correct_answer\n    logical :: correct\n\n    question = \"What is the capital of France? (type 'Paris')\"\n    correct_answer = \"Paris\"\n\n    correct = .true.\n    do while (correct)\n        print *, question\n        read *, answer\n        if (trim(answer) /= correct_answer) then\n            correct = .false.\n        else\n            print *, \"Correct! Next question.\"\n        end if\n    end do\n\n    print *, \"Incorrect answer. Game over.\"\nend program quiz_game\n```"
+  },
+  {
+    "task": "Write a function that calculates factorials of a number, repeating the process for numbers 1 through 5.",
+    "code": "```fortran\nprogram factorials\n  implicit none\n  integer :: n, i, fact\n\n  do n = 1, 5\n    i = 1\n    fact = 1\n    call compute_factorial(n, fact, i)\n    print *, \"Factorial of\", n, \"is\", fact\n  end do\n\ncontains\n\n  subroutine compute_factorial(n, fact, i)\n    integer, intent(in) :: n\n    integer, intent(inout) :: fact, i\n\n    do while (i <= n)\n      fact = fact * i\n      i = i + 1\n    end do\n  end subroutine compute_factorial\n\nend program factorials\n```"
+  },
+  {
+    "task": "Create a loop that prints all even numbers between 1 and 50.",
+    "code": "```fortran\nprogram even_numbers\n  implicit none\n  integer :: i\n\n  i = 2\n  do while (i <= 50)\n     print *, i\n     i = i + 2\n  end do\n\nend program even_numbers\n```"
+  },
+  {
+    "task": "Design a program that continuously asks for user input until a palindrome is entered.",
+    "code": "```fortran\nprogram palindrome_checker\n  implicit none\n  character(len=100) :: input\n  logical :: is_palindrome\n\n  do\n     print *, 'Enter a string:'\n     read(*, '(A)') input\n     is_palindrome = .true.\n     \n     if (len_trim(input) > 0) then\n        do i = 1, len_trim(input)/2\n           if (input(i:i) /= input(len_trim(input)-i+1:len_trim(input)-i+1)) then\n              is_palindrome = .false.\n              exit\n           end if\n        end do\n     else\n        is_palindrome = .false.\n     end if\n\n     if (is_palindrome) exit\n  end do\n\n  print *, 'A palindrome was entered.'\nend program palindrome_checker\n```"
+  },
+  {
+    "task": "Implement a countdown that decreases by one each second, starting from 100.",
+    "code": "```fortran\nprogram countdown\n  implicit none\n  integer :: count\n  count = 100\n  do while (count > 0)\n     print *, count\n     call sleep(1)\n     count = count - 1\n  end do\nend program countdown\n```"
+  },
+  {
+    "task": "Write a script that repeatedly asks for a number and adds it to a total until the total exceeds 500.",
+    "code": "```fortran\nprogram sum_until_exceeds\n    implicit none\n    integer :: number, total\n\n    total = 0\n\n    do while (total <= 500)\n        print *, \"Enter a number:\"\n        read *, number\n        total = total + number\n    end do\n\n    print *, \"Total exceeded 500. Final total:\", total\nend program sum_until_exceeds\n```"
+  },
+  {
+    "task": "Create a loop that generates random letters until the letter 'Z' appears.",
+    "code": "```fortran\nprogram generate_random_letters\n    implicit none\n    character :: random_letter\n    call random_seed()\n    random_letter = achar(0)\n    do while (random_letter /= 'Z')\n        call random_number(random_letter)\n        random_letter = achar(65 + int(random_letter * 26))\n        print *, random_letter\n    end do\nend program generate_random_letters\n```"
+  },
+  {
+    "task": "Write a process that continues prompting for two numbers and prints their sum if it's even.",
+    "code": "```fortran\nprogram sum_if_even\n  implicit none\n  integer :: num1, num2, sum\n\n  do\n    print *, \"Enter two numbers:\"\n    read *, num1, num2\n    sum = num1 + num2\n    if (mod(sum, 2) == 0) then\n      print *, \"The sum is even:\", sum\n    endif\n  end do\nend program sum_if_even\n```"
+  },
+  {
+    "task": "Develop a loop that simulates a traffic light sequence until a manual stop command is received.",
+    "code": "```fortran\nprogram traffic_light\n    implicit none\n    character(len=1) :: command\n    character(len=10) :: light\n\n    light = \"Red\"\n    command = ' '\n\n    print *, \"Traffic light simulation. Enter 'q' to stop.\"\n    do while (command /= 'q')\n        select case (light)\n        case (\"Red\")\n            print *, \"Light is Red\"\n            light = \"Green\"\n        case (\"Green\")\n            print *, \"Light is Green\"\n            light = \"Yellow\"\n        case (\"Yellow\")\n            print *, \"Light is Yellow\"\n            light = \"Red\"\n        end select\n        print *, \"Enter 'q' to stop or any other key to continue.\"\n        read(*, '(A)') command\n    end do\n\n    print *, \"Simulation stopped.\"\nend program traffic_light\n```"
+  },
+  {
+    "task": "Implement a feature that keeps printing numbers in reverse order starting from 10.",
+    "code": "```fortran\nprogram reverse_numbers\n    implicit none\n    integer :: num\n\n    num = 10\n    do while (num > 0)\n        print *, num\n        num = num - 1\n    end do\nend program reverse_numbers\n```"
+  },
+  {
+    "task": "Create a program that rolls two dice and continues until the sum is exactly seven.",
+    "code": "```fortran\nprogram roll_dice\n  implicit none\n  integer :: die1, die2, sum\n  call random_seed()\n\n  do while (sum /= 7)\n     call random_number(die1)\n     call random_number(die2)\n     die1 = int(die1 * 6) + 1\n     die2 = int(die2 * 6) + 1\n     sum = die1 + die2\n  end do\n\n  print *, \"Rolled a sum of seven with dice values:\", die1, die2\nend program roll_dice\n```"
+  },
+  {
+    "task": "Design a loop that keeps asking for ages and prints the average once a negative age is entered.",
+    "code": "```fortran\nprogram calculate_average_age\n    implicit none\n    integer :: age, count\n    real :: sum, average\n\n    sum = 0.0\n    count = 0\n\n    do\n        print *, \"Enter age (negative age to stop): \"\n        read *, age\n        if (age < 0) exit\n        sum = sum + age\n        count = count + 1\n    end do\n\n    if (count > 0) then\n        average = sum / count\n        print *, \"Average age: \", average\n    else\n        print *, \"No ages were entered.\"\n    end if\nend program calculate_average_age\n```"
+  },
+  {
+    "task": "Write a routine that squares numbers starting from 1 until the square is greater than 500.",
+    "code": "```fortran\nprogram square_numbers\n  implicit none\n  integer :: num, square\n\n  num = 1\n  do while (num**2 <= 500)\n     square = num**2\n     print *, 'Number:', num, 'Square:', square\n     num = num + 1\n  end do\n\nend program square_numbers\n```"
+  },
+  {
+    "task": "Implement a system to ask for a string and append it to a file until 'end' is typed.",
+    "code": "```fortran\nprogram append_to_file\n    implicit none\n    character(len=100) :: input_string\n    logical :: done\n    integer :: unit_number\n\n    open(newunit=unit_number, file='output.txt', status='unknown')\n\n    done = .false.\n    do while (.not. done)\n        print *, 'Enter a string to append to the file (type \"end\" to finish):'\n        read(*, '(A)') input_string\n        if (trim(input_string) == 'end') then\n            done = .true.\n        else\n            write(unit_number, '(A)') trim(input_string)\n        end if\n    end do\n\n    close(unit_number)\nend program append_to_file\n```"
+  },
+  {
+    "task": "Create a script that checks if a number is prime, repeating for each number entered by the user.",
+    "code": "```fortran\nprogram check_prime\n  implicit none\n  integer :: num, i\n  logical :: is_prime\n  character(len=10) :: input\n  do\n     write(*,*) 'Enter a number (or type \"exit\" to quit):'\n     read(*, '(A)') input\n     if (trim(input) == 'exit') exit\n     read(input,*) num\n     if (num < 2) then\n        write(*,*) num, 'is not prime.'\n        cycle\n     end if\n     is_prime = .true.\n     i = 2\n     do while (i*i <= num)\n        if (mod(num, i) == 0) then\n           is_prime = .false.\n           exit\n        end if\n        i = i + 1\n     end do\n     if (is_prime) then\n        write(*,*) num, 'is prime.'\n     else\n        write(*,*) num, 'is not prime.'\n     end if\n  end do\nend program check_prime\n```"
+  },
+  {
+    "task": "Develop a countdown that prints numbers starting from 50 down to 1.",
+    "code": "```fortran\nprogram countdown\n    implicit none\n    integer :: number\n\n    number = 50\n    do while (number >= 1)\n        print *, number\n        number = number - 1\n    end do\nend program countdown\n```"
+  },
+  {
+    "task": "Write a program that keeps doubling the value of a variable until it exceeds 200.",
+    "code": "```fortran\nprogram double_until_exceeds_200\n    implicit none\n    integer :: value\n\n    value = 1\n    do while (value <= 200)\n        value = value * 2\n    end do\n\n    print *, \"Final value: \", value\nend program double_until_exceeds_200\n```"
+  },
+  {
+    "task": "Design a loop that keeps generating a random string of letters until a specific word is formed.",
+    "code": "```fortran\nprogram generate_until_word\n    implicit none\n    character(len=100) :: random_string\n    integer :: length, i\n    character(len=1) :: chars(26)\n    logical :: found\n    character(len=5), parameter :: target_word = 'HELLO'\n\n    ! Initialize characters from A to Z\n    do i = 1, 26\n        chars(i) = char(64 + i)\n    end do\n\n    found = .false.\n\n    call random_seed()\n\n    do while (.not. found)\n        length = 5\n        random_string = ''\n        do i = 1, length\n            random_string(i:i) = chars(int(1 + 26 * random_number()))\n        end do\n        \n        if (random_string == target_word) then\n            found = .true.\n        end if\n    end do\n\n    print *, \"Generated the word: \", target_word\n\ncontains\n\n    function random_number()\n        real :: random_number\n        call random_number(random_number)\n    end function random_number\n\nend program generate_until_word\n```"
+  },
+  {
+    "task": "Implement a system that continuously fetches data from a sensor until a threshold is crossed.",
+    "code": "```fortran\nprogram fetch_sensor_data\n  implicit none\n  real :: sensor_data\n  real, parameter :: threshold = 100.0\n\n  call random_seed()  ! Initialize the random number generator\n\n  do\n    call fetch_data(sensor_data)\n    if (sensor_data > threshold) then\n      exit\n    end if\n  end do\n\ncontains\n\n  subroutine fetch_data(data)\n    real, intent(out) :: data\n    call random_number(data)\n    data = data * 200.0  ! Simulate sensor data ranging from 0 to 200\n  end subroutine fetch_data\n\nend program fetch_sensor_data\n```"
+  },
+  {
+    "task": "Create a game where a player guesses a number, and the game continues until the player guesses correctly.",
+    "code": "```fortran\nprogram guessing_game\n  implicit none\n  integer :: target, guess\n\n  ! Set a target number for the player to guess\n  target = 42\n\n  print *, 'Guess the number:'\n\n  ! Loop until the player guesses the correct number\n  do while (.true.)\n    read *, guess\n    if (guess == target) then\n      print *, 'Congratulations, you guessed correctly!'\n      exit\n    else\n      print *, 'Try again.'\n    end if\n  end do\nend program guessing_game\n```"
+  },
+  {
+    "task": "Write a loop that continues to add random numbers to a list until the list has 10 even numbers.",
+    "code": "```fortran\nprogram random_even_numbers\n  implicit none\n  integer :: even_numbers(10)\n  integer :: num, count\n  integer :: i\n\n  count = 0\n  call random_seed()\n\n  do while (count < 10)\n    call random_number(num)\n    num = int(num * 100)  ! scale to 0-99\n    if (mod(num, 2) == 0) then\n      count = count + 1\n      even_numbers(count) = num\n    end if\n  end do\n\n  print *, \"Even numbers: \", even_numbers\nend program random_even_numbers\n```"
+  },
+  {
+    "task": "Design a routine that keeps removing elements from a list until it is empty.",
+    "code": "```fortran\nprogram remove_elements\n    implicit none\n    integer, dimension(:), allocatable :: list\n    integer :: i, n\n\n    ! Example list initialization\n    n = 10\n    allocate(list(n))\n    do i = 1, n\n        list(i) = i\n    end do\n\n    ! While loop to remove elements until the list is empty\n    do while (size(list) > 0)\n        list = list(1:size(list)-1)\n    end do\n\nend program remove_elements\n```"
+  },
+  {
+    "task": "Implement a sequence that prints the alphabet repeatedly until interrupted by the user.",
+    "code": "```fortran\nprogram repeat_alphabet\n    implicit none\n    character :: input\n    integer :: i\n\n    do\n        i = 1\n        do while (i <= 26)\n            print *, char(96 + i)\n            i = i + 1\n        end do\n        print *, 'Press q to quit or any other key to continue:'\n        read *, input\n        if (input == 'q' .or. input == 'Q') exit\n    end do\nend program repeat_alphabet\n```"
+  },
+  {
+    "task": "Create a program that continuously checks for updates and stops once an update is available.",
+    "code": "```fortran\nprogram check_updates\n  implicit none\n  logical :: update_available\n\n  update_available = .false.\n\n  do while (.not. update_available)\n    ! Simulate checking for updates\n    call check_for_update(update_available)\n  end do\nend program check_updates\n\nsubroutine check_for_update(update_available)\n  logical, intent(out) :: update_available\n\n  ! Placeholder logic for update check\n  update_available = check_update_status()\n\nend subroutine check_for_update\n\nlogical function check_update_status()\n  ! This is a stub for the logic to determine if an update is available\n  ! For demonstration, let's assume an update is available after some condition\n  check_update_status = .true.  ! Set to .true. to simulate an update found\nend function check_update_status\n```"
+  },
+  {
+    "task": "Write a function that keeps dividing a number by two until it results in a fractional value.",
+    "code": "```fortran\nfunction divide_until_fractional(number) result(final_value)\n    implicit none\n    real :: number\n    real :: final_value\n\n    final_value = number\n    do while (mod(final_value, 2.0) == 0.0)\n        final_value = final_value / 2.0\n    end do\nend function divide_until_fractional\n```"
+  },
+  {
+    "task": "Develop a loop that keeps asking for student's grades and calculates the average until a grade of -1 is entered.",
+    "code": "```fortran\nprogram average_grades\n  implicit none\n  real :: grade, sum\n  integer :: count\n\n  sum = 0.0\n  count = 0\n\n  print *, \"Enter grades (enter -1 to finish):\"\n  do\n     read *, grade\n     if (grade == -1.0) exit\n     sum = sum + grade\n     count = count + 1\n  end do\n\n  if (count > 0) then\n     print *, \"Average grade is: \", sum / count\n  else\n     print *, \"No grades entered.\"\n  end if\nend program average_grades\n```"
+  },
+  {
+    "task": "Design a feature that continuously monitors a file for changes and stops when no changes are detected for a minute.",
+    "code": "```fortran\nprogram monitor_file\n  implicit none\n  character(len=100) :: filename\n  integer :: last_mod_time, current_mod_time, no_change_time\n  logical :: file_changed\n\n  filename = 'file_to_monitor.txt'\n  no_change_time = 0\n  last_mod_time = get_mod_time(filename)\n\n  do while (no_change_time < 60)\n     call sleep(1)  ! Sleep for 1 second\n     current_mod_time = get_mod_time(filename)\n     if (current_mod_time /= last_mod_time) then\n        no_change_time = 0\n        last_mod_time = current_mod_time\n     else\n        no_change_time = no_change_time + 1\n     end if\n  end do\n\ncontains\n\n  function get_mod_time(fname) result(mod_time)\n    character(len=*), intent(in) :: fname\n    integer :: mod_time\n    integer :: ios\n    inquire(file=fname, exist=file_changed, opened=file_changed, iostat=ios)\n    if (file_changed .and. ios == 0) then\n       inquire(file=fname, opened=file_changed, iostat=ios, number=mod_time)\n    else\n       mod_time = 0\n    end if\n  end function get_mod_time\n\nend program monitor_file\n```"
+  },
+  {
+    "task": "Implement a process where a motor runs until a certain distance is reached.",
+    "code": "```fortran\nprogram motor_control\n  implicit none\n  real :: distance, target_distance\n\n  distance = 0.0\n  target_distance = 100.0 ! Example target distance\n\n  do while (distance < target_distance)\n     call run_motor()\n     distance = distance + measure_distance()\n  end do\n\ncontains\n\n  subroutine run_motor()\n    ! Code to run the motor\n  end subroutine run_motor\n\n  real function measure_distance()\n    ! Code to measure the distance covered\n    measure_distance = 1.0 ! Example increment\n  end function measure_distance\n\nend program motor_control\n```"
+  },
+  {
+    "task": "Create a script that keeps generating random numbers and stops when it generates a prime number.",
+    "code": "```fortran\nprogram find_prime\n  implicit none\n  integer :: num\n  logical :: is_prime\n\n  call random_seed()\n  \n  do\n     call random_number(num)\n     num = int(num * 100) + 1\n     \n     is_prime = .true.\n     if (num <= 1) then\n        is_prime = .false.\n     else\n        do i = 2, int(sqrt(real(num)))\n           if (mod(num, i) == 0) then\n              is_prime = .false.\n              exit\n           end if\n        end do\n     end if\n\n     if (is_prime) exit\n  end do\n\n  print *, \"Prime number found:\", num\nend program find_prime\n```"
+  },
+  {
+    "task": "Write a program that asks for the user's favorite color and keeps asking until they say 'blue'.",
+    "code": "```fortran\nprogram favorite_color\n    implicit none\n    character(len=100) :: color\n\n    do\n        print *, 'What is your favorite color?'\n        read *, color\n        if (trim(adjustl(color)) == 'blue') exit\n    end do\n\n    print *, 'Thank you!'\nend program favorite_color\n```"
+  },
+  {
+    "task": "Develop a loop that continuously prints the time every second until a key is pressed.",
+    "code": "```fortran\nprogram print_time\n  implicit none\n  logical :: key_pressed\n  character(len=1) :: key\n  integer :: start_time, current_time\n\n  key_pressed = .false.\n  \n  call system_clock(start_time)\n\n  do while (.not. key_pressed)\n    call system_clock(current_time)\n    if (current_time - start_time >= 1) then\n      call date_and_time(values=current_time)\n      write(*, '(1x,i4.4, 1x, i2.2, 1x, i2.2, 1x, i2.2, 1x, i2.2, 1x, i2.2)') current_time(1:5)\n      start_time = current_time\n    end if\n    inquire(unit=5, iostat=key_pressed)\n    if (key_pressed == 0) read(5, '(A)', iostat=key_pressed) key\n    key_pressed = (key_pressed == 0)\n  end do\n\nend program print_time\n```"
+  },
+  {
+    "task": "Create a system to keep downloading data from a server until the connection is lost.",
+    "code": "```fortran\nprogram download_data\n    logical :: connection_active\n    connection_active = .true.\n\n    call establish_connection(connection_active)\n\n    do while (connection_active)\n        call download_data_from_server(connection_active)\n    end do\n\ncontains\n\n    subroutine establish_connection(connection_active)\n        logical, intent(out) :: connection_active\n        ! Simulate establishing a connection to the server\n        connection_active = .true.\n    end subroutine establish_connection\n\n    subroutine download_data_from_server(connection_active)\n        logical, intent(inout) :: connection_active\n        ! Simulate downloading data\n        ! Simulate connection status\n        connection_active = connection_status\n    end subroutine download_data_from_server\n\n    logical function connection_status()\n        ! Simulate checking if the connection is still active\n        connection_status = .false.  ! Assume connection is lost for demonstration\n    end function connection_status\n\nend program download_data\n```"
+  },
+  {
+    "task": "Write a process to keep a light on until the ambient light level is sufficient.",
+    "code": "```fortran\nprogram light_control\n  implicit none\n  real :: ambient_light_level\n  real, parameter :: sufficient_light_level = 50.0\n\n  ambient_light_level = 0.0\n\n  do while (ambient_light_level < sufficient_light_level)\n    ! Code to turn the light on goes here\n    print *, \"Light is on\"\n    \n    ! Simulate the reading of ambient light level\n    print *, \"Enter current ambient light level:\"\n    read *, ambient_light_level\n  end do\n  \n  ! Code to turn the light off goes here\n  print *, \"Light is off\"\nend program light_control\n```"
+  },
+  {
+    "task": "Implement a feature that continuously plays a sound until the user presses a button.",
+    "code": "```fortran\nprogram play_sound\n  implicit none\n  logical :: button_pressed\n  button_pressed = .false.\n\n  call initialize_sound()\n  \n  ! Main loop\n  do while (.not. button_pressed)\n    call play_sound()\n    call check_button(button_pressed)\n  end do\n  \n  call finalize_sound()\n  \ncontains\n\n  subroutine initialize_sound()\n    ! Initialize sound system\n  end subroutine initialize_sound\n  \n  subroutine play_sound()\n    ! Play sound\n  end subroutine play_sound\n  \n  subroutine check_button(button_pressed)\n    logical, intent(out) :: button_pressed\n    ! Check if button is pressed, set button_pressed to .true. if so\n  end subroutine check_button\n  \n  subroutine finalize_sound()\n    ! Cleanup sound system\n  end subroutine finalize_sound\n\nend program play_sound\n```"
+  },
+  {
+    "task": "Design a program that keeps multiplying a matrix by itself until its determinant is greater than 1000.",
+    "code": "```fortran\nprogram matrix_multiplication\n  implicit none\n  integer, parameter :: n = 3\n  real :: matrix(n, n), result(n, n), determinant\n  integer :: i, j, k\n\n  ! Initialize the matrix with some values\n  matrix = reshape([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0], shape(matrix))\n\n  ! Initialize result as identity matrix\n  result = 0.0\n  do i = 1, n\n     result(i, i) = 1.0\n  end do\n\n  ! Loop until determinant is greater than 1000\n  do\n     call matmul(matrix, result, result)\n     determinant = det(result)\n     if (determinant > 1000.0) exit\n  end do\n\ncontains\n\n  subroutine matmul(a, b, c)\n    real, intent(in) :: a(n, n), b(n, n)\n    real, intent(out) :: c(n, n)\n    integer :: i, j, k\n\n    c = 0.0\n    do i = 1, n\n       do j = 1, n\n          do k = 1, n\n             c(i, j) = c(i, j) + a(i, k) * b(k, j)\n          end do\n       end do\n    end do\n  end subroutine matmul\n\n  real function det(m)\n    real, intent(in) :: m(n, n)\n    real :: factor\n    integer :: i, j, k\n\n    det = 1.0\n    do i = 1, n\n       if (m(i, i) == 0.0) then\n          det = 0.0\n          return\n       end if\n       do j = i + 1, n\n          factor = m(j, i) / m(i, i)\n          do k = i, n\n             m(j, k) = m(j, k) - factor * m(i, k)\n          end do\n       end do\n       det = det * m(i, i)\n    end do\n  end function det\n\nend program matrix_multiplication\n```"
+  },
+  {
+    "task": "Create a script that keeps prompting the user to guess a word until they get it right.",
+    "code": "```fortran\nprogram guess_word\n  implicit none\n  character(len=100) :: guess\n  character(len=100), parameter :: target_word = \"fortran\"\n\n  do\n     print *, \"Guess the word:\"\n     read(*, '(A)') guess\n     if (trim(adjustl(guess)) == target_word) then\n        print *, \"Correct!\"\n        exit\n     else\n        print *, \"Try again.\"\n     end if\n  end do\nend program guess_word\n```"
+  },
+  {
+    "task": "Write a loop that simulates a car's fuel consumption and stops when the tank is empty.",
+    "code": "```fortran\nprogram fuel_consumption\n    implicit none\n    real :: fuel_tank, consumption_rate\n\n    ! Initialize the fuel tank and consumption rate\n    fuel_tank = 50.0  ! in liters\n    consumption_rate = 5.0  ! liters per iteration\n\n    ! While loop to simulate fuel consumption\n    do while (fuel_tank > 0.0)\n        fuel_tank = fuel_tank - consumption_rate\n        if (fuel_tank < 0.0) then\n            fuel_tank = 0.0\n        endif\n    end do\n    \nend program fuel_consumption\n```"
+  },
+  {
+    "task": "Develop a routine that keeps checking if a file exists and stops once it does.",
+    "code": "```fortran\nprogram check_file_exists\n  implicit none\n  logical :: file_found\n  character(len=100) :: filename\n\n  filename = 'myfile.txt'\n  file_found = .false.\n\n  do while (.not. file_found)\n    inquire(file=filename, exist=file_found)\n  end do\nend program check_file_exists\n```"
+  },
+  {
+    "task": "Implement a feature that continuously calculates the square root of a number until it's less than 0.1.",
+    "code": "```fortran\nprogram calculate_sqrt\n  implicit none\n  real :: number\n\n  print *, \"Enter a number: \"\n  read *, number\n\n  do while (number >= 0.1)\n    number = sqrt(number)\n    print *, \"Current square root: \", number\n  end do\n\nend program calculate_sqrt\n```"
+  },
+  {
+    "task": "Create a system that prints 'Processing...' every second until a task is complete.",
+    "code": "```fortran\nprogram process_task\n  implicit none\n  logical :: task_complete\n  integer :: delay\n\n  task_complete = .false.\n\n  do while (.not. task_complete)\n    print *, 'Processing...'\n    call sleep(1)\n    ! Simulate task completion condition here\n    ! task_complete = check_task_status()\n  end do\n\ncontains\n\n  subroutine sleep(seconds)\n    integer, intent(in) :: seconds\n    integer :: ierr\n    call sleepf(seconds, ierr)\n  end subroutine sleep\n\nend program process_task\n```"
+  },
+  {
+    "task": "Write a loop that repeatedly checks the status of a process until it reports 'complete'.",
+    "code": "```fortran\nprogram check_process_status\n  implicit none\n  logical :: is_complete\n\n  is_complete = .false.\n\n  do while (.not. is_complete)\n    ! Code to update the is_complete status\n    ! For example, this could be a call to a function that checks the process status\n    ! is_complete = check_process_status()\n\n    ! Simulate process check for demonstration purposes\n    if (some_condition()) then\n      is_complete = .true.\n    end if\n  end do\n\ncontains\n\n  logical function some_condition()\n    ! Simulate a condition for demonstration\n    some_condition = .true.\n  end function some_condition\n\nend program check_process_status\n```"
+  },
+  {
+    "task": "Design a routine to keep pinging a server and alert when the connection is lost.",
+    "code": "```fortran\nprogram server_ping\n  implicit none\n  logical :: connected\n  connected = .true.\n\n  call ping_server(connected)\n\ncontains\n\n  subroutine ping_server(is_connected)\n    logical, intent(inout) :: is_connected\n\n    do while (is_connected)\n      ! Simulate a ping to the server\n      is_connected = check_connection()\n\n      if (.not. is_connected) then\n        print *, \"Alert: Connection lost!\"\n      end if\n\n    end do\n  end subroutine ping_server\n\n  logical function check_connection()\n    ! Simulate checking connection\n    ! Here you would normally have logic to check actual server status\n    check_connection = .false.\n  end function check_connection\n\nend program server_ping\n```"
+  },
+  {
+    "task": "Implement a loop that counts down from 100 by fives until it reaches zero.",
+    "code": "```fortran\nprogram countdown\n    implicit none\n    integer :: count\n\n    count = 100\n    do while (count >= 0)\n        print *, count\n        count = count - 5\n    end do\nend program countdown\n```"
+  },
+  {
+    "task": "Create a script that keeps track of inventory items being added or removed until an end signal is given.",
+    "code": "```fortran\nprogram inventory_tracker\n  implicit none\n  integer :: inventory, item_change\n  character(len=1) :: end_signal\n\n  inventory = 0\n  end_signal = 'N'\n\n  print *, \"Inventory Tracker: Enter item change (+/-) or 'E' to end.\"\n\n  do while (end_signal /= 'E')\n    print *, \"Current inventory:\", inventory\n    read *, item_change\n    inventory = inventory + item_change\n    print *, \"Continue? (Enter 'E' to end, any other key to continue)\"\n    read *, end_signal\n  end do\n\n  print *, \"Final inventory:\", inventory\nend program inventory_tracker\n```"
+  },
+  {
+    "task": "Write a program that keeps calculating the power of two for numbers until a result is greater than 1000.",
+    "code": "```fortran\nprogram power_of_two\n  implicit none\n  integer :: number\n  integer :: result\n\n  number = 0\n  result = 1\n\n  do while (result <= 1000)\n    print*, \"2^\", number, \"=\", result\n    number = number + 1\n    result = 2**number\n  end do\nend program power_of_two\n```"
+  },
+  {
+    "task": "Develop a sequence that keeps appending random numbers to an array until its length is 20.",
+    "code": "```fortran\nprogram random_sequence\n    implicit none\n    integer, allocatable :: arr(:)\n    integer :: n, rand_num\n\n    n = 0\n    allocate(arr(0))\n\n    call random_seed()\n\n    do while (n < 20)\n        call random_number(rand_num)\n        rand_num = int(rand_num * 100) ! Generate random integer\n        n = n + 1\n        call add_to_array(arr, n, rand_num)\n    end do\n\ncontains\n\n    subroutine add_to_array(arr, n, value)\n        integer, allocatable :: arr(:)\n        integer :: n, value\n        integer, allocatable :: temp(:)\n\n        allocate(temp(n))\n        if (n > 1) then\n            temp(1:n-1) = arr\n        end if\n        temp(n) = value\n        deallocate(arr)\n        allocate(arr(n))\n        arr = temp\n    end subroutine add_to_array\n\nend program random_sequence\n```"
+  },
+  {
+    "task": "Implement a routine that continuously rotates an image until it matches a reference orientation.",
+    "code": "```fortran\nprogram rotate_image\n  implicit none\n  logical :: is_correct_orientation\n  call initialize_image()\n  call initialize_reference_orientation()\n  is_correct_orientation = .false.\n  \n  do while (.not. is_correct_orientation)\n    call rotate_image_once()\n    is_correct_orientation = check_orientation()\n  end do\n\ncontains\n\n  subroutine initialize_image()\n    ! Initialize image here\n  end subroutine initialize_image\n\n  subroutine initialize_reference_orientation()\n    ! Initialize reference orientation here\n  end subroutine initialize_reference_orientation\n  \n  subroutine rotate_image_once()\n    ! Rotate the image by a single step\n  end subroutine rotate_image_once\n\n  logical function check_orientation()\n    ! Check if the current orientation matches the reference\n    check_orientation = .false. ! Change logic as needed\n  end function check_orientation\n\nend program rotate_image\n```"
+  },
+  {
+    "task": "Design a loop that keeps printing random jokes until the user stops it.",
+    "code": "```fortran\nprogram random_jokes\n  implicit none\n  integer :: user_response\n  character(len=100) :: jokes(3)\n  integer :: n\n\n  jokes(1) = \"Why did the scarecrow win an award? Because he was outstanding in his field!\"\n  jokes(2) = \"Why don't skeletons fight each other? They don't have the guts.\"\n  jokes(3) = \"What do you call fake spaghetti? An impasta!\"\n\n  call random_seed()\n\n  do\n     call random_number(user_response)\n     n = int(user_response * 3) + 1\n     print *, jokes(n)\n     print *, \"Do you want to hear another joke? (1 for Yes, 0 for No)\"\n     read *, user_response\n     if (user_response /= 1) exit\n  end do\n\nend program random_jokes\n```"
+  },
+  {
+    "task": "Create a program that accepts user feedback and continues until a positive feedback is received.",
+    "code": "```fortran\nprogram feedbackProgram\n    implicit none\n    character(len=100) :: feedback\n    logical :: positiveFeedback\n\n    positiveFeedback = .false.\n\n    do while (.not. positiveFeedback)\n        print *, \"Please enter your feedback:\"\n        read *, feedback\n\n        ! Assume that positive feedback contains the word 'good'\n        if (index(feedback, 'good') /= 0) then\n            positiveFeedback = .true.\n        end if\n    end do\n\n    print *, \"Thank you for your positive feedback!\"\nend program feedbackProgram\n```"
+  },
+  {
+    "task": "Write a loop that repeatedly reads sensor data and stops when a stable reading is observed.",
+    "code": "```fortran\nprogram sensor_loop\n  implicit none\n  real :: previous_reading, current_reading\n  logical :: stable\n\n  stable = .false.\n  call random_number(previous_reading)\n\n  do while (.not. stable)\n    call random_number(current_reading)\n    if (abs(current_reading - previous_reading) < 0.001) then\n      stable = .true.\n    else\n      previous_reading = current_reading\n    end if\n  end do\n\nend program sensor_loop\n```"
+  },
+  {
+    "task": "Develop a system that simulates a stopwatch, counting seconds until stopped manually.",
+    "code": "```fortran\nprogram stopwatch\n    implicit none\n    integer :: seconds\n    character(len=1) :: stop\n\n    seconds = 0\n    stop = 'n'\n\n    print *, \"Stopwatch started. Press 's' and enter to stop.\"\n\n    do while (stop /= 's')\n        call sleep(1)\n        seconds = seconds + 1\n        print *, \"Seconds elapsed: \", seconds\n        read(*, '(A)') stop\n    end do\n\n    print *, \"Stopwatch stopped at\", seconds, \"seconds.\"\nend program stopwatch\n```"
+  },
+  {
+    "task": "Create a script that continues adding random integers to a sum until the sum exceeds 100.",
+    "code": "```fortran\nprogram random_sum\n    implicit none\n    integer :: sum, rand_num\n    call random_seed()\n    sum = 0\n\n    do while (sum <= 100)\n        call random_number(rand_num)\n        rand_num = int(rand_num * 100) + 1\n        sum = sum + rand_num\n    end do\n\n    print *, \"Final sum:\", sum\nend program random_sum\n```"
+  },
+  {
+    "task": "Implement a process to track a moving object until it stops.",
+    "code": "```fortran\nprogram track_object\n    implicit none\n    logical :: is_moving\n    real :: speed\n\n    ! Initialize the object's speed and moving status\n    speed = 10.0\n    is_moving = .true.\n\n    ! Loop until the object stops moving\n    do while (is_moving)\n        ! Simulate speed reduction\n        speed = speed - 1.0\n\n        ! Check if the object has stopped\n        if (speed <= 0.0) then\n            is_moving = .false.\n        end if\n    end do\n\n    print *, 'Object has stopped.'\nend program track_object\n```"
+  },
+  {
+    "task": "Design a routine to keep checking user login attempts until a successful login occurs.",
+    "code": "```fortran\nprogram check_login\n    implicit none\n    logical :: login_successful\n    character(len=100) :: username, password\n\n    login_successful = .false.\n\n    do while (.not. login_successful)\n        print *, \"Enter username: \"\n        read *, username\n        print *, \"Enter password: \"\n        read *, password\n\n        ! This is a placeholder condition for a successful login.\n        ! Replace this with actual authentication logic.\n        if (username == \"user\" .and. password == \"pass\") then\n            login_successful = .true.\n            print *, \"Login successful!\"\n        else\n            print *, \"Login failed. Try again.\"\n        end if\n    end do\n\nend program check_login\n```"
+  },
+  {
+    "task": "Write a loop that repeatedly calculates the area of a circle for radii from 1 to 10.",
+    "code": "```fortran\nprogram circle_area\n  implicit none\n  real :: pi, radius, area\n\n  pi = 3.141592653589793\n  radius = 1.0\n\n  do while (radius <= 10.0)\n     area = pi * radius * radius\n     print *, \"Radius:\", radius, \"Area:\", area\n     radius = radius + 1.0\n  end do\nend program circle_area\n```"
+  },
+  {
+    "task": "Create a program that continues flipping a card from a deck until an ace is drawn.",
+    "code": "```fortran\nprogram draw_ace\n  implicit none\n  integer :: card\n  logical :: ace_drawn\n\n  call random_seed()\n  ace_drawn = .false.\n\n  do while (.not. ace_drawn)\n     call random_number(card)\n     card = int(card * 52) + 1\n     if (card == 1) then\n        ace_drawn = .true.\n     end if\n  end do\n\n  print *, 'An ace has been drawn.'\nend program draw_ace\n```"
+  },
+  {
+    "task": "Develop a loop that keeps asking for a word and stores it until a word with more than five letters is entered.",
+    "code": "```fortran\nprogram store_words\n    implicit none\n    character(len=100) :: word\n    character(len=500) :: stored_words\n    stored_words = ''\n\n    do\n        print *, \"Enter a word:\"\n        read *, word\n        if (len_trim(word) > 5) then\n            exit\n        end if\n        stored_words = trim(stored_words) // ' ' // trim(word)\n    end do\n\n    print *, \"Stored words:\", trim(stored_words)\nend program store_words\n```"
+  },
+  {
+    "task": "Implement a feature that continuously calculates the exponential growth of a population until it doubles.",
+    "code": "```fortran\nprogram exponential_growth\n  implicit none\n  real :: population, initial_population, growth_rate\n  growth_rate = 0.05\n  initial_population = 100.0\n  population = initial_population\n\n  do while (population < 2.0 * initial_population)\n     population = population * (1.0 + growth_rate)\n  end do\n\n  print *, \"Population doubled to: \", population\nend program exponential_growth\n```"
+  },
+  {
+    "task": "Write a script that repeats a string a certain number of times until a limit is reached.",
+    "code": "```fortran\nprogram repeat_string\n    implicit none\n    integer :: count, limit\n    character(len=100) :: str\n    str = \"RepeatMe\"\n    count = 0\n    limit = 10\n    do while (count < limit)\n        print *, str\n        count = count + 1\n    end do\nend program repeat_string\n```"
+  },
+  {
+    "task": "Create a routine that keeps accessing an API endpoint until it returns a specific result.",
+    "code": "```fortran\nprogram api_access\n  implicit none\n  logical :: specific_result, api_response\n\n  specific_result = .false.\n  \n  do while (.not. specific_result)\n    api_response = access_api()\n    if (api_response) then\n      specific_result = .true.\n    end if\n  end do\n\ncontains\n\n  logical function access_api()\n    ! Simulate API access and return .true. when specific result is obtained\n    ! Replace this logic with actual API call and response handling\n    access_api = .false.  ! Change to .true. when specific result is obtained\n  end function access_api\n\nend program api_access\n```"
+  },
+  {
+    "task": "Design a loop that continues to fetch stock prices until a certain price threshold is crossed.",
+    "code": "```fortran\nprogram stock_price_check\n  implicit none\n  real :: stock_price\n  real, parameter :: threshold = 100.0\n\n  stock_price = 0.0\n  do while (stock_price <= threshold)\n    call fetch_stock_price(stock_price)\n  end do\n\ncontains\n\n  subroutine fetch_stock_price(price)\n    real, intent(out) :: price\n    ! Simulate fetching a stock price, replace with actual fetching logic\n    print *, \"Enter the stock price:\"\n    read *, price\n  end subroutine fetch_stock_price\n\nend program stock_price_check\n```"
+  },
+  {
+    "task": "Implement a process that keeps monitoring CPU usage until it drops below 10%.",
+    "code": "```fortran\nprogram monitor_cpu_usage\n  implicit none\n  real :: cpu_usage\n\n  call random_seed()\n  \n  cpu_usage = 100.0\n  \n  do while (cpu_usage >= 10.0)\n     call random_number(cpu_usage)\n     cpu_usage = cpu_usage * 100.0  ! Simulate CPU usage as a percentage\n     print *, \"Current CPU Usage:\", cpu_usage, \"%\"\n  end do\n\n  print *, \"CPU usage dropped below 10%.\"\nend program monitor_cpu_usage\n```"
+  },
+  {
+    "task": "Write a program that asks for a series of numbers and prints the largest once a negative number is entered.",
+    "code": "```fortran\nprogram find_largest_number\n  implicit none\n  real :: number, largest\n\n  largest = -huge(0.0)\n  do\n     print *, 'Enter a number: '\n     read *, number\n\n     if (number < 0) then\n        exit\n     end if\n\n     if (number > largest) then\n        largest = number\n     end if\n  end do\n\n  print *, 'The largest number entered was: ', largest\nend program find_largest_number\n```"
+  },
+  {
+    "task": "Develop a system that keeps a heater on until the room reaches a desired temperature.",
+    "code": "```fortran\nprogram heater_control\n    implicit none\n    real :: current_temperature, desired_temperature\n\n    ! Set the desired temperature\n    desired_temperature = 22.0\n\n    ! Initialize the current temperature\n    current_temperature = 18.0\n\n    ! Loop while the current temperature is less than the desired temperature\n    do while (current_temperature < desired_temperature)\n        ! Code to turn the heater on\n        print *, \"Heater is ON. Current temperature:\", current_temperature\n\n        ! Simulate temperature increase\n        current_temperature = current_temperature + 0.5\n    end do\n\n    ! Code to turn the heater off when desired temperature is reached\n    print *, \"Heater is OFF. Desired temperature reached:\", current_temperature\nend program heater_control\n```"
+  },
+  {
+    "task": "Create a loop that repeatedly checks if a door is open and alerts if it remains open for too long.",
+    "code": "```fortran\nprogram door_check\n  implicit none\n  logical :: door_open\n  integer :: open_time\n\n  door_open = .true.  ! Assume door is initially open\n  open_time = 0\n\n  do while (door_open)\n    if (open_time > 10) then\n      print *, \"Alert: The door has been open too long!\"\n      exit\n    end if\n    ! Simulate time passing or change door_open to .false. to stop\n    call sleep(1)\n    open_time = open_time + 1\n  end do\nend program door_check\n```"
+  },
+  {
+    "task": "Implement a feature that keeps adding random characters to a string until its length is 8.",
+    "code": "```fortran\nprogram random_string\n    implicit none\n    character(len=1) :: random_char\n    character(len=8) :: random_string\n    integer :: i\n\n    random_string = \"\"\n    i = 0\n    call random_seed()\n\n    do while (len_trim(random_string) < 8)\n        call random_char_gen(random_char)\n        i = i + 1\n        random_string(i:i) = random_char\n    end do\n\n    print *, random_string\n\ncontains\n\n    subroutine random_char_gen(char)\n        character(len=1), intent(out) :: char\n        integer :: rand_int\n\n        call random_number(rand_int)\n        rand_int = int(rand_int * 26) + 65\n        char = char(rand_int)\n    end subroutine random_char_gen\n\nend program random_string\n```"
+  },
+  {
+    "task": "Design a routine that simulates a race and continues until a participant crosses the finish line.",
+    "code": "```fortran\nprogram race_simulation\n  implicit none\n  integer :: position, finish_line\n\n  position = 0\n  finish_line = 100\n\n  do while (position < finish_line)\n    position = position + 10 ! Simulate progress\n  end do\n\n  print *, 'A participant has crossed the finish line!'\nend program race_simulation\n```"
+  },
+  {
+    "task": "Write a script that keeps checking an email inbox until a specific email is received.",
+    "code": "```fortran\nprogram check_email\n    implicit none\n    logical :: email_received\n    email_received = .false.\n\n    do while (.not. email_received)\n        call check_inbox(email_received)\n    end do\ncontains\n    subroutine check_inbox(email_received)\n        logical, intent(out) :: email_received\n        ! Simulated check for the specific email\n        ! This is a placeholder for actual email checking logic\n        ! Set email_received = .true. when the specific email is found\n    end subroutine check_inbox\nend program check_email\n```"
+  },
+  {
+    "task": "Create a loop that continues to play a video on repeat until the user interrupts.",
+    "code": "```fortran\nprogram video_player\n    implicit none\n    logical :: playing\n    character(len=1) :: user_input\n\n    playing = .true.\n\n    do while (playing)\n        print *, \"Playing video...\"\n        print *, \"Press 'q' to stop playing.\"\n        read(*, '(A)') user_input\n        if (user_input == 'q') then\n            playing = .false.\n        end if\n    end do\n\n    print *, \"Video stopped.\"\nend program video_player\n```"
+  },
+  {
+    "task": "Develop a process that keeps scanning for Bluetooth devices until a specific device is found.",
+    "code": "```fortran\nprogram bluetooth_scan\n  implicit none\n  logical :: device_found\n  device_found = .false.\n\n  do while (.not. device_found)\n    call scan_for_devices(device_found)\n  end do\n\ncontains\n\n  subroutine scan_for_devices(found)\n    logical, intent(out) :: found\n    ! Implement device scanning logic here.\n    ! For demonstration, we assume the device is not found.\n    found = .false.\n  end subroutine scan_for_devices\n\nend program bluetooth_scan\n```"
+  },
+  {
+    "task": "Implement a script that continuously captures images from a webcam until a motion is detected.",
+    "code": "```fortran\nprogram motion_detection\n  implicit none\n  logical :: motion_detected\n  call initialize_webcam()\n\n  motion_detected = .false.\n  \n  do while (.not. motion_detected)\n    call capture_image()\n    motion_detected = check_for_motion()\n  end do\n  \n  call release_webcam()\ncontains\n\n  subroutine initialize_webcam()\n    ! Code to initialize webcam\n  end subroutine\n\n  subroutine capture_image()\n    ! Code to capture image from webcam\n  end subroutine\n\n  logical function check_for_motion()\n    ! Code to check for motion\n    check_for_motion = .false. ! Replace with actual motion detection logic\n  end function\n\n  subroutine release_webcam()\n    ! Code to release webcam resources\n  end subroutine\n\nend program motion_detection\n```"
+  },
+  {
+    "task": "Design a program that keeps playing a sound file until the user presses a mute button.",
+    "code": "```fortran\nprogram play_sound\n    implicit none\n    logical :: mute_pressed\n    external :: is_mute_pressed, play_sound_file\n\n    mute_pressed = .false.\n\n    do while (.not. mute_pressed)\n        call play_sound_file()\n        mute_pressed = is_mute_pressed()\n    end do\n\ncontains\n\n    logical function is_mute_pressed()\n        ! This function should return .true. if the mute button is pressed\n        ! Implementation depends on the specific system and is omitted here\n        is_mute_pressed = .false.\n    end function is_mute_pressed\n\n    subroutine play_sound_file()\n        ! This subroutine should play the sound file\n        ! Implementation depends on the specific system and is omitted here\n    end subroutine play_sound_file\n\nend program play_sound\n```"
+  },
+  {
+    "task": "Create a loop that repeatedly generates a random password until it meets certain security criteria.",
+    "code": "```fortran\nprogram secure_password\n  implicit none\n  character(len=16) :: password\n  logical :: is_secure\n\n  call random_seed()\n  is_secure = .false.\n\n  do while (.not. is_secure)\n     call generate_password(password)\n     is_secure = check_security(password)\n  end do\n\ncontains\n\n  subroutine generate_password(pwd)\n    character(len=16), intent(out) :: pwd\n    integer :: i, char_index\n    character(len=62), parameter :: chars = &\n        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'\n\n    do i = 1, len(pwd)\n       call random_number(char_index)\n       char_index = int(char_index * len(chars)) + 1\n       pwd(i:i) = chars(char_index:char_index)\n    end do\n  end subroutine generate_password\n\n  logical function check_security(pwd)\n    character(len=16), intent(in) :: pwd\n    logical :: has_upper, has_lower, has_digit\n    integer :: i\n\n    has_upper = .false.\n    has_lower = .false.\n    has_digit = .false.\n\n    do i = 1, len(pwd)\n       if (pwd(i:i) >= 'A' .and. pwd(i:i) <= 'Z') then\n          has_upper = .true.\n       else if (pwd(i:i) >= 'a' .and. pwd(i:i) <= 'z') then\n          has_lower = .true.\n       else if (pwd(i:i) >= '0' .and. pwd(i:i) <= '9') then\n          has_digit = .true.\n       end if\n    end do\n\n    check_security = has_upper .and. has_lower .and. has_digit\n  end function check_security\n\nend program secure_password\n```"
+  },
+  {
+    "task": "Write a process that keeps checking for file changes in a directory and logs them until stopped.",
+    "code": "```fortran\nprogram MonitorDirectory\n  implicit none\n  logical :: running\n  character(len=256) :: command, output\n  integer :: status\n\n  running = .true.\n  command = \"inotifywait -m -e modify,create,delete directory_path\"\n\n  open(unit=10, file=\"changes.log\", status=\"unknown\", action=\"write\")\n\n  do while (running)\n    call execute_command_line(command, wait=.false., exitstat=status)\n    if (status == 0) then\n      read(10, '(A)', iostat=status) output\n      if (status == 0) then\n        write(*,*) trim(output)\n        write(10, '(A)') trim(output)\n      else\n        running = .false.\n      endif\n    else\n      running = .false.\n    endif\n  end do\n\n  close(10)\nend program MonitorDirectory\n```"
+  }
+]

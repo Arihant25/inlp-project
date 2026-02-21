@@ -1,0 +1,358 @@
+[
+  {
+    "task": "Write a program that reads a user's name and age from the input, then prints a greeting message using both values.",
+    "code": "```haskell\nmain :: IO ()\nmain = do\n    putStrLn \"Enter your name:\"\n    name <- getLine\n    putStrLn \"Enter your age:\"\n    age <- getLine\n    putStrLn $ \"Hello, \" ++ name ++ \"! You are \" ++ age ++ \" years old.\"\n```"
+  },
+  {
+    "task": "Create a script that continuously reads numbers from the input and prints their running total until a negative number is entered.",
+    "code": "```haskell\nimport Control.Monad (unless)\n\nmain :: IO ()\nmain = loop 0\n  where\n    loop total = do\n      input <- getLine\n      let number = read input :: Int\n      unless (number < 0) $ do\n        let newTotal = total + number\n        print newTotal\n        loop newTotal\n```"
+  },
+  {
+    "task": "Design a program that asks the user for a sentence and outputs the number of words it contains.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Please enter a sentence:\"\n    sentence <- getLine\n    let wordCount = length (words sentence)\n    putStrLn $ \"The number of words in the sentence is: \" ++ show wordCount\n```"
+  },
+  {
+    "task": "Build a command-line tool that reads a list of integers and outputs them in sorted order.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\nimport Control.Monad\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter integers separated by spaces:\"\n    input <- getLine\n    let numbers = map read (words input) :: [Int]\n    let sortedNumbers = sort numbers\n    putStrLn \"Sorted integers:\"\n    forM_ sortedNumbers print\n```"
+  },
+  {
+    "task": "Develop a program that reads a file name from the input, then prints the number of lines in that file.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the file name:\"\n    fileName <- getLine\n    contents <- readFile fileName\n    let lineCount = length (lines contents)\n    print lineCount\n```"
+  },
+  {
+    "task": "Implement a calculator that reads two numbers and an operator (+, -, *, /) from the input and prints the result.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the first number:\"\n    num1 <- getLine\n    putStrLn \"Enter the second number:\"\n    num2 <- getLine\n    putStrLn \"Enter the operator (+, -, *, /):\"\n    op <- getLine\n    let x = read num1 :: Double\n    let y = read num2 :: Double\n    let result = case op of\n                    \"+\" -> x + y\n                    \"-\" -> x - y\n                    \"*\" -> x * y\n                    \"/\" -> if y /= 0 then x / y else error \"Division by zero\"\n                    _   -> error \"Invalid operator\"\n    putStrLn $ \"The result is: \" ++ show result\n```"
+  },
+  {
+    "task": "Write a script that reads a user's full name and prints it in reverse order.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter your full name:\"\n    fullName <- getLine\n    putStrLn $ reverse fullName\n```"
+  },
+  {
+    "task": "Create a program that asks for a word and checks if it is a palindrome, printing the appropriate message.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a word:\"\n    hFlush stdout\n    word <- getLine\n    if word == reverse word\n        then putStrLn \"The word is a palindrome.\"\n        else putStrLn \"The word is not a palindrome.\"\n```"
+  },
+  {
+    "task": "Develop a tool that reads multiple lines of text and outputs the longest line.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    contents <- getContents\n    let longestLine = foldl1 (\\acc x -> if length x > length acc then x else acc) (lines contents)\n    putStrLn longestLine\n```"
+  },
+  {
+    "task": "Design a script that reads a number 'n' and prints the first 'n' Fibonacci numbers.",
+    "code": "```haskell\nimport System.IO\n\nfibonacci :: Int -> [Int]\nfibonacci n = take n $ map fst $ iterate (\\(a, b) -> (b, a + b)) (0, 1)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the number of Fibonacci numbers to generate:\"\n    input <- getLine\n    let n = read input :: Int\n    print $ fibonacci n\n```"
+  },
+  {
+    "task": "Write a program that takes a list of numbers from the input and prints only the even ones.",
+    "code": "```haskell\nimport Control.Monad (liftM)\n\nmain :: IO ()\nmain = do\n    input <- getLine\n    let numbers = map read (words input) :: [Int]\n    printEven numbers\n\nprintEven :: [Int] -> IO ()\nprintEven = mapM_ print . filter even\n```"
+  },
+  {
+    "task": "Create a script that reads a date (day, month, year) and prints the day of the week for that date.",
+    "code": "```haskell\nimport Data.Time.Calendar\nimport Data.Time.Calendar.WeekDate\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter day:\"\n    dayInput <- getLine\n    putStrLn \"Enter month:\"\n    monthInput <- getLine\n    putStrLn \"Enter year:\"\n    yearInput <- getLine\n    let day = read dayInput :: Integer\n        month = read monthInput :: Integer\n        year = read yearInput :: Integer\n        date = fromGregorian year month day\n        (_, _, dayOfWeek) = toWeekDate date\n        dayNames = [\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"]\n    putStrLn $ \"The day of the week is: \" ++ dayNames !! (dayOfWeek - 1)\n```"
+  },
+  {
+    "task": "Develop a program that reads a paragraph and counts the frequency of each letter in the text.",
+    "code": "```haskell\nimport Data.Char (toLower, isAlpha)\nimport Data.List (foldl')\nimport qualified Data.Map as Map\nimport System.IO (hFlush, stdout)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a paragraph:\"\n    hFlush stdout\n    paragraph <- getLine\n    let frequency = countFrequency paragraph\n    mapM_ (uncurry $ printf \"%c: %d\\n\") (Map.toList frequency)\n\ncountFrequency :: String -> Map.Map Char Int\ncountFrequency = foldl' updateFreq Map.empty . filter isAlpha . map toLower\n\nupdateFreq :: Map.Map Char Int -> Char -> Map.Map Char Int\nupdateFreq freqMap char = Map.insertWith (+) char 1 freqMap\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and a word, then prints the number of times the word appears in the text.",
+    "code": "```haskell\nimport System.IO\nimport Data.List (isInfixOf)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the text:\"\n    text <- getLine\n    putStrLn \"Enter the word to count:\"\n    word <- getLine\n    let count = length . filter (== word) $ words text\n    putStrLn $ \"The word appears \" ++ show count ++ \" times.\"\n```"
+  },
+  {
+    "task": "Implement a script that reads a temperature in Celsius and converts it to Fahrenheit, printing the result.",
+    "code": "```haskell\nmain :: IO ()\nmain = do\n    putStrLn \"Enter temperature in Celsius:\"\n    input <- getLine\n    let celsius = read input :: Double\n    let fahrenheit = (celsius * 9/5) + 32\n    putStrLn $ \"Temperature in Fahrenheit: \" ++ show fahrenheit\n```"
+  },
+  {
+    "task": "Write a program that continuously reads input until the word 'exit' is entered, then prints all entered inputs.",
+    "code": "```haskell\nimport Control.Monad (unless)\n\nmain :: IO ()\nmain = do\n    inputs <- loop []\n    mapM_ putStrLn (reverse inputs)\n\nloop :: [String] -> IO [String]\nloop acc = do\n    line <- getLine\n    unless (line == \"exit\") $ loop (line : acc)\n```"
+  },
+  {
+    "task": "Create a tool that prompts for a filename, reads the file, and prints its content in uppercase.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the filename:\"\n    filename <- getLine\n    content <- readFile filename\n    putStrLn (map toUpper content)\n```"
+  },
+  {
+    "task": "Develop a program that reads a series of email addresses and prints the unique domain names.",
+    "code": "```haskell\nimport Data.List (nub)\nimport Data.List.Split (splitOn)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter email addresses (empty line to stop):\"\n    emails <- getEmails\n    let domains = map (last . splitOn \"@\") emails\n    putStrLn \"Unique domain names:\"\n    mapM_ putStrLn (nub domains)\n\ngetEmails :: IO [String]\ngetEmails = do\n    email <- getLine\n    if null email\n        then return []\n        else do\n            emails <- getEmails\n            return (email : emails)\n```"
+  },
+  {
+    "task": "Design a script that reads a string and prints whether it contains all the letters of the alphabet.",
+    "code": "```haskell\nimport Data.Char (toLower, isAlpha)\nimport Data.List (nub, sort)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a string:\"\n    input <- getLine\n    let alphabet = ['a'..'z']\n        inputLetters = sort . nub . map toLower $ filter isAlpha input\n    if alphabet == inputLetters\n        then putStrLn \"The string contains all the letters of the alphabet.\"\n        else putStrLn \"The string does not contain all the letters of the alphabet.\"\n```"
+  },
+  {
+    "task": "Write a program that reads a number and prints its factorial.",
+    "code": "```haskell\nimport System.IO\n\nfactorial :: Integer -> Integer\nfactorial 0 = 1\nfactorial n = n * factorial (n - 1)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a number:\"\n    input <- getLine\n    let number = read input :: Integer\n    print (factorial number)\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of names and prints them in alphabetical order.",
+    "code": "```haskell\nimport Data.List (sort)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the names, one per line. End with an empty line:\"\n    names <- readNames\n    putStrLn \"Names in alphabetical order:\"\n    mapM_ putStrLn (sort names)\n\nreadNames :: IO [String]\nreadNames = do\n    name <- getLine\n    if name == \"\"\n        then return []\n        else do\n            rest <- readNames\n            return (name : rest)\n```"
+  },
+  {
+    "task": "Develop a program that asks for a sentence and prints each word on a new line.",
+    "code": "```haskell\nmain :: IO ()\nmain = do\n    putStrLn \"Please enter a sentence:\"\n    sentence <- getLine\n    let wordsList = words sentence\n    mapM_ putStrLn wordsList\n```"
+  },
+  {
+    "task": "Build a script that reads a time in 12-hour format and converts it to 24-hour format.",
+    "code": "```haskell\nimport Data.Time\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter time in 12-hour format (e.g., 02:30 PM):\"\n    input <- getLine\n    case parseTimeM True defaultTimeLocale \"%I:%M %p\" input :: Maybe TimeOfDay of\n        Just timeOfDay -> putStrLn $ formatTime defaultTimeLocale \"%H:%M\" timeOfDay\n        Nothing -> putStrLn \"Invalid time format.\"\n```"
+  },
+  {
+    "task": "Implement a program that reads two strings and checks if they are anagrams, printing the result.",
+    "code": "```haskell\nimport Data.List (sort)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter first string:\"\n    str1 <- getLine\n    putStrLn \"Enter second string:\"\n    str2 <- getLine\n    if isAnagram str1 str2\n        then putStrLn \"The strings are anagrams.\"\n        else putStrLn \"The strings are not anagrams.\"\n\nisAnagram :: String -> String -> Bool\nisAnagram s1 s2 = sort s1 == sort s2\n```"
+  },
+  {
+    "task": "Write a tool that reads a paragraph and prints the first and last sentence.",
+    "code": "```haskell\nimport System.IO\nimport Data.List.Split (splitOn)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a paragraph:\"\n    paragraph <- getLine\n    let sentences = filter (not . null) $ splitOn \".\" paragraph\n    let firstSentence = head sentences\n    let lastSentence = last sentences\n    putStrLn $ \"First sentence: \" ++ firstSentence ++ \".\"\n    putStrLn $ \"Last sentence: \" ++ lastSentence ++ \".\"\n```"
+  },
+  {
+    "task": "Create a program that reads a binary number and converts it to decimal.",
+    "code": "```haskell\nimport System.IO (hFlush, stdout)\n\nbinaryToDecimal :: String -> Int\nbinaryToDecimal = foldl (\\acc x -> acc * 2 + read [x]) 0\n\nmain :: IO ()\nmain = do\n    putStr \"Enter a binary number: \"\n    hFlush stdout\n    binaryInput <- getLine\n    let decimalOutput = binaryToDecimal binaryInput\n    putStrLn $ \"Decimal equivalent: \" ++ show decimalOutput\n```"
+  },
+  {
+    "task": "Develop a script that reads a series of scores and prints the average score.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter scores separated by space:\"\n    input <- getLine\n    let scores = map read (words input) :: [Double]\n    let average = sum scores / fromIntegral (length scores)\n    putStrLn $ \"The average score is: \" ++ show average\n```"
+  },
+  {
+    "task": "Design a program that reads a list of integers and prints the prime numbers.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\n\nisPrime :: Int -> Bool\nisPrime n\n  | n < 2     = False\n  | otherwise = null [x | x <- [2..floor (sqrt (fromIntegral n))], n `mod` x == 0]\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a list of integers, separated by spaces:\"\n    input <- getLine\n    let numbers = map read $ words input :: [Int]\n    let primes = filter isPrime numbers\n    putStrLn \"Prime numbers:\"\n    mapM_ print primes\n```"
+  },
+  {
+    "task": "Write a script that reads a word and prints its Pig Latin translation.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a word:\"\n    word <- getLine\n    putStrLn $ \"Pig Latin: \" ++ toPigLatin word\n\ntoPigLatin :: String -> String\ntoPigLatin w@(x:xs)\n    | x `elem` \"aeiouAEIOU\" = w ++ \"way\"\n    | otherwise = xs ++ [x] ++ \"ay\"\ntoPigLatin [] = []\n```"
+  },
+  {
+    "task": "Create a tool that reads a matrix of numbers and prints its transpose.",
+    "code": "```haskell\nimport Data.List (transpose)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the number of rows:\"\n    rows <- readLn\n    putStrLn \"Enter the matrix row by row, with each number separated by spaces:\"\n    matrix <- mapM (\\_ -> fmap (map read . words) getLine) [1..rows]\n    putStrLn \"The transpose of the matrix is:\"\n    mapM_ (putStrLn . unwords . map show) (transpose matrix)\n```"
+  },
+  {
+    "task": "Implement a program that reads a URL and prints the domain name.",
+    "code": "```haskell\nimport Network.URI (parseURI, uriAuthority, uriRegName)\nimport System.IO (hFlush, stdout)\n\nmain :: IO ()\nmain = do\n    putStr \"Enter a URL: \"\n    hFlush stdout\n    url <- getLine\n    let domain = parseURI url >>= uriAuthority >>= return . uriRegName\n    case domain of\n        Just d  -> putStrLn (\"Domain name: \" ++ d)\n        Nothing -> putStrLn \"Invalid URL\"\n```"
+  },
+  {
+    "task": "Write a script that reads a number and prints its multiplication table up to 12.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a number:\"\n    input <- getLine\n    let number = read input :: Int\n    mapM_ (print . (number *)) [1..12]\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dates and prints them in order of occurrence.",
+    "code": "```haskell\nimport Data.Time\nimport System.IO\nimport Data.List\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter dates in YYYY-MM-DD format, one per line. Press Ctrl+D to finish:\"\n    input <- getContents\n    let dateStrings = lines input\n    dates <- mapM parseDate dateStrings\n    let sortedDates = sort dates\n    putStrLn \"Dates in order of occurrence:\"\n    mapM_ print sortedDates\n\nparseDate :: String -> IO Day\nparseDate dateStr = case parseTimeM True defaultTimeLocale \"%Y-%m-%d\" dateStr of\n    Just date -> return date\n    Nothing   -> ioError (userError $ \"Invalid date format: \" ++ dateStr)\n```"
+  },
+  {
+    "task": "Create a tool that reads a text and prints it with each sentence capitalized.",
+    "code": "```haskell\nimport Data.Char (toUpper)\nimport System.IO (isEOF)\n\ncapitalizeSentence :: String -> String\ncapitalizeSentence [] = []\ncapitalizeSentence (x:xs) = toUpper x : go xs\n  where\n    go [] = []\n    go (y:ys)\n      | y `elem` \".!?\" = y : capitalizeSentence ys\n      | otherwise = y : go ys\n\nmain :: IO ()\nmain = do\n    input <- getContents\n    let capitalizedText = unlines . map capitalizeSentence . lines $ input\n    putStr capitalizedText\n```"
+  },
+  {
+    "task": "Design a program that reads a list of words and prints them in reverse alphabetical order.",
+    "code": "```haskell\nimport Data.List (sortBy)\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter words separated by spaces:\"\n    input <- getLine\n    let wordsList = words input\n        sortedWords = sortBy (flip compare) wordsList\n    putStrLn \"Words in reverse alphabetical order:\"\n    mapM_ putStrLn sortedWords\n```"
+  },
+  {
+    "task": "Write a script that asks for two times and prints the difference in minutes.",
+    "code": "```haskell\nimport Data.Time\nimport Data.Time.Format\nimport System.Locale (defaultTimeLocale)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the first time (HH:MM):\"\n    time1Str <- getLine\n    putStrLn \"Enter the second time (HH:MM):\"\n    time2Str <- getLine\n\n    let format = \"%H:%M\"\n    let time1 = parseTimeOrError True defaultTimeLocale format time1Str :: TimeOfDay\n    let time2 = parseTimeOrError True defaultTimeLocale format time2Str :: TimeOfDay\n\n    let diff = abs (timeOfDayToTime time1 - timeOfDayToTime time2)\n    let minutes = diff / 60\n\n    putStrLn $ \"Difference in minutes: \" ++ show (floor minutes :: Integer)\n```"
+  },
+  {
+    "task": "Build a program that reads a text and prints the number of vowels and consonants.",
+    "code": "```haskell\nimport Data.Char (toLower, isAlpha)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a text: \"\n    input <- getLine\n    let (vowels, consonants) = countVowelsAndConsonants input\n    putStrLn $ \"Number of vowels: \" ++ show vowels\n    putStrLn $ \"Number of consonants: \" ++ show consonants\n\ncountVowelsAndConsonants :: String -> (Int, Int)\ncountVowelsAndConsonants = foldr classify (0, 0)\n  where\n    classify char (v, c)\n        | isAlpha char && toLower char `elem` \"aeiou\" = (v + 1, c)\n        | isAlpha char && toLower char `notElem` \"aeiou\" = (v, c + 1)\n        | otherwise = (v, c)\n```"
+  },
+  {
+    "task": "Implement a tool that reads a JSON object from input and prints its keys.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nimport Data.Aeson\nimport qualified Data.ByteString.Lazy as B\nimport qualified Data.HashMap.Strict as HM\nimport System.IO\n\nmain :: IO ()\nmain = do\n    input <- B.getContents\n    case decode input :: Maybe Object of\n        Just obj -> mapM_ putStrLn (HM.keys obj)\n        Nothing  -> putStrLn \"Invalid JSON\"\n```"
+  },
+  {
+    "task": "Write a program that reads a CSV file from input and prints each row as a dictionary.",
+    "code": "```haskell\nimport System.IO\nimport Data.List.Split (splitOn)\nimport Data.List (intercalate)\nimport Control.Monad (forM_)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the CSV file path:\"\n    filePath <- getLine\n    contents <- readFile filePath\n    let (header:rows) = map (splitOn \",\") (lines contents)\n    forM_ rows $ \\row -> do\n        let dictionary = zip header row\n        putStrLn $ \"{\" ++ intercalate \", \" (map (\\(k, v) -> k ++ \": \" ++ v) dictionary) ++ \"}\"\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with the words in reverse order.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a sentence:\"\n    sentence <- getLine\n    let reversedWords = unwords . reverse . words $ sentence\n    putStrLn reversedWords\n```"
+  },
+  {
+    "task": "Develop a tool that reads a list of numbers and prints their median.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter numbers separated by spaces:\"\n    input <- getLine\n    let numbers = map read (words input) :: [Double]\n    print $ median numbers\n\nmedian :: [Double] -> Double\nmedian xs\n    | odd n     = sorted !! middle\n    | otherwise = (sorted !! (middle - 1) + sorted !! middle) / 2\n  where\n    sorted = sort xs\n    n = length xs\n    middle = n `div` 2\n```"
+  },
+  {
+    "task": "Design a program that reads a sequence of characters and prints the first non-repeated character.",
+    "code": "```haskell\nimport qualified Data.Map as Map\nimport Data.Maybe (fromJust)\n\nfirstNonRepeated :: String -> Maybe Char\nfirstNonRepeated str = fmap fst . find ((== 1) . snd) . Map.toList $ foldr (\\c m -> Map.insertWith (+) c 1 m) Map.empty str\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a sequence of characters:\"\n    input <- getLine\n    case firstNonRepeated input of\n        Just char -> putStrLn $ \"First non-repeated character: \" ++ [char]\n        Nothing   -> putStrLn \"No non-repeated character found.\"\n```"
+  },
+  {
+    "task": "Write a script that reads a list of tuples and prints them sorted by the second element.",
+    "code": "```haskell\nimport Data.List (sortBy)\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a list of tuples (e.g. [(1,2),(3,1),(2,3)]):\"\n    input <- getLine\n    let tuples = read input :: [(Int, Int)]\n    let sortedTuples = sortBy (\\(_, y1) (_, y2) -> compare y1 y2) tuples\n    print sortedTuples\n```"
+  },
+  {
+    "task": "Create a program that reads a list of cities and prints them grouped by their starting letter.",
+    "code": "```haskell\nimport Data.List (group, sort)\nimport Data.Char (toLower)\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the list of cities (one per line), followed by an empty line:\"\n    cities <- getCities\n    let groupedCities = groupCities cities\n    mapM_ printGroupedCities groupedCities\n\ngetCities :: IO [String]\ngetCities = do\n    input <- getLine\n    if null input\n        then return []\n        else do\n            rest <- getCities\n            return (input : rest)\n\ngroupCities :: [String] -> [[String]]\ngroupCities cities = group . sort $ cities\n\nprintGroupedCities :: [String] -> IO ()\nprintGroupedCities [] = return ()\nprintGroupedCities cities@(c:_) =\n    putStrLn $ \"Cities starting with '\" ++ [toLower (head c)] ++ \"': \" ++ unwords cities\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the longest word.",
+    "code": "```haskell\nimport Data.List\nimport Data.Ord\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter text:\"\n    input <- getLine\n    let longestWord = maximumBy (comparing length) (words input)\n    putStrLn $ \"The longest word is: \" ++ longestWord\n```"
+  },
+  {
+    "task": "Implement a program that reads a string and prints the number of unique characters.",
+    "code": "```haskell\nimport Data.Char (toLower)\nimport Data.Set (fromList)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a string:\"\n    input <- getLine\n    let uniqueCharsCount = length . fromList $ map toLower input\n    print uniqueCharsCount\n```"
+  },
+  {
+    "task": "Write a script that reads two strings and prints the longest common substring.",
+    "code": "```haskell\nimport Data.List (tails, inits)\nimport Control.Monad (guard)\n\nlongestCommonSubstring :: String -> String -> String\nlongestCommonSubstring s1 s2 = maximumByLength $ filter (`isInfixOf` s2) (substrings s1)\n  where\n    substrings = concatMap inits . tails\n    maximumByLength = foldr1 (\\x y -> if length x > length y then x else y)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter first string:\"\n    str1 <- getLine\n    putStrLn \"Enter second string:\"\n    str2 <- getLine\n    let lcs = longestCommonSubstring str1 str2\n    putStrLn $ \"Longest common substring: \" ++ lcs\n```"
+  },
+  {
+    "task": "Develop a program that reads a chessboard position and prints all possible moves for a knight.",
+    "code": "```haskell\nimport Data.Char (ord, chr)\nimport Data.List (intercalate)\n\ntype Position = (Char, Int)\n\nknightMoves :: Position -> [Position]\nknightMoves (file, rank) = \n  filter isValidPosition \n  [(chr (ord file + f), rank + r) | (f, r) <- moves]\n  where\n    moves = [(-2, -1), (-1, -2), (1, -2), (2, -1), (2, 1), (1, 2), (-1, 2), (-2, 1)]\n    isValidPosition (f, r) = f >= 'a' && f <= 'h' && r >= 1 && r <= 8\n\nprintMoves :: [Position] -> IO ()\nprintMoves moves = putStrLn $ intercalate \", \" [file : show rank | (file, rank) <- moves]\n\nmain :: IO ()\nmain = do\n  putStrLn \"Enter the knight's position (e.g., 'e4'):\"\n  input <- getLine\n  let position = (head input, read (tail input) :: Int)\n  let moves = knightMoves position\n  putStrLn \"Possible moves:\"\n  printMoves moves\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of numbers and prints the mode.",
+    "code": "```haskell\nimport Data.List (group, sort, maximumBy)\nimport Data.Function (on)\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter numbers separated by spaces:\"\n    input <- getLine\n    let numbers = map read (words input) :: [Int]\n    print $ mode numbers\n\nmode :: Ord a => [a] -> a\nmode xs = head $ maximumBy (compare `on` length) $ group $ sort xs\n```"
+  },
+  {
+    "task": "Design a program that reads a list of file paths and prints the largest file.",
+    "code": "```haskell\nimport System.IO\nimport System.Directory\nimport Control.Monad\nimport Data.List\nimport Data.Ord\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter file paths (one per line), followed by an empty line:\"\n    filePaths <- readFilePaths\n    largestFile <- findLargestFile filePaths\n    case largestFile of\n        Just (path, size) -> putStrLn $ \"Largest file: \" ++ path ++ \" (\" ++ show size ++ \" bytes)\"\n        Nothing           -> putStrLn \"No valid files found.\"\n\nreadFilePaths :: IO [FilePath]\nreadFilePaths = do\n    line <- getLine\n    if null line\n        then return []\n        else do\n            rest <- readFilePaths\n            return (line : rest)\n\nfindLargestFile :: [FilePath] -> IO (Maybe (FilePath, Integer))\nfindLargestFile paths = do\n    sizes <- forM paths $ \\path -> do\n        exists <- doesFileExist path\n        if exists\n            then do\n                size <- withFile path ReadMode hFileSize\n                return (Just (path, size))\n            else return Nothing\n    return $ maximumByMay (comparing snd) (catMaybes sizes)\n\nmaximumByMay :: (a -> a -> Ordering) -> [a] -> Maybe a\nmaximumByMay _ [] = Nothing\nmaximumByMay cmp xs = Just $ maximumBy cmp xs\n```"
+  },
+  {
+    "task": "Write a script that reads a list of prices and prints the total cost with tax.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter prices (one per line), followed by an empty line:\"\n    input <- getPrices\n    let prices = map read input :: [Double]\n    let taxRate = 0.08\n    let totalCost = sum prices * (1 + taxRate)\n    putStrLn $ \"Total cost with tax: \" ++ show totalCost\n\ngetPrices :: IO [String]\ngetPrices = do\n    price <- getLine\n    if null price\n        then return []\n        else do\n            rest <- getPrices\n            return (price : rest)\n```"
+  },
+  {
+    "task": "Build a program that reads a list of temperatures and prints them in Fahrenheit.",
+    "code": "```haskell\nimport System.IO\n\ncelsiusToFahrenheit :: Double -> Double\ncelsiusToFahrenheit c = (c * 9/5) + 32\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a list of temperatures in Celsius (separated by spaces):\"\n    input <- getLine\n    let celsiusTemps = map read (words input) :: [Double]\n    let fahrenheitTemps = map celsiusToFahrenheit celsiusTemps\n    putStrLn \"Temperatures in Fahrenheit:\"\n    mapM_ print fahrenheitTemps\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of book titles and prints them sorted by length.",
+    "code": "```haskell\nimport System.IO\nimport Data.List (sortOn)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter book titles, one per line. End with an empty line:\"\n    titles <- getTitles\n    let sortedTitles = sortOn length titles\n    putStrLn \"\\nSorted titles by length:\"\n    mapM_ putStrLn sortedTitles\n\ngetTitles :: IO [String]\ngetTitles = do\n    title <- getLine\n    if null title\n        then return []\n        else do\n            rest <- getTitles\n            return (title : rest)\n```"
+  },
+  {
+    "task": "Write a program that reads a directory path and prints all file names.",
+    "code": "```haskell\nimport System.Directory (listDirectory)\nimport System.Environment (getArgs)\n\nmain :: IO ()\nmain = do\n    args <- getArgs\n    case args of\n        [path] -> do\n            files <- listDirectory path\n            mapM_ putStrLn files\n        _ -> putStrLn \"Usage: provide a single directory path\"\n```"
+  },
+  {
+    "task": "Create a script that reads a list of URLs and prints those with a secure connection.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter URLs (one per line), followed by an empty line:\"\n    urls <- getURLs\n    let secureUrls = filter (isPrefixOf \"https://\") urls\n    putStrLn \"Secure URLs:\"\n    mapM_ putStrLn secureUrls\n\ngetURLs :: IO [String]\ngetURLs = do\n    line <- getLine\n    if null line\n        then return []\n        else do\n            rest <- getURLs\n            return (line : rest)\n```"
+  },
+  {
+    "task": "Develop a tool that reads a sequence of numbers and prints if it is strictly increasing.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a sequence of numbers separated by spaces:\"\n    input <- getLine\n    let numbers = map read (words input) :: [Int]\n    if isStrictlyIncreasing numbers\n        then putStrLn \"The sequence is strictly increasing.\"\n        else putStrLn \"The sequence is not strictly increasing.\"\n\nisStrictlyIncreasing :: [Int] -> Bool\nisStrictlyIncreasing xs = and $ zipWith (<) xs (tail xs)\n```"
+  },
+  {
+    "task": "Design a program that reads a list of products and prints them grouped by category.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\nimport Data.Function (on)\n\ndata Product = Product { name :: String, category :: String } deriving (Show, Read)\n\ngroupProductsByCategory :: [Product] -> [(String, [Product])]\ngroupProductsByCategory = groupBy ((==) `on` category) . sortBy (compare `on` category)\n\nprintGroupedProducts :: [(String, [Product])] -> IO ()\nprintGroupedProducts = mapM_ printCategory\n  where\n    printCategory (cat, prods) = do\n      putStrLn $ \"Category: \" ++ cat\n      mapM_ (putStrLn . (\"  \" ++) . name) prods\n\nmain :: IO ()\nmain = do\n  putStrLn \"Enter products (name category) followed by an empty line:\"\n  contents <- getContents\n  let products = map readProduct . lines $ contents\n  let grouped = groupProductsByCategory products\n  printGroupedProducts grouped\n  where\n    readProduct line = let (n:c:_) = words line in Product n c\n```"
+  },
+  {
+    "task": "Write a script that reads a sentence and prints it with alternating word capitalization.",
+    "code": "```haskell\nimport System.IO\nimport Data.Char (toUpper, toLower)\n\ncapitalizeAlternatingWords :: String -> String\ncapitalizeAlternatingWords = unwords . zipWith ($) (cycle [map toUpper, map toLower]) . words\n\nmain :: IO ()\nmain = do\n    hSetBuffering stdout NoBuffering\n    putStrLn \"Enter a sentence: \"\n    sentence <- getLine\n    putStrLn $ capitalizeAlternatingWords sentence\n```"
+  },
+  {
+    "task": "Create a program that reads a list of grades and prints the highest and lowest grade.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter grades separated by space:\"\n    input <- getLine\n    let grades = map read (words input) :: [Int]\n    let highest = maximum grades\n    let lowest = minimum grades\n    putStrLn $ \"Highest grade: \" ++ show highest\n    putStrLn $ \"Lowest grade: \" ++ show lowest\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the number of sentences.",
+    "code": "```haskell\nimport System.IO\nimport Data.Char (isPunctuation)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter your text:\"\n    text <- getLine\n    let sentenceCount = length $ filter (\\c -> c `elem` \".!?\") text\n    putStrLn $ \"Number of sentences: \" ++ show sentenceCount\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of integers and prints the sum of all odd numbers.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a list of integers separated by spaces:\"\n    input <- getLine\n    let numbers = map read (words input) :: [Int]\n    let sumOfOdds = sum (filter odd numbers)\n    putStrLn $ \"Sum of odd numbers: \" ++ show sumOfOdds\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the shortest sentence.",
+    "code": "```haskell\nimport Data.List (minimumBy)\nimport Data.Ord (comparing)\nimport Data.Char (isPunctuation)\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter text:\"\n    text <- getLine\n    let sentences = splitBy (`elem` \".!?\") text\n        shortestSentence = minimumBy (comparing length) sentences\n    putStrLn $ \"Shortest sentence: \" ++ shortestSentence\n\nsplitBy :: (Char -> Bool) -> String -> [String]\nsplitBy _ [] = []\nsplitBy p s = case dropWhile p s of\n    \"\" -> []\n    s' -> w : splitBy p s''\n        where (w, s'') = break p s'\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dictionaries and prints them sorted by a specific key.",
+    "code": "```haskell\nimport Data.List (sortOn)\nimport Data.Maybe (fromJust)\nimport Data.Aeson (decode, Value, Object)\nimport qualified Data.ByteString.Lazy as B\nimport qualified Data.HashMap.Strict as HM\nimport System.Environment (getArgs)\n\nmain :: IO ()\nmain = do\n  args <- getArgs\n  case args of\n    [filePath, key] -> do\n      content <- B.readFile filePath\n      let maybeDicts = decode content :: Maybe [Object]\n      case maybeDicts of\n        Just dicts -> mapM_ print (sortOn (HM.lookup key) dicts)\n        Nothing    -> putStrLn \"Failed to parse JSON.\"\n    _ -> putStrLn \"Usage: program <file-path> <key>\"\n```"
+  },
+  {
+    "task": "Create a tool that reads a sequence of strings and prints the common prefix.",
+    "code": "```haskell\nimport System.IO\n\ncommonPrefix :: [String] -> String\ncommonPrefix [] = \"\"\ncommonPrefix strs = foldl1 commonPrefixTwo strs\n  where\n    commonPrefixTwo :: String -> String -> String\n    commonPrefixTwo xs ys = map fst $ takeWhile (uncurry (==)) $ zip xs ys\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter strings (one per line), followed by an empty line:\"\n    contents <- getContents\n    let inputLines = lines contents\n    let nonEmptyLines = takeWhile (not . null) inputLines\n    putStrLn $ \"Common prefix: \" ++ commonPrefix nonEmptyLines\n```"
+  },
+  {
+    "task": "Design a program that reads a number and prints all of its divisors.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a number:\"\n    input <- getLine\n    let number = read input :: Int\n    let divisors = [x | x <- [1..number], number `mod` x == 0]\n    putStrLn \"Divisors:\"\n    mapM_ print divisors\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints each word with its length.",
+    "code": "```haskell\nimport System.IO\nimport Data.Char (isSpace)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter text:\"\n    input <- getLine\n    let wordsWithLengths = map (\\word -> word ++ \" \" ++ show (length word)) (words input)\n    mapM_ putStrLn wordsWithLengths\n```"
+  },
+  {
+    "task": "Build a program that reads a list of colors and prints them in a rainbow order.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\nimport Data.Maybe\n\nrainbowOrder :: [String]\nrainbowOrder = [\"red\", \"orange\", \"yellow\", \"green\", \"blue\", \"indigo\", \"violet\"]\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a list of colors separated by spaces:\"\n    input <- getLine\n    let colors = words input\n        sortedColors = sortBy (\\a b -> compare (elemIndex a rainbowOrder) (elemIndex b rainbowOrder)) colors\n    putStrLn \"Colors in rainbow order:\"\n    mapM_ putStrLn sortedColors\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of names and prints them with their initials.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter names (one per line), and press Ctrl+D when done:\"\n    content <- getContents\n    let names = lines content\n    mapM_ printNameWithInitials names\n\nprintNameWithInitials :: String -> IO ()\nprintNameWithInitials name = do\n    let initials = unwords $ map ((:[]) . head) (words name)\n    putStrLn $ name ++ \" (\" ++ initials ++ \")\"\n```"
+  },
+  {
+    "task": "Write a program that reads a series of coordinates and prints the center point.",
+    "code": "```haskell\nimport Control.Monad (replicateM)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the number of coordinates:\"\n    n <- readLn\n    putStrLn \"Enter the coordinates (x y) one per line:\"\n    coordinates <- replicateM n $ do\n        line <- getLine\n        let [x, y] = map read (words line)\n        return (x, y)\n    let (sumX, sumY) = foldr (\\(x, y) (sx, sy) -> (sx + x, sy + y)) (0, 0) coordinates\n        centerX = sumX / fromIntegral n\n        centerY = sumY / fromIntegral n\n    putStrLn $ \"Center point: (\" ++ show centerX ++ \", \" ++ show centerY ++ \")\"\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each vowel replaced by its uppercase form.",
+    "code": "```haskell\nimport System.IO\nimport Data.Char (toUpper)\n\nreplaceVowelsToUpper :: String -> String\nreplaceVowelsToUpper = map (\\c -> if c `elem` \"aeiou\" then toUpper c else c)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a sentence:\"\n    sentence <- getLine\n    putStrLn $ replaceVowelsToUpper sentence\n```"
+  },
+  {
+    "task": "Develop a tool that reads a mathematical expression and evaluates its result.",
+    "code": "```haskell\nimport System.IO\nimport Text.Read (readMaybe)\nimport Control.Monad (void)\nimport Data.Maybe (fromJust)\n\nevaluateExpression :: String -> Maybe Double\nevaluateExpression expr = readMaybe expr\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a mathematical expression to evaluate:\"\n    hFlush stdout\n    input <- getLine\n    case evaluateExpression input of\n        Just result -> putStrLn $ \"Result: \" ++ show result\n        Nothing     -> putStrLn \"Invalid expression\"\n```"
+  },
+  {
+    "task": "Design a program that reads a text and prints the first three words.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a text:\"\n    input <- getLine\n    let firstThreeWords = unwords . take 3 . words $ input\n    putStrLn firstThreeWords\n```"
+  },
+  {
+    "task": "Write a script that reads a list of numbers and prints them without duplicates.",
+    "code": "```haskell\nimport qualified Data.Set as Set\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter numbers separated by spaces:\"\n    input <- getLine\n    let numbers = map read $ words input :: [Int]\n    let uniqueNumbers = Set.toList $ Set.fromList numbers\n    putStrLn \"Numbers without duplicates:\"\n    print uniqueNumbers\n```"
+  },
+  {
+    "task": "Create a program that reads a string and prints it with spaces between each character.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a string:\"\n    input <- getLine\n    putStrLn $ unwords (map (:[]) input)\n```"
+  },
+  {
+    "task": "Build a tool that reads a list of events with dates and prints them by chronological order.",
+    "code": "```haskell\nimport Data.List (sortOn)\nimport Data.Time (parseTimeOrError, defaultTimeLocale, Day)\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter events (date and description), one per line. End with an empty line:\"\n    contents <- getContents\n    let events = map parseEvent . lines $ contents\n    mapM_ printEvent $ sortOn fst events\n\nparseEvent :: String -> (Day, String)\nparseEvent str =\n    let (dateStr, desc) = span (/= ' ') str\n        date = parseTimeOrError True defaultTimeLocale \"%Y-%m-%d\" dateStr\n    in (date, dropWhile (== ' ') desc)\n\nprintEvent :: (Day, String) -> IO ()\nprintEvent (date, desc) = putStrLn $ show date ++ \" \" ++ desc\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of fractions and prints their sum as a reduced fraction.",
+    "code": "```haskell\nimport Data.Ratio\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter fractions separated by spaces (e.g., 1/2 3/4 5/6):\"\n    input <- getLine\n    let fractions = map (\\x -> let (n:d:_) = map read (words (map (\\c -> if c == '/' then ' ' else c) x)) in n % d) (words input)\n    let sumFraction = sum fractions\n    putStrLn $ \"Sum of fractions: \" ++ show (numerator sumFraction) ++ \"/\" ++ show (denominator sumFraction)\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints it with each consonant doubled.",
+    "code": "```haskell\nimport Data.Char (isAlpha, isLetter, toLower)\n\ndoubleConsonants :: String -> String\ndoubleConsonants = concatMap doubleIfConsonant\n  where\n    doubleIfConsonant c\n      | isAlpha c && not (elem (toLower c) \"aeiou\") = [c, c]\n      | otherwise = [c]\n\nmain :: IO ()\nmain = do\n  putStrLn \"Enter text:\"\n  input <- getLine\n  putStrLn $ doubleConsonants input\n```"
+  },
+  {
+    "task": "Develop a program that reads a number and prints its representation in Roman numerals.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a number:\"\n    input <- getLine\n    let num = read input :: Int\n    putStrLn $ \"Roman numeral: \" ++ intToRoman num\n\nintToRoman :: Int -> String\nintToRoman num = concatMap convert numerals\n  where\n    numerals = [(1000, \"M\"), (900, \"CM\"), (500, \"D\"), (400, \"CD\"),\n                (100, \"C\"), (90, \"XC\"), (50, \"L\"), (40, \"XL\"),\n                (10, \"X\"), (9, \"IX\"), (5, \"V\"), (4, \"IV\"),\n                (1, \"I\")]\n    convert (value, roman)\n      | num >= value = roman ++ intToRoman (num - value)\n      | otherwise = \"\"\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of words and prints them with each letter in reverse order.",
+    "code": "```haskell\nimport System.IO\n\nreverseLetters :: String -> String\nreverseLetters = unwords . map reverse . words\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a list of words:\"\n    input <- getLine\n    let result = reverseLetters input\n    putStrLn result\n```"
+  },
+  {
+    "task": "Design a program that reads a set of points and prints the one closest to the origin.",
+    "code": "```haskell\nimport Control.Monad\nimport Data.List\nimport Text.Printf\n\ntype Point = (Double, Double)\n\ndistanceFromOrigin :: Point -> Double\ndistanceFromOrigin (x, y) = sqrt (x * x + y * y)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter number of points:\"\n    n <- readLn :: IO Int\n    points <- replicateM n $ do\n        putStrLn \"Enter point (x y):\"\n        fmap ((\\[x, y] -> (x, y)) . map read . words) getLine\n    let closestPoint = minimumBy (\\p1 p2 -> compare (distanceFromOrigin p1) (distanceFromOrigin p2)) points\n    printf \"Closest point to origin: (%.2f, %.2f)\\n\" (fst closestPoint) (snd closestPoint)\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the frequency of each word.",
+    "code": "```haskell\nimport Data.Char (toLower, isAlphaNum)\nimport Data.List (group, sort)\nimport qualified Data.Map as Map\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the text:\"\n    input <- getContents\n    let wordsList = words . map (\\c -> if isAlphaNum c then toLower c else ' ') $ input\n        frequency = Map.fromListWith (+) [(word, 1) | word <- wordsList]\n    mapM_ (\\(word, count) -> putStrLn $ word ++ \": \" ++ show count) (Map.toList frequency)\n```"
+  },
+  {
+    "task": "Build a program that reads a list of integers and prints the second smallest.",
+    "code": "```haskell\nimport Data.List (sort, nub)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a list of integers separated by spaces:\"\n    input <- getLine\n    let numbers = map read (words input) :: [Int]\n    let uniqueSortedNumbers = sort (nub numbers)\n    if length uniqueSortedNumbers < 2\n        then putStrLn \"No second smallest element exists.\"\n        else print (uniqueSortedNumbers !! 1)\n```"
+  },
+  {
+    "task": "Implement a tool that reads a string and prints all its substrings.",
+    "code": "```haskell\nimport Control.Monad (forM_)\nimport System.IO (isEOF)\n\nsubstrings :: String -> [String]\nsubstrings str = [take n (drop m str) | m <- [0..length str], n <- [1..length str - m]]\n\nmain :: IO ()\nmain = do\n    eof <- isEOF\n    if eof\n        then return ()\n        else do\n            input <- getLine\n            let subs = substrings input\n            forM_ subs putStrLn\n            main\n```"
+  },
+  {
+    "task": "Write a program that reads a number and generates a random number up to that number.",
+    "code": "```haskell\nimport System.Random\nimport Text.Read (readMaybe)\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a number:\"\n    input <- getLine\n    case readMaybe input :: Maybe Int of\n        Just n -> do\n            randomNum <- randomRIO (0, n)\n            putStrLn $ \"Random number: \" ++ show randomNum\n        Nothing -> putStrLn \"Please enter a valid number.\"\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each word reversed.",
+    "code": "```haskell\nimport System.IO\n\nreverseWords :: String -> String\nreverseWords = unwords . map reverse . words\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a sentence:\"\n    sentence <- getLine\n    putStrLn $ reverseWords sentence\n```"
+  },
+  {
+    "task": "Develop a tool that reads a text and prints it with each sentence on a new line.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\nimport Data.Char\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter the text: \"\n    input <- getLine\n    let sentences = splitSentences input\n    mapM_ putStrLn sentences\n\nsplitSentences :: String -> [String]\nsplitSentences = filter (not . null) . foldr op [[]] \n  where\n    op c acc@(x:xs)\n      | c == '.' || c == '!' || c == '?' = [] : (c : x) : xs\n      | isSpace c && null x = acc\n      | otherwise = (c : x) : xs\n```"
+  },
+  {
+    "task": "Design a program that reads a list of numbers and prints the product of all negative numbers.",
+    "code": "```haskell\nimport System.IO\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter numbers separated by spaces: \"\n    input <- getLine\n    let numbers = map read $ words input :: [Int]\n    let productOfNegatives = product $ filter (< 0) numbers\n    putStrLn $ \"Product of negative numbers: \" ++ show productOfNegatives\n```"
+  },
+  {
+    "task": "Write a script that reads a dictionary and prints the keys and values in sorted order.",
+    "code": "```haskell\nimport Data.List (sort)\nimport qualified Data.Map as Map\n\nmain :: IO ()\nmain = do\n    let dictionary = Map.fromList [(\"apple\", 3), (\"banana\", 1), (\"cherry\", 2)]\n    let sortedEntries = sort $ Map.toList dictionary\n    mapM_ (\\(k, v) -> putStrLn $ k ++ \": \" ++ show v) sortedEntries\n```"
+  },
+  {
+    "task": "Create a program that reads a text and prints the number of unique words.",
+    "code": "```haskell\nimport Data.Char (isAlphaNum, toLower)\nimport qualified Data.Set as Set\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter text:\"\n    input <- getLine\n    let wordsList = words $ map toLower $ filter isAlphaNumOrSpace input\n        uniqueWordsCount = Set.size $ Set.fromList wordsList\n    putStrLn $ \"Number of unique words: \" ++ show uniqueWordsCount\n\nisAlphaNumOrSpace :: Char -> Char\nisAlphaNumOrSpace c = if isAlphaNum c || c == ' ' then c else ' '\n```"
+  }
+]

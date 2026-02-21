@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```python\nstudents_grades = {\n    'Alice': 85,\n    'Bob': 78,\n    'Charlie': 92,\n    'David': 88,\n    'Eva': 91\n}\n\naverage_grade = sum(students_grades.values()) / len(students_grades)\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```python\ndef total_cost(products):\n    return sum(products.values())\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```python\ndef count_word_frequencies(text):\n    word_frequencies = {}\n    words = text.split()\n    for word in words:\n        word_frequencies[word] = word_frequencies.get(word, 0) + 1\n    return word_frequencies\n\n# Example usage:\ntext = \"this is a test this is only a test\"\nfrequencies = count_word_frequencies(text)\nprint(frequencies)\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```python\ndef employee_with_most_hours(hours_dict):\n    return max(hours_dict, key=hours_dict.get)\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```python\nfrom datetime import datetime, timedelta\n\nclass AccountLockSystem:\n    def __init__(self):\n        self.login_attempts = {}\n\n    def record_attempt(self, username, success):\n        now = datetime.now()\n        if username not in self.login_attempts:\n            self.login_attempts[username] = {'attempts': 0, 'timestamps': []}\n\n        if not success:\n            self.login_attempts[username]['attempts'] += 1\n            self.login_attempts[username]['timestamps'].append(now)\n\n        self.cleanup_attempts(username)\n\n    def is_locked(self, username):\n        if username not in self.login_attempts:\n            return False\n        return self.login_attempts[username]['attempts'] >= 3\n\n    def cleanup_attempts(self, username):\n        now = datetime.now()\n        self.login_attempts[username]['timestamps'] = [\n            t for t in self.login_attempts[username]['timestamps']\n            if now - t < timedelta(hours=1)\n        ]\n        self.login_attempts[username]['attempts'] = len(self.login_attempts[username]['timestamps'])\n\n# Example usage:\nsystem = AccountLockSystem()\nsystem.record_attempt('user1', False)\nsystem.record_attempt('user1', False)\nsystem.record_attempt('user1', False)\nprint(system.is_locked('user1'))  # True\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```python\nclass PhoneBook:\n    def __init__(self):\n        self.contacts = {}\n\n    def add_contact(self, name, number):\n        self.contacts[name] = number\n\n    def remove_contact(self, name):\n        if name in self.contacts:\n            del self.contacts[name]\n\n    def lookup_contact(self, name):\n        return self.contacts.get(name, \"Contact not found\")\n\n# Example usage:\nphonebook = PhoneBook()\nphonebook.add_contact(\"Alice\", \"123-456-7890\")\nphonebook.add_contact(\"Bob\", \"987-654-3210\")\nprint(phonebook.lookup_contact(\"Alice\"))  # Outputs: 123-456-7890\nphonebook.remove_contact(\"Alice\")\nprint(phonebook.lookup_contact(\"Alice\"))  # Outputs: Contact not found\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```python\ncities = {\n    'New York': 8419000,\n    'Los Angeles': 3980000,\n    'Chicago': 2716000,\n    'Houston': 2328000,\n    'Phoenix': 1690000\n}\n\nhighest_population_city = max(cities, key=cities.get)\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```python\ndef translate_sentence(sentence, translation_dict):\n    words = sentence.split()\n    translated_words = [translation_dict.get(word, word) for word in words]\n    return ' '.join(translated_words)\n\n# Example usage\ntranslation_dict = {\n    'hello': 'hola',\n    'world': 'mundo',\n    'this': 'esto',\n    'is': 'es',\n    'a': 'un',\n    'test': 'prueba'\n}\n\nsentence = \"hello world this is a test\"\ntranslated_sentence = translate_sentence(sentence, translation_dict)\nprint(translated_sentence)\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```python\nbooks = {\n    \"To Kill a Mockingbird\": \"Harper Lee\",\n    \"1984\": \"George Orwell\",\n    \"The Great Gatsby\": \"F. Scott Fitzgerald\",\n    \"The Catcher in the Rye\": \"J.D. Salinger\",\n    \"Pride and Prejudice\": \"Jane Austen\",\n    \"Animal Farm\": \"George Orwell\",\n    \"Brave New World\": \"Aldous Huxley\"\n}\n\ndef find_books_by_author(author):\n    return [title for title, auth in books.items() if auth == author]\n\n# Example usage:\n# print(find_books_by_author(\"George Orwell\"))\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```python\n# Initialize the map to store product IDs and their stock levels\nstock_levels = {\n    'product_1': 100,\n    'product_2': 50,\n    'product_3': 75\n}\n\ndef update_stock_after_sale(product_id, quantity_sold):\n    if product_id in stock_levels:\n        stock_levels[product_id] -= quantity_sold\n        if stock_levels[product_id] < 0:\n            stock_levels[product_id] = 0\n\n# Example usage:\nupdate_stock_after_sale('product_1', 20)\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```python\ncountry_codes = {\n    'US': 'United States',\n    'CA': 'Canada',\n    'MX': 'Mexico',\n    'FR': 'France',\n    'DE': 'Germany'\n}\n\ndef get_country_name(code):\n    return country_codes.get(code, 'Unknown Country Code')\n\n# Example usage\ncode_to_lookup = 'US'\nprint(get_country_name(code_to_lookup))\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```python\nclass StudentDirectory:\n    def __init__(self):\n        self.students = {}\n\n    def add_student(self, student_id, name):\n        self.students[student_id] = name\n\n    def get_student_name(self, student_id):\n        return self.students.get(student_id, \"Student ID not found\")\n\n# Example usage\ndirectory = StudentDirectory()\ndirectory.add_student(101, \"Alice\")\ndirectory.add_student(102, \"Bob\")\n\nprint(directory.get_student_name(101))  # Output: Alice\nprint(directory.get_student_name(103))  # Output: Student ID not found\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```python\nclass ConfigManager:\n    def __init__(self):\n        self.settings = {}\n\n    def update_setting(self, key, value):\n        self.settings[key] = value\n\n    def get_setting(self, key):\n        return self.settings.get(key)\n\n# Example usage:\nconfig = ConfigManager()\nconfig.update_setting('theme', 'dark')\nconfig.update_setting('language', 'en')\nprint(config.get_setting('theme'))  # Output: dark\nprint(config.get_setting('language'))  # Output: en\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```python\nword_definitions = {\n    'apple': 'a fruit that is typically red, green, or yellow',\n    'banana': 'a long curved fruit that is yellow when ripe',\n    'cherry': 'a small, round stone fruit that is typically bright or dark red',\n    'date': 'a sweet fruit from the date palm, often dried',\n    'elderberry': 'a small dark berry that grows in clusters on the elder tree'\n}\n\ndef display_words_starting_with(letter):\n    result = [word for word in word_definitions if word.startswith(letter)]\n    for word in result:\n        print(word)\n\n# Example usage:\ndisplay_words_starting_with('a')\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```python\nusers = {\n    'user1': 'password1',\n    'user2': 'password2',\n    'user3': 'password3'\n}\n\ndef verify_login(username, password):\n    return users.get(username) == password\n\n# Example usage\nusername_attempt = input(\"Enter username: \")\npassword_attempt = input(\"Enter password: \")\n\nif verify_login(username_attempt, password_attempt):\n    print(\"Login successful\")\nelse:\n    print(\"Login failed\")\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```python\npurchases = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple']\n\npurchase_count = {}\nfor item in purchases:\n    if item in purchase_count:\n        purchase_count[item] += 1\n    else:\n        purchase_count[item] = 1\n\nmost_popular_item = max(purchase_count, key=purchase_count.get)\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```python\nfile_associations = {\n    'txt': 'Notepad',\n    'docx': 'Microsoft Word',\n    'xlsx': 'Microsoft Excel',\n    'pdf': 'Adobe Acrobat Reader',\n    'jpg': 'Image Viewer',\n    'png': 'Image Viewer',\n    'mp3': 'Music Player',\n    'mp4': 'Video Player',\n}\n\ndef determine_application(file_name):\n    extension = file_name.split('.')[-1]\n    return file_associations.get(extension, 'Unknown Application')\n\n# Example usage\nfile_name = 'example.txt'\napplication = determine_application(file_name)\nprint(f\"The file '{file_name}' should be opened with: {application}\")\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```python\ndef calculate_total_bill(order, menu):\n    total = 0\n    for item, quantity in order.items():\n        if item in menu:\n            total += menu[item] * quantity\n    return total\n\nmenu = {\n    \"burger\": 5.99,\n    \"fries\": 2.99,\n    \"soda\": 1.49,\n    \"salad\": 4.49\n}\n\norder = {\n    \"burger\": 2,\n    \"fries\": 1,\n    \"soda\": 3\n}\n\ntotal_bill = calculate_total_bill(order, menu)\nprint(f\"Total bill: ${total_bill:.2f}\")\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```python\nclass WarehouseInventory:\n    def __init__(self):\n        self.inventory = {}\n\n    def add_item(self, item, quantity):\n        if item in self.inventory:\n            self.inventory[item] += quantity\n        else:\n            self.inventory[item] = quantity\n\n    def remove_item(self, item, quantity):\n        if item in self.inventory and self.inventory[item] >= quantity:\n            self.inventory[item] -= quantity\n            if self.inventory[item] == 0:\n                del self.inventory[item]\n        else:\n            raise ValueError(\"Not enough inventory to remove\")\n\n    def check_inventory(self, item):\n        return self.inventory.get(item, 0)\n\n# Example usage:\n# warehouse = WarehouseInventory()\n# warehouse.add_item(\"apple\", 10)\n# warehouse.remove_item(\"apple\", 5)\n# print(warehouse.check_inventory(\"apple\"))  # Output: 5\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```python\ndef roman_to_int(s: str) -> int:\n    roman_map = {\n        'I': 1,\n        'V': 5,\n        'X': 10,\n        'L': 50,\n        'C': 100,\n        'D': 500,\n        'M': 1000\n    }\n    total = 0\n    prev_value = 0\n    for char in reversed(s):\n        value = roman_map[char]\n        if value < prev_value:\n            total -= value\n        else:\n            total += value\n        prev_value = value\n    return total\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```python\ndef count_letter_occurrences(s):\n    letter_count = {}\n    for letter in s:\n        if letter.isalpha():\n            letter = letter.lower()\n            if letter in letter_count:\n                letter_count[letter] += 1\n            else:\n                letter_count[letter] = 1\n    return letter_count\n\n# Example usage\ninput_string = \"Example String\"\nresult = count_letter_occurrences(input_string)\nprint(result)\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```python\nteam_scores = {\n    'Team A': 85,\n    'Team B': 90,\n    'Team C': 78,\n    'Team D': 92\n}\n\nhighest_scoring_team = max(team_scores, key=team_scores.get)\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```python\ndef total_weight(item_weights):\n    return sum(item_weights.values())\n\n# Example usage:\n# item_weights = {'apple': 1.2, 'banana': 0.5, 'orange': 0.8}\n# print(total_weight(item_weights))  # Output: 2.5\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```python\nwebsite_visits = {\n    \"https://example.com\": 120,\n    \"https://another-site.com\": 340,\n    \"https://sample.org\": 560,\n    \"https://testsite.net\": 230\n}\n\nmost_visited = max(website_visits, key=website_visits.get)\nprint(most_visited)\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```python\nerror_map = {\n    404: \"Not Found\",\n    500: \"Internal Server Error\",\n    403: \"Forbidden\",\n    401: \"Unauthorized\"\n}\n\ndef get_error_message(code):\n    return error_map.get(code, \"Unknown Error Code\")\n\n# Example usage\ncode = 404\nprint(get_error_message(code))\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```python\n# Initialize the dictionary with some contact information\ncontacts = {\n    'Alice': '123-456-7890',\n    'Bob': '987-654-3210'\n}\n\n# Function to update or add a contact\ndef update_contact(name, phone):\n    contacts[name] = phone\n\n# Function to lookup a contact's phone number\ndef lookup_contact(name):\n    return contacts.get(name, 'Contact not found')\n\n# Example usage\nupdate_contact('Charlie', '555-555-5555')\nphone_number = lookup_contact('Alice')\nprint(phone_number)\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```python\ndef assign_tasks_to_employees(employees, tasks):\n    task_map = {}\n    for employee, skill_level in employees.items():\n        suitable_tasks = [task for task, level in tasks.items() if level <= skill_level]\n        task_map[employee] = suitable_tasks\n    return task_map\n\n# Example usage\nemployees = {\n    \"Alice\": 3,\n    \"Bob\": 2,\n    \"Charlie\": 5\n}\n\ntasks = {\n    \"Task A\": 1,\n    \"Task B\": 2,\n    \"Task C\": 3,\n    \"Task D\": 4\n}\n\nassigned_tasks = assign_tasks_to_employees(employees, tasks)\nprint(assigned_tasks)\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```python\n# Create a dictionary to map airport codes to city names\nairport_to_city = {\n    \"LAX\": \"Los Angeles\",\n    \"JFK\": \"New York\",\n    \"ORD\": \"Chicago\",\n    \"ATL\": \"Atlanta\",\n    \"DFW\": \"Dallas/Fort Worth\"\n}\n\n# Function to retrieve city name by airport code\ndef get_city_by_code(airport_code):\n    return airport_to_city.get(airport_code, \"Airport code not found\")\n\n# Example usage\ncity = get_city_by_code(\"LAX\")\nprint(city)\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```python\nmovies = {\n    \"The Shawshank Redemption\": 1994,\n    \"Pulp Fiction\": 1994,\n    \"The Dark Knight\": 2008,\n    \"Forrest Gump\": 1994,\n    \"Inception\": 2010,\n    \"Fight Club\": 1999,\n    \"The Matrix\": 1999,\n    \"Goodfellas\": 1990,\n    \"The Silence of the Lambs\": 1991,\n    \"The Godfather\": 1972,\n}\n\ndef movies_in_decade(decade_start):\n    return [title for title, year in movies.items() if decade_start <= year < decade_start + 10]\n\n# Example usage: Find movies released in the 1990s\nnineties_movies = movies_in_decade(1990)\nprint(nineties_movies)\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```python\ndef group_students_by_grades(students):\n    grade_dict = {}\n    for student, grade in students:\n        if grade in grade_dict:\n            grade_dict[grade].append(student)\n        else:\n            grade_dict[grade] = [student]\n    return grade_dict\n\n# Example usage:\nstudents = [('Alice', 'A'), ('Bob', 'B'), ('Charlie', 'A'), ('David', 'C'), ('Eve', 'B')]\nresult = group_students_by_grades(students)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```python\nvisitors = {\n    'home': 1200,\n    'about': 300,\n    'contact': 150,\n    'blog': 450,\n    'services': 800\n}\n\nmost_visited_section = max(visitors, key=visitors.get)\nprint(most_visited_section)\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```python\n# Initialize the map with team members and their project deadlines\nproject_deadlines = {\n    \"Alice\": \"2023-11-01\",\n    \"Bob\": \"2023-11-05\",\n    \"Charlie\": \"2023-11-07\"\n}\n\n# Function to extend a deadline for a team member\ndef extend_deadline(member, new_deadline):\n    if member in project_deadlines:\n        project_deadlines[member] = new_deadline\n    else:\n        print(f\"Member {member} not found.\")\n\n# Example usage:\nextend_deadline(\"Alice\", \"2023-11-10\")\nextend_deadline(\"Bob\", \"2023-11-12\")\n\n# Print updated deadlines\nprint(project_deadlines)\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```python\nclass Library:\n    def __init__(self):\n        self.books = {\n            \"1984\": True,\n            \"To Kill a Mockingbird\": True,\n            \"The Great Gatsby\": True,\n            \"Moby Dick\": True,\n            \"Pride and Prejudice\": True\n        }\n    \n    def borrow_book(self, title):\n        if title in self.books and self.books[title]:\n            self.books[title] = False\n            return f\"You have borrowed '{title}'.\"\n        elif title in self.books:\n            return f\"'{title}' is currently not available.\"\n        else:\n            return f\"'{title}' is not in our library.\"\n    \n    def return_book(self, title):\n        if title in self.books:\n            self.books[title] = True\n            return f\"'{title}' has been returned.\"\n        else:\n            return f\"'{title}' is not a recognized title.\"\n    \n    def check_availability(self, title):\n        if title in self.books:\n            return self.books[title]\n        else:\n            return None\n\nlibrary = Library()\nprint(library.borrow_book(\"1984\"))\nprint(library.check_availability(\"1984\"))\nprint(library.return_book(\"1984\"))\nprint(library.check_availability(\"1984\"))\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```python\nplanets = {\n    'Mercury': 57.91,\n    'Venus': 108.21,\n    'Earth': 149.60,\n    'Mars': 227.92,\n    'Jupiter': 778.57,\n    'Saturn': 1433.53,\n    'Uranus': 2872.46,\n    'Neptune': 4495.06\n}\n\nclosest_planet = min((distance, name) for name, distance in planets.items() if name != 'Earth')[1]\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```python\nmorse_code_dict = {\n    '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',\n    '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',\n    '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',\n    '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',\n    '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',\n    '--..': 'Z', '-----': '0', '.----': '1', '..---': '2', '...--': '3',\n    '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',\n    '----.': '9', '/': ' '\n}\n\ndef translate_morse_code(morse_code):\n    words = morse_code.strip().split('   ')\n    translated_text = []\n    for word in words:\n        letters = word.split(' ')\n        translated_word = ''.join(morse_code_dict.get(letter, '') for letter in letters)\n        translated_text.append(translated_word)\n    return ' '.join(translated_text)\n\nmorse_code_input = \"... --- ...\"\ntranslated_text = translate_morse_code(morse_code_input)\nprint(translated_text)\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```python\nvehicle_registry = {}\n\ndef add_vehicle(registration_number, owner_name):\n    vehicle_registry[registration_number] = owner_name\n\ndef get_owner(registration_number):\n    return vehicle_registry.get(registration_number, \"Owner not found\")\n\n# Example usage\nadd_vehicle(\"ABC123\", \"John Doe\")\nadd_vehicle(\"XYZ789\", \"Jane Smith\")\n\nowner = get_owner(\"ABC123\")\nprint(f\"The owner of ABC123 is {owner}\")\n\nowner = get_owner(\"XYZ789\")\nprint(f\"The owner of XYZ789 is {owner}\")\n\nowner = get_owner(\"LMN456\")\nprint(f\"The owner of LMN456 is {owner}\")\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```python\nteams_records = {\n    'Team A': (10, 2),\n    'Team B': (8, 4),\n    'Team C': (12, 1),\n    'Team D': (9, 3)\n}\n\nbest_team = max(teams_records, key=lambda team: teams_records[team][0] / (teams_records[team][0] + teams_records[team][1]))\nprint(best_team)\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```python\ndef currency_code_to_name(currency_code):\n    currency_map = {\n        'USD': 'United States Dollar',\n        'EUR': 'Euro',\n        'JPY': 'Japanese Yen',\n        'GBP': 'British Pound Sterling',\n        'AUD': 'Australian Dollar',\n        'CAD': 'Canadian Dollar',\n        'CHF': 'Swiss Franc',\n        'CNY': 'Chinese Yuan Renminbi',\n        'SEK': 'Swedish Krona',\n        'NZD': 'New Zealand Dollar'\n    }\n    return currency_map.get(currency_code, 'Unknown Currency')\n\n# Example usage:\n# currency_name = currency_code_to_name('USD')\n# print(currency_name)  # Output: United States Dollar\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```python\nstudents_attendance = {\n    \"Alice\": 10,\n    \"Bob\": 12,\n    \"Charlie\": 8,\n    \"David\": 15,\n    \"Eve\": 14\n}\n\nhighest_attendance_student = max(students_attendance, key=students_attendance.get)\nprint(highest_attendance_student)\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```python\ncountry_capitals = {\n    \"United States\": \"Washington, D.C.\",\n    \"Canada\": \"Ottawa\",\n    \"France\": \"Paris\",\n    \"Germany\": \"Berlin\",\n    \"Japan\": \"Tokyo\",\n    \"India\": \"New Delhi\",\n    \"Australia\": \"Canberra\",\n    \"Brazil\": \"Bras\u00edlia\",\n    \"China\": \"Beijing\",\n    \"Russia\": \"Moscow\"\n}\n\ndef get_capital(country_name):\n    return country_capitals.get(country_name, \"Capital not found\")\n\n# Example lookup\ncapital = get_capital(\"France\")\nprint(f\"The capital of France is {capital}.\")\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```python\ndef add_ingredient(recipe, ingredient, quantity):\n    if ingredient in recipe:\n        recipe[ingredient] += quantity\n    else:\n        recipe[ingredient] = quantity\n\ndef display_recipe(recipe):\n    for ingredient, quantity in recipe.items():\n        print(f\"{ingredient}: {quantity}\")\n\nrecipe = {}\nadd_ingredient(recipe, 'flour', 200)\nadd_ingredient(recipe, 'sugar', 100)\nadd_ingredient(recipe, 'eggs', 2)\nadd_ingredient(recipe, 'flour', 50)\n\ndisplay_recipe(recipe)\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```python\nclass UserProfile:\n    def __init__(self, name, age, email):\n        self.name = name\n        self.age = age\n        self.email = email\n\ndef create_user_profile_system():\n    user_profiles = {}\n\n    # Add user profiles\n    user_profiles[\"john_doe\"] = UserProfile(\"John Doe\", 30, \"john@example.com\")\n    user_profiles[\"jane_smith\"] = UserProfile(\"Jane Smith\", 25, \"jane@example.com\")\n    user_profiles[\"alice_jones\"] = UserProfile(\"Alice Jones\", 28, \"alice@example.com\")\n\n    return user_profiles\n\nuser_profiles = create_user_profile_system()\n\n# Example of accessing a user profile\nusername = \"john_doe\"\nprofile = user_profiles.get(username)\nif profile:\n    print(f\"Name: {profile.name}, Age: {profile.age}, Email: {profile.email}\")\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```python\ndef list_products_in_category(products_dict, category):\n    return products_dict.get(category, [])\n\n# Example usage:\n# products = {\n#     'Electronics': ['TV', 'Radio', 'Smartphone'],\n#     'Groceries': ['Apple', 'Bread', 'Milk'],\n#     'Clothing': ['Shirt', 'Pants', 'Jacket']\n# }\n# print(list_products_in_category(products, 'Electronics'))\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```python\nshopping_list = {}\n\ndef update_quantity(item, quantity):\n    if item in shopping_list:\n        shopping_list[item] += quantity\n    else:\n        shopping_list[item] = quantity\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```python\ndef find_events_by_year(events, year):\n    return [event for event, event_year in events.items() if event_year == year]\n\nhistorical_events = {\n    \"Moon Landing\": 1969,\n    \"Fall of the Berlin Wall\": 1989,\n    \"Y2K\": 2000,\n    \"9/11 Attacks\": 2001,\n    \"First iPhone Release\": 2007\n}\n\nyear_to_search = 1989\nevents_in_year = find_events_by_year(historical_events, year_to_search)\nprint(events_in_year)\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```python\nclass RoleManager:\n    def __init__(self):\n        self.roles_permissions = {}\n\n    def add_role(self, role, permissions):\n        self.roles_permissions[role] = set(permissions)\n\n    def remove_role(self, role):\n        if role in self.roles_permissions:\n            del self.roles_permissions[role]\n\n    def add_permission_to_role(self, role, permission):\n        if role in self.roles_permissions:\n            self.roles_permissions[role].add(permission)\n\n    def remove_permission_from_role(self, role, permission):\n        if role in self.roles_permissions:\n            self.roles_permissions[role].discard(permission)\n\n    def get_permissions(self, role):\n        return self.roles_permissions.get(role, set())\n\n# Example Usage\nrole_manager = RoleManager()\nrole_manager.add_role(\"admin\", [\"read\", \"write\", \"delete\"])\nrole_manager.add_permission_to_role(\"admin\", \"execute\")\nrole_manager.remove_permission_from_role(\"admin\", \"delete\")\npermissions = role_manager.get_permissions(\"admin\")\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```python\ndef convert_grades(numeric_grades):\n    grade_map = {\n        'A': range(90, 101),\n        'B': range(80, 90),\n        'C': range(70, 80),\n        'D': range(60, 70),\n        'F': range(0, 60)\n    }\n    \n    letter_grades = []\n    for grade in numeric_grades:\n        for letter, grade_range in grade_map.items():\n            if grade in grade_range:\n                letter_grades.append(letter)\n                break\n                \n    return letter_grades\n\n# Example usage:\nnumeric_grades = [95, 82, 67, 54, 78]\nletter_grades = convert_grades(numeric_grades)\nprint(letter_grades)\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```python\nholidays = {\n    \"New Year's Day\": \"January 1\",\n    \"Valentine's Day\": \"February 14\",\n    \"Independence Day\": \"July 4\",\n    \"Thanksgiving\": \"Fourth Thursday in November\",\n    \"Christmas Day\": \"December 25\"\n}\n\ndef lookup_holiday(holiday_name):\n    return holidays.get(holiday_name)\n\n# Example usage:\ndate = lookup_holiday(\"Christmas Day\")\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```python\nclass OrderTracker:\n    def __init__(self):\n        self.orders = {}\n\n    def add_order(self, order_id, status):\n        self.orders[order_id] = status\n\n    def update_status(self, order_id, new_status):\n        if order_id in self.orders:\n            self.orders[order_id] = new_status\n        else:\n            raise ValueError(\"Order ID not found.\")\n\n    def get_status(self, order_id):\n        return self.orders.get(order_id, \"Order ID not found.\")\n\n# Example usage:\ntracker = OrderTracker()\ntracker.add_order(1, \"Processing\")\ntracker.update_status(1, \"Shipped\")\nprint(tracker.get_status(1))\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```python\nfood_nutrition = {\n    'apple': {'calories': 52, 'protein': 0.3, 'fat': 0.2, 'carbs': 14},\n    'banana': {'calories': 89, 'protein': 1.1, 'fat': 0.3, 'carbs': 23},\n    'chicken breast': {'calories': 165, 'protein': 31, 'fat': 3.6, 'carbs': 0},\n    'broccoli': {'calories': 55, 'protein': 3.7, 'fat': 0.6, 'carbs': 11},\n    'almonds': {'calories': 575, 'protein': 21, 'fat': 49, 'carbs': 22}\n}\n\ndef get_nutrition_info(food_item):\n    return food_nutrition.get(food_item, 'Food item not found')\n\nprint(get_nutrition_info('apple'))\nprint(get_nutrition_info('chicken breast'))\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```python\n# Create a dictionary to store genres and their respective book titles\nbook_genres = {\n    \"Science Fiction\": [\"Dune\", \"Neuromancer\", \"Snow Crash\"],\n    \"Fantasy\": [\"The Hobbit\", \"Harry Potter and the Sorcerer's Stone\", \"The Name of the Wind\"],\n    \"Mystery\": [\"The Girl with the Dragon Tattoo\", \"Gone Girl\", \"The Da Vinci Code\"]\n}\n\n# Function to retrieve books by genre\ndef get_books_by_genre(genre):\n    return book_genres.get(genre, [])\n\n# Example usage\nbooks_in_fantasy = get_books_by_genre(\"Fantasy\")\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```python\ndef convert_state_abbreviation(abbreviation):\n    state_dict = {\n        'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas',\n        'CA': 'California', 'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware',\n        'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho',\n        'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas',\n        'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland',\n        'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi',\n        'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada',\n        'NH': 'New Hampshire', 'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York',\n        'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio', 'OK': 'Oklahoma',\n        'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina',\n        'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah',\n        'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia',\n        'WI': 'Wisconsin', 'WY': 'Wyoming'\n    }\n    return state_dict.get(abbreviation.upper(), \"Invalid abbreviation\")\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```python\ncustomer_orders = {\n    \"Alice\": [\"Order1\", \"Order2\", \"Order3\"],\n    \"Bob\": [\"Order4\", \"Order5\"],\n    \"Charlie\": [\"Order6\"]\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```python\nclass ParkingLot:\n    def __init__(self):\n        self.spaces = {}\n\n    def park_car(self, space_id, car_license):\n        if space_id in self.spaces:\n            return f\"Space {space_id} is already occupied.\"\n        self.spaces[space_id] = car_license\n        return f\"Car {car_license} parked in space {space_id}.\"\n\n    def remove_car(self, space_id):\n        if space_id not in self.spaces:\n            return f\"Space {space_id} is already empty.\"\n        car_license = self.spaces.pop(space_id)\n        return f\"Car {car_license} removed from space {space_id}.\"\n\n    def is_occupied(self, space_id):\n        return space_id in self.spaces\n\n    def get_occupied_spaces(self):\n        return self.spaces\n\n# Example usage:\nlot = ParkingLot()\nprint(lot.park_car(1, \"ABC123\"))\nprint(lot.park_car(2, \"XYZ789\"))\nprint(lot.remove_car(1))\nprint(lot.is_occupied(1))\nprint(lot.get_occupied_spaces())\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```python\n# Initialize a dictionary to store player scores\nplayer_scores = {\n    'Alice': 0,\n    'Bob': 0,\n    'Charlie': 0\n}\n\n# Function to update a player's score\ndef update_score(player_name, score):\n    if player_name in player_scores:\n        player_scores[player_name] += score\n    else:\n        player_scores[player_name] = score\n\n# Example of updating scores\nupdate_score('Alice', 10)\nupdate_score('Bob', 15)\nupdate_score('Charlie', 20)\nupdate_score('David', 5)\n\n# Print the final scores\nprint(player_scores)\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```python\nscientific_terms = {\n    \"photosynthesis\": \"The process by which green plants and some other organisms use sunlight to synthesize foods with the help of chlorophyll pigments.\",\n    \"gravity\": \"The force by which a planet or other celestial body draws objects toward its center.\",\n    \"atom\": \"The basic unit of a chemical element, consisting of a nucleus of protons and neutrons with electrons orbiting this nucleus.\",\n    \"evolution\": \"The process by which different kinds of living organisms are thought to have developed and diversified from earlier forms during the history of the earth.\"\n}\n\ndef lookup_definition(term):\n    return scientific_terms.get(term, \"Definition not found.\")\n\n# Example usage\nprint(lookup_definition(\"photosynthesis\"))\nprint(lookup_definition(\"quantum\"))\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```python\ndef convert_temperature(scale: str, temperature: float) -> float:\n    conversion_map = {\n        'CtoF': lambda c: c * 9/5 + 32,\n        'FtoC': lambda f: (f - 32) * 5/9,\n        'CtoK': lambda c: c + 273.15,\n        'KtoC': lambda k: k - 273.15,\n        'FtoK': lambda f: (f - 32) * 5/9 + 273.15,\n        'KtoF': lambda k: (k - 273.15) * 9/5 + 32\n    }\n    \n    if scale in conversion_map:\n        return conversion_map[scale](temperature)\n    else:\n        raise ValueError(\"Invalid temperature scale provided.\")\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```python\nemployees = {\n    \"Alice\": \"HR\",\n    \"Bob\": \"Engineering\",\n    \"Charlie\": \"Marketing\",\n    \"David\": \"Finance\"\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```python\ntourist_attractions = {\n    \"Eiffel Tower\": \"Paris, France\",\n    \"Great Wall of China\": \"China\",\n    \"Statue of Liberty\": \"New York, USA\",\n    \"Colosseum\": \"Rome, Italy\",\n    \"Machu Picchu\": \"Cusco Region, Peru\",\n    \"Taj Mahal\": \"Agra, India\",\n    \"Sydney Opera House\": \"Sydney, Australia\",\n    \"Christ the Redeemer\": \"Rio de Janeiro, Brazil\"\n}\n\ndef display_attractions(attractions):\n    for name, location in attractions.items():\n        print(f\"{name} is located in {location}.\")\n\ndisplay_attractions(tourist_attractions)\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```python\nclass MusicCollection:\n    def __init__(self):\n        self.albums = {}\n\n    def add_album(self, album_name, artist):\n        self.albums[album_name] = artist\n\n    def remove_album(self, album_name):\n        if album_name in self.albums:\n            del self.albums[album_name]\n\n    def get_album(self, album_name):\n        return self.albums.get(album_name, None)\n\n    def list_albums(self):\n        return self.albums.items()\n\n# Example usage\ncollection = MusicCollection()\ncollection.add_album(\"The Dark Side of the Moon\", \"Pink Floyd\")\ncollection.add_album(\"Abbey Road\", \"The Beatles\")\nprint(collection.list_albums())\ncollection.remove_album(\"Abbey Road\")\nprint(collection.list_albums())\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```python\ninventory = {\n    'apples': 30,\n    'bananas': 20,\n    'oranges': 15,\n    'pears': 10\n}\n\ndef add_item(item, quantity):\n    if item in inventory:\n        inventory[item] += quantity\n    else:\n        inventory[item] = quantity\n\ndef remove_item(item, quantity):\n    if item in inventory:\n        if inventory[item] >= quantity:\n            inventory[item] -= quantity\n        else:\n            del inventory[item]\n\ndef get_inventory():\n    return inventory\n\n# Example usage\nadd_item('apples', 5)\nremove_item('bananas', 5)\ncurrent_inventory = get_inventory()\nprint(current_inventory)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```python\nrivers = {\n    \"Amazon\": 6400,\n    \"Nile\": 6650,\n    \"Yangtze\": 6300,\n    \"Mississippi\": 3730\n}\n\ndef get_river_length(name):\n    return rivers.get(name)\n\n# Example usage:\nlength_of_nile = get_river_length(\"Nile\")\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```python\nclass ConferenceRoomManager:\n    def __init__(self):\n        self.rooms = {}\n\n    def add_room(self, room_name, available=True):\n        self.rooms[room_name] = available\n\n    def is_available(self, room_name):\n        return self.rooms.get(room_name, False)\n\n    def set_availability(self, room_name, available):\n        if room_name in self.rooms:\n            self.rooms[room_name] = available\n\n    def available_rooms(self):\n        return [room for room, available in self.rooms.items() if available]\n\n# Example usage:\nmanager = ConferenceRoomManager()\nmanager.add_room(\"Room A\")\nmanager.add_room(\"Room B\", False)\nprint(manager.is_available(\"Room A\"))  # True\nprint(manager.available_rooms())  # [\"Room A\"]\nmanager.set_availability(\"Room B\", True)\nprint(manager.available_rooms())  # [\"Room A\", \"Room B\"]\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```python\nanimal_habitats = {\n    'Polar Bear': 'Arctic',\n    'Kangaroo': 'Australian Bush',\n    'Elephant': 'Savannah',\n    'Penguin': 'Antarctic',\n    'Panda': 'Temperate Forests',\n    'Tiger': 'Tropical Rainforest'\n}\n\ndef get_habitat(species):\n    return animal_habitats.get(species, 'Habitat not found')\n\n# Example usage\nspecies_list = ['Polar Bear', 'Kangaroo', 'Dolphin']\nfor species in species_list:\n    habitat = get_habitat(species)\n    print(f\"The habitat of the {species} is {habitat}.\")\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```python\nmountains = {\n    \"Everest\": 8848,\n    \"K2\": 8611,\n    \"Kangchenjunga\": 8586,\n    \"Lhotse\": 8516,\n    \"Makalu\": 8485\n}\n\ntallest_mountain = max(mountains, key=mountains.get)\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```python\ndef convert_timezone_to_utc_offset(timezone):\n    timezone_to_utc_offset = {\n        \"UTC\": \"+00:00\",\n        \"EST\": \"-05:00\",\n        \"EDT\": \"-04:00\",\n        \"CST\": \"-06:00\",\n        \"CDT\": \"-05:00\",\n        \"MST\": \"-07:00\",\n        \"MDT\": \"-06:00\",\n        \"PST\": \"-08:00\",\n        \"PDT\": \"-07:00\",\n        \"BST\": \"+01:00\",\n        \"CET\": \"+01:00\",\n        \"CEST\": \"+02:00\",\n        \"IST\": \"+05:30\",\n        \"JST\": \"+09:00\",\n        \"AEST\": \"+10:00\",\n        \"AEDT\": \"+11:00\"\n    }\n    return timezone_to_utc_offset.get(timezone, \"Unknown timezone\")\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```python\nlanguages_creators = {\n    \"Python\": \"Guido van Rossum\",\n    \"Java\": \"James Gosling\",\n    \"C\": \"Dennis Ritchie\",\n    \"C++\": \"Bjarne Stroustrup\",\n    \"JavaScript\": \"Brendan Eich\",\n    \"Ruby\": \"Yukihiro Matsumoto\",\n    \"PHP\": \"Rasmus Lerdorf\",\n    \"Go\": \"Robert Griesemer, Rob Pike, Ken Thompson\",\n    \"Swift\": \"Chris Lattner\",\n    \"Kotlin\": \"JetBrains\"\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```python\nclass NewsletterManager:\n    def __init__(self):\n        self.subscribers = {}\n\n    def subscribe(self, email):\n        if email not in self.subscribers:\n            self.subscribers[email] = True\n            return f\"{email} subscribed successfully.\"\n        return f\"{email} is already subscribed.\"\n\n    def unsubscribe(self, email):\n        if email in self.subscribers:\n            del self.subscribers[email]\n            return f\"{email} unsubscribed successfully.\"\n        return f\"{email} is not subscribed.\"\n\n    def list_subscribers(self):\n        return list(self.subscribers.keys())\n\n# Example usage:\n# manager = NewsletterManager()\n# print(manager.subscribe(\"example@example.com\"))\n# print(manager.unsubscribe(\"example@example.com\"))\n# print(manager.list_subscribers())\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```python\nclass SocialMediaTracker:\n    def __init__(self):\n        self.likes = {}\n\n    def like_post(self, post_id):\n        if post_id in self.likes:\n            self.likes[post_id] += 1\n        else:\n            self.likes[post_id] = 1\n\n    def get_likes(self, post_id):\n        return self.likes.get(post_id, 0)\n\n\n# Example usage:\ntracker = SocialMediaTracker()\ntracker.like_post('post1')\ntracker.like_post('post2')\ntracker.like_post('post1')\nprint(tracker.get_likes('post1'))  # Output: 2\nprint(tracker.get_likes('post2'))  # Output: 1\nprint(tracker.get_likes('post3'))  # Output: 0\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```python\nelements = {\n    'Hydrogen': 1,\n    'Helium': 2,\n    'Lithium': 3,\n    'Beryllium': 4,\n    'Boron': 5,\n    'Carbon': 6,\n    'Nitrogen': 7,\n    'Oxygen': 8,\n    'Fluorine': 9,\n    'Neon': 10\n}\n\ndef get_atomic_number(element_name):\n    return elements.get(element_name)\n\n# Example usage\natomic_number = get_atomic_number('Oxygen')\nprint(atomic_number)\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```python\ndef group_movies_by_director(movies):\n    director_map = {}\n    for movie in movies:\n        title, director = movie\n        if director not in director_map:\n            director_map[director] = []\n        director_map[director].append(title)\n    return director_map\n\n# Example usage:\nmovies = [\n    (\"Inception\", \"Christopher Nolan\"),\n    (\"Interstellar\", \"Christopher Nolan\"),\n    (\"The Dark Knight\", \"Christopher Nolan\"),\n    (\"Pulp Fiction\", \"Quentin Tarantino\"),\n    (\"Kill Bill: Vol. 1\", \"Quentin Tarantino\")\n]\n\ngrouped_movies = group_movies_by_director(movies)\nprint(grouped_movies)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```python\nhistorical_figures = {\n    'Albert Einstein': 1879,\n    'Isaac Newton': 1643,\n    'Marie Curie': 1867,\n    'Leonardo da Vinci': 1452,\n    'Galileo Galilei': 1564\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```python\nplanets_diameters = {\n    \"Mercury\": 4879,\n    \"Venus\": 12104,\n    \"Earth\": 12742,\n    \"Mars\": 6779,\n    \"Jupiter\": 139820,\n    \"Saturn\": 116460,\n    \"Uranus\": 50724,\n    \"Neptune\": 49244\n}\n\nprint(planets_diameters)\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```python\n# Initialize an empty dictionary to store restaurant ratings\nrestaurant_ratings = {}\n\n# Function to add or update a restaurant's rating\ndef update_rating(restaurant_name, rating):\n    restaurant_ratings[restaurant_name] = rating\n\n# Example usage\nupdate_rating(\"Pasta Palace\", 4.5)\nupdate_rating(\"Burger Barn\", 4.0)\nupdate_rating(\"Pasta Palace\", 4.7)  # Update the rating for Pasta Palace\n\n# Access the ratings\nprint(restaurant_ratings)\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```python\ndef binary_to_decimal(binary_str):\n    return int(binary_str, 2)\n\nbinary_map = {\n    '0000': binary_to_decimal('0000'),\n    '0001': binary_to_decimal('0001'),\n    '0010': binary_to_decimal('0010'),\n    '0011': binary_to_decimal('0011'),\n    '0100': binary_to_decimal('0100'),\n    '0101': binary_to_decimal('0101'),\n    '0110': binary_to_decimal('0110'),\n    '0111': binary_to_decimal('0111'),\n    '1000': binary_to_decimal('1000'),\n    '1001': binary_to_decimal('1001'),\n    '1010': binary_to_decimal('1010'),\n    '1011': binary_to_decimal('1011'),\n    '1100': binary_to_decimal('1100'),\n    '1101': binary_to_decimal('1101'),\n    '1110': binary_to_decimal('1110'),\n    '1111': binary_to_decimal('1111')\n}\n\n# Example usage\nbinary_number = '1010'\ndecimal_number = binary_map[binary_number]\nprint(f\"Binary {binary_number} is Decimal {decimal_number}\")\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```python\nartists_and_works = {\n    \"Leonardo da Vinci\": \"Mona Lisa\",\n    \"Vincent van Gogh\": \"Starry Night\",\n    \"Pablo Picasso\": \"Guernica\",\n    \"Claude Monet\": \"Water Lilies\",\n    \"Johannes Vermeer\": \"Girl with a Pearl Earring\"\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```python\nclass VehicleMaintenance:\n    def __init__(self):\n        self.maintenance_schedule = {}\n\n    def add_vehicle(self, vehicle_id, schedule):\n        self.maintenance_schedule[vehicle_id] = schedule\n\n    def update_schedule(self, vehicle_id, schedule):\n        if vehicle_id in self.maintenance_schedule:\n            self.maintenance_schedule[vehicle_id] = schedule\n\n    def get_schedule(self, vehicle_id):\n        return self.maintenance_schedule.get(vehicle_id, \"No schedule found\")\n\n    def remove_vehicle(self, vehicle_id):\n        if vehicle_id in self.maintenance_schedule:\n            del self.maintenance_schedule[vehicle_id]\n\n# Example usage\nmaintenance_system = VehicleMaintenance()\nmaintenance_system.add_vehicle(\"ABC123\", \"2023-12-01\")\nmaintenance_system.add_vehicle(\"XYZ789\", \"2024-01-15\")\nprint(maintenance_system.get_schedule(\"ABC123\"))\nmaintenance_system.update_schedule(\"ABC123\", \"2023-12-15\")\nprint(maintenance_system.get_schedule(\"ABC123\"))\nmaintenance_system.remove_vehicle(\"XYZ789\")\nprint(maintenance_system.get_schedule(\"XYZ789\"))\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```python\nlanguages_speakers = {\n    \"English\": 1500,\n    \"Mandarin\": 1100,\n    \"Hindi\": 600,\n    \"Spanish\": 560,\n    \"French\": 280\n}\n\nfor language, speakers in languages_speakers.items():\n    print(f\"{language}: {speakers} million speakers\")\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```python\ncity_temperatures = {\n    'New York': 12.7,\n    'Los Angeles': 18.6,\n    'Chicago': 10.2,\n    'Houston': 20.9,\n    'Phoenix': 23.3,\n    'Philadelphia': 13.3,\n    'San Antonio': 20.7,\n    'San Diego': 18.3,\n    'Dallas': 19.0,\n    'San Jose': 15.2\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```python\ndef metric_to_imperial(value, unit):\n    conversion_factors = {\n        'meters': ('yards', 1.09361),\n        'kilometers': ('miles', 0.621371),\n        'grams': ('ounces', 0.035274),\n        'kilograms': ('pounds', 2.20462),\n        'liters': ('gallons', 0.264172)\n    }\n    \n    if unit in conversion_factors:\n        imperial_unit, factor = conversion_factors[unit]\n        return value * factor, imperial_unit\n    else:\n        return None\n\n# Example usage:\n# result = metric_to_imperial(100, 'meters')\n# print(result)  # Output: (109.361, 'yards')\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```python\nworld_records = {\n    \"100m Sprint\": \"9.58 seconds\",\n    \"Marathon\": \"2:01:09\",\n    \"Long Jump\": \"8.95 meters\",\n    \"High Jump\": \"2.45 meters\",\n    \"Shot Put\": \"23.37 meters\",\n    \"100m Butterfly\": \"49.45 seconds\",\n    \"200m Freestyle\": \"1:42.00\",\n    \"Pole Vault\": \"6.18 meters\",\n    \"Discus Throw\": \"74.08 meters\",\n    \"400m Hurdles\": \"45.94 seconds\"\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```python\nclass FavoriteMovies:\n    def __init__(self):\n        self.movies = {}\n\n    def add_movie(self, title, year):\n        self.movies[title] = year\n\n    def delete_movie(self, title):\n        if title in self.movies:\n            del self.movies[title]\n\n    def get_movies(self):\n        return self.movies\n\n# Example usage:\nfavorites = FavoriteMovies()\nfavorites.add_movie(\"Inception\", 2010)\nfavorites.add_movie(\"The Matrix\", 1999)\nfavorites.delete_movie(\"Inception\")\nprint(favorites.get_movies())\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```python\ncities_distances = {\n    ('New York', 'Los Angeles'): 2445,\n    ('New York', 'Chicago'): 790,\n    ('Los Angeles', 'Chicago'): 1744,\n    ('New York', 'Houston'): 1627,\n    ('Los Angeles', 'Houston'): 1547,\n    ('Chicago', 'Houston'): 925\n}\n\ndef get_distance(city1, city2):\n    if (city1, city2) in cities_distances:\n        return cities_distances[(city1, city2)]\n    elif (city2, city1) in cities_distances:\n        return cities_distances[(city2, city1)]\n    else:\n        return None\n\n# Example usage\ndistance = get_distance('New York', 'Los Angeles')\nif distance is not None:\n    print(f\"Distance between New York and Los Angeles: {distance} miles\")\nelse:\n    print(\"Distance not found.\")\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```python\nplanets_orbital_periods = {\n    \"Mercury\": 88,\n    \"Venus\": 225,\n    \"Earth\": 365,\n    \"Mars\": 687,\n    \"Jupiter\": 4333,\n    \"Saturn\": 10759,\n    \"Uranus\": 30687,\n    \"Neptune\": 60190\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```python\ndef html_color_to_name(color_code):\n    color_map = {\n        \"#FFFFFF\": \"White\",\n        \"#000000\": \"Black\",\n        \"#FF0000\": \"Red\",\n        \"#00FF00\": \"Lime\",\n        \"#0000FF\": \"Blue\",\n        \"#FFFF00\": \"Yellow\",\n        \"#00FFFF\": \"Cyan\",\n        \"#FF00FF\": \"Magenta\",\n        \"#C0C0C0\": \"Silver\",\n        \"#808080\": \"Gray\",\n        \"#800000\": \"Maroon\",\n        \"#808000\": \"Olive\",\n        \"#008000\": \"Green\",\n        \"#800080\": \"Purple\",\n        \"#008080\": \"Teal\",\n        \"#000080\": \"Navy\"\n    }\n    return color_map.get(color_code, \"Unknown\")\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```python\ncomposers_dict = {\n    \"Ludwig van Beethoven\": \"Symphony No. 9\",\n    \"Johann Sebastian Bach\": \"Brandenburg Concertos\",\n    \"Wolfgang Amadeus Mozart\": \"The Magic Flute\",\n    \"Pyotr Ilyich Tchaikovsky\": \"Swan Lake\",\n    \"Fr\u00e9d\u00e9ric Chopin\": \"Nocturnes\",\n    \"Johannes Brahms\": \"Hungarian Dances\",\n    \"Franz Schubert\": \"Ave Maria\",\n    \"Igor Stravinsky\": \"The Firebird\",\n    \"Giuseppe Verdi\": \"La Traviata\",\n    \"Antonio Vivaldi\": \"The Four Seasons\"\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```python\nbridge_lengths = {\n    \"Golden Gate Bridge\": 2737,\n    \"Brooklyn Bridge\": 1595,\n    \"Tower Bridge\": 801,\n    \"Sydney Harbour Bridge\": 1149,\n    \"Akashi Kaiky\u014d Bridge\": 3911\n}\n\n# Example usage:\nfor bridge, length in bridge_lengths.items():\n    print(f\"The {bridge} is {length} meters long.\")\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```python\ngoals = {\n    'health': 'Exercise daily',\n    'career': 'Learn a new programming language',\n    'personal': 'Read 12 books this year'\n}\n\ndef update_goal(category, new_goal):\n    if category in goals:\n        goals[category] = new_goal\n    else:\n        print(f\"No goal found for category '{category}'\")\n\n# Example of updating a goal\nupdate_goal('health', 'Run a marathon')\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```python\nhex_to_bin_map = {\n    '0': '0000', '1': '0001', '2': '0010', '3': '0011',\n    '4': '0100', '5': '0101', '6': '0110', '7': '0111',\n    '8': '1000', '9': '1001', 'A': '1010', 'B': '1011',\n    'C': '1100', 'D': '1101', 'E': '1110', 'F': '1111'\n}\n\ndef hex_to_binary(hex_number):\n    return ''.join(hex_to_bin_map[digit] for digit in hex_number.upper())\n\n# Example usage\nhex_number = \"1A3F\"\nbinary_number = hex_to_binary(hex_number)\nprint(binary_number)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```python\ntree_heights = {\n    \"Oak\": 70,\n    \"Pine\": 80,\n    \"Maple\": 60,\n    \"Birch\": 50,\n    \"Redwood\": 300\n}\n```"
+  }
+]

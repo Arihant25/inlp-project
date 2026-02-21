@@ -1,0 +1,358 @@
+[
+  {
+    "task": "Write a program that reads a user's name and age from the input, then prints a greeting message using both values.",
+    "code": "```pascal\nprogram GreetingUser;\n\nvar\n  name: string;\n  age: integer;\n\nbegin\n  Write('Enter your name: ');\n  ReadLn(name);\n  Write('Enter your age: ');\n  ReadLn(age);\n  WriteLn('Hello, ', name, '! You are ', age, ' years old.');\nend.\n```"
+  },
+  {
+    "task": "Create a script that continuously reads numbers from the input and prints their running total until a negative number is entered.",
+    "code": "```pascal\nprogram RunningTotal;\n\nvar\n  number, total: Integer;\n\nbegin\n  total := 0;\n  \n  repeat\n    Write('Enter a number: ');\n    ReadLn(number);\n\n    if number >= 0 then\n    begin\n      total := total + number;\n      WriteLn('Running total: ', total);\n    end;\n    \n  until number < 0;\nend.\n```"
+  },
+  {
+    "task": "Design a program that asks the user for a sentence and outputs the number of words it contains.",
+    "code": "```pascal\nprogram CountWords;\n\nuses\n  SysUtils;\n\nvar\n  sentence: string;\n  words: TStringArray;\n  wordCount: Integer;\n\nbegin\n  Write('Enter a sentence: ');\n  ReadLn(sentence);\n  words := sentence.Split([' '], TStringSplitOptions.ExcludeEmpty);\n  wordCount := Length(words);\n  WriteLn('The number of words in the sentence is: ', wordCount);\nend.\n```"
+  },
+  {
+    "task": "Build a command-line tool that reads a list of integers and outputs them in sorted order.",
+    "code": "```pascal\nprogram SortIntegers;\n\nuses\n  SysUtils, Classes;\n\nvar\n  i, n: Integer;\n  numbers: TStringList;\n  sortedNumbers: TList;\nbegin\n  numbers := TStringList.Create;\n  sortedNumbers := TList.Create;\n  try\n    // Read integers from command line arguments\n    for i := 1 to ParamCount do\n    begin\n      numbers.Add(ParamStr(i));\n    end;\n\n    // Convert strings to integers and add to list\n    for i := 0 to numbers.Count - 1 do\n    begin\n      sortedNumbers.Add(Pointer(StrToInt(numbers[i])));\n    end;\n\n    // Sort the list\n    sortedNumbers.Sort(TComparer<Integer>.Construct(\n      function(const Left, Right: Integer): Integer\n      begin\n        Result := Left - Right;\n      end\n    ));\n\n    // Output sorted integers\n    for i := 0 to sortedNumbers.Count - 1 do\n    begin\n      WriteLn(Integer(sortedNumbers[i]));\n    end;\n  finally\n    numbers.Free;\n    sortedNumbers.Free;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Develop a program that reads a file name from the input, then prints the number of lines in that file.",
+    "code": "```pascal\nprogram CountLinesInFile;\nuses SysUtils;\n\nvar\n  fileName: string;\n  lineCount: integer;\n  fileHandle: TextFile;\n  line: string;\n\nbegin\n  Readln(fileName);\n  AssignFile(fileHandle, fileName);\n  Reset(fileHandle);\n  lineCount := 0;\n  while not Eof(fileHandle) do\n  begin\n    Readln(fileHandle, line);\n    Inc(lineCount);\n  end;\n  CloseFile(fileHandle);\n  Writeln(lineCount);\nend.\n```"
+  },
+  {
+    "task": "Implement a calculator that reads two numbers and an operator (+, -, *, /) from the input and prints the result.",
+    "code": "```pascal\nprogram SimpleCalculator;\nvar\n  num1, num2, result: Real;\n  operator: Char;\nbegin\n  Write('Enter first number: ');\n  ReadLn(num1);\n  Write('Enter an operator (+, -, *, /): ');\n  ReadLn(operator);\n  Write('Enter second number: ');\n  ReadLn(num2);\n\n  case operator of\n    '+': result := num1 + num2;\n    '-': result := num1 - num2;\n    '*': result := num1 * num2;\n    '/': if num2 <> 0 then\n           result := num1 / num2\n         else\n         begin\n           WriteLn('Error: Division by zero');\n           Exit;\n         end;\n  else\n    begin\n      WriteLn('Error: Invalid operator');\n      Exit;\n    end;\n  end;\n\n  WriteLn('Result: ', result:0:2);\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a user's full name and prints it in reverse order.",
+    "code": "```pascal\nprogram ReverseName;\n\nuses\n  SysUtils;\n\nvar\n  fullName, reversedName: string;\n  i: Integer;\n\nbegin\n  Write('Enter your full name: ');\n  ReadLn(fullName);\n  \n  reversedName := '';\n  for i := Length(fullName) downto 1 do\n    reversedName := reversedName + fullName[i];\n  \n  WriteLn('Reversed name: ', reversedName);\nend.\n```"
+  },
+  {
+    "task": "Create a program that asks for a word and checks if it is a palindrome, printing the appropriate message.",
+    "code": "```pascal\nprogram CheckPalindrome;\n\nuses\n  SysUtils;\n\nvar\n  word, reversedWord: string;\n  i: Integer;\nbegin\n  Write('Enter a word: ');\n  ReadLn(word);\n  \n  reversedWord := '';\n  for i := Length(word) downto 1 do\n    reversedWord := reversedWord + word[i];\n  \n  if SameText(word, reversedWord) then\n    WriteLn('The word is a palindrome.')\n  else\n    WriteLn('The word is not a palindrome.')\nend.\n```"
+  },
+  {
+    "task": "Develop a tool that reads multiple lines of text and outputs the longest line.",
+    "code": "```pascal\nprogram LongestLine;\n\nvar\n  line, longestLine: string;\n  maxLength, currentLength: integer;\n\nbegin\n  maxLength := 0;\n  while not eof do\n  begin\n    readln(line);\n    currentLength := length(line);\n    if currentLength > maxLength then\n    begin\n      maxLength := currentLength;\n      longestLine := line;\n    end;\n  end;\n  writeln('Longest line: ', longestLine);\nend.\n```"
+  },
+  {
+    "task": "Design a script that reads a number 'n' and prints the first 'n' Fibonacci numbers.",
+    "code": "```pascal\nprogram FibonacciSequence;\n\nvar\n  n, i: integer;\n  a, b, c: integer;\n\nbegin\n  write('Enter the number of Fibonacci numbers to generate: ');\n  readln(n);\n\n  a := 0;\n  b := 1;\n\n  for i := 1 to n do\n  begin\n    write(a, ' ');\n    c := a + b;\n    a := b;\n    b := c;\n  end;\n\n  writeln;\nend.\n```"
+  },
+  {
+    "task": "Write a program that takes a list of numbers from the input and prints only the even ones.",
+    "code": "```pascal\nprogram EvenNumbers;\n\nvar\n  n, i, num: Integer;\n\nbegin\n  ReadLn(n);\n  for i := 1 to n do\n  begin\n    ReadLn(num);\n    if num mod 2 = 0 then\n      WriteLn(num);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a script that reads a date (day, month, year) and prints the day of the week for that date.",
+    "code": "```pascal\nprogram DayOfWeekCalculator;\nuses SysUtils;\n\nvar\n  day, month, year: Word;\n  date: TDateTime;\n  dayOfWeek: Integer;\n  dayNames: array[1..7] of string = ('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');\n\nbegin\n  Write('Enter day: ');\n  ReadLn(day);\n  Write('Enter month: ');\n  ReadLn(month);\n  Write('Enter year: ');\n  ReadLn(year);\n\n  date := EncodeDate(year, month, day);\n  dayOfWeek := DayOfWeek(date);\n\n  WriteLn('The day of the week is: ', dayNames[dayOfWeek]);\nend.\n```"
+  },
+  {
+    "task": "Develop a program that reads a paragraph and counts the frequency of each letter in the text.",
+    "code": "```pascal\nprogram LetterFrequency;\n\nuses SysUtils;\n\nvar\n  freq: array['a'..'z'] of Integer;\n  paragraph: string;\n  i: Integer;\n  ch: Char;\n\nbegin\n  for ch := 'a' to 'z' do\n    freq[ch] := 0;\n\n  Write('Enter a paragraph: ');\n  ReadLn(paragraph);\n  paragraph := LowerCase(paragraph);\n\n  for i := 1 to Length(paragraph) do\n  begin\n    ch := paragraph[i];\n    if ch in ['a'..'z'] then\n      Inc(freq[ch]);\n  end;\n\n  for ch := 'a' to 'z' do\n  begin\n    if freq[ch] > 0 then\n      WriteLn(ch, ': ', freq[ch]);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and a word, then prints the number of times the word appears in the text.",
+    "code": "```pascal\nprogram WordCount;\n\nuses\n  SysUtils;\n\nvar\n  text, word: string;\n  count, pos: Integer;\n\nbegin\n  Write('Enter the text: ');\n  ReadLn(text);\n  Write('Enter the word to count: ');\n  ReadLn(word);\n\n  count := 0;\n  pos := Pos(word, text);\n  \n  while pos <> 0 do\n  begin\n    Inc(count);\n    pos := PosEx(word, text, pos + Length(word));\n  end;\n  \n  WriteLn('The word \"', word, '\" appears ', count, ' times in the text.');\nend.\n```"
+  },
+  {
+    "task": "Implement a script that reads a temperature in Celsius and converts it to Fahrenheit, printing the result.",
+    "code": "```pascal\nprogram CelsiusToFahrenheit;\n\nvar\n  celsius, fahrenheit: real;\n\nbegin\n  Write('Enter temperature in Celsius: ');\n  ReadLn(celsius);\n  fahrenheit := (celsius * 9/5) + 32;\n  WriteLn('Temperature in Fahrenheit: ', fahrenheit:0:2);\nend.\n```"
+  },
+  {
+    "task": "Write a program that continuously reads input until the word 'exit' is entered, then prints all entered inputs.",
+    "code": "```pascal\nprogram ReadUntilExit;\nuses SysUtils;\nvar\n  inputs: array of string;\n  input: string;\n  i: Integer;\nbegin\n  SetLength(inputs, 0);\n  repeat\n    ReadLn(input);\n    if input <> 'exit' then\n    begin\n      SetLength(inputs, Length(inputs) + 1);\n      inputs[High(inputs)] := input;\n    end;\n  until input = 'exit';\n\n  for i := 0 to High(inputs) do\n  begin\n    WriteLn(inputs[i]);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a tool that prompts for a filename, reads the file, and prints its content in uppercase.",
+    "code": "```pascal\nprogram ReadFileAndPrintUppercase;\n\nuses\n  SysUtils;\n\nvar\n  fileName: string;\n  fileContent: TStringList;\n  i: Integer;\nbegin\n  Write('Enter the filename: ');\n  ReadLn(fileName);\n  fileContent := TStringList.Create;\n  try\n    fileContent.LoadFromFile(fileName);\n    for i := 0 to fileContent.Count - 1 do\n      WriteLn(UpperCase(fileContent[i]));\n  finally\n    fileContent.Free;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Develop a program that reads a series of email addresses and prints the unique domain names.",
+    "code": "```pascal\nprogram UniqueDomains;\n\nuses\n  SysUtils, Classes;\n\nvar\n  Email, Domain: string;\n  Domains: TStringList;\n  Position: Integer;\n\nbegin\n  Domains := TStringList.Create;\n  Domains.Sorted := True;\n  Domains.Duplicates := dupIgnore;\n\n  try\n    writeln('Enter email addresses (one per line). Enter an empty line to finish:');\n    repeat\n      readln(Email);\n      if Email <> '' then\n      begin\n        Position := Pos('@', Email);\n        if Position > 0 then\n        begin\n          Domain := Copy(Email, Position + 1, Length(Email) - Position);\n          Domains.Add(Domain);\n        end;\n      end;\n    until Email = '';\n\n    writeln('Unique domain names:');\n    for Domain in Domains do\n      writeln(Domain);\n  finally\n    Domains.Free;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Design a script that reads a string and prints whether it contains all the letters of the alphabet.",
+    "code": "```pascal\nprogram CheckAlphabet;\n\nuses SysUtils;\n\nvar\n  inputString: string;\n  alphabetSet: set of char;\n  ch: char;\nbegin\n  alphabetSet := [];\n  Write('Enter a string: ');\n  ReadLn(inputString);\n  inputString := LowerCase(inputString);\n\n  for ch in inputString do\n    if ch in ['a'..'z'] then\n      Include(alphabetSet, ch);\n\n  if alphabetSet = ['a'..'z'] then\n    WriteLn('The string contains all the letters of the alphabet.')\n  else\n    WriteLn('The string does not contain all the letters of the alphabet.');\nend.\n```"
+  },
+  {
+    "task": "Write a program that reads a number and prints its factorial.",
+    "code": "```pascal\nprogram FactorialCalculator;\nuses sysutils;\n\nvar\n  num, i, result: Integer;\n\nbegin\n  Write('Enter a number: ');\n  ReadLn(num);\n  \n  result := 1;\n  \n  for i := 2 to num do\n    result := result * i;\n  \n  WriteLn('Factorial of ', num, ' is ', result);\nend.\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of names and prints them in alphabetical order.",
+    "code": "```pascal\nprogram SortNames;\n\nuses SysUtils;\n\nvar\n  names: array of string;\n  name: string;\n  i, n: Integer;\n\nbegin\n  Write('Enter the number of names: ');\n  ReadLn(n);\n  SetLength(names, n);\n\n  for i := 0 to n - 1 do\n  begin\n    Write('Enter name ', i + 1, ': ');\n    ReadLn(name);\n    names[i] := name;\n  end;\n\n  // Sort the names using built-in sorting\n  for i := 0 to n - 2 do\n    for name in names[i + 1..n - 1] do\n      if CompareText(names[i], name) > 0 then\n      begin\n        names[i] := name;\n        name := names[i + 1];\n      end;\n\n  WriteLn('Names in alphabetical order:');\n  for name in names do\n    WriteLn(name);\nend.\n```"
+  },
+  {
+    "task": "Develop a program that asks for a sentence and prints each word on a new line.",
+    "code": "```pascal\nprogram PrintWords;\n\nvar\n  sentence: string;\n  i: integer;\n  word: string;\n\nbegin\n  writeln('Enter a sentence:');\n  readln(sentence);\n  \n  word := '';\n  for i := 1 to length(sentence) do\n  begin\n    if sentence[i] <> ' ' then\n      word := word + sentence[i]\n    else\n    begin\n      if word <> '' then\n      begin\n        writeln(word);\n        word := '';\n      end;\n    end;\n  end;\n  \n  if word <> '' then\n    writeln(word);\nend.\n```"
+  },
+  {
+    "task": "Build a script that reads a time in 12-hour format and converts it to 24-hour format.",
+    "code": "```pascal\nprogram ConvertTime;\nuses SysUtils;\n\nvar\n  inputTime, period: string;\n  hour, minute: Integer;\n  convertedTime: string;\n\nbegin\n  Write('Enter time in 12-hour format (HH:MM AM/PM): ');\n  ReadLn(inputTime);\n\n  period := Copy(inputTime, Length(inputTime) - 1, 2);\n  Delete(inputTime, Length(inputTime) - 2, 3);\n\n  hour := StrToInt(Copy(inputTime, 1, 2));\n  minute := StrToInt(Copy(inputTime, 4, 2));\n\n  if (period = 'PM') and (hour <> 12) then\n    hour := hour + 12\n  else if (period = 'AM') and (hour = 12) then\n    hour := 0;\n\n  convertedTime := Format('%.2d:%.2d', [hour, minute]);\n  WriteLn('Converted time in 24-hour format: ', convertedTime);\nend.\n```"
+  },
+  {
+    "task": "Implement a program that reads two strings and checks if they are anagrams, printing the result.",
+    "code": "```pascal\nprogram AnagramCheck;\n\nuses\n  SysUtils;\n\nfunction AreAnagrams(s1, s2: string): Boolean;\nvar\n  SortedS1, SortedS2: string;\nbegin\n  SortedS1 := s1;\n  SortedS2 := s2;\n  SortedS1 := AnsiLowerCase(SortedS1);\n  SortedS2 := AnsiLowerCase(SortedS2);\n  SortedS1 := SortString(SortedS1);\n  SortedS2 := SortString(SortedS2);\n  Result := SortedS1 = SortedS2;\nend;\n\nfunction SortString(s: string): string;\nvar\n  i, j: Integer;\n  Temp: Char;\nbegin\n  SetLength(Result, Length(s));\n  for i := 1 to Length(s) do\n    Result[i] := s[i];\n  for i := 1 to Length(Result) - 1 do\n    for j := i + 1 to Length(Result) do\n      if Result[i] > Result[j] then\n      begin\n        Temp := Result[i];\n        Result[i] := Result[j];\n        Result[j] := Temp;\n      end;\nend;\n\nvar\n  str1, str2: string;\nbegin\n  Write('Enter the first string: ');\n  ReadLn(str1);\n  Write('Enter the second string: ');\n  ReadLn(str2);\n\n  if AreAnagrams(str1, str2) then\n    WriteLn('The strings are anagrams.')\n  else\n    WriteLn('The strings are not anagrams.');\nend.\n```"
+  },
+  {
+    "task": "Write a tool that reads a paragraph and prints the first and last sentence.",
+    "code": "```pascal\nprogram FirstAndLastSentence;\n\nuses\n  SysUtils;\n\nvar\n  paragraph: string;\n  firstSentence, lastSentence: string;\n  sentences: TStringArray;\n\nbegin\n  Write('Enter a paragraph: ');\n  ReadLn(paragraph);\n  \n  sentences := paragraph.Split('.');\n  \n  if Length(sentences) > 0 then\n  begin\n    firstSentence := Trim(sentences[0]);\n    lastSentence := Trim(sentences[High(sentences)]);\n\n    if firstSentence <> '' then\n      WriteLn('First sentence: ', firstSentence);\n      \n    if lastSentence <> '' then\n      WriteLn('Last sentence: ', lastSentence);\n  end\n  else\n    WriteLn('No sentences found.');\nend.\n```"
+  },
+  {
+    "task": "Create a program that reads a binary number and converts it to decimal.",
+    "code": "```pascal\nprogram BinaryToDecimal;\n\nuses SysUtils;\n\nvar\n  binaryStr: string;\n  decimalValue, i, power: Integer;\n\nbegin\n  Write('Enter a binary number: ');\n  ReadLn(binaryStr);\n  \n  decimalValue := 0;\n  power := 0;\n  \n  for i := Length(binaryStr) downto 1 do\n  begin\n    if (binaryStr[i] = '1') then\n    begin\n      decimalValue := decimalValue + (1 shl power);\n    end;\n    Inc(power);\n  end;\n  \n  WriteLn('Decimal value: ', decimalValue);\nend.\n```"
+  },
+  {
+    "task": "Develop a script that reads a series of scores and prints the average score.",
+    "code": "```pascal\nprogram AverageScore;\n\nvar\n  score, sum, average: Real;\n  count: Integer;\nbegin\n  sum := 0.0;\n  count := 0;\n  WriteLn('Enter scores, input -1 to end:');\n  \n  repeat\n    ReadLn(score);\n    if score <> -1 then\n    begin\n      sum := sum + score;\n      count := count + 1;\n    end;\n  until score = -1;\n  \n  if count > 0 then\n  begin\n    average := sum / count;\n    WriteLn('Average score: ', average:0:2);\n  end\n  else\n    WriteLn('No scores entered.');\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a list of integers and prints the prime numbers.",
+    "code": "```pascal\nprogram PrimeNumbers;\n\nuses sysutils;\n\nvar\n  numbers: array of integer;\n  input: string;\n  i, n: integer;\n\nfunction IsPrime(num: integer): boolean;\nvar\n  j: integer;\nbegin\n  if (num <= 1) then\n    exit(False);\n  for j := 2 to Trunc(Sqrt(num)) do\n  begin\n    if (num mod j = 0) then\n      exit(False);\n  end;\n  exit(True);\nend;\n\nbegin\n  Write('Enter integers separated by spaces: ');\n  Readln(input);\n  input := StringReplace(input, ',', ' ', [rfReplaceAll]);\n  for i := 1 to WordCount(input, [' ']) do\n  begin\n    n := StrToInt(ExtractWord(i, input, [' ']));\n    SetLength(numbers, Length(numbers) + 1);\n    numbers[High(numbers)] := n;\n  end;\n  \n  Write('Prime numbers: ');\n  for i := 0 to High(numbers) do\n  begin\n    if IsPrime(numbers[i]) then\n      Write(numbers[i], ' ');\n  end;\n  Writeln;\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a word and prints its Pig Latin translation.",
+    "code": "```pascal\nprogram PigLatin;\n\nuses\n  SysUtils;\n\nvar\n  word, pigLatin: string;\n  firstLetter: char;\n\nbegin\n  Write('Enter a word: ');\n  ReadLn(word);\n\n  if Length(word) > 0 then\n  begin\n    word := LowerCase(word);\n    firstLetter := word[1];\n    pigLatin := Copy(word, 2, Length(word) - 1) + firstLetter + 'ay';\n\n    WriteLn('Pig Latin: ', pigLatin);\n  end\n  else\n    WriteLn('No word entered.');\nend.\n```"
+  },
+  {
+    "task": "Create a tool that reads a matrix of numbers and prints its transpose.",
+    "code": "```pascal\nprogram TransposeMatrix;\n\nuses\n  SysUtils;\n\nvar\n  matrix, transposed: array of array of Integer;\n  rows, cols, i, j: Integer;\n\nbegin\n  Write('Enter number of rows: ');\n  ReadLn(rows);\n  Write('Enter number of columns: ');\n  ReadLn(cols);\n  \n  SetLength(matrix, rows, cols);\n  SetLength(transposed, cols, rows);\n  \n  WriteLn('Enter the matrix elements:');\n  for i := 0 to rows - 1 do\n    for j := 0 to cols - 1 do\n      Read(matrix[i][j]);\n      \n  for i := 0 to rows - 1 do\n    for j := 0 to cols - 1 do\n      transposed[j][i] := matrix[i][j];\n      \n  WriteLn('Transposed matrix:');\n  for i := 0 to cols - 1 do\n  begin\n    for j := 0 to rows - 1 do\n      Write(transposed[i][j], ' ');\n    WriteLn;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Implement a program that reads a URL and prints the domain name.",
+    "code": "```pascal\nprogram ExtractDomain;\n\nuses\n  SysUtils;\n\nvar\n  url, domain: string;\n  protocolEnd, domainEnd: Integer;\n\nbegin\n  Write('Enter a URL: ');\n  ReadLn(url);\n\n  protocolEnd := Pos('://', url);\n  if protocolEnd > 0 then\n    Delete(url, 1, protocolEnd + 2);\n\n  domainEnd := Pos('/', url);\n  if domainEnd > 0 then\n    domain := Copy(url, 1, domainEnd - 1)\n  else\n    domain := url;\n\n  WriteLn('Domain: ', domain);\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a number and prints its multiplication table up to 12.",
+    "code": "```pascal\nprogram MultiplicationTable;\n\nvar\n  num, i: Integer;\n\nbegin\n  Write('Enter a number: ');\n  ReadLn(num);\n  \n  for i := 1 to 12 do\n    WriteLn(num, ' * ', i, ' = ', num * i);\nend.\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dates and prints them in order of occurrence.",
+    "code": "```pascal\nprogram SortDates;\n\nuses SysUtils;\n\ntype\n  TDateArray = array of TDateTime;\n\nfunction ReadDate: TDateTime;\nvar\n  dateStr: string;\nbegin\n  ReadLn(dateStr);\n  Result := StrToDate(dateStr);\nend;\n\nprocedure PrintDate(date: TDateTime);\nbegin\n  WriteLn(FormatDateTime('yyyy-mm-dd', date));\nend;\n\nprocedure SortDates(var dates: TDateArray);\nvar\n  i, j: Integer;\n  temp: TDateTime;\nbegin\n  for i := Low(dates) to High(dates) - 1 do\n    for j := i + 1 to High(dates) do\n      if dates[i] > dates[j] then\n      begin\n        temp := dates[i];\n        dates[i] := dates[j];\n        dates[j] := temp;\n      end;\nend;\n\nvar\n  dates: TDateArray;\n  dateCount, i: Integer;\nbegin\n  ReadLn(dateCount);\n  SetLength(dates, dateCount);\n  for i := 0 to dateCount - 1 do\n    dates[i] := ReadDate;\n  SortDates(dates);\n  for i := 0 to dateCount - 1 do\n    PrintDate(dates[i]);\nend.\n```"
+  },
+  {
+    "task": "Create a tool that reads a text and prints it with each sentence capitalized.",
+    "code": "```pascal\nprogram CapitalizeSentences;\n\nuses SysUtils;\n\nfunction CapitalizeSentence(const s: string): string;\nvar\n  i: Integer;\n  capNext: Boolean;\n  resultStr: string;\nbegin\n  resultStr := LowerCase(s);\n  capNext := True;\n  for i := 1 to Length(resultStr) do\n  begin\n    if capNext and (resultStr[i] in ['a'..'z']) then\n    begin\n      resultStr[i] := UpCase(resultStr[i]);\n      capNext := False;\n    end;\n    if resultStr[i] in ['.', '!', '?'] then\n      capNext := True;\n  end;\n  CapitalizeSentence := resultStr;\nend;\n\nvar\n  inputText, outputText: string;\nbegin\n  Write('Enter text: ');\n  ReadLn(inputText);\n  outputText := CapitalizeSentence(inputText);\n  WriteLn('Capitalized Text: ');\n  WriteLn(outputText);\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a list of words and prints them in reverse alphabetical order.",
+    "code": "```pascal\nprogram ReverseAlphabeticalOrder;\n\nuses sysutils;\n\nvar\n  words: array of string;\n  word: string;\n  i, n: integer;\n\nbegin\n  writeln('Enter the number of words:');\n  readln(n);\n  SetLength(words, n);\n\n  writeln('Enter the words:');\n  for i := 0 to n - 1 do\n  begin\n    readln(words[i]);\n  end;\n\n  // Sort the words in reverse alphabetical order\n  for i := 0 to n - 2 do\n    for n := i + 1 to High(words) do\n      if CompareText(words[i], words[n]) < 0 then\n      begin\n        word := words[i];\n        words[i] := words[n];\n        words[n] := word;\n      end;\n\n  writeln('Words in reverse alphabetical order:');\n  for i := 0 to High(words) do\n  begin\n    writeln(words[i]);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Write a script that asks for two times and prints the difference in minutes.",
+    "code": "```pascal\nprogram TimeDifference;\n\nuses SysUtils;\n\nvar\n  hour1, min1, hour2, min2: Integer;\n  time1, time2: TDateTime;\n  diff: Integer;\n  input1, input2: String;\n\nbegin\n  Write('Enter the first time (HH:MM): ');\n  ReadLn(input1);\n  hour1 := StrToInt(Copy(input1, 1, 2));\n  min1 := StrToInt(Copy(input1, 4, 2));\n  \n  Write('Enter the second time (HH:MM): ');\n  ReadLn(input2);\n  hour2 := StrToInt(Copy(input2, 1, 2));\n  min2 := StrToInt(Copy(input2, 4, 2));\n  \n  time1 := EncodeTime(hour1, min1, 0, 0);\n  time2 := EncodeTime(hour2, min2, 0, 0);\n  \n  diff := MinutesBetween(time2, time1);\n  \n  WriteLn('Difference in minutes: ', diff);\nend.\n```"
+  },
+  {
+    "task": "Build a program that reads a text and prints the number of vowels and consonants.",
+    "code": "```pascal\nprogram VowelsAndConsonantsCounter;\n\nuses\n  SysUtils;\n\nvar\n  inputText: string;\n  i, vowelsCount, consonantsCount: integer;\n  currentChar: char;\n\nbegin\n  writeln('Enter a text:');\n  readln(inputText);\n  \n  vowelsCount := 0;\n  consonantsCount := 0;\n  \n  for i := 1 to Length(inputText) do\n  begin\n    currentChar := UpCase(inputText[i]);\n    if currentChar in ['A', 'E', 'I', 'O', 'U'] then\n      Inc(vowelsCount)\n    else if currentChar in ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'] then\n      Inc(consonantsCount);\n  end;\n\n  writeln('Number of vowels: ', vowelsCount);\n  writeln('Number of consonants: ', consonantsCount);\nend.\n```"
+  },
+  {
+    "task": "Implement a tool that reads a JSON object from input and prints its keys.",
+    "code": "```pascal\nprogram JSONKeys;\n\nuses\n  SysUtils, fpjson, jsonparser;\n\nvar\n  input: string;\n  jsonData: TJSONData;\n  jsonObject: TJSONObject;\n  i: Integer;\nbegin\n  // Read JSON object from standard input\n  ReadLn(input);\n  \n  // Parse the JSON data\n  jsonData := GetJSON(input);\n  \n  // Ensure the parsed data is a JSON object\n  if jsonData.JSONType = jtObject then\n  begin\n    jsonObject := TJSONObject(jsonData);\n    \n    // Iterate over the keys of the JSON object and print them\n    for i := 0 to jsonObject.Count - 1 do\n    begin\n      WriteLn(jsonObject.Names[i]);\n    end;\n  end;\n  \n  // Free the JSON data\n  jsonData.Free;\nend.\n```"
+  },
+  {
+    "task": "Write a program that reads a CSV file from input and prints each row as a dictionary.",
+    "code": "```pascal\nprogram CSVToDictionary;\n\nuses\n  SysUtils, Classes;\n\nvar\n  CSVFile: TextFile;\n  Line: string;\n  Headers, Values: TStringList;\n  i: Integer;\n\nprocedure PrintDictionary(headers, values: TStringList);\nbegin\n  for i := 0 to headers.Count - 1 do\n  begin\n    WriteLn(headers[i], ': ', values[i]);\n  end;\n  WriteLn;\nend;\n\nbegin\n  AssignFile(CSVFile, 'input.csv');\n  Reset(CSVFile);\n\n  Headers := TStringList.Create;\n  Values := TStringList.Create;\n\n  try\n    if not EOF(CSVFile) then\n    begin\n      ReadLn(CSVFile, Line);\n      Headers.CommaText := Line;\n    end;\n\n    while not EOF(CSVFile) do\n    begin\n      ReadLn(CSVFile, Line);\n      Values.CommaText := Line;\n      PrintDictionary(Headers, Values);\n    end;\n\n  finally\n    Headers.Free;\n    Values.Free;\n    CloseFile(CSVFile);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with the words in reverse order.",
+    "code": "```pascal\nprogram ReverseWords;\n\nuses\n  SysUtils;\n\nvar\n  sentence, reversedSentence: string;\n  words: TStringArray;\n  i: Integer;\n\nbegin\n  // Read a sentence from the user\n  Write('Enter a sentence: ');\n  ReadLn(sentence);\n  \n  // Split the sentence into words\n  words := sentence.Split([' ']);\n  \n  // Reverse the order of words and concatenate them into a new sentence\n  reversedSentence := '';\n  for i := High(words) downto Low(words) do\n  begin\n    reversedSentence := reversedSentence + words[i];\n    if i > Low(words) then\n      reversedSentence := reversedSentence + ' ';\n  end;\n  \n  // Output the reversed sentence\n  WriteLn(reversedSentence);\nend.\n```"
+  },
+  {
+    "task": "Develop a tool that reads a list of numbers and prints their median.",
+    "code": "```pascal\nprogram MedianCalculator;\n\nuses\n  SysUtils;\n\ntype\n  TNumberArray = array of Double;\n\nfunction Median(numbers: TNumberArray): Double;\nvar\n  n, middle: Integer;\nbegin\n  n := Length(numbers);\n  if n = 0 then\n    raise Exception.Create('Cannot compute median of empty list');\n\n  middle := n div 2;\n  if n mod 2 = 0 then\n    Result := (numbers[middle - 1] + numbers[middle]) / 2.0\n  else\n    Result := numbers[middle];\nend;\n\nvar\n  numbers: TNumberArray;\n  numStr: string;\n  i, count: Integer;\nbegin\n  WriteLn('Enter numbers separated by spaces:');\n  ReadLn(numStr);\n  count := 0;\n  for i := 1 to Length(numStr) do\n    if numStr[i] = ' ' then\n      Inc(count);\n\n  SetLength(numbers, count + 1);\n\n  i := 0;\n  for numStr in numStr.Split([' ']) do\n  begin\n    if numStr <> '' then\n    begin\n      numbers[i] := StrToFloat(numStr);\n      Inc(i);\n    end;\n  end;\n\n  TArray.Sort<Double>(numbers);\n  WriteLn('Median: ', Median(numbers):0:2);\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a sequence of characters and prints the first non-repeated character.",
+    "code": "```pascal\nprogram FirstNonRepeatedCharacter;\n\nuses\n  SysUtils;\n\nvar\n  input: string;\n  i, j: Integer;\n  found: Boolean;\n  currentChar: Char;\n\nbegin\n  Write('Enter a sequence of characters: ');\n  ReadLn(input);\n\n  found := False;\n\n  for i := 1 to Length(input) do\n  begin\n    currentChar := input[i];\n    found := True;\n\n    for j := 1 to Length(input) do\n    begin\n      if (i <> j) and (input[j] = currentChar) then\n      begin\n        found := False;\n        Break;\n      end;\n    end;\n\n    if found then\n    begin\n      WriteLn('The first non-repeated character is: ', currentChar);\n      Exit;\n    end;\n  end;\n\n  if not found then\n    WriteLn('There are no non-repeated characters.');\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a list of tuples and prints them sorted by the second element.",
+    "code": "```pascal\nprogram SortTuplesBySecondElement;\n\ntype\n  TupleType = record\n    First: Integer;\n    Second: Integer;\n  end;\n\nvar\n  Tuples: array of TupleType;\n  i, j, n: Integer;\n  Temp: TupleType;\n\nbegin\n  { Read number of tuples }\n  Write('Enter number of tuples: ');\n  ReadLn(n);\n  SetLength(Tuples, n);\n\n  { Read tuples }\n  for i := 0 to n - 1 do\n  begin\n    Write('Enter tuple ', i + 1, ' (first second): ');\n    ReadLn(Tuples[i].First, Tuples[i].Second);\n  end;\n\n  { Sort tuples by the second element }\n  for i := 0 to n - 2 do\n    for j := 0 to n - i - 2 do\n      if Tuples[j].Second > Tuples[j + 1].Second then\n      begin\n        Temp := Tuples[j];\n        Tuples[j] := Tuples[j + 1];\n        Tuples[j + 1] := Temp;\n      end;\n\n  { Print sorted tuples }\n  WriteLn('Sorted tuples:');\n  for i := 0 to n - 1 do\n    WriteLn('(', Tuples[i].First, ', ', Tuples[i].Second, ')');\nend.\n```"
+  },
+  {
+    "task": "Create a program that reads a list of cities and prints them grouped by their starting letter.",
+    "code": "```pascal\nprogram GroupCitiesByLetter;\n\nuses SysUtils;\n\nvar\n  cities: array of string;\n  groupedCities: array['A'..'Z'] of TStringList;\n  city: string;\n  i: Integer;\n  letter: Char;\nbegin\n  for letter := 'A' to 'Z' do\n    groupedCities[letter] := TStringList.Create;\n\n  WriteLn('Enter cities (type \"end\" to stop):');\n  repeat\n    ReadLn(city);\n    if city <> 'end' then\n    begin\n      city := Trim(city);\n      if Length(city) > 0 then\n        groupedCities[UpCase(city[1])].Add(city);\n    end;\n  until city = 'end';\n\n  for letter := 'A' to 'Z' do\n  begin\n    if groupedCities[letter].Count > 0 then\n    begin\n      WriteLn('Cities starting with ', letter, ':');\n      for i := 0 to groupedCities[letter].Count - 1 do\n        WriteLn('  ', groupedCities[letter][i]);\n    end;\n  end;\n\n  for letter := 'A' to 'Z' do\n    groupedCities[letter].Free;\nend.\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the longest word.",
+    "code": "```pascal\nprogram LongestWordFinder;\n\nuses\n  SysUtils;\n\nvar\n  text, word, longestWord: string;\n  i: Integer;\n  c: Char;\nbegin\n  Write('Enter the text: ');\n  ReadLn(text);\n\n  word := '';\n  longestWord := '';\n\n  for i := 1 to Length(text) do\n  begin\n    c := text[i];\n    if c in ['A'..'Z', 'a'..'z'] then\n    begin\n      word := word + c;\n    end\n    else\n    begin\n      if Length(word) > Length(longestWord) then\n        longestWord := word;\n      word := '';\n    end;\n  end;\n\n  if Length(word) > Length(longestWord) then\n    longestWord := word;\n\n  WriteLn('The longest word is: ', longestWord);\nend.\n```"
+  },
+  {
+    "task": "Implement a program that reads a string and prints the number of unique characters.",
+    "code": "```pascal\nprogram UniqueCharactersCount;\n\nuses\n  SysUtils;\n\nvar\n  inputString: string;\n  uniqueChars: set of char;\n  i: Integer;\n\nbegin\n  Write('Enter a string: ');\n  ReadLn(inputString);\n  \n  uniqueChars := [];\n  \n  for i := 1 to Length(inputString) do\n    include(uniqueChars, inputString[i]);\n  \n  WriteLn('Number of unique characters: ', Length(uniqueChars));\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads two strings and prints the longest common substring.",
+    "code": "```pascal\nprogram LongestCommonSubstring;\n\nuses\n  SysUtils;\n\nfunction LongestCommonSubstring(s1, s2: string): string;\nvar\n  i, j, k, maxLen: Integer;\n  temp: string;\nbegin\n  maxLen := 0;\n  Result := '';\n  for i := 1 to Length(s1) do\n  begin\n    for j := 1 to Length(s2) do\n    begin\n      if s1[i] = s2[j] then\n      begin\n        k := 0;\n        while (i + k <= Length(s1)) and (j + k <= Length(s2)) and (s1[i + k] = s2[j + k]) do\n          Inc(k);\n        temp := Copy(s1, i, k);\n        if k > maxLen then\n        begin\n          maxLen := k;\n          Result := temp;\n        end;\n      end;\n    end;\n  end;\nend;\n\nvar\n  str1, str2: string;\nbegin\n  Write('Enter first string: ');\n  ReadLn(str1);\n  Write('Enter second string: ');\n  ReadLn(str2);\n  WriteLn('Longest common substring: ', LongestCommonSubstring(str1, str2));\nend.\n```"
+  },
+  {
+    "task": "Develop a program that reads a chessboard position and prints all possible moves for a knight.",
+    "code": "```pascal\nprogram KnightMoves;\n\nuses\n  SysUtils;\n\nconst\n  BOARD_SIZE = 8;\n\ntype\n  TPosition = record\n    x, y: Integer;\n  end;\n\nvar\n  input: string;\n  knightPos: TPosition;\n  possibleMoves: array[1..8] of TPosition = (\n    (x: 2; y: 1), (x: 2; y: -1), (x: -2; y: 1), (x: -2; y: -1),\n    (x: 1; y: 2), (x: 1; y: -2), (x: -1; y: 2), (x: -1; y: -2)\n  );\n  i, newX, newY: Integer;\n\nfunction IsValidPosition(pos: TPosition): Boolean;\nbegin\n  IsValidPosition := (pos.x >= 1) and (pos.x <= BOARD_SIZE) and\n                     (pos.y >= 1) and (pos.y <= BOARD_SIZE);\nend;\n\nprocedure PrintPosition(pos: TPosition);\nbegin\n  WriteLn(Chr(pos.x + Ord('a') - 1), pos.y);\nend;\n\nbegin\n  Write('Enter knight position (e.g., e4): ');\n  ReadLn(input);\n  knightPos.x := Ord(input[1]) - Ord('a') + 1;\n  knightPos.y := StrToInt(input[2]);\n\n  WriteLn('Possible moves:');\n  for i := 1 to 8 do\n  begin\n    newX := knightPos.x + possibleMoves[i].x;\n    newY := knightPos.y + possibleMoves[i].y;\n    if IsValidPosition(TPosition(x: newX, y: newY)) then\n      PrintPosition(TPosition(x: newX, y: newY));\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of numbers and prints the mode.",
+    "code": "```pascal\nprogram ModeFinder;\n\nuses\n  SysUtils;\n\nvar\n  numbers: array of Integer;\n  count, i, j, temp, currentMode, maxCount, currentCount: Integer;\n  inputLine: string;\n\nbegin\n  Write('Enter numbers separated by spaces: ');\n  ReadLn(inputLine);\n  inputLine := Trim(inputLine);\n  \n  count := 0;\n  for i := 1 to Length(inputLine) do\n    if inputLine[i] = ' ' then\n      Inc(count);\n  SetLength(numbers, count + 1);\n\n  count := 0;\n  for i := 1 to Length(inputLine) do\n  begin\n    if inputLine[i] <> ' ' then\n      temp := temp * 10 + Ord(inputLine[i]) - Ord('0')\n    else\n    begin\n      numbers[count] := temp;\n      temp := 0;\n      Inc(count);\n    end;\n  end;\n  numbers[count] := temp;\n\n  maxCount := 0;\n  currentMode := numbers[0];\n\n  for i := 0 to Length(numbers) - 1 do\n  begin\n    currentCount := 0;\n    for j := 0 to Length(numbers) - 1 do\n    begin\n      if numbers[j] = numbers[i] then\n        Inc(currentCount);\n    end;\n    if currentCount > maxCount then\n    begin\n      maxCount := currentCount;\n      currentMode := numbers[i];\n    end;\n  end;\n\n  WriteLn('The mode is: ', currentMode);\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a list of file paths and prints the largest file.",
+    "code": "```pascal\nprogram LargestFile;\n\nuses\n  SysUtils;\n\nvar\n  filePath: string;\n  largestFile: string;\n  largestSize: Int64;\n  fileSize: Int64;\n  f: Text;\n\nbegin\n  largestFile := '';\n  largestSize := -1;\n\n  Assign(f, '');\n  Reset(Input);\n\n  while not Eof do\n  begin\n    Readln(filePath);\n    if FileExists(filePath) then\n    begin\n      fileSize := FileSize(filePath);\n      if fileSize > largestSize then\n      begin\n        largestSize := fileSize;\n        largestFile := filePath;\n      end;\n    end;\n  end;\n\n  Close(f);\n\n  if largestFile <> '' then\n    Writeln('Largest file: ', largestFile)\n  else\n    Writeln('No valid files provided.');\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a list of prices and prints the total cost with tax.",
+    "code": "```pascal\nprogram TotalCostWithTax;\n\nvar\n  prices: array of real;\n  price, total, taxRate: real;\n  i, n: integer;\n\nbegin\n  writeln('Enter the number of prices:');\n  readln(n);\n  setlength(prices, n);\n  \n  writeln('Enter the prices:');\n  for i := 0 to n - 1 do\n  begin\n    readln(price);\n    prices[i] := price;\n  end;\n  \n  writeln('Enter the tax rate (as a percentage):');\n  readln(taxRate);\n\n  total := 0.0;\n  for i := 0 to n - 1 do\n  begin\n    total := total + prices[i];\n  end;\n  \n  total := total + (total * taxRate / 100);\n\n  writeln('Total cost with tax: ', total:0:2);\nend.\n```"
+  },
+  {
+    "task": "Build a program that reads a list of temperatures and prints them in Fahrenheit.",
+    "code": "```pascal\nprogram TemperatureConverter;\n\nuses\n  SysUtils;\n\nvar\n  tempCelsius: Real;\n  tempFahrenheit: Real;\n  input: String;\n\nbegin\n  WriteLn('Enter temperatures in Celsius (one per line, blank line to finish):');\n  \n  while True do\n  begin\n    ReadLn(input);\n    if input = '' then\n      Break;\n\n    tempCelsius := StrToFloat(input);\n    tempFahrenheit := (tempCelsius * 9/5) + 32;\n    WriteLn('Temperature in Fahrenheit: ', tempFahrenheit:0:2);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of book titles and prints them sorted by length.",
+    "code": "```pascal\nprogram SortBooksByLength;\n\nuses\n  SysUtils;\n\nvar\n  books: array of string;\n  n, i, j: integer;\n  temp: string;\n\nbegin\n  // Read number of books\n  Write('Enter the number of books: ');\n  ReadLn(n);\n  SetLength(books, n);\n\n  // Read book titles\n  for i := 0 to n - 1 do\n  begin\n    Write('Enter book title ', i + 1, ': ');\n    ReadLn(books[i]);\n  end;\n\n  // Sort book titles by length\n  for i := 0 to n - 2 do\n    for j := i + 1 to n - 1 do\n      if Length(books[i]) > Length(books[j]) then\n      begin\n        temp := books[i];\n        books[i] := books[j];\n        books[j] := temp;\n      end;\n\n  // Output sorted book titles\n  WriteLn('Books sorted by length:');\n  for i := 0 to n - 1 do\n    WriteLn(books[i]);\nend.\n```"
+  },
+  {
+    "task": "Write a program that reads a directory path and prints all file names.",
+    "code": "```pascal\nprogram ListFilesInDirectory;\n\nuses\n  SysUtils, Classes;\n\nvar\n  SearchRec: TSearchRec;\n  Path: string;\nbegin\n  Write('Enter directory path: ');\n  Readln(Path);\n\n  if FindFirst(Path + PathDelim + '*', faAnyFile, SearchRec) = 0 then\n  begin\n    repeat\n      if (SearchRec.Attr and faDirectory) = 0 then\n        Writeln(SearchRec.Name);\n    until FindNext(SearchRec) <> 0;\n    FindClose(SearchRec);\n  end\n  else\n    Writeln('No files found or invalid directory.');\n\nend.\n```"
+  },
+  {
+    "task": "Create a script that reads a list of URLs and prints those with a secure connection.",
+    "code": "```pascal\nprogram SecureURLs;\n\nuses\n  SysUtils;\n\nvar\n  url: string;\n\nbegin\n  while not Eof do\n  begin\n    ReadLn(url);\n    if Pos('https://', url) = 1 then\n      WriteLn(url);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Develop a tool that reads a sequence of numbers and prints if it is strictly increasing.",
+    "code": "```pascal\nprogram CheckIncreasingSequence;\n\nvar\n  n, i: integer;\n  current, previous: integer;\n  isIncreasing: boolean;\n\nbegin\n  isIncreasing := true;\n  previous := -MaxInt; { Start with the smallest possible integer }\n  \n  writeln('Enter the number of elements:');\n  readln(n);\n  \n  writeln('Enter the sequence of numbers:');\n  for i := 1 to n do\n  begin\n    readln(current);\n    if current <= previous then\n    begin\n      isIncreasing := false;\n    end;\n    previous := current;\n  end;\n  \n  if isIncreasing then\n    writeln('The sequence is strictly increasing.')\n  else\n    writeln('The sequence is not strictly increasing.');\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a list of products and prints them grouped by category.",
+    "code": "```pascal\nprogram ProductCategories;\n\nuses\n  SysUtils, Classes;\n\ntype\n  TProduct = record\n    Name: string;\n    Category: string;\n  end;\n\nvar\n  Products: array of TProduct;\n  Categories: TStringList;\n  i, j: Integer;\n  Input: string;\n  Product: TProduct;\n\nbegin\n  Categories := TStringList.Create;\n  Categories.Duplicates := dupIgnore;\n  Categories.Sorted := True;\n\n  Writeln('Enter products (format: Name,Category) and an empty line to finish:');\n\n  repeat\n    Readln(Input);\n    if Input <> '' then\n    begin\n      Product.Name := Trim(Copy(Input, 1, Pos(',', Input) - 1));\n      Product.Category := Trim(Copy(Input, Pos(',', Input) + 1, Length(Input)));\n      SetLength(Products, Length(Products) + 1);\n      Products[High(Products)] := Product;\n      if Categories.IndexOf(Product.Category) = -1 then\n        Categories.Add(Product.Category);\n    end;\n  until Input = '';\n\n  for i := 0 to Categories.Count - 1 do\n  begin\n    Writeln('Category: ', Categories[i]);\n    for j := 0 to High(Products) do\n    begin\n      if Products[j].Category = Categories[i] then\n        Writeln('  ', Products[j].Name);\n    end;\n  end;\n\n  Categories.Free;\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a sentence and prints it with alternating word capitalization.",
+    "code": "```pascal\nprogram AlternateWordCapitalization;\n\nuses\n  SysUtils;\n\nvar\n  inputLine: string;\n  words: TStringArray;\n  i: Integer;\n\nbegin\n  // Read the input sentence from the user\n  Write('Enter a sentence: ');\n  ReadLn(inputLine);\n\n  // Split the sentence into words\n  words := inputLine.Split([' ']);\n\n  // Process each word\n  for i := Low(words) to High(words) do\n  begin\n    if (i mod 2 = 0) then\n      words[i] := AnsiLowerCase(words[i])\n    else\n      words[i] := AnsiUpperCase(words[i]);\n  end;\n\n  // Join and print the result\n  WriteLn(Join(' ', words));\nend.\n```"
+  },
+  {
+    "task": "Create a program that reads a list of grades and prints the highest and lowest grade.",
+    "code": "```pascal\nprogram GradeAnalysis;\n\nuses SysUtils;\n\nvar\n  grades: array of Integer;\n  numGrades, i, grade, highest, lowest: Integer;\n\nbegin\n  Write('Enter the number of grades: ');\n  ReadLn(numGrades);\n  SetLength(grades, numGrades);\n\n  if numGrades > 0 then\n  begin\n    Write('Enter grades: ');\n    for i := 0 to numGrades - 1 do\n    begin\n      Read(grades[i]);\n    end;\n\n    highest := grades[0];\n    lowest := grades[0];\n\n    for i := 1 to numGrades - 1 do\n    begin\n      if grades[i] > highest then\n        highest := grades[i];\n      if grades[i] < lowest then\n        lowest := grades[i];\n    end;\n\n    WriteLn('Highest grade: ', highest);\n    WriteLn('Lowest grade: ', lowest);\n  end\n  else\n  begin\n    WriteLn('No grades to analyze.');\n  end;\nend.\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the number of sentences.",
+    "code": "```pascal\nprogram CountSentences;\n\nuses\n  SysUtils;\n\nfunction IsSentenceEnd(ch: Char): Boolean;\nbegin\n  Result := (ch = '.') or (ch = '!') or (ch = '?');\nend;\n\nvar\n  inputText: string;\n  i, sentenceCount: Integer;\nbegin\n  Write('Enter the text: ');\n  ReadLn(inputText);\n  \n  sentenceCount := 0;\n  \n  for i := 1 to Length(inputText) do\n    if IsSentenceEnd(inputText[i]) then\n      Inc(sentenceCount);\n\n  WriteLn('Number of sentences: ', sentenceCount);\nend.\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of integers and prints the sum of all odd numbers.",
+    "code": "```pascal\nprogram SumOfOddNumbers;\nvar\n  n, i, num, sum: Integer;\nbegin\n  sum := 0;\n  ReadLn(n);\n  for i := 1 to n do\n  begin\n    ReadLn(num);\n    if num mod 2 <> 0 then\n      sum := sum + num;\n  end;\n  WriteLn(sum);\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the shortest sentence.",
+    "code": "```pascal\nprogram ShortestSentence;\n\nuses SysUtils;\n\nvar\n  inputText, sentence, shortestSentence: string;\n  posStart, posEnd, minLen: Integer;\n\nbegin\n  Write('Enter text: ');\n  ReadLn(inputText);\n\n  posStart := 1;\n  minLen := MaxInt;\n\n  repeat\n    posEnd := PosEx('.', inputText, posStart);\n    if posEnd = 0 then\n      Break;\n    \n    sentence := Trim(Copy(inputText, posStart, posEnd - posStart + 1));\n    \n    if (Length(sentence) < minLen) and (Length(sentence) > 0) then\n    begin\n      minLen := Length(sentence);\n      shortestSentence := sentence;\n    end;\n\n    posStart := posEnd + 1;\n  until posEnd = 0;\n\n  if minLen < MaxInt then\n    WriteLn('Shortest sentence: ', shortestSentence)\n  else\n    WriteLn('No sentences found.');\nend.\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dictionaries and prints them sorted by a specific key.",
+    "code": "```pascal\nprogram SortDictionaries;\n\nuses\n  SysUtils;\n\ntype\n  TDictionary = record\n    Key: string;\n    Value: string;\n  end;\n\nvar\n  DictList: array of TDictionary;\n  i, j, n: Integer;\n  TempDict: TDictionary;\n  KeyToSort: string;\n\nbegin\n  Write('Enter the number of dictionaries: ');\n  ReadLn(n);\n  SetLength(DictList, n);\n  \n  for i := 0 to n - 1 do\n  begin\n    Write('Enter Key for dictionary ', i + 1, ': ');\n    ReadLn(DictList[i].Key);\n    Write('Enter Value for dictionary ', i + 1, ': ');\n    ReadLn(DictList[i].Value);\n  end;\n\n  Write('Enter the key to sort by: ');\n  ReadLn(KeyToSort);\n\n  for i := 0 to n - 2 do\n  begin\n    for j := i + 1 to n - 1 do\n    begin\n      if DictList[i].Key > DictList[j].Key then\n      begin\n        TempDict := DictList[i];\n        DictList[i] := DictList[j];\n        DictList[j] := TempDict;\n      end;\n    end;\n  end;\n\n  WriteLn('Dictionaries sorted by key:');\n  for i := 0 to n - 1 do\n  begin\n    WriteLn('Key: ', DictList[i].Key, ', Value: ', DictList[i].Value);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a tool that reads a sequence of strings and prints the common prefix.",
+    "code": "```pascal\nprogram CommonPrefix;\n\nuses SysUtils;\n\nfunction CommonPrefix(strings: array of string): string;\nvar\n  i, j: Integer;\n  prefix: string;\nbegin\n  if Length(strings) = 0 then\n    Exit('');\n\n  prefix := strings[0];\n  for i := 1 to High(strings) do\n  begin\n    j := 0;\n    while (j < Length(prefix)) and (j < Length(strings[i])) and \n          (prefix[j + 1] = strings[i][j + 1]) do\n      Inc(j);\n    SetLength(prefix, j);\n  end;\n  Result := prefix;\nend;\n\nvar\n  input: string;\n  strings: array of string;\n  count, i: Integer;\nbegin\n  WriteLn('Enter the number of strings:');\n  ReadLn(count);\n  SetLength(strings, count);\n  \n  WriteLn('Enter the strings:');\n  for i := 0 to count - 1 do\n  begin\n    ReadLn(input);\n    strings[i] := input;\n  end;\n\n  WriteLn('Common Prefix: ', CommonPrefix(strings));\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a number and prints all of its divisors.",
+    "code": "```pascal\nprogram Divisors;\n\nvar\n  n, i: Integer;\n\nbegin\n  Write('Enter a number: ');\n  ReadLn(n);\n  \n  WriteLn('Divisors of ', n, ':');\n  for i := 1 to n do\n    if n mod i = 0 then\n      WriteLn(i);\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints each word with its length.",
+    "code": "```pascal\nprogram WordLength;\n\nuses SysUtils;\n\nvar\n  inputText, word: string;\n  i, wordLength: Integer;\n\nbegin\n  Write('Enter text: ');\n  ReadLn(inputText);\n\n  word := '';\n  for i := 1 to Length(inputText) do\n  begin\n    if inputText[i] <> ' ' then\n      word := word + inputText[i]\n    else\n    begin\n      if word <> '' then\n      begin\n        wordLength := Length(word);\n        WriteLn(word, ': ', wordLength);\n        word := '';\n      end;\n    end;\n  end;\n\n  if word <> '' then\n  begin\n    wordLength := Length(word);\n    WriteLn(word, ': ', wordLength);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Build a program that reads a list of colors and prints them in a rainbow order.",
+    "code": "```pascal\nprogram RainbowColors;\n\nuses SysUtils;\n\nconst\n  Rainbow: array[1..7] of string = ('red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet');\n\nvar\n  ColorsInput: string;\n  ColorsList: TStringArray;\n  SortedColors: TStringArray;\n  Color: string;\n  i, j: Integer;\n\nfunction IndexOfColor(const Color: string): Integer;\nbegin\n  for i := Low(Rainbow) to High(Rainbow) do\n    if Rainbow[i] = Color then\n    begin\n      IndexOfColor := i;\n      Exit;\n    end;\n  IndexOfColor := -1;\nend;\n\nbegin\n  WriteLn('Enter a list of colors separated by spaces:');\n  ReadLn(ColorsInput);\n\n  ColorsList := ColorsInput.Split([' ']);\n  SetLength(SortedColors, Length(ColorsList));\n\n  j := 0;\n  for i := Low(Rainbow) to High(Rainbow) do\n  begin\n    for Color in ColorsList do\n    begin\n      if Rainbow[i] = Color then\n      begin\n        SortedColors[j] := Color;\n        Inc(j);\n      end;\n    end;\n  end;\n\n  WriteLn('Colors in rainbow order:');\n  for Color in SortedColors do\n    if Color <> '' then\n      Write(Color, ' ');\n  WriteLn;\nend.\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of names and prints them with their initials.",
+    "code": "```pascal\nprogram PrintInitials;\n\nuses SysUtils;\n\nvar\n  fullName, firstName, lastName: string;\n  spacePos: Integer;\nbegin\n  repeat\n    Write('Enter a name (or press Enter to stop): ');\n    ReadLn(fullName);\n    if fullName <> '' then\n    begin\n      spacePos := Pos(' ', fullName);\n      if spacePos > 0 then\n      begin\n        firstName := Copy(fullName, 1, spacePos - 1);\n        lastName := Copy(fullName, spacePos + 1, Length(fullName) - spacePos);\n        WriteLn(firstName, ' ', lastName, ' -> ', firstName[1], '.', lastName[1], '.');\n      end\n      else\n        WriteLn('Invalid input. Please enter both first and last names.');\n    end;\n  until fullName = '';\nend.\n```"
+  },
+  {
+    "task": "Write a program that reads a series of coordinates and prints the center point.",
+    "code": "```pascal\nprogram CenterPoint;\n\nuses\n  SysUtils;\n\nvar\n  x, y, sumX, sumY: Double;\n  count, i: Integer;\nbegin\n  sumX := 0.0;\n  sumY := 0.0;\n  count := 0;\n\n  WriteLn('Enter the number of coordinates:');\n  ReadLn(count);\n\n  for i := 1 to count do\n  begin\n    WriteLn('Enter coordinate ', i, ' (format: x y):');\n    ReadLn(x, y);\n    sumX := sumX + x;\n    sumY := sumY + y;\n  end;\n\n  if count > 0 then\n  begin\n    WriteLn('The center point is: (', sumX / count:0:2, ', ', sumY / count:0:2, ')');\n  end\n  else\n  begin\n    WriteLn('No coordinates provided.');\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each vowel replaced by its uppercase form.",
+    "code": "```pascal\nprogram ReplaceVowelsWithUppercase;\n\nvar\n  input, output: string;\n  i: integer;\n  ch: char;\n\nbegin\n  write('Enter a sentence: ');\n  readln(input);\n  output := '';\n\n  for i := 1 to length(input) do\n  begin\n    ch := input[i];\n    case ch of\n      'a', 'e', 'i', 'o', 'u': output := output + upcase(ch);\n      'A', 'E', 'I', 'O', 'U': output := output + ch;\n    else\n      output := output + ch;\n    end;\n  end;\n\n  writeln('Modified sentence: ', output);\nend.\n```"
+  },
+  {
+    "task": "Develop a tool that reads a mathematical expression and evaluates its result.",
+    "code": "```pascal\nprogram EvaluateExpression;\n\nuses\n  SysUtils, Math;\n\nvar\n  expression: string;\n  result: Double;\n\nbegin\n  Write('Enter a mathematical expression: ');\n  ReadLn(expression);\n  try\n    result := StrToFloat(Floateval(expression));\n    WriteLn('Result: ', result:0:2);\n  except\n    on E: Exception do\n      WriteLn('Error: ', E.Message);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a text and prints the first three words.",
+    "code": "```pascal\nprogram FirstThreeWords;\n\nuses\n  SysUtils;\n\nvar\n  inputText: string;\n  words: array[1..3] of string;\n  i, wordCount: integer;\n  currentWord: string;\nbegin\n  ReadLn(inputText);\n  wordCount := 0;\n  currentWord := '';\n\n  for i := 1 to Length(inputText) do\n  begin\n    if (inputText[i] in [' ', #9, #10, #13]) then\n    begin\n      if currentWord <> '' then\n      begin\n        Inc(wordCount);\n        words[wordCount] := currentWord;\n        currentWord := '';\n        if wordCount = 3 then\n          Break;\n      end;\n    end\n    else\n      currentWord := currentWord + inputText[i];\n  end;\n\n  if (currentWord <> '') and (wordCount < 3) then\n  begin\n    Inc(wordCount);\n    words[wordCount] := currentWord;\n  end;\n\n  for i := 1 to wordCount do\n    WriteLn(words[i]);\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a list of numbers and prints them without duplicates.",
+    "code": "```pascal\nprogram UniqueNumbers;\n\nuses\n  SysUtils;\n\nvar\n  numbers: array of Integer;\n  numSet: set of 0..10000;\n  input: string;\n  num: Integer;\n  i: Integer;\n\nbegin\n  numSet := [];\n  WriteLn('Enter numbers separated by spaces:');\n  ReadLn(input);\n\n  while Length(input) > 0 do\n  begin\n    Val(Copy(input, 1, Pos(' ', input + ' ') - 1), num);\n    if not (num in numSet) then\n    begin\n      numSet := numSet + [num];\n      num := num;\n    end;\n    Delete(input, 1, Pos(' ', input + ' '));\n  end;\n\n  for i := 0 to 10000 do\n    if i in numSet then\n      Write(i, ' ');\n      \n  WriteLn;\nend.\n```"
+  },
+  {
+    "task": "Create a program that reads a string and prints it with spaces between each character.",
+    "code": "```pascal\nprogram SpaceBetweenCharacters;\nvar\n  inputString: string;\n  outputString: string;\n  i: Integer;\nbegin\n  Write('Enter a string: ');\n  ReadLn(inputString);\n  outputString := '';\n  for i := 1 to Length(inputString) do\n  begin\n    outputString := outputString + inputString[i];\n    if i < Length(inputString) then\n      outputString := outputString + ' ';\n  end;\n  WriteLn(outputString);\nend.\n```"
+  },
+  {
+    "task": "Build a tool that reads a list of events with dates and prints them by chronological order.",
+    "code": "```pascal\nprogram ChronologicalEvents;\n\nuses SysUtils;\n\ntype\n  TEvent = record\n    Date: TDateTime;\n    Description: string;\n  end;\n\nvar\n  Events: array of TEvent;\n  InputDate: string;\n  InputDescription: string;\n  EventCount, i, j: Integer;\n  TempEvent: TEvent;\n\nbegin\n  Write('Enter number of events: ');\n  ReadLn(EventCount);\n  SetLength(Events, EventCount);\n  \n  for i := 0 to EventCount - 1 do\n  begin\n    Write('Enter event ', i + 1, ' date (yyyy-mm-dd): ');\n    ReadLn(InputDate);\n    Write('Enter event ', i + 1, ' description: ');\n    ReadLn(InputDescription);\n    \n    Events[i].Date := StrToDate(InputDate);\n    Events[i].Description := InputDescription;\n  end;\n\n  for i := 0 to EventCount - 2 do\n    for j := i + 1 to EventCount - 1 do\n      if Events[i].Date > Events[j].Date then\n      begin\n        TempEvent := Events[i];\n        Events[i] := Events[j];\n        Events[j] := TempEvent;\n      end;\n\n  WriteLn('Events in chronological order:');\n  for i := 0 to EventCount - 1 do\n    WriteLn(FormatDateTime('yyyy-mm-dd', Events[i].Date), ': ', Events[i].Description);\nend.\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of fractions and prints their sum as a reduced fraction.",
+    "code": "```pascal\nprogram SumFractions;\n\nuses SysUtils;\n\ntype\n  Fraction = record\n    numerator, denominator: Integer;\n  end;\n\nfunction GCD(a, b: Integer): Integer;\nbegin\n  while b <> 0 do\n  begin\n    a := a mod b;\n    a := a + b;\n    b := a - b;\n    a := a - b;\n  end;\n  GCD := a;\nend;\n\nfunction ReduceFraction(f: Fraction): Fraction;\nvar\n  gcd: Integer;\nbegin\n  gcd := GCD(f.numerator, f.denominator);\n  f.numerator := f.numerator div gcd;\n  f.denominator := f.denominator div gcd;\n  ReduceFraction := f;\nend;\n\nfunction AddFractions(f1, f2: Fraction): Fraction;\nvar\n  result: Fraction;\nbegin\n  result.numerator := f1.numerator * f2.denominator + f2.numerator * f1.denominator;\n  result.denominator := f1.denominator * f2.denominator;\n  result := ReduceFraction(result);\n  AddFractions := result;\nend;\n\nvar\n  input: String;\n  frac: Fraction;\n  sum: Fraction;\n  n, d, i, p: Integer;\nbegin\n  sum.numerator := 0;\n  sum.denominator := 1;\n\n  WriteLn('Enter fractions as \"numerator/denominator\", one per line. Enter \"end\" to finish:');\n  while True do\n  begin\n    ReadLn(input);\n    if input = 'end' then Break;\n    \n    p := Pos('/', input);\n    if p > 0 then\n    begin\n      n := StrToInt(Copy(input, 1, p - 1));\n      d := StrToInt(Copy(input, p + 1, Length(input) - p));\n      frac.numerator := n;\n      frac.denominator := d;\n      sum := AddFractions(sum, frac);\n    end;\n  end;\n\n  sum := ReduceFraction(sum);\n  WriteLn('Sum of fractions: ', sum.numerator, '/', sum.denominator);\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints it with each consonant doubled.",
+    "code": "```pascal\nprogram DoubleConsonants;\n\nvar\n  input, output: string;\n  i: integer;\n  \nfunction IsConsonant(c: char): boolean;\nbegin\n  c := UpCase(c);\n  IsConsonant := c in ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', \n                       'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];\nend;\n\nbegin\n  ReadLn(input);\n  output := '';\n  for i := 1 to Length(input) do\n  begin\n    output := output + input[i];\n    if IsConsonant(input[i]) then\n      output := output + input[i];\n  end;\n  WriteLn(output);\nend.\n```"
+  },
+  {
+    "task": "Develop a program that reads a number and prints its representation in Roman numerals.",
+    "code": "```pascal\nprogram NumberToRoman;\n\nuses SysUtils;\n\nfunction IntToRoman(num: Integer): String;\nconst\n  romanChars: array[1..13] of String = (\n    'M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I');\n  romanValues: array[1..13] of Integer = (\n    1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1);\nvar\n  i: Integer;\nbegin\n  Result := '';\n  for i := 1 to 13 do\n  begin\n    while num >= romanValues[i] do\n    begin\n      num := num - romanValues[i];\n      Result := Result + romanChars[i];\n    end;\n  end;\nend;\n\nvar\n  number: Integer;\nbegin\n  Write('Enter a number: ');\n  ReadLn(number);\n  WriteLn('Roman numeral: ', IntToRoman(number));\nend.\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of words and prints them with each letter in reverse order.",
+    "code": "```pascal\nprogram ReverseLetters;\n\nuses SysUtils;\n\nvar\n  input: string;\n  wordList: TStringArray;\n  i, j: Integer;\n  reversedWord: string;\n\nbegin\n  WriteLn('Enter a list of words separated by spaces:');\n  ReadLn(input);\n\n  wordList := input.Split([' ']);\n\n  for i := 0 to High(wordList) do\n  begin\n    reversedWord := '';\n    for j := Length(wordList[i]) downto 1 do\n      reversedWord := reversedWord + wordList[i][j];\n    WriteLn(reversedWord);\n  end;\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a set of points and prints the one closest to the origin.",
+    "code": "```pascal\nprogram ClosestPointToOrigin;\n\ntype\n  Point = record\n    x, y: Real;\n  end;\n\nvar\n  n, i, closestIdx: Integer;\n  points: array of Point;\n  distance, minDistance: Real;\n\nfunction CalculateDistance(p: Point): Real;\nbegin\n  CalculateDistance := sqrt(p.x * p.x + p.y * p.y);\nend;\n\nbegin\n  Write('Enter the number of points: ');\n  ReadLn(n);\n  SetLength(points, n);\n\n  for i := 0 to n - 1 do\n  begin\n    Write('Enter x and y for point ', i + 1, ': ');\n    ReadLn(points[i].x, points[i].y);\n  end;\n\n  minDistance := CalculateDistance(points[0]);\n  closestIdx := 0;\n\n  for i := 1 to n - 1 do\n  begin\n    distance := CalculateDistance(points[i]);\n    if distance < minDistance then\n    begin\n      minDistance := distance;\n      closestIdx := i;\n    end;\n  end;\n\n  WriteLn('The closest point to the origin is: (', points[closestIdx].x:0:2, ', ', points[closestIdx].y:0:2, ')');\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the frequency of each word.",
+    "code": "```pascal\nprogram WordFrequency;\nuses\n  SysUtils;\n\nvar\n  Text, Word: string;\n  WordList: TStringList;\n  I: Integer;\nbegin\n  WordList := TStringList.Create;\n  WordList.Sorted := True;\n  WordList.Duplicates := dupIgnore;\n\n  Write('Enter text: ');\n  ReadLn(Text);\n\n  while Length(Text) > 0 do\n  begin\n    Word := '';\n    // Extract a word\n    while (Length(Text) > 0) and not(Text[1] in [' ', '.', ',', ';', ':', '!', '?']) do\n    begin\n      Word := Word + Text[1];\n      Delete(Text, 1, 1);\n    end;\n\n    // Skip delimiters\n    while (Length(Text) > 0) and (Text[1] in [' ', '.', ',', ';', ':', '!', '?']) do\n      Delete(Text, 1, 1);\n\n    if Word <> '' then\n      WordList.Add(Word);\n  end;\n\n  WordList.Sorted := False;\n  WordList.Duplicates := dupAccept;\n\n  for I := 0 to WordList.Count - 1 do\n  begin\n    Word := WordList[I];\n    WordList[I] := Word + ' ' + IntToStr(WordList.CountOf(Word));\n  end;\n\n  WordList.Sorted := True;\n  WordList.Duplicates := dupIgnore;\n\n  for I := 0 to WordList.Count - 1 do\n    WriteLn(WordList[I]);\n\n  WordList.Free;\nend.\n```"
+  },
+  {
+    "task": "Build a program that reads a list of integers and prints the second smallest.",
+    "code": "```pascal\nprogram SecondSmallestNumber;\n\nvar\n  numbers: array of Integer;\n  n, i, first, second, num: Integer;\n\nbegin\n  Write('Enter the number of elements: ');\n  ReadLn(n);\n  SetLength(numbers, n);\n\n  WriteLn('Enter the numbers:');\n  for i := 0 to n - 1 do\n    Read(numbers[i]);\n\n  if n < 2 then\n  begin\n    WriteLn('Not enough elements');\n    Exit;\n  end;\n\n  first := MaxInt;\n  second := MaxInt;\n\n  for i := 0 to n - 1 do\n  begin\n    num := numbers[i];\n    if num < first then\n    begin\n      second := first;\n      first := num;\n    end\n    else if (num < second) and (num <> first) then\n      second := num;\n  end;\n\n  if second = MaxInt then\n    WriteLn('No second smallest element')\n  else\n    WriteLn('The second smallest number is: ', second);\nend.\n```"
+  },
+  {
+    "task": "Implement a tool that reads a string and prints all its substrings.",
+    "code": "```pascal\nprogram Substrings;\n\nvar\n  s: string;\n  i, j: Integer;\n\nbegin\n  Write('Enter a string: ');\n  ReadLn(s);\n  \n  for i := 1 to Length(s) do\n    for j := i to Length(s) do\n      WriteLn(Copy(s, i, j - i + 1));\nend.\n```"
+  },
+  {
+    "task": "Write a program that reads a number and generates a random number up to that number.",
+    "code": "```pascal\nprogram RandomNumberGenerator;\n\nuses SysUtils;\n\nvar\n  userInput: Integer;\n  randomNumber: Integer;\n\nbegin\n  Write('Enter a number: ');\n  ReadLn(userInput);\n  Randomize;\n  randomNumber := Random(userInput) + 1;\n  WriteLn('Random number: ', randomNumber);\nend.\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each word reversed.",
+    "code": "```pascal\nprogram ReverseWords;\n\nuses\n  SysUtils;\n\nvar\n  sentence, word: string;\n  i: Integer;\nbegin\n  Write('Enter a sentence: ');\n  ReadLn(sentence);\n\n  word := '';\n  for i := 1 to Length(sentence) do\n  begin\n    if sentence[i] <> ' ' then\n      word := sentence[i] + word\n    else\n    begin\n      Write(word, ' ');\n      word := '';\n    end;\n  end;\n  WriteLn(word);\nend.\n```"
+  },
+  {
+    "task": "Develop a tool that reads a text and prints it with each sentence on a new line.",
+    "code": "```pascal\nprogram SentenceSplitter;\n\nuses\n  SysUtils;\n\nvar\n  inputText, currentSentence: string;\n  i: Integer;\n\nbegin\n  Write('Enter text: ');\n  ReadLn(inputText);\n\n  currentSentence := '';\n\n  for i := 1 to Length(inputText) do\n  begin\n    currentSentence := currentSentence + inputText[i];\n\n    if (inputText[i] in ['.', '!', '?']) and ((i = Length(inputText)) or (inputText[i + 1] in [' ', #10, #13])) then\n    begin\n      WriteLn(Trim(currentSentence));\n      currentSentence := '';\n    end;\n  end;\n\n  if currentSentence <> '' then\n    WriteLn(Trim(currentSentence));\nend.\n```"
+  },
+  {
+    "task": "Design a program that reads a list of numbers and prints the product of all negative numbers.",
+    "code": "```pascal\nprogram ProductOfNegativeNumbers;\n\nuses\n  SysUtils;\n\nvar\n  number: Integer;\n  product: Integer;\n  input: String;\n\nbegin\n  product := 1;\n  WriteLn('Enter numbers one by one, and type \"end\" to finish:');\n  while True do\n  begin\n    ReadLn(input);\n    if LowerCase(input) = 'end' then\n      Break;\n    if TryStrToInt(input, number) then\n    begin\n      if number < 0 then\n        product := product * number;\n    end\n    else\n      WriteLn('Invalid input, please enter an integer.');\n  end;\n  WriteLn('The product of all negative numbers is: ', product);\nend.\n```"
+  },
+  {
+    "task": "Write a script that reads a dictionary and prints the keys and values in sorted order.",
+    "code": "```pascal\nprogram SortedDictionaryOutput;\n\nuses\n  SysUtils, Generics.Collections;\n\nvar\n  dict: TDictionary<string, string>;\n  key: string;\n  keys: TArray<string>;\n  i: Integer;\n\nbegin\n  dict := TDictionary<string, string>.Create;\n  try\n    dict.Add('apple', 'fruit');\n    dict.Add('carrot', 'vegetable');\n    dict.Add('banana', 'fruit');\n    dict.Add('broccoli', 'vegetable');\n\n    keys := dict.Keys.ToArray;\n    TArray.Sort<string>(keys);\n\n    for i := Low(keys) to High(keys) do\n    begin\n      key := keys[i];\n      WriteLn(key, ': ', dict[key]);\n    end;\n  finally\n    dict.Free;\n  end;\nend.\n```"
+  },
+  {
+    "task": "Create a program that reads a text and prints the number of unique words.",
+    "code": "```pascal\nprogram UniqueWordsCounter;\n\nuses\n  SysUtils, Classes;\n\nvar\n  InputText: string;\n  Words: TStringList;\n  Word: string;\n  i: Integer;\n\nbegin\n  Write('Enter the text: ');\n  ReadLn(InputText);\n  \n  Words := TStringList.Create;\n  Words.Sorted := True;\n  Words.Duplicates := dupIgnore;\n\n  for i := 1 to Length(InputText) do\n  begin\n    if not(InputText[i] in [' ', ',', '.', ';', ':', '!', '?']) then\n      Word := Word + InputText[i]\n    else\n    begin\n      if Word <> '' then\n      begin\n        Words.Add(LowerCase(Word));\n        Word := '';\n      end;\n    end;\n  end;\n\n  if Word <> '' then\n    Words.Add(LowerCase(Word));\n\n  WriteLn('Number of unique words: ', Words.Count);\n\n  Words.Free;\nend.\n```"
+  }
+]

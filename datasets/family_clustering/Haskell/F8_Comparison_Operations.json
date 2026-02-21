@@ -1,0 +1,374 @@
+[
+  {
+    "task": "Write a function that checks if two strings are equal, ignoring case sensitivity.",
+    "code": "```haskell\nimport Data.Char (toLower)\n\nequalIgnoreCase :: String -> String -> Bool\nequalIgnoreCase s1 s2 = map toLower s1 == map toLower s2\n```"
+  },
+  {
+    "task": "Create a program that determines if a number is greater than 10.",
+    "code": "```haskell\nisGreaterThanTen :: Int -> Bool\nisGreaterThanTen x = x > 10\n\nmain :: IO ()\nmain = do\n    let number = 12\n    print (isGreaterThanTen number)\n```"
+  },
+  {
+    "task": "Implement a feature that compares the current date to a given date and returns if it is in the future.",
+    "code": "```haskell\nimport Data.Time\n\nisFutureDate :: Day -> IO Bool\nisFutureDate givenDate = do\n    currentDate <- getCurrentTime >>= return . utctDay\n    return (givenDate > currentDate)\n```"
+  },
+  {
+    "task": "Design a system that checks if a user's age is less than 18 and restricts access if true.",
+    "code": "```haskell\ncheckAccess :: Int -> String\ncheckAccess age\n  | age < 18  = \"Access Restricted\"\n  | otherwise = \"Access Granted\"\n```"
+  },
+  {
+    "task": "Build an algorithm that finds the maximum of three given integers.",
+    "code": "```haskell\nmaxOfThree :: Int -> Int -> Int -> Int\nmaxOfThree a b c = max a (max b c)\n```"
+  },
+  {
+    "task": "Write a function that verifies if two arrays contain the same elements in the same order.",
+    "code": "```haskell\narraysEqual :: Eq a => [a] -> [a] -> Bool\narraysEqual xs ys = xs == ys\n```"
+  },
+  {
+    "task": "Create a script that checks if a product's price is within a specified range.",
+    "code": "```haskell\nisPriceInRange :: Double -> Double -> Double -> Bool\nisPriceInRange minPrice maxPrice productPrice =\n    productPrice >= minPrice && productPrice <= maxPrice\n```"
+  },
+  {
+    "task": "Develop a tool that compares two versions of a software application and determines which is newer.",
+    "code": "```haskell\nimport Data.List.Split (splitOn)\n\ncompareVersions :: String -> String -> Ordering\ncompareVersions v1 v2 = compare (parseVersion v1) (parseVersion v2)\n\nparseVersion :: String -> [Int]\nparseVersion = map read . splitOn \".\"\n\nisNewer :: String -> String -> Bool\nisNewer v1 v2 = compareVersions v1 v2 == GT\n\nmain :: IO ()\nmain = do\n    let version1 = \"1.2.3\"\n    let version2 = \"1.2.4\"\n    putStrLn $ \"Is version \" ++ version1 ++ \" newer than version \" ++ version2 ++ \"? \" ++ show (isNewer version1 version2)\n```"
+  },
+  {
+    "task": "Implement a test to see if a given year is a leap year.",
+    "code": "```haskell\nisLeapYear :: Int -> Bool\nisLeapYear year\n  | year `mod` 400 == 0 = True\n  | year `mod` 100 == 0 = False\n  | year `mod` 4 == 0   = True\n  | otherwise           = False\n```"
+  },
+  {
+    "task": "Design a feature that tells if a student\u2019s grade is passing or failing based on a threshold.",
+    "code": "```haskell\nisPassing :: (Ord a, Num a) => a -> a -> Bool\nisPassing grade threshold = grade >= threshold\n```"
+  },
+  {
+    "task": "Write a function to compare two file sizes and return the larger one.",
+    "code": "```haskell\nimport System.IO\nimport System.Directory\n\nlargerFileSize :: FilePath -> FilePath -> IO (Maybe FilePath)\nlargerFileSize file1 file2 = do\n    size1 <- getFileSize file1\n    size2 <- getFileSize file2\n    return $ case compare size1 size2 of\n        GT -> Just file1\n        LT -> Just file2\n        EQ -> Nothing\n\ngetFileSize :: FilePath -> IO Integer\ngetFileSize path = do\n    exists <- doesFileExist path\n    if exists\n        then withFile path ReadMode hFileSize\n        else return 0\n```"
+  },
+  {
+    "task": "Build a program that checks if the temperature is below freezing point.",
+    "code": "```haskell\nisBelowFreezing :: (Ord a, Num a) => a -> Bool\nisBelowFreezing temperature = temperature < 0\n\nmain :: IO ()\nmain = do\n    let temperature = -5  -- Example temperature\n    if isBelowFreezing temperature\n        then putStrLn \"The temperature is below freezing point.\"\n        else putStrLn \"The temperature is above freezing point.\"\n```"
+  },
+  {
+    "task": "Create a logic that determines if a number is within the Fibonacci sequence.",
+    "code": "```haskell\nisPerfectSquare :: Integer -> Bool\nisPerfectSquare x = let s = floor (sqrt (fromIntegral x)) in s * s == x\n\nisFibonacci :: Integer -> Bool\nisFibonacci n = isPerfectSquare (5 * n * n + 4) || isPerfectSquare (5 * n * n - 4)\n```"
+  },
+  {
+    "task": "Develop a function that checks if a given word is a palindrome.",
+    "code": "```haskell\nisPalindrome :: String -> Bool\nisPalindrome word = word == reverse word\n```"
+  },
+  {
+    "task": "Write a script to see if a password meets a minimum length requirement.",
+    "code": "```haskell\nisPasswordValid :: String -> Int -> Bool\nisPasswordValid password minLength = length password >= minLength\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter password:\"\n    password <- getLine\n    let minLength = 8\n    if isPasswordValid password minLength\n        then putStrLn \"Password is valid.\"\n        else putStrLn \"Password is too short.\"\n```"
+  },
+  {
+    "task": "Implement a system that decides if a point is inside a circle based on its coordinates.",
+    "code": "```haskell\nisPointInsideCircle :: (Floating a, Ord a) => a -> a -> a -> a -> a -> Bool\nisPointInsideCircle circleX circleY radius pointX pointY =\n  (pointX - circleX) ^ 2 + (pointY - circleY) ^ 2 < radius ^ 2\n```"
+  },
+  {
+    "task": "Design a program that checks if a shopping cart total exceeds a certain budget.",
+    "code": "```haskell\ncheckBudget :: Double -> Double -> Bool\ncheckBudget total budget = total > budget\n\nmain :: IO ()\nmain = do\n    let cartTotal = 150.0\n    let budget = 100.0\n    if checkBudget cartTotal budget\n        then putStrLn \"The cart total exceeds the budget.\"\n        else putStrLn \"The cart total is within the budget.\"\n```"
+  },
+  {
+    "task": "Create a function that compares two players' scores and returns the winner.",
+    "code": "```haskell\nwinner :: (Ord a, Num a) => a -> a -> String\nwinner score1 score2\n  | score1 > score2 = \"Player 1 wins\"\n  | score2 > score1 = \"Player 2 wins\"\n  | otherwise       = \"It's a tie\"\n```"
+  },
+  {
+    "task": "Write a program to determine if one string is a substring of another.",
+    "code": "```haskell\nisSubstring :: String -> String -> Bool\nisSubstring sub str = any (isPrefixOf sub) (tails str)\n\nmain :: IO ()\nmain = do\n    let string1 = \"hello\"\n    let string2 = \"ell\"\n    print (isSubstring string2 string1)\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is a prime number.",
+    "code": "```haskell\nisPrime :: Int -> Bool\nisPrime n\n  | n <= 1    = False\n  | otherwise = null [ x | x <- [2..isqrt n], n `mod` x == 0 ]\n  where\n    isqrt = floor . sqrt . fromIntegral\n```"
+  },
+  {
+    "task": "Write a function that checks if a given number is a perfect square.",
+    "code": "```haskell\nisPerfectSquare :: Integral a => a -> Bool\nisPerfectSquare n = let root = floor (sqrt (fromIntegral n))\n                    in root * root == n\n```"
+  },
+  {
+    "task": "Create a system that determines if a person is eligible for a senior citizen discount based on their age.",
+    "code": "```haskell\nisEligibleForSeniorDiscount :: Int -> Bool\nisEligibleForSeniorDiscount age = age >= 65\n```"
+  },
+  {
+    "task": "Develop a feature to check if a date falls on a weekend.",
+    "code": "```haskell\nimport Data.Time.Calendar (Day, dayOfWeek)\nimport Data.Time.Calendar.WeekDate (toWeekDate)\n\nisWeekend :: Day -> Bool\nisWeekend date = \n    let (_, _, weekDay) = toWeekDate date\n    in weekDay == 6 || weekDay == 7\n```"
+  },
+  {
+    "task": "Design a program that sees if a given email address is in the correct format.",
+    "code": "```haskell\nimport Text.Regex.TDFA ((=~))\n\nisValidEmail :: String -> Bool\nisValidEmail email = email =~ regex\n  where regex = \"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}$\"\n```"
+  },
+  {
+    "task": "Implement a test to check if a rectangle's area is larger than a triangle's area.",
+    "code": "```haskell\n-- Function to calculate the area of a rectangle\nrectangleArea :: Double -> Double -> Double\nrectangleArea length width = length * width\n\n-- Function to calculate the area of a triangle\ntriangleArea :: Double -> Double -> Double\ntriangleArea base height = 0.5 * base * height\n\n-- Function to compare the areas\nisRectangleAreaLarger :: Double -> Double -> Double -> Double -> Bool\nisRectangleAreaLarger rectLength rectWidth triBase triHeight =\n    rectangleArea rectLength rectWidth > triangleArea triBase triHeight\n```"
+  },
+  {
+    "task": "Write a function that verifies if two rectangles overlap each other.",
+    "code": "```haskell\ntype Point = (Int, Int)\ntype Rectangle = (Point, Point)\n\noverlap :: Rectangle -> Rectangle -> Bool\noverlap ((x1, y1), (x2, y2)) ((x3, y3), (x4, y4)) =\n    not (x2 <= x3 || x4 <= x1 || y2 <= y3 || y4 <= y1)\n```"
+  },
+  {
+    "task": "Create a script to compare two strings lexicographically.",
+    "code": "```haskell\ncompareStrings :: String -> String -> Ordering\ncompareStrings s1 s2 = compare s1 s2\n```"
+  },
+  {
+    "task": "Build a program that checks if a list of numbers is in ascending order.",
+    "code": "```haskell\nisAscending :: Ord a => [a] -> Bool\nisAscending [] = True\nisAscending [_] = True\nisAscending (x:y:xs) = x <= y && isAscending (y:xs)\n```"
+  },
+  {
+    "task": "Design a system to compare the heights of two buildings.",
+    "code": "```haskell\ncompareHeights :: (Ord a) => a -> a -> String\ncompareHeights height1 height2\n  | height1 > height2 = \"Building 1 is taller.\"\n  | height1 < height2 = \"Building 2 is taller.\"\n  | otherwise         = \"Both buildings are of the same height.\"\n\nmain :: IO ()\nmain = do\n  let height1 = 150 -- Example height for building 1\n  let height2 = 160 -- Example height for building 2\n  putStrLn $ compareHeights height1 height2\n```"
+  },
+  {
+    "task": "Write a feature that determines if a given time is before noon.",
+    "code": "```haskell\nimport Data.Time.LocalTime\n\nisBeforeNoon :: TimeOfDay -> Bool\nisBeforeNoon time = time < TimeOfDay 12 0 0\n```"
+  },
+  {
+    "task": "Implement a function to check if a given number is a power of two.",
+    "code": "```haskell\nisPowerOfTwo :: Int -> Bool\nisPowerOfTwo n\n  | n <= 0    = False\n  | otherwise = n .&. (n - 1) == 0\n  where (.&.) = (.&.) -- bitwise AND operation\n```"
+  },
+  {
+    "task": "Create a program that determines if a word is longer than another word.",
+    "code": "```haskell\nisLonger :: String -> String -> Bool\nisLonger word1 word2 = length word1 > length word2\n```"
+  },
+  {
+    "task": "Develop a function to compare the lengths of two lists and return the longer one.",
+    "code": "```haskell\nlongerList :: [a] -> [a] -> [a]\nlongerList xs ys\n  | length xs >= length ys = xs\n  | otherwise              = ys\n```"
+  },
+  {
+    "task": "Write a script to see if a user's input matches a pre-defined secret code.",
+    "code": "```haskell\nimport System.IO (hFlush, stdout)\n\nmain :: IO ()\nmain = do\n    let secretCode = \"haskell123\"\n    putStr \"Enter the secret code: \"\n    hFlush stdout\n    userInput <- getLine\n    if userInput == secretCode\n        then putStrLn \"Access granted.\"\n        else putStrLn \"Access denied.\"\n```"
+  },
+  {
+    "task": "Build a utility that checks if a given year is in the 21st century.",
+    "code": "```haskell\nis21stCentury :: Int -> Bool\nis21stCentury year = year >= 2001 && year <= 2100\n```"
+  },
+  {
+    "task": "Create a logic that determines if a book's publication year is after 2000.",
+    "code": "```haskell\nisPublishedAfter2000 :: Int -> Bool\nisPublishedAfter2000 year = year > 2000\n```"
+  },
+  {
+    "task": "Design a feature to see if a number is divisible by both 3 and 5.",
+    "code": "```haskell\nisDivisibleBy3And5 :: Int -> Bool\nisDivisibleBy3And5 n = n `mod` 3 == 0 && n `mod` 5 == 0\n```"
+  },
+  {
+    "task": "Implement a system that checks if a student's GPA is above a certain threshold.",
+    "code": "```haskell\nisGpaAboveThreshold :: Double -> Double -> Bool\nisGpaAboveThreshold gpa threshold = gpa > threshold\n```"
+  },
+  {
+    "task": "Write a function to determine if a given angle is acute, right, or obtuse.",
+    "code": "```haskell\nangleType :: Int -> String\nangleType angle\n  | angle < 90  = \"Acute\"\n  | angle == 90 = \"Right\"\n  | angle > 90  = \"Obtuse\"\n  | otherwise   = \"Invalid\"\n```"
+  },
+  {
+    "task": "Develop a program that compares the lengths of two strings and returns the shorter one.",
+    "code": "```haskell\nshorterString :: String -> String -> String\nshorterString s1 s2\n  | length s1 < length s2 = s1\n  | otherwise             = s2\n```"
+  },
+  {
+    "task": "Create a script to verify if a username is unique within a list.",
+    "code": "```haskell\nisUsernameUnique :: String -> [String] -> Bool\nisUsernameUnique username usernames = username `notElem` usernames\n\nmain :: IO ()\nmain = do\n    let usernames = [\"alice\", \"bob\", \"charlie\"]\n    let usernameToCheck = \"david\"\n    print (isUsernameUnique usernameToCheck usernames)\n```"
+  },
+  {
+    "task": "Build a tool that checks if a job applicant meets all the listed qualifications.",
+    "code": "```haskell\ntype Qualification = String\ntype Applicant = [Qualification]\ntype JobQualifications = [Qualification]\n\nmeetsQualifications :: Applicant -> JobQualifications -> Bool\nmeetsQualifications applicant jobQualifications = all (`elem` applicant) jobQualifications\n```"
+  },
+  {
+    "task": "Write a feature to see if a vehicle's speed exceeds the speed limit.",
+    "code": "```haskell\nexceedsSpeedLimit :: Int -> Int -> Bool\nexceedsSpeedLimit speed speedLimit = speed > speedLimit\n```"
+  },
+  {
+    "task": "Design a system that determines whether a given point is above or below the x-axis.",
+    "code": "```haskell\ndata Position = Above | Below | On deriving (Show)\n\npointPosition :: (Ord a, Num a) => (a, a) -> Position\npointPosition (_, y)\n  | y > 0     = Above\n  | y < 0     = Below\n  | otherwise = On\n```"
+  },
+  {
+    "task": "Create a function that checks if a given word appears in a sentence.",
+    "code": "```haskell\nwordInSentence :: String -> String -> Bool\nwordInSentence word sentence = word `elem` words sentence\n```"
+  },
+  {
+    "task": "Implement a program that identifies whether a given number is negative or positive.",
+    "code": "```haskell\nidentifySign :: (Ord a, Num a) => a -> String\nidentifySign x\n  | x < 0     = \"Negative\"\n  | x > 0     = \"Positive\"\n  | otherwise = \"Zero\"\n\nmain :: IO ()\nmain = do\n  putStrLn $ identifySign (-5)\n  putStrLn $ identifySign 0\n  putStrLn $ identifySign 7\n```"
+  },
+  {
+    "task": "Write a script to see if the sum of two numbers is greater than 100.",
+    "code": "```haskell\nmain :: IO ()\nmain = do\n    let number1 = 50\n    let number2 = 60\n    let sumOfNumbers = number1 + number2\n    if sumOfNumbers > 100\n        then putStrLn \"The sum is greater than 100.\"\n        else putStrLn \"The sum is not greater than 100.\"\n```"
+  },
+  {
+    "task": "Build a utility that checks if a file exists in a specified directory.",
+    "code": "```haskell\nimport System.Directory (doesFileExist)\nimport System.FilePath ((</>))\n\nfileExistsInDirectory :: FilePath -> FilePath -> IO Bool\nfileExistsInDirectory dir file = doesFileExist (dir </> file)\n```"
+  },
+  {
+    "task": "Develop a system to compare the weights of two different objects.",
+    "code": "```haskell\ncompareWeights :: (Ord a) => a -> a -> Ordering\ncompareWeights weight1 weight2 = compare weight1 weight2\n\nmain :: IO ()\nmain = do\n    let weight1 = 10\n    let weight2 = 15\n    case compareWeights weight1 weight2 of\n        LT -> putStrLn \"The first object is lighter than the second object.\"\n        EQ -> putStrLn \"Both objects weigh the same.\"\n        GT -> putStrLn \"The first object is heavier than the second object.\"\n```"
+  },
+  {
+    "task": "Create a logic to determine if a number falls within a defined range.",
+    "code": "```haskell\nisWithinRange :: Ord a => a -> a -> a -> Bool\nisWithinRange lower upper num = num >= lower && num <= upper\n```"
+  },
+  {
+    "task": "Design a program that checks if an employee worked overtime based on hours worked.",
+    "code": "```haskell\nmodule Main where\n\nworkedOvertime :: Int -> Bool\nworkedOvertime hoursWorked = hoursWorked > 40\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter hours worked:\"\n    input <- getLine\n    let hours = read input :: Int\n    if workedOvertime hours\n        then putStrLn \"Employee worked overtime.\"\n        else putStrLn \"Employee did not work overtime.\"\n```"
+  },
+  {
+    "task": "Write a function to compare two dates and determine which is earlier.",
+    "code": "```haskell\nimport Data.Time.Calendar (Day)\n\ncompareDates :: Day -> Day -> Ordering\ncompareDates date1 date2 = compare date1 date2\n```"
+  },
+  {
+    "task": "Create a script that verifies if a given word starts with a vowel.",
+    "code": "```haskell\nstartsWithVowel :: String -> Bool\nstartsWithVowel (x:_) = x `elem` \"aeiouAEIOU\"\nstartsWithVowel [] = False\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is even or odd.",
+    "code": "```haskell\nisEven :: Int -> Bool\nisEven n = n `mod` 2 == 0\n\nisOdd :: Int -> Bool\nisOdd n = n `mod` 2 /= 0\n```"
+  },
+  {
+    "task": "Implement a system that determines if a string contains only numeric characters.",
+    "code": "```haskell\nimport Data.Char (isDigit)\n\nisNumericString :: String -> Bool\nisNumericString = all isDigit\n```"
+  },
+  {
+    "task": "Write a function to see if a given character is a vowel or consonant.",
+    "code": "```haskell\nisVowel :: Char -> Bool\nisVowel c = c `elem` \"aeiouAEIOU\"\n\nisConsonant :: Char -> Bool\nisConsonant c = not (isVowel c) && c `elem` ['a'..'z'] ++ ['A'..'Z']\n```"
+  },
+  {
+    "task": "Create a program that checks if a point lies within a specified rectangle.",
+    "code": "```haskell\ntype Point = (Float, Float)\ntype Rectangle = (Point, Point)\n\nisPointInRectangle :: Point -> Rectangle -> Bool\nisPointInRectangle (px, py) ((x1, y1), (x2, y2)) =\n  px >= min x1 x2 && px <= max x1 x2 && py >= min y1 y2 && py <= max y1 y2\n\n-- Example usage\nmain :: IO ()\nmain = do\n  let point = (3.0, 4.0)\n  let rectangle = ((1.0, 2.0), (5.0, 6.0))\n  print (isPointInRectangle point rectangle)\n```"
+  },
+  {
+    "task": "Develop a feature to compare two lists and return the common elements.",
+    "code": "```haskell\ncommonElements :: Eq a => [a] -> [a] -> [a]\ncommonElements xs ys = [x | x <- xs, x `elem` ys]\n```"
+  },
+  {
+    "task": "Design a function that determines if a text contains any uppercase letters.",
+    "code": "```haskell\nimport Data.Char (isUpper)\n\ncontainsUppercase :: String -> Bool\ncontainsUppercase = any isUpper\n```"
+  },
+  {
+    "task": "Implement a script to check if a given sentence is a question.",
+    "code": "```haskell\nisQuestion :: String -> Bool\nisQuestion sentence = last sentence == '?'\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a sentence:\"\n    sentence <- getLine\n    if isQuestion sentence\n        then putStrLn \"The sentence is a question.\"\n        else putStrLn \"The sentence is not a question.\"\n```"
+  },
+  {
+    "task": "Write a program to determine if a temperature is measured in Celsius or Fahrenheit.",
+    "code": "```haskell\ndetermineTemperatureUnit :: String -> String\ndetermineTemperatureUnit tempStr\n    | last tempStr == 'C' = \"Celsius\"\n    | last tempStr == 'F' = \"Fahrenheit\"\n    | otherwise = \"Unknown\"\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter temperature (e.g., 30C or 86F):\"\n    input <- getLine\n    putStrLn $ determineTemperatureUnit input\n```"
+  },
+  {
+    "task": "Create a system that verifies if a student is enrolled in a particular course.",
+    "code": "```haskell\nisStudentEnrolled :: String -> String -> [(String, String)] -> Bool\nisStudentEnrolled student course enrollments = (student, course) `elem` enrollments\n\nmain :: IO ()\nmain = do\n    let enrollments = [(\"Alice\", \"Math\"), (\"Bob\", \"Science\"), (\"Alice\", \"Science\")]\n    print $ isStudentEnrolled \"Alice\" \"Math\" enrollments  -- True\n    print $ isStudentEnrolled \"Bob\" \"Math\" enrollments    -- False\n```"
+  },
+  {
+    "task": "Build a utility to check if a given string is a valid hexadecimal number.",
+    "code": "```haskell\nimport Data.Char (toLower, isDigit)\n\nisValidHex :: String -> Bool\nisValidHex = all isHexChar\n  where\n    isHexChar c = isDigit c || (toLower c `elem` ['a'..'f'])\n```"
+  },
+  {
+    "task": "Write a function to see if two circles intersect based on their radii and center points.",
+    "code": "```haskell\ntype Point = (Double, Double)\n\nintersectCircles :: Point -> Double -> Point -> Double -> Bool\nintersectCircles (x1, y1) r1 (x2, y2) r2 =\n    let distanceSquared = (x2 - x1) ^ 2 + (y2 - y1) ^ 2\n        radiusSumSquared = (r1 + r2) ^ 2\n    in distanceSquared <= radiusSumSquared\n```"
+  },
+  {
+    "task": "Develop a program that checks if a given number is within 10% of another number.",
+    "code": "```haskell\nwithinTenPercent :: (Ord a, Fractional a) => a -> a -> Bool\nwithinTenPercent x y = abs (x - y) <= 0.1 * y\n```"
+  },
+  {
+    "task": "Create a feature to determine if a character is alphanumeric.",
+    "code": "```haskell\nimport Data.Char (isAlphaNum)\n\nisAlphanumeric :: Char -> Bool\nisAlphanumeric = isAlphaNum\n```"
+  },
+  {
+    "task": "Implement a system to compare the profit margins of two products.",
+    "code": "```haskell\ntype ProfitMargin = Float\n\ncompareProfitMargins :: ProfitMargin -> ProfitMargin -> Ordering\ncompareProfitMargins margin1 margin2\n    | margin1 > margin2 = GT\n    | margin1 < margin2 = LT\n    | otherwise         = EQ\n```"
+  },
+  {
+    "task": "Design a script to check if a given string contains any special characters.",
+    "code": "```haskell\nimport Data.Char (isAlphaNum)\n\ncontainsSpecialChar :: String -> Bool\ncontainsSpecialChar = any (not . isAlphaNum)\n```"
+  },
+  {
+    "task": "Write a function to verify if a number is a multiple of another number.",
+    "code": "```haskell\nisMultipleOf :: Integral a => a -> a -> Bool\nisMultipleOf x y = x `mod` y == 0\n```"
+  },
+  {
+    "task": "Create a program that checks if a date is a holiday based on a list of holidays.",
+    "code": "```haskell\nimport Data.Time.Calendar (Day, fromGregorian)\nimport Data.Time.Format (defaultTimeLocale, formatTime, parseTimeM)\n\ntype HolidayList = [Day]\n\nisHoliday :: HolidayList -> Day -> Bool\nisHoliday holidays date = date `elem` holidays\n\nmain :: IO ()\nmain = do\n    let holidays = [fromGregorian 2023 12 25, fromGregorian 2024 1 1]\n    let dateToCheck = fromGregorian 2023 12 25\n    \n    if isHoliday holidays dateToCheck\n        then putStrLn \"The date is a holiday.\"\n        else putStrLn \"The date is not a holiday.\"\n```"
+  },
+  {
+    "task": "Build a utility to compare two text files and highlight the differences.",
+    "code": "```haskell\nimport System.IO\nimport Data.List\nimport Data.Maybe\n\ncompareFiles :: FilePath -> FilePath -> IO ()\ncompareFiles file1 file2 = do\n    contents1 <- readFile file1\n    contents2 <- readFile file2\n    let lines1 = lines contents1\n        lines2 = lines contents2\n        differences = getDifferences lines1 lines2\n    mapM_ putStrLn differences\n\ngetDifferences :: [String] -> [String] -> [String]\ngetDifferences lines1 lines2 = catMaybes $ zipWith compareLines (pad lines1) (pad lines2)\n  where\n    maxLength = max (length lines1) (length lines2)\n    pad l = l ++ replicate (maxLength - length l) \"\"\n    compareLines l1 l2\n        | l1 /= l2  = Just $ \"Line: \" ++ show lineNumber ++ \" | \" ++ show l1 ++ \" / \" ++ show l2\n        | otherwise = Nothing\n      where\n        lineNumber = fromJust $ elemIndex (l1, l2) (zip lines1 lines2) `mplus` elemIndex (l2, l1) (zip lines2 lines1)\n\nmain :: IO ()\nmain = compareFiles \"file1.txt\" \"file2.txt\"\n```"
+  },
+  {
+    "task": "Develop a function to determine if a given password is strong based on length and character diversity.",
+    "code": "```haskell\nimport Data.Char (isLower, isUpper, isDigit)\n\nisStrongPassword :: String -> Bool\nisStrongPassword pwd = length pwd >= 8 && any isLower pwd && any isUpper pwd && any isDigit pwd\n\nmain :: IO ()\nmain = do\n    let password = \"Example1\"\n    putStrLn $ \"Is the password strong? \" ++ show (isStrongPassword password)\n```"
+  },
+  {
+    "task": "Write a script to see if a number is within a specified distance from zero.",
+    "code": "```haskell\nisWithinDistance :: (Ord a, Num a) => a -> a -> Bool\nisWithinDistance distance x = abs x <= distance\n\nmain :: IO ()\nmain = do\n    let distance = 5\n    let number = 3\n    print $ isWithinDistance distance number\n```"
+  },
+  {
+    "task": "Create a system to check if a book title is available in a library database.",
+    "code": "```haskell\ntype LibraryDatabase = [String]\n\nisBookAvailable :: String -> LibraryDatabase -> Bool\nisBookAvailable title db = title `elem` db\n\n-- Example usage:\n-- let db = [\"1984\", \"Brave New World\", \"Fahrenheit 451\"]\n-- isBookAvailable \"1984\" db  -- Should return True\n-- isBookAvailable \"Dune\" db  -- Should return False\n```"
+  },
+  {
+    "task": "Implement a feature that determines if a user has administrator privileges.",
+    "code": "```haskell\ndata UserRole = Admin | User | Guest deriving (Eq, Show)\n\nhasAdminPrivileges :: UserRole -> Bool\nhasAdminPrivileges role = role == Admin\n```"
+  },
+  {
+    "task": "Design a function to compare the brightness of two colors.",
+    "code": "```haskell\ndata Color = Color { red :: Int, green :: Int, blue :: Int }\n\nbrightness :: Color -> Int\nbrightness (Color r g b) = (r * 299 + g * 587 + b * 114) `div` 1000\n\ncompareBrightness :: Color -> Color -> Ordering\ncompareBrightness c1 c2 = compare (brightness c1) (brightness c2)\n```"
+  },
+  {
+    "task": "Write a program to verify if a number is a valid credit card number using the Luhn algorithm.",
+    "code": "```haskell\nisValidCreditCard :: String -> Bool\nisValidCreditCard number = \n    let digits = map (read . (:[])) . filter (`elem` ['0'..'9']) $ number\n        luhnDouble x = let dbl = x * 2 in if dbl > 9 then dbl - 9 else dbl\n        luhnSum = sum . zipWith ($) (cycle [luhnDouble, id]) . reverse $ digits\n    in luhnSum `mod` 10 == 0\n```"
+  },
+  {
+    "task": "Create a script to determine if a given string is a valid IP address.",
+    "code": "```haskell\nimport Data.List\nimport Data.Char\n\nisValidIP :: String -> Bool\nisValidIP ip = \n  let octets = splitOn '.' ip\n  in length octets == 4 && all isValidOctet octets\n\nsplitOn :: Char -> String -> [String]\nsplitOn _ \"\" = [\"\"]\nsplitOn delimiter str =\n  let (before, remainder) = span (/= delimiter) str\n  in before : case remainder of\n                [] -> []\n                _:rest -> splitOn delimiter rest\n\nisValidOctet :: String -> Bool\nisValidOctet octet = \n  not (null octet) && all isDigit octet && \n  let num = read octet :: Int\n  in num >= 0 && num <= 255\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is part of an arithmetic sequence.",
+    "code": "```haskell\nisInArithmeticSequence :: Int -> Int -> Int -> Int -> Bool\nisInArithmeticSequence first diff n x\n  | diff == 0 = x == first\n  | otherwise = (x - first) `mod` diff == 0 && (x - first) `div` diff >= 0\n\nmain :: IO ()\nmain = do\n  let firstTerm = 2\n  let commonDifference = 3\n  let numberToCheck = 11\n  print $ isInArithmeticSequence firstTerm commonDifference numberToCheck\n```"
+  },
+  {
+    "task": "Develop a feature to compare the efficiency of two algorithms based on time complexity.",
+    "code": "```haskell\ndata Complexity = Constant | Logarithmic | Linear | Linearithmic | Quadratic | Cubic | Exponential deriving (Eq, Ord, Show)\n\ncompareComplexity :: Complexity -> Complexity -> Ordering\ncompareComplexity = compare\n\nmain :: IO ()\nmain = do\n    let algorithm1 = Linear\n    let algorithm2 = Quadratic\n    let result = compareComplexity algorithm1 algorithm2\n    putStrLn $ \"Comparison result: \" ++ show result\n```"
+  },
+  {
+    "task": "Write a function to see if a given date falls in a leap year.",
+    "code": "```haskell\nisLeapYear :: Int -> Bool\nisLeapYear year\n    | year `mod` 400 == 0 = True\n    | year `mod` 100 == 0 = False\n    | year `mod` 4 == 0 = True\n    | otherwise = False\n\nisDateInLeapYear :: Int -> Int -> Int -> Bool\nisDateInLeapYear year _ _ = isLeapYear year\n```"
+  },
+  {
+    "task": "Create a program that determines if a user's subscription is active based on the current date.",
+    "code": "```haskell\nimport Data.Time\n\nisSubscriptionActive :: Day -> Day -> Bool\nisSubscriptionActive currentDate subscriptionEndDate =\n    currentDate <= subscriptionEndDate\n\nmain :: IO ()\nmain = do\n    currentDate <- utctDay <$> getCurrentTime\n    let subscriptionEndDate = fromGregorian 2023 12 31\n    if isSubscriptionActive currentDate subscriptionEndDate\n        then putStrLn \"Subscription is active.\"\n        else putStrLn \"Subscription has expired.\"\n```"
+  },
+  {
+    "task": "Design a tool to check if a user\u2019s input is a palindrome phrase, ignoring spaces and punctuation.",
+    "code": "```haskell\nimport Data.Char (isAlpha, toLower)\n\nisPalindrome :: String -> Bool\nisPalindrome input = let cleaned = map toLower $ filter isAlpha input\n                     in cleaned == reverse cleaned\n\nmain :: IO ()\nmain = do\n    putStrLn \"Enter a phrase:\"\n    input <- getLine\n    if isPalindrome input\n        then putStrLn \"The input is a palindrome.\"\n        else putStrLn \"The input is not a palindrome.\"\n```"
+  },
+  {
+    "task": "Implement a system to verify if a given number is part of the Fibonacci sequence.",
+    "code": "```haskell\nisPerfectSquare :: Integer -> Bool\nisPerfectSquare n = (floor . sqrt $ fromIntegral n) ^ 2 == n\n\nisFibonacci :: Integer -> Bool\nisFibonacci n = isPerfectSquare (5 * n * n + 4) || isPerfectSquare (5 * n * n - 4)\n```"
+  },
+  {
+    "task": "Write a program to compare the elevation of two geographic locations.",
+    "code": "```haskell\ncompareElevations :: (Ord a, Show a) => a -> a -> String\ncompareElevations elevation1 elevation2\n    | elevation1 > elevation2 = \"Location 1 is higher.\"\n    | elevation1 < elevation2 = \"Location 2 is higher.\"\n    | otherwise               = \"Both locations have the same elevation.\"\n\nmain :: IO ()\nmain = do\n    let elevation1 = 450.0\n    let elevation2 = 300.0\n    putStrLn $ compareElevations elevation1 elevation2\n```"
+  },
+  {
+    "task": "Create a function to determine if a given string is a valid JSON format.",
+    "code": "```haskell\nimport Data.Aeson (decode)\nimport qualified Data.ByteString.Lazy.Char8 as B\n\nisValidJson :: String -> Bool\nisValidJson str = case decode (B.pack str) :: Maybe () of\n  Just _  -> True\n  Nothing -> False\n```"
+  },
+  {
+    "task": "Build a utility that checks if a number is a factorial of any integer.",
+    "code": "```haskell\nisFactorial :: Integer -> Bool\nisFactorial n = checkFactorial n 1 1\n\ncheckFactorial :: Integer -> Integer -> Integer -> Bool\ncheckFactorial n product i\n    | product == n = True\n    | product > n  = False\n    | otherwise    = checkFactorial n (product * (i + 1)) (i + 1)\n```"
+  },
+  {
+    "task": "Develop a feature to compare the widths of two ribbons and return the wider one.",
+    "code": "```haskell\nwiderRibbon :: (Ord a) => a -> a -> a\nwiderRibbon width1 width2\n  | width1 >= width2 = width1\n  | otherwise = width2\n```"
+  },
+  {
+    "task": "Write a script to see if a word is present in a list of banned words.",
+    "code": "```haskell\nisBannedWord :: String -> [String] -> Bool\nisBannedWord word bannedWords = word `elem` bannedWords\n```"
+  },
+  {
+    "task": "Design a system to determine if a patient's temperature is in the normal range.",
+    "code": "```haskell\nisTemperatureNormal :: Double -> Bool\nisTemperatureNormal temperature = temperature >= 36.1 && temperature <= 37.2\n```"
+  },
+  {
+    "task": "Create a program that checks if a given time is during business hours.",
+    "code": "```haskell\nimport Data.Time.LocalTime\n\nisBusinessHours :: TimeOfDay -> Bool\nisBusinessHours time = time >= TimeOfDay 9 0 0 && time < TimeOfDay 17 0 0\n\nmain :: IO ()\nmain = do\n    let time = TimeOfDay 14 30 0  -- Example time\n    putStrLn $ if isBusinessHours time\n               then \"The time is during business hours.\"\n               else \"The time is outside business hours.\"\n```"
+  },
+  {
+    "task": "Implement a function to see if a number is a triangular number.",
+    "code": "```haskell\nisTriangular :: Integral a => a -> Bool\nisTriangular n = let m = 8 * n + 1\n                     s = floor . sqrt $ fromIntegral m\n                 in s * s == m\n```"
+  },
+  {
+    "task": "Write a feature to compare the number of vowels in two given strings.",
+    "code": "```haskell\nmodule Main where\n\nimport Data.Char (toLower)\n\ncountVowels :: String -> Int\ncountVowels = length . filter (`elem` \"aeiou\") . map toLower\n\ncompareVowelCount :: String -> String -> Ordering\ncompareVowelCount str1 str2 = compare (countVowels str1) (countVowels str2)\n\nmain :: IO ()\nmain = do\n    let str1 = \"hello\"\n    let str2 = \"world\"\n    print $ compareVowelCount str1 str2\n```"
+  }
+]

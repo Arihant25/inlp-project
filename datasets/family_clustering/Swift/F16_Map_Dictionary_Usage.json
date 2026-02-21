@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```swift\nlet studentGrades: [String: Double] = [\n    \"Alice\": 85.0,\n    \"Bob\": 92.5,\n    \"Charlie\": 78.0,\n    \"David\": 88.5\n]\n\nlet totalGrades = studentGrades.values.reduce(0, +)\nlet averageGrade = totalGrades / Double(studentGrades.count)\n\nprint(\"Average Grade: \\(averageGrade)\")\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```swift\nfunc totalCost(of products: [String: Double]) -> Double {\n    return products.values.reduce(0, +)\n}\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```swift\nimport Foundation\n\nfunc wordFrequency(in text: String) -> [String: Int] {\n    var frequencyDict: [String: Int] = [:]\n    let words = text.lowercased().components(separatedBy: CharacterSet.alphanumerics.inverted)\n    for word in words where !word.isEmpty {\n        frequencyDict[word, default: 0] += 1\n    }\n    return frequencyDict\n}\n\nlet text = \"This is a sample text. This text is for testing.\"\nlet frequency = wordFrequency(in: text)\nprint(frequency)\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```swift\nfunc employeeWithMostHours(workHours: [String: Int]) -> String? {\n    return workHours.max(by: { $0.value < $1.value })?.key\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```swift\nimport Foundation\n\nclass UserLoginSystem {\n    private var loginAttempts: [String: [Date]] = [:]\n    private let lockoutThreshold = 3\n    private let lockoutDuration: TimeInterval = 60 * 5 // 5 minutes\n\n    func login(username: String, password: String) -> Bool {\n        let currentDate = Date()\n        \n        // Cleanup old attempts\n        if let attempts = loginAttempts[username] {\n            loginAttempts[username] = attempts.filter { currentDate.timeIntervalSince($0) < lockoutDuration }\n        }\n\n        // Check if account is locked\n        if let attempts = loginAttempts[username], attempts.count >= lockoutThreshold {\n            print(\"Account is locked. Please try again later.\")\n            return false\n        }\n\n        // Simulate password check\n        let success = authenticate(username: username, password: password)\n        \n        if success {\n            loginAttempts[username] = []\n            print(\"Login successful!\")\n            return true\n        } else {\n            if loginAttempts[username] == nil {\n                loginAttempts[username] = []\n            }\n            loginAttempts[username]?.append(currentDate)\n            print(\"Login failed. Attempt recorded.\")\n            return false\n        }\n    }\n\n    private func authenticate(username: String, password: String) -> Bool {\n        // Dummy authentication logic\n        return password == \"password123\"\n    }\n}\n\nlet system = UserLoginSystem()\nsystem.login(username: \"user1\", password: \"wrongpass\")\nsystem.login(username: \"user1\", password: \"wrongpass\")\nsystem.login(username: \"user1\", password: \"wrongpass\")\nsystem.login(username: \"user1\", password: \"password123\")\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```swift\nimport Foundation\n\nclass Phonebook {\n    private var contacts: [String: String] = [:]\n\n    func addContact(name: String, phoneNumber: String) {\n        contacts[name] = phoneNumber\n    }\n\n    func removeContact(name: String) {\n        contacts.removeValue(forKey: name)\n    }\n\n    func lookupContact(name: String) -> String? {\n        return contacts[name]\n    }\n}\n\n// Example usage:\nlet phonebook = Phonebook()\nphonebook.addContact(name: \"Alice\", phoneNumber: \"123-456-7890\")\nphonebook.addContact(name: \"Bob\", phoneNumber: \"987-654-3210\")\nprint(phonebook.lookupContact(name: \"Alice\") ?? \"Contact not found\")\nphonebook.removeContact(name: \"Alice\")\nprint(phonebook.lookupContact(name: \"Alice\") ?? \"Contact not found\")\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```swift\nlet cityPopulations: [String: Int] = [\n    \"New York\": 8419600,\n    \"Los Angeles\": 3980400,\n    \"Chicago\": 2716000,\n    \"Houston\": 2328000,\n    \"Phoenix\": 1690000\n]\n\nif let (city, population) = cityPopulations.max(by: { $0.value < $1.value }) {\n    print(\"City with the highest population is \\(city) with a population of \\(population).\")\n}\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```swift\nimport Foundation\n\nlet translationDictionary: [String: String] = [\n    \"hello\": \"hola\",\n    \"world\": \"mundo\",\n    \"how\": \"c\u00f3mo\",\n    \"are\": \"est\u00e1s\",\n    \"you\": \"t\u00fa\"\n]\n\nfunc translateSentence(_ sentence: String, using dictionary: [String: String]) -> String {\n    let words = sentence.split(separator: \" \")\n    let translatedWords = words.map { word in\n        return dictionary[String(word)] ?? String(word)\n    }\n    return translatedWords.joined(separator: \" \")\n}\n\nlet sentence = \"hello world how are you\"\nlet translatedSentence = translateSentence(sentence, using: translationDictionary)\nprint(translatedSentence)\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```swift\nimport Foundation\n\nvar books: [String: String] = [\n    \"To Kill a Mockingbird\": \"Harper Lee\",\n    \"1984\": \"George Orwell\",\n    \"Pride and Prejudice\": \"Jane Austen\",\n    \"The Great Gatsby\": \"F. Scott Fitzgerald\",\n    \"Moby Dick\": \"Herman Melville\"\n]\n\nfunc findBooks(byAuthor author: String) -> [String] {\n    return books.filter { $0.value == author }.map { $0.key }\n}\n\n// Example usage\nlet booksByOrwell = findBooks(byAuthor: \"George Orwell\")\nprint(booksByOrwell)\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```swift\nvar productStock: [String: Int] = [\n    \"product1\": 100,\n    \"product2\": 150,\n    \"product3\": 200\n]\n\nfunc updateStockLevel(for productId: String, soldQuantity: Int) {\n    if let currentStock = productStock[productId] {\n        productStock[productId] = max(0, currentStock - soldQuantity)\n    }\n}\n\n// Example usage\nupdateStockLevel(for: \"product1\", soldQuantity: 10)\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```swift\nlet countryCodes: [String: String] = [\n    \"US\": \"United States\",\n    \"CA\": \"Canada\",\n    \"MX\": \"Mexico\",\n    \"FR\": \"France\",\n    \"DE\": \"Germany\"\n]\n\nfunc getCountryName(forCode code: String) -> String {\n    return countryCodes[code] ?? \"Unknown Country Code\"\n}\n\nlet code = \"FR\"\nprint(getCountryName(forCode: code))\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```swift\nvar studentDirectory: [Int: String] = [\n    101: \"Alice Smith\",\n    102: \"Bob Johnson\",\n    103: \"Charlie Brown\"\n]\n\nfunc getStudentName(byID id: Int) -> String? {\n    return studentDirectory[id]\n}\n\n// Example usage:\nif let studentName = getStudentName(byID: 101) {\n    print(\"Student Name: \\(studentName)\")\n} else {\n    print(\"Student not found.\")\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```swift\nclass ConfigurationSettings {\n    private var settings: [String: Any] = [:]\n    \n    func updateSetting(key: String, value: Any) {\n        settings[key] = value\n    }\n    \n    func retrieveSetting(key: String) -> Any? {\n        return settings[key]\n    }\n}\n\n// Usage example:\nlet config = ConfigurationSettings()\nconfig.updateSetting(key: \"theme\", value: \"dark\")\nif let theme = config.retrieveSetting(key: \"theme\") {\n    print(\"Current theme: \\(theme)\")\n}\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```swift\nimport Foundation\n\nvar dictionary: [String: String] = [\n    \"apple\": \"A fruit that is typically red, green, or yellow.\",\n    \"banana\": \"A long curved fruit that grows in clusters and has soft pulpy flesh and yellow skin when ripe.\",\n    \"cherry\": \"A small, round stone fruit that is typically bright or dark red.\",\n    \"date\": \"The fruit of the date palm, a sweet edible fruit with a single long woody seed.\"\n]\n\nfunc displayWordsStartingWith(letter: Character) {\n    for (word, definition) in dictionary {\n        if word.first == letter {\n            print(\"\\(word): \\(definition)\")\n        }\n    }\n}\n\n// Example usage\ndisplayWordsStartingWith(letter: \"a\")\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```swift\nimport Foundation\n\nvar userDatabase: [String: String] = [\n    \"user1\": \"password123\",\n    \"user2\": \"passw0rd\",\n    \"admin\": \"adminpass\"\n]\n\nfunc verifyLogin(username: String, password: String) -> Bool {\n    if let storedPassword = userDatabase[username] {\n        return storedPassword == password\n    }\n    return false\n}\n\n// Example usage:\nlet usernameInput = \"user1\"\nlet passwordInput = \"password123\"\n\nif verifyLogin(username: usernameInput, password: passwordInput) {\n    print(\"Login successful!\")\n} else {\n    print(\"Invalid username or password.\")\n}\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```swift\nimport Foundation\n\n// Sample purchases\nlet purchases = [\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\", \"banana\", \"banana\"]\n\n// Dictionary to track purchase counts\nvar purchaseCounts: [String: Int] = [:]\n\n// Track the number of times each item is purchased\nfor item in purchases {\n    purchaseCounts[item, default: 0] += 1\n}\n\n// Find the most popular item\nif let mostPopularItem = purchaseCounts.max(by: { $0.value < $1.value })?.key {\n    print(\"The most popular item is: \\(mostPopularItem)\")\n}\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```swift\nimport Foundation\n\n// Dictionary associating file extensions with application types\nlet fileAssociations: [String: String] = [\n    \"txt\": \"Text Editor\",\n    \"jpg\": \"Image Viewer\",\n    \"png\": \"Image Viewer\",\n    \"pdf\": \"PDF Reader\",\n    \"docx\": \"Word Processor\",\n    \"xlsx\": \"Spreadsheet Application\"\n]\n\n// Function to determine application type based on file extension\nfunc determineApplication(for fileName: String) -> String {\n    let fileExtension = NSString(string: fileName).pathExtension.lowercased()\n    if let applicationType = fileAssociations[fileExtension] {\n        return applicationType\n    } else {\n        return \"Unknown Application\"\n    }\n}\n\n// Example usage\nlet fileName = \"example.pdf\"\nlet applicationType = determineApplication(for: fileName)\nprint(\"Open '\\(fileName)' with: \\(applicationType)\")\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```swift\nimport Foundation\n\n// Define a dictionary to store menu items and their prices\nlet menu: [String: Double] = [\n    \"Burger\": 5.99,\n    \"Pizza\": 8.99,\n    \"Salad\": 4.99,\n    \"Soda\": 1.99,\n    \"Fries\": 2.99\n]\n\n// Function to calculate the total bill\nfunc calculateTotalBill(order: [String]) -> Double {\n    var total: Double = 0.0\n    for item in order {\n        if let price = menu[item] {\n            total += price\n        } else {\n            print(\"Item '\\(item)' not found in menu.\")\n        }\n    }\n    return total\n}\n\n// Example usage\nlet customerOrder = [\"Burger\", \"Fries\", \"Soda\"]\nlet totalBill = calculateTotalBill(order: customerOrder)\nprint(String(format: \"Total Bill: $%.2f\", totalBill))\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```swift\nclass WarehouseInventory {\n    private var inventory: [String: Int] = [:]\n    \n    func addItem(_ item: String, quantity: Int) {\n        inventory[item, default: 0] += quantity\n    }\n    \n    func removeItem(_ item: String, quantity: Int) {\n        if let currentQuantity = inventory[item], currentQuantity >= quantity {\n            inventory[item] = currentQuantity - quantity\n            if inventory[item] == 0 {\n                inventory.removeValue(forKey: item)\n            }\n        }\n    }\n    \n    func checkInventory(_ item: String) -> Int {\n        return inventory[item, default: 0]\n    }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```swift\nfunc romanToInt(_ s: String) -> Int {\n    let romanMap: [Character: Int] = [\n        \"I\": 1,\n        \"V\": 5,\n        \"X\": 10,\n        \"L\": 50,\n        \"C\": 100,\n        \"D\": 500,\n        \"M\": 1000\n    ]\n    \n    var result = 0\n    var previousValue = 0\n    \n    for char in s.reversed() {\n        if let value = romanMap[char] {\n            if value < previousValue {\n                result -= value\n            } else {\n                result += value\n            }\n            previousValue = value\n        }\n    }\n    \n    return result\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```swift\nimport Foundation\n\nfunc letterOccurrences(in input: String) -> [Character: Int] {\n    var occurrences: [Character: Int] = [:]\n    \n    for letter in input {\n        if letter.isLetter {\n            occurrences[letter, default: 0] += 1\n        }\n    }\n    \n    return occurrences\n}\n\nlet inputString = \"Hello World!\"\nlet result = letterOccurrences(in: inputString)\nprint(result)\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```swift\nvar teamScores: [String: Int] = [\n    \"TeamA\": 78,\n    \"TeamB\": 85,\n    \"TeamC\": 92,\n    \"TeamD\": 88\n]\n\nif let (team, _) = teamScores.max(by: { $0.value < $1.value }) {\n    print(\"Team with the highest score: \\(team)\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```swift\nfunc totalWeight(of items: [String: Double]) -> Double {\n    return items.values.reduce(0, +)\n}\n\n// Example usage:\nlet itemWeights = [\"apple\": 1.2, \"banana\": 1.1, \"cherry\": 0.2]\nlet total = totalWeight(of: itemWeights)\nprint(total) // Output will be 2.5\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```swift\nvar websiteVisits: [String: Int] = [\"https://example.com\": 150, \"https://another.com\": 230, \"https://site.com\": 90]\n\nif let mostVisited = websiteVisits.max(by: { $0.value < $1.value }) {\n    print(\"Most visited website: \\(mostVisited.key) with \\(mostVisited.value) visits.\")\n}\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```swift\nlet errorMessages: [Int: String] = [\n    404: \"Not Found\",\n    500: \"Internal Server Error\",\n    403: \"Forbidden\",\n    401: \"Unauthorized\"\n]\n\nfunc printErrorMessage(forCode code: Int) {\n    if let message = errorMessages[code] {\n        print(\"Error \\(code): \\(message)\")\n    } else {\n        print(\"Error \\(code): Unknown error code\")\n    }\n}\n\nlet givenErrorCode = 404\nprintErrorMessage(forCode: givenErrorCode)\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```swift\nvar contacts: [String: String] = [:]\n\n// Add or update contact\ncontacts[\"Alice\"] = \"123-456-7890\"\ncontacts[\"Bob\"] = \"987-654-3210\"\n\n// Update contact\ncontacts[\"Alice\"] = \"111-222-3333\"\n\n// Lookup contact\nif let aliceNumber = contacts[\"Alice\"] {\n    print(\"Alice's phone number is \\(aliceNumber)\")\n}\n\nif let bobNumber = contacts[\"Bob\"] {\n    print(\"Bob's phone number is \\(bobNumber)\")\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```swift\nimport Foundation\n\n// Define a dictionary to map employees to their skill levels\nvar employeeSkills: [String: String] = [\n    \"Alice\": \"Beginner\",\n    \"Bob\": \"Intermediate\",\n    \"Charlie\": \"Expert\"\n]\n\n// Define a dictionary to map skill levels to tasks\nlet taskAssignments: [String: String] = [\n    \"Beginner\": \"Data Entry\",\n    \"Intermediate\": \"Report Analysis\",\n    \"Expert\": \"System Design\"\n]\n\n// Assign tasks to employees based on skill levels\nvar employeeTasks: [String: String] = [:]\n\nfor (employee, skillLevel) in employeeSkills {\n    if let task = taskAssignments[skillLevel] {\n        employeeTasks[employee] = task\n    }\n}\n\n// Print the assigned tasks for each employee\nfor (employee, task) in employeeTasks {\n    print(\"\\(employee) is assigned to: \\(task)\")\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```swift\nvar airportDictionary: [String: String] = [\n    \"LAX\": \"Los Angeles\",\n    \"JFK\": \"New York\",\n    \"ORD\": \"Chicago\",\n    \"ATL\": \"Atlanta\",\n    \"DFW\": \"Dallas\"\n]\n\nfunc getCityName(by code: String) -> String? {\n    return airportDictionary[code]\n}\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```swift\nimport Foundation\n\nlet movies: [String: Int] = [\n    \"Inception\": 2010,\n    \"The Matrix\": 1999,\n    \"The Godfather\": 1972,\n    \"Pulp Fiction\": 1994,\n    \"The Dark Knight\": 2008,\n    \"Forrest Gump\": 1994,\n    \"The Shawshank Redemption\": 1994,\n    \"Fight Club\": 1999\n]\n\nfunc moviesInDecade(_ decade: Int) -> [String] {\n    let startYear = (decade / 10) * 10\n    let endYear = startYear + 9\n    return movies.filter { $0.value >= startYear && $0.value <= endYear }.map { $0.key }\n}\n\nlet moviesIn1990s = moviesInDecade(1990)\nprint(moviesIn1990s)\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```swift\nfunc groupStudentsByGrade(students: [(name: String, grade: String)]) -> [String: [String]] {\n    var gradeGroups: [String: [String]] = [:]\n    \n    for student in students {\n        let grade = student.grade\n        let name = student.name\n        \n        if gradeGroups[grade] != nil {\n            gradeGroups[grade]?.append(name)\n        } else {\n            gradeGroups[grade] = [name]\n        }\n    }\n    \n    return gradeGroups\n}\n\n// Example usage:\nlet students = [(\"Alice\", \"A\"), (\"Bob\", \"B\"), (\"Charlie\", \"A\"), (\"David\", \"C\")]\nlet grouped = groupStudentsByGrade(students: students)\nprint(grouped)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```swift\nlet visitorCounts: [String: Int] = [\n    \"Home\": 1500,\n    \"About\": 300,\n    \"Contact\": 250,\n    \"Blog\": 1200,\n    \"Shop\": 800\n]\n\nif let mostVisited = visitorCounts.max(by: { $0.value < $1.value }) {\n    print(\"Most visited section is \\(mostVisited.key) with \\(mostVisited.value) visitors.\")\n}\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```swift\nimport Foundation\n\nvar projectDeadlines: [String: Date] = [\n    \"Alice\": Date(),\n    \"Bob\": Date().addingTimeInterval(86400), // Example: 1 day later\n    \"Charlie\": Date().addingTimeInterval(172800) // Example: 2 days later\n]\n\nfunc extendDeadline(for member: String, by days: Int) {\n    if let currentDeadline = projectDeadlines[member] {\n        let extendedDeadline = Calendar.current.date(byAdding: .day, value: days, to: currentDeadline)\n        projectDeadlines[member] = extendedDeadline\n    }\n}\n\n// Usage example\nextendDeadline(for: \"Alice\", by: 3)\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```swift\nimport Foundation\n\nclass Library {\n    private var books: [String: Bool] = [:]\n    \n    func addBook(_ title: String) {\n        books[title] = true\n    }\n    \n    func borrowBook(_ title: String) -> Bool {\n        if let isAvailable = books[title], isAvailable {\n            books[title] = false\n            return true\n        }\n        return false\n    }\n    \n    func returnBook(_ title: String) {\n        if books.keys.contains(title) {\n            books[title] = true\n        }\n    }\n    \n    func checkAvailableBooks() -> [String] {\n        return books.filter { $0.value == true }.map { $0.key }\n    }\n}\n\nlet library = Library()\nlibrary.addBook(\"1984\")\nlibrary.addBook(\"To Kill a Mockingbird\")\nlibrary.addBook(\"The Great Gatsby\")\n\nlibrary.borrowBook(\"1984\")\n\nprint(library.checkAvailableBooks()) // [\"To Kill a Mockingbird\", \"The Great Gatsby\"]\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```swift\nimport Foundation\n\nlet planets: [String: Double] = [\n    \"Mercury\": 57.9,\n    \"Venus\": 108.2,\n    \"Earth\": 149.6,\n    \"Mars\": 227.9,\n    \"Jupiter\": 778.3,\n    \"Saturn\": 1427.0,\n    \"Uranus\": 2871.0,\n    \"Neptune\": 4497.1\n]\n\nlet earthDistance = planets[\"Earth\"] ?? 0.0\n\nlet closestPlanet = planets\n    .filter { $0.key != \"Earth\" }\n    .min { abs($0.value - earthDistance) < abs($1.value - earthDistance) }\n\nif let closestPlanet = closestPlanet {\n    print(\"The closest planet to Earth is \\(closestPlanet.key).\")\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```swift\nimport Foundation\n\nlet morseCodeDictionary: [String: String] = [\n    \".-\": \"A\", \"-...\": \"B\", \"-.-.\": \"C\", \"-..\": \"D\", \".\": \"E\",\n    \"..-.\": \"F\", \"--.\": \"G\", \"....\": \"H\", \"..\": \"I\", \".---\": \"J\",\n    \"-.-\": \"K\", \".-..\": \"L\", \"--\": \"M\", \"-.\": \"N\", \"---\": \"O\",\n    \".--.\": \"P\", \"--.-\": \"Q\", \".-.\": \"R\", \"...\": \"S\", \"-\": \"T\",\n    \"..-\": \"U\", \"...-\": \"V\", \".--\": \"W\", \"-..-\": \"X\", \"-.--\": \"Y\",\n    \"--..\": \"Z\", \"-----\": \"0\", \".----\": \"1\", \"..---\": \"2\", \"...--\": \"3\",\n    \"....-\": \"4\", \".....\": \"5\", \"-....\": \"6\", \"--...\": \"7\", \"---..\": \"8\",\n    \"----.\": \"9\"\n]\n\nfunc translateMorseCode(_ morseCode: String) -> String {\n    let words = morseCode.split(separator: \"   \")\n    var translatedMessage = \"\"\n\n    for word in words {\n        let letters = word.split(separator: \" \")\n        for letter in letters {\n            if let translatedLetter = morseCodeDictionary[String(letter)] {\n                translatedMessage.append(translatedLetter)\n            }\n        }\n        translatedMessage.append(\" \")\n    }\n\n    return translatedMessage.trimmingCharacters(in: .whitespaces)\n}\n\nlet morseMessage = \"... --- ...\"\nprint(translateMorseCode(morseMessage)) // SOS\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```swift\nvar vehicleRegistry: [String: String] = [\n    \"ABC123\": \"John Doe\",\n    \"XYZ789\": \"Jane Smith\",\n    \"LMN456\": \"Alice Brown\"\n]\n\n// Example of accessing the map\nif let owner = vehicleRegistry[\"ABC123\"] {\n    print(\"The owner of vehicle ABC123 is \\(owner).\")\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```swift\nimport Foundation\n\nvar teamRecords: [String: (wins: Int, losses: Int)] = [\n    \"Team A\": (wins: 10, losses: 2),\n    \"Team B\": (wins: 8, losses: 4),\n    \"Team C\": (wins: 12, losses: 1),\n    \"Team D\": (wins: 6, losses: 6)\n]\n\nlet bestTeam = teamRecords.max { \n    let winPercentage1 = Double($0.value.wins) / Double($0.value.wins + $0.value.losses)\n    let winPercentage2 = Double($1.value.wins) / Double($1.value.wins + $1.value.losses)\n    return winPercentage1 < winPercentage2\n}\n\nif let bestTeam = bestTeam {\n    print(\"The team with the best record is \\(bestTeam.key) with a record of \\(bestTeam.value.wins)-\\(bestTeam.value.losses).\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```swift\nfunc currencyCodeToName(code: String) -> String? {\n    let currencyMap: [String: String] = [\n        \"USD\": \"United States Dollar\",\n        \"EUR\": \"Euro\",\n        \"JPY\": \"Japanese Yen\",\n        \"GBP\": \"British Pound\",\n        \"AUD\": \"Australian Dollar\",\n        \"CAD\": \"Canadian Dollar\",\n        \"CHF\": \"Swiss Franc\",\n        \"CNY\": \"Chinese Yuan\",\n        \"SEK\": \"Swedish Krona\",\n        \"NZD\": \"New Zealand Dollar\"\n    ]\n    return currencyMap[code]\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```swift\nvar attendance: [String: Int] = [\n    \"Alice\": 5,\n    \"Bob\": 8,\n    \"Charlie\": 3,\n    \"Diana\": 10\n]\n\nif let maxAttendance = attendance.max(by: { $0.value < $1.value }) {\n    print(\"Student with the highest attendance is \\(maxAttendance.key) with \\(maxAttendance.value) attendances.\")\n}\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```swift\nvar countryCapitals: [String: String] = [\n    \"United States\": \"Washington, D.C.\",\n    \"Canada\": \"Ottawa\",\n    \"United Kingdom\": \"London\",\n    \"France\": \"Paris\",\n    \"Germany\": \"Berlin\"\n]\n\nfunc getCapital(of country: String) -> String? {\n    return countryCapitals[country]\n}\n\n// Example usage\nif let capital = getCapital(of: \"Canada\") {\n    print(\"The capital of Canada is \\(capital).\")\n} else {\n    print(\"Capital not found.\")\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```swift\nvar recipeIngredients: [String: Int] = [\n    \"Flour\": 2,\n    \"Sugar\": 1,\n    \"Eggs\": 3,\n    \"Butter\": 1,\n    \"Milk\": 2\n]\n\n// Accessing and printing ingredient quantities\nfor (ingredient, quantity) in recipeIngredients {\n    print(\"\\(ingredient): \\(quantity)\")\n}\n\n// Adding a new ingredient\nrecipeIngredients[\"Vanilla\"] = 1\n\n// Updating an ingredient quantity\nif let currentQuantity = recipeIngredients[\"Sugar\"] {\n    recipeIngredients[\"Sugar\"] = currentQuantity + 1\n}\n\n// Removing an ingredient\nrecipeIngredients.removeValue(forKey: \"Butter\")\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```swift\nimport Foundation\n\nstruct UserProfile {\n    var name: String\n    var email: String\n    var age: Int\n}\n\nclass SocialMediaSystem {\n    private var userProfiles: [String: UserProfile] = [:]\n    \n    func addUserProfile(username: String, profile: UserProfile) {\n        userProfiles[username] = profile\n    }\n    \n    func getUserProfile(username: String) -> UserProfile? {\n        return userProfiles[username]\n    }\n    \n    func removeUserProfile(username: String) {\n        userProfiles.removeValue(forKey: username)\n    }\n    \n    func updateUserProfile(username: String, profile: UserProfile) {\n        if userProfiles[username] != nil {\n            userProfiles[username] = profile\n        }\n    }\n}\n\n// Example usage\nlet system = SocialMediaSystem()\nlet profile = UserProfile(name: \"John Doe\", email: \"john@example.com\", age: 30)\nsystem.addUserProfile(username: \"johndoe123\", profile: profile)\nif let userProfile = system.getUserProfile(username: \"johndoe123\") {\n    print(\"Name: \\(userProfile.name), Email: \\(userProfile.email), Age: \\(userProfile.age)\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```swift\nfunc listProducts(inCategory category: String, from productsByCategory: [String: [String]]) -> [String] {\n    return productsByCategory[category] ?? []\n}\n\n// Example Usage\nlet products = [\n    \"Electronics\": [\"Laptop\", \"Smartphone\", \"Camera\"],\n    \"Groceries\": [\"Apple\", \"Banana\", \"Milk\"],\n    \"Clothing\": [\"T-shirt\", \"Jeans\", \"Jacket\"]\n]\n\nlet electronics = listProducts(inCategory: \"Electronics\", from: products)\nprint(electronics)  // Output: [\"Laptop\", \"Smartphone\", \"Camera\"]\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```swift\nvar shoppingList: [String: Int] = [:]\n\nfunc updateQuantity(for item: String, quantity: Int) {\n    shoppingList[item] = quantity\n}\n\n// Example usage\nupdateQuantity(for: \"Apples\", quantity: 5)\nupdateQuantity(for: \"Bread\", quantity: 2)\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```swift\nimport Foundation\n\nfunc eventsInYear(year: Int, events: [String: Int]) -> [String] {\n    return events.filter { $0.value == year }.map { $0.key }\n}\n\nlet historicalEvents: [String: Int] = [\n    \"Moon Landing\": 1969,\n    \"Fall of the Berlin Wall\": 1989,\n    \"Y2K\": 2000,\n    \"World War II Ends\": 1945\n]\n\nlet yearToFind = 1989\nlet events = eventsInYear(year: yearToFind, events: historicalEvents)\nprint(\"Events in \\(yearToFind): \\(events)\")\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```swift\nimport Foundation\n\nstruct User {\n    let username: String\n    var roles: [String]\n}\n\nclass RoleManager {\n    private var rolePermissions: [String: [String]] = [:]\n    private var userRoles: [String: [String]] = [:]\n    \n    func addRole(_ role: String, permissions: [String]) {\n        rolePermissions[role] = permissions\n    }\n    \n    func assignRole(to user: User, role: String) {\n        if userRoles[user.username] == nil {\n            userRoles[user.username] = []\n        }\n        userRoles[user.username]?.append(role)\n    }\n    \n    func removeRole(from user: User, role: String) {\n        userRoles[user.username]?.removeAll { $0 == role }\n    }\n    \n    func getPermissions(for user: User) -> [String] {\n        guard let roles = userRoles[user.username] else {\n            return []\n        }\n        \n        var permissions: [String] = []\n        for role in roles {\n            if let rolePermissions = rolePermissions[role] {\n                permissions.append(contentsOf: rolePermissions)\n            }\n        }\n        return Array(Set(permissions))\n    }\n}\n\n// Example Usage\nlet manager = RoleManager()\nmanager.addRole(\"admin\", permissions: [\"create\", \"delete\", \"update\"])\nmanager.addRole(\"editor\", permissions: [\"update\", \"create\"])\n\nlet user = User(username: \"johndoe\", roles: [])\nmanager.assignRole(to: user, role: \"admin\")\nmanager.assignRole(to: user, role: \"editor\")\n\nlet permissions = manager.getPermissions(for: user)\n// permissions should contain [\"create\", \"delete\", \"update\"]\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```swift\nlet gradeMap: [Int: String] = [\n    90...100: \"A\",\n    80..<90: \"B\",\n    70..<80: \"C\",\n    60..<70: \"D\",\n    0..<60: \"F\"\n]\n\nfunc convertToLetterGrade(numericGrade: Int) -> String {\n    for (range, letter) in gradeMap {\n        if range.contains(numericGrade) {\n            return letter\n        }\n    }\n    return \"Invalid grade\"\n}\n\nlet numericGrades = [95, 82, 76, 59, 45]\nlet letterGrades = numericGrades.map { convertToLetterGrade(numericGrade: $0) }\n\nprint(letterGrades)\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```swift\nimport Foundation\n\nvar holidayDates: [String: Date] = [\n    \"New Year\": Calendar.current.date(from: DateComponents(year: 2023, month: 1, day: 1))!,\n    \"Christmas\": Calendar.current.date(from: DateComponents(year: 2023, month: 12, day: 25))!,\n    \"Independence Day\": Calendar.current.date(from: DateComponents(year: 2023, month: 7, day: 4))!\n]\n\nfunc dateForHoliday(named holiday: String) -> Date? {\n    return holidayDates[holiday]\n}\n\n// Example usage\nif let date = dateForHoliday(named: \"Christmas\") {\n    print(\"Christmas is on \\(date)\")\n} else {\n    print(\"Holiday not found\")\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```swift\nimport Foundation\n\nenum OrderStatus: String {\n    case pending = \"Pending\"\n    case shipped = \"Shipped\"\n    case delivered = \"Delivered\"\n    case cancelled = \"Cancelled\"\n}\n\nclass OrderSystem {\n    private var orders: [String: OrderStatus] = [:]\n    \n    func addOrder(orderId: String, status: OrderStatus) {\n        orders[orderId] = status\n    }\n    \n    func updateOrderStatus(orderId: String, status: OrderStatus) {\n        if orders.keys.contains(orderId) {\n            orders[orderId] = status\n        }\n    }\n    \n    func getOrderStatus(orderId: String) -> OrderStatus? {\n        return orders[orderId]\n    }\n}\n\nlet orderSystem = OrderSystem()\norderSystem.addOrder(orderId: \"123\", status: .pending)\norderSystem.updateOrderStatus(orderId: \"123\", status: .shipped)\nif let status = orderSystem.getOrderStatus(orderId: \"123\") {\n    print(\"Order 123 status: \\(status.rawValue)\")\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```swift\nvar nutritionalInfo: [String: [String: Any]] = [\n    \"Apple\": [\n        \"Calories\": 52,\n        \"Protein\": 0.3,\n        \"Carbs\": 14,\n        \"Fats\": 0.2\n    ],\n    \"Banana\": [\n        \"Calories\": 89,\n        \"Protein\": 1.1,\n        \"Carbs\": 23,\n        \"Fats\": 0.3\n    ],\n    \"Carrot\": [\n        \"Calories\": 41,\n        \"Protein\": 0.9,\n        \"Carbs\": 10,\n        \"Fats\": 0.2\n    ]\n]\n\nfor (food, nutrients) in nutritionalInfo {\n    print(\"\\(food):\")\n    for (key, value) in nutrients {\n        print(\"  \\(key): \\(value)\")\n    }\n}\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```swift\nvar booksByGenre: [String: [String]] = [\n    \"Science Fiction\": [\"Dune\", \"Neuromancer\", \"Foundation\"],\n    \"Fantasy\": [\"The Hobbit\", \"Harry Potter and the Sorcerer's Stone\", \"The Name of the Wind\"],\n    \"Mystery\": [\"The Girl with the Dragon Tattoo\", \"Gone Girl\", \"Sherlock Holmes\"]\n]\n\nfunc getBooks(in genre: String) -> [String]? {\n    return booksByGenre[genre]\n}\n\n// Example usage\nif let scienceFictionBooks = getBooks(in: \"Science Fiction\") {\n    print(\"Science Fiction Books: \\(scienceFictionBooks)\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```swift\nfunc stateAbbreviationToFullName(abbreviation: String) -> String? {\n    let stateDictionary: [String: String] = [\n        \"AL\": \"Alabama\",\n        \"AK\": \"Alaska\",\n        \"AZ\": \"Arizona\",\n        \"AR\": \"Arkansas\",\n        \"CA\": \"California\",\n        \"CO\": \"Colorado\",\n        \"CT\": \"Connecticut\",\n        \"DE\": \"Delaware\",\n        \"FL\": \"Florida\",\n        \"GA\": \"Georgia\",\n        \"HI\": \"Hawaii\",\n        \"ID\": \"Idaho\",\n        \"IL\": \"Illinois\",\n        \"IN\": \"Indiana\",\n        \"IA\": \"Iowa\",\n        \"KS\": \"Kansas\",\n        \"KY\": \"Kentucky\",\n        \"LA\": \"Louisiana\",\n        \"ME\": \"Maine\",\n        \"MD\": \"Maryland\",\n        \"MA\": \"Massachusetts\",\n        \"MI\": \"Michigan\",\n        \"MN\": \"Minnesota\",\n        \"MS\": \"Mississippi\",\n        \"MO\": \"Missouri\",\n        \"MT\": \"Montana\",\n        \"NE\": \"Nebraska\",\n        \"NV\": \"Nevada\",\n        \"NH\": \"New Hampshire\",\n        \"NJ\": \"New Jersey\",\n        \"NM\": \"New Mexico\",\n        \"NY\": \"New York\",\n        \"NC\": \"North Carolina\",\n        \"ND\": \"North Dakota\",\n        \"OH\": \"Ohio\",\n        \"OK\": \"Oklahoma\",\n        \"OR\": \"Oregon\",\n        \"PA\": \"Pennsylvania\",\n        \"RI\": \"Rhode Island\",\n        \"SC\": \"South Carolina\",\n        \"SD\": \"South Dakota\",\n        \"TN\": \"Tennessee\",\n        \"TX\": \"Texas\",\n        \"UT\": \"Utah\",\n        \"VT\": \"Vermont\",\n        \"VA\": \"Virginia\",\n        \"WA\": \"Washington\",\n        \"WV\": \"West Virginia\",\n        \"WI\": \"Wisconsin\",\n        \"WY\": \"Wyoming\"\n    ]\n    \n    return stateDictionary[abbreviation]\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```swift\nvar customerOrders: [String: [String]] = [\n    \"Alice\": [\"Order1\", \"Order2\"],\n    \"Bob\": [\"Order3\"],\n    \"Charlie\": [\"Order4\", \"Order5\", \"Order6\"]\n]\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```swift\nimport Foundation\n\nclass ParkingLot {\n    private var spaces: [Int: Bool] = [:]\n    \n    init(totalSpaces: Int) {\n        for i in 1...totalSpaces {\n            spaces[i] = false\n        }\n    }\n    \n    func occupySpace(_ spaceNumber: Int) -> Bool {\n        if let isOccupied = spaces[spaceNumber], !isOccupied {\n            spaces[spaceNumber] = true\n            return true\n        }\n        return false\n    }\n    \n    func vacateSpace(_ spaceNumber: Int) -> Bool {\n        if let isOccupied = spaces[spaceNumber], isOccupied {\n            spaces[spaceNumber] = false\n            return true\n        }\n        return false\n    }\n    \n    func isSpaceOccupied(_ spaceNumber: Int) -> Bool? {\n        return spaces[spaceNumber]\n    }\n    \n    func availableSpaces() -> [Int] {\n        return spaces.filter { !$0.value }.map { $0.key }\n    }\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```swift\nvar playerScores: [String: Int] = [:]\n\n// Function to add or update a player's score\nfunc updateScore(for player: String, with score: Int) {\n    playerScores[player] = score\n}\n\n// Function to get a player's score\nfunc getScore(for player: String) -> Int? {\n    return playerScores[player]\n}\n\n// Example usage\nupdateScore(for: \"Alice\", with: 10)\nupdateScore(for: \"Bob\", with: 15)\n\nif let aliceScore = getScore(for: \"Alice\") {\n    print(\"Alice's score is \\(aliceScore)\")\n}\n\nif let bobScore = getScore(for: \"Bob\") {\n    print(\"Bob's score is \\(bobScore)\")\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```swift\nvar scientificTerms: [String: String] = [\n    \"Photosynthesis\": \"The process by which green plants and some other organisms use sunlight to synthesize foods with carbon dioxide and water.\",\n    \"Evolution\": \"The process by which different kinds of living organisms are thought to have developed and diversified from earlier forms during the history of the earth.\",\n    \"Gravity\": \"The force that attracts a body toward the center of the earth, or toward any other physical body having mass.\"\n]\n\nfunc lookupDefinition(for term: String) -> String? {\n    return scientificTerms[term]\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```swift\nfunc convertTemperature(from value: Double, scale: String) -> Double? {\n    let conversionMap: [String: (Double) -> Double] = [\n        \"CtoF\": { $0 * 9/5 + 32 },\n        \"FtoC\": { ($0 - 32) * 5/9 }\n    ]\n    \n    if let conversionFunction = conversionMap[scale] {\n        return conversionFunction(value)\n    }\n    return nil\n}\n\n// Example usage:\nif let fahrenheit = convertTemperature(from: 25, scale: \"CtoF\") {\n    print(\"25\u00b0C is \\(fahrenheit)\u00b0F\")\n}\n\nif let celsius = convertTemperature(from: 77, scale: \"FtoC\") {\n    print(\"77\u00b0F is \\(celsius)\u00b0C\")\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```swift\nvar employeeDepartments: [String: String] = [\n    \"Alice\": \"Engineering\",\n    \"Bob\": \"Human Resources\",\n    \"Charlie\": \"Marketing\",\n    \"David\": \"Finance\"\n]\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```swift\nimport Foundation\n\nvar touristAttractions: [String: String] = [\n    \"Eiffel Tower\": \"Paris, France\",\n    \"Colosseum\": \"Rome, Italy\",\n    \"Statue of Liberty\": \"New York City, USA\",\n    \"Great Wall of China\": \"China\",\n    \"Machu Picchu\": \"Cusco Region, Peru\"\n]\n\nfor (attraction, location) in touristAttractions {\n    print(\"The \\(attraction) is located in \\(location).\")\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```swift\nimport Foundation\n\nclass MusicAlbumCollection {\n    private var albums: [String: String] = [:]\n    \n    func addAlbum(title: String, artist: String) {\n        albums[title] = artist\n    }\n    \n    func removeAlbum(title: String) {\n        albums.removeValue(forKey: title)\n    }\n    \n    func printAlbums() {\n        for (title, artist) in albums {\n            print(\"Album: \\(title), Artist: \\(artist)\")\n        }\n    }\n}\n\nlet collection = MusicAlbumCollection()\ncollection.addAlbum(title: \"Revolver\", artist: \"The Beatles\")\ncollection.addAlbum(title: \"The Dark Side of the Moon\", artist: \"Pink Floyd\")\ncollection.removeAlbum(title: \"Revolver\")\ncollection.printAlbums()\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```swift\nvar inventory: [String: Int] = [\n    \"Apples\": 50,\n    \"Bananas\": 30,\n    \"Oranges\": 40\n]\n\n// Function to add items to the inventory\nfunc addItem(item: String, quantity: Int) {\n    if let currentQuantity = inventory[item] {\n        inventory[item] = currentQuantity + quantity\n    } else {\n        inventory[item] = quantity\n    }\n}\n\n// Function to remove items from the inventory\nfunc removeItem(item: String, quantity: Int) {\n    if let currentQuantity = inventory[item] {\n        let newQuantity = currentQuantity - quantity\n        if newQuantity > 0 {\n            inventory[item] = newQuantity\n        } else {\n            inventory[item] = nil\n        }\n    }\n}\n\n// Function to check the inventory of a specific item\nfunc checkInventory(item: String) -> Int? {\n    return inventory[item]\n}\n\n// Example usage\naddItem(item: \"Apples\", quantity: 20)\nremoveItem(item: \"Bananas\", quantity: 10)\n\nprint(inventory)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```swift\nvar riverLengths: [String: Int] = [\n    \"Nile\": 6650,\n    \"Amazon\": 6400,\n    \"Yangtze\": 6300,\n    \"Mississippi\": 3730,\n    \"Yenisei\": 5539\n]\n\nif let length = riverLengths[\"Amazon\"] {\n    print(\"The Amazon River is \\(length) kilometers long.\")\n} else {\n    print(\"River not found.\")\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```swift\nclass ConferenceRoomManager {\n    private var roomsAvailability: [String: Bool]\n    \n    init(rooms: [String]) {\n        roomsAvailability = Dictionary(uniqueKeysWithValues: rooms.map { ($0, true) })\n    }\n    \n    func bookRoom(roomName: String) -> Bool {\n        if let isAvailable = roomsAvailability[roomName], isAvailable {\n            roomsAvailability[roomName] = false\n            return true\n        }\n        return false\n    }\n    \n    func releaseRoom(roomName: String) -> Bool {\n        if let isBooked = roomsAvailability[roomName], !isBooked {\n            roomsAvailability[roomName] = true\n            return true\n        }\n        return false\n    }\n    \n    func isRoomAvailable(roomName: String) -> Bool {\n        return roomsAvailability[roomName] ?? false\n    }\n    \n    func allRoomsStatus() -> [String: Bool] {\n        return roomsAvailability\n    }\n}\n\n// Example usage:\nlet manager = ConferenceRoomManager(rooms: [\"Room A\", \"Room B\", \"Room C\"])\nmanager.bookRoom(roomName: \"Room A\")\nmanager.isRoomAvailable(roomName: \"Room A\")\nmanager.releaseRoom(roomName: \"Room A\")\nmanager.allRoomsStatus()\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```swift\nimport Foundation\n\nvar animalHabitats: [String: String] = [\n    \"Polar Bear\": \"Arctic\",\n    \"Kangaroo\": \"Grasslands\",\n    \"Elephant\": \"Savannah\",\n    \"Penguin\": \"Antarctica\",\n    \"Dolphin\": \"Ocean\",\n    \"Camel\": \"Desert\"\n]\n\nfor (animal, habitat) in animalHabitats {\n    print(\"\\(animal) lives in the \\(habitat).\")\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```swift\nlet mountains = [\n    \"Mount Everest\": 8848,\n    \"K2\": 8611,\n    \"Kangchenjunga\": 8586,\n    \"Lhotse\": 8516,\n    \"Makalu\": 8485\n]\n\nif let tallestMountain = mountains.max(by: { $0.value < $1.value }) {\n    print(\"The tallest mountain is \\(tallestMountain.key) with an elevation of \\(tallestMountain.value) meters.\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```swift\nfunc timeZoneToUTCOffset(timeZone: String) -> String? {\n    let timeZoneOffsets: [String: String] = [\n        \"PST\": \"-08:00\",\n        \"MST\": \"-07:00\",\n        \"CST\": \"-06:00\",\n        \"EST\": \"-05:00\",\n        \"GMT\": \"+00:00\",\n        \"CET\": \"+01:00\",\n        \"EET\": \"+02:00\",\n        \"IST\": \"+05:30\",\n        \"CST\": \"+08:00\",\n        \"JST\": \"+09:00\"\n    ]\n    \n    return timeZoneOffsets[timeZone]\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```swift\nlet programmingLanguages: [String: String] = [\n    \"Python\": \"Guido van Rossum\",\n    \"Java\": \"James Gosling\",\n    \"C++\": \"Bjarne Stroustrup\",\n    \"Ruby\": \"Yukihiro Matsumoto\",\n    \"JavaScript\": \"Brendan Eich\",\n    \"Swift\": \"Chris Lattner\"\n]\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```swift\nclass NewsletterManager {\n    private var subscribers: [String: Bool] = [:]\n    \n    func subscribe(email: String) {\n        subscribers[email] = true\n    }\n    \n    func unsubscribe(email: String) {\n        subscribers[email] = false\n    }\n    \n    func isSubscribed(email: String) -> Bool {\n        return subscribers[email] ?? false\n    }\n    \n    func listSubscribers() -> [String] {\n        return subscribers.filter { $0.value }.map { $0.key }\n    }\n}\n\n// Example usage:\nlet manager = NewsletterManager()\nmanager.subscribe(email: \"example1@example.com\")\nmanager.subscribe(email: \"example2@example.com\")\nmanager.unsubscribe(email: \"example1@example.com\")\nprint(manager.listSubscribers())  // Output: [\"example2@example.com\"]\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```swift\nimport Foundation\n\nvar likesDictionary: [String: Int] = [:]\n\n// Function to add likes to a post\nfunc addLike(toPost post: String) {\n    if let currentLikes = likesDictionary[post] {\n        likesDictionary[post] = currentLikes + 1\n    } else {\n        likesDictionary[post] = 1\n    }\n}\n\n// Function to get likes for a post\nfunc getLikes(forPost post: String) -> Int {\n    return likesDictionary[post] ?? 0\n}\n\n// Example usage\naddLike(toPost: \"Post1\")\naddLike(toPost: \"Post2\")\naddLike(toPost: \"Post1\")\n\nprint(\"Likes for Post1: \\(getLikes(forPost: \"Post1\"))\")\nprint(\"Likes for Post2: \\(getLikes(forPost: \"Post2\"))\")\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```swift\nvar elementsDictionary: [String: Int] = [\n    \"Hydrogen\": 1,\n    \"Helium\": 2,\n    \"Lithium\": 3,\n    \"Beryllium\": 4,\n    \"Boron\": 5,\n    \"Carbon\": 6,\n    \"Nitrogen\": 7,\n    \"Oxygen\": 8,\n    \"Fluorine\": 9,\n    \"Neon\": 10\n]\n\n// Example lookup\nif let atomicNumber = elementsDictionary[\"Oxygen\"] {\n    print(\"The atomic number of Oxygen is \\(atomicNumber).\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```swift\nfunc groupMoviesByDirector(movies: [(title: String, director: String)]) -> [String: [String]] {\n    var directorMap: [String: [String]] = [:]\n    \n    for movie in movies {\n        let director = movie.director\n        let title = movie.title\n        \n        if var titles = directorMap[director] {\n            titles.append(title)\n            directorMap[director] = titles\n        } else {\n            directorMap[director] = [title]\n        }\n    }\n    \n    return directorMap\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```swift\nvar historicalFigures: [String: Int] = [\n    \"Albert Einstein\": 1879,\n    \"Isaac Newton\": 1643,\n    \"Marie Curie\": 1867,\n    \"Leonardo da Vinci\": 1452,\n    \"Galileo Galilei\": 1564\n]\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```swift\nvar planetDiameters: [String: Double] = [\n    \"Mercury\": 4879.0,\n    \"Venus\": 12104.0,\n    \"Earth\": 12742.0,\n    \"Mars\": 6779.0,\n    \"Jupiter\": 139820.0,\n    \"Saturn\": 116460.0,\n    \"Uranus\": 50724.0,\n    \"Neptune\": 49244.0\n]\n\nfor (planet, diameter) in planetDiameters {\n    print(\"\\(planet): \\(diameter) km\")\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```swift\nvar restaurantRatings: [String: Int] = [:]\n\nfunc updateRating(for restaurant: String, with rating: Int) {\n    restaurantRatings[restaurant] = rating\n}\n\nfunc getRating(for restaurant: String) -> Int? {\n    return restaurantRatings[restaurant]\n}\n\n// Example usage:\nupdateRating(for: \"Pasta Palace\", with: 5)\nupdateRating(for: \"Burger Barn\", with: 4)\n\nif let rating = getRating(for: \"Pasta Palace\") {\n    print(\"Pasta Palace has a rating of \\(rating).\")\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```swift\nlet binaryToDecimalMap: [String: Int] = [\n    \"0000\": 0,\n    \"0001\": 1,\n    \"0010\": 2,\n    \"0011\": 3,\n    \"0100\": 4,\n    \"0101\": 5,\n    \"0110\": 6,\n    \"0111\": 7,\n    \"1000\": 8,\n    \"1001\": 9,\n    \"1010\": 10,\n    \"1011\": 11,\n    \"1100\": 12,\n    \"1101\": 13,\n    \"1110\": 14,\n    \"1111\": 15\n]\n\nfunc translateBinaryToDecimal(binary: String) -> Int? {\n    return binaryToDecimalMap[binary]\n}\n\n// Example usage\nif let decimal = translateBinaryToDecimal(binary: \"1010\") {\n    print(decimal) // Output: 10\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```swift\nvar artistWorks: [String: String] = [\n    \"Leonardo da Vinci\": \"Mona Lisa\",\n    \"Vincent van Gogh\": \"Starry Night\",\n    \"Pablo Picasso\": \"Guernica\",\n    \"Claude Monet\": \"Water Lilies\",\n    \"Salvador Dal\u00ed\": \"The Persistence of Memory\"\n]\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```swift\nimport Foundation\n\nenum MaintenanceType: String {\n    case oilChange = \"Oil Change\"\n    case tireRotation = \"Tire Rotation\"\n    case brakeInspection = \"Brake Inspection\"\n}\n\nstruct MaintenanceSchedule {\n    var date: Date\n    var type: MaintenanceType\n}\n\nclass VehicleMaintenanceTracker {\n    private var maintenanceMap: [String: [MaintenanceSchedule]] = [:]\n\n    func addMaintenance(forVehicle vehicleID: String, schedule: MaintenanceSchedule) {\n        if maintenanceMap[vehicleID] != nil {\n            maintenanceMap[vehicleID]?.append(schedule)\n        } else {\n            maintenanceMap[vehicleID] = [schedule]\n        }\n    }\n\n    func getMaintenance(forVehicle vehicleID: String) -> [MaintenanceSchedule]? {\n        return maintenanceMap[vehicleID]\n    }\n}\n\n// Usage example\nlet tracker = VehicleMaintenanceTracker()\n\nlet schedule1 = MaintenanceSchedule(date: Date(), type: .oilChange)\nlet schedule2 = MaintenanceSchedule(date: Date(), type: .tireRotation)\n\ntracker.addMaintenance(forVehicle: \"Vehicle123\", schedule: schedule1)\ntracker.addMaintenance(forVehicle: \"Vehicle123\", schedule: schedule2)\n\nif let maintenance = tracker.getMaintenance(forVehicle: \"Vehicle123\") {\n    for schedule in maintenance {\n        print(\"Date: \\(schedule.date), Type: \\(schedule.type.rawValue)\")\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```swift\nlet languagesSpeakers: [String: Int] = [\n    \"English\": 1500000000,\n    \"Mandarin\": 1110000000,\n    \"Hindi\": 600000000,\n    \"Spanish\": 480000000,\n    \"French\": 280000000\n]\n\nfor (language, speakers) in languagesSpeakers {\n    print(\"\\(language): \\(speakers) speakers worldwide\")\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```swift\nvar cityTemperatures: [String: Double] = [\n    \"New York\": 12.4,\n    \"Los Angeles\": 18.5,\n    \"Chicago\": 10.2,\n    \"Houston\": 20.8,\n    \"Miami\": 24.6\n]\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```swift\nfunc convertMetricToImperial(unit: String, value: Double) -> Double? {\n    let conversionRates: [String: Double] = [\n        \"meter\": 3.28084,        // meters to feet\n        \"kilogram\": 2.20462,     // kilograms to pounds\n        \"liter\": 0.264172,       // liters to gallons\n        \"centimeter\": 0.393701,  // centimeters to inches\n        \"kilometer\": 0.621371    // kilometers to miles\n    ]\n    \n    if let conversionRate = conversionRates[unit] {\n        return value * conversionRate\n    } else {\n        return nil\n    }\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```swift\nvar sportsWorldRecords: [String: String] = [\n    \"100m Sprint\": \"9.58 seconds\",\n    \"Marathon\": \"2:01:09\",\n    \"Long Jump\": \"8.95 meters\",\n    \"High Jump\": \"2.45 meters\",\n    \"Pole Vault\": \"6.18 meters\"\n]\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```swift\nclass FavoriteMovies {\n    private var movies: [String: String] = [:]\n\n    func addMovie(title: String, director: String) {\n        movies[title] = director\n    }\n\n    func removeMovie(title: String) {\n        movies.removeValue(forKey: title)\n    }\n\n    func getMovies() -> [String: String] {\n        return movies\n    }\n}\n\n// Example usage:\nlet favoriteMovies = FavoriteMovies()\nfavoriteMovies.addMovie(title: \"Inception\", director: \"Christopher Nolan\")\nfavoriteMovies.addMovie(title: \"The Matrix\", director: \"Lana Wachowski, Lilly Wachowski\")\nfavoriteMovies.removeMovie(title: \"Inception\")\nlet currentFavorites = favoriteMovies.getMovies()\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```swift\nvar cityDistances: [String: Int] = [\n    \"New York - Los Angeles\": 2790,\n    \"Chicago - Houston\": 1093,\n    \"Miami - Atlanta\": 663,\n    \"Dallas - Seattle\": 2072,\n    \"Boston - San Francisco\": 3095\n]\n\n// Example of accessing a distance\nif let distance = cityDistances[\"New York - Los Angeles\"] {\n    print(\"The distance between New York and Los Angeles is \\(distance) miles.\")\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```swift\nlet planetOrbitalPeriods: [String: Double] = [\n    \"Mercury\": 88.0,\n    \"Venus\": 224.7,\n    \"Earth\": 365.2,\n    \"Mars\": 687.0,\n    \"Jupiter\": 4331.0,\n    \"Saturn\": 10747.0,\n    \"Uranus\": 30589.0,\n    \"Neptune\": 59800.0\n]\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```swift\nfunc colorName(from htmlCode: String) -> String? {\n    let colorMap: [String: String] = [\n        \"#FFFFFF\": \"White\",\n        \"#000000\": \"Black\",\n        \"#FF0000\": \"Red\",\n        \"#00FF00\": \"Green\",\n        \"#0000FF\": \"Blue\",\n        \"#FFFF00\": \"Yellow\",\n        \"#00FFFF\": \"Cyan\",\n        \"#FF00FF\": \"Magenta\"\n    ]\n    \n    return colorMap[htmlCode.uppercased()]\n}\n\n// Example usage:\nif let colorName = colorName(from: \"#ff0000\") {\n    print(\"The color name is \\(colorName).\")\n} else {\n    print(\"Color code not found.\")\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```swift\nlet composersAndCompositions: [String: String] = [\n    \"Ludwig van Beethoven\": \"Symphony No. 9\",\n    \"Wolfgang Amadeus Mozart\": \"The Magic Flute\",\n    \"Johann Sebastian Bach\": \"Brandenburg Concertos\",\n    \"Pyotr Ilyich Tchaikovsky\": \"Swan Lake\",\n    \"Fr\u00e9d\u00e9ric Chopin\": \"Nocturnes\"\n]\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```swift\nimport Foundation\n\nvar bridges: [String: Double] = [\n    \"Golden Gate Bridge\": 2737.4,\n    \"Brooklyn Bridge\": 1825.0,\n    \"London Bridge\": 269.0,\n    \"Sydney Harbour Bridge\": 1149.0\n]\n\n// Example usage\nfor (bridge, length) in bridges {\n    print(\"\\(bridge) is \\(length) meters long.\")\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```swift\nimport Foundation\n\nclass GoalManager {\n    private var goals: [String: String]\n    \n    init() {\n        self.goals = [:]\n    }\n    \n    func addGoal(title: String, description: String) {\n        goals[title] = description\n    }\n    \n    func updateGoal(title: String, newDescription: String) {\n        if goals.keys.contains(title) {\n            goals[title] = newDescription\n        }\n    }\n    \n    func getGoalDescription(title: String) -> String? {\n        return goals[title]\n    }\n    \n    func allGoals() -> [String: String] {\n        return goals\n    }\n}\n\nlet goalManager = GoalManager()\ngoalManager.addGoal(title: \"Exercise\", description: \"Go to the gym 3 times a week.\")\ngoalManager.updateGoal(title: \"Exercise\", newDescription: \"Go to the gym 4 times a week.\")\nprint(goalManager.getGoalDescription(title: \"Exercise\") ?? \"Goal not found\")\nprint(goalManager.allGoals())\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```swift\nimport Foundation\n\nlet hexToBinaryMap: [Character: String] = [\n    \"0\": \"0000\", \"1\": \"0001\", \"2\": \"0010\", \"3\": \"0011\",\n    \"4\": \"0100\", \"5\": \"0101\", \"6\": \"0110\", \"7\": \"0111\",\n    \"8\": \"1000\", \"9\": \"1001\", \"A\": \"1010\", \"B\": \"1011\",\n    \"C\": \"1100\", \"D\": \"1101\", \"E\": \"1110\", \"F\": \"1111\"\n]\n\nfunc hexToBinary(hex: String) -> String {\n    return hex.uppercased().compactMap { hexToBinaryMap[$0] }.joined()\n}\n\n// Example usage\nlet hexNumber = \"1A3F\"\nlet binaryNumber = hexToBinary(hex: hexNumber)\nprint(\"Hex: \\(hexNumber) => Binary: \\(binaryNumber)\")\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```swift\nvar treeHeights: [String: Double] = [\n    \"Oak\": 70.0,\n    \"Pine\": 80.5,\n    \"Maple\": 50.0,\n    \"Birch\": 40.0\n]\n```"
+  }
+]

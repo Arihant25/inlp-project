@@ -1,0 +1,378 @@
+[
+  {
+    "task": "Filter out all even numbers from a list of integers.",
+    "code": "```rust\nfn main() {\n    let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\n    let filtered: Vec<i32> = numbers.into_iter().filter(|&x| x % 2 != 0).collect();\n    println!(\"{:?}\", filtered);\n}\n```"
+  },
+  {
+    "task": "Select all words from a list that start with the letter 'a'.",
+    "code": "```rust\nfn main() {\n    let words = vec![\"apple\", \"banana\", \"avocado\", \"cherry\", \"apricot\"];\n    let filtered_words: Vec<&str> = words.iter().filter(|&&word| word.starts_with('a')).cloned().collect();\n    println!(\"{:?}\", filtered_words);\n}\n```"
+  },
+  {
+    "task": "Find all positive numbers in a collection of integers.",
+    "code": "```rust\nfn main() {\n    let numbers = vec![-3, 4, -1, 5, 0, 2, -7];\n    let positive_numbers: Vec<i32> = numbers.into_iter().filter(|&x| x > 0).collect();\n    println!(\"{:?}\", positive_numbers);\n}\n```"
+  },
+  {
+    "task": "Extract all employees who are older than 30 from an employee directory.",
+    "code": "```rust\nstruct Employee {\n    name: String,\n    age: u32,\n}\n\nfn main() {\n    let employees = vec![\n        Employee { name: \"Alice\".to_string(), age: 28 },\n        Employee { name: \"Bob\".to_string(), age: 35 },\n        Employee { name: \"Charlie\".to_string(), age: 32 },\n    ];\n\n    let employees_over_30: Vec<&Employee> = employees.iter().filter(|e| e.age > 30).collect();\n\n    for employee in employees_over_30 {\n        println!(\"{} is older than 30\", employee.name);\n    }\n}\n```"
+  },
+  {
+    "task": "List all cities with a population greater than one million from a dataset.",
+    "code": "```rust\nstruct City {\n    name: String,\n    population: u32,\n}\n\nfn main() {\n    let cities = vec![\n        City { name: \"Tokyo\".to_string(), population: 37_000_000 },\n        City { name: \"Delhi\".to_string(), population: 31_000_000 },\n        City { name: \"Shanghai\".to_string(), population: 27_000_000 },\n        City { name: \"Sao Paulo\".to_string(), population: 22_000_000 },\n        City { name: \"Mumbai\".to_string(), population: 20_000_000 },\n        City { name: \"New York\".to_string(), population: 8_000_000 },\n        City { name: \"San Francisco\".to_string(), population: 883_305 },\n    ];\n\n    let large_cities: Vec<&City> = cities\n        .iter()\n        .filter(|&city| city.population > 1_000_000)\n        .collect();\n\n    for city in large_cities {\n        println!(\"{}\", city.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out products that are out of stock from a product list.",
+    "code": "```rust\nstruct Product {\n    name: String,\n    in_stock: bool,\n}\n\nfn filter_in_stock(products: Vec<Product>) -> Vec<Product> {\n    products.into_iter().filter(|product| product.in_stock).collect()\n}\n\nfn main() {\n    let products = vec![\n        Product { name: \"Product A\".to_string(), in_stock: true },\n        Product { name: \"Product B\".to_string(), in_stock: false },\n        Product { name: \"Product C\".to_string(), in_stock: true },\n    ];\n\n    let in_stock_products = filter_in_stock(products);\n\n    for product in in_stock_products {\n        println!(\"In stock: {}\", product.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all students who have passed with a grade above 70 from a list of student scores.",
+    "code": "```rust\nstruct Student {\n    name: String,\n    grade: u32,\n}\n\nfn main() {\n    let students = vec![\n        Student { name: \"Alice\".to_string(), grade: 85 },\n        Student { name: \"Bob\".to_string(), grade: 65 },\n        Student { name: \"Charlie\".to_string(), grade: 72 },\n        Student { name: \"Dave\".to_string(), grade: 90 },\n    ];\n\n    let passed_students: Vec<&Student> = students.iter()\n        .filter(|student| student.grade > 70)\n        .collect();\n\n    for student in passed_students {\n        println!(\"{} passed with a grade of {}\", student.name, student.grade);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all strings in an array that contain the substring 'cat'.",
+    "code": "```rust\nfn main() {\n    let strings = [\"caterpillar\", \"dog\", \"category\", \"fish\", \"scatter\"];\n    let filtered: Vec<&str> = strings.iter().filter(|s| s.contains(\"cat\")).cloned().collect();\n    println!(\"{:?}\", filtered);\n}\n```"
+  },
+  {
+    "task": "Extract all transactions above $1000 from a financial record.",
+    "code": "```rust\nstruct Transaction {\n    amount: f64,\n}\n\nfn filter_transactions(transactions: Vec<Transaction>) -> Vec<Transaction> {\n    transactions.into_iter()\n        .filter(|transaction| transaction.amount > 1000.0)\n        .collect()\n}\n\nfn main() {\n    let transactions = vec![\n        Transaction { amount: 500.0 },\n        Transaction { amount: 1500.0 },\n        Transaction { amount: 2000.0 },\n        Transaction { amount: 750.0 },\n    ];\n\n    let high_value_transactions = filter_transactions(transactions);\n\n    for transaction in high_value_transactions {\n        println!(\"Transaction over $1000: ${}\", transaction.amount);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all non-prime numbers from a list of numbers.",
+    "code": "```rust\nfn is_prime(n: u32) -> bool {\n    if n <= 1 {\n        return false;\n    }\n    for i in 2..=((n as f64).sqrt() as u32) {\n        if n % i == 0 {\n            return false;\n        }\n    }\n    true\n}\n\nfn main() {\n    let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\n    let primes: Vec<u32> = numbers.into_iter().filter(|&x| is_prime(x)).collect();\n    println!(\"{:?}\", primes);\n}\n```"
+  },
+  {
+    "task": "Select all books with more than 300 pages from a library catalog.",
+    "code": "```rust\nstruct Book {\n    title: String,\n    pages: u32,\n}\n\nfn main() {\n    let library_catalog = vec![\n        Book { title: String::from(\"Book One\"), pages: 150 },\n        Book { title: String::from(\"Book Two\"), pages: 320 },\n        Book { title: String::from(\"Book Three\"), pages: 450 },\n    ];\n\n    let books_with_more_than_300_pages: Vec<&Book> = library_catalog\n        .iter()\n        .filter(|&book| book.pages > 300)\n        .collect();\n\n    for book in books_with_more_than_300_pages {\n        println!(\"{}\", book.title);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all users who have logged in within the past week from a user database.",
+    "code": "```rust\nuse chrono::{Duration, Utc};\nuse std::vec::Vec;\n\n#[derive(Debug)]\nstruct User {\n    username: String,\n    last_login: chrono::DateTime<Utc>,\n}\n\nfn users_logged_in_past_week(users: Vec<User>) -> Vec<User> {\n    let one_week_ago = Utc::now() - Duration::weeks(1);\n    users.into_iter()\n        .filter(|user| user.last_login > one_week_ago)\n        .collect()\n}\n\nfn main() {\n    let users = vec![\n        User {\n            username: String::from(\"Alice\"),\n            last_login: Utc::now() - Duration::days(2),\n        },\n        User {\n            username: String::from(\"Bob\"),\n            last_login: Utc::now() - Duration::days(10),\n        },\n    ];\n\n    let recent_users = users_logged_in_past_week(users);\n    for user in recent_users {\n        println!(\"{:?}\", user);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all URLs that contain 'https' from a list of web addresses.",
+    "code": "```rust\nfn main() {\n    let urls = vec![\n        \"https://example.com\",\n        \"http://example.org\",\n        \"https://rust-lang.org\",\n        \"ftp://example.net\",\n    ];\n    \n    let https_urls: Vec<&str> = urls.into_iter()\n        .filter(|url| url.contains(\"https\"))\n        .collect();\n    \n    for url in https_urls {\n        println!(\"{}\", url);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all movies released after the year 2000 from a movie database.",
+    "code": "```rust\nstruct Movie {\n    title: String,\n    year: u32,\n}\n\nfn main() {\n    let movies = vec![\n        Movie { title: \"Movie 1\".to_string(), year: 1999 },\n        Movie { title: \"Movie 2\".to_string(), year: 2001 },\n        Movie { title: \"Movie 3\".to_string(), year: 2005 },\n    ];\n\n    let filtered_movies: Vec<&Movie> = movies.iter().filter(|&movie| movie.year > 2000).collect();\n\n    for movie in filtered_movies {\n        println!(\"{}\", movie.title);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all tasks with a priority level of 'high' from a task management system.",
+    "code": "```rust\nstruct Task {\n    name: String,\n    priority: String,\n}\n\nfn filter_high_priority_tasks(tasks: Vec<Task>) -> Vec<Task> {\n    tasks.into_iter()\n        .filter(|task| task.priority == \"high\")\n        .collect()\n}\n\nfn main() {\n    let tasks = vec![\n        Task { name: \"Task 1\".to_string(), priority: \"medium\".to_string() },\n        Task { name: \"Task 2\".to_string(), priority: \"high\".to_string() },\n        Task { name: \"Task 3\".to_string(), priority: \"low\".to_string() },\n        Task { name: \"Task 4\".to_string(), priority: \"high\".to_string() },\n    ];\n\n    let high_priority_tasks = filter_high_priority_tasks(tasks);\n    for task in high_priority_tasks {\n        println!(\"High priority task: {}\", task.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all words longer than five characters from a text document.",
+    "code": "```rust\nfn main() {\n    let text = \"This is a sample text document with some longword and short.\";\n    let filtered_words: Vec<&str> = text\n        .split_whitespace()\n        .filter(|word| word.len() <= 5)\n        .collect();\n\n    println!(\"{:?}\", filtered_words);\n}\n```"
+  },
+  {
+    "task": "Extract all odd numbers from a sequence of integers.",
+    "code": "```rust\nfn main() {\n    let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\n    let odd_numbers: Vec<i32> = numbers.into_iter().filter(|&x| x % 2 != 0).collect();\n    println!(\"{:?}\", odd_numbers);\n}\n```"
+  },
+  {
+    "task": "Select all files larger than 10MB from a list of files.",
+    "code": "```rust\nstruct File {\n    name: String,\n    size_in_mb: u64,\n}\n\nfn filter_large_files(files: Vec<File>) -> Vec<File> {\n    files.into_iter().filter(|file| file.size_in_mb > 10).collect()\n}\n\nfn main() {\n    let files = vec![\n        File { name: String::from(\"file1.txt\"), size_in_mb: 5 },\n        File { name: String::from(\"file2.txt\"), size_in_mb: 15 },\n        File { name: String::from(\"file3.txt\"), size_in_mb: 20 },\n    ];\n\n    let large_files = filter_large_files(files);\n    for file in large_files {\n        println!(\"{} is larger than 10MB\", file.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all events occurring on weekends from an event schedule.",
+    "code": "```rust\nuse chrono::{Datelike, NaiveDate};\nuse std::vec::Vec;\n\nstruct Event {\n    name: String,\n    date: NaiveDate,\n}\n\nfn filter_weekend_events(events: Vec<Event>) -> Vec<Event> {\n    events.into_iter()\n        .filter(|event| {\n            let weekday = event.date.weekday();\n            weekday == chrono::Weekday::Sat || weekday == chrono::Weekday::Sun\n        })\n        .collect()\n}\n\nfn main() {\n    let events = vec![\n        Event { name: \"Event1\".to_string(), date: NaiveDate::from_ymd(2023, 10, 14) },\n        Event { name: \"Event2\".to_string(), date: NaiveDate::from_ymd(2023, 10, 16) },\n        Event { name: \"Event3\".to_string(), date: NaiveDate::from_ymd(2023, 10, 15) },\n    ];\n\n    let weekend_events = filter_weekend_events(events);\n\n    for event in weekend_events {\n        println!(\"{}: {}\", event.name, event.date);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all emails from a specific domain in an email list.",
+    "code": "```rust\nfn filter_emails_by_domain(emails: Vec<&str>, domain: &str) -> Vec<&str> {\n    emails.into_iter()\n        .filter(|email| email.ends_with(&format!(\"@{}\", domain)))\n        .collect()\n}\n\nfn main() {\n    let emails = vec![\"example1@domain.com\", \"example2@other.com\", \"example3@domain.com\"];\n    let domain = \"domain.com\";\n    let filtered_emails = filter_emails_by_domain(emails, domain);\n    println!(\"{:?}\", filtered_emails);\n}\n```"
+  },
+  {
+    "task": "Filter out all people not living in a specific city from a contact list.",
+    "code": "```rust\nstruct Person {\n    name: String,\n    city: String,\n}\n\nfn filter_by_city(contacts: Vec<Person>, city: &str) -> Vec<Person> {\n    contacts.into_iter()\n        .filter(|person| person.city == city)\n        .collect()\n}\n\nfn main() {\n    let contacts = vec![\n        Person { name: \"Alice\".to_string(), city: \"New York\".to_string() },\n        Person { name: \"Bob\".to_string(), city: \"Los Angeles\".to_string() },\n        Person { name: \"Charlie\".to_string(), city: \"New York\".to_string() },\n    ];\n\n    let filtered_contacts = filter_by_city(contacts, \"New York\");\n    for person in filtered_contacts {\n        println!(\"{} lives in {}\", person.name, person.city);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all rectangles with an area greater than 50 from a list of rectangles.",
+    "code": "```rust\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\n\nfn main() {\n    let rectangles = vec![\n        Rectangle { width: 5, height: 10 },\n        Rectangle { width: 10, height: 10 },\n        Rectangle { width: 7, height: 8 },\n        Rectangle { width: 3, height: 20 },\n    ];\n\n    let large_rectangles: Vec<&Rectangle> = rectangles.iter()\n        .filter(|r| r.width * r.height > 50)\n        .collect();\n\n    // Output or further processing of large_rectangles\n}\n```"
+  },
+  {
+    "task": "Extract all elements that are not null from a collection.",
+    "code": "```rust\nfn filter_non_null<T>(collection: Vec<Option<T>>) -> Vec<T> {\n    collection.into_iter().filter_map(|x| x).collect()\n}\n\nfn main() {\n    let data = vec![Some(1), None, Some(3), None, Some(5)];\n    let filtered_data = filter_non_null(data);\n    println!(\"{:?}\", filtered_data);\n}\n```"
+  },
+  {
+    "task": "Identify all registered voters over the age of 18 from a voter registration list.",
+    "code": "```rust\nstruct Voter {\n    name: String,\n    age: u32,\n    registered: bool,\n}\n\nfn main() {\n    let voters = vec![\n        Voter { name: \"Alice\".to_string(), age: 30, registered: true },\n        Voter { name: \"Bob\".to_string(), age: 17, registered: true },\n        Voter { name: \"Charlie\".to_string(), age: 19, registered: false },\n        Voter { name: \"David\".to_string(), age: 25, registered: true },\n    ];\n\n    let eligible_voters: Vec<&Voter> = voters.iter()\n        .filter(|voter| voter.age > 18 && voter.registered)\n        .collect();\n\n    for voter in eligible_voters {\n        println!(\"Name: {}, Age: {}\", voter.name, voter.age);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all cars manufactured after 2015 from a vehicle registry.",
+    "code": "```rust\nstruct Car {\n    make: String,\n    model: String,\n    year: u32,\n}\n\nfn main() {\n    let vehicles = vec![\n        Car { make: String::from(\"Toyota\"), model: String::from(\"Camry\"), year: 2018 },\n        Car { make: String::from(\"Ford\"), model: String::from(\"Mustang\"), year: 2014 },\n        Car { make: String::from(\"Tesla\"), model: String::from(\"Model S\"), year: 2020 },\n    ];\n\n    let cars_after_2015: Vec<&Car> = vehicles.iter().filter(|car| car.year > 2015).collect();\n    \n    for car in cars_after_2015 {\n        println!(\"{} {} {}\", car.make, car.model, car.year);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all negative numbers from a dataset of integers.",
+    "code": "```rust\nfn main() {\n    let dataset = vec![10, -3, 5, -1, 0, 7, -6];\n    let filtered: Vec<i32> = dataset.into_iter().filter(|&x| x >= 0).collect();\n    println!(\"{:?}\", filtered);\n}\n```"
+  },
+  {
+    "task": "Extract all characters from a string that are uppercase.",
+    "code": "```rust\nfn extract_uppercase(s: &str) -> String {\n    s.chars().filter(|c| c.is_uppercase()).collect()\n}\n\nfn main() {\n    let input = \"Hello, World!\";\n    let result = extract_uppercase(input);\n    println!(\"{}\", result);\n}\n```"
+  },
+  {
+    "task": "Identify all projects with a deadline within the next month from a project database.",
+    "code": "```rust\nuse chrono::{Datelike, Duration, Local};\nuse std::collections::HashMap;\n\n#[derive(Debug)]\nstruct Project {\n    name: String,\n    deadline: chrono::NaiveDate,\n}\n\nfn main() {\n    let projects = vec![\n        Project {\n            name: String::from(\"Project A\"),\n            deadline: chrono::NaiveDate::from_ymd(2023, 11, 15),\n        },\n        Project {\n            name: String::from(\"Project B\"),\n            deadline: chrono::NaiveDate::from_ymd(2023, 12, 5),\n        },\n        Project {\n            name: String::from(\"Project C\"),\n            deadline: chrono::NaiveDate::from_ymd(2024, 1, 10),\n        },\n    ];\n\n    let today = Local::now().naive_local().date();\n    let next_month = today + Duration::days(30);\n\n    let upcoming_projects: Vec<&Project> = projects\n        .iter()\n        .filter(|project| project.deadline >= today && project.deadline <= next_month)\n        .collect();\n\n    for project in upcoming_projects {\n        println!(\"{:?}\", project);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all athletes with a score higher than 90 from a competition result list.",
+    "code": "```rust\nstruct Athlete {\n    name: String,\n    score: u32,\n}\n\nfn main() {\n    let athletes = vec![\n        Athlete { name: String::from(\"Alice\"), score: 95 },\n        Athlete { name: String::from(\"Bob\"), score: 89 },\n        Athlete { name: String::from(\"Charlie\"), score: 92 },\n    ];\n\n    let high_scorers: Vec<&Athlete> = athletes.iter().filter(|a| a.score > 90).collect();\n\n    for athlete in high_scorers {\n        println!(\"{} has a score of {}\", athlete.name, athlete.score);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all strings that do not contain vowels from a list of words.",
+    "code": "```rust\nfn main() {\n    let words = vec![\"apple\", \"sky\", \"rust\", \"fly\", \"orange\"];\n    let filtered: Vec<&str> = words.iter().filter(|&&word| {\n        word.contains('a') || word.contains('e') || word.contains('i') || \n        word.contains('o') || word.contains('u')\n    }).cloned().collect();\n    println!(\"{:?}\", filtered);\n}\n```"
+  },
+  {
+    "task": "Extract all dates that fall on a weekday from a calendar.",
+    "code": "```rust\nuse chrono::{NaiveDate, Datelike, Weekday};\n\nfn filter_weekdays(dates: Vec<NaiveDate>) -> Vec<NaiveDate> {\n    dates.into_iter()\n        .filter(|date| match date.weekday() {\n            Weekday::Sat | Weekday::Sun => false,\n            _ => true,\n        })\n        .collect()\n}\n\nfn main() {\n    let dates = vec![\n        NaiveDate::from_ymd_opt(2023, 10, 9).unwrap(),\n        NaiveDate::from_ymd_opt(2023, 10, 10).unwrap(),\n        NaiveDate::from_ymd_opt(2023, 10, 11).unwrap(),\n        NaiveDate::from_ymd_opt(2023, 10, 14).unwrap(),\n        NaiveDate::from_ymd_opt(2023, 10, 15).unwrap(),\n    ];\n    \n    let weekdays = filter_weekdays(dates);\n    for date in weekdays {\n        println!(\"{}\", date);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all software versions that are stable releases from a list of software versions.",
+    "code": "```rust\nfn main() {\n    let versions = vec![\n        \"1.0.0\",\n        \"1.0.1-alpha\",\n        \"1.1.0\",\n        \"2.0.0-beta\",\n        \"2.0.1\",\n        \"3.0.0\",\n        \"3.0.0-rc1\",\n    ];\n\n    let stable_releases: Vec<&str> = versions\n        .iter()\n        .filter(|version| !version.contains('-'))\n        .cloned()\n        .collect();\n\n    println!(\"{:?}\", stable_releases);\n}\n```"
+  },
+  {
+    "task": "Select all temperatures above freezing from a weather report.",
+    "code": "```rust\nfn main() {\n    let temperatures = vec![32.0, 28.5, 40.0, 31.0, 35.5];\n    \n    let above_freezing: Vec<f64> = temperatures.into_iter()\n        .filter(|&temp| temp > 32.0)\n        .collect();\n    \n    println!(\"{:?}\", above_freezing);\n}\n```"
+  },
+  {
+    "task": "Identify all countries with a GDP per capita above $40,000 from a country dataset.",
+    "code": "```rust\nstruct Country {\n    name: String,\n    gdp_per_capita: f64,\n}\n\nfn filter_countries_by_gdp(countries: Vec<Country>, threshold: f64) -> Vec<Country> {\n    countries.into_iter()\n        .filter(|country| country.gdp_per_capita > threshold)\n        .collect()\n}\n\nfn main() {\n    let countries = vec![\n        Country { name: String::from(\"CountryA\"), gdp_per_capita: 50000.0 },\n        Country { name: String::from(\"CountryB\"), gdp_per_capita: 30000.0 },\n        Country { name: String::from(\"CountryC\"), gdp_per_capita: 45000.0 },\n    ];\n\n    let wealthy_countries = filter_countries_by_gdp(countries, 40000.0);\n\n    for country in wealthy_countries {\n        println!(\"{}\", country.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all names shorter than four letters from a roster.",
+    "code": "```rust\nfn main() {\n    let roster = vec![\"Sam\", \"John\", \"Amy\", \"Clara\", \"Ed\"];\n    let filtered_roster: Vec<&str> = roster.into_iter().filter(|name| name.len() >= 4).collect();\n    println!(\"{:?}\", filtered_roster);\n}\n```"
+  },
+  {
+    "task": "Extract all numbers divisible by five from a sequence.",
+    "code": "```rust\nfn main() {\n    let numbers = vec![1, 5, 10, 12, 15, 22, 25, 30];\n    let divisible_by_five: Vec<i32> = numbers.into_iter().filter(|&x| x % 5 == 0).collect();\n    println!(\"{:?}\", divisible_by_five);\n}\n```"
+  },
+  {
+    "task": "Select all movies with a rating above 4 stars from a film review site.",
+    "code": "```rust\nstruct Movie {\n    title: String,\n    rating: f32,\n}\n\nfn filter_high_rated_movies(movies: Vec<Movie>) -> Vec<Movie> {\n    movies.into_iter()\n        .filter(|movie| movie.rating > 4.0)\n        .collect()\n}\n\nfn main() {\n    let movies = vec![\n        Movie { title: String::from(\"Movie A\"), rating: 3.5 },\n        Movie { title: String::from(\"Movie B\"), rating: 4.5 },\n        Movie { title: String::from(\"Movie C\"), rating: 4.7 },\n    ];\n\n    let high_rated_movies = filter_high_rated_movies(movies);\n\n    for movie in high_rated_movies {\n        println!(\"{} with rating {}\", movie.title, movie.rating);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all jobs with a salary above $50,000 from a job listing.",
+    "code": "```rust\nstruct Job {\n    title: String,\n    salary: u32,\n}\n\nfn main() {\n    let job_listings = vec![\n        Job { title: String::from(\"Software Engineer\"), salary: 120000 },\n        Job { title: String::from(\"Data Analyst\"), salary: 45000 },\n        Job { title: String::from(\"Project Manager\"), salary: 65000 },\n        Job { title: String::from(\"Product Owner\"), salary: 50000 },\n    ];\n\n    let high_salary_jobs: Vec<&Job> = job_listings.iter()\n        .filter(|job| job.salary > 50000)\n        .collect();\n\n    for job in high_salary_jobs {\n        println!(\"Job: {}, Salary: ${}\", job.title, job.salary);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all entries without an email address from a contact form submission list.",
+    "code": "```rust\nfn main() {\n    let submissions = vec![\n        Contact { name: \"Alice\".to_string(), email: Some(\"alice@example.com\".to_string()) },\n        Contact { name: \"Bob\".to_string(), email: None },\n        Contact { name: \"Charlie\".to_string(), email: Some(\"charlie@example.com\".to_string()) },\n    ];\n\n    let filtered_submissions: Vec<Contact> = submissions\n        .into_iter()\n        .filter(|contact| contact.email.is_some())\n        .collect();\n\n    println!(\"{:?}\", filtered_submissions);\n}\n\n#[derive(Debug)]\nstruct Contact {\n    name: String,\n    email: Option<String>,\n}\n```"
+  },
+  {
+    "task": "Identify all animals weighing more than 50kg from a zoo inventory.",
+    "code": "```rust\n#[derive(Debug)]\nstruct Animal {\n    name: String,\n    weight_kg: f64,\n}\n\nfn main() {\n    let zoo_inventory = vec![\n        Animal { name: String::from(\"Elephant\"), weight_kg: 5000.0 },\n        Animal { name: String::from(\"Giraffe\"), weight_kg: 800.0 },\n        Animal { name: String::from(\"Panda\"), weight_kg: 100.0 },\n        Animal { name: String::from(\"Kangaroo\"), weight_kg: 45.0 },\n        Animal { name: String::from(\"Koala\"), weight_kg: 15.0 },\n    ];\n\n    let heavy_animals: Vec<&Animal> = zoo_inventory\n        .iter()\n        .filter(|animal| animal.weight_kg > 50.0)\n        .collect();\n\n    for animal in heavy_animals {\n        println!(\"{:?}\", animal);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all songs with a duration longer than three minutes from a playlist.",
+    "code": "```rust\nstruct Song {\n    title: String,\n    duration: u32, // Duration in seconds\n}\n\nfn main() {\n    let playlist = vec![\n        Song {\n            title: \"Song One\".to_string(),\n            duration: 240,\n        },\n        Song {\n            title: \"Song Two\".to_string(),\n            duration: 180,\n        },\n        Song {\n            title: \"Song Three\".to_string(),\n            duration: 200,\n        },\n    ];\n\n    let long_songs: Vec<&Song> = playlist.iter().filter(|&song| song.duration > 180).collect();\n\n    for song in long_songs {\n        println!(\"{}\", song.title);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all accounts with a balance below zero from a bank statement.",
+    "code": "```rust\nstruct Account {\n    name: String,\n    balance: f64,\n}\n\nfn main() {\n    let accounts = vec![\n        Account { name: String::from(\"Alice\"), balance: 150.0 },\n        Account { name: String::from(\"Bob\"), balance: -50.0 },\n        Account { name: String::from(\"Charlie\"), balance: 200.0 },\n        Account { name: String::from(\"Dave\"), balance: -25.0 },\n    ];\n\n    let negative_balance_accounts: Vec<&Account> = accounts.iter()\n        .filter(|account| account.balance < 0.0)\n        .collect();\n\n    for account in negative_balance_accounts {\n        println!(\"Account with negative balance: {}\", account.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all non-alphabetic characters from a string of text.",
+    "code": "```rust\nfn filter_alphabetic(input: &str) -> String {\n    input.chars().filter(|c| c.is_alphabetic()).collect()\n}\n\nfn main() {\n    let text = \"Hello, World! 123\";\n    let filtered_text = filter_alphabetic(text);\n    println!(\"{}\", filtered_text);\n}\n```"
+  },
+  {
+    "task": "Select all participants who scored above average in a competition.",
+    "code": "```rust\nfn main() {\n    let participants = vec![\n        (\"Alice\", 85),\n        (\"Bob\", 78),\n        (\"Charlie\", 92),\n        (\"David\", 88),\n        (\"Eve\", 76),\n    ];\n\n    let total_score: i32 = participants.iter().map(|&(_, score)| score).sum();\n    let average_score = total_score as f32 / participants.len() as f32;\n\n    let above_average: Vec<&str> = participants\n        .iter()\n        .filter(|&&(_, score)| score as f32 > average_score)\n        .map(|&(name, _)| name)\n        .collect();\n\n    println!(\"Participants scoring above average: {:?}\", above_average);\n}\n```"
+  },
+  {
+    "task": "Find all houses priced under $300,000 from a real estate database.",
+    "code": "```rust\nstruct House {\n    price: u32,\n    // other fields\n}\n\nfn main() {\n    let houses = vec![\n        House { price: 250_000 },\n        House { price: 350_000 },\n        House { price: 275_000 },\n        House { price: 400_000 },\n    ];\n\n    let affordable_houses: Vec<&House> = houses.iter().filter(|&house| house.price < 300_000).collect();\n\n    // Use affordable_houses as needed\n}\n```"
+  },
+  {
+    "task": "Identify all plants that bloom in spring from a botanical catalog.",
+    "code": "```rust\nstruct Plant {\n    name: String,\n    blooms_in_spring: bool,\n}\n\nfn main() {\n    let catalog = vec![\n        Plant { name: String::from(\"Tulip\"), blooms_in_spring: true },\n        Plant { name: String::from(\"Rose\"), blooms_in_spring: false },\n        Plant { name: String::from(\"Daffodil\"), blooms_in_spring: true },\n        Plant { name: String::from(\"Lily\"), blooms_in_spring: false },\n    ];\n    \n    let spring_bloomers: Vec<&Plant> = catalog.iter()\n        .filter(|plant| plant.blooms_in_spring)\n        .collect();\n        \n    for plant in spring_bloomers {\n        println!(\"{}\", plant.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all passwords that are longer than eight characters from a user database.",
+    "code": "```rust\nfn main() {\n    let user_database = vec![\n        \"short\",\n        \"muchlongerpassword\",\n        \"123456789\",\n        \"anotherlongpassword\",\n        \"tiny\",\n    ];\n\n    let long_passwords: Vec<&str> = user_database\n        .iter()\n        .filter(|&&password| password.len() > 8)\n        .cloned()\n        .collect();\n\n    println!(\"{:?}\", long_passwords);\n}\n```"
+  },
+  {
+    "task": "Filter out all projects that are not yet started from a project management tool.",
+    "code": "```rust\nstruct Project {\n    name: String,\n    status: String,\n}\n\nfn main() {\n    let projects = vec![\n        Project { name: \"Project A\".to_string(), status: \"Not Started\".to_string() },\n        Project { name: \"Project B\".to_string(), status: \"In Progress\".to_string() },\n        Project { name: \"Project C\".to_string(), status: \"Completed\".to_string() },\n    ];\n\n    let started_projects: Vec<&Project> = projects\n        .iter()\n        .filter(|project| project.status != \"Not Started\")\n        .collect();\n\n    for project in started_projects {\n        println!(\"Started Project: {}\", project.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all days with temperatures exceeding 25\u00b0C from a climate report.",
+    "code": "```rust\nfn main() {\n    let climate_report = vec![\n        (\"Monday\", 22),\n        (\"Tuesday\", 28),\n        (\"Wednesday\", 25),\n        (\"Thursday\", 27),\n        (\"Friday\", 30),\n        (\"Saturday\", 20),\n        (\"Sunday\", 26),\n    ];\n\n    let hot_days: Vec<_> = climate_report\n        .iter()\n        .filter(|&&(_, temperature)| temperature > 25)\n        .collect();\n\n    for (day, temperature) in hot_days {\n        println!(\"{}: {}\u00b0C\", day, temperature);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all recipes that are vegetarian from a cookbook.",
+    "code": "```rust\nstruct Recipe {\n    name: String,\n    is_vegetarian: bool,\n}\n\nfn main() {\n    let cookbook = vec![\n        Recipe { name: String::from(\"Spaghetti\"), is_vegetarian: true },\n        Recipe { name: String::from(\"Chicken Curry\"), is_vegetarian: false },\n        Recipe { name: String::from(\"Vegetable Stir Fry\"), is_vegetarian: true },\n    ];\n\n    let vegetarian_recipes: Vec<&Recipe> = cookbook.iter()\n        .filter(|recipe| recipe.is_vegetarian)\n        .collect();\n\n    for recipe in vegetarian_recipes {\n        println!(\"{}\", recipe.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all articles that mention a specific keyword from a news feed.",
+    "code": "```rust\nfn filter_articles_by_keyword(articles: Vec<&str>, keyword: &str) -> Vec<&str> {\n    articles.into_iter()\n        .filter(|article| article.contains(keyword))\n        .collect()\n}\n\nfn main() {\n    let news_feed = vec![\n        \"Rust programming language gains popularity\",\n        \"New advancements in AI technology\",\n        \"Rust is a systems programming language\",\n        \"The rise of functional programming\",\n    ];\n    let keyword = \"Rust\";\n    let filtered_articles = filter_articles_by_keyword(news_feed, keyword);\n    for article in filtered_articles {\n        println!(\"{}\", article);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all files with the '.jpg' extension from a directory.",
+    "code": "```rust\nuse std::fs;\nuse std::path::Path;\n\nfn main() {\n    let dir_path = \"./\"; // specify your directory path\n    if let Ok(entries) = fs::read_dir(dir_path) {\n        let jpg_files: Vec<_> = entries\n            .filter_map(Result::ok)\n            .map(|entry| entry.path())\n            .filter(|path| {\n                path.extension()\n                    .map_or(false, |ext| ext.eq_ignore_ascii_case(\"jpg\"))\n            })\n            .collect();\n        \n        for file in jpg_files {\n            println!(\"{:?}\", file);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all transactions that are not categorized from a financial statement.",
+    "code": "```rust\nstruct Transaction {\n    amount: f64,\n    category: Option<String>,\n}\n\nfn filter_uncategorized_transactions(transactions: Vec<Transaction>) -> Vec<Transaction> {\n    transactions\n        .into_iter()\n        .filter(|transaction| transaction.category.is_some())\n        .collect()\n}\n\nfn main() {\n    let transactions = vec![\n        Transaction { amount: 100.0, category: Some(String::from(\"Groceries\")) },\n        Transaction { amount: 200.0, category: None },\n        Transaction { amount: 150.0, category: Some(String::from(\"Utilities\")) },\n    ];\n\n    let categorized_transactions = filter_uncategorized_transactions(transactions);\n    for transaction in categorized_transactions {\n        println!(\"Transaction amount: {}, Category: {}\", transaction.amount, transaction.category.unwrap());\n    }\n}\n```"
+  },
+  {
+    "task": "Select all paintings created before 1900 from an art gallery collection.",
+    "code": "```rust\nstruct Painting {\n    title: String,\n    year: u32,\n}\n\nfn main() {\n    let gallery = vec![\n        Painting { title: String::from(\"The Starry Night\"), year: 1889 },\n        Painting { title: String::from(\"The Persistence of Memory\"), year: 1931 },\n        Painting { title: String::from(\"The Night Watch\"), year: 1642 },\n        Painting { title: String::from(\"Mona Lisa\"), year: 1503 },\n    ];\n\n    let filtered_paintings: Vec<&Painting> = gallery.iter()\n        .filter(|&painting| painting.year < 1900)\n        .collect();\n\n    for painting in filtered_paintings {\n        println!(\"{} ({})\", painting.title, painting.year);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all students with perfect attendance from a school record.",
+    "code": "```rust\nstruct Student {\n    name: String,\n    attendance: u32,\n    total_classes: u32,\n}\n\nfn main() {\n    let students = vec![\n        Student { name: \"Alice\".to_string(), attendance: 10, total_classes: 10 },\n        Student { name: \"Bob\".to_string(), attendance: 9, total_classes: 10 },\n        Student { name: \"Charlie\".to_string(), attendance: 10, total_classes: 10 },\n    ];\n\n    let perfect_attendance_students: Vec<&Student> = students\n        .iter()\n        .filter(|student| student.attendance == student.total_classes)\n        .collect();\n\n    for student in perfect_attendance_students {\n        println!(\"{}\", student.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all messages sent by a specific user from a chat application.",
+    "code": "```rust\nstruct Message {\n    user: String,\n    content: String,\n}\n\nfn filter_messages_by_user(messages: Vec<Message>, target_user: &str) -> Vec<Message> {\n    messages\n        .into_iter()\n        .filter(|message| message.user == target_user)\n        .collect()\n}\n\nfn main() {\n    let messages = vec![\n        Message {\n            user: String::from(\"Alice\"),\n            content: String::from(\"Hello!\"),\n        },\n        Message {\n            user: String::from(\"Bob\"),\n            content: String::from(\"How are you?\"),\n        },\n        Message {\n            user: String::from(\"Alice\"),\n            content: String::from(\"I'm fine, thanks.\"),\n        },\n    ];\n\n    let user_messages = filter_messages_by_user(messages, \"Alice\");\n\n    for message in user_messages {\n        println!(\"{}: {}\", message.user, message.content);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all elements greater than 100 from an array of numbers.",
+    "code": "```rust\nfn main() {\n    let numbers = [50, 150, 200, 75, 125];\n    let filtered: Vec<i32> = numbers.iter().cloned().filter(|&x| x > 100).collect();\n    println!(\"{:?}\", filtered);\n}\n```"
+  },
+  {
+    "task": "Filter out all words that do not end in 'ed' from a paragraph.",
+    "code": "```rust\nfn filter_words(paragraph: &str) -> Vec<&str> {\n    paragraph\n        .split_whitespace()\n        .filter(|word| word.ends_with(\"ed\"))\n        .collect()\n}\n\nfn main() {\n    let paragraph = \"I walked to the store and talked with a friend who was delighted.\";\n    let filtered_words = filter_words(paragraph);\n    println!(\"{:?}\", filtered_words);\n}\n```"
+  },
+  {
+    "task": "Select all flights departing before noon from a flight schedule.",
+    "code": "```rust\nstruct Flight {\n    departure_time: String, // Assuming \"HH:MM\" format\n}\n\nfn flights_departing_before_noon(flights: Vec<Flight>) -> Vec<Flight> {\n    flights.into_iter()\n        .filter(|flight| {\n            if let Ok(time) = chrono::NaiveTime::parse_from_str(&flight.departure_time, \"%H:%M\") {\n                time < chrono::NaiveTime::from_hms(12, 0, 0)\n            } else {\n                false\n            }\n        })\n        .collect()\n}\n\nfn main() {\n    let schedule = vec![\n        Flight { departure_time: \"10:30\".to_string() },\n        Flight { departure_time: \"13:15\".to_string() },\n        Flight { departure_time: \"09:45\".to_string() },\n    ];\n    \n    let morning_flights = flights_departing_before_noon(schedule);\n    for flight in morning_flights {\n        println!(\"Flight departs at: {}\", flight.departure_time);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all products priced above $20 from an online store inventory.",
+    "code": "```rust\nstruct Product {\n    name: String,\n    price: f64,\n}\n\nfn main() {\n    let inventory = vec![\n        Product { name: \"Book\".to_string(), price: 15.0 },\n        Product { name: \"Headphones\".to_string(), price: 30.0 },\n        Product { name: \"Keyboard\".to_string(), price: 50.0 },\n        Product { name: \"Mouse\".to_string(), price: 10.0 },\n    ];\n    \n    let expensive_products: Vec<&Product> = inventory.iter().filter(|p| p.price > 20.0).collect();\n    \n    for product in expensive_products {\n        println!(\"Product: {}, Price: ${}\", product.name, product.price);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all sessions longer than one hour from a webinar series.",
+    "code": "```rust\nstruct Session {\n    title: String,\n    duration_minutes: u32,\n}\n\nfn main() {\n    let sessions = vec![\n        Session {\n            title: \"Introduction to Rust\".to_string(),\n            duration_minutes: 45,\n        },\n        Session {\n            title: \"Advanced Rust Patterns\".to_string(),\n            duration_minutes: 75,\n        },\n        Session {\n            title: \"Memory Management\".to_string(),\n            duration_minutes: 60,\n        },\n        Session {\n            title: \"Concurrency in Rust\".to_string(),\n            duration_minutes: 90,\n        },\n    ];\n\n    let long_sessions: Vec<&Session> = sessions\n        .iter()\n        .filter(|session| session.duration_minutes > 60)\n        .collect();\n\n    for session in long_sessions {\n        println!(\"Long session: {}\", session.title);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all images with a resolution higher than 1080p from a photo library.",
+    "code": "```rust\nstruct Image {\n    width: u32,\n    height: u32,\n    file_name: String,\n}\n\nfn filter_high_res_images(images: Vec<Image>) -> Vec<Image> {\n    images.into_iter()\n        .filter(|image| image.width * image.height > 1920 * 1080)\n        .collect()\n}\n\nfn main() {\n    let photos = vec![\n        Image { width: 3840, height: 2160, file_name: String::from(\"image1.jpg\") },\n        Image { width: 1920, height: 1080, file_name: String::from(\"image2.jpg\") },\n        Image { width: 2560, height: 1440, file_name: String::from(\"image3.jpg\") },\n    ];\n\n    let high_res_images = filter_high_res_images(photos);\n    for image in high_res_images {\n        println!(\"{}\", image.file_name);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all responses that are not 'yes' or 'no' from a survey result.",
+    "code": "```rust\nfn main() {\n    let survey_responses = vec![\"yes\", \"no\", \"maybe\", \"yes\", \"no\", \"unknown\"];\n    let filtered_responses: Vec<&str> = survey_responses\n        .into_iter()\n        .filter(|&response| response == \"yes\" || response == \"no\")\n        .collect();\n    \n    println!(\"{:?}\", filtered_responses);\n}\n```"
+  },
+  {
+    "task": "Select all tweets with more than 100 likes from a Twitter feed.",
+    "code": "```rust\nstruct Tweet {\n    content: String,\n    likes: u32,\n}\n\nfn filter_tweets(tweets: Vec<Tweet>) -> Vec<Tweet> {\n    tweets.into_iter()\n        .filter(|tweet| tweet.likes > 100)\n        .collect()\n}\n```"
+  },
+  {
+    "task": "Find all links that are broken from a webpage.",
+    "code": "```rust\nuse reqwest;\nuse scraper::{Html, Selector};\nuse futures::stream::{self, StreamExt};\n\n#[tokio::main]\nasync fn main() -> Result<(), Box<dyn std::error::Error>> {\n    let url = \"http://example.com\"; // Replace with the target URL\n    let response = reqwest::get(url).await?;\n    let body = response.text().await?;\n    let document = Html::parse_document(&body);\n    let selector = Selector::parse(\"a\").unwrap();\n    \n    let links: Vec<String> = document.select(&selector)\n        .filter_map(|element| element.value().attr(\"href\"))\n        .map(|href| href.to_string())\n        .collect();\n    \n    let client = reqwest::Client::new();\n    let broken_links = stream::iter(links)\n        .map(|link| {\n            let client = &client;\n            async move {\n                let res = client.get(&link).send().await;\n                match res {\n                    Ok(response) if response.status().is_success() => None,\n                    _ => Some(link),\n                }\n            }\n        })\n        .buffer_unordered(10)\n        .filter_map(|link| async { link })\n        .collect::<Vec<_>>()\n        .await;\n\n    println!(\"Broken links: {:?}\", broken_links);\n    Ok(())\n}\n```"
+  },
+  {
+    "task": "Identify all machines that are currently offline from a network monitoring tool.",
+    "code": "```rust\nfn main() {\n    let machines = vec![\n        (\"Machine1\", \"online\"),\n        (\"Machine2\", \"offline\"),\n        (\"Machine3\", \"offline\"),\n        (\"Machine4\", \"online\"),\n    ];\n\n    let offline_machines: Vec<&str> = machines\n        .iter()\n        .filter_map(|&(name, status)| {\n            if status == \"offline\" {\n                Some(name)\n            } else {\n                None\n            }\n        })\n        .collect();\n\n    println!(\"Offline Machines: {:?}\", offline_machines);\n}\n```"
+  },
+  {
+    "task": "Extract all invoices with a due date in the current month from an accounting system.",
+    "code": "```rust\nuse chrono::{Datelike, Local, NaiveDate};\nuse std::vec::Vec;\n\nstruct Invoice {\n    id: u32,\n    due_date: NaiveDate,\n}\n\nfn filter_invoices_current_month(invoices: &[Invoice]) -> Vec<&Invoice> {\n    let current_date = Local::now().naive_local();\n    let current_month = current_date.month();\n    let current_year = current_date.year();\n\n    invoices\n        .iter()\n        .filter(|invoice| {\n            let due_date = invoice.due_date;\n            due_date.year() == current_year && due_date.month() == current_month\n        })\n        .collect()\n}\n```"
+  },
+  {
+    "task": "Filter out all lines in a file that start with a '#' from a configuration file.",
+    "code": "```rust\nuse std::fs::File;\nuse std::io::{self, BufRead};\nuse std::path::Path;\n\nfn main() -> io::Result<()> {\n    let path = \"config.txt\";\n    if let Ok(lines) = read_lines(path) {\n        for line in lines.flatten().filter(|line| !line.starts_with('#')) {\n            println!(\"{}\", line);\n        }\n    }\n    Ok(())\n}\n\nfn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>\nwhere\n    P: AsRef<Path>,\n{\n    let file = File::open(filename)?;\n    Ok(io::BufReader::new(file).lines())\n}\n```"
+  },
+  {
+    "task": "Select all posts with a comment count higher than 50 from a blog.",
+    "code": "```rust\nstruct Post {\n    title: String,\n    comment_count: u32,\n}\n\nfn main() {\n    let posts = vec![\n        Post {\n            title: String::from(\"First Post\"),\n            comment_count: 30,\n        },\n        Post {\n            title: String::from(\"Popular Post\"),\n            comment_count: 120,\n        },\n        Post {\n            title: String::from(\"Another Post\"),\n            comment_count: 75,\n        },\n    ];\n\n    let filtered_posts: Vec<&Post> = posts.iter().filter(|post| post.comment_count > 50).collect();\n\n    for post in filtered_posts {\n        println!(\"{}\", post.title);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all offers that expire within the next week from a promotional database.",
+    "code": "```rust\nuse chrono::{Duration, Utc};\nuse std::vec::Vec;\n\nstruct Offer {\n    id: u32,\n    expiry_date: chrono::NaiveDate,\n}\n\nfn main() {\n    let promotions_db = vec![\n        Offer { id: 1, expiry_date: Utc::now().naive_utc().date() + Duration::days(2) },\n        Offer { id: 2, expiry_date: Utc::now().naive_utc().date() + Duration::days(10) },\n        Offer { id: 3, expiry_date: Utc::now().naive_utc().date() + Duration::days(5) },\n    ];\n\n    let today = Utc::now().naive_utc().date();\n    let next_week = today + Duration::days(7);\n\n    let expiring_offers: Vec<&Offer> = promotions_db.iter()\n        .filter(|offer| offer.expiry_date <= next_week)\n        .collect();\n\n    for offer in expiring_offers {\n        println!(\"Offer ID: {} expires on: {}\", offer.id, offer.expiry_date);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all items that are on sale from a shopping catalog.",
+    "code": "```rust\nstruct Item {\n    name: String,\n    price: f64,\n    on_sale: bool,\n}\n\nfn main() {\n    let catalog = vec![\n        Item { name: \"Laptop\".to_string(), price: 999.99, on_sale: false },\n        Item { name: \"Smartphone\".to_string(), price: 499.99, on_sale: true },\n        Item { name: \"Headphones\".to_string(), price: 199.99, on_sale: false },\n        Item { name: \"Smartwatch\".to_string(), price: 299.99, on_sale: true },\n    ];\n\n    let items_on_sale: Vec<&Item> = catalog.iter().filter(|item| item.on_sale).collect();\n\n    for item in items_on_sale {\n        println!(\"Item on sale: {}\", item.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all notes that mention 'urgent' from a meeting record.",
+    "code": "```rust\nfn main() {\n    let meeting_notes = vec![\n        \"Discuss budget allocations\",\n        \"urgent: finalize project timeline\",\n        \"Review team performance\",\n        \"urgent: client presentation feedback\",\n    ];\n\n    let urgent_notes: Vec<&str> = meeting_notes\n        .iter()\n        .filter(|&note| note.contains(\"urgent\"))\n        .cloned()\n        .collect();\n\n    for note in urgent_notes {\n        println!(\"{}\", note);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all numbers that do not have a remainder when divided by two from a list.",
+    "code": "```rust\nfn main() {\n    let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\n    let filtered: Vec<i32> = numbers.into_iter().filter(|&x| x % 2 != 0).collect();\n    println!(\"{:?}\", filtered);\n}\n```"
+  },
+  {
+    "task": "Select all concerts happening in the summer from an event calendar.",
+    "code": "```rust\nstruct Event {\n    name: String,\n    start_date: chrono::NaiveDate,\n}\n\nfn main() {\n    let events = vec![\n        Event {\n            name: \"Spring Festival\".to_string(),\n            start_date: chrono::NaiveDate::from_ymd(2023, 4, 10),\n        },\n        Event {\n            name: \"Summer Beats\".to_string(),\n            start_date: chrono::NaiveDate::from_ymd(2023, 7, 15),\n        },\n        Event {\n            name: \"Autumn Gala\".to_string(),\n            start_date: chrono::NaiveDate::from_ymd(2023, 10, 5),\n        },\n        Event {\n            name: \"Summer Jams\".to_string(),\n            start_date: chrono::NaiveDate::from_ymd(2023, 8, 20),\n        },\n    ];\n\n    let summer_concerts: Vec<&Event> = events.iter().filter(|event| {\n        let month = event.start_date.month();\n        month >= 6 && month <= 8\n    }).collect();\n\n    for concert in summer_concerts {\n        println!(\"{}\", concert.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all users with more than 1000 followers from a social media platform.",
+    "code": "```rust\nstruct User {\n    name: String,\n    followers: u32,\n}\n\nfn main() {\n    let users = vec![\n        User { name: String::from(\"Alice\"), followers: 1200 },\n        User { name: String::from(\"Bob\"), followers: 800 },\n        User { name: String::from(\"Charlie\"), followers: 1500 },\n    ];\n\n    let popular_users: Vec<&User> = users.iter().filter(|user| user.followers > 1000).collect();\n\n    for user in popular_users {\n        println!(\"{}\", user.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all stocks with a growth rate above 10% from a financial portfolio.",
+    "code": "```rust\nstruct Stock {\n    name: String,\n    growth_rate: f64,\n}\n\nfn main() {\n    let portfolio = vec![\n        Stock { name: \"StockA\".to_string(), growth_rate: 12.5 },\n        Stock { name: \"StockB\".to_string(), growth_rate: 8.0 },\n        Stock { name: \"StockC\".to_string(), growth_rate: 15.0 },\n        Stock { name: \"StockD\".to_string(), growth_rate: 9.5 },\n    ];\n\n    let high_growth_stocks: Vec<&Stock> = portfolio\n        .iter()\n        .filter(|stock| stock.growth_rate > 10.0)\n        .collect();\n\n    for stock in high_growth_stocks {\n        println!(\"{}\", stock.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all reviews that have a five-star rating from a product review site.",
+    "code": "```rust\nstruct Review {\n    rating: u8,\n    content: String,\n}\n\nfn main() {\n    let reviews = vec![\n        Review { rating: 5, content: \"Excellent product!\".to_string() },\n        Review { rating: 4, content: \"Pretty good, but could be better.\".to_string() },\n        Review { rating: 5, content: \"Absolutely loved it!\".to_string() },\n        Review { rating: 3, content: \"It's okay.\".to_string() },\n    ];\n\n    let five_star_reviews: Vec<&Review> = reviews.iter().filter(|r| r.rating == 5).collect();\n\n    for review in five_star_reviews {\n        println!(\"{}\", review.content);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all emails that are not flagged from an inbox.",
+    "code": "```rust\nstruct Email {\n    flagged: bool,\n    content: String,\n}\n\nfn filter_flagged_emails(inbox: Vec<Email>) -> Vec<Email> {\n    inbox.into_iter().filter(|email| email.flagged).collect()\n}\n\nfn main() {\n    let inbox = vec![\n        Email { flagged: true, content: String::from(\"Important email\") },\n        Email { flagged: false, content: String::from(\"Spam email\") },\n        Email { flagged: true, content: String::from(\"Another important email\") },\n    ];\n\n    let flagged_emails = filter_flagged_emails(inbox);\n    for email in flagged_emails {\n        println!(\"{}\", email.content);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all entries with a timestamp from the past 24 hours from a log file.",
+    "code": "```rust\nuse std::fs::File;\nuse std::io::{self, BufRead};\nuse std::path::Path;\nuse chrono::{Duration, Utc, TimeZone};\n\nfn main() -> io::Result<()> {\n    let log_path = \"log.txt\";\n    if let Ok(lines) = read_lines(log_path) {\n        let now = Utc::now();\n        let past_24_hours = now - Duration::hours(24);\n\n        let recent_entries: Vec<String> = lines\n            .filter_map(|line| line.ok())\n            .filter(|entry| {\n                if let Some(timestamp_str) = entry.split_whitespace().next() {\n                    if let Ok(timestamp) = Utc.datetime_from_str(timestamp_str, \"%Y-%m-%dT%H:%M:%S\") {\n                        return timestamp >= past_24_hours;\n                    }\n                }\n                false\n            })\n            .collect();\n\n        for entry in recent_entries {\n            println!(\"{}\", entry);\n        }\n    }\n    Ok(())\n}\n\nfn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>\nwhere\n    P: AsRef<Path>,\n{\n    let file = File::open(filename)?;\n    Ok(io::BufReader::new(file).lines())\n}\n```"
+  },
+  {
+    "task": "Find all books by a specific author from a library database.",
+    "code": "```rust\nstruct Book {\n    title: String,\n    author: String,\n}\n\nfn find_books_by_author(books: Vec<Book>, author: &str) -> Vec<Book> {\n    books.into_iter()\n        .filter(|book| book.author == author)\n        .collect()\n}\n\nfn main() {\n    let library = vec![\n        Book { title: \"Book One\".to_string(), author: \"Author A\".to_string() },\n        Book { title: \"Book Two\".to_string(), author: \"Author B\".to_string() },\n        Book { title: \"Book Three\".to_string(), author: \"Author A\".to_string() },\n    ];\n\n    let author_a_books = find_books_by_author(library, \"Author A\");\n    for book in author_a_books {\n        println!(\"{}\", book.title);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all donations above $500 from a charity fundraiser report.",
+    "code": "```rust\nfn main() {\n    let donations = vec![100.0, 750.0, 250.0, 600.0, 450.0, 800.0];\n    let large_donations: Vec<f64> = donations.into_iter().filter(|&d| d > 500.0).collect();\n    println!(\"{:?}\", large_donations);\n}\n```"
+  },
+  {
+    "task": "Extract all assignments due in the next week from a course syllabus.",
+    "code": "```rust\nuse chrono::{Duration, NaiveDate, Utc};\n\n#[derive(Debug)]\nstruct Assignment {\n    name: String,\n    due_date: NaiveDate,\n}\n\nfn assignments_due_next_week(assignments: Vec<Assignment>) -> Vec<Assignment> {\n    let today = Utc::now().naive_utc().date();\n    let next_week = today + Duration::days(7);\n    assignments\n        .into_iter()\n        .filter(|assignment| assignment.due_date > today && assignment.due_date <= next_week)\n        .collect()\n}\n\nfn main() {\n    let syllabus = vec![\n        Assignment {\n            name: String::from(\"Assignment 1\"),\n            due_date: NaiveDate::from_ymd(2023, 10, 29),\n        },\n        Assignment {\n            name: String::from(\"Assignment 2\"),\n            due_date: NaiveDate::from_ymd(2023, 11, 5),\n        },\n        Assignment {\n            name: String::from(\"Assignment 3\"),\n            due_date: NaiveDate::from_ymd(2023, 11, 12),\n        },\n    ];\n\n    let due_next_week = assignments_due_next_week(syllabus);\n    for assignment in due_next_week {\n        println!(\"{:?}\", assignment);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all movies that are not in English from a streaming service.",
+    "code": "```rust\nstruct Movie {\n    title: String,\n    language: String,\n}\n\nfn filter_english_movies(movies: Vec<Movie>) -> Vec<Movie> {\n    movies.into_iter()\n        .filter(|movie| movie.language.to_lowercase() == \"english\")\n        .collect()\n}\n\nfn main() {\n    let movies = vec![\n        Movie { title: String::from(\"Movie 1\"), language: String::from(\"English\") },\n        Movie { title: String::from(\"Movie 2\"), language: String::from(\"Spanish\") },\n        Movie { title: String::from(\"Movie 3\"), language: String::from(\"English\") },\n    ];\n\n    let english_movies = filter_english_movies(movies);\n\n    for movie in english_movies {\n        println!(\"Title: {}\", movie.title);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all landmarks located in Europe from a travel guide.",
+    "code": "```rust\nstruct Landmark {\n    name: String,\n    location: String,\n}\n\nfn main() {\n    let landmarks = vec![\n        Landmark { name: String::from(\"Eiffel Tower\"), location: String::from(\"Europe\") },\n        Landmark { name: String::from(\"Great Wall\"), location: String::from(\"Asia\") },\n        Landmark { name: String::from(\"Colosseum\"), location: String::from(\"Europe\") },\n        Landmark { name: String::from(\"Statue of Liberty\"), location: String::from(\"North America\") },\n    ];\n\n    let european_landmarks: Vec<&Landmark> = landmarks\n        .iter()\n        .filter(|&landmark| landmark.location == \"Europe\")\n        .collect();\n\n    for landmark in european_landmarks {\n        println!(\"{}\", landmark.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all contracts that are set to renew next month from a contract management system.",
+    "code": "```rust\nuse chrono::{Datelike, NaiveDate, Utc};\nuse std::vec::Vec;\n\nstruct Contract {\n    renewal_date: NaiveDate,\n}\n\nfn find_contracts_to_renew_next_month(contracts: &[Contract]) -> Vec<&Contract> {\n    let today = Utc::now().naive_utc().date();\n    let current_year = today.year();\n    let current_month = today.month();\n    let next_month = if current_month == 12 { 1 } else { current_month + 1 };\n    let next_year = if next_month == 1 { current_year + 1 } else { current_year };\n\n    contracts\n        .iter()\n        .filter(|contract| {\n            contract.renewal_date.year() == next_year \n                && contract.renewal_date.month() == next_month\n        })\n        .collect()\n}\n\nfn main() {\n    // Example usage\n    let contracts = vec![\n        Contract { renewal_date: NaiveDate::from_ymd(2023, 11, 15) },\n        Contract { renewal_date: NaiveDate::from_ymd(2023, 12, 20) },\n        Contract { renewal_date: NaiveDate::from_ymd(2024, 1, 10) },\n    ];\n\n    let contracts_to_renew = find_contracts_to_renew_next_month(&contracts);\n\n    for contract in contracts_to_renew {\n        println!(\"Contract to renew on: {}\", contract.renewal_date);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all volunteer hours logged in the past year from a non-profit organization database.",
+    "code": "```rust\nuse chrono::{Datelike, NaiveDate, Utc};\nuse std::vec::Vec;\n\n#[derive(Debug)]\nstruct VolunteerLog {\n    date: NaiveDate,\n    hours: u32,\n}\n\nfn filter_volunteer_hours(logs: Vec<VolunteerLog>) -> Vec<VolunteerLog> {\n    let current_year = Utc::today().year();\n    logs.into_iter()\n        .filter(|log| log.date.year() == current_year - 1)\n        .collect()\n}\n\nfn main() {\n    let logs = vec![\n        VolunteerLog {\n            date: NaiveDate::from_ymd(2022, 5, 15),\n            hours: 5,\n        },\n        VolunteerLog {\n            date: NaiveDate::from_ymd(2023, 7, 20),\n            hours: 3,\n        },\n        VolunteerLog {\n            date: NaiveDate::from_ymd(2022, 8, 10),\n            hours: 7,\n        },\n    ];\n\n    let past_year_logs = filter_volunteer_hours(logs);\n    println!(\"{:?}\", past_year_logs);\n}\n```"
+  },
+  {
+    "task": "Extract all elements that are not strings from a mixed-type list.",
+    "code": "```rust\nfn main() {\n    let mixed_list: Vec<Box<dyn std::any::Any>> = vec![\n        Box::new(1),\n        Box::new(\"hello\"),\n        Box::new(3.14),\n        Box::new(\"world\"),\n        Box::new(42),\n    ];\n\n    let non_strings: Vec<Box<dyn std::any::Any>> = mixed_list\n        .into_iter()\n        .filter(|x| !x.is::<&str>())\n        .collect();\n\n    // Example usage\n    for item in non_strings {\n        if let Some(n) = item.downcast_ref::<i32>() {\n            println!(\"Integer: {}\", n);\n        } else if let Some(n) = item.downcast_ref::<f64>() {\n            println!(\"Float: {}\", n);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all orders that are not yet shipped from an e-commerce system.",
+    "code": "```rust\nstruct Order {\n    id: u32,\n    status: String,\n}\n\nfn filter_shipped_orders(orders: Vec<Order>) -> Vec<Order> {\n    orders.into_iter()\n        .filter(|order| order.status == \"shipped\")\n        .collect()\n}\n\nfn main() {\n    let orders = vec![\n        Order { id: 1, status: \"shipped\".to_string() },\n        Order { id: 2, status: \"processing\".to_string() },\n        Order { id: 3, status: \"shipped\".to_string() },\n        Order { id: 4, status: \"pending\".to_string() },\n    ];\n\n    let shipped_orders = filter_shipped_orders(orders);\n\n    for order in shipped_orders {\n        println!(\"Order ID: {}, Status: {}\", order.id, order.status);\n    }\n}\n```"
+  },
+  {
+    "task": "Select all emails sent from a specific address in an email server.",
+    "code": "```rust\nfn filter_emails_from_address(emails: Vec<(&str, &str)>, address: &str) -> Vec<&str> {\n    emails.into_iter()\n          .filter(|&(from, _)| from == address)\n          .map(|(_, email)| email)\n          .collect()\n}\n\nfn main() {\n    let emails = vec![\n        (\"alice@example.com\", \"Email 1 content\"),\n        (\"bob@example.com\", \"Email 2 content\"),\n        (\"alice@example.com\", \"Email 3 content\"),\n    ];\n\n    let filtered_emails = filter_emails_from_address(emails, \"alice@example.com\");\n    for email in filtered_emails {\n        println!(\"{}\", email);\n    }\n}\n```"
+  },
+  {
+    "task": "Find all passwords with at least one special character from a security database.",
+    "code": "```rust\nfn main() {\n    let passwords = vec![\n        \"password123\",\n        \"secure#pass\",\n        \"12345\",\n        \"letmein!\",\n        \"admin\",\n        \"user@name\",\n    ];\n\n    let special_characters = \"!@#$%^&*()-_=+[]{};:'\\\",.<>?/\\\\|`~\";\n\n    let passwords_with_special_chars: Vec<&str> = passwords\n        .into_iter()\n        .filter(|password| password.chars().any(|c| special_characters.contains(c)))\n        .collect();\n\n    for password in passwords_with_special_chars {\n        println!(\"{}\", password);\n    }\n}\n```"
+  },
+  {
+    "task": "Identify all courses with a prerequisite from a university catalog.",
+    "code": "```rust\nstruct Course {\n    name: String,\n    prerequisite: Option<String>,\n}\n\nfn filter_courses_with_prerequisites(courses: Vec<Course>) -> Vec<Course> {\n    courses.into_iter()\n        .filter(|course| course.prerequisite.is_some())\n        .collect()\n}\n\nfn main() {\n    let catalog = vec![\n        Course { name: \"Math 101\".to_string(), prerequisite: None },\n        Course { name: \"Physics 201\".to_string(), prerequisite: Some(\"Math 101\".to_string()) },\n        Course { name: \"Chemistry 101\".to_string(), prerequisite: None },\n        Course { name: \"Biology 101\".to_string(), prerequisite: Some(\"Chemistry 101\".to_string()) },\n    ];\n\n    let courses_with_prerequisites = filter_courses_with_prerequisites(catalog);\n\n    for course in courses_with_prerequisites {\n        println!(\"{}\", course.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Extract all genes associated with a specific trait from a genetic database.",
+    "code": "```rust\nstruct Gene {\n    name: String,\n    associated_traits: Vec<String>,\n}\n\nfn filter_genes_by_trait(genes: Vec<Gene>, trait_name: &str) -> Vec<Gene> {\n    genes.into_iter()\n        .filter(|gene| gene.associated_traits.contains(&trait_name.to_string()))\n        .collect()\n}\n\nfn main() {\n    let genes = vec![\n        Gene {\n            name: \"GeneA\".to_string(),\n            associated_traits: vec![\"Trait1\".to_string(), \"Trait2\".to_string()],\n        },\n        Gene {\n            name: \"GeneB\".to_string(),\n            associated_traits: vec![\"Trait3\".to_string()],\n        },\n        Gene {\n            name: \"GeneC\".to_string(),\n            associated_traits: vec![\"Trait1\".to_string()],\n        },\n    ];\n\n    let specific_trait = \"Trait1\";\n    let filtered_genes = filter_genes_by_trait(genes, specific_trait);\n\n    for gene in filtered_genes {\n        println!(\"{}\", gene.name);\n    }\n}\n```"
+  },
+  {
+    "task": "Filter out all investments with a risk level below medium from a portfolio.",
+    "code": "```rust\n#[derive(Debug)]\nenum RiskLevel {\n    Low,\n    Medium,\n    High,\n}\n\n#[derive(Debug)]\nstruct Investment {\n    name: String,\n    risk: RiskLevel,\n}\n\nfn main() {\n    let portfolio = vec![\n        Investment { name: String::from(\"Investment A\"), risk: RiskLevel::Low },\n        Investment { name: String::from(\"Investment B\"), risk: RiskLevel::Medium },\n        Investment { name: String::from(\"Investment C\"), risk: RiskLevel::High },\n    ];\n\n    let filtered_portfolio: Vec<&Investment> = portfolio\n        .iter()\n        .filter(|investment| matches!(investment.risk, RiskLevel::Medium | RiskLevel::High))\n        .collect();\n\n    println!(\"{:?}\", filtered_portfolio);\n}\n```"
+  },
+  {
+    "task": "Select all calls longer than five minutes from a call log.",
+    "code": "```rust\nstruct Call {\n    duration_minutes: u32,\n}\n\nfn filter_long_calls(calls: Vec<Call>) -> Vec<Call> {\n    calls.into_iter()\n        .filter(|call| call.duration_minutes > 5)\n        .collect()\n}\n```"
+  }
+]

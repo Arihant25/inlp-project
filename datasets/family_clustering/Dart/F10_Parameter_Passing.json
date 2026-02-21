@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```dart\nvoid modifyFirstElement(List<int> arr) {\n  if (arr.isNotEmpty) {\n    arr[0] = 42; // Modifying the first element\n  }\n}\n\nvoid main() {\n  List<int> myArray = [1, 2, 3, 4];\n  modifyFirstElement(myArray);\n  print(myArray); // Output: [42, 2, 3, 4]\n}\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```dart\nclass Swapper {\n  void swap(List<int> pair) {\n    int temp = pair[0];\n    pair[0] = pair[1];\n    pair[1] = temp;\n  }\n}\n\nvoid main() {\n  List<int> numbers = [10, 20];\n  Swapper swapper = Swapper();\n  print('Before swap: ${numbers[0]}, ${numbers[1]}');\n  swapper.swap(numbers);\n  print('After swap: ${numbers[0]}, ${numbers[1]}');\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```dart\nimport 'dart:developer';\nimport 'dart:math';\n\n// Define a large data structure\nclass LargeDataStructure {\n  final List<int> data;\n  LargeDataStructure(int size) : data = List<int>.generate(size, (i) => i);\n}\n\n// Function to pass by value (Dart always passes by reference, so clone the object)\nvoid processByValue(LargeDataStructure data) {\n  // Clone the object to simulate pass by value\n  final clonedData = LargeDataStructure(data.data.length)..data.setAll(0, data.data);\n}\n\n// Function to pass by reference\nvoid processByReference(LargeDataStructure data) {\n  // Modify the data to simulate pass by reference\n  data.data[0] = -1;\n}\n\nvoid main() {\n  const int dataSize = 1000000;\n  final largeData = LargeDataStructure(dataSize);\n\n  // Measure performance and memory usage for pass by value\n  var stopwatch = Stopwatch()..start();\n  processByValue(largeData);\n  stopwatch.stop();\n  log('Time for pass by value: ${stopwatch.elapsedMilliseconds}ms');\n\n  // Measure performance and memory usage for pass by reference\n  stopwatch..reset()..start();\n  processByReference(largeData);\n  stopwatch.stop();\n  log('Time for pass by reference: ${stopwatch.elapsedMilliseconds}ms');\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```dart\nvoid main() {\n  int value = 5;\n  print('Original value: $value');\n  \n  int doubledValue = doubleValue(value);\n  print('Doubled value (pass-by-value): $doubledValue');\n  print('Value after pass-by-value: $value');\n  \n  List<int> referenceValue = [5];\n  doubleValueByReference(referenceValue);\n  print('Value after pass-by-reference: ${referenceValue[0]}');\n}\n\nint doubleValue(int num) {\n  return num * 2;\n}\n\nvoid doubleValueByReference(List<int> num) {\n  num[0] *= 2;\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```dart\nList<int> doubleElements(List<int> originalList) {\n  return originalList.map((element) => element * 2).toList();\n}\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```dart\nString appendCharacter(String original, String charToAppend) {\n  return original + charToAppend;\n}\n\nvoid main() {\n  String original = \"Hello\";\n  String result = appendCharacter(original, '!');\n  \n  print(\"Original: $original\"); // Original remains unchanged\n  print(\"Result: $result\");     // Result is the new string\n}\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```dart\nclass Counter {\n  int value;\n  Counter(this.value);\n}\n\nvoid incrementCounter(Counter counter) {\n  counter.value++;\n}\n\nvoid main() {\n  Counter counter = Counter(0);\n  print('Before increment: ${counter.value}');\n  incrementCounter(counter);\n  print('After increment: ${counter.value}');\n}\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```dart\nvoid removeItem(Map<String, dynamic> dictionary, String key) {\n  dictionary.remove(key);\n}\n\nvoid main() {\n  var myDictionary = {'apple': 1, 'banana': 2, 'cherry': 3};\n  print('Original dictionary: $myDictionary');\n  \n  removeItem(myDictionary, 'banana');\n  print('Modified dictionary: $myDictionary');\n}\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```dart\nvoid main() {\n  List<List<int>> matrix = [\n    [1, 2, 3],\n    [4, 5, 6],\n    [7, 8, 9]\n  ];\n\n  transpose(matrix);\n\n  for (var row in matrix) {\n    print(row);\n  }\n}\n\nvoid transpose(List<List<int>> matrix) {\n  int n = matrix.length;\n  for (int i = 0; i < n; i++) {\n    for (int j = i + 1; j < n; j++) {\n      int temp = matrix[i][j];\n      matrix[i][j] = matrix[j][i];\n      matrix[j][i] = temp;\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```dart\ndouble roundNumber(double number) {\n  return number.roundToDouble();\n}\n\nvoid main() {\n  double originalNumber = 3.7;\n  double roundedNumber = roundNumber(originalNumber);\n  print('Original: $originalNumber, Rounded: $roundedNumber');\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```dart\nvoid addKeyValuePair(Map<String, dynamic> dictionary, String key, dynamic value) {\n  dictionary[key] = value;\n}\n\nvoid main() {\n  Map<String, dynamic> myDict = {'a': 1, 'b': 2};\n  print('Before: $myDict');\n\n  addKeyValuePair(myDict, 'c', 3);\n  print('After: $myDict');\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```dart\nvoid main() {\n  String originalString = \"hello world\";\n  String uppercasedString = convertToUpper(originalString);\n  print('Original String: $originalString');\n  print('Uppercased String: $uppercasedString');\n}\n\nString convertToUpper(String str) {\n  return str.toUpperCase();\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```dart\nvoid main() {\n  var myTuple = Tuple(1, 2);\n  print('Before modification: ${myTuple}');\n  modifyTuple(myTuple);\n  print('After modification: ${myTuple}');\n}\n\nclass Tuple {\n  final int a;\n  final int b;\n\n  Tuple(this.a, this.b);\n\n  @override\n  String toString() => '($a, $b)';\n}\n\nvoid modifyTuple(Tuple tuple) {\n  // Attempt to modify the tuple; this will not change the original tuple\n  // because Dart objects are passed by reference, but the object itself is immutable.\n  var newTuple = Tuple(tuple.a + 1, tuple.b);\n  print('Inside modifyTuple: $newTuple');\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```dart\nclass MyObject {\n  String attribute;\n\n  MyObject(this.attribute);\n}\n\nvoid modifyObjectAttribute(MyObject obj) {\n  obj.attribute = 'Modified Attribute';\n}\n\nvoid main() {\n  MyObject myObj = MyObject('Original Attribute');\n  print('Before modification: ${myObj.attribute}');\n  \n  modifyObjectAttribute(myObj);\n  \n  print('After modification: ${myObj.attribute}');\n}\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```dart\nvoid main() {\n  List<int> numbers = [1, 2, 3, 4, 5];\n  int sum = sumOfElements(List.from(numbers));\n  print('Sum: $sum');\n  print('Original array: $numbers');\n}\n\nint sumOfElements(List<int> arr) {\n  int sum = 0;\n  for (int number in arr) {\n    sum += number;\n  }\n  return sum;\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```dart\nvoid toggleFlag(List<bool> flag) {\n  flag[0] = !flag[0];\n}\n\nvoid main() {\n  List<bool> myFlag = [true];\n  print('Original flag value: ${myFlag[0]}');\n  toggleFlag(myFlag);\n  print('Toggled flag value: ${myFlag[0]}');\n}\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```dart\nclass MyObject {\n  int value;\n\n  MyObject(this.value);\n\n  MyObject clone() {\n    return MyObject(value);\n  }\n}\n\nvoid modifyClone(MyObject obj) {\n  MyObject clonedObj = obj.clone();\n  clonedObj.value = 42;\n  print('Cloned Object Value: ${clonedObj.value}');\n}\n\nvoid main() {\n  MyObject original = MyObject(10);\n  print('Original Object Value: ${original.value}');\n  modifyClone(original);\n  print('Original Object Value after cloning: ${original.value}');\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```dart\nList<int> removeEvenNumbers(List<int> numbers) {\n  return numbers.where((number) => number.isOdd).toList();\n}\n\nvoid main() {\n  List<int> numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];\n  List<int> result = removeEvenNumbers(numbers);\n  print('Original List: $numbers');\n  print('List after removing even numbers: $result');\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```dart\nclass ComplexNumber {\n  double real;\n  double imaginary;\n\n  ComplexNumber(this.real, this.imaginary);\n\n  ComplexNumber conjugate() {\n    return ComplexNumber(this.real, -this.imaginary);\n  }\n}\n\nvoid main() {\n  ComplexNumber original = ComplexNumber(3.0, 4.0);\n  ComplexNumber conjugate = original.conjugate();\n\n  print('Original: (${original.real}, ${original.imaginary})');\n  print('Conjugate: (${conjugate.real}, ${conjugate.imaginary})');\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```dart\nclass TreeNode {\n  int value;\n  TreeNode? left;\n  TreeNode? right;\n\n  TreeNode(this.value, [this.left, this.right]);\n}\n\nvoid invertTree(TreeNode? node) {\n  if (node == null) return;\n\n  // Swap the left and right children\n  TreeNode? temp = node.left;\n  node.left = node.right;\n  node.right = temp;\n\n  invertTree(node.left);\n  invertTree(node.right);\n}\n\nvoid main() {\n  // Example usage\n  TreeNode tree = TreeNode(1, TreeNode(2), TreeNode(3));\n  invertTree(tree);\n  // The tree is inverted in place, affecting the original structure\n}\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```dart\nvoid addElementToSet(Set<int> mySet, int element) {\n  mySet.add(element);\n}\n\nvoid main() {\n  Set<int> numbers = {1, 2, 3};\n  print('Original set: $numbers');\n  \n  addElementToSet(numbers, 4);\n  \n  print('Modified set: $numbers');\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```dart\nvoid main() {\n  List<int> numbers = [5, 2, 9, 1, 5, 6];\n  print('Original array: $numbers');\n  \n  // Pass by value demonstration\n  List<int> sortedNumbers = sortArray(List.from(numbers));\n  print('Sorted array: $sortedNumbers');\n  print('Original array after sort function: $numbers');\n}\n\nList<int> sortArray(List<int> arr) {\n  arr.sort();\n  return arr;\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```dart\nclass Config {\n  bool setting;\n  Config(this.setting);\n}\n\nvoid toggleSetting(Config config) {\n  config.setting = !config.setting;\n}\n\nvoid main() {\n  Config config = Config(true);\n  print('Initial setting: ${config.setting}');\n  toggleSetting(config);\n  print('Toggled setting: ${config.setting}');\n}\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```dart\nimport 'dart:io';\n\nvoid readFileContent(String filePath) {\n  try {\n    final file = File(filePath);\n    final content = file.readAsStringSync();\n    print(content);\n  } catch (e) {\n    print('Error reading file: $e');\n  }\n}\n\nvoid main() {\n  String path = 'example.txt';\n  readFileContent(path);\n}\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```dart\nclass Stack<T> {\n  final List<T> _elements = [];\n\n  void push(T element) => _elements.add(element);\n  \n  T? pop() => _elements.isNotEmpty ? _elements.removeLast() : null;\n  \n  bool get isEmpty => _elements.isEmpty;\n  \n  void reverse() => _elements.reversed.toList().asMap().forEach((i, e) {\n    _elements[i] = e;\n  });\n  \n  @override\n  String toString() => _elements.toString();\n}\n\nvoid reverseStack<T>(Stack<T> stack) {\n  stack.reverse();\n}\n\nvoid main() {\n  final stack = Stack<int>();\n  stack.push(1);\n  stack.push(2);\n  stack.push(3);\n  \n  print('Original stack: $stack');\n  reverseStack(stack);\n  print('Reversed stack: $stack');\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```dart\nimport 'dart:collection';\n\nvoid dequeueElement(Queue<int> queue) {\n  if (queue.isNotEmpty) {\n    queue.removeFirst();\n  }\n}\n\nvoid main() {\n  Queue<int> myQueue = Queue<int>.from([1, 2, 3, 4, 5]);\n  print('Queue before dequeue: $myQueue');\n  dequeueElement(myQueue);\n  print('Queue after dequeue: $myQueue');\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```dart\nvoid updateValue(Map<String, int> hashmap, String key, int newValue) {\n  if (hashmap.containsKey(key)) {\n    hashmap[key] = newValue;\n  }\n}\n\nvoid main() {\n  Map<String, int> myMap = {'a': 1, 'b': 2, 'c': 3};\n\n  print('Before update: $myMap');\n  updateValue(myMap, 'b', 20);\n  print('After update: $myMap');\n}\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```dart\nimport 'dart:convert';\n\nvoid addNewProperty(Map<String, dynamic> jsonObj, String key, dynamic value) {\n  jsonObj[key] = value;\n}\n\nvoid main() {\n  String jsonString = '{\"name\": \"Alice\", \"age\": 30}';\n  Map<String, dynamic> jsonObj = jsonDecode(jsonString);\n  \n  addNewProperty(jsonObj, 'isStudent', true);\n\n  print(jsonEncode(jsonObj));\n}\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```dart\nclass Graph {\n  List<String> nodes;\n\n  Graph() : nodes = [];\n\n  void addNode(String node) {\n    nodes.add(node);\n  }\n}\n\nvoid addNodeToGraph(Graph graph, String newNode) {\n  graph.addNode(newNode);\n}\n\nvoid main() {\n  Graph myGraph = Graph();\n  addNodeToGraph(myGraph, 'A');\n  addNodeToGraph(myGraph, 'B');\n\n  print(myGraph.nodes); // Output: [A, B]\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```dart\nvoid main() {\n  final originalCoordinates = {'x': 5, 'y': 10};\n  final shiftedCoordinates = shiftCoordinates(originalCoordinates, 3, 4);\n  \n  print('Original Coordinates: $originalCoordinates');\n  print('Shifted Coordinates: $shiftedCoordinates');\n}\n\nMap<String, int> shiftCoordinates(Map<String, int> coords, int dx, int dy) {\n  return {\n    'x': coords['x']! + dx,\n    'y': coords['y']! + dy,\n  };\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```dart\nclass Date {\n  int year;\n  int month;\n  int day;\n\n  Date(this.year, this.month, this.day);\n\n  void nextDay() {\n    final daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n    if (isLeapYear() && month == 2) {\n      daysInMonth[1] = 29;\n    }\n\n    day++;\n    if (day > daysInMonth[month - 1]) {\n      day = 1;\n      month++;\n      if (month > 12) {\n        month = 1;\n        year++;\n      }\n    }\n  }\n\n  bool isLeapYear() {\n    if (year % 4 != 0) return false;\n    if (year % 100 != 0) return true;\n    return year % 400 == 0;\n  }\n}\n\nvoid setToNextDay(Date date) {\n  date.nextDay();\n}\n\nvoid main() {\n  Date date = Date(2023, 10, 31);\n  setToNextDay(date);\n  print('${date.year}-${date.month}-${date.day}');\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```dart\nList<int> differentiatePolynomial(List<int> coefficients) {\n  List<int> differentiated = [];\n  for (int i = 1; i < coefficients.length; i++) {\n    differentiated.add(coefficients[i] * i);\n  }\n  return differentiated;\n}\n\nvoid main() {\n  List<int> polynomial = [3, 2, 1]; // Represents 3 + 2x + x^2\n  List<int> differentiated = differentiatePolynomial(polynomial);\n\n  print('Original polynomial coefficients: $polynomial');\n  print('Differentiated polynomial coefficients: $differentiated');\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```dart\nvoid clearStack(List stack) {\n  stack.clear();\n}\n\nvoid main() {\n  List<int> myStack = [1, 2, 3, 4, 5];\n  clearStack(myStack);\n  print(myStack);  // Output: []\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```dart\nclass Node {\n  int value;\n  Node? next;\n\n  Node(this.value);\n}\n\nclass LinkedList {\n  Node? head;\n\n  void append(int newValue) {\n    if (head == null) {\n      head = Node(newValue);\n    } else {\n      Node current = head!;\n      while (current.next != null) {\n        current = current.next!;\n      }\n      current.next = Node(newValue);\n    }\n  }\n}\n\nvoid addNode(LinkedList list, int value) {\n  list.append(value);\n}\n\nvoid main() {\n  LinkedList list = LinkedList();\n  addNode(list, 10);\n  addNode(list, 20);\n\n  Node? current = list.head;\n  while (current != null) {\n    print(current.value);\n    current = current.next;\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```dart\nString extractDomain(String url) {\n  Uri uri = Uri.parse(url);\n  return uri.host;\n}\n\nvoid main() {\n  String url = 'https://www.example.com/path?query=123';\n  String domain = extractDomain(url);\n  print(domain); // Outputs: www.example.com\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```dart\nimport 'dart:collection';\n\nclass PriorityQueue {\n  final List<MapEntry<int, String>> _elements;\n\n  PriorityQueue() : _elements = [];\n\n  void enqueue(int priority, String value) {\n    _elements.add(MapEntry(priority, value));\n    _elements.sort((a, b) => a.key.compareTo(b.key));\n  }\n\n  void changePriority(String value, int newPriority) {\n    for (var element in _elements) {\n      if (element.value == value) {\n        _elements.remove(element);\n        _elements.add(MapEntry(newPriority, value));\n        _elements.sort((a, b) => a.key.compareTo(b.key));\n        break;\n      }\n    }\n  }\n\n  List<MapEntry<int, String>> get elements => _elements;\n}\n\nvoid changeElementPriority(PriorityQueue pq, String value, int newPriority) {\n  pq.changePriority(value, newPriority);\n}\n\nvoid main() {\n  var pq = PriorityQueue();\n  pq.enqueue(3, 'low');\n  pq.enqueue(1, 'high');\n  pq.enqueue(2, 'medium');\n\n  print('Before change: ${pq.elements}');\n  changeElementPriority(pq, 'medium', 0);\n  print('After change: ${pq.elements}');\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```dart\nclass CircularBuffer<T> {\n  final List<T?> _buffer;\n  int _head = 0;\n  int _tail = 0;\n  bool _isFull = false;\n\n  CircularBuffer(int size) : _buffer = List<T?>.filled(size, null);\n\n  bool get isEmpty => !_isFull && _head == _tail;\n  bool get isFull => _isFull;\n\n  void add(T element) {\n    _buffer[_tail] = element;\n    if (_isFull) {\n      _head = (_head + 1) % _buffer.length;\n    }\n    _tail = (_tail + 1) % _buffer.length;\n    _isFull = _tail == _head;\n  }\n\n  T? read() {\n    if (isEmpty) {\n      return null;\n    }\n    final value = _buffer[_head];\n    _head = (_head + 1) % _buffer.length;\n    _isFull = false;\n    return value;\n  }\n}\n\nvoid readElement(CircularBuffer buffer) {\n  var element = buffer.read();\n  print('Read element: $element');\n}\n\nvoid main() {\n  var buffer = CircularBuffer<int>(5);\n  buffer.add(1);\n  buffer.add(2);\n\n  readElement(buffer);  // Will print: Read element: 1\n  readElement(buffer);  // Will print: Read element: 2\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```dart\nclass Record {\n  String field;\n  Record(this.field);\n}\n\nvoid updateRecordField(Record record, String newValue) {\n  record.field = newValue;\n}\n\nvoid main() {\n  Record myRecord = Record('Original');\n  print('Before update: ${myRecord.field}');\n  \n  updateRecordField(myRecord, 'Updated');\n  print('After update: ${myRecord.field}');\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```dart\nList<double> normalizeFrequencyList(List<int> frequencyList) {\n  int totalFrequency = frequencyList.fold(0, (sum, item) => sum + item);\n  return frequencyList.map((item) => item / totalFrequency).toList();\n}\n\nvoid main() {\n  List<int> originalList = [10, 20, 30];\n  List<double> normalizedList = normalizeFrequencyList(originalList);\n  \n  print('Original List: $originalList');\n  print('Normalized List: $normalizedList');\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```dart\nvoid main() {\n  List<List<String>> chessboard = [\n    ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],\n    ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],\n    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],\n    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],\n    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],\n    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],\n    ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],\n    ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],\n  ];\n\n  makeMove(chessboard, 6, 4, 4, 4);\n\n  for (var row in chessboard) {\n    print(row);\n  }\n}\n\nvoid makeMove(List<List<String>> board, int srcRow, int srcCol, int destRow, int destCol) {\n  board[destRow][destCol] = board[srcRow][srcCol];\n  board[srcRow][srcCol] = ' ';\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```dart\nint decimalToBinary(int decimal) {\n  int binary = 0;\n  int base = 1;\n\n  while (decimal > 0) {\n    int lastDigit = decimal % 2;\n    decimal = decimal ~/ 2;\n    binary += lastDigit * base;\n    base *= 10;\n  }\n\n  return binary;\n}\n\nvoid main() {\n  int number = 10;\n  int binaryNumber = decimalToBinary(number);\n  print('Decimal: $number, Binary: $binaryNumber'); // Decimal: 10, Binary: 1010\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```dart\nvoid main() {\n  String dnaSequence = \"AGCTAGCCTAGGCTA\";\n  Map<String, int> nucleotideCount = countNucleotides(dnaSequence);\n  \n  print(\"Original sequence: $dnaSequence\");\n  print(\"Nucleotide counts: $nucleotideCount\");\n}\n\nMap<String, int> countNucleotides(String sequence) {\n  Map<String, int> counts = {'A': 0, 'C': 0, 'G': 0, 'T': 0};\n  for (var nucleotide in sequence.split('')) {\n    if (counts.containsKey(nucleotide)) {\n      counts[nucleotide] = counts[nucleotide]! + 1;\n    }\n  }\n  return counts;\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```dart\nclass ShoppingCart {\n  double totalAmount;\n\n  ShoppingCart(this.totalAmount);\n}\n\nvoid applyDiscount(ShoppingCart cart, double discountPercentage) {\n  cart.totalAmount -= cart.totalAmount * (discountPercentage / 100);\n}\n\nvoid main() {\n  ShoppingCart cart = ShoppingCart(100.0);\n  print('Original Total: \\$${cart.totalAmount}');\n  applyDiscount(cart, 10.0);\n  print('Total after discount: \\$${cart.totalAmount}');\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```dart\nvoid addSong(List<String> playlist, String song) {\n  playlist.add(song);\n}\n\nvoid main() {\n  List<String> myPlaylist = ['Song1', 'Song2', 'Song3'];\n  print('Original Playlist: $myPlaylist');\n  \n  addSong(myPlaylist, 'NewSong');\n  print('Updated Playlist: $myPlaylist');\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```dart\nclass Sprite {\n  double x;\n  double y;\n\n  Sprite(this.x, this.y);\n\n  @override\n  String toString() => 'Sprite(x: $x, y: $y)';\n}\n\nvoid moveSprite(Sprite sprite, double deltaX, double deltaY) {\n  sprite.x += deltaX;\n  sprite.y += deltaY;\n}\n\nvoid main() {\n  Sprite player = Sprite(0.0, 0.0);\n  print('Before moving: $player');\n  \n  moveSprite(player, 5.0, 3.0);\n  \n  print('After moving: $player');\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```dart\nclass Book {\n  String title;\n  Book(this.title);\n}\n\nvoid updateBookTitle(Book book, String newTitle) {\n  book.title = newTitle;\n}\n\nvoid main() {\n  var myBook = Book('Original Title');\n  print('Before update: ${myBook.title}');\n  \n  updateBookTitle(myBook, 'Updated Title');\n  \n  print('After update: ${myBook.title}');\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```dart\nList<double> normalizeSoundWave(List<double> soundWave) {\n  double maxAmplitude = soundWave.reduce((a, b) => a.abs() > b.abs() ? a.abs() : b.abs());\n  return soundWave.map((sample) => sample / maxAmplitude).toList();\n}\n\nvoid main() {\n  List<double> originalWave = [0.5, -0.3, 1.0, -0.8, 0.6];\n  List<double> normalizedWave = normalizeSoundWave(originalWave);\n  \n  print('Original Wave: $originalWave');\n  print('Normalized Wave: $normalizedWave');\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```dart\nclass BankAccount {\n  double balance;\n\n  BankAccount(this.balance);\n\n  void displayBalance() {\n    print('Current balance: \\$${balance.toStringAsFixed(2)}');\n  }\n}\n\nvoid creditAmount(BankAccount account, double amount) {\n  account.balance += amount;\n}\n\nvoid main() {\n  BankAccount myAccount = BankAccount(100.0);\n\n  print('Before crediting:');\n  myAccount.displayBalance();\n\n  creditAmount(myAccount, 50.0);\n\n  print('After crediting:');\n  myAccount.displayBalance();\n}\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```dart\nvoid main() {\n  List<String> emails = [\n    'valid@example.com',\n    'invalid-email',\n    'another.valid@example.com',\n    'still@notvalid',\n  ];\n\n  List<String> filteredEmails = filterValidEmails(List.from(emails));\n\n  print('Original List: $emails');\n  print('Filtered List: $filteredEmails');\n}\n\nList<String> filterValidEmails(List<String> emailList) {\n  emailList.removeWhere((email) => !isValidEmail(email));\n  return emailList;\n}\n\nbool isValidEmail(String email) {\n  RegExp emailRegex = RegExp(r'^[^@]+@[^@]+\\.[^@]+');\n  return emailRegex.hasMatch(email);\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```dart\nclass Model3D {\n  double scale;\n\n  Model3D(this.scale);\n\n  void display() {\n    print('Model scale: $scale');\n  }\n}\n\nvoid scaleModel(Model3D model, double factor) {\n  model.scale *= factor;\n}\n\nvoid main() {\n  Model3D model = Model3D(1.0);\n  model.display();\n\n  scaleModel(model, 2.0);\n  model.display();\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```dart\nvoid redactSensitiveInformation(List<String> document) {\n  for (int i = 0; i < document.length; i++) {\n    document[i] = document[i].replaceAll(RegExp(r'\\b\\d{3}-\\d{2}-\\d{4}\\b'), 'XXX-XX-XXXX');\n    document[i] = document[i].replaceAll(RegExp(r'\\b\\d{4}\\b'), 'XXXX');\n  }\n}\n\nvoid main() {\n  List<String> document = [\n    'This is a confidential document.',\n    'Social Security Number: 123-45-6789.',\n    'Credit card number: 1234 5678 9012 3456.'\n  ];\n\n  redactSensitiveInformation(document);\n\n  for (var line in document) {\n    print(line);\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```dart\ndouble adjustForCalibration(double temperatureReading, double calibrationOffset) {\n  return temperatureReading + calibrationOffset;\n}\n\nvoid main() {\n  double originalReading = 25.0;\n  double calibrationOffset = 1.5;\n  \n  double adjustedReading = adjustForCalibration(originalReading, calibrationOffset);\n  \n  print('Original Reading: $originalReading');\n  print('Adjusted Reading: $adjustedReading');\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```dart\nclass BugReport {\n  String description;\n  String status;\n\n  BugReport(this.description, this.status);\n}\n\nvoid updateBugReportStatus(BugReport report, String newStatus) {\n  report.status = newStatus;\n}\n\nvoid main() {\n  var bugReport = BugReport('UI issue on login page', 'Open');\n  updateBugReportStatus(bugReport, 'Resolved');\n  print('Bug Report Status: ${bugReport.status}');\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```dart\nvoid calibrateSensorArray(List<double> sensors) {\n  for (int i = 0; i < sensors.length; i++) {\n    sensors[i] += 1.0; // Simulating calibration by adding 1.0\n  }\n}\n\nvoid main() {\n  List<double> sensorArray = [5.0, 10.0, 15.0, 20.0];\n  print('Before calibration: $sensorArray');\n  \n  calibrateSensorArray(sensorArray);\n  \n  print('After calibration: $sensorArray');\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```dart\nList<int> rotateVector(List<int> vector) {\n  // Copying the original vector to ensure the original remains unchanged\n  List<int> rotatedVector = List.from(vector);\n  \n  if (rotatedVector.isEmpty) return rotatedVector;\n  \n  int firstElement = rotatedVector.removeAt(0);\n  rotatedVector.add(firstElement);\n  \n  return rotatedVector;\n}\n\nvoid main() {\n  List<int> originalVector = [1, 2, 3, 4, 5];\n  List<int> newVector = rotateVector(originalVector);\n  \n  print('Original Vector: $originalVector'); // [1, 2, 3, 4, 5]\n  print('Rotated Vector: $newVector');       // [2, 3, 4, 5, 1]\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```dart\nvoid compressLog(List<String> log) {\n  for (int i = 0; i < log.length; i++) {\n    log[i] = log[i].replaceAll(RegExp(r'\\s+'), ' ');\n  }\n}\n\nvoid main() {\n  List<String> operationLog = [\n    'Operation 1: Start    ',\n    'Operation 2: Processing   ',\n    'Operation 3: Completed    '\n  ];\n\n  compressLog(operationLog);\n\n  for (var entry in operationLog) {\n    print(entry);\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```dart\nclass NeuralNetwork {\n  List<double> weights;\n\n  NeuralNetwork(this.weights);\n}\n\nvoid updateWeights(NeuralNetwork model, List<double> newWeights) {\n  for (int i = 0; i < model.weights.length; i++) {\n    model.weights[i] = newWeights[i];\n  }\n}\n\nvoid main() {\n  NeuralNetwork model = NeuralNetwork([0.1, 0.2, 0.3]);\n  print('Original weights: ${model.weights}');\n\n  updateWeights(model, [0.4, 0.5, 0.6]);\n  print('Updated weights: ${model.weights}');\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```dart\nclass CommandHistory {\n  List<String> commands;\n\n  CommandHistory(this.commands);\n\n  void revertLastCommand() {\n    if (commands.isNotEmpty) {\n      commands.removeLast();\n    }\n  }\n}\n\nvoid main() {\n  var history = CommandHistory(['command1', 'command2', 'command3']);\n  print('Before revert: ${history.commands}');\n  history.revertLastCommand();\n  print('After revert: ${history.commands}');\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```dart\nclass UserProfile {\n  String name;\n  String email;\n\n  UserProfile({required this.name, required this.email});\n}\n\nvoid anonymizeProfile(UserProfile profile) {\n  profile.name = 'Anonymous';\n  profile.email = 'anonymous@example.com';\n}\n\nvoid main() {\n  UserProfile user = UserProfile(name: 'John Doe', email: 'johndoe@example.com');\n  anonymizeProfile(user);\n  print('Name: ${user.name}, Email: ${user.email}');\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```dart\ndouble evaluatePolynomial(List<double> coefficients, double x) {\n  double result = 0.0;\n  for (int i = 0; i < coefficients.length; i++) {\n    result += coefficients[i] * (x.pow(i));\n  }\n  return result;\n}\n\nvoid main() {\n  List<double> polynomial = [2.0, -3.0, 4.0]; // Represents 2 - 3x + 4x^2\n  double point = 5.0;\n  double value = evaluatePolynomial(polynomial, point);\n  print('The value of the polynomial at x = $point is $value');\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```dart\nclass VideoStream {\n  String content;\n  VideoStream(this.content);\n}\n\nvoid applyFilter(VideoStream stream) {\n  stream.content += \" [Filtered]\";\n}\n\nvoid main() {\n  VideoStream stream = VideoStream(\"Original Video Content\");\n  print(\"Before Filter: ${stream.content}\");\n  applyFilter(stream);\n  print(\"After Filter: ${stream.content}\");\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```dart\nclass Task {\n  String name;\n  int priority;\n\n  Task(this.name, this.priority);\n}\n\nvoid reorderTasksByPriority(List<Task> tasks) {\n  tasks.sort((a, b) => b.priority.compareTo(a.priority));\n}\n\nvoid main() {\n  List<Task> taskQueue = [\n    Task('Task 1', 2),\n    Task('Task 2', 5),\n    Task('Task 3', 1),\n  ];\n\n  print('Before reordering:');\n  taskQueue.forEach((task) => print('${task.name}: ${task.priority}'));\n\n  // Pass-by-reference: the original taskQueue will be modified\n  reorderTasksByPriority(taskQueue);\n\n  print('\\nAfter reordering:');\n  taskQueue.forEach((task) => print('${task.name}: ${task.priority}'));\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```dart\nclass Transaction {\n  final String id;\n  final double amount;\n  final String sender;\n  final String receiver;\n\n  Transaction(this.id, this.amount, this.sender, this.receiver);\n}\n\nclass Blockchain {\n  List<Transaction> transactions;\n\n  Blockchain(this.transactions);\n}\n\nbool verifyTransaction(Blockchain blockchain, String transactionId) {\n  for (var transaction in blockchain.transactions) {\n    if (transaction.id == transactionId) {\n      // Verification logic goes here\n      return true;  // Assuming the transaction is verified\n    }\n  }\n  return false;  // Transaction not found or not verified\n}\n\nvoid main() {\n  var transactions = [\n    Transaction('tx1', 100.0, 'Alice', 'Bob'),\n    Transaction('tx2', 200.0, 'Charlie', 'Dave')\n  ];\n  \n  var blockchain = Blockchain(transactions);\n\n  String transactionIdToVerify = 'tx1';\n  bool isVerified = verifyTransaction(blockchain, transactionIdToVerify);\n\n  print('Transaction $transactionIdToVerify verified: $isVerified');\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```dart\nvoid updateScores(Map<String, int> leaderboard, String player, int score) {\n  if (leaderboard.containsKey(player)) {\n    leaderboard[player] += score;\n  } else {\n    leaderboard[player] = score;\n  }\n}\n\nvoid main() {\n  Map<String, int> leaderboard = {\n    'Alice': 50,\n    'Bob': 30,\n    'Charlie': 20,\n  };\n\n  print('Before update: $leaderboard');\n  updateScores(leaderboard, 'Alice', 10);\n  updateScores(leaderboard, 'David', 40);\n  print('After update: $leaderboard');\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```dart\nvoid adjustTimeline(Map<String, int> timeline, int delayDays) {\n  timeline.forEach((key, value) {\n    timeline[key] = value + delayDays;\n  });\n}\n\nvoid main() {\n  Map<String, int> projectTimeline = {\n    'Phase 1': 10,\n    'Phase 2': 20,\n    'Phase 3': 30,\n  };\n\n  print('Original Timeline: $projectTimeline');\n\n  adjustTimeline(projectTimeline, 5);\n\n  print('Adjusted Timeline: $projectTimeline');\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```dart\nvoid completeTask(List<String> todoList, int taskIndex) {\n  if (taskIndex >= 0 && taskIndex < todoList.length) {\n    todoList[taskIndex] = todoList[taskIndex] + \" (Completed)\";\n  }\n}\n\nvoid main() {\n  List<String> myTodoList = [\n    \"Buy groceries\",\n    \"Read a book\",\n    \"Complete Dart exercise\"\n  ];\n\n  print(\"Before completing task: $myTodoList\");\n  completeTask(myTodoList, 1);\n  print(\"After completing task: $myTodoList\");\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```dart\nclass Canvas {\n  List<String> layers = [];\n\n  void addLayer(String layer) {\n    layers.add(layer);\n  }\n\n  void displayLayers() {\n    for (var layer in layers) {\n      print(layer);\n    }\n  }\n}\n\nvoid addLayerToCanvas(Canvas canvas, String newLayer) {\n  canvas.addLayer(newLayer);\n}\n\nvoid main() {\n  Canvas myCanvas = Canvas();\n  addLayerToCanvas(myCanvas, 'Background Layer');\n  addLayerToCanvas(myCanvas, 'Foreground Layer');\n  \n  myCanvas.displayLayers();\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```dart\nimport 'dart:async';\nimport 'dart:io';\n\nFuture<void> fetchContent(List<String> urls) async {\n  // This function takes a list of URLs and fetches content.\n  // It demonstrates pass-by-value by modifying a copy of the list.\n  List<String> urlsCopy = List.from(urls);\n\n  for (int i = 0; i < urlsCopy.length; i++) {\n    // Simulating a fetch operation by appending '-fetched' to the URL\n    urlsCopy[i] = '${urlsCopy[i]}-fetched';\n  }\n\n  print('Original List: $urls');\n  print('Modified Copy: $urlsCopy');\n}\n\nvoid main() async {\n  List<String> urlList = ['http://example.com', 'http://example.org'];\n  await fetchContent(urlList);\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```dart\nvoid main() {\n  List<List<String>> gameBoard = [\n    ['X', 'O', 'X'],\n    ['O', 'X', 'O'],\n    ['X', 'O', 'X']\n  ];\n\n  print('Before reset:');\n  printBoard(gameBoard);\n\n  resetBoard(gameBoard);\n\n  print('After reset:');\n  printBoard(gameBoard);\n}\n\nvoid resetBoard(List<List<String>> board) {\n  for (var row in board) {\n    for (var i = 0; i < row.length; i++) {\n      row[i] = '';\n    }\n  }\n}\n\nvoid printBoard(List<List<String>> board) {\n  for (var row in board) {\n    print(row);\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```dart\nclass SoundEffect {\n  double volume;\n  \n  SoundEffect(this.volume);\n}\n\nvoid increaseVolume(SoundEffect sound, double increment) {\n  sound.volume += increment;\n}\n\nvoid main() {\n  SoundEffect sound = SoundEffect(5.0);\n  print('Original Volume: ${sound.volume}');\n  \n  increaseVolume(sound, 1.5);\n  \n  print('Increased Volume: ${sound.volume}');\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```dart\nclass WeatherForecast {\n  double temperature;\n\n  WeatherForecast(this.temperature);\n}\n\nvoid updateTemperature(WeatherForecast forecast, double newTemperature) {\n  forecast.temperature = newTemperature;\n}\n\nvoid main() {\n  WeatherForecast forecast = WeatherForecast(25.0);\n\n  print('Original temperature: ${forecast.temperature}');\n  \n  updateTemperature(forecast, 30.0);\n  \n  print('Updated temperature: ${forecast.temperature}');\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```dart\nvoid main() {\n  List<String> systemLog = [\n    \"INFO: System started\",\n    \"ERROR: Disk space low\",\n    \"WARNING: High memory usage\",\n    \"ERROR: Network disconnected\",\n    \"INFO: Update completed\"\n  ];\n\n  List<String> errorMessages = extractErrorMessages(systemLog);\n\n  print(\"Original Log:\");\n  systemLog.forEach(print);\n\n  print(\"\\nError Messages:\");\n  errorMessages.forEach(print);\n}\n\nList<String> extractErrorMessages(List<String> log) {\n  List<String> errors = [];\n  for (var entry in log) {\n    if (entry.startsWith(\"ERROR\")) {\n      errors.add(entry);\n    }\n  }\n  return errors;\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```dart\nString encryptDataPacket(String dataPacket) {\n  // Simple encryption by reversing the string\n  return dataPacket.split('').reversed.join('');\n}\n\nvoid main() {\n  String originalPacket = \"SensitiveData\";\n  print(\"Original Packet: $originalPacket\");\n\n  String encryptedPacket = encryptDataPacket(originalPacket);\n  print(\"Encrypted Packet: $encryptedPacket\");\n\n  // Demonstrating pass-by-value\n  print(\"Packet after function call: $originalPacket\");\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```dart\nclass Theme {\n  String color;\n  Theme(this.color);\n}\n\nvoid applyColorChange(Theme theme, String newColor) {\n  theme.color = newColor;\n}\n\nvoid main() {\n  Theme myTheme = Theme(\"blue\");\n  print(\"Original color: ${myTheme.color}\"); // Output: Original color: blue\n  \n  applyColorChange(myTheme, \"red\");\n  print(\"New color: ${myTheme.color}\"); // Output: New color: red\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```dart\nimport 'dart:convert';\nimport 'package:crypto/crypto.dart';\n\nbool verifySignature(String message, String signature, String publicKey) {\n  // Simulate signature verification\n  var key = utf8.encode(publicKey);\n  var bytes = utf8.encode(message);\n\n  // Create HMAC-SHA256 signature\n  var hmacSha256 = Hmac(sha256, key);\n  var digest = hmacSha256.convert(bytes);\n\n  // Convert the digest to a hexadecimal string\n  var generatedSignature = digest.toString();\n\n  // Verify the signature\n  return generatedSignature == signature;\n}\n\nvoid main() {\n  String message = \"Hello, world!\";\n  String signature = \"5d41402abc4b2a76b9719d911017c592\";\n  String publicKey = \"mysecretkey\";\n\n  if (verifySignature(message, signature, publicKey)) {\n    print(\"Signature is valid.\");\n  } else {\n    print(\"Signature is invalid.\");\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```dart\nclass RobotPath {\n  List<String> path;\n\n  RobotPath(this.path);\n}\n\nvoid optimizePath(RobotPath robotPath) {\n  // Example optimization: remove consecutive duplicate moves\n  for (int i = 0; i < robotPath.path.length - 1; i++) {\n    if (robotPath.path[i] == robotPath.path[i + 1]) {\n      robotPath.path.removeAt(i + 1);\n      i--; // Stay at the same index to check the next pair\n    }\n  }\n}\n\nvoid main() {\n  RobotPath robotPath = RobotPath(['N', 'N', 'E', 'E', 'E', 'S', 'S', 'W']);\n  print('Original Path: ${robotPath.path}');\n  optimizePath(robotPath);\n  print('Optimized Path: ${robotPath.path}');\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```dart\nimport 'dart:math';\n\nvoid shufflePlaylist(List<String> playlist) {\n  final random = Random();\n  for (var i = playlist.length - 1; i > 0; i--) {\n    final j = random.nextInt(i + 1);\n    final temp = playlist[i];\n    playlist[i] = playlist[j];\n    playlist[j] = temp;\n  }\n}\n\nvoid main() {\n  List<String> myPlaylist = ['Song A', 'Song B', 'Song C', 'Song D'];\n  print('Original Playlist: $myPlaylist');\n  shufflePlaylist(myPlaylist);\n  print('Shuffled Playlist: $myPlaylist');\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```dart\nvoid removeDuplicates(List<String> feed) {\n  var seen = <String>{};\n  feed.retainWhere((item) => seen.add(item));\n}\n\nvoid main() {\n  List<String> socialMediaFeed = [\n    'Post1',\n    'Post2',\n    'Post1',\n    'Post3',\n    'Post2'\n  ];\n\n  print('Before removing duplicates: $socialMediaFeed');\n  removeDuplicates(socialMediaFeed);\n  print('After removing duplicates: $socialMediaFeed');\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```dart\nclass CodingChallenge {\n  String description;\n  List<String> testCases;\n\n  CodingChallenge(this.description) : testCases = [];\n}\n\nvoid addTestCases(CodingChallenge challenge, List<String> newTestCases) {\n  challenge.testCases.addAll(newTestCases);\n}\n\nvoid main() {\n  var challenge = CodingChallenge('Write a function to reverse a string.');\n  var testCases = ['Reverse \"hello\"', 'Reverse \"world\"'];\n\n  addTestCases(challenge, testCases);\n\n  print('Challenge Description: ${challenge.description}');\n  print('Test Cases: ${challenge.testCases}');\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```dart\nList<T> reverseSequence<T>(List<T> sequence) {\n  // Create a new list to avoid modifying the original sequence\n  List<T> reversedSequence = List.from(sequence.reversed);\n  return reversedSequence;\n}\n\nvoid main() {\n  List<int> animationSequence = [1, 2, 3, 4, 5];\n  List<int> reversed = reverseSequence(animationSequence);\n\n  print('Original sequence: $animationSequence');\n  print('Reversed sequence: $reversed');\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```dart\nclass GPSRoute {\n  List<String> waypoints;\n\n  GPSRoute(this.waypoints);\n\n  void displayRoute() {\n    print('Current Route: ${waypoints.join(' -> ')}');\n  }\n}\n\nvoid recalculateRoute(GPSRoute route) {\n  route.waypoints.add('New Waypoint');\n}\n\nvoid main() {\n  var route = GPSRoute(['Start', 'Waypoint1', 'Waypoint2', 'End']);\n  route.displayRoute();\n  \n  recalculateRoute(route);\n\n  route.displayRoute();\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```dart\nvoid censorChatHistory(List<String> chatHistory) {\n  Set<String> inappropriateWords = {'badword1', 'badword2', 'badword3'};\n  for (int i = 0; i < chatHistory.length; i++) {\n    List<String> words = chatHistory[i].split(' ');\n    for (int j = 0; j < words.length; j++) {\n      if (inappropriateWords.contains(words[j].toLowerCase())) {\n        words[j] = '*' * words[j].length;\n      }\n    }\n    chatHistory[i] = words.join(' ');\n  }\n}\n\nvoid main() {\n  List<String> chatHistory = [\n    \"This is a clean message\",\n    \"This message has badword1\",\n    \"Here is another badword2 message\"\n  ];\n\n  print(\"Before censoring: $chatHistory\");\n  censorChatHistory(chatHistory);\n  print(\"After censoring: $chatHistory\");\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```dart\nclass LightingSetup {\n  double brightness;\n\n  LightingSetup(this.brightness);\n}\n\nvoid adjustBrightness(LightingSetup setup, double adjustment) {\n  setup.brightness += adjustment;\n}\n\nvoid main() {\n  LightingSetup setup = LightingSetup(5.0);\n  print('Initial brightness: ${setup.brightness}');\n  adjustBrightness(setup, 2.5);\n  print('Adjusted brightness: ${setup.brightness}');\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```dart\nclass VREnvironment {\n  String scenery;\n\n  VREnvironment(this.scenery);\n\n  @override\n  String toString() => 'Current scenery: $scenery';\n}\n\nvoid changeScenery(VREnvironment env, String newScenery) {\n  env.scenery = newScenery;\n}\n\nvoid main() {\n  VREnvironment vrEnv = VREnvironment('Desert');\n  print(vrEnv);\n\n  changeScenery(vrEnv, 'Rainforest');\n  print(vrEnv);\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```dart\nclass Block {\n  final String data;\n  Block(this.data);\n}\n\nclass Ledger {\n  List<Block> blocks = [];\n\n  void addBlock(Block block) {\n    blocks.add(block);\n  }\n}\n\nvoid addBlockToLedger(Ledger ledger, Block block) {\n  ledger.addBlock(block);\n}\n\nvoid main() {\n  Ledger ledger = Ledger();\n  Block block = Block('Transaction Data');\n  \n  addBlockToLedger(ledger, block);\n  \n  for (var blk in ledger.blocks) {\n    print(blk.data);\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```dart\nclass NetworkPacket {\n  String header;\n  String body;\n\n  NetworkPacket(this.header, this.body);\n}\n\nvoid alterPacketHeaders(NetworkPacket packet) {\n  packet.header = 'Altered Header';\n}\n\nvoid main() {\n  NetworkPacket packet = NetworkPacket('Original Header', 'Packet Body');\n  print('Before: ${packet.header}');\n  \n  alterPacketHeaders(packet);\n  \n  print('After: ${packet.header}');\n}\n```"
+  }
+]

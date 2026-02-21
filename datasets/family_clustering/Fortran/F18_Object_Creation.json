@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a new instance of a class that represents a book, with properties for title, author, and ISBN number.",
+    "code": "```fortran\nmodule BookModule\n    type :: Book\n        character(len=100) :: title\n        character(len=50) :: author\n        character(len=20) :: isbn\n    end type Book\nend module BookModule\n\nprogram CreateBook\n    use BookModule\n    type(Book) :: myBook\n\n    myBook%title = \"Example Title\"\n    myBook%author = \"Example Author\"\n    myBook%isbn = \"123-4567890123\"\n\nend program CreateBook\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Car, and set its make, model, and year attributes.",
+    "code": "```fortran\nmodule car_module\n    implicit none\n    type :: Car\n        character(len=20) :: make\n        character(len=20) :: model\n        integer :: year\n    end type Car\nend module car_module\n\nprogram main\n    use car_module\n    implicit none\n    type(Car) :: myCar\n\n    ! Instantiate the Car object and set its attributes\n    myCar%make = 'Toyota'\n    myCar%model = 'Camry'\n    myCar%year = 2021\n\nend program main\n```"
+  },
+  {
+    "task": "Develop a class to represent a rectangle, then create an object with specific width and height.",
+    "code": "```fortran\nmodule RectangleModule\n  implicit none\n  type :: Rectangle\n     real :: width\n     real :: height\n  contains\n     procedure :: set_dimensions\n     procedure :: area\n  end type Rectangle\n\ncontains\n\n  subroutine set_dimensions(this, w, h)\n    class(Rectangle), intent(inout) :: this\n    real, intent(in) :: w, h\n    this%width = w\n    this%height = h\n  end subroutine set_dimensions\n\n  function area(this) result(a)\n    class(Rectangle), intent(in) :: this\n    real :: a\n    a = this%width * this%height\n  end function area\n\nend module RectangleModule\n\nprogram Main\n  use RectangleModule\n  implicit none\n  type(Rectangle) :: myRectangle\n\n  call myRectangle%set_dimensions(5.0, 10.0)\n  print *, \"Rectangle area:\", myRectangle%area()\n\nend program Main\n```"
+  },
+  {
+    "task": "Construct an object of a class Person, initializing it with a name and age.",
+    "code": "```fortran\nmodule person_module\n    implicit none\n    type :: Person\n        character(len=100) :: name\n        integer :: age\n    contains\n        procedure :: init => init_person\n    end type Person\n\ncontains\n\n    subroutine init_person(self, name, age)\n        class(Person), intent(out) :: self\n        character(len=*), intent(in) :: name\n        integer, intent(in) :: age\n\n        self%name = name\n        self%age = age\n    end subroutine init_person\n\nend module person_module\n\nprogram main\n    use person_module\n    implicit none\n    type(Person) :: person_instance\n\n    call person_instance%init(\"John Doe\", 30)\nend program main\n```"
+  },
+  {
+    "task": "Create a new object from a class called Circle, initializing it with a radius value.",
+    "code": "```fortran\nmodule CircleModule\n  type :: Circle\n    real :: radius\n  end type Circle\ncontains\n  procedure :: CreateCircle\nend module CircleModule\n\nprogram Main\n  use CircleModule\n  type(Circle) :: myCircle\n\n  myCircle = CreateCircle(5.0)\nend program Main\n\nmodule CircleModule\n  type :: Circle\n    real :: radius\n  end type Circle\ncontains\n  function CreateCircle(radius) result(circle)\n    real, intent(in) :: radius\n    type(Circle) :: circle\n    circle%radius = radius\n  end function CreateCircle\nend module CircleModule\n```"
+  },
+  {
+    "task": "Instantiate a class named Student with properties for name, student ID, and GPA.",
+    "code": "```fortran\nmodule StudentModule\n    type :: Student\n        character(len=50) :: name\n        integer :: studentID\n        real :: GPA\n    end type Student\nend module StudentModule\n\nprogram CreateStudent\n    use StudentModule\n    type(Student) :: aStudent\n\n    ! Instantiate a Student object\n    aStudent = Student('John Doe', 123456, 3.75)\n\n    ! Output the Student object properties\n    print *, 'Name: ', aStudent%name\n    print *, 'Student ID: ', aStudent%studentID\n    print *, 'GPA: ', aStudent%GPA\nend program CreateStudent\n```"
+  },
+  {
+    "task": "Design a class for a smartphone, then create an instance with specific brand, model, and storage capacity.",
+    "code": "```fortran\nmodule SmartphoneModule\n    type :: Smartphone\n        character(len=20) :: brand\n        character(len=20) :: model\n        integer :: storageCapacity\n    end type Smartphone\ncontains\n    subroutine createSmartphone(s, b, m, sc)\n        type(Smartphone), intent(out) :: s\n        character(len=*), intent(in) :: b\n        character(len=*), intent(in) :: m\n        integer, intent(in) :: sc\n        s%brand = b\n        s%model = m\n        s%storageCapacity = sc\n    end subroutine createSmartphone\nend module SmartphoneModule\n\nprogram SmartphoneTest\n    use SmartphoneModule\n    type(Smartphone) :: myPhone\n\n    call createSmartphone(myPhone, 'BrandX', 'ModelY', 128)\n\nend program SmartphoneTest\n```"
+  },
+  {
+    "task": "Create an object of a class named BankAccount, initializing it with an account number and balance.",
+    "code": "```fortran\nmodule BankAccountModule\n    type :: BankAccount\n        character(len=20) :: accountNumber\n        real :: balance\n    contains\n        procedure :: initialize => initializeBankAccount\n    end type BankAccount\n\ncontains\n\n    subroutine initializeBankAccount(this, accNum, bal)\n        class(BankAccount), intent(out) :: this\n        character(len=*), intent(in) :: accNum\n        real, intent(in) :: bal\n\n        this%accountNumber = accNum\n        this%balance = bal\n    end subroutine initializeBankAccount\n\nend module BankAccountModule\n\nprogram main\n    use BankAccountModule\n    type(BankAccount) :: myAccount\n\n    call myAccount%initialize(\"123456789\", 1000.0)\nend program main\n```"
+  },
+  {
+    "task": "Write a class for a movie, then instantiate it with a title, director, and release year.",
+    "code": "```fortran\nmodule MovieModule\n    implicit none\n    type :: Movie\n        character(len=100) :: title\n        character(len=100) :: director\n        integer :: release_year\n    end type Movie\ncontains\n    subroutine printMovie(m)\n        type(Movie), intent(in) :: m\n        print *, \"Title:\", trim(m%title)\n        print *, \"Director:\", trim(m%director)\n        print *, \"Release Year:\", m%release_year\n    end subroutine printMovie\nend module MovieModule\n\nprogram MovieProgram\n    use MovieModule\n    implicit none\n    type(Movie) :: myMovie\n\n    myMovie%title = \"Inception\"\n    myMovie%director = \"Christopher Nolan\"\n    myMovie%release_year = 2010\n\n    call printMovie(myMovie)\nend program MovieProgram\n```"
+  },
+  {
+    "task": "Define a class representing a point in 2D space and create an object with x and y coordinates.",
+    "code": "```fortran\nmodule PointModule\n    type :: Point\n        real :: x\n        real :: y\n    contains\n        procedure :: set_coordinates\n        procedure :: get_coordinates\n    end type Point\n\ncontains\n\n    subroutine set_coordinates(this, x, y)\n        class(Point), intent(inout) :: this\n        real, intent(in) :: x, y\n        this%x = x\n        this%y = y\n    end subroutine set_coordinates\n\n    subroutine get_coordinates(this, x, y)\n        class(Point), intent(in) :: this\n        real, intent(out) :: x, y\n        x = this%x\n        y = this%y\n    end subroutine get_coordinates\n\nend module PointModule\n\nprogram main\n    use PointModule\n    type(Point) :: p\n\n    call p%set_coordinates(3.0, 4.0)\nend program main\n```"
+  },
+  {
+    "task": "Create an instance of a class called Computer with attributes for CPU, RAM, and storage.",
+    "code": "```fortran\nmodule ComputerModule\n    implicit none\n    type :: Computer\n        character(len=50) :: CPU\n        integer :: RAM\n        integer :: storage\n    end type Computer\nend module ComputerModule\n\nprogram CreateComputer\n    use ComputerModule\n    implicit none\n    type(Computer) :: myComputer\n\n    myComputer%CPU = 'Intel i7'\n    myComputer%RAM = 16\n    myComputer%storage = 512\n\nend program CreateComputer\n```"
+  },
+  {
+    "task": "Design a class for a Song with properties for title, artist, and duration, and instantiate it.",
+    "code": "```fortran\nmodule song_module\n  implicit none\n  type :: Song\n    character(len=100) :: title\n    character(len=100) :: artist\n    real :: duration\n  end type Song\ncontains\n  subroutine create_song(s, t, a, d)\n    type(Song), intent(out) :: s\n    character(len=*), intent(in) :: t, a\n    real, intent(in) :: d\n    s%title = t\n    s%artist = a\n    s%duration = d\n  end subroutine create_song\nend module song_module\n\nprogram main\n  use song_module\n  implicit none\n  type(Song) :: my_song\n\n  call create_song(my_song, 'Imagine', 'John Lennon', 3.1)\nend program main\n```"
+  },
+  {
+    "task": "Create a new instance of a class named Pet, initializing it with type, breed, and age.",
+    "code": "```fortran\nmodule PetModule\n  implicit none\n  type :: Pet\n     character(len=20) :: type\n     character(len=20) :: breed\n     integer :: age\n  contains\n     procedure :: init => initPet\n  end type Pet\n\ncontains\n\n  subroutine initPet(this, type, breed, age)\n    class(Pet), intent(out) :: this\n    character(len=*), intent(in) :: type, breed\n    integer, intent(in) :: age\n\n    this%type = type\n    this%breed = breed\n    this%age = age\n  end subroutine initPet\n\nend module PetModule\n\nprogram Main\n  use PetModule\n  implicit none\n\n  type(Pet) :: myPet\n\n  call myPet%init('Dog', 'Labrador', 3)\n\nend program Main\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named House with attributes for address, number of bedrooms, and price.",
+    "code": "```fortran\nmodule HouseModule\n    implicit none\n    type :: House\n        character(len=100) :: address\n        integer :: num_bedrooms\n        real :: price\n    end type House\nend module HouseModule\n\nprogram Main\n    use HouseModule\n    implicit none\n    type(House) :: myHouse\n\n    myHouse%address = '123 Main St'\n    myHouse%num_bedrooms = 3\n    myHouse%price = 250000.0\n\nend program Main\n```"
+  },
+  {
+    "task": "Develop a class for a Camera, then create an object with resolution and zoom level attributes.",
+    "code": "```fortran\nmodule CameraModule\n  implicit none\n  type :: Camera\n    integer :: resolution\n    real :: zoom_level\n  end type Camera\ncontains\n  function createCamera(resolution, zoom_level) result(newCamera)\n    integer, intent(in) :: resolution\n    real, intent(in) :: zoom_level\n    type(Camera) :: newCamera\n\n    newCamera%resolution = resolution\n    newCamera%zoom_level = zoom_level\n  end function createCamera\nend module CameraModule\n\nprogram CameraTest\n  use CameraModule\n  implicit none\n  type(Camera) :: myCamera\n\n  myCamera = createCamera(1080, 5.0)\nend program CameraTest\n```"
+  },
+  {
+    "task": "Construct an object from a class named Bicycle with properties for brand, type, and gear count.",
+    "code": "```fortran\nmodule BicycleModule\n    type :: Bicycle\n        character(len=50) :: brand\n        character(len=50) :: type\n        integer :: gear_count\n    end type Bicycle\nend module BicycleModule\n\nprogram CreateBicycle\n    use BicycleModule\n    implicit none\n\n    type(Bicycle) :: myBicycle\n\n    myBicycle%brand = 'Trek'\n    myBicycle%type = 'Mountain'\n    myBicycle%gear_count = 21\n\nend program CreateBicycle\n```"
+  },
+  {
+    "task": "Create a class for a book author with name and nationality, then instantiate it.",
+    "code": "```fortran\nmodule author_module\n    implicit none\n    type :: Author\n        character(len=100) :: name\n        character(len=100) :: nationality\n    end type Author\ncontains\n    ! Additional procedures can be added here if needed\nend module author_module\n\nprogram main\n    use author_module\n    implicit none\n    type(Author) :: myAuthor\n\n    myAuthor%name = \"J.K. Rowling\"\n    myAuthor%nationality = \"British\"\nend program main\n```"
+  },
+  {
+    "task": "Define a class representing a video game with attributes for title, genre, and platform, and create an object.",
+    "code": "```fortran\nmodule GameModule\n    type :: VideoGame\n        character(len=100) :: title\n        character(len=100) :: genre\n        character(len=100) :: platform\n    end type VideoGame\nend module GameModule\n\nprogram CreateGame\n    use GameModule\n    type(VideoGame) :: myGame\n\n    myGame%title = \"Example Game\"\n    myGame%genre = \"Adventure\"\n    myGame%platform = \"PC\"\n\nend program CreateGame\n```"
+  },
+  {
+    "task": "Instantiate a class named Plane with properties for airline, model, and capacity.",
+    "code": "```fortran\nmodule PlaneModule\n    implicit none\n    type :: Plane\n        character(len=100) :: airline\n        character(len=100) :: model\n        integer :: capacity\n    end type Plane\ncontains\n    subroutine printPlane(p)\n        type(Plane), intent(in) :: p\n        print *, 'Airline: ', p%airline\n        print *, 'Model: ', p%model\n        print *, 'Capacity: ', p%capacity\n    end subroutine printPlane\nend module PlaneModule\n\nprogram main\n    use PlaneModule\n    implicit none\n    type(Plane) :: myPlane\n\n    myPlane%airline = 'Example Airline'\n    myPlane%model = 'Model X'\n    myPlane%capacity = 180\n\n    call printPlane(myPlane)\nend program main\n```"
+  },
+  {
+    "task": "Create a new object of a class called Lamp, initializing it with color and brightness level.",
+    "code": "```fortran\nmodule LampModule\n    type :: Lamp\n        character(len=20) :: color\n        real :: brightness\n    contains\n        procedure :: setLamp => initializeLamp\n    end type Lamp\n\ncontains\n\n    subroutine initializeLamp(this, color, brightness)\n        class(Lamp), intent(inout) :: this\n        character(len=*), intent(in) :: color\n        real, intent(in) :: brightness\n        this%color = color\n        this%brightness = brightness\n    end subroutine initializeLamp\n\nend module LampModule\n\nprogram ObjectCreation\n    use LampModule\n    type(Lamp) :: myLamp\n\n    call myLamp%setLamp('Red', 75.0)\n\nend program ObjectCreation\n```"
+  },
+  {
+    "task": "Design a class for a TV show with properties for title, season, and episode count, then instantiate it.",
+    "code": "```fortran\nmodule tv_show_module\n    type :: TVShow\n        character(len=100) :: title\n        integer :: season\n        integer :: episode_count\n    end type TVShow\nend module tv_show_module\n\nprogram create_tv_show\n    use tv_show_module\n    type(TVShow) :: my_show\n\n    my_show%title = \"My Favorite Show\"\n    my_show%season = 3\n    my_show%episode_count = 12\nend program create_tv_show\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Garden with attributes for size and number of plants.",
+    "code": "```fortran\nprogram main\n    implicit none\n\n    type :: Garden\n        integer :: size\n        integer :: number_of_plants\n    end type Garden\n\n    type(Garden) :: myGarden\n\n    myGarden%size = 100\n    myGarden%number_of_plants = 50\n\nend program main\n```"
+  },
+  {
+    "task": "Develop a class for a Train, then create an object with properties for type and number of carriages.",
+    "code": "```fortran\nmodule train_module\n    implicit none\n\n    type :: Train\n        character(len=20) :: type\n        integer :: number_of_carriages\n    end type Train\n\ncontains\n\n    function create_train(type, number_of_carriages) result(t)\n        character(len=*), intent(in) :: type\n        integer, intent(in) :: number_of_carriages\n        type(Train) :: t\n\n        t%type = type\n        t%number_of_carriages = number_of_carriages\n    end function create_train\n\nend module train_module\n\nprogram main\n    use train_module\n    implicit none\n\n    type(Train) :: myTrain\n\n    myTrain = create_train(\"Freight\", 25)\n\nend program main\n```"
+  },
+  {
+    "task": "Define a class representing a planet with attributes for name, size, and distance from the sun, and create an object.",
+    "code": "```fortran\nmodule PlanetModule\n  implicit none\n  type :: Planet\n    character(len=100) :: name\n    real :: size\n    real :: distance_from_sun\n  end type Planet\ncontains\n  subroutine create_planet()\n    type(Planet) :: earth\n\n    earth%name = 'Earth'\n    earth%size = 12742.0\n    earth%distance_from_sun = 149.6e6\n  end subroutine create_planet\nend module PlanetModule\n\nprogram Main\n  use PlanetModule\n  implicit none\n\n  call create_planet()\n\nend program Main\n```"
+  },
+  {
+    "task": "Create an instance of a class named Fridge with properties for brand and capacity.",
+    "code": "```fortran\nmodule fridge_module\n    type :: Fridge\n        character(len=100) :: brand\n        real :: capacity\n    end type Fridge\nend module fridge_module\n\nprogram create_fridge\n    use fridge_module\n    type(Fridge) :: myFridge\n\n    myFridge%brand = 'Whirlpool'\n    myFridge%capacity = 350.0\nend program create_fridge\n```"
+  },
+  {
+    "task": "Design a class for a Restaurant with attributes for name, cuisine type, and location, then create an instance.",
+    "code": "```fortran\nmodule RestaurantModule\n    type :: Restaurant\n        character(len=30) :: name\n        character(len=30) :: cuisine_type\n        character(len=50) :: location\n    end type Restaurant\nend module RestaurantModule\n\nprogram RestaurantProgram\n    use RestaurantModule\n    type(Restaurant) :: myRestaurant\n\n    myRestaurant%name = \"The Gourmet Place\"\n    myRestaurant%cuisine_type = \"Italian\"\n    myRestaurant%location = \"123 Main St, Anytown\"\n\nend program RestaurantProgram\n```"
+  },
+  {
+    "task": "Create a new object from a class named Bookstore, initializing it with name and number of books.",
+    "code": "```fortran\nmodule BookstoreModule\n    type :: Bookstore\n        character(len=100) :: name\n        integer :: num_books\n    end type Bookstore\nend module BookstoreModule\n\nprogram Main\n    use BookstoreModule\n    type(Bookstore) :: myBookstore\n    myBookstore = Bookstore('My Bookstore', 500)\n    print *, 'Bookstore Name:', myBookstore%name\n    print *, 'Number of Books:', myBookstore%num_books\nend program Main\n```"
+  },
+  {
+    "task": "Instantiate a class named Library with properties for total books and number of members.",
+    "code": "```fortran\nmodule LibraryModule\n    type :: Library\n        integer :: total_books\n        integer :: number_of_members\n    end type Library\nend module LibraryModule\n\nprogram main\n    use LibraryModule\n    type(Library) :: myLibrary\n\n    myLibrary%total_books = 0\n    myLibrary%number_of_members = 0\nend program main\n```"
+  },
+  {
+    "task": "Write a class for a Beverage with properties for name, type, and volume, and instantiate it.",
+    "code": "```fortran\nmodule BeverageModule\n    implicit none\n    type :: Beverage\n        character(len=50) :: name\n        character(len=20) :: type\n        real :: volume\n    end type Beverage\ncontains\n    subroutine createBeverage(b, n, t, v)\n        type(Beverage), intent(out) :: b\n        character(len=*), intent(in) :: n\n        character(len=*), intent(in) :: t\n        real, intent(in) :: v\n\n        b%name = n\n        b%type = t\n        b%volume = v\n    end subroutine createBeverage\nend module BeverageModule\n\nprogram Main\n    use BeverageModule\n    implicit none\n    type(Beverage) :: myBeverage\n\n    call createBeverage(myBeverage, 'Cola', 'Soft Drink', 330.0)\nend program Main\n```"
+  },
+  {
+    "task": "Create an object of a class named User with attributes for username, email, and password.",
+    "code": "```fortran\nmodule UserModule\n  implicit none\n  type :: User\n     character(len=50) :: username\n     character(len=100) :: email\n     character(len=50) :: password\n  end type User\ncontains\nend module UserModule\n\nprogram CreateUser\n  use UserModule\n  implicit none\n  type(User) :: newUser\n\n  ! Assign values to the attributes\n  newUser%username = 'exampleUser'\n  newUser%email = 'user@example.com'\n  newUser%password = 'securePassword123'\n\nend program CreateUser\n```"
+  },
+  {
+    "task": "Define a class for a Laptop with properties for brand, processor, and RAM, then instantiate it.",
+    "code": "```fortran\nmodule LaptopModule\n    implicit none\n    type :: Laptop\n        character(len=50) :: brand\n        character(len=50) :: processor\n        integer :: RAM\n    end type Laptop\nend module LaptopModule\n\nprogram CreateLaptop\n    use LaptopModule\n    implicit none\n\n    type(Laptop) :: myLaptop\n\n    myLaptop%brand = \"Dell\"\n    myLaptop%processor = \"Intel i7\"\n    myLaptop%RAM = 16\n\nend program CreateLaptop\n```"
+  },
+  {
+    "task": "Construct an object from a class named Mountain with attributes for name and elevation.",
+    "code": "```fortran\nmodule MountainModule\n  type :: Mountain\n    character(len=50) :: name\n    real :: elevation\n  end type Mountain\nend module MountainModule\n\nprogram createMountain\n  use MountainModule\n  type(Mountain) :: myMountain\n  \n  myMountain%name = \"Everest\"\n  myMountain%elevation = 8848.86\n  \nend program createMountain\n```"
+  },
+  {
+    "task": "Create an instance of a class called Weather with properties for temperature, humidity, and condition.",
+    "code": "```fortran\nmodule WeatherModule\n    type :: Weather\n        real :: temperature\n        real :: humidity\n        character(len=100) :: condition\n    end type Weather\nend module WeatherModule\n\nprogram CreateWeatherInstance\n    use WeatherModule\n    type(Weather) :: todayWeather\n\n    todayWeather%temperature = 25.0\n    todayWeather%humidity = 60.0\n    todayWeather%condition = \"Sunny\"\n\nend program CreateWeatherInstance\n```"
+  },
+  {
+    "task": "Design a class for a Classroom with attributes for room number and capacity, then create an instance.",
+    "code": "```fortran\nmodule ClassroomModule\n  type :: Classroom\n    integer :: room_number\n    integer :: capacity\n  end type Classroom\nend module ClassroomModule\n\nprogram Main\n  use ClassroomModule\n  type(Classroom) :: myClassroom\n\n  myClassroom%room_number = 101\n  myClassroom%capacity = 30\nend program Main\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Zoo with properties for name and number of animals.",
+    "code": "```fortran\nmodule ZooModule\n    type :: Zoo\n        character(len=100) :: name\n        integer :: number_of_animals\n    end type Zoo\nend module ZooModule\n\nprogram Main\n    use ZooModule\n    type(Zoo) :: myZoo\n\n    myZoo%name = 'Central Zoo'\n    myZoo%number_of_animals = 500\n\n    print *, 'Zoo Name:', myZoo%name\n    print *, 'Number of Animals:', myZoo%number_of_animals\nend program Main\n```"
+  },
+  {
+    "task": "Develop a class for an Album with properties for name, artist, and release date, then instantiate it.",
+    "code": "```fortran\nmodule AlbumModule\n    implicit none\n    type :: Album\n        character(len=100) :: name\n        character(len=100) :: artist\n        character(len=10)  :: release_date\n    end type Album\nend module AlbumModule\n\nprogram CreateAlbum\n    use AlbumModule\n    implicit none\n\n    type(Album) :: myAlbum\n\n    myAlbum%name = \"The Dark Side of the Moon\"\n    myAlbum%artist = \"Pink Floyd\"\n    myAlbum%release_date = \"1973-03-01\"\nend program CreateAlbum\n```"
+  },
+  {
+    "task": "Create a new object from a class named Hotel, initializing it with name, location, and star rating.",
+    "code": "```fortran\nmodule HotelModule\n    type :: Hotel\n        character(len=50) :: name\n        character(len=50) :: location\n        integer :: star_rating\n    end type Hotel\nend module HotelModule\n\nprogram CreateHotel\n    use HotelModule\n    type(Hotel) :: myHotel\n\n    myHotel = Hotel('Grand Plaza', 'New York', 5)\nend program CreateHotel\n```"
+  },
+  {
+    "task": "Write a class for a Recipe with properties for name, ingredients, and cooking time, and instantiate it.",
+    "code": "```fortran\nMODULE RecipeModule\n  IMPLICIT NONE\n  TYPE :: Recipe\n    CHARACTER(LEN=100) :: name\n    CHARACTER(LEN=100), ALLOCATABLE :: ingredients(:)\n    INTEGER :: cooking_time\n  END TYPE Recipe\nEND MODULE RecipeModule\n\nPROGRAM Main\n  USE RecipeModule\n  IMPLICIT NONE\n  TYPE(Recipe) :: myRecipe\n\n  myRecipe%name = 'Pasta'\n  ALLOCATE(myRecipe%ingredients(2))\n  myRecipe%ingredients = ['noodles', 'sauce']\n  myRecipe%cooking_time = 30\nEND PROGRAM Main\n```"
+  },
+  {
+    "task": "Define a class representing a Conference with attributes for name, date, and number of attendees, and create an object.",
+    "code": "```fortran\nmodule ConferenceModule\n    implicit none\n    type :: Conference\n        character(len=100) :: name\n        character(len=10) :: date\n        integer :: number_of_attendees\n    end type Conference\nend module ConferenceModule\n\nprogram Main\n    use ConferenceModule\n    implicit none\n    type(Conference) :: myConference\n\n    myConference%name = \"Tech Conference\"\n    myConference%date = \"2023-10-15\"\n    myConference%number_of_attendees = 150\nend program Main\n```"
+  },
+  {
+    "task": "Create an instance of a class called Park with properties for name, location, and area.",
+    "code": "```fortran\nMODULE ParkModule\n  TYPE :: Park\n    CHARACTER(LEN=100) :: name\n    CHARACTER(LEN=100) :: location\n    REAL :: area\n  END TYPE Park\nEND MODULE ParkModule\n\nPROGRAM Main\n  USE ParkModule\n  TYPE(Park) :: myPark\n\n  myPark%name = \"Central Park\"\n  myPark%location = \"New York\"\n  myPark%area = 3.41\nEND PROGRAM Main\n```"
+  },
+  {
+    "task": "Design a class for a Bicycle with attributes for brand, type, and wheel size, then create an instance.",
+    "code": "```fortran\nmodule BicycleModule\n    type :: Bicycle\n        character(len=:), allocatable :: brand\n        character(len=:), allocatable :: type\n        real :: wheel_size\n    end type Bicycle\ncontains\n    subroutine createBicycle(b, brand, type, wheel_size)\n        type(Bicycle), intent(out) :: b\n        character(len=*), intent(in) :: brand\n        character(len=*), intent(in) :: type\n        real, intent(in) :: wheel_size\n        b%brand = brand\n        b%type = type\n        b%wheel_size = wheel_size\n    end subroutine createBicycle\nend module BicycleModule\n\nprogram BicycleProgram\n    use BicycleModule\n    type(Bicycle) :: myBicycle\n\n    call createBicycle(myBicycle, 'Giant', 'Mountain', 26.5)\n\nend program BicycleProgram\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Festival with properties for name, location, and duration.",
+    "code": "```fortran\nmodule festival_module\n    implicit none\n    type :: Festival\n        character(len=50) :: name\n        character(len=100) :: location\n        integer :: duration\n    end type Festival\nend module festival_module\n\nprogram create_festival\n    use festival_module\n    implicit none\n\n    type(Festival) :: myFestival\n\n    myFestival%name = 'Music Fest'\n    myFestival%location = 'Central Park'\n    myFestival%duration = 3\n\nend program create_festival\n```"
+  },
+  {
+    "task": "Develop a class for a Ship with properties for name, capacity, and type, then instantiate it.",
+    "code": "```fortran\nmodule ShipModule\n  implicit none\n  type :: Ship\n     character(len=100) :: name\n     integer :: capacity\n     character(len=50) :: type\n  end type Ship\ncontains\n  function createShip(name, capacity, type) result(newShip)\n    character(len=*), intent(in) :: name, type\n    integer, intent(in) :: capacity\n    type(Ship) :: newShip\n\n    newShip%name = name\n    newShip%capacity = capacity\n    newShip%type = type\n  end function createShip\nend module ShipModule\n\nprogram Main\n  use ShipModule\n  implicit none\n  type(Ship) :: myShip\n\n  myShip = createShip(\"Black Pearl\", 500, \"Pirate Ship\")\n\nend program Main\n```"
+  },
+  {
+    "task": "Create an object of a class named Currency with attributes for name, symbol, and exchange rate.",
+    "code": "```fortran\nmodule CurrencyModule\n    type :: Currency\n        character(len=50) :: name\n        character(len=5) :: symbol\n        real :: exchange_rate\n    end type Currency\nend module CurrencyModule\n\nprogram CreateCurrency\n    use CurrencyModule\n    type(Currency) :: myCurrency\n\n    ! Initialize the Currency object\n    myCurrency = Currency('US Dollar', '$', 1.0)\nend program CreateCurrency\n```"
+  },
+  {
+    "task": "Define a class for a Gadget with properties for name, brand, and functionality, then instantiate it.",
+    "code": "```fortran\nmodule GadgetModule\n  type :: Gadget\n    character(len=100) :: name\n    character(len=100) :: brand\n    character(len=100) :: functionality\n  end type Gadget\nend module GadgetModule\n\nprogram main\n  use GadgetModule\n  type(Gadget) :: myGadget\n\n  myGadget%name = \"Smartphone\"\n  myGadget%brand = \"TechBrand\"\n  myGadget%functionality = \"Communication\"\n\nend program main\n```"
+  },
+  {
+    "task": "Construct an object from a class named Bridge with attributes for name, length, and location.",
+    "code": "```fortran\nMODULE BridgeModule\n  IMPLICIT NONE\n  TYPE :: Bridge\n    CHARACTER(LEN=100) :: name\n    REAL :: length\n    CHARACTER(LEN=100) :: location\n  END TYPE Bridge\nEND MODULE BridgeModule\n\nPROGRAM CreateBridge\n  USE BridgeModule\n  IMPLICIT NONE\n  TYPE(Bridge) :: myBridge\n\n  myBridge%name = 'Golden Gate'\n  myBridge%length = 2737.4\n  myBridge%location = 'San Francisco, USA'\n\nEND PROGRAM CreateBridge\n```"
+  },
+  {
+    "task": "Create an instance of a class called Forest with properties for name, area, and tree species.",
+    "code": "```fortran\nmodule forest_module\n  implicit none\n  type :: Forest\n    character(len=100) :: name\n    real :: area\n    character(len=100) :: tree_species\n  end type Forest\ncontains\n  ! Additional procedures can be added here if needed\nend module forest_module\n\nprogram create_forest_instance\n  use forest_module\n  implicit none\n  type(Forest) :: my_forest\n\n  my_forest%name = \"Amazon Rainforest\"\n  my_forest%area = 5500000.0\n  my_forest%tree_species = \"Mahogany\"\n\n  ! Code to use the instance can be added here\nend program create_forest_instance\n```"
+  },
+  {
+    "task": "Design a class for a Sculpture with attributes for title, artist, and material, then create an instance.",
+    "code": "```fortran\nmodule SculptureModule\n    type :: Sculpture\n        character(len=100) :: title\n        character(len=100) :: artist\n        character(len=100) :: material\n    end type Sculpture\nend module SculptureModule\n\nprogram CreateSculpture\n    use SculptureModule\n    type(Sculpture) :: mySculpture\n\n    mySculpture%title = \"The Thinker\"\n    mySculpture%artist = \"Auguste Rodin\"\n    mySculpture%material = \"Bronze\"\n\nend program CreateSculpture\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Aquarium with properties for name and number of tanks.",
+    "code": "```fortran\nmodule AquariumModule\n    type :: Aquarium\n        character(len=100) :: name\n        integer :: number_of_tanks\n    end type Aquarium\nend module AquariumModule\n\nprogram CreateAquarium\n    use AquariumModule\n    type(Aquarium) :: myAquarium\n\n    myAquarium%name = 'Ocean World'\n    myAquarium%number_of_tanks = 5\n\n    print *, 'Aquarium Name:', myAquarium%name\n    print *, 'Number of Tanks:', myAquarium%number_of_tanks\nend program CreateAquarium\n```"
+  },
+  {
+    "task": "Develop a class for a Play with properties for title, playwright, and genre, then instantiate it.",
+    "code": "```fortran\nmodule PlayModule\n    implicit none\n    type :: Play\n        character(len=:), allocatable :: title\n        character(len=:), allocatable :: playwright\n        character(len=:), allocatable :: genre\n    contains\n        procedure :: setPlay\n    end type Play\n\ncontains\n\n    subroutine setPlay(this, title, playwright, genre)\n        class(Play), intent(inout) :: this\n        character(len=*), intent(in) :: title, playwright, genre\n        this%title = title\n        this%playwright = playwright\n        this%genre = genre\n    end subroutine setPlay\n\nend module PlayModule\n\nprogram Main\n    use PlayModule\n    implicit none\n    type(Play) :: myPlay\n\n    call myPlay%setPlay(\"Hamlet\", \"William Shakespeare\", \"Tragedy\")\n\nend program Main\n```"
+  },
+  {
+    "task": "Create a new object from a class named Telescope, initializing it with type and focal length.",
+    "code": "```fortran\nmodule TelescopeModule\n    type :: Telescope\n        character(len=100) :: type\n        real :: focal_length\n    end type Telescope\nend module TelescopeModule\n\nprogram CreateTelescope\n    use TelescopeModule\n    type(Telescope) :: myTelescope\n\n    myTelescope%type = \"Reflector\"\n    myTelescope%focal_length = 1200.0\n\nend program CreateTelescope\n```"
+  },
+  {
+    "task": "Write a class for a Monument with properties for name, location, and year built, and instantiate it.",
+    "code": "```fortran\nmodule MonumentModule\n    type :: Monument\n        character(len=100) :: name\n        character(len=100) :: location\n        integer :: year_built\n    end type Monument\nend module MonumentModule\n\nprogram MonumentProgram\n    use MonumentModule\n    type(Monument) :: myMonument\n\n    myMonument%name = \"Eiffel Tower\"\n    myMonument%location = \"Paris, France\"\n    myMonument%year_built = 1889\n\n    print *, \"Monument Name: \", myMonument%name\n    print *, \"Location: \", myMonument%location\n    print *, \"Year Built: \", myMonument%year_built\nend program MonumentProgram\n```"
+  },
+  {
+    "task": "Define a class representing a Star with attributes for name, size, and distance from Earth, and create an object.",
+    "code": "```fortran\nmodule StarModule\n    implicit none\n    type :: Star\n        character(len=100) :: name\n        real :: size\n        real :: distance\n    end type Star\nend module StarModule\n\nprogram Main\n    use StarModule\n    implicit none\n    type(Star) :: myStar\n\n    myStar%name = \"Proxima Centauri\"\n    myStar%size = 0.154\n    myStar%distance = 4.24\n\nend program Main\n```"
+  },
+  {
+    "task": "Create an instance of a class called Festival with properties for name, location, and number of events.",
+    "code": "```fortran\nmodule FestivalModule\n    type :: Festival\n        character(len=50) :: name\n        character(len=50) :: location\n        integer :: number_of_events\n    end type Festival\nend module FestivalModule\n\nprogram Main\n    use FestivalModule\n    implicit none\n\n    type(Festival) :: myFestival\n\n    myFestival%name = 'Music Fest'\n    myFestival%location = 'Central Park'\n    myFestival%number_of_events = 10\nend program Main\n```"
+  },
+  {
+    "task": "Design a class for a Clock with attributes for brand, type, and display, then create an instance.",
+    "code": "```fortran\nmodule ClockModule\n    type :: Clock\n        character(len=100) :: brand\n        character(len=100) :: type\n        character(len=100) :: display\n    end type Clock\nend module ClockModule\n\nprogram ClockProgram\n    use ClockModule\n    type(Clock) :: myClock\n\n    myClock%brand = \"Omega\"\n    myClock%type = \"Analog\"\n    myClock%display = \"Digital\"\n\nend program ClockProgram\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Stadium with properties for name, capacity, and location.",
+    "code": "```fortran\nmodule StadiumModule\n    type :: Stadium\n        character(len=100) :: name\n        integer :: capacity\n        character(len=100) :: location\n    end type Stadium\nend module StadiumModule\n\nprogram main\n    use StadiumModule\n    type(Stadium) :: myStadium\n\n    myStadium%name = \"National Stadium\"\n    myStadium%capacity = 50000\n    myStadium%location = \"City Center\"\nend program main\n```"
+  },
+  {
+    "task": "Develop a class for a Potion with properties for name, effect, and duration, then instantiate it.",
+    "code": "```fortran\nmodule PotionModule\n    implicit none\n\n    type :: Potion\n        character(len=50) :: name\n        character(len=100) :: effect\n        integer :: duration\n    end type Potion\n\ncontains\n\n    subroutine createPotion(p, pname, peffect, pduration)\n        type(Potion), intent(out) :: p\n        character(len=*), intent(in) :: pname\n        character(len=*), intent(in) :: peffect\n        integer, intent(in) :: pduration\n\n        p%name = pname\n        p%effect = peffect\n        p%duration = pduration\n    end subroutine createPotion\n\nend module PotionModule\n\nprogram Main\n    use PotionModule\n    implicit none\n\n    type(Potion) :: myPotion\n\n    call createPotion(myPotion, 'Healing Potion', 'Restores health', 5)\n\nend program Main\n```"
+  },
+  {
+    "task": "Create an object of a class named Planet with attributes for name, mass, and orbital period.",
+    "code": "```fortran\nmodule PlanetModule\n    implicit none\n    type :: Planet\n        character(len=20) :: name\n        real :: mass\n        real :: orbital_period\n    end type Planet\nend module PlanetModule\n\nprogram CreatePlanet\n    use PlanetModule\n    implicit none\n    type(Planet) :: earth\n\n    earth%name = 'Earth'\n    earth%mass = 5.972e24\n    earth%orbital_period = 365.25\nend program CreatePlanet\n```"
+  },
+  {
+    "task": "Define a class for a Lighthouse with properties for name, height, and light range, then instantiate it.",
+    "code": "```fortran\nmodule LighthouseModule\n    type :: Lighthouse\n        character(len=30) :: name\n        real :: height\n        real :: light_range\n    end type Lighthouse\nend module LighthouseModule\n\nprogram LighthouseProgram\n    use LighthouseModule\n    type(Lighthouse) :: myLighthouse\n\n    myLighthouse%name = \"Cape Hatteras\"\n    myLighthouse%height = 64.0\n    myLighthouse%light_range = 20.0\nend program LighthouseProgram\n```"
+  },
+  {
+    "task": "Construct an object from a class named Volcano with attributes for name, height, and eruption history.",
+    "code": "```fortran\nmodule VolcanoModule\n    type :: Volcano\n        character(len=100) :: name\n        real :: height\n        character(len=100) :: eruption_history\n    end type Volcano\nend module VolcanoModule\n\nprogram VolcanoProgram\n    use VolcanoModule\n    type(Volcano) :: myVolcano\n\n    myVolcano%name = \"Mount Fuji\"\n    myVolcano%height = 3776.0\n    myVolcano%eruption_history = \"Last eruption in 1707\"\n\n    print *, \"Volcano Name: \", myVolcano%name\n    print *, \"Volcano Height: \", myVolcano%height\n    print *, \"Eruption History: \", myVolcano%eruption_history\nend program VolcanoProgram\n```"
+  },
+  {
+    "task": "Create an instance of a class called Sculpture with properties for title, artist, and year created.",
+    "code": "```fortran\nmodule SculptureModule\n    implicit none\n    type :: Sculpture\n        character(len=100) :: title\n        character(len=100) :: artist\n        integer :: year_created\n    end type Sculpture\nend module SculptureModule\n\nprogram CreateSculpture\n    use SculptureModule\n    implicit none\n    type(Sculpture) :: mySculpture\n\n    ! Create an instance of Sculpture\n    mySculpture = Sculpture('The Thinker', 'Auguste Rodin', 1902)\n\nend program CreateSculpture\n```"
+  },
+  {
+    "task": "Design a class for a Ship with attributes for name, type, and displacement, then create an instance.",
+    "code": "```fortran\nmodule ShipModule\n    type :: Ship\n        character(len=100) :: name\n        character(len=50) :: type\n        real :: displacement\n    end type Ship\nend module ShipModule\n\nprogram Main\n    use ShipModule\n    type(Ship) :: myShip\n\n    myShip%name = \"Titanic\"\n    myShip%type = \"Cruise\"\n    myShip%displacement = 52310.0\n\nend program Main\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Opera with properties for title, composer, and act count.",
+    "code": "```fortran\nmodule OperaModule\n    implicit none\n    type :: Opera\n        character(len=100) :: title\n        character(len=100) :: composer\n        integer :: act_count\n    end type Opera\nend module OperaModule\n\nprogram CreateOpera\n    use OperaModule\n    implicit none\n    type(Opera) :: myOpera\n\n    ! Instantiate and assign values to the properties\n    myOpera%title = \"La Traviata\"\n    myOpera%composer = \"Giuseppe Verdi\"\n    myOpera%act_count = 3\n\n    ! The object myOpera has been created with the specified properties\nend program CreateOpera\n```"
+  },
+  {
+    "task": "Develop a class for a Waterfall with properties for name, height, and flow rate, then instantiate it.",
+    "code": "```fortran\nmodule waterfall_module\n  implicit none\n  type :: Waterfall\n    character(len=50) :: name\n    real :: height\n    real :: flow_rate\n  end type Waterfall\ncontains\n  subroutine create_waterfall(waterfall, name, height, flow_rate)\n    type(Waterfall), intent(out) :: waterfall\n    character(len=*), intent(in) :: name\n    real, intent(in) :: height, flow_rate\n\n    waterfall%name = name\n    waterfall%height = height\n    waterfall%flow_rate = flow_rate\n  end subroutine create_waterfall\nend module waterfall_module\n\nprogram main\n  use waterfall_module\n  implicit none\n  type(Waterfall) :: my_waterfall\n\n  call create_waterfall(my_waterfall, 'Niagara', 51.0, 2800.0)\n\nend program main\n```"
+  },
+  {
+    "task": "Create a new object from a class named Castle, initializing it with name, location, and year built.",
+    "code": "```fortran\nmodule CastleModule\n    type :: Castle\n        character(len=100) :: name\n        character(len=100) :: location\n        integer :: yearBuilt\n    end type Castle\nend module CastleModule\n\nprogram CreateCastle\n    use CastleModule\n    type(Castle) :: myCastle\n\n    myCastle = Castle('Windsor Castle', 'Windsor, England', 1070)\n\nend program CreateCastle\n```"
+  },
+  {
+    "task": "Write a class for a Cat with properties for name, breed, and color, and instantiate it.",
+    "code": "```fortran\nmodule CatModule\n    implicit none\n    type :: Cat\n        character(len=100) :: name\n        character(len=100) :: breed\n        character(len=100) :: color\n    end type Cat\ncontains\n    subroutine createCat(name, breed, color, cat)\n        character(len=*), intent(in) :: name, breed, color\n        type(Cat), intent(out) :: cat\n        cat%name = name\n        cat%breed = breed\n        cat%color = color\n    end subroutine createCat\nend module CatModule\n\nprogram Main\n    use CatModule\n    implicit none\n    type(Cat) :: myCat\n\n    call createCat(\"Whiskers\", \"Siamese\", \"Cream\", myCat)\n\n    ! Here you can add code to use the cat object `myCat`\nend program Main\n```"
+  },
+  {
+    "task": "Define a class representing a Spaceship with attributes for name, speed, and crew capacity, and create an object.",
+    "code": "```fortran\nmodule spaceship_module\n  implicit none\n  type :: Spaceship\n    character(len=:), allocatable :: name\n    real :: speed\n    integer :: crew_capacity\n  end type Spaceship\ncontains\n  procedure :: create_spaceship\nend module spaceship_module\n\nprogram main\n  use spaceship_module\n  implicit none\n  type(Spaceship) :: my_spaceship\n\n  call create_spaceship(my_spaceship, 'Apollo', 7500.0, 3)\nend program main\n\nsubroutine create_spaceship(ship, name, speed, crew)\n  type(Spaceship), intent(out) :: ship\n  character(len=*), intent(in) :: name\n  real, intent(in) :: speed\n  integer, intent(in) :: crew\n\n  ship%name = name\n  ship%speed = speed\n  ship%crew_capacity = crew\nend subroutine create_spaceship\n```"
+  },
+  {
+    "task": "Create an instance of a class called Robot with properties for name, model, and function.",
+    "code": "```fortran\nmodule RobotModule\n    implicit none\n    type :: Robot\n        character(len=50) :: name\n        character(len=50) :: model\n        character(len=50) :: function\n    end type Robot\nend module RobotModule\n\nprogram Main\n    use RobotModule\n    implicit none\n    type(Robot) :: myRobot\n\n    myRobot%name = \"RoboAlpha\"\n    myRobot%model = \"XJ-9\"\n    myRobot%function = \"Assistance\"\n\nend program Main\n```"
+  },
+  {
+    "task": "Design a class for a Computer Program with attributes for name, language, and lines of code, then create an instance.",
+    "code": "```fortran\nmodule ComputerProgramModule\n  implicit none\n  type :: ComputerProgram\n     character(len=100) :: name\n     character(len=100) :: language\n     integer :: lines_of_code\n  end type ComputerProgram\ncontains\n  function createComputerProgram(name, language, lines_of_code) result(program)\n    character(len=*), intent(in) :: name, language\n    integer, intent(in) :: lines_of_code\n    type(ComputerProgram) :: program\n\n    program%name = name\n    program%language = language\n    program%lines_of_code = lines_of_code\n  end function createComputerProgram\nend module ComputerProgramModule\n\nprogram Main\n  use ComputerProgramModule\n  implicit none\n  type(ComputerProgram) :: myProgram\n\n  myProgram = createComputerProgram(\"Example Program\", \"Fortran\", 1500)\nend program Main\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Mountain with properties for name, range, and prominence.",
+    "code": "```fortran\nmodule MountainModule\n    implicit none\n    type :: Mountain\n        character(len=100) :: name\n        character(len=100) :: range\n        real :: prominence\n    end type Mountain\nend module MountainModule\n\nprogram CreateMountain\n    use MountainModule\n    implicit none\n\n    type(Mountain) :: myMountain\n\n    myMountain%name = \"Mount Everest\"\n    myMountain%range = \"Himalayas\"\n    myMountain%prominence = 8848.86\n\nend program CreateMountain\n```"
+  },
+  {
+    "task": "Develop a class for a Painting with properties for title, artist, and dimensions, then instantiate it.",
+    "code": "```fortran\nmodule PaintingModule\n  implicit none\n  type :: Painting\n    character(len=100) :: title\n    character(len=100) :: artist\n    real :: width\n    real :: height\n  end type Painting\ncontains\n  subroutine createPainting(p, t, a, w, h)\n    type(Painting), intent(out) :: p\n    character(len=*), intent(in) :: t, a\n    real, intent(in) :: w, h\n\n    p%title = t\n    p%artist = a\n    p%width = w\n    p%height = h\n  end subroutine createPainting\nend module PaintingModule\n\nprogram Main\n  use PaintingModule\n  implicit none\n  type(Painting) :: myPainting\n\n  call createPainting(myPainting, \"Starry Night\", \"Vincent van Gogh\", 73.7, 92.1)\n\nend program Main\n```"
+  },
+  {
+    "task": "Create an object of a class named Symphony with attributes for title, composer, and movement count.",
+    "code": "```fortran\nmodule SymphonyModule\n    type :: Symphony\n        character(len=100) :: title\n        character(len=100) :: composer\n        integer :: movement_count\n    end type Symphony\nend module SymphonyModule\n\nprogram CreateSymphony\n    use SymphonyModule\n    implicit none\n\n    type(Symphony) :: mySymphony\n\n    mySymphony%title = 'Symphony No. 9'\n    mySymphony%composer = 'Ludwig van Beethoven'\n    mySymphony%movement_count = 4\nend program CreateSymphony\n```"
+  },
+  {
+    "task": "Define a class for a Dinosaur with properties for name, period, and diet, then instantiate it.",
+    "code": "```fortran\nmodule DinosaurModule\n  implicit none\n  type :: Dinosaur\n    character(len=50) :: name\n    character(len=50) :: period\n    character(len=50) :: diet\n  end type Dinosaur\ncontains\n  subroutine initializeDinosaur(dino, name, period, diet)\n    type(Dinosaur), intent(out) :: dino\n    character(len=*), intent(in) :: name, period, diet\n    dino%name = name\n    dino%period = period\n    dino%diet = diet\n  end subroutine initializeDinosaur\nend module DinosaurModule\n\nprogram DinosaurCreation\n  use DinosaurModule\n  implicit none\n  type(Dinosaur) :: myDinosaur\n\n  call initializeDinosaur(myDinosaur, \"Tyrannosaurus Rex\", \"Cretaceous\", \"Carnivore\")\nend program DinosaurCreation\n```"
+  },
+  {
+    "task": "Construct an object from a class named River with attributes for name, length, and basin size.",
+    "code": "```fortran\nmodule RiverModule\n    implicit none\n    type :: River\n        character(len=100) :: name\n        real :: length\n        real :: basin_size\n    end type River\ncontains\n    ! Add any methods if needed\nend module RiverModule\n\nprogram CreateRiverObject\n    use RiverModule\n    implicit none\n\n    type(River) :: myRiver\n\n    myRiver%name = 'Nile'\n    myRiver%length = 6650.0\n    myRiver%basin_size = 3349000.0\n\n    ! Example of accessing the object attributes\n    print *, 'River Name: ', myRiver%name\n    print *, 'River Length: ', myRiver%length\n    print *, 'River Basin Size: ', myRiver%basin_size\nend program CreateRiverObject\n```"
+  },
+  {
+    "task": "Create an instance of a class called Instrument with properties for name, type, and material.",
+    "code": "```fortran\nmodule InstrumentModule\n  type :: Instrument\n     character(len=50) :: name\n     character(len=50) :: type\n     character(len=50) :: material\n  end type Instrument\nend module InstrumentModule\n\nprogram CreateInstrument\n  use InstrumentModule\n  type(Instrument) :: myInstrument\n\n  myInstrument%name = 'Guitar'\n  myInstrument%type = 'String'\n  myInstrument%material = 'Wood'\n\nend program CreateInstrument\n```"
+  },
+  {
+    "task": "Design a class for a Planetarium with attributes for name, location, and dome size, then create an instance.",
+    "code": "```fortran\nmodule PlanetariumModule\n    type :: Planetarium\n        character(len=100) :: name\n        character(len=100) :: location\n        real :: dome_size\n    end type Planetarium\nend module PlanetariumModule\n\nprogram PlanetariumTest\n    use PlanetariumModule\n    type(Planetarium) :: myPlanetarium\n\n    myPlanetarium%name = \"Stellar Observatory\"\n    myPlanetarium%location = \"Greenwich\"\n    myPlanetarium%dome_size = 30.5\n\n    print *, \"Planetarium Name: \", myPlanetarium%name\n    print *, \"Location: \", myPlanetarium%location\n    print *, \"Dome Size: \", myPlanetarium%dome_size\nend program PlanetariumTest\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Island with properties for name, area, and population.",
+    "code": "```fortran\nmodule IslandModule\n    implicit none\n    type :: Island\n        character(len=100) :: name\n        real :: area\n        integer :: population\n    end type Island\nend module IslandModule\n\nprogram CreateIsland\n    use IslandModule\n    implicit none\n    type(Island) :: myIsland\n\n    ! Instantiate the object with properties\n    myIsland%name = 'Hawaii'\n    myIsland%area = 10931.0\n    myIsland%population = 1415872\n\nend program CreateIsland\n```"
+  },
+  {
+    "task": "Develop a class for a Space Station with properties for name, crew size, and modules, then instantiate it.",
+    "code": "```fortran\nmodule SpaceStationModule\n  implicit none\n  private\n  type, public :: SpaceStation\n    character(len=100) :: name\n    integer :: crewSize\n    integer :: modules\n  contains\n    procedure :: init => initSpaceStation\n  end type SpaceStation\n\ncontains\n\n  subroutine initSpaceStation(this, name, crewSize, modules)\n    class(SpaceStation), intent(inout) :: this\n    character(len=*), intent(in) :: name\n    integer, intent(in) :: crewSize\n    integer, intent(in) :: modules\n\n    this%name = name\n    this%crewSize = crewSize\n    this%modules = modules\n  end subroutine initSpaceStation\n\nend module SpaceStationModule\n\nprogram main\n  use SpaceStationModule\n  implicit none\n\n  type(SpaceStation) :: mySpaceStation\n\n  call mySpaceStation%init(\"ISS\", 6, 16)\n\nend program main\n```"
+  },
+  {
+    "task": "Create a new object from a class named Dinosaur, initializing it with species and period.",
+    "code": "```fortran\nmodule DinosaurModule\n    implicit none\n    type :: Dinosaur\n        character(len=20) :: species\n        character(len=20) :: period\n    end type Dinosaur\ncontains\n    subroutine initializeDinosaur(d, species, period)\n        type(Dinosaur), intent(out) :: d\n        character(len=*), intent(in) :: species, period\n        d%species = species\n        d%period = period\n    end subroutine initializeDinosaur\nend module DinosaurModule\n\nprogram CreateDinosaur\n    use DinosaurModule\n    implicit none\n    type(Dinosaur) :: myDinosaur\n\n    call initializeDinosaur(myDinosaur, 'Tyrannosaurus', 'Cretaceous')\nend program CreateDinosaur\n```"
+  },
+  {
+    "task": "Write a class for a Tree with properties for species, height, and age, and instantiate it.",
+    "code": "```fortran\nMODULE TreeModule\n  TYPE :: Tree\n    CHARACTER(LEN=50) :: species\n    REAL :: height\n    INTEGER :: age\n  END TYPE Tree\nEND MODULE TreeModule\n\nPROGRAM Main\n  USE TreeModule\n  TYPE(Tree) :: myTree\n\n  myTree%species = \"Oak\"\n  myTree%height = 20.5\n  myTree%age = 100\n\nEND PROGRAM Main\n```"
+  },
+  {
+    "task": "Define a class representing a Firework with attributes for name, color, and duration, and create an object.",
+    "code": "```fortran\nmodule FireworkModule\n  implicit none\n  type :: Firework\n    character(len=50) :: name\n    character(len=20) :: color\n    real :: duration\n  end type Firework\ncontains\n  subroutine createFirework(f, fName, fColor, fDuration)\n    type(Firework), intent(out) :: f\n    character(len=*), intent(in) :: fName, fColor\n    real, intent(in) :: fDuration\n\n    f%name = fName\n    f%color = fColor\n    f%duration = fDuration\n  end subroutine createFirework\nend module FireworkModule\n\nprogram Main\n  use FireworkModule\n  implicit none\n  type(Firework) :: myFirework\n\n  call createFirework(myFirework, \"Sparkler\", \"Red\", 10.0)\n\nend program Main\n```"
+  },
+  {
+    "task": "Create an instance of a class called ComicBook with properties for title, author, and issue number.",
+    "code": "```fortran\nmodule ComicModule\n    implicit none\n    type :: ComicBook\n        character(len=100) :: title\n        character(len=100) :: author\n        integer :: issue_number\n    end type ComicBook\nend module ComicModule\n\nprogram CreateComicBook\n    use ComicModule\n    implicit none\n\n    type(ComicBook) :: myComic\n\n    myComic%title = 'Amazing Adventures'\n    myComic%author = 'Jane Doe'\n    myComic%issue_number = 1\n\nend program CreateComicBook\n```"
+  },
+  {
+    "task": "Design a class for a Metropolis with attributes for name, population, and GDP, then create an instance.",
+    "code": "```fortran\nmodule metropolis_mod\n    type :: Metropolis\n        character(len=:), allocatable :: name\n        integer :: population\n        real :: gdp\n    end type Metropolis\ncontains\n    function create_metropolis(name, population, gdp) result(m)\n        character(len=*), intent(in) :: name\n        integer, intent(in) :: population\n        real, intent(in) :: gdp\n        type(Metropolis) :: m\n\n        allocate(character(len=len(name)) :: m%name)\n        m%name = name\n        m%population = population\n        m%gdp = gdp\n    end function create_metropolis\nend module metropolis_mod\n\nprogram main\n    use metropolis_mod\n    type(Metropolis) :: metro\n\n    metro = create_metropolis(\"New York\", 8419000, 1681.0)\nend program main\n```"
+  },
+  {
+    "task": "Instantiate an object of a class named Dragon with properties for name, element, and age.",
+    "code": "```fortran\nmodule dragon_module\n    implicit none\n    type :: Dragon\n        character(len=50) :: name\n        character(len=20) :: element\n        integer :: age\n    end type Dragon\nend module dragon_module\n\nprogram create_dragon\n    use dragon_module\n    implicit none\n    type(Dragon) :: my_dragon\n\n    my_dragon%name = \"Firedrake\"\n    my_dragon%element = \"Fire\"\n    my_dragon%age = 150\nend program create_dragon\n```"
+  },
+  {
+    "task": "Develop a class for a Novel with properties for title, author, and genre, then instantiate it.",
+    "code": "```fortran\nmodule NovelModule\n    implicit none\n    type :: Novel\n        character(len=100) :: title\n        character(len=100) :: author\n        character(len=50)  :: genre\n    end type Novel\ncontains\n    subroutine createNovel(n, title, author, genre)\n        type(Novel), intent(out) :: n\n        character(len=*), intent(in) :: title, author, genre\n        n%title = title\n        n%author = author\n        n%genre = genre\n    end subroutine createNovel\nend module NovelModule\n\nprogram Main\n    use NovelModule\n    implicit none\n    type(Novel) :: myNovel\n    \n    call createNovel(myNovel, \"1984\", \"George Orwell\", \"Dystopian\")\nend program Main\n```"
+  },
+  {
+    "task": "Create an object of a class named Satellite with attributes for name, orbit, and mission.",
+    "code": "```fortran\nmodule SatelliteModule\n    type :: Satellite\n        character(len=100) :: name\n        character(len=100) :: orbit\n        character(len=100) :: mission\n    end type Satellite\ncontains\n    subroutine create_satellite(s, name, orbit, mission)\n        type(Satellite), intent(out) :: s\n        character(len=*), intent(in) :: name, orbit, mission\n        s%name = name\n        s%orbit = orbit\n        s%mission = mission\n    end subroutine create_satellite\nend module SatelliteModule\n\nprogram Main\n    use SatelliteModule\n    type(Satellite) :: mySatellite\n\n    call create_satellite(mySatellite, \"Hubble\", \"Low Earth Orbit\", \"Astronomy\")\nend program Main\n```"
+  },
+  {
+    "task": "Define a class for a Castle with properties for name, location, and architectural style, then instantiate it.",
+    "code": "```fortran\nmodule castle_module\n  implicit none\n  type :: Castle\n    character(len=100) :: name\n    character(len=100) :: location\n    character(len=100) :: architectural_style\n  end type Castle\nend module castle_module\n\nprogram create_castle\n  use castle_module\n  implicit none\n  type(Castle) :: myCastle\n\n  myCastle%name = \"Windsor Castle\"\n  myCastle%location = \"Berkshire, England\"\n  myCastle%architectural_style = \"Gothic\"\n\nend program create_castle\n```"
+  },
+  {
+    "task": "Construct an object from a class named Jungle with attributes for name, area, and biodiversity.",
+    "code": "```fortran\nmodule JungleMod\n    type :: Jungle\n        character(len=100) :: name\n        real :: area\n        integer :: biodiversity\n    end type Jungle\nend module JungleMod\n\nprogram JungleProgram\n    use JungleMod\n    type(Jungle) :: myJungle\n\n    myJungle%name = 'Amazon Rainforest'\n    myJungle%area = 5500000.0\n    myJungle%biodiversity = 1500000\n\nend program JungleProgram\n```"
+  },
+  {
+    "task": "Create an instance of a class called Dinosaur with properties for species, size, and diet.",
+    "code": "```fortran\nmodule DinosaurModule\n    implicit none\n    type :: Dinosaur\n        character(len=50) :: species\n        real :: size\n        character(len=20) :: diet\n    end type Dinosaur\nend module DinosaurModule\n\nprogram CreateDinosaur\n    use DinosaurModule\n    implicit none\n    type(Dinosaur) :: dino\n\n    dino%species = \"Tyrannosaurus Rex\"\n    dino%size = 12.3\n    dino%diet = \"Carnivore\"\nend program CreateDinosaur\n```"
+  },
+  {
+    "task": "Design a class for a Superhero with attributes for name, powers, and alias, then create an instance.",
+    "code": "```fortran\nmodule superhero_module\n  type :: Superhero\n    character(len=50) :: name\n    character(len=100) :: powers\n    character(len=50) :: alias\n  end type Superhero\nend module superhero_module\n\nprogram create_superhero\n  use superhero_module\n  type(Superhero) :: hero\n\n  hero%name = \"Superman\"\n  hero%powers = \"Flight, Super Strength, X-ray Vision\"\n  hero%alias = \"Clark Kent\"\nend program create_superhero\n```"
+  }
+]

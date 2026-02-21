@@ -1,0 +1,346 @@
+[
+  {
+    "task": "Create a function that modifies the first element of an array passed to it. Explain how the changes are reflected in the original array.",
+    "code": "```scala\nobject ParameterPassingExample {\n  def modifyFirstElement(arr: Array[Int]): Unit = {\n    if (arr.nonEmpty) {\n      arr(0) = arr(0) + 1\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalArray = Array(1, 2, 3)\n    modifyFirstElement(originalArray)\n    println(originalArray.mkString(\", \")) // Output: 2, 2, 3\n  }\n}\n```"
+  },
+  {
+    "task": "Design a function that swaps the values of two variables using pass-by-reference. Demonstrate how the swap affects the original variables.",
+    "code": "```scala\nobject SwapExample {\n  def swap(a: Array[Int], b: Array[Int]): Unit = {\n    val temp = a(0)\n    a(0) = b(0)\n    b(0) = temp\n  }\n\n  def main(args: Array[String]): Unit = {\n    val x = Array(5)\n    val y = Array(10)\n\n    println(s\"Before swap: x = ${x(0)}, y = ${y(0)}\")\n    swap(x, y)\n    println(s\"After swap: x = ${x(0)}, y = ${y(0)}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a large data structure to a function by value and by reference. Compare the performance and memory usage for both approaches.",
+    "code": "```scala\nimport scala.util.Random\n\nobject ParameterPassingDemo {\n\n  case class LargeDataStructure(data: Array[Int])\n\n  def main(args: Array[String]): Unit = {\n    val largeData = LargeDataStructure(Array.fill(1000000)(Random.nextInt()))\n\n    // Pass by value\n    val startByValue = System.nanoTime()\n    processByValue(largeData)\n    val endByValue = System.nanoTime()\n    println(s\"Time taken by value: ${(endByValue - startByValue) / 1e6} ms\")\n\n    // Pass by reference\n    val startByReference = System.nanoTime()\n    processByReference(largeData)\n    val endByReference = System.nanoTime()\n    println(s\"Time taken by reference: ${(endByReference - startByReference) / 1e6} ms\")\n  }\n\n  def processByValue(data: LargeDataStructure): Unit = {\n    val sum = data.data.sum\n  }\n\n  def processByReference(data: LargeDataStructure): Unit = {\n    val sum = data.data.sum\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an integer and doubles its value. Show the difference in the original variable when using pass-by-value versus pass-by-reference.",
+    "code": "```scala\nobject ParameterPassingExample {\n  def doubleValueByValue(x: Int): Int = {\n    x * 2\n  }\n\n  def doubleValueByReference(container: Array[Int]): Unit = {\n    container(0) = container(0) * 2\n  }\n\n  def main(args: Array[String]): Unit = {\n    // Pass-by-value example\n    var originalValue = 5\n    println(s\"Original value (pass-by-value): $originalValue\")\n    val doubledValue = doubleValueByValue(originalValue)\n    println(s\"Doubled value: $doubledValue\")\n    println(s\"Original value after function (pass-by-value): $originalValue\")\n\n    // Pass-by-reference example\n    var originalContainer = Array(5)\n    println(s\"Original value (pass-by-reference): ${originalContainer(0)}\")\n    doubleValueByReference(originalContainer)\n    println(s\"Original value after function (pass-by-reference): ${originalContainer(0)}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a list and returns a new list with elements doubled. Ensure the original list remains unchanged.",
+    "code": "```scala\ndef doubleElements(originalList: List[Int]): List[Int] = {\n  originalList.map(_ * 2)\n}\n\n// Example usage:\nval originalList = List(1, 2, 3, 4, 5)\nval doubledList = doubleElements(originalList)\n```"
+  },
+  {
+    "task": "Design a function that takes a string argument and appends a character to it. Illustrate the result when the string is passed by value.",
+    "code": "```scala\nobject ParameterPassing {\n  def appendChar(original: String, charToAppend: Char): String = {\n    original + charToAppend\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalString = \"Hello\"\n    val resultString = appendChar(originalString, '!')\n    println(s\"Original String: $originalString\")\n    println(s\"Result String: $resultString\")\n  }\n}\n\nParameterPassing.main(Array())\n```"
+  },
+  {
+    "task": "Write a function that increments a counter variable. Pass the variable by reference to see changes in the original variable.",
+    "code": "```scala\nclass Counter(var value: Int)\n\ndef increment(counter: Counter): Unit = {\n  counter.value += 1\n}\n\nval counter = new Counter(0)\nincrement(counter)\nprintln(counter.value)\n```"
+  },
+  {
+    "task": "Develop a function that removes an item from a dictionary passed to it. Demonstrate how pass-by-reference affects the original dictionary.",
+    "code": "```scala\nobject DictionaryExample {\n  def removeItemFromDictionary(dict: scala.collection.mutable.Map[String, Int], key: String): Unit = {\n    dict -= key\n  }\n\n  def main(args: Array[String]): Unit = {\n    val myDict = scala.collection.mutable.Map(\"apple\" -> 3, \"banana\" -> 5, \"orange\" -> 2)\n\n    println(\"Original dictionary: \" + myDict)\n\n    removeItemFromDictionary(myDict, \"banana\")\n\n    println(\"Dictionary after removal: \" + myDict)\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that passes a matrix to a function, which transposes it. Explain how the transposition affects the original matrix with pass-by-reference.",
+    "code": "```scala\nobject MatrixTransposer {\n  def main(args: Array[String]): Unit = {\n    val matrix = Array(\n      Array(1, 2, 3),\n      Array(4, 5, 6),\n      Array(7, 8, 9)\n    )\n\n    println(\"Original Matrix:\")\n    printMatrix(matrix)\n\n    transpose(matrix)\n\n    println(\"Transposed Matrix:\")\n    printMatrix(matrix)\n  }\n\n  def transpose(matrix: Array[Array[Int]]): Unit = {\n    val n = matrix.length\n    val m = matrix(0).length\n    for (i <- 0 until n) {\n      for (j <- i + 1 until m) {\n        val temp = matrix(i)(j)\n        matrix(i)(j) = matrix(j)(i)\n        matrix(j)(i) = temp\n      }\n    }\n  }\n\n  def printMatrix(matrix: Array[Array[Int]]): Unit = {\n    matrix.foreach(row => println(row.mkString(\" \")))\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a float number and rounds it. Discuss the implications of passing the number by value.",
+    "code": "```scala\nobject ParameterPassingExample {\n  def roundNumber(number: Float): Int = {\n    Math.round(number)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalNumber: Float = 5.67f\n    val roundedNumber: Int = roundNumber(originalNumber)\n    println(s\"Original: $originalNumber, Rounded: $roundedNumber\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a dictionary and adds a key-value pair to it. Show the changes when the dictionary is passed by reference.",
+    "code": "```scala\nobject ParameterPassingExample {\n  def addKeyValuePair(map: scala.collection.mutable.Map[String, String], key: String, value: String): Unit = {\n    map += (key -> value)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val myMap = scala.collection.mutable.Map(\"initialKey\" -> \"initialValue\")\n    println(\"Before adding new key-value pair: \" + myMap)\n    addKeyValuePair(myMap, \"newKey\", \"newValue\")\n    println(\"After adding new key-value pair: \" + myMap)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that passes a string to a function that converts it to uppercase. Explain how this affects the original string with pass-by-value.",
+    "code": "```scala\nobject UppercaseDemo {\n  def main(args: Array[String]): Unit = {\n    val originalString = \"hello, world\"\n    val uppercasedString = toUpperCase(originalString)\n    println(s\"Original String: $originalString\")\n    println(s\"Uppercased String: $uppercasedString\")\n  }\n\n  def toUpperCase(str: String): String = {\n    str.toUpperCase\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a tuple and attempts to modify one of its elements. Discuss the outcome of using pass-by-value.",
+    "code": "```scala\nobject TupleModification {\n  def attemptModifyTuple(tuple: (Int, String)): (Int, String) = {\n    // Attempt to modify the tuple's first element\n    val modifiedTuple = (tuple._1 + 1, tuple._2)\n    modifiedTuple\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalTuple = (10, \"Scala\")\n    val resultTuple = attemptModifyTuple(originalTuple)\n    println(s\"Original Tuple: $originalTuple\")\n    println(s\"Result Tuple: $resultTuple\")\n  }\n}\n\nTupleModification.main(Array())\n```"
+  },
+  {
+    "task": "Develop a function that accepts an object and modifies one of its attributes. Illustrate how pass-by-reference alters the original object.",
+    "code": "```scala\ncase class Person(var name: String)\n\ndef modifyPersonName(person: Person, newName: String): Unit = {\n  person.name = newName\n}\n\nval person = Person(\"Alice\")\nprintln(s\"Before modification: ${person.name}\")\n\nmodifyPersonName(person, \"Bob\")\nprintln(s\"After modification: ${person.name}\")\n```"
+  },
+  {
+    "task": "Design a function that outputs the sum of all elements in an array passed by value. Confirm the original array remains unchanged.",
+    "code": "```scala\ndef sumArray(arr: Array[Int]): Int = {\n  arr.sum\n}\n\n// Example usage\nval originalArray = Array(1, 2, 3, 4, 5)\nval sum = sumArray(originalArray)\nprintln(s\"Sum: $sum\")\nprintln(s\"Original array: ${originalArray.mkString(\", \")}\")\n```"
+  },
+  {
+    "task": "Write a function that takes a boolean flag and toggles its value. Demonstrate the effect of pass-by-reference on the original flag.",
+    "code": "```scala\nobject ToggleExample {\n  class Flag(var value: Boolean)\n\n  def toggleFlag(flag: Flag): Unit = {\n    flag.value = !flag.value\n  }\n\n  def main(args: Array[String]): Unit = {\n    val myFlag = new Flag(true)\n    println(s\"Original flag value: ${myFlag.value}\")\n    toggleFlag(myFlag)\n    println(s\"Toggled flag value: ${myFlag.value}\")\n  }\n}\n\nToggleExample.main(Array())\n```"
+  },
+  {
+    "task": "Create a function that takes an object and clones it. Modify the clone and show that the original object remains unaffected.",
+    "code": "```scala\ncase class SampleObject(var data: String)\n\ndef cloneAndModify(original: SampleObject): SampleObject = {\n  val cloned = original.copy()\n  cloned.data = \"Modified Data\"\n  cloned\n}\n\nval originalObject = SampleObject(\"Original Data\")\nval modifiedClone = cloneAndModify(originalObject)\n\nprintln(s\"Original: ${originalObject.data}\")\nprintln(s\"Clone: ${modifiedClone.data}\")\n```"
+  },
+  {
+    "task": "Implement a function that accepts a list of integers and removes all even numbers. Describe the difference in behavior when using pass-by-value and pass-by-reference.",
+    "code": "```scala\nobject ParameterPassingDemo {\n  def removeEvensByValue(nums: List[Int]): List[Int] = {\n    nums.filter(_ % 2 != 0)\n  }\n\n  def removeEvensByReference(nums: scala.collection.mutable.ListBuffer[Int]): Unit = {\n    nums --= nums.filter(_ % 2 == 0)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val numsByValue = List(1, 2, 3, 4, 5, 6)\n    val resultByValue = removeEvensByValue(numsByValue)\n    println(s\"Original list (pass-by-value): $numsByValue\")\n    println(s\"Filtered list (pass-by-value): $resultByValue\")\n\n    val numsByReference = scala.collection.mutable.ListBuffer(1, 2, 3, 4, 5, 6)\n    removeEvensByReference(numsByReference)\n    println(s\"Original list (pass-by-reference): $numsByReference\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a complex number and returns its conjugate. Explain how pass-by-value affects the original complex number.",
+    "code": "```scala\ncase class Complex(real: Double, imaginary: Double)\n\ndef conjugate(c: Complex): Complex = {\n  Complex(c.real, -c.imaginary)\n}\n\n// Example usage\nval original = Complex(4, 5)\nval result = conjugate(original)\nprintln(s\"Original: $original, Conjugate: $result\")\n```"
+  },
+  {
+    "task": "Design a program where a function receives a binary tree and inverts it. Discuss how pass-by-reference impacts the original tree structure.",
+    "code": "```scala\ncase class TreeNode(var value: Int, var left: TreeNode = null, var right: TreeNode = null)\n\nobject BinaryTreeInverter {\n  def invertTree(node: TreeNode): Unit = {\n    if (node != null) {\n      val temp = node.left\n      node.left = node.right\n      node.right = temp\n      invertTree(node.left)\n      invertTree(node.right)\n    }\n  }\n}\n\nobject Main extends App {\n  val root = TreeNode(1, TreeNode(2), TreeNode(3))\n  BinaryTreeInverter.invertTree(root)\n}\n```"
+  },
+  {
+    "task": "Write a function that adds an element to a set passed to it. Show how pass-by-reference affects the original set.",
+    "code": "```scala\nobject SetModifier {\n  def addElement(set: scala.collection.mutable.Set[Int], element: Int): Unit = {\n    set += element\n  }\n\n  def main(args: Array[String]): Unit = {\n    val mySet = scala.collection.mutable.Set(1, 2, 3)\n    println(\"Original set: \" + mySet)\n    addElement(mySet, 4)\n    println(\"Modified set: \" + mySet)\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts an integer array and sorts it. Demonstrate the difference when the array is passed by value.",
+    "code": "```scala\nobject ParameterPassingExample {\n  def sortArray(arr: Array[Int]): Array[Int] = {\n    val sortedArr = arr.clone()\n    scala.util.Sorting.quickSort(sortedArr)\n    sortedArr\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalArray = Array(5, 3, 8, 1, 2)\n    val sortedArray = sortArray(originalArray)\n    \n    println(s\"Original array: ${originalArray.mkString(\", \")}\")\n    println(s\"Sorted array: ${sortedArray.mkString(\", \")}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a configuration object and toggles a setting. Illustrate the changes with pass-by-reference.",
+    "code": "```scala\ncase class Configuration(var setting: Boolean)\n\ndef toggleSetting(config: Configuration): Unit = {\n  config.setting = !config.setting\n}\n\nval config = Configuration(setting = true)\nprintln(s\"Before toggle: ${config.setting}\")\ntoggleSetting(config)\nprintln(s\"After toggle: ${config.setting}\")\n```"
+  },
+  {
+    "task": "Design a function that receives a file path and reads its content. Explain how passing the path by value affects the outcome.",
+    "code": "```scala\nimport scala.io.Source\n\nobject FileReader {\n  def readFileContent(filePath: String): String = {\n    val bufferedSource = Source.fromFile(filePath)\n    try {\n      bufferedSource.getLines().mkString(\"\\n\")\n    } finally {\n      bufferedSource.close()\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val path = \"example.txt\"\n    val content = readFileContent(path)\n    println(content)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program in which a function takes a stack and reverses its elements. Discuss the impact of pass-by-reference on the stack.",
+    "code": "```scala\nimport scala.collection.mutable.Stack\n\nobject StackReverser {\n  def reverseStack[T](stack: Stack[T]): Unit = {\n    val tempStack = Stack[T]()\n    while (stack.nonEmpty) {\n      tempStack.push(stack.pop())\n    }\n    while (tempStack.nonEmpty) {\n      stack.push(tempStack.pop())\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val stack = Stack(1, 2, 3, 4, 5)\n    println(s\"Original stack: $stack\")\n    reverseStack(stack)\n    println(s\"Reversed stack: $stack\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a queue and dequeues an element. Show the result when the queue is passed by reference.",
+    "code": "```scala\nimport scala.collection.mutable.Queue\n\ndef dequeueElement(queue: Queue[Int]): Unit = {\n  if (queue.nonEmpty) {\n    queue.dequeue()\n  }\n}\n\nval myQueue: Queue[Int] = Queue(1, 2, 3, 4, 5)\nprintln(\"Queue before dequeue: \" + myQueue)\ndequeueElement(myQueue)\nprintln(\"Queue after dequeue: \" + myQueue)\n```"
+  },
+  {
+    "task": "Develop a function that accepts a hashmap and updates a value for a specific key. Illustrate the effects of pass-by-reference.",
+    "code": "```scala\nimport scala.collection.mutable\n\ndef updateValue(map: mutable.HashMap[String, Int], key: String, newValue: Int): Unit = {\n  map.update(key, newValue)\n}\n\nval myMap = mutable.HashMap(\"apple\" -> 1, \"banana\" -> 2)\nprintln(s\"Before update: $myMap\")\nupdateValue(myMap, \"apple\", 10)\nprintln(s\"After update: $myMap\")\n```"
+  },
+  {
+    "task": "Design a function that receives a JSON object and adds a new property. Discuss the implications of modifying the object by reference.",
+    "code": "```scala\nimport scala.util.parsing.json.JSONObject\nimport scala.collection.mutable\n\ndef addProperty(json: mutable.Map[String, Any], key: String, value: Any): Unit = {\n  json(key) = value\n}\n\nval jsonObj = mutable.Map(\"name\" -> \"John\", \"age\" -> 30)\naddProperty(jsonObj, \"city\", \"New York\")\nprintln(JSONObject(jsonObj.toMap))\n```"
+  },
+  {
+    "task": "Write a program where a function accepts a graph and adds a node. Explain how pass-by-reference affects the original graph structure.",
+    "code": "```scala\ncase class Node(value: String)\n\nclass Graph {\n  private var adjacencyList: Map[Node, List[Node]] = Map()\n\n  def addNode(node: Node): Unit = {\n    if (!adjacencyList.contains(node)) {\n      adjacencyList = adjacencyList + (node -> List())\n    }\n  }\n\n  def addEdge(node1: Node, node2: Node): Unit = {\n    if (adjacencyList.contains(node1) && adjacencyList.contains(node2)) {\n      adjacencyList = adjacencyList.updated(node1, node2 :: adjacencyList(node1))\n    }\n  }\n\n  override def toString: String = {\n    adjacencyList.map {\n      case (node, edges) => s\"${node.value} -> ${edges.map(_.value).mkString(\", \")}\"\n    }.mkString(\"\\n\")\n  }\n}\n\nobject GraphApp extends App {\n  def addNodeToGraph(graph: Graph, node: Node): Unit = {\n    graph.addNode(node)\n  }\n\n  val graph = new Graph\n  val nodeA = Node(\"A\")\n  \n  addNodeToGraph(graph, nodeA)\n  \n  println(graph)\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a set of coordinates and shifts them. Demonstrate how pass-by-value ensures the original set is unchanged.",
+    "code": "```scala\nobject CoordinateShifter {\n  case class Coordinate(var x: Int, var y: Int)\n\n  def shiftCoordinates(coords: Coordinate, dx: Int, dy: Int): Coordinate = {\n    Coordinate(coords.x + dx, coords.y + dy)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalCoords = Coordinate(5, 10)\n    val shiftedCoords = shiftCoordinates(originalCoords, 3, 4)\n\n    println(s\"Original Coordinates: (${originalCoords.x}, ${originalCoords.y})\")\n    println(s\"Shifted Coordinates: (${shiftedCoords.x}, ${shiftedCoords.y})\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a date object and sets it to the next day. Discuss the effects of pass-by-reference on the date object.",
+    "code": "```scala\nimport java.util.Calendar\n\nobject DateUpdater {\n  def main(args: Array[String]): Unit = {\n    val calendar = Calendar.getInstance()\n    println(s\"Original date: ${calendar.getTime}\")\n    setToNextDay(calendar)\n    println(s\"Updated date: ${calendar.getTime}\")\n  }\n\n  def setToNextDay(date: Calendar): Unit = {\n    date.add(Calendar.DAY_OF_MONTH, 1)\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a polynomial represented as a list of coefficients and differentiates it. Show how the original list remains unchanged with pass-by-value.",
+    "code": "```scala\nobject PolynomialDifferentiator {\n  def differentiate(polynomial: List[Int]): List[Int] = {\n    polynomial.zipWithIndex.collect {\n      case (coeff, index) if index > 0 => coeff * index\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalPolynomial = List(3, 2, 1) // Represents 3 + 2x + x^2\n    val differentiatedPolynomial = differentiate(originalPolynomial)\n    \n    println(s\"Original Polynomial Coefficients: $originalPolynomial\")\n    println(s\"Differentiated Polynomial Coefficients: $differentiatedPolynomial\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a stack and clears it. Explain how pass-by-reference affects the original stack.",
+    "code": "```scala\nimport scala.collection.mutable.Stack\n\ndef clearStack[T](stack: Stack[T]): Unit = {\n  stack.clear()\n}\n\nval myStack = Stack(1, 2, 3, 4, 5)\nclearStack(myStack)\nprintln(myStack) // Output: Stack()\n```"
+  },
+  {
+    "task": "Write a function that takes a linked list and appends a new node. Demonstrate the impact of pass-by-reference on the list.",
+    "code": "```scala\nclass Node(var data: Int, var next: Option[Node] = None)\n\nclass LinkedList(var head: Option[Node] = None) {\n  def append(data: Int): Unit = {\n    val newNode = new Node(data)\n    if (head.isEmpty) {\n      head = Some(newNode)\n    } else {\n      var current = head\n      while (current.get.next.isDefined) {\n        current = current.get.next\n      }\n      current.get.next = Some(newNode)\n    }\n  }\n  \n  def printList(): Unit = {\n    var current = head\n    while (current.isDefined) {\n      print(current.get.data + \" \")\n      current = current.get.next\n    }\n    println()\n  }\n}\n\nobject Main extends App {\n  val list = new LinkedList()\n  list.append(1)\n  list.append(2)\n  \n  println(\"Before appending:\")\n  list.printList()\n  \n  def addNode(list: LinkedList, data: Int): Unit = {\n    list.append(data)\n  }\n  \n  addNode(list, 3)\n  \n  println(\"After appending:\")\n  list.printList()\n}\n```"
+  },
+  {
+    "task": "Create a function that receives a URL and extracts the domain name. Discuss the effects of pass-by-value on the URL string.",
+    "code": "```scala\nobject DomainExtractor {\n  def extractDomain(url: String): String = {\n    val domain = url.split(\"/\")(2)\n    domain\n  }\n\n  def main(args: Array[String]): Unit = {\n    val url = \"https://www.example.com/path\"\n    val domain = extractDomain(url)\n    println(s\"Domain: $domain\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a priority queue and changes the priority of an element. Illustrate the effects using pass-by-reference.",
+    "code": "```scala\nimport scala.collection.mutable.PriorityQueue\n\nobject PriorityQueueExample {\n  case class Element(value: String, var priority: Int)\n\n  implicit val elementOrdering: Ordering[Element] = Ordering.by(-_.priority)\n\n  def changePriority(pq: PriorityQueue[Element], element: Element, newPriority: Int): Unit = {\n    // Remove the element, change its priority, then re-add it\n    pq.dequeueAll\n    element.priority = newPriority\n    pq.enqueue(element)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val pq = PriorityQueue[Element](\n      Element(\"task1\", 1),\n      Element(\"task2\", 2),\n      Element(\"task3\", 3)\n    )\n\n    val elemToChange = pq.find(_.value == \"task1\").get\n    println(s\"Before change: $pq\")\n\n    changePriority(pq, elemToChange, 4)\n    println(s\"After change: $pq\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that accepts a circular buffer and reads an element. Explain how pass-by-reference influences the buffer.",
+    "code": "```scala\nclass CircularBuffer[T](val size: Int) {\n  private val buffer = Array.ofDim[Any](size).asInstanceOf[Array[T]]\n  private var head: Int = 0\n  private var tail: Int = 0\n  private var count: Int = 0\n\n  def add(element: T): Unit = {\n    buffer(tail) = element\n    tail = (tail + 1) % size\n    if (count == size) {\n      head = (head + 1) % size\n    } else {\n      count += 1\n    }\n  }\n\n  def read(): Option[T] = {\n    if (count == 0) {\n      None\n    } else {\n      val element = buffer(head)\n      head = (head + 1) % size\n      count -= 1\n      Some(element)\n    }\n  }\n}\n\ndef readFromBuffer[T](buffer: CircularBuffer[T]): Option[T] = {\n  buffer.read()\n}\n\nval buffer = new CircularBuffer[Int](5)\nbuffer.add(1)\nbuffer.add(2)\nbuffer.add(3)\n\nval element = readFromBuffer(buffer)\n```"
+  },
+  {
+    "task": "Design a program where a function receives a record and updates a field. Show how pass-by-reference affects the original record.",
+    "code": "```scala\ncase class Record(var field: Int)\n\ndef updateField(record: Record, newValue: Int): Unit = {\n  record.field = newValue\n}\n\nobject Main extends App {\n  val myRecord = Record(10)\n  println(s\"Before update: ${myRecord.field}\")\n\n  updateField(myRecord, 20)\n  println(s\"After update: ${myRecord.field}\")\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a frequency list and normalizes it. Describe how pass-by-value ensures the original list remains unchanged.",
+    "code": "```scala\nobject FrequencyNormalizer {\n  def normalizeFrequency(frequencies: List[Double]): List[Double] = {\n    val total = frequencies.sum\n    frequencies.map(freq => freq / total)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val frequencies = List(10.0, 20.0, 30.0, 40.0)\n    val normalized = normalizeFrequency(frequencies)\n    println(s\"Original frequencies: $frequencies\")\n    println(s\"Normalized frequencies: $normalized\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a chessboard and makes a move. Discuss how pass-by-reference alters the original board setup.",
+    "code": "```scala\nobject ChessGame {\n  type ChessBoard = Array[Array[String]]\n\n  def makeMove(board: ChessBoard, from: (Int, Int), to: (Int, Int)): Unit = {\n    val piece = board(from._1)(from._2)\n    board(to._1)(to._2) = piece\n    board(from._1)(from._2) = \"\"\n  }\n\n  def main(args: Array[String]): Unit = {\n    val board: ChessBoard = Array(\n      Array(\"R\", \"N\", \"B\", \"Q\", \"K\", \"B\", \"N\", \"R\"),\n      Array(\"P\", \"P\", \"P\", \"P\", \"P\", \"P\", \"P\", \"P\"),\n      Array(\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"),\n      Array(\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"),\n      Array(\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"),\n      Array(\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"),\n      Array(\"p\", \"p\", \"p\", \"p\", \"p\", \"p\", \"p\", \"p\"),\n      Array(\"r\", \"n\", \"b\", \"q\", \"k\", \"b\", \"n\", \"r\")\n    )\n\n    makeMove(board, (1, 0), (3, 0)) // Move a pawn\n\n    board.foreach(row => println(row.mkString(\" \")))\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that takes a decimal number and converts it to binary. Explain the effects of pass-by-value on the original number.",
+    "code": "```scala\nobject DecimalToBinary {\n  def convertToBinary(decimal: Int): String = {\n    Integer.toBinaryString(decimal)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalNumber = 42\n    val binaryNumber = convertToBinary(originalNumber)\n    println(s\"Decimal: $originalNumber, Binary: $binaryNumber\")\n    println(s\"After function call, original number remains unchanged: $originalNumber\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a DNA sequence and counts nucleotides. Illustrate how pass-by-value ensures the original sequence remains intact.",
+    "code": "```scala\nobject DNACounter {\n\n  def countNucleotides(dnaSequence: String): Map[Char, Int] = {\n    var countMap = Map('A' -> 0, 'C' -> 0, 'G' -> 0, 'T' -> 0)\n    for (nucleotide <- dnaSequence) {\n      countMap = countMap.updated(nucleotide, countMap(nucleotide) + 1)\n    }\n    countMap\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalSequence = \"AGCTTAGCTA\"\n    val nucleotideCounts = countNucleotides(originalSequence)\n    println(s\"Original Sequence: $originalSequence\")\n    println(s\"Nucleotide Counts: $nucleotideCounts\")\n    println(s\"Original Sequence after function call: $originalSequence\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a shopping cart object and applies a discount. Show the changes with pass-by-reference.",
+    "code": "```scala\ncase class ShoppingCart(var totalAmount: Double)\n\ndef applyDiscount(cart: ShoppingCart, discountPercentage: Double): Unit = {\n  val discountAmount = cart.totalAmount * (discountPercentage / 100)\n  cart.totalAmount -= discountAmount\n}\n\n// Example usage:\nval cart = ShoppingCart(100.0)\napplyDiscount(cart, 10.0)\nprintln(cart.totalAmount) // Output will be 90.0\n```"
+  },
+  {
+    "task": "Write a program where a function receives a playlist and adds a song. Discuss how pass-by-reference affects the original playlist.",
+    "code": "```scala\nobject PlaylistApp {\n  def main(args: Array[String]): Unit = {\n    val playlist = scala.collection.mutable.ListBuffer(\"Song1\", \"Song2\", \"Song3\")\n    println(\"Original Playlist: \" + playlist)\n    addSong(playlist, \"New Song\")\n    println(\"Updated Playlist: \" + playlist)\n  }\n\n  def addSong(playlist: scala.collection.mutable.ListBuffer[String], song: String): Unit = {\n    playlist += song\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sprite in a game and moves it. Demonstrate the result when the sprite is passed by reference.",
+    "code": "```scala\ncase class Sprite(var x: Int, var y: Int)\n\ndef moveSprite(sprite: Sprite, dx: Int, dy: Int): Unit = {\n  sprite.x += dx\n  sprite.y += dy\n}\n\nval sprite = Sprite(10, 20)\nprintln(s\"Before moving: (${sprite.x}, ${sprite.y})\")\nmoveSprite(sprite, 5, -3)\nprintln(s\"After moving: (${sprite.x}, ${sprite.y})\")\n```"
+  },
+  {
+    "task": "Implement a function that accepts a book object and updates the title. Illustrate the impact of pass-by-reference on the original object.",
+    "code": "```scala\ncase class Book(var title: String)\n\ndef updateTitle(book: Book, newTitle: String): Unit = {\n  book.title = newTitle\n}\n\nval book = Book(\"Original Title\")\nprintln(s\"Before: ${book.title}\")\nupdateTitle(book, \"Updated Title\")\nprintln(s\"After: ${book.title}\")\n```"
+  },
+  {
+    "task": "Develop a function that receives a sound wave and normalizes it. Explain how pass-by-value affects the original sound wave.",
+    "code": "```scala\nobject SoundWaveProcessor {\n  def normalize(soundWave: Array[Double]): Array[Double] = {\n    val maxAmplitude = soundWave.map(math.abs).max\n    soundWave.map(_ / maxAmplitude)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalSoundWave = Array(0.5, -0.75, 0.3, -0.9, 0.6)\n    val normalizedSoundWave = normalize(originalSoundWave)\n    \n    println(\"Original Sound Wave: \" + originalSoundWave.mkString(\", \"))\n    println(\"Normalized Sound Wave: \" + normalizedSoundWave.mkString(\", \"))\n  }\n}\n\nSoundWaveProcessor.main(Array())\n```"
+  },
+  {
+    "task": "Design a program where a function receives a bank account object and credits an amount. Discuss the effects of pass-by-reference.",
+    "code": "```scala\nclass BankAccount(var balance: Double)\n\nobject BankTransaction {\n  def creditAccount(account: BankAccount, amount: Double): Unit = {\n    account.balance += amount\n  }\n\n  def main(args: Array[String]): Unit = {\n    val myAccount = new BankAccount(1000.0)\n    println(s\"Initial balance: ${myAccount.balance}\")\n    \n    creditAccount(myAccount, 200.0)\n    println(s\"Balance after credit: ${myAccount.balance}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that takes an email list and filters out invalid addresses. Show the difference in the list when using pass-by-value.",
+    "code": "```scala\nobject EmailFilter {\n  def main(args: Array[String]): Unit = {\n    val emailList = List(\"valid@example.com\", \"invalid.com\", \"another@valid.com\", \"wrong@.com\")\n    println(\"Original List: \" + emailList)\n    val filteredList = filterEmails(emailList)\n    println(\"Filtered List: \" + filteredList)\n    println(\"Original List after function call: \" + emailList)\n  }\n\n  def filterEmails(emails: List[String]): List[String] = {\n    emails.filter(email => email.contains(\"@\") && email.contains(\".\"))\n  }\n}\n\nEmailFilter.main(Array())\n```"
+  },
+  {
+    "task": "Create a function that accepts a 3D model and scales it. Demonstrate how pass-by-reference affects the original model.",
+    "code": "```scala\ncase class Model(var vertices: Array[Array[Array[Double]]])\n\ndef scaleModel(model: Model, scaleFactor: Double): Unit = {\n  for {\n    i <- model.vertices.indices\n    j <- model.vertices(i).indices\n    k <- model.vertices(i)(j).indices\n  } model.vertices(i)(j)(k) *= scaleFactor\n}\n\nval originalModel = Model(Array(\n  Array(Array(1.0, 2.0, 3.0), Array(4.0, 5.0, 6.0)),\n  Array(Array(7.0, 8.0, 9.0), Array(10.0, 11.0, 12.0))\n))\n\nprintln(\"Original Model: \" + originalModel.vertices.deep.mkString(\", \"))\n\nscaleModel(originalModel, 2.0)\n\nprintln(\"Scaled Model: \" + originalModel.vertices.deep.mkString(\", \"))\n```"
+  },
+  {
+    "task": "Implement a function that receives a text document and redacts sensitive information. Explain the impact of pass-by-reference.",
+    "code": "```scala\nobject Redactor {\n  def redactSensitiveInfo(document: StringBuilder): Unit = {\n    val sensitiveWords = Set(\"password\", \"secret\", \"confidential\")\n    val redactedText = sensitiveWords.foldLeft(document.toString()) { (text, word) =>\n      text.replaceAll(word, \"[REDACTED]\")\n    }\n    document.clear()\n    document.append(redactedText)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val document = new StringBuilder(\"This document contains a password and other confidential information.\")\n    println(\"Before redaction: \" + document)\n    redactSensitiveInfo(document)\n    println(\"After redaction: \" + document)\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a temperature reading and adjusts for calibration. Discuss how pass-by-value ensures the original reading is unchanged.",
+    "code": "```scala\nobject TemperatureAdjustment {\n  def main(args: Array[String]): Unit = {\n    val originalReading = 25.0\n    val calibratedReading = adjustForCalibration(originalReading, 2.5)\n    println(s\"Original Reading: $originalReading\")\n    println(s\"Calibrated Reading: $calibratedReading\")\n  }\n\n  def adjustForCalibration(reading: Double, calibration: Double): Double = {\n    reading + calibration\n  }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a bug report and updates its status. Show the changes with pass-by-reference.",
+    "code": "```scala\ncase class BugReport(var status: String)\n\ndef updateStatus(bugReport: BugReport, newStatus: String): Unit = {\n  bugReport.status = newStatus\n}\n\nval report = BugReport(\"Open\")\nprintln(s\"Before update: ${report.status}\")\nupdateStatus(report, \"Resolved\")\nprintln(s\"After update: ${report.status}\")\n```"
+  },
+  {
+    "task": "Write a program where a function receives a sensor array and calibrates it. Demonstrate the effect of pass-by-reference on the array.",
+    "code": "```scala\nobject SensorCalibration {\n  def calibrateSensor(sensorArray: Array[Double]): Unit = {\n    for (i <- sensorArray.indices) {\n      sensorArray(i) += 1.0 // Calibrate by adding 1.0 to each element\n    }\n  }\n  \n  def main(args: Array[String]): Unit = {\n    val sensors = Array(0.5, 1.5, 2.5, 3.5)\n    println(\"Before calibration: \" + sensors.mkString(\", \"))\n    calibrateSensor(sensors)\n    println(\"After calibration: \" + sensors.mkString(\", \"))\n  }\n}\n\nSensorCalibration.main(Array())\n```"
+  },
+  {
+    "task": "Create a function that takes a vector and rotates it. Explain how pass-by-value ensures the original vector remains unchanged.",
+    "code": "```scala\nobject VectorRotation {\n  def rotateVector(vector: Vector[Int], positions: Int): Vector[Int] = {\n    val size = vector.size\n    if (size == 0) vector\n    else {\n      val rotateBy = positions % size\n      vector.drop(rotateBy) ++ vector.take(rotateBy)\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalVector = Vector(1, 2, 3, 4, 5)\n    val rotatedVector = rotateVector(originalVector, 2)\n\n    println(s\"Original Vector: $originalVector\")\n    println(s\"Rotated Vector: $rotatedVector\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts an operation log and compresses it. Discuss the impact of pass-by-reference on the log.",
+    "code": "```scala\nobject LogCompressor {\n\n  def compressLog(log: Array[String]): Unit = {\n    val compressedLog = log.distinct\n    Array.copy(compressedLog, 0, log, 0, compressedLog.length)\n    for (i <- compressedLog.length until log.length) {\n      log(i) = null\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val log = Array(\"start\", \"start\", \"stop\", \"start\", \"stop\", \"stop\")\n    compressLog(log)\n    println(log.mkString(\", \"))\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a neural network model and updates its weights. Illustrate the effects of pass-by-reference.",
+    "code": "```scala\nclass NeuralNetwork(var weights: Array[Double])\n\ndef updateWeights(model: NeuralNetwork, newWeights: Array[Double]): Unit = {\n  for (i <- model.weights.indices) {\n    model.weights(i) = newWeights(i)\n  }\n}\n\n// Example usage:\nval model = new NeuralNetwork(Array(0.1, 0.2, 0.3))\nval newWeights = Array(0.4, 0.5, 0.6)\nupdateWeights(model, newWeights)\n\nprintln(model.weights.mkString(\", \")) // Outputs: 0.4, 0.5, 0.6\n```"
+  },
+  {
+    "task": "Design a function that accepts a command history and reverts the last command. Show the changes with pass-by-reference.",
+    "code": "```scala\nobject CommandHistory {\n  def revertLastCommand(commands: scala.collection.mutable.ListBuffer[String]): Unit = {\n    if (commands.nonEmpty) {\n      commands.remove(commands.size - 1)\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val commandHistory = scala.collection.mutable.ListBuffer(\"cmd1\", \"cmd2\", \"cmd3\")\n    println(\"Before revert: \" + commandHistory.mkString(\", \"))\n    revertLastCommand(commandHistory)\n    println(\"After revert: \" + commandHistory.mkString(\", \"))\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a user profile and anonymizes it. Discuss how pass-by-reference affects the original profile.",
+    "code": "```scala\ncase class UserProfile(var name: String, var email: String, var age: Int)\n\ndef anonymizeProfile(profile: UserProfile): Unit = {\n  profile.name = \"Anonymous\"\n  profile.email = \"anonymous@example.com\"\n  profile.age = 0\n}\n\n// Example usage:\nval userProfile = UserProfile(\"John Doe\", \"johndoe@example.com\", 30)\nanonymizeProfile(userProfile)\nprintln(userProfile)\n```"
+  },
+  {
+    "task": "Create a function that accepts a polynomial and evaluates it at a given point. Explain how pass-by-value ensures the polynomial remains unchanged.",
+    "code": "```scala\nobject PolynomialEvaluator {\n  def evaluatePolynomial(coefficients: List[Double], x: Double): Double = {\n    coefficients.zipWithIndex.map { case (coeff, index) => coeff * math.pow(x, index) }.sum\n  }\n\n  def main(args: Array[String]): Unit = {\n    val polynomial = List(3.0, 2.0, 1.0) // Represents 3 + 2x + x^2\n    val point = 5.0\n    val result = evaluatePolynomial(polynomial, point)\n    println(s\"Polynomial evaluated at $point is $result\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a video stream and applies a filter. Demonstrate the effects of pass-by-reference on the stream.",
+    "code": "```scala\nclass VideoStream(var content: String) {\n  def applyFilter(filter: String => String): Unit = {\n    content = filter(content)\n  }\n}\n\nobject VideoProcessor {\n  def main(args: Array[String]): Unit = {\n    def filterFunction(streamContent: String): String = {\n      s\"Filtered: $streamContent\"\n    }\n\n    val stream = new VideoStream(\"Original Video Content\")\n    println(s\"Before filter: ${stream.content}\")\n\n    stream.applyFilter(filterFunction)\n    println(s\"After filter: ${stream.content}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a task queue and reorders tasks based on priority. Illustrate the impact of pass-by-reference.",
+    "code": "```scala\ncase class Task(name: String, priority: Int)\n\ndef reorderTasks(taskQueue: scala.collection.mutable.ListBuffer[Task]): Unit = {\n  taskQueue.sortInPlaceBy(_.priority)(Ordering[Int].reverse)\n}\n\nval taskQueue = scala.collection.mutable.ListBuffer(\n  Task(\"Task1\", 3),\n  Task(\"Task2\", 1),\n  Task(\"Task3\", 2)\n)\n\nprintln(\"Before reordering:\")\ntaskQueue.foreach(task => println(s\"${task.name} - Priority: ${task.priority}\"))\n\nreorderTasks(taskQueue)\n\nprintln(\"\\nAfter reordering:\")\ntaskQueue.foreach(task => println(s\"${task.name} - Priority: ${task.priority}\"))\n```"
+  },
+  {
+    "task": "Design a program where a function receives a blockchain and verifies a transaction. Discuss how pass-by-reference affects the blockchain.",
+    "code": "```scala\ncase class Transaction(id: String, amount: Double)\ncase class Block(transactions: List[Transaction])\ncase class Blockchain(blocks: List[Block])\n\ndef verifyTransaction(blockchain: Blockchain, transactionId: String): Boolean = {\n  blockchain.blocks.exists { block =>\n    block.transactions.exists(_.id == transactionId)\n  }\n}\n\n// Example usage:\nval transaction1 = Transaction(\"tx1\", 100.0)\nval transaction2 = Transaction(\"tx2\", 150.0)\nval block1 = Block(List(transaction1, transaction2))\nval blockchain = Blockchain(List(block1))\n\nval transactionExists = verifyTransaction(blockchain, \"tx1\")\nprintln(s\"Transaction exists: $transactionExists\")\n```"
+  },
+  {
+    "task": "Write a function that takes a game leaderboard and updates scores. Show the changes with pass-by-reference.",
+    "code": "```scala\nobject LeaderboardUpdater {\n  def updateScores(leaderboard: scala.collection.mutable.Map[String, Int], scoreUpdates: Map[String, Int]): Unit = {\n    for ((player, change) <- scoreUpdates) {\n      leaderboard(player) = leaderboard.getOrElse(player, 0) + change\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val leaderboard = scala.collection.mutable.Map(\"Alice\" -> 10, \"Bob\" -> 15, \"Charlie\" -> 20)\n    val scoreUpdates = Map(\"Alice\" -> 5, \"Bob\" -> -3, \"Charlie\" -> 10)\n\n    println(\"Before update: \" + leaderboard)\n    updateScores(leaderboard, scoreUpdates)\n    println(\"After update: \" + leaderboard)\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that accepts a project timeline and adjusts for delays. Explain how pass-by-reference influences the timeline.",
+    "code": "```scala\nobject ProjectTimeline {\n  case class Timeline(var start: Int, var end: Int)\n\n  def adjustForDelays(timeline: Timeline, delay: Int): Unit = {\n    timeline.start += delay\n    timeline.end += delay\n  }\n\n  def main(args: Array[String]): Unit = {\n    val timeline = Timeline(1, 10)\n    println(s\"Original timeline: Start = ${timeline.start}, End = ${timeline.end}\")\n    adjustForDelays(timeline, 5)\n    println(s\"Adjusted timeline: Start = ${timeline.start}, End = ${timeline.end}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a to-do list and completes a task. Demonstrate the effect of pass-by-reference on the list.",
+    "code": "```scala\nobject TodoListApp {\n  def completeTask(todoList: scala.collection.mutable.ListBuffer[String], task: String): Unit = {\n    val index = todoList.indexOf(task)\n    if (index != -1) {\n      todoList.remove(index)\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val todoList = scala.collection.mutable.ListBuffer(\"Buy groceries\", \"Read book\", \"Write code\")\n    println(\"Before completing task: \" + todoList)\n    completeTask(todoList, \"Read book\")\n    println(\"After completing task: \" + todoList)\n  }\n}\n\nTodoListApp.main(Array())\n```"
+  },
+  {
+    "task": "Develop a function that takes a paint canvas and adds a layer. Discuss the impact of pass-by-reference on the canvas.",
+    "code": "```scala\nclass PaintCanvas(var layers: List[String] = List()) {\n  def addLayer(layer: String): Unit = {\n    layers = layers :+ layer\n  }\n}\n\nobject ArtApp {\n  def addLayerToCanvas(canvas: PaintCanvas, newLayer: String): Unit = {\n    canvas.addLayer(newLayer)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val canvas = new PaintCanvas()\n    println(s\"Initial layers: ${canvas.layers}\")\n    addLayerToCanvas(canvas, \"Background Layer\")\n    println(s\"Layers after adding new layer: ${canvas.layers}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a URL list and fetches content. Show the difference in the list when using pass-by-value.",
+    "code": "```scala\nimport scala.io.Source\n\nobject URLFetcher {\n  def fetchContent(urlList: List[String]): List[String] = {\n    urlList.map(url => Source.fromURL(url).mkString)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val urls = List(\"http://example.com\", \"http://example.org\")\n    \n    // Pass-by-value\n    val contentByValue = fetchContent(urls)\n    println(\"Content fetched (by value):\")\n    contentByValue.foreach(println)\n\n    // Attempting to modify the original list (pass-by-value)\n    val modifiedUrls = urls :+ \"http://example.net\"\n    val contentWithModification = fetchContent(modifiedUrls)\n    println(\"\\nContent fetched after list modification:\")\n    contentWithModification.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program where a function receives a game board and resets it. Illustrate the effects of pass-by-reference.",
+    "code": "```scala\nobject GameBoardReset {\n\n  def resetBoard(board: Array[Array[Int]]): Unit = {\n    for (i <- board.indices; j <- board(i).indices) {\n      board(i)(j) = 0\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val gameBoard = Array(\n      Array(1, 2, 3),\n      Array(4, 5, 6),\n      Array(7, 8, 9)\n    )\n\n    println(\"Before resetting:\")\n    gameBoard.foreach(row => println(row.mkString(\" \")))\n\n    resetBoard(gameBoard)\n\n    println(\"\\nAfter resetting:\")\n    gameBoard.foreach(row => println(row.mkString(\" \")))\n  }\n}\n```"
+  },
+  {
+    "task": "Create a function that takes a sound effect and increases its volume. Explain how pass-by-reference affects the original sound.",
+    "code": "```scala\nclass SoundEffect(var volume: Int)\n\nobject SoundProcessor {\n  def increaseVolume(sound: SoundEffect, increaseBy: Int): Unit = {\n    sound.volume += increaseBy\n  }\n\n  def main(args: Array[String]): Unit = {\n    val mySound = new SoundEffect(volume = 50)\n    println(s\"Original volume: ${mySound.volume}\")\n\n    increaseVolume(mySound, 10)\n    println(s\"Volume after increase: ${mySound.volume}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that accepts a weather forecast and updates temperature predictions. Discuss the impact of pass-by-reference.",
+    "code": "```scala\nobject WeatherForecastUpdater {\n  case class WeatherForecast(var temperature: Double)\n\n  def updateTemperature(forecast: WeatherForecast, newTemperature: Double): Unit = {\n    forecast.temperature = newTemperature\n  }\n\n  def main(args: Array[String]): Unit = {\n    val forecast = WeatherForecast(30.0)\n    println(s\"Original temperature: ${forecast.temperature}\")\n    \n    updateTemperature(forecast, 25.0)\n    println(s\"Updated temperature: ${forecast.temperature}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that receives a system log and extracts error messages. Show how pass-by-value ensures the original log remains unchanged.",
+    "code": "```scala\nobject LogProcessor {\n  def extractErrors(log: List[String]): List[String] = {\n    log.filter(_.contains(\"ERROR\"))\n  }\n\n  def main(args: Array[String]): Unit = {\n    val systemLog = List(\n      \"INFO: System started\",\n      \"WARN: Low memory\",\n      \"ERROR: Disk failure\",\n      \"INFO: User logged in\",\n      \"ERROR: Network timeout\"\n    )\n\n    val errorMessages = extractErrors(systemLog)\n\n    println(\"Original Log:\")\n    systemLog.foreach(println)\n\n    println(\"\\nExtracted Errors:\")\n    errorMessages.foreach(println)\n  }\n}\n\nLogProcessor.main(Array())\n```"
+  },
+  {
+    "task": "Design a function that accepts a data packet and encrypts it. Demonstrate the effect of pass-by-value on the packet.",
+    "code": "```scala\nobject PacketEncryption {\n  def encryptPacket(packet: String): String = {\n    packet.map(c => (c + 3).toChar)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalPacket = \"dataPacket123\"\n    val encryptedPacket = encryptPacket(originalPacket)\n\n    println(s\"Original Packet: $originalPacket\")\n    println(s\"Encrypted Packet: $encryptedPacket\")\n  }\n}\n\nPacketEncryption.main(Array())\n```"
+  },
+  {
+    "task": "Write a function that takes a website theme and applies a color change. Explain how pass-by-reference affects the original theme.",
+    "code": "```scala\ncase class Theme(var color: String)\n\ndef applyColorChange(theme: Theme, newColor: String): Unit = {\n  theme.color = newColor\n}\n\nval myTheme = Theme(\"blue\")\napplyColorChange(myTheme, \"red\")\nprintln(myTheme.color) // Output: red\n```"
+  },
+  {
+    "task": "Create a function that accepts a digital signature and verifies it. Discuss the implications of pass-by-value on the signature.",
+    "code": "```scala\nimport java.security.{PublicKey, Signature}\n\nobject DigitalSignatureVerifier {\n  def verifySignature(signatureData: Array[Byte], publicKey: PublicKey, data: Array[Byte]): Boolean = {\n    val signature = Signature.getInstance(\"SHA256withRSA\")\n    signature.initVerify(publicKey)\n    signature.update(data)\n    signature.verify(signatureData)\n  }\n\n  def main(args: Array[String]): Unit = {\n    // Example usage\n    val publicKey: PublicKey = ??? // Assume publicKey is initialized\n    val data: Array[Byte] = ??? // Assume data is initialized\n    val signatureData: Array[Byte] = ??? // Assume signatureData is initialized\n\n    val isVerified = verifySignature(signatureData, publicKey, data)\n    println(s\"Signature verified: $isVerified\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a robot's path and optimizes it. Illustrate the effects of pass-by-reference on the path.",
+    "code": "```scala\nobject RobotPathOptimizer {\n\n  def optimizePath(path: List[String]): Unit = {\n    var i = 0\n    while (i < path.length - 1) {\n      (path(i), path(i + 1)) match {\n        case (\"UP\", \"DOWN\") | (\"DOWN\", \"UP\") | (\"LEFT\", \"RIGHT\") | (\"RIGHT\", \"LEFT\") =>\n          path.remove(i)\n          path.remove(i)\n          if (i > 0) i -= 1\n        case _ => i += 1\n      }\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val robotPath = scala.collection.mutable.ListBuffer(\"UP\", \"DOWN\", \"LEFT\", \"RIGHT\", \"UP\", \"UP\")\n    println(s\"Original path: $robotPath\")\n    optimizePath(robotPath)\n    println(s\"Optimized path: $robotPath\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a music playlist and shuffles it. Demonstrate the impact of pass-by-reference on the playlist.",
+    "code": "```scala\nimport scala.util.Random\n\nobject PlaylistShuffler {\n  def shufflePlaylist(playlist: Array[String]): Unit = {\n    val rnd = new Random()\n    for (i <- playlist.indices.reverse) {\n      val j = rnd.nextInt(i + 1)\n      val temp = playlist(i)\n      playlist(i) = playlist(j)\n      playlist(j) = temp\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val playlist = Array(\"Song1\", \"Song2\", \"Song3\", \"Song4\", \"Song5\")\n    println(\"Original playlist:\")\n    println(playlist.mkString(\", \"))\n\n    shufflePlaylist(playlist)\n\n    println(\"Shuffled playlist:\")\n    println(playlist.mkString(\", \"))\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program where a function receives a social media feed and removes duplicates. Show the changes with pass-by-reference.",
+    "code": "```scala\nobject SocialMediaFeed {\n  def main(args: Array[String]): Unit = {\n    val feed = scala.collection.mutable.ArrayBuffer(\"post1\", \"post2\", \"post1\", \"post3\", \"post2\")\n    println(\"Original Feed: \" + feed.mkString(\", \"))\n    removeDuplicates(feed)\n    println(\"Feed after removing duplicates: \" + feed.mkString(\", \"))\n  }\n\n  def removeDuplicates(feed: scala.collection.mutable.ArrayBuffer[String]): Unit = {\n    val seen = scala.collection.mutable.Set[String]()\n    feed.indices.reverse.foreach { i =>\n      if (seen(feed(i))) {\n        feed.remove(i)\n      } else {\n        seen.add(feed(i))\n      }\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a coding challenge and adds test cases. Discuss the effects of pass-by-reference on the challenge.",
+    "code": "```scala\nobject CodeChallenge {\n  def addTestCases(challenge: String, testCases: List[String]): Unit = {\n    // This function modifies the testCases list directly, demonstrating pass-by-reference\n    testCases.foreach(testCase => println(s\"Running test case: $testCase on challenge: $challenge\"))\n  }\n\n  def main(args: Array[String]): Unit = {\n    val codingChallenge = \"Implement a function that reverses a string\"\n    val testCases = List(\n      \"reverse('hello') should return 'olleh'\",\n      \"reverse('world') should return 'dlrow'\"\n    )\n    \n    addTestCases(codingChallenge, testCases)\n  }\n}\n\n```"
+  },
+  {
+    "task": "Create a function that accepts an animation sequence and reverses it. Explain how pass-by-value ensures the sequence remains unchanged.",
+    "code": "```scala\nobject AnimationReverser {\n  def reverseAnimation(animationSequence: Seq[String]): Seq[String] = {\n    animationSequence.reverse\n  }\n\n  def main(args: Array[String]): Unit = {\n    val originalSequence = Seq(\"frame1\", \"frame2\", \"frame3\")\n    val reversedSequence = reverseAnimation(originalSequence)\n    \n    println(s\"Original Sequence: $originalSequence\")\n    println(s\"Reversed Sequence: $reversedSequence\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a function that receives a GPS route and recalculates it. Illustrate the impact of pass-by-reference on the route.",
+    "code": "```scala\nobject RouteRecalculator {\n  case class GPSPoint(latitude: Double, longitude: Double)\n  \n  def recalculateRoute(route: Array[GPSPoint]): Unit = {\n    for (i <- route.indices) {\n      // Simulate recalculating the route by adjusting the latitude and longitude\n      route(i) = GPSPoint(route(i).latitude + 0.001, route(i).longitude + 0.001)\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val route = Array(\n      GPSPoint(40.7128, -74.0060),\n      GPSPoint(34.0522, -118.2437),\n      GPSPoint(37.7749, -122.4194)\n    )\n\n    println(\"Original route:\")\n    route.foreach { point => println(s\"(${point.latitude}, ${point.longitude})\") }\n\n    recalculateRoute(route)\n\n    println(\"\\nRecalculated route:\")\n    route.foreach { point => println(s\"(${point.latitude}, ${point.longitude})\") }\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a chat history and censors inappropriate language. Show the effect of pass-by-reference on the history.",
+    "code": "```scala\nobject ChatCensorship {\n  def censorChat(chatHistory: scala.collection.mutable.ArrayBuffer[String]): Unit = {\n    val inappropriateWords = Set(\"badword1\", \"badword2\", \"badword3\")\n    for (i <- chatHistory.indices) {\n      chatHistory(i) = chatHistory(i).split(\" \").map(word =>\n        if (inappropriateWords.contains(word.toLowerCase)) \"****\" else word\n      ).mkString(\" \")\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val history = scala.collection.mutable.ArrayBuffer(\n      \"This is a clean sentence.\",\n      \"This contains badword1.\",\n      \"Another badword2 here.\"\n    )\n\n    println(\"Before Censorship:\")\n    history.foreach(println)\n\n    censorChat(history)\n\n    println(\"\\nAfter Censorship:\")\n    history.foreach(println)\n  }\n}\n```"
+  },
+  {
+    "task": "Design a function that accepts a lighting setup and adjusts brightness. Discuss the changes when the setup is passed by reference.",
+    "code": "```scala\ncase class LightingSetup(var brightness: Int)\n\ndef adjustBrightness(setup: LightingSetup, adjustment: Int): Unit = {\n  setup.brightness += adjustment\n}\n\nval mySetup = LightingSetup(brightness = 50)\nprintln(s\"Before adjustment: ${mySetup.brightness}\")\nadjustBrightness(mySetup, 20)\nprintln(s\"After adjustment: ${mySetup.brightness}\")\n```"
+  },
+  {
+    "task": "Write a program where a function receives a VR environment and changes the scenery. Demonstrate the effects of pass-by-reference.",
+    "code": "```scala\nclass VREnvironment(var scenery: String)\n\ndef changeScenery(env: VREnvironment, newScenery: String): Unit = {\n  env.scenery = newScenery\n}\n\nobject Main extends App {\n  val vrEnv = new VREnvironment(\"Forest\")\n  println(s\"Original scenery: ${vrEnv.scenery}\")\n  \n  changeScenery(vrEnv, \"Beach\")\n  println(s\"Updated scenery: ${vrEnv.scenery}\")\n}\n\nMain.main(Array())\n```"
+  },
+  {
+    "task": "Create a function that takes a blockchain ledger and adds a block. Explain how pass-by-reference affects the ledger.",
+    "code": "```scala\ncase class Block(data: String, previousHash: String, hash: String)\ntype Ledger = List[Block]\n\ndef addBlockToLedger(ledger: Ledger, block: Block): Ledger = {\n  ledger :+ block\n}\n\n// Usage example\nval initialLedger: Ledger = List(Block(\"Genesis Block\", \"0\", \"hash0\"))\nval newBlock = Block(\"New Block\", \"hash0\", \"hash1\")\nval updatedLedger = addBlockToLedger(initialLedger, newBlock)\n```"
+  },
+  {
+    "task": "Implement a function that accepts a network packet and alters its headers. Discuss the implications of pass-by-value on the packet.",
+    "code": "```scala\ncase class NetworkPacket(var headers: Map[String, String], data: String)\n\ndef alterHeaders(packet: NetworkPacket): Unit = {\n  // Altering the headers of the packet\n  packet.headers += (\"Modified\" -> \"true\")\n}\n\n// Example usage\nval packet = NetworkPacket(Map(\"Header1\" -> \"Value1\", \"Header2\" -> \"Value2\"), \"Some data\")\nalterHeaders(packet)\n\nprintln(packet.headers) // This will print the modified headers\n```"
+  }
+]

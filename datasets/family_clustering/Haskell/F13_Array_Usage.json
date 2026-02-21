@@ -1,0 +1,378 @@
+[
+  {
+    "task": "Create a function that initializes an array with the first ten prime numbers.",
+    "code": "```haskell\ninitializePrimes :: [Int]\ninitializePrimes = take 10 [x | x <- [2..], all (\\y -> x `mod` y /= 0) [2..(floor . sqrt . fromIntegral $ x)]]\n```"
+  },
+  {
+    "task": "Write a program to reverse the elements of a given array.",
+    "code": "```haskell\nreverseArray :: [a] -> [a]\nreverseArray = reverse\n\nmain :: IO ()\nmain = do\n    let array = [1, 2, 3, 4, 5]\n    let reversedArray = reverseArray array\n    print reversedArray\n```"
+  },
+  {
+    "task": "Implement an algorithm that finds the maximum value in an array of integers.",
+    "code": "```haskell\nfindMax :: [Int] -> Int\nfindMax [] = error \"Empty array\"\nfindMax (x:xs) = foldl max x xs\n```"
+  },
+  {
+    "task": "Design a routine to rotate an array to the right by a given number of steps.",
+    "code": "```haskell\nrotateRight :: Int -> [a] -> [a]\nrotateRight n xs = drop k xs ++ take k xs\n  where k = length xs - (n `mod` length xs)\n```"
+  },
+  {
+    "task": "Develop a function to merge two sorted arrays into one sorted array.",
+    "code": "```haskell\nmergeSortedArrays :: Ord a => [a] -> [a] -> [a]\nmergeSortedArrays xs [] = xs\nmergeSortedArrays [] ys = ys\nmergeSortedArrays (x:xs) (y:ys)\n    | x <= y    = x : mergeSortedArrays xs (y:ys)\n    | otherwise = y : mergeSortedArrays (x:xs) ys\n```"
+  },
+  {
+    "task": "Create a method to remove duplicate values from an array.",
+    "code": "```haskell\nimport Data.Set (fromList, toList)\n\nremoveDuplicates :: Ord a => [a] -> [a]\nremoveDuplicates = toList . fromList\n```"
+  },
+  {
+    "task": "Write a script to calculate the sum of all elements in an array.",
+    "code": "```haskell\nsumArray :: Num a => [a] -> a\nsumArray arr = sum arr\n\nmain :: IO ()\nmain = do\n    let array = [1, 2, 3, 4, 5]\n    print (sumArray array)\n```"
+  },
+  {
+    "task": "Construct a function that finds the second largest element in an array.",
+    "code": "```haskell\nimport Data.List (sort)\nimport Data.Maybe (fromMaybe)\n\nsecondLargest :: Ord a => [a] -> Maybe a\nsecondLargest xs\n  | length uniqueSorted >= 2 = Just $ uniqueSorted !! 1\n  | otherwise = Nothing\n  where\n    uniqueSorted = reverse . removeDuplicates . sort $ xs\n\nremoveDuplicates :: Eq a => [a] -> [a]\nremoveDuplicates [] = []\nremoveDuplicates (x:xs) = x : removeDuplicates (filter (/= x) xs)\n```"
+  },
+  {
+    "task": "Design a program to check if an array contains a specific value.",
+    "code": "```haskell\ncontainsValue :: Eq a => a -> [a] -> Bool\ncontainsValue value array = value `elem` array\n```"
+  },
+  {
+    "task": "Implement a function to sort an array of strings alphabetically.",
+    "code": "```haskell\nimport Data.List (sort)\n\nsortStrings :: [String] -> [String]\nsortStrings = sort\n```"
+  },
+  {
+    "task": "Create a method to search for a value in an array using binary search.",
+    "code": "```haskell\nbinarySearch :: Ord a => [a] -> a -> Maybe Int\nbinarySearch arr target = go 0 (length arr - 1)\n  where\n    go low high\n      | low > high = Nothing\n      | otherwise =\n          let mid = low + (high - low) `div` 2\n              midVal = arr !! mid\n          in case compare midVal target of\n              LT -> go (mid + 1) high\n              GT -> go low (mid - 1)\n              EQ -> Just mid\n```"
+  },
+  {
+    "task": "Write a routine to calculate the average of numbers in an array.",
+    "code": "```haskell\naverage :: [Double] -> Double\naverage xs = sum xs / fromIntegral (length xs)\n```"
+  },
+  {
+    "task": "Develop a function to find the intersection of two arrays.",
+    "code": "```haskell\nimport Data.List (intersect)\n\nintersection :: Eq a => [a] -> [a] -> [a]\nintersection array1 array2 = array1 `intersect` array2\n```"
+  },
+  {
+    "task": "Implement a method to find the union of two arrays without duplicates.",
+    "code": "```haskell\nimport Data.List (nub)\n\nunionWithoutDuplicates :: (Eq a) => [a] -> [a] -> [a]\nunionWithoutDuplicates arr1 arr2 = nub (arr1 ++ arr2)\n```"
+  },
+  {
+    "task": "Create a program that shifts all zeroes in an array to the end.",
+    "code": "```haskell\nshiftZeroes :: [Int] -> [Int]\nshiftZeroes xs = nonZeroes ++ zeroes\n  where\n    nonZeroes = filter (/= 0) xs\n    zeroes = filter (== 0) xs\n\nmain :: IO ()\nmain = print $ shiftZeroes [1, 0, 2, 0, 3, 0, 4]\n```"
+  },
+  {
+    "task": "Write a function to split an array into two parts at a given index.",
+    "code": "```haskell\nsplitArray :: [a] -> Int -> ([a], [a])\nsplitArray arr index = (take index arr, drop index arr)\n```"
+  },
+  {
+    "task": "Design a script to find all pairs in an array that sum up to a specific target.",
+    "code": "```haskell\nfindPairs :: [Int] -> Int -> [(Int, Int)]\nfindPairs arr target = [(x, y) | (i, x) <- zip [0..] arr, (j, y) <- zip [0..] arr, i < j, x + y == target]\n```"
+  },
+  {
+    "task": "Construct a method to remove all occurrences of a specific value from an array.",
+    "code": "```haskell\nremoveOccurrences :: Eq a => a -> [a] -> [a]\nremoveOccurrences value = filter (/= value)\n```"
+  },
+  {
+    "task": "Write a function to find the longest increasing subsequence in an array.",
+    "code": "```haskell\nimport Data.Array\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\n\nlongestIncreasingSubsequence :: [Int] -> [Int]\nlongestIncreasingSubsequence xs = reverse $ constructLIS n where\n  n = length xs\n  arr = listArray (0, n-1) xs\n  lis = listArray (0, n-1) (map lisAt [0..n-1])\n  lisAt i = 1 + maximum (0 : [lis ! j | j <- [0..i-1], arr ! j < arr ! i])\n  (_, maxIndex) = maximumBy (comparing (lis !)) (zip (elems lis) [0..])\n  constructLIS i = go maxIndex where\n    go k | k < 0 = []\n         | otherwise = let prev = [j | j <- [0..k-1], arr ! j < arr ! k, lis ! j == lis ! k - 1]\n                       in (arr ! k) : if null prev then [] else go (last prev)\n```"
+  },
+  {
+    "task": "Develop an algorithm to find the missing number in a sequential array.",
+    "code": "```haskell\nfindMissingNumber :: [Int] -> Int\nfindMissingNumber xs = totalSum - actualSum\n  where\n    n = length xs + 1\n    totalSum = n * (n + 1) `div` 2\n    actualSum = sum xs\n```"
+  },
+  {
+    "task": "Create a program to find the common elements between two arrays.",
+    "code": "```haskell\nimport Data.List (intersect)\n\ncommonElements :: Eq a => [a] -> [a] -> [a]\ncommonElements array1 array2 = intersect array1 array2\n\nmain :: IO ()\nmain = do\n    let array1 = [1, 2, 3, 4, 5]\n    let array2 = [3, 4, 5, 6, 7]\n    print (commonElements array1 array2)\n```"
+  },
+  {
+    "task": "Implement a function to move all negative numbers to the beginning of an array.",
+    "code": "```haskell\nmoveNegativesToFront :: [Int] -> [Int]\nmoveNegativesToFront xs = negatives ++ nonNegatives\n  where\n    negatives = filter (< 0) xs\n    nonNegatives = filter (>= 0) xs\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a palindrome.",
+    "code": "```haskell\nisPalindrome :: Eq a => [a] -> Bool\nisPalindrome xs = xs == reverse xs\n```"
+  },
+  {
+    "task": "Design a routine to create a new array that is the element-wise sum of two input arrays.",
+    "code": "```haskell\nelementWiseSum :: Num a => [a] -> [a] -> [a]\nelementWiseSum xs ys = zipWith (+) xs ys\n```"
+  },
+  {
+    "task": "Create a function to find the product of all elements in an array, excluding the current element.",
+    "code": "```haskell\nproductsExcludingCurrent :: [Int] -> [Int]\nproductsExcludingCurrent xs = map (\\i -> product $ take i xs ++ drop (i + 1) xs) [0..length xs - 1]\n```"
+  },
+  {
+    "task": "Develop a script to remove elements from an array that are smaller than a given threshold.",
+    "code": "```haskell\nfilterAboveThreshold :: Ord a => a -> [a] -> [a]\nfilterAboveThreshold threshold arr = filter (>= threshold) arr\n```"
+  },
+  {
+    "task": "Implement a method to clone an array without using built-in functions.",
+    "code": "```haskell\ncloneArray :: [a] -> [a]\ncloneArray [] = []\ncloneArray (x:xs) = x : cloneArray xs\n```"
+  },
+  {
+    "task": "Create a program that rotates a 2D array (matrix) 90 degrees clockwise.",
+    "code": "```haskell\nrotateMatrix :: [[a]] -> [[a]]\nrotateMatrix = reverse . transpose\n\ntranspose :: [[a]] -> [[a]]\ntranspose ([]:_) = []\ntranspose x = map head x : transpose (map tail x)\n\nmain :: IO ()\nmain = do\n    let matrix = [[1, 2, 3],\n                  [4, 5, 6],\n                  [7, 8, 9]]\n    let rotatedMatrix = rotateMatrix matrix\n    mapM_ print rotatedMatrix\n```"
+  },
+  {
+    "task": "Write a function to find the kth smallest element in an unsorted array.",
+    "code": "```haskell\nimport Data.List (sort)\n\nkthSmallest :: Ord a => Int -> [a] -> Maybe a\nkthSmallest k arr\n  | k > 0 && k <= length arr = Just (sortedArr !! (k - 1))\n  | otherwise = Nothing\n  where\n    sortedArr = sort arr\n```"
+  },
+  {
+    "task": "Design a routine to partition an array into even and odd numbers.",
+    "code": "```haskell\npartitionEvenOdd :: [Int] -> ([Int], [Int])\npartitionEvenOdd arr = (filter even arr, filter odd arr)\n```"
+  },
+  {
+    "task": "Create a method to merge overlapping intervals in an array.",
+    "code": "```haskell\nimport Data.List (sortOn)\n\nmergeIntervals :: [(Int, Int)] -> [(Int, Int)]\nmergeIntervals intervals = foldr merge [] sorted\n  where\n    sorted = sortOn fst intervals\n    merge interval [] = [interval]\n    merge (start1, end1) ((start2, end2):xs)\n      | end1 >= start2 = (start1, max end1 end2) : xs\n      | otherwise = (start1, end1) : (start2, end2) : xs\n```"
+  },
+  {
+    "task": "Develop a function to count the frequency of each unique element in an array.",
+    "code": "```haskell\nimport Data.Map (Map)\nimport qualified Data.Map as Map\n\ncountFrequency :: (Ord a) => [a] -> Map a Int\ncountFrequency = foldr (\\x acc -> Map.insertWith (+) x 1 acc) Map.empty\n```"
+  },
+  {
+    "task": "Write a program to generate all possible subsets of an array.",
+    "code": "```haskell\nsubsets :: [a] -> [[a]]\nsubsets [] = [[]]\nsubsets (x:xs) = let rest = subsets xs in rest ++ map (x:) rest\n\nmain :: IO ()\nmain = do\n    let array = [1, 2, 3]\n    print (subsets array)\n```"
+  },
+  {
+    "task": "Implement a routine to cyclically permute the elements of an array.",
+    "code": "```haskell\ncyclicPermute :: [a] -> [a]\ncyclicPermute [] = []\ncyclicPermute xs = last xs : init xs\n```"
+  },
+  {
+    "task": "Create a function that checks if two arrays are equal regardless of element order.",
+    "code": "```haskell\nimport Data.List (sort)\n\nareArraysEqual :: (Ord a) => [a] -> [a] -> Bool\nareArraysEqual arr1 arr2 = sort arr1 == sort arr2\n```"
+  },
+  {
+    "task": "Design a script to initialize an array with random integers within a specified range.",
+    "code": "```haskell\nimport System.Random\nimport Control.Monad (replicateM)\n\ninitializeArray :: Int -> Int -> Int -> IO [Int]\ninitializeArray size lower upper = do\n    gen <- newStdGen\n    return $ take size (randomRs (lower, upper) gen)\n\nmain :: IO ()\nmain = do\n    array <- initializeArray 10 1 100\n    print array\n```"
+  },
+  {
+    "task": "Write a method to convert an array of integers to a single concatenated number.",
+    "code": "```haskell\nconcatArrayToNumber :: [Int] -> Int\nconcatArrayToNumber arr = read (concatMap show arr) :: Int\n```"
+  },
+  {
+    "task": "Develop a function to find the median value of an unsorted array.",
+    "code": "```haskell\nimport Data.List (sort)\n\nmedian :: (Ord a, Fractional a) => [a] -> a\nmedian xs = let sorted = sort xs\n                n = length sorted\n            in if odd n\n               then sorted !! (n `div` 2)\n               else (sorted !! (n `div` 2 - 1) + sorted !! (n `div` 2)) / 2\n```"
+  },
+  {
+    "task": "Create a routine to determine if an array is sorted in ascending order.",
+    "code": "```haskell\nisSortedAscending :: Ord a => [a] -> Bool\nisSortedAscending [] = True\nisSortedAscending [_] = True\nisSortedAscending (x:y:xs) = x <= y && isSortedAscending (y:xs)\n```"
+  },
+  {
+    "task": "Implement a method to find the longest contiguous subarray with equal number of 0s and 1s.",
+    "code": "```haskell\nimport Data.List\nimport qualified Data.Map.Strict as Map\n\nlongestSubarray :: [Int] -> Int\nlongestSubarray nums = go nums 0 0 Map.empty 0\n  where\n    go [] _ _ _ maxLength = maxLength\n    go (x:xs) index balance mapSoFar maxLength =\n        let newBalance = balance + if x == 0 then -1 else 1\n            updatedMap = Map.insertWith (\\_ old -> old) newBalance index mapSoFar\n            newMaxLength = if newBalance == 0\n                           then max maxLength (index + 1)\n                           else case Map.lookup newBalance mapSoFar of\n                                  Just firstIndex -> max maxLength (index - firstIndex)\n                                  Nothing -> maxLength\n        in go xs (index + 1) newBalance updatedMap newMaxLength\n\nmain :: IO ()\nmain = do\n    let array = [0, 1, 0, 1, 0, 1, 1]\n    print $ longestSubarray array\n```"
+  },
+  {
+    "task": "Write a function to interleave two arrays of equal length.",
+    "code": "```haskell\ninterleaveArrays :: [a] -> [a] -> [a]\ninterleaveArrays [] [] = []\ninterleaveArrays (x:xs) (y:ys) = x : y : interleaveArrays xs ys\n```"
+  },
+  {
+    "task": "Design a program to replace each element in an array with the next greatest element.",
+    "code": "```haskell\nimport Data.Array\n\nnextGreatest :: [Int] -> [Int]\nnextGreatest xs = elems $ array (0, n-1) [(i, nextMax i) | i <- [0..n-1]]\n  where\n    n = length xs\n    nextMax i = maximum (drop (i+1) xs)\n\nmain :: IO ()\nmain = do\n  let arr = [4, 5, 2, 25]\n  print $ nextGreatest arr\n```"
+  },
+  {
+    "task": "Create a function to calculate the dot product of two numeric arrays.",
+    "code": "```haskell\ndotProduct :: Num a => [a] -> [a] -> a\ndotProduct xs ys = sum (zipWith (*) xs ys)\n```"
+  },
+  {
+    "task": "Develop a script to find the first recurring element in an array.",
+    "code": "```haskell\nimport qualified Data.Set as Set\n\nfirstRecurring :: Ord a => [a] -> Maybe a\nfirstRecurring arr = go arr Set.empty\n  where\n    go [] _ = Nothing\n    go (x:xs) seen\n      | x `Set.member` seen = Just x\n      | otherwise = go xs (Set.insert x seen)\n\nmain :: IO ()\nmain = do\n  let arr = [2, 5, 1, 2, 3, 5, 1, 2, 4]\n  print $ firstRecurring arr\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a subset of another array.",
+    "code": "```haskell\nisSubset :: (Eq a) => [a] -> [a] -> Bool\nisSubset subset array = all (`elem` array) subset\n```"
+  },
+  {
+    "task": "Implement a function to add a specific value to each element in an array.",
+    "code": "```haskell\naddToArray :: Num a => a -> [a] -> [a]\naddToArray value = map (+ value)\n```"
+  },
+  {
+    "task": "Create a program that finds the largest product of three numbers in an array.",
+    "code": "```haskell\nimport Data.List (sort)\n\nmaxProductOfThree :: [Int] -> Int\nmaxProductOfThree xs\n  | length xs < 3 = error \"Array must contain at least three numbers\"\n  | otherwise     = let sorted = sort xs\n                        n = length sorted\n                    in maximum [(sorted !! (n-1)) * (sorted !! (n-2)) * (sorted !! (n-3)), \n                                (sorted !! 0) * (sorted !! 1) * (sorted !! (n-1))]\n\nmain :: IO ()\nmain = do\n  let numbers = [1, 10, 2, 6, 5, 3]\n  print $ maxProductOfThree numbers\n```"
+  },
+  {
+    "task": "Design a routine to find all unique permutations of an array.",
+    "code": "```haskell\nimport Data.List (nub, permutations)\n\nuniquePermutations :: (Eq a) => [a] -> [[a]]\nuniquePermutations = nub . permutations\n```"
+  },
+  {
+    "task": "Write a function to transpose a square matrix represented as a 2D array.",
+    "code": "```haskell\ntransposeMatrix :: [[a]] -> [[a]]\ntransposeMatrix ([]:_) = []\ntransposeMatrix matrix = map head matrix : transposeMatrix (map tail matrix)\n```"
+  },
+  {
+    "task": "Develop a method to find the longest common prefix in an array of strings.",
+    "code": "```haskell\nimport Data.List (isPrefixOf)\n\nlongestCommonPrefix :: [String] -> String\nlongestCommonPrefix [] = \"\"\nlongestCommonPrefix strs = foldl1 commonPrefix strs\n  where\n    commonPrefix :: String -> String -> String\n    commonPrefix s1 s2 = map fst $ takeWhile (uncurry (==)) $ zip s1 s2\n\n-- Example usage: longestCommonPrefix [\"flower\", \"flow\", \"flight\"]\n```"
+  },
+  {
+    "task": "Implement a function to flatten a multi-dimensional array into a single array.",
+    "code": "```haskell\nflatten :: [[a]] -> [a]\nflatten = concat\n```"
+  },
+  {
+    "task": "Create a script to shift elements of an array to the left by a given number of positions.",
+    "code": "```haskell\nshiftLeft :: Int -> [a] -> [a]\nshiftLeft n xs = let len = length xs\n                     shiftAmount = n `mod` len\n                 in drop shiftAmount xs ++ take shiftAmount xs\n```"
+  },
+  {
+    "task": "Write a routine to sort an array of objects based on a specific property.",
+    "code": "```haskell\nimport Data.List (sortBy)\nimport Data.Ord (comparing)\n\ndata Person = Person { name :: String, age :: Int } deriving (Show)\n\nsortArrayByProperty :: [Person] -> [Person]\nsortArrayByProperty = sortBy (comparing age)\n\nmain :: IO ()\nmain = do\n    let people = [Person \"Alice\" 30, Person \"Bob\" 25, Person \"Charlie\" 20]\n    let sortedPeople = sortArrayByProperty people\n    print sortedPeople\n```"
+  },
+  {
+    "task": "Design a program to find the smallest missing positive integer in an array.",
+    "code": "```haskell\nimport Data.Array\nimport Data.List\n\nsmallestMissingPositive :: [Int] -> Int\nsmallestMissingPositive xs = findMissing 1 sortedPositives\n  where\n    sortedPositives = sort $ filter (> 0) xs\n    findMissing n [] = n\n    findMissing n (y:ys)\n      | n < y     = n\n      | n == y    = findMissing (n + 1) ys\n      | otherwise = findMissing n ys\n\nmain :: IO ()\nmain = do\n    let array = [3, 4, -1, 1]\n    print $ smallestMissingPositive array\n```"
+  },
+  {
+    "task": "Create a function to calculate the cumulative sum of an array.",
+    "code": "```haskell\ncumulativeSum :: [Int] -> [Int]\ncumulativeSum = scanl1 (+)\n```"
+  },
+  {
+    "task": "Develop a function to remove consecutive duplicate elements in an array.",
+    "code": "```haskell\nremoveConsecutiveDuplicates :: Eq a => [a] -> [a]\nremoveConsecutiveDuplicates [] = []\nremoveConsecutiveDuplicates (x:xs) = x : removeConsecutiveDuplicates (dropWhile (== x) xs)\n```"
+  },
+  {
+    "task": "Implement a method to find the majority element in an array, if any.",
+    "code": "```haskell\nimport Data.List (group, sort)\n\nmajorityElement :: Eq a => [a] -> Maybe a\nmajorityElement xs = \n    let threshold = length xs `div` 2\n        grouped = group $ sort xs\n    in case filter (\\g -> length g > threshold) grouped of\n        (g:_) -> Just (head g)\n        _     -> Nothing\n```"
+  },
+  {
+    "task": "Write a script to split an array into chunks of a given size.",
+    "code": "```haskell\nchunkArray :: Int -> [a] -> [[a]]\nchunkArray _ [] = []\nchunkArray n xs = take n xs : chunkArray n (drop n xs)\n\nmain :: IO ()\nmain = do\n    let array = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n    let chunkSize = 3\n    let chunks = chunkArray chunkSize array\n    print chunks\n```"
+  },
+  {
+    "task": "Create a program to calculate the difference between the largest and smallest values in an array.",
+    "code": "```haskell\nimport Data.List (minimum, maximum)\n\ndifferenceBetweenLargestAndSmallest :: [Int] -> Int\ndifferenceBetweenLargestAndSmallest arr = maximum arr - minimum arr\n\nmain :: IO ()\nmain = do\n    let array = [3, 1, 2, 5, 4]\n    print $ differenceBetweenLargestAndSmallest array\n```"
+  },
+  {
+    "task": "Design a routine to find the starting index of a target subarray in a larger array.",
+    "code": "```haskell\nfindSubarrayStartIndex :: Eq a => [a] -> [a] -> Maybe Int\nfindSubarrayStartIndex target arr = findIndex (isPrefixOf target) (tails arr)\n  where\n    isPrefixOf xs ys = take (length xs) ys == xs\n    tails [] = [[]]\n    tails xs@(_:xs') = xs : tails xs'\n```"
+  },
+  {
+    "task": "Write a function to compress an array by eliminating zero values.",
+    "code": "```haskell\ncompressArray :: [Int] -> [Int]\ncompressArray = filter (/= 0)\n```"
+  },
+  {
+    "task": "Develop a method to determine if an array can be split into two parts with equal sums.",
+    "code": "```haskell\ncanBeSplit :: [Int] -> Bool\ncanBeSplit arr = totalSum `mod` 2 == 0 && canPartition arr (totalSum `div` 2)\n  where\n    totalSum = sum arr\n\n    canPartition :: [Int] -> Int -> Bool\n    canPartition [] 0 = True\n    canPartition [] _ = False\n    canPartition (x:xs) target\n      | target < 0 = False\n      | otherwise = canPartition xs target || canPartition xs (target - x)\n```"
+  },
+  {
+    "task": "Implement a function to round each element in an array to the nearest integer.",
+    "code": "```haskell\nroundArray :: [Double] -> [Int]\nroundArray = map round\n```"
+  },
+  {
+    "task": "Create a routine to generate an array of the Fibonacci sequence up to a given number.",
+    "code": "```haskell\nfibonacciArray :: Int -> [Int]\nfibonacciArray n = takeWhile (<= n) fibs\n  where fibs = 0 : 1 : zipWith (+) fibs (tail fibs)\n```"
+  },
+  {
+    "task": "Write a program to find the longest repeating sequence in an array.",
+    "code": "```haskell\nimport Data.List (maximumBy, tails, group)\nimport Data.Ord (comparing)\n\nlongestRepeatingSequence :: Eq a => [a] -> [a]\nlongestRepeatingSequence xs = maximumBy (comparing length) repeatingSequences\n  where\n    allSubsequences = concatMap (tail . inits) (tails xs)\n    repeatingSequences = filter (\\s -> length (filter (isPrefixOf s) (tails xs)) > 1) allSubsequences\n\nmain :: IO ()\nmain = do\n  let array = [1, 2, 3, 1, 2, 1, 2, 3, 1, 2]\n  print $ longestRepeatingSequence array\n```"
+  },
+  {
+    "task": "Design a function to multiply each element of an array by its index.",
+    "code": "```haskell\nmultiplyByIndex :: [Int] -> [Int]\nmultiplyByIndex arr = zipWith (*) arr [0..]\n```"
+  },
+  {
+    "task": "Create a method to convert an array of characters into a single string.",
+    "code": "```haskell\narrayToString :: [Char] -> String\narrayToString = id\n```"
+  },
+  {
+    "task": "Develop a function to fill an array with a specified value.",
+    "code": "```haskell\nfillArray :: Int -> a -> [a]\nfillArray n value = replicate n value\n```"
+  },
+  {
+    "task": "Implement a routine to determine if an array has any duplicate elements.",
+    "code": "```haskell\nimport Data.List (nub)\n\nhasDuplicates :: Eq a => [a] -> Bool\nhasDuplicates xs = length xs /= length (nub xs)\n```"
+  },
+  {
+    "task": "Write a script to reverse the order of words in an array of strings.",
+    "code": "```haskell\nreverseWords :: [String] -> [String]\nreverseWords = reverse\n\nmain :: IO ()\nmain = do\n    let wordsArray = [\"Hello\", \"world\", \"this\", \"is\", \"Haskell\"]\n    let reversedArray = reverseWords wordsArray\n    print reversedArray\n```"
+  },
+  {
+    "task": "Create a function to calculate the total number of distinct elements in an array.",
+    "code": "```haskell\nimport Data.List (nub)\n\ncountDistinctElements :: Eq a => [a] -> Int\ncountDistinctElements arr = length (nub arr)\n```"
+  },
+  {
+    "task": "Design a program to find the largest gap between consecutive elements in a sorted array.",
+    "code": "```haskell\nlargestGap :: [Int] -> Int\nlargestGap [] = 0\nlargestGap [_] = 0\nlargestGap xs = maximum $ zipWith (-) (tail xs) xs\n```"
+  },
+  {
+    "task": "Write a routine to perform element-wise multiplication of two arrays.",
+    "code": "```haskell\nelementWiseMultiply :: Num a => [a] -> [a] -> [a]\nelementWiseMultiply xs ys = zipWith (*) xs ys\n```"
+  },
+  {
+    "task": "Develop a method to split a string into an array of words.",
+    "code": "```haskell\nsplitIntoWords :: String -> [String]\nsplitIntoWords = words\n```"
+  },
+  {
+    "task": "Implement a function to find the longest contiguous subarray with a sum less than a target.",
+    "code": "```haskell\nlongestSubarrayWithSumLessThan :: [Int] -> Int -> [Int]\nlongestSubarrayWithSumLessThan arr target = findLongest arr target 0 0 0 0 []\n\nfindLongest :: [Int] -> Int -> Int -> Int -> Int -> Int -> [Int] -> [Int]\nfindLongest arr target start end sum currentMax currentSubarray\n  | end == length arr = currentSubarray\n  | sum + (arr !! end) < target =\n      let newSubarray = take (end - start + 1) (drop start arr)\n      in if length newSubarray > currentMax\n         then findLongest arr target start (end + 1) (sum + (arr !! end)) (length newSubarray) newSubarray\n         else findLongest arr target start (end + 1) (sum + (arr !! end)) currentMax currentSubarray\n  | otherwise = findLongest arr target (start + 1) end (sum - (arr !! start)) currentMax currentSubarray\n```"
+  },
+  {
+    "task": "Create a script to rotate a 2D array (matrix) 180 degrees.",
+    "code": "```haskell\nrotate180 :: [[a]] -> [[a]]\nrotate180 = map reverse . reverse\n\nmain :: IO ()\nmain = do\n    let matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n    let rotatedMatrix = rotate180 matrix\n    print rotatedMatrix\n```"
+  },
+  {
+    "task": "Write a program to convert an array of binary digits to its decimal equivalent.",
+    "code": "```haskell\nbinaryToDecimal :: [Int] -> Int\nbinaryToDecimal = foldl (\\acc x -> acc * 2 + x) 0\n\nmain :: IO ()\nmain = do\n    let binaryArray = [1, 0, 1, 1] -- example input\n    print $ binaryToDecimal binaryArray\n```"
+  },
+  {
+    "task": "Design a function to return a new array with elements squared from the input array.",
+    "code": "```haskell\nsquareArray :: [Int] -> [Int]\nsquareArray arr = map (^2) arr\n```"
+  },
+  {
+    "task": "Create a method to check if all elements in an array are unique.",
+    "code": "```haskell\nimport Data.List (nub)\n\nallUnique :: (Eq a) => [a] -> Bool\nallUnique xs = length xs == length (nub xs)\n```"
+  },
+  {
+    "task": "Develop a routine to find the indices of all occurrences of a specific element in an array.",
+    "code": "```haskell\nfindIndices :: Eq a => a -> [a] -> [Int]\nfindIndices x arr = [i | (i, y) <- zip [0..] arr, y == x]\n```"
+  },
+  {
+    "task": "Implement a function to merge multiple arrays into one.",
+    "code": "```haskell\nmergeArrays :: [[a]] -> [a]\nmergeArrays = concat\n```"
+  },
+  {
+    "task": "Write a script to convert an array of integers into a formatted string.",
+    "code": "```haskell\nimport Data.List (intercalate)\n\nformatArray :: [Int] -> String\nformatArray arr = intercalate \", \" (map show arr)\n\nmain :: IO ()\nmain = do\n  let numbers = [1, 2, 3, 4, 5]\n  putStrLn $ formatArray numbers\n```"
+  },
+  {
+    "task": "Create a program to find the largest sum of any contiguous subarray.",
+    "code": "```haskell\nmaxSubArraySum :: [Int] -> Int\nmaxSubArraySum arr = snd $ foldl maxSum (0, minBound) arr\n  where\n    maxSum (currentMax, globalMax) x =\n      let newCurrentMax = max x (currentMax + x)\n          newGlobalMax = max globalMax newCurrentMax\n      in (newCurrentMax, newGlobalMax)\n\nmain :: IO ()\nmain = do\n  let array = [1, -3, 2, 1, -1, 3, -2, 3, -5, 4]\n  print $ maxSubArraySum array\n```"
+  },
+  {
+    "task": "Design a function to compare two arrays and return the differences.",
+    "code": "```haskell\ncompareArrays :: Eq a => [a] -> [a] -> ([a], [a])\ncompareArrays xs ys = (filter (`notElem` ys) xs, filter (`notElem` xs) ys)\n```"
+  },
+  {
+    "task": "Write a method to find the longest subarray with elements in arithmetic progression.",
+    "code": "```haskell\nlongestAPSubarray :: [Int] -> [Int]\nlongestAPSubarray [] = []\nlongestAPSubarray [_] = []\nlongestAPSubarray arr = go arr 0 0 [] 0\n  where\n    go [] _ _ best _ = best\n    go [_] _ _ best _ = best\n    go (x:y:xs) start len best prevDiff\n      | len == 0 || y - x == prevDiff = go (y:xs) start (len + 1) best (y - x)\n      | otherwise = go (y:xs) (start + len) 0 (if len > length best then take len (drop start arr) else best) (y - x)\n\n    finalBest = go arr 0 0 [] 0\n    bestLen = length finalBest\n    in if bestLen > 1 then finalBest else take bestLen arr\n```"
+  },
+  {
+    "task": "Develop a routine to remove elements from an array based on a predicate function.",
+    "code": "```haskell\nremoveByPredicate :: (a -> Bool) -> [a] -> [a]\nremoveByPredicate predicate = filter (not . predicate)\n```"
+  },
+  {
+    "task": "Implement a function to determine if two arrays have any common elements.",
+    "code": "```haskell\nimport Data.List (intersect)\n\nhaveCommonElements :: Eq a => [a] -> [a] -> Bool\nhaveCommonElements xs ys = not $ null $ intersect xs ys\n```"
+  },
+  {
+    "task": "Create a script to initialize an empty array and populate it with user input.",
+    "code": "```haskell\nimport Control.Monad (replicateM)\n\nmain :: IO ()\nmain = do\n    putStrLn \"How many elements would you like to input?\"\n    n <- readLn\n    putStrLn $ \"Please enter \" ++ show n ++ \" elements:\"\n    array <- replicateM n getLine\n    putStrLn \"The array is:\"\n    print array\n```"
+  },
+  {
+    "task": "Write a program to find the maximum sum of non-adjacent elements in an array.",
+    "code": "```haskell\nmaxSumNonAdjacent :: [Int] -> Int\nmaxSumNonAdjacent xs = go xs 0 0\n  where\n    go [] include exclude = max include exclude\n    go (x:xs) include exclude = go xs newInclude newExclude\n      where\n        newInclude = exclude + x\n        newExclude = max include exclude\n\nmain :: IO ()\nmain = do\n  let array = [3, 2, 7, 10]\n  print $ maxSumNonAdjacent array\n```"
+  },
+  {
+    "task": "Design a function to shuffle an array randomly.",
+    "code": "```haskell\nimport System.Random\nimport Control.Monad\nimport Data.Array.IO\nimport Data.Foldable (for_)\n\nshuffleArray :: [a] -> IO [a]\nshuffleArray xs = do\n    let n = length xs\n    ar <- newArray n xs\n    for_ [1..n] $ \\i -> do\n        j <- randomRIO (i, n)\n        vi <- readArray ar i\n        vj <- readArray ar j\n        writeArray ar j vi\n        writeArray ar i vj\n    getElems ar\n  where\n    newArray :: Int -> [a] -> IO (IOArray Int a)\n    newArray n xs =  newListArray (1, n) xs\n```"
+  },
+  {
+    "task": "Create a method to generate a new array where each element is the cumulative product of the input array.",
+    "code": "```haskell\ncumulativeProduct :: [Int] -> [Int]\ncumulativeProduct = scanl1 (*)\n```"
+  },
+  {
+    "task": "Develop a routine to find the largest element in each row of a 2D array.",
+    "code": "```haskell\nlargestInRows :: (Ord a) => [[a]] -> [a]\nlargestInRows = map maximum\n```"
+  },
+  {
+    "task": "Implement a function to count the number of negative numbers in an array.",
+    "code": "```haskell\ncountNegatives :: [Int] -> Int\ncountNegatives arr = length $ filter (< 0) arr\n```"
+  },
+  {
+    "task": "Write a script to find the longest subarray with all distinct elements.",
+    "code": "```haskell\nimport Data.List (nub)\nimport Data.List (maximumBy)\nimport Data.Ord (comparing)\n\nlongestDistinctSubarray :: (Eq a) => [a] -> [a]\nlongestDistinctSubarray arr = maximumBy (comparing length) (distinctSubarrays arr)\n\ndistinctSubarrays :: (Eq a) => [a] -> [[a]]\ndistinctSubarrays [] = [[]]\ndistinctSubarrays (x:xs) = filter allDistinct $ concatMap (extendSubarray x) (distinctSubarrays xs)\n\nextendSubarray :: a -> [a] -> [[a]]\nextendSubarray x subarray = [subarray, x:subarray]\n\nallDistinct :: (Eq a) => [a] -> Bool\nallDistinct subarray = nub subarray == subarray\n\nmain :: IO ()\nmain = do\n    let arr = [1, 2, 3, 4, 1, 2, 3, 5]\n    print $ longestDistinctSubarray arr\n```"
+  }
+]

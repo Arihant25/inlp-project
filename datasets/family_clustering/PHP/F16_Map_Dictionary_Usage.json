@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```php\n<?php\n\n$studentGrades = [\n    \"Alice\" => 85,\n    \"Bob\" => 78,\n    \"Charlie\" => 92,\n    \"Diana\" => 88,\n    \"Edward\" => 76\n];\n\n$total = array_sum($studentGrades);\n$count = count($studentGrades);\n$average = $total / $count;\n\necho \"Average grade: \" . $average;\n?>\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```php\nfunction calculateTotalCost($products) {\n    $totalCost = 0;\n    foreach ($products as $price) {\n        $totalCost += $price;\n    }\n    return $totalCost;\n}\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```php\n<?php\n\nfunction countWordFrequency($text) {\n    $words = str_word_count(strtolower($text), 1);\n    $frequency = [];\n\n    foreach ($words as $word) {\n        if (array_key_exists($word, $frequency)) {\n            $frequency[$word]++;\n        } else {\n            $frequency[$word] = 1;\n        }\n    }\n\n    return $frequency;\n}\n\n$text = \"This is a sample text with several words. This text is a sample.\";\n$wordFrequency = countWordFrequency($text);\n\nprint_r($wordFrequency);\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```php\nfunction employeeWithMostHours($employeeHours) {\n    $maxHours = -1;\n    $employeeId = null;\n    foreach ($employeeHours as $id => $hours) {\n        if ($hours > $maxHours) {\n            $maxHours = $hours;\n            $employeeId = $id;\n        }\n    }\n    return $employeeId;\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```php\n<?php\n\nclass LoginSystem {\n    private $loginAttempts = [];\n    private $lockedAccounts = [];\n    private $lockThreshold = 3;\n\n    public function login($username, $password) {\n        if (isset($this->lockedAccounts[$username])) {\n            return \"Account is locked.\";\n        }\n\n        if (!$this->validateCredentials($username, $password)) {\n            $this->recordFailedAttempt($username);\n            return \"Invalid credentials.\";\n        }\n\n        // Reset attempts on successful login\n        if (isset($this->loginAttempts[$username])) {\n            unset($this->loginAttempts[$username]);\n        }\n\n        return \"Login successful.\";\n    }\n\n    private function validateCredentials($username, $password) {\n        // Implement actual validation logic here\n        return false;\n    }\n\n    private function recordFailedAttempt($username) {\n        $timestamp = time();\n        if (!isset($this->loginAttempts[$username])) {\n            $this->loginAttempts[$username] = [];\n        }\n\n        $this->loginAttempts[$username][] = $timestamp;\n\n        if (count($this->loginAttempts[$username]) >= $this->lockThreshold) {\n            $this->lockedAccounts[$username] = true;\n        }\n    }\n}\n\n$system = new LoginSystem();\necho $system->login(\"user1\", \"wrongpass\") . PHP_EOL;\necho $system->login(\"user1\", \"wrongpass\") . PHP_EOL;\necho $system->login(\"user1\", \"wrongpass\") . PHP_EOL;\necho $system->login(\"user1\", \"wrongpass\") . PHP_EOL;\n?>\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```php\n<?php\n\nclass PhoneBook {\n    private $contacts = [];\n\n    public function addContact($name, $number) {\n        $this->contacts[$name] = $number;\n    }\n\n    public function removeContact($name) {\n        if (isset($this->contacts[$name])) {\n            unset($this->contacts[$name]);\n        }\n    }\n\n    public function lookupContact($name) {\n        return $this->contacts[$name] ?? null;\n    }\n}\n\n// Example usage:\n$phoneBook = new PhoneBook();\n$phoneBook->addContact(\"Alice\", \"123-456-7890\");\n$phoneBook->addContact(\"Bob\", \"987-654-3210\");\necho $phoneBook->lookupContact(\"Alice\"); // Outputs: 123-456-7890\n$phoneBook->removeContact(\"Alice\");\necho $phoneBook->lookupContact(\"Alice\"); // Outputs: null\n\n?>\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```php\n<?php\n\n$cities = [\n    \"New York\" => 8175133,\n    \"Los Angeles\" => 3792621,\n    \"Chicago\" => 2695598,\n    \"Houston\" => 2129784,\n    \"Phoenix\" => 1445632\n];\n\n$highestPopulationCity = \"\";\n$highestPopulation = 0;\n\nforeach ($cities as $city => $population) {\n    if ($population > $highestPopulation) {\n        $highestPopulation = $population;\n        $highestPopulationCity = $city;\n    }\n}\n\necho \"The city with the highest population is: $highestPopulationCity with $highestPopulation people.\";\n\n?>\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```php\n<?php\nfunction translateSentence($sentence, $dictionary) {\n    $words = explode(' ', $sentence);\n    $translatedWords = array_map(function($word) use ($dictionary) {\n        return $dictionary[$word] ?? $word;\n    }, $words);\n    return implode(' ', $translatedWords);\n}\n\n$dictionary = [\n    'hello' => 'hola',\n    'world' => 'mundo',\n    'this' => 'este',\n    'is' => 'es',\n    'a' => 'un',\n    'test' => 'prueba'\n];\n\n$sentence = \"hello world this is a test\";\n$translatedSentence = translateSentence($sentence, $dictionary);\necho $translatedSentence;\n?>\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```php\n<?php\n\n$books = [\n    \"1984\" => \"George Orwell\",\n    \"To Kill a Mockingbird\" => \"Harper Lee\",\n    \"The Great Gatsby\" => \"F. Scott Fitzgerald\",\n    \"Animal Farm\" => \"George Orwell\",\n    \"Pride and Prejudice\" => \"Jane Austen\"\n];\n\nfunction findBooksByAuthor($author, $books) {\n    $results = [];\n    foreach ($books as $title => $bookAuthor) {\n        if ($bookAuthor === $author) {\n            $results[] = $title;\n        }\n    }\n    return $results;\n}\n\n// Example usage:\n$author = \"George Orwell\";\n$booksByOrwell = findBooksByAuthor($author, $books);\nprint_r($booksByOrwell);\n\n?>\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```php\n<?php\n\n// Create a map to store product IDs and their stock levels\n$stockLevels = [\n    'product1' => 100,\n    'product2' => 200,\n    'product3' => 150,\n];\n\n// Function to update stock levels after a sale\nfunction updateStockLevel(&$stockLevels, $productId, $quantitySold) {\n    if (isset($stockLevels[$productId])) {\n        $stockLevels[$productId] -= $quantitySold;\n        if ($stockLevels[$productId] < 0) {\n            $stockLevels[$productId] = 0;\n        }\n    }\n}\n\n// Example usage\nupdateStockLevel($stockLevels, 'product1', 20);\nupdateStockLevel($stockLevels, 'product2', 50);\n\nprint_r($stockLevels);\n\n?>\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```php\n<?php\n\n$countryCodes = [\n    'US' => 'United States',\n    'CA' => 'Canada',\n    'GB' => 'United Kingdom',\n    'FR' => 'France',\n    'DE' => 'Germany'\n];\n\n$codeToFind = 'GB'; // example country code\n\nif (array_key_exists($codeToFind, $countryCodes)) {\n    echo $countryCodes[$codeToFind];\n} else {\n    echo \"Country code not found.\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```php\n<?php\n\n$students = [\n    101 => 'Alice',\n    102 => 'Bob',\n    103 => 'Charlie'\n];\n\nfunction getStudentNameById($id, $students) {\n    return $students[$id] ?? null;\n}\n\n// Example Usage\n$id = 102;\n$name = getStudentNameById($id, $students);\necho $name; // Outputs: Bob\n\n?>\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```php\n<?php\n\nclass ConfigDictionary {\n    private $settings = [];\n\n    public function set($key, $value) {\n        $this->settings[$key] = $value;\n    }\n\n    public function get($key) {\n        return isset($this->settings[$key]) ? $this->settings[$key] : null;\n    }\n\n    public function update($key, $value) {\n        if (isset($this->settings[$key])) {\n            $this->settings[$key] = $value;\n        }\n    }\n}\n\n// Example usage\n$config = new ConfigDictionary();\n$config->set('database_host', 'localhost');\necho $config->get('database_host'); // Output: localhost\n$config->update('database_host', '127.0.0.1');\necho $config->get('database_host'); // Output: 127.0.0.1\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```php\n<?php\n\n$dictionary = [\n    \"apple\" => \"A fruit that is typically round and red, green, or yellow.\",\n    \"banana\" => \"A long curved fruit that grows in clusters and has soft pulpy flesh.\",\n    \"cherry\" => \"A small, round stone fruit that is typically bright or dark red.\",\n    \"date\" => \"The sweet fruit of a tropical palm tree, often dried.\",\n    \"grape\" => \"A small round or oval fruit used to make wine.\",\n];\n\nfunction displayWordsStartingWith($letter, $dictionary) {\n    foreach ($dictionary as $word => $definition) {\n        if (stripos($word, $letter) === 0) {\n            echo $word . \": \" . $definition . PHP_EOL;\n        }\n    }\n}\n\n// Example usage:\ndisplayWordsStartingWith('a', $dictionary);\n?>\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```php\n<?php\n\n// Dictionary to store usernames and passwords\n$credentials = [\n    'user1' => 'password123',\n    'user2' => 'securepass456',\n    'user3' => 'mypassword789'\n];\n\n// Function to verify login attempts\nfunction verifyLogin($username, $password, $credentials) {\n    if (isset($credentials[$username]) && $credentials[$username] === $password) {\n        return \"Login successful!\";\n    } else {\n        return \"Invalid username or password.\";\n    }\n}\n\n// Example usage\n$usernameAttempt = 'user1';\n$passwordAttempt = 'password123';\n\necho verifyLogin($usernameAttempt, $passwordAttempt, $credentials);\n\n?>\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```php\n<?php\n\n$purchases = [\n    'apple', 'banana', 'apple', 'orange', 'banana', 'banana', 'apple', 'grape', 'apple'\n];\n\n$itemCount = [];\n\nforeach ($purchases as $item) {\n    if (isset($itemCount[$item])) {\n        $itemCount[$item]++;\n    } else {\n        $itemCount[$item] = 1;\n    }\n}\n\n$mostPopularItem = null;\n$maxCount = 0;\n\nforeach ($itemCount as $item => $count) {\n    if ($count > $maxCount) {\n        $maxCount = $count;\n        $mostPopularItem = $item;\n    }\n}\n\necho \"Most popular item: \" . $mostPopularItem;\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```php\n<?php\n\n$fileAssociations = [\n    'txt' => 'Text Editor',\n    'doc' => 'Word Processor',\n    'pdf' => 'PDF Reader',\n    'jpg' => 'Image Viewer',\n    'png' => 'Image Viewer',\n    'mp4' => 'Video Player'\n];\n\nfunction getApplicationForFile($filename, $associations) {\n    $extension = pathinfo($filename, PATHINFO_EXTENSION);\n    return $associations[$extension] ?? 'Unknown Application';\n}\n\n// Example usage\n$filename = 'example.doc';\n$application = getApplicationForFile($filename, $fileAssociations);\necho \"Use $application to open '$filename'.\";\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```php\n<?php\n\n$menu = [\n    \"Burger\" => 5.99,\n    \"Fries\" => 2.99,\n    \"Soda\" => 1.50,\n    \"Salad\" => 4.99,\n    \"Pizza\" => 8.99\n];\n\nfunction calculateTotalBill($order, $menu) {\n    $total = 0.0;\n    foreach ($order as $item) {\n        if (isset($menu[$item])) {\n            $total += $menu[$item];\n        }\n    }\n    return $total;\n}\n\n$order = [\"Burger\", \"Fries\", \"Soda\"];\n$totalBill = calculateTotalBill($order, $menu);\n\necho \"Total Bill: $\" . number_format($totalBill, 2);\n\n?>\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```php\n<?php\n\nclass WarehouseInventory {\n    private $inventory = [];\n\n    public function addItem($item, $quantity) {\n        if (isset($this->inventory[$item])) {\n            $this->inventory[$item] += $quantity;\n        } else {\n            $this->inventory[$item] = $quantity;\n        }\n    }\n\n    public function removeItem($item, $quantity) {\n        if (isset($this->inventory[$item])) {\n            $this->inventory[$item] -= $quantity;\n            if ($this->inventory[$item] <= 0) {\n                unset($this->inventory[$item]);\n            }\n        }\n    }\n\n    public function checkInventory($item) {\n        return (isset($this->inventory[$item])) ? $this->inventory[$item] : 0;\n    }\n\n    public function getInventory() {\n        return $this->inventory;\n    }\n}\n\n// Example usage\n$warehouse = new WarehouseInventory();\n$warehouse->addItem('Apples', 50);\n$warehouse->addItem('Bananas', 30);\n$warehouse->removeItem('Apples', 10);\necho \"Apples in inventory: \" . $warehouse->checkInventory('Apples') . \"\\n\";\necho \"Bananas in inventory: \" . $warehouse->checkInventory('Bananas') . \"\\n\";\nprint_r($warehouse->getInventory());\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```php\nfunction romanToInt($s) {\n    $romanMap = [\n        'I' => 1,\n        'V' => 5,\n        'X' => 10,\n        'L' => 50,\n        'C' => 100,\n        'D' => 500,\n        'M' => 1000\n    ];\n    \n    $intValue = 0;\n    $previousValue = 0;\n    \n    for ($i = strlen($s) - 1; $i >= 0; $i--) {\n        $currentValue = $romanMap[$s[$i]];\n        if ($currentValue < $previousValue) {\n            $intValue -= $currentValue;\n        } else {\n            $intValue += $currentValue;\n        }\n        $previousValue = $currentValue;\n    }\n    \n    return $intValue;\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```php\n<?php\n\nfunction countLetterOccurrences($string) {\n    $letterCount = [];\n    $length = strlen($string);\n\n    for ($i = 0; $i < $length; $i++) {\n        $char = $string[$i];\n        if (ctype_alpha($char)) {\n            $char = strtolower($char);\n            if (!isset($letterCount[$char])) {\n                $letterCount[$char] = 0;\n            }\n            $letterCount[$char]++;\n        }\n    }\n\n    return $letterCount;\n}\n\n// Example usage\n$string = \"Hello World!\";\n$result = countLetterOccurrences($string);\nprint_r($result);\n\n?>\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```php\n$teams = [\n    \"Team A\" => 45,\n    \"Team B\" => 78,\n    \"Team C\" => 62,\n    \"Team D\" => 54\n];\n\n$highestScore = max($teams);\n$winningTeam = array_search($highestScore, $teams);\n\necho \"The team with the highest score is $winningTeam with a score of $highestScore.\";\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```php\nfunction calculateTotalWeight($items) {\n    $totalWeight = 0;\n    foreach ($items as $weight) {\n        $totalWeight += $weight;\n    }\n    return $totalWeight;\n}\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```php\n<?php\n\n$websiteVisits = [\n    'https://example.com' => 120,\n    'https://another.com' => 340,\n    'https://somesite.com' => 230,\n    'https://yetanother.com' => 450,\n];\n\n$mostVisited = '';\n$maxVisits = 0;\n\nforeach ($websiteVisits as $website => $visits) {\n    if ($visits > $maxVisits) {\n        $maxVisits = $visits;\n        $mostVisited = $website;\n    }\n}\n\necho \"The most visited website is: $mostVisited with $maxVisits visits.\";\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```php\n<?php\n\n$errorMessages = [\n    404 => 'Not Found',\n    500 => 'Internal Server Error',\n    403 => 'Forbidden',\n    401 => 'Unauthorized'\n];\n\n$givenCode = 404; // Example error code\nif (isset($errorMessages[$givenCode])) {\n    echo $errorMessages[$givenCode];\n} else {\n    echo 'Unknown error code';\n}\n\n?>\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```php\n<?php\n\n$contacts = [];\n\n// Adding contacts\n$contacts['Alice'] = '123-456-7890';\n$contacts['Bob'] = '234-567-8901';\n\n// Updating a contact\n$contacts['Alice'] = '987-654-3210';\n\n// Looking up a contact\n$aliceNumber = $contacts['Alice'];\n$bobNumber = $contacts['Bob'];\n\necho \"Alice's number: \" . $aliceNumber . \"\\n\";\necho \"Bob's number: \" . $bobNumber . \"\\n\";\n?>\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```php\n<?php\n\n$tasks = [\n    'Junior' => 'Data Entry',\n    'Mid' => 'Database Management',\n    'Senior' => 'System Architecture'\n];\n\n$employees = [\n    'Alice' => 'Junior',\n    'Bob' => 'Mid',\n    'Charlie' => 'Senior'\n];\n\n$employeeTasks = [];\n\nforeach ($employees as $employee => $level) {\n    if (isset($tasks[$level])) {\n        $employeeTasks[$employee] = $tasks[$level];\n    }\n}\n\nprint_r($employeeTasks);\n\n?>\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```php\n<?php\n\n$airportCodes = [\n    'LAX' => 'Los Angeles',\n    'JFK' => 'New York',\n    'ORD' => 'Chicago',\n    'ATL' => 'Atlanta',\n    'DFW' => 'Dallas/Fort Worth'\n];\n\nfunction getCityByAirportCode($code, $airportCodes) {\n    return $airportCodes[$code] ?? null;\n}\n\n// Example usage\n$city = getCityByAirportCode('LAX', $airportCodes);\necho $city; // Outputs: Los Angeles\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```php\nfunction getMoviesByDecade($movies, $decadeStartYear) {\n    $result = [];\n    foreach ($movies as $title => $year) {\n        if ($year >= $decadeStartYear && $year < $decadeStartYear + 10) {\n            $result[] = $title;\n        }\n    }\n    return $result;\n}\n\n$movies = [\n    \"The Godfather\" => 1972,\n    \"Star Wars\" => 1977,\n    \"Back to the Future\" => 1985,\n    \"The Matrix\" => 1999,\n    \"Inception\" => 2010,\n    \"Interstellar\" => 2014,\n];\n\n$moviesIn1980s = getMoviesByDecade($movies, 1980);\nprint_r($moviesIn1980s);\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```php\nfunction groupStudentsByGrades($students) {\n    $gradeMap = [];\n    foreach ($students as $student) {\n        $name = $student['name'];\n        $grade = $student['grade'];\n        if (!isset($gradeMap[$grade])) {\n            $gradeMap[$grade] = [];\n        }\n        $gradeMap[$grade][] = $name;\n    }\n    return $gradeMap;\n}\n\n// Example usage:\n$students = [\n    ['name' => 'Alice', 'grade' => 'A'],\n    ['name' => 'Bob', 'grade' => 'B'],\n    ['name' => 'Charlie', 'grade' => 'A'],\n    ['name' => 'David', 'grade' => 'C'],\n];\n\n$result = groupStudentsByGrades($students);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```php\n<?php\n\n$visitorCounts = [\n    \"home\" => 150,\n    \"about\" => 90,\n    \"contact\" => 120,\n    \"blog\" => 200,\n    \"services\" => 180\n];\n\n$mostVisitedSection = array_keys($visitorCounts, max($visitorCounts))[0];\n\necho \"The most visited section is: \" . $mostVisitedSection;\n\n?>\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```php\n<?php\n\n$deadlines = [\n    \"Alice\" => \"2023-10-30\",\n    \"Bob\" => \"2023-11-05\",\n    \"Charlie\" => \"2023-11-10\"\n];\n\nfunction extendDeadline(&$deadlines, $member, $newDate) {\n    if (array_key_exists($member, $deadlines)) {\n        $deadlines[$member] = $newDate;\n    }\n}\n\nextendDeadline($deadlines, \"Alice\", \"2023-11-15\");\n\nprint_r($deadlines);\n\n?>\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```php\n<?php\n\nclass Library {\n    private $books;\n\n    public function __construct() {\n        $this->books = [\n            \"1984\" => true,\n            \"To Kill a Mockingbird\" => true,\n            \"The Great Gatsby\" => true,\n            \"Moby Dick\" => true,\n            \"War and Peace\" => true\n        ];\n    }\n\n    public function borrowBook($bookTitle) {\n        if (isset($this->books[$bookTitle]) && $this->books[$bookTitle]) {\n            $this->books[$bookTitle] = false;\n            return \"You have borrowed '$bookTitle'.\";\n        }\n        return \"'$bookTitle' is not available.\";\n    }\n\n    public function returnBook($bookTitle) {\n        if (isset($this->books[$bookTitle])) {\n            $this->books[$bookTitle] = true;\n            return \"You have returned '$bookTitle'.\";\n        }\n        return \"'$bookTitle' does not belong to this library.\";\n    }\n\n    public function checkAvailability($bookTitle) {\n        if (isset($this->books[$bookTitle])) {\n            return $this->books[$bookTitle] ? \"'$bookTitle' is available.\" : \"'$bookTitle' is not available.\";\n        }\n        return \"'$bookTitle' is not in the library catalog.\";\n    }\n}\n\n// Example usage\n$library = new Library();\necho $library->checkAvailability(\"1984\") . \"\\n\";\necho $library->borrowBook(\"1984\") . \"\\n\";\necho $library->checkAvailability(\"1984\") . \"\\n\";\necho $library->returnBook(\"1984\") . \"\\n\";\necho $library->checkAvailability(\"1984\") . \"\\n\";\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```php\n<?php\n\n$planetDistances = [\n    'Mercury' => 57.91,\n    'Venus' => 108.2,\n    'Earth' => 149.6,\n    'Mars' => 227.9,\n    'Jupiter' => 778.5,\n    'Saturn' => 1434,\n    'Uranus' => 2871,\n    'Neptune' => 4495\n];\n\n$closestPlanet = null;\n$minDistance = PHP_FLOAT_MAX;\n\nforeach ($planetDistances as $planet => $distance) {\n    if ($planet !== 'Earth' && abs($distance - $planetDistances['Earth']) < $minDistance) {\n        $minDistance = abs($distance - $planetDistances['Earth']);\n        $closestPlanet = $planet;\n    }\n}\n\necho \"The closest planet to Earth is: \" . $closestPlanet;\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```php\n<?php\n\n$morseCodeDictionary = [\n    '.-' => 'A', '-...' => 'B', '-.-.' => 'C', '-..' => 'D', '.' => 'E',\n    '..-.' => 'F', '--.' => 'G', '....' => 'H', '..' => 'I', '.---' => 'J',\n    '-.-' => 'K', '.-..' => 'L', '--' => 'M', '-.' => 'N', '---' => 'O',\n    '.--.' => 'P', '--.-' => 'Q', '.-.' => 'R', '...' => 'S', '-' => 'T',\n    '..-' => 'U', '...-' => 'V', '.--' => 'W', '-..-' => 'X', '-.--' => 'Y',\n    '--..' => 'Z', '-----' => '0', '.----' => '1', '..---' => '2', '...--' => '3',\n    '....-' => '4', '.....' => '5', '-....' => '6', '--...' => '7', '---..' => '8',\n    '----.' => '9'\n];\n\nfunction translateMorseToText($morseCode, $dictionary) {\n    $words = explode('   ', $morseCode);\n    $translatedText = '';\n\n    foreach ($words as $word) {\n        $letters = explode(' ', $word);\n        foreach ($letters as $letter) {\n            if (isset($dictionary[$letter])) {\n                $translatedText .= $dictionary[$letter];\n            }\n        }\n        $translatedText .= ' ';\n    }\n\n    return trim($translatedText);\n}\n\n$morseCodeInput = '.... . .-.. .-.. ---   .-- --- .-. .-.. -..'; // Example input\necho translateMorseToText($morseCodeInput, $morseCodeDictionary);\n\n?>\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```php\n<?php\n\n$vehicleRegistry = [\n    \"ABC123\" => \"John Doe\",\n    \"XYZ789\" => \"Jane Smith\",\n    \"LMN456\" => \"Alice Johnson\"\n];\n\n// Example usage\n$registrationNumber = \"ABC123\";\nif (isset($vehicleRegistry[$registrationNumber])) {\n    echo \"The owner of vehicle $registrationNumber is \" . $vehicleRegistry[$registrationNumber];\n} else {\n    echo \"Vehicle $registrationNumber is not found in the registry.\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```php\n<?php\n\n$teams = [\n    \"Team A\" => [\"wins\" => 10, \"losses\" => 2],\n    \"Team B\" => [\"wins\" => 8, \"losses\" => 4],\n    \"Team C\" => [\"wins\" => 12, \"losses\" => 1],\n    \"Team D\" => [\"wins\" => 9, \"losses\" => 3],\n];\n\n$bestTeam = null;\n$bestRecord = -1;\n\nforeach ($teams as $team => $record) {\n    $winLossRatio = $record['wins'] / ($record['wins'] + $record['losses']);\n    if ($winLossRatio > $bestRecord) {\n        $bestRecord = $winLossRatio;\n        $bestTeam = $team;\n    }\n}\n\necho \"The team with the best record is: \" . $bestTeam;\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```php\nfunction getCurrencyName($currencyCode) {\n    $currencyMap = [\n        'USD' => 'United States Dollar',\n        'EUR' => 'Euro',\n        'JPY' => 'Japanese Yen',\n        'GBP' => 'British Pound Sterling',\n        'AUD' => 'Australian Dollar',\n        'CAD' => 'Canadian Dollar',\n        'CHF' => 'Swiss Franc',\n        'CNY' => 'Chinese Yuan Renminbi',\n        'SEK' => 'Swedish Krona',\n        'NZD' => 'New Zealand Dollar'\n    ];\n    \n    return $currencyMap[$currencyCode] ?? 'Unknown Currency Code';\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```php\n<?php\n\n$attendance = [\n    \"Alice\" => 15,\n    \"Bob\" => 20,\n    \"Charlie\" => 18,\n    \"Diana\" => 22,\n    \"Ethan\" => 19\n];\n\n$maxAttendance = max($attendance);\n$studentWithMaxAttendance = array_search($maxAttendance, $attendance);\n\necho \"Student with highest attendance: $studentWithMaxAttendance\\n\";\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```php\n<?php\n\n$countryCapitals = [\n    \"United States\" => \"Washington, D.C.\",\n    \"Canada\" => \"Ottawa\",\n    \"Mexico\" => \"Mexico City\",\n    \"United Kingdom\" => \"London\",\n    \"France\" => \"Paris\",\n    \"Germany\" => \"Berlin\",\n    \"Italy\" => \"Rome\",\n    \"Spain\" => \"Madrid\",\n    \"Japan\" => \"Tokyo\",\n    \"China\" => \"Beijing\"\n];\n\nfunction getCapitalByCountry($country, $map) {\n    return $map[$country] ?? \"Capital not found\";\n}\n\n// Example usage\necho getCapitalByCountry(\"United States\", $countryCapitals); // Outputs: Washington, D.C.\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```php\n<?php\n\n$recipeIngredients = [\n    \"flour\" => \"2 cups\",\n    \"sugar\" => \"1 cup\",\n    \"eggs\" => \"2\",\n    \"butter\" => \"1/2 cup\",\n    \"baking powder\" => \"1 teaspoon\"\n];\n\nforeach ($recipeIngredients as $ingredient => $quantity) {\n    echo \"Ingredient: $ingredient, Quantity: $quantity\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```php\n<?php\n\nclass UserProfile {\n    private $name;\n    private $age;\n    private $email;\n\n    public function __construct($name, $age, $email) {\n        $this->name = $name;\n        $this->age = $age;\n        $this->email = $email;\n    }\n\n    public function getName() {\n        return $this->name;\n    }\n\n    public function getAge() {\n        return $this->age;\n    }\n\n    public function getEmail() {\n        return $this->email;\n    }\n}\n\nclass SocialMediaSystem {\n    private $userMap;\n\n    public function __construct() {\n        $this->userMap = [];\n    }\n\n    public function addUserProfile($username, $profile) {\n        $this->userMap[$username] = $profile;\n    }\n\n    public function getUserProfile($username) {\n        if (isset($this->userMap[$username])) {\n            return $this->userMap[$username];\n        }\n        return null;\n    }\n}\n\n// Example usage\n$system = new SocialMediaSystem();\n\n$profile1 = new UserProfile(\"Alice\", 25, \"alice@example.com\");\n$system->addUserProfile(\"alice123\", $profile1);\n\n$profile2 = new UserProfile(\"Bob\", 30, \"bob@example.com\");\n$system->addUserProfile(\"bob456\", $profile2);\n\n$userProfile = $system->getUserProfile(\"alice123\");\nif ($userProfile !== null) {\n    echo \"Name: \" . $userProfile->getName() . \"\\n\";\n    echo \"Age: \" . $userProfile->getAge() . \"\\n\";\n    echo \"Email: \" . $userProfile->getEmail() . \"\\n\";\n}\n?>\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```php\nfunction listProductsInCategory($categories, $targetCategory) {\n    if (isset($categories[$targetCategory])) {\n        return $categories[$targetCategory];\n    } else {\n        return [];\n    }\n}\n\n// Example usage:\n$categories = [\n    'Electronics' => ['TV', 'Laptop', 'Smartphone'],\n    'Groceries' => ['Apple', 'Banana', 'Bread'],\n    'Clothing' => ['Shirt', 'Jeans', 'Jacket']\n];\n\n$products = listProductsInCategory($categories, 'Electronics');\nprint_r($products);\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```php\n<?php\n\n$shoppingList = [\n    \"apples\" => 5,\n    \"bananas\" => 3,\n    \"milk\" => 1,\n    \"bread\" => 2\n];\n\nfunction updateQuantity(&$list, $item, $quantity) {\n    if (array_key_exists($item, $list)) {\n        $list[$item] = $quantity;\n    } else {\n        $list[$item] = $quantity;\n    }\n}\n\nupdateQuantity($shoppingList, \"apples\", 10);\nupdateQuantity($shoppingList, \"oranges\", 4);\n\nprint_r($shoppingList);\n\n?>\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```php\n<?php\n\n$historicalEvents = [\n    \"Moon Landing\" => 1969,\n    \"Fall of the Berlin Wall\" => 1989,\n    \"Declaration of Independence\" => 1776,\n    \"Start of World War I\" => 1914,\n    \"End of World War II\" => 1945\n];\n\nfunction findEventsByYear($events, $year) {\n    $result = [];\n    foreach ($events as $event => $eventYear) {\n        if ($eventYear == $year) {\n            $result[] = $event;\n        }\n    }\n    return $result;\n}\n\n$yearToCheck = 1945;\n$eventsInYear = findEventsByYear($historicalEvents, $yearToCheck);\n\necho \"Events in $yearToCheck:\\n\";\nforeach ($eventsInYear as $event) {\n    echo \"- $event\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```php\n<?php\n\n$rolesPermissions = [\n    'admin' => ['create_user', 'delete_user', 'edit_user', 'view_reports'],\n    'editor' => ['edit_content', 'publish_content', 'view_reports'],\n    'viewer' => ['view_content', 'view_reports']\n];\n\n// Example usage:\nfunction checkPermission($role, $permission, $rolesPermissions) {\n    if (array_key_exists($role, $rolesPermissions)) {\n        return in_array($permission, $rolesPermissions[$role]);\n    }\n    return false;\n}\n\n$role = 'editor';\n$permission = 'publish_content';\n\nif (checkPermission($role, $permission, $rolesPermissions)) {\n    echo \"Permission granted.\";\n} else {\n    echo \"Permission denied.\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```php\n<?php\n\nfunction numericToLetterGrade($numericGrade) {\n    $gradeMap = [\n        'A' => range(90, 100),\n        'B' => range(80, 89),\n        'C' => range(70, 79),\n        'D' => range(60, 69),\n        'F' => range(0, 59),\n    ];\n    \n    foreach ($gradeMap as $letter => $range) {\n        if (in_array($numericGrade, $range)) {\n            return $letter;\n        }\n    }\n    \n    return null; // In case the grade is out of range\n}\n\n// Example usage\n$numericGrades = [95, 82, 76, 60, 45];\n$letterGrades = array_map('numericToLetterGrade', $numericGrades);\n\nprint_r($letterGrades);\n\n?>\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```php\n<?php\n\n$holidays = [\n    \"New Year's Day\" => '2024-01-01',\n    \"Independence Day\" => '2024-07-04',\n    \"Christmas Day\" => '2024-12-25',\n];\n\nfunction getHolidayDate($holidayName, $holidays) {\n    return $holidays[$holidayName] ?? null;\n}\n\n// Example usage:\n$holidayName = \"Christmas Day\";\n$date = getHolidayDate($holidayName, $holidays);\necho \"The date for $holidayName is: $date\";\n\n?>\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```php\n<?php\n\nclass OrderSystem {\n    private $orders = [];\n\n    public function addOrder($orderId, $status) {\n        $this->orders[$orderId] = $status;\n    }\n\n    public function updateOrderStatus($orderId, $newStatus) {\n        if (array_key_exists($orderId, $this->orders)) {\n            $this->orders[$orderId] = $newStatus;\n        }\n    }\n\n    public function getOrderStatus($orderId) {\n        return $this->orders[$orderId] ?? null;\n    }\n}\n\n// Example usage:\n$orderSystem = new OrderSystem();\n$orderSystem->addOrder('123', 'pending');\n$orderSystem->updateOrderStatus('123', 'shipped');\n$status = $orderSystem->getOrderStatus('123');\necho \"Order 123 status: $status\";\n?>\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```php\n<?php\n\n$foodItems = [\n    \"Apple\" => [\"calories\" => 52, \"protein\" => 0.3, \"fat\" => 0.2, \"carbohydrates\" => 14],\n    \"Banana\" => [\"calories\" => 89, \"protein\" => 1.1, \"fat\" => 0.3, \"carbohydrates\" => 23],\n    \"Carrot\" => [\"calories\" => 41, \"protein\" => 0.9, \"fat\" => 0.2, \"carbohydrates\" => 10],\n    \"Egg\" => [\"calories\" => 68, \"protein\" => 6.3, \"fat\" => 5.3, \"carbohydrates\" => 1],\n    \"Milk\" => [\"calories\" => 42, \"protein\" => 3.4, \"fat\" => 1, \"carbohydrates\" => 5]\n];\n\nforeach ($foodItems as $food => $nutrition) {\n    echo \"Food item: $food\\n\";\n    echo \"Nutritional Information:\\n\";\n    foreach ($nutrition as $key => $value) {\n        echo \"- $key: $value\\n\";\n    }\n    echo \"\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```php\n<?php\n\n$bookGenres = [\n    'Science Fiction' => ['Dune', 'Neuromancer', 'Snow Crash'],\n    'Fantasy' => ['The Hobbit', 'Harry Potter', 'The Name of the Wind'],\n    'Mystery' => ['The Girl with the Dragon Tattoo', 'Gone Girl', 'Sherlock Holmes']\n];\n\nfunction getBooksByGenre($genre, $bookGenres) {\n    return $bookGenres[$genre] ?? [];\n}\n\n// Example usage\n$genre = 'Fantasy';\n$books = getBooksByGenre($genre, $bookGenres);\nprint_r($books);\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```php\nfunction getStateName($abbreviation) {\n    $states = [\n        'AL' => 'Alabama',\n        'AK' => 'Alaska',\n        'AZ' => 'Arizona',\n        'AR' => 'Arkansas',\n        'CA' => 'California',\n        'CO' => 'Colorado',\n        'CT' => 'Connecticut',\n        'DE' => 'Delaware',\n        'FL' => 'Florida',\n        'GA' => 'Georgia',\n        'HI' => 'Hawaii',\n        'ID' => 'Idaho',\n        'IL' => 'Illinois',\n        'IN' => 'Indiana',\n        'IA' => 'Iowa',\n        'KS' => 'Kansas',\n        'KY' => 'Kentucky',\n        'LA' => 'Louisiana',\n        'ME' => 'Maine',\n        'MD' => 'Maryland',\n        'MA' => 'Massachusetts',\n        'MI' => 'Michigan',\n        'MN' => 'Minnesota',\n        'MS' => 'Mississippi',\n        'MO' => 'Missouri',\n        'MT' => 'Montana',\n        'NE' => 'Nebraska',\n        'NV' => 'Nevada',\n        'NH' => 'New Hampshire',\n        'NJ' => 'New Jersey',\n        'NM' => 'New Mexico',\n        'NY' => 'New York',\n        'NC' => 'North Carolina',\n        'ND' => 'North Dakota',\n        'OH' => 'Ohio',\n        'OK' => 'Oklahoma',\n        'OR' => 'Oregon',\n        'PA' => 'Pennsylvania',\n        'RI' => 'Rhode Island',\n        'SC' => 'South Carolina',\n        'SD' => 'South Dakota',\n        'TN' => 'Tennessee',\n        'TX' => 'Texas',\n        'UT' => 'Utah',\n        'VT' => 'Vermont',\n        'VA' => 'Virginia',\n        'WA' => 'Washington',\n        'WV' => 'West Virginia',\n        'WI' => 'Wisconsin',\n        'WY' => 'Wyoming'\n    ];\n    \n    return isset($states[$abbreviation]) ? $states[$abbreviation] : null;\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```php\n<?php\n\n$customerOrders = [\n    \"Alice\" => [\"Order1\", \"Order2\", \"Order3\"],\n    \"Bob\" => [\"Order4\", \"Order5\"],\n    \"Charlie\" => [\"Order6\"]\n];\n\n// Example of accessing data\nforeach ($customerOrders as $customer => $orders) {\n    echo \"Customer: $customer\\n\";\n    echo \"Orders: \" . implode(\", \", $orders) . \"\\n\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```php\n<?php\n\nclass ParkingLot {\n    private $spaces = [];\n\n    public function occupySpace($spaceNumber) {\n        if (isset($this->spaces[$spaceNumber]) && $this->spaces[$spaceNumber] === true) {\n            return \"Space $spaceNumber is already occupied.\";\n        } else {\n            $this->spaces[$spaceNumber] = true;\n            return \"Space $spaceNumber is now occupied.\";\n        }\n    }\n\n    public function freeSpace($spaceNumber) {\n        if (isset($this->spaces[$spaceNumber]) && $this->spaces[$spaceNumber] === true) {\n            $this->spaces[$spaceNumber] = false;\n            return \"Space $spaceNumber is now free.\";\n        } else {\n            return \"Space $spaceNumber is already free.\";\n        }\n    }\n\n    public function isSpaceOccupied($spaceNumber) {\n        return isset($this->spaces[$spaceNumber]) && $this->spaces[$spaceNumber] === true;\n    }\n}\n\n// Example usage:\n$parkingLot = new ParkingLot();\necho $parkingLot->occupySpace(1) . PHP_EOL;\necho $parkingLot->occupySpace(2) . PHP_EOL;\necho $parkingLot->isSpaceOccupied(1) ? \"Occupied\" : \"Free\" . PHP_EOL;\necho $parkingLot->freeSpace(1) . PHP_EOL;\necho $parkingLot->isSpaceOccupied(1) ? \"Occupied\" : \"Free\" . PHP_EOL;\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```php\n<?php\n\n$scores = array(\n    \"Alice\" => 0,\n    \"Bob\" => 0,\n    \"Charlie\" => 0,\n);\n\n// Function to update score\nfunction updateScore(&$scores, $player, $points) {\n    if (array_key_exists($player, $scores)) {\n        $scores[$player] += $points;\n    }\n}\n\n// Update some scores\nupdateScore($scores, \"Alice\", 10);\nupdateScore($scores, \"Bob\", 15);\nupdateScore($scores, \"Charlie\", 5);\n\n// Print scores\nforeach ($scores as $player => $score) {\n    echo \"Player: $player, Score: $score\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```php\n<?php\n\n$scientificTerms = [\n    \"Atom\" => \"The basic unit of a chemical element.\",\n    \"Molecule\" => \"A group of atoms bonded together.\",\n    \"Ecosystem\" => \"A biological community of interacting organisms and their physical environment.\",\n    \"Photosynthesis\" => \"The process by which green plants use sunlight to synthesize foods from carbon dioxide and water.\"\n];\n\nfunction getDefinition($term, $dictionary) {\n    return $dictionary[$term] ?? \"Definition not found.\";\n}\n\n// Example usage\necho getDefinition(\"Atom\", $scientificTerms);\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```php\nfunction convertTemperature($value, $fromScale, $toScale) {\n    $conversionMap = [\n        'Celsius' => [\n            'Fahrenheit' => function($c) { return $c * 9/5 + 32; },\n            'Kelvin' => function($c) { return $c + 273.15; }\n        ],\n        'Fahrenheit' => [\n            'Celsius' => function($f) { return ($f - 32) * 5/9; },\n            'Kelvin' => function($f) { return ($f - 32) * 5/9 + 273.15; }\n        ],\n        'Kelvin' => [\n            'Celsius' => function($k) { return $k - 273.15; },\n            'Fahrenheit' => function($k) { return ($k - 273.15) * 9/5 + 32; }\n        ]\n    ];\n    \n    if (isset($conversionMap[$fromScale][$toScale])) {\n        return $conversionMap[$fromScale][$toScale]($value);\n    } else {\n        return null; // Conversion not possible\n    }\n}\n\n// Example usage:\necho convertTemperature(100, 'Celsius', 'Fahrenheit'); // Outputs: 212\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```php\n$employeeDepartments = [\n    \"John Doe\" => \"Sales\",\n    \"Jane Smith\" => \"Marketing\",\n    \"Alice Johnson\" => \"Development\",\n    \"Bob Brown\" => \"Human Resources\"\n];\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```php\n<?php\n\n$attractions = [\n    \"Eiffel Tower\" => \"Paris, France\",\n    \"Statue of Liberty\" => \"New York City, USA\",\n    \"Great Wall of China\" => \"China\",\n    \"Colosseum\" => \"Rome, Italy\",\n    \"Taj Mahal\" => \"Agra, India\"\n];\n\nforeach ($attractions as $attraction => $location) {\n    echo \"The $attraction is located in $location.\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```php\n<?php\n\nclass MusicAlbumCollection {\n    private $albums = [];\n\n    public function addAlbum($title, $artist) {\n        $this->albums[$title] = $artist;\n    }\n\n    public function removeAlbum($title) {\n        unset($this->albums[$title]);\n    }\n\n    public function getAlbums() {\n        return $this->albums;\n    }\n}\n\n// Example usage:\n$collection = new MusicAlbumCollection();\n$collection->addAlbum(\"The Dark Side of the Moon\", \"Pink Floyd\");\n$collection->addAlbum(\"Abbey Road\", \"The Beatles\");\n$collection->removeAlbum(\"Abbey Road\");\n$albums = $collection->getAlbums();\nprint_r($albums);\n\n?>\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```php\n<?php\n\n$inventory = [\n    \"apple\" => 10,\n    \"banana\" => 5,\n    \"orange\" => 8,\n    \"grape\" => 15,\n    \"watermelon\" => 2\n];\n\n// Add inventory\n$inventory[\"apple\"] += 5;\n\n// Remove inventory\n$inventory[\"banana\"] -= 2;\n\n// Update inventory\n$inventory[\"orange\"] = 10;\n\n// Display inventory\nforeach ($inventory as $item => $quantity) {\n    echo \"Item: $item, Quantity: $quantity\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```php\n$rivers = [\n    \"Nile\" => 6650,\n    \"Amazon\" => 6400,\n    \"Yangtze\" => 6300,\n    \"Mississippi\" => 6275,\n    \"Yenisei\" => 5539\n];\n\n// Example lookup\n$riverName = \"Nile\";\n$length = $rivers[$riverName];\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```php\n<?php\n\nclass ConferenceRoomManager {\n    private $rooms = [];\n\n    public function addRoom($roomName) {\n        $this->rooms[$roomName] = true;\n    }\n\n    public function bookRoom($roomName) {\n        if (isset($this->rooms[$roomName]) && $this->rooms[$roomName] === true) {\n            $this->rooms[$roomName] = false;\n            return \"Room $roomName is booked.\";\n        }\n        return \"Room $roomName is not available.\";\n    }\n\n    public function releaseRoom($roomName) {\n        if (isset($this->rooms[$roomName]) && $this->rooms[$roomName] === false) {\n            $this->rooms[$roomName] = true;\n            return \"Room $roomName is now available.\";\n        }\n        return \"Room $roomName was not booked.\";\n    }\n\n    public function isRoomAvailable($roomName) {\n        return isset($this->rooms[$roomName]) && $this->rooms[$roomName];\n    }\n\n    public function getAvailableRooms() {\n        $availableRooms = [];\n        foreach ($this->rooms as $roomName => $isAvailable) {\n            if ($isAvailable) {\n                $availableRooms[] = $roomName;\n            }\n        }\n        return $availableRooms;\n    }\n}\n\n// Example usage:\n$manager = new ConferenceRoomManager();\n$manager->addRoom(\"Room 101\");\n$manager->addRoom(\"Room 102\");\necho $manager->bookRoom(\"Room 101\") . PHP_EOL;\necho $manager->releaseRoom(\"Room 101\") . PHP_EOL;\nprint_r($manager->getAvailableRooms());\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```php\n<?php\n\n$animalHabitats = [\n    \"Lion\" => \"Savannah\",\n    \"Polar Bear\" => \"Arctic\",\n    \"Kangaroo\" => \"Grassland\",\n    \"Penguin\" => \"Antarctica\",\n    \"Elephant\" => \"Savannah\",\n    \"Panda\" => \"Temperate Forest\"\n];\n\nforeach ($animalHabitats as $animal => $habitat) {\n    echo \"The $animal lives in the $habitat.\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```php\n<?php\n\n$mountains = [\n    \"Everest\" => 8848,\n    \"K2\" => 8611,\n    \"Kangchenjunga\" => 8586,\n    \"Lhotse\" => 8516,\n    \"Makalu\" => 8485\n];\n\n$tallestMountain = '';\n$maxElevation = 0;\n\nforeach ($mountains as $mountain => $elevation) {\n    if ($elevation > $maxElevation) {\n        $maxElevation = $elevation;\n        $tallestMountain = $mountain;\n    }\n}\n\necho \"The tallest mountain is $tallestMountain with an elevation of $maxElevation meters.\";\n\n?>\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```php\n<?php\n\nfunction getUtcOffset($timezone) {\n    $timezones = [\n        'Pacific/Midway' => '-11:00',\n        'America/Adak' => '-10:00',\n        'Pacific/Honolulu' => '-10:00',\n        'America/Anchorage' => '-09:00',\n        'America/Los_Angeles' => '-08:00',\n        'America/Denver' => '-07:00',\n        'America/Chicago' => '-06:00',\n        'America/New_York' => '-05:00',\n        'America/Caracas' => '-04:30',\n        'America/Halifax' => '-04:00',\n        'America/St_Johns' => '-03:30',\n        'America/Argentina/Buenos_Aires' => '-03:00',\n        'America/Noronha' => '-02:00',\n        'Atlantic/Azores' => '-01:00',\n        'Europe/London' => '+00:00',\n        'Europe/Berlin' => '+01:00',\n        'Europe/Istanbul' => '+02:00',\n        'Europe/Moscow' => '+03:00',\n        'Asia/Dubai' => '+04:00',\n        'Asia/Karachi' => '+05:00',\n        'Asia/Dhaka' => '+06:00',\n        'Asia/Jakarta' => '+07:00',\n        'Asia/Shanghai' => '+08:00',\n        'Asia/Tokyo' => '+09:00',\n        'Australia/Sydney' => '+10:00',\n        'Pacific/Auckland' => '+12:00',\n    ];\n\n    return isset($timezones[$timezone]) ? $timezones[$timezone] : null;\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```php\n$programmingLanguages = [\n    \"Python\" => \"Guido van Rossum\",\n    \"Java\" => \"James Gosling\",\n    \"C\" => \"Dennis Ritchie\",\n    \"C++\" => \"Bjarne Stroustrup\",\n    \"Ruby\" => \"Yukihiro Matsumoto\",\n    \"JavaScript\" => \"Brendan Eich\",\n    \"PHP\" => \"Rasmus Lerdorf\",\n    \"Swift\" => \"Chris Lattner\",\n    \"Go\" => \"Robert Griesemer, Rob Pike, and Ken Thompson\",\n    \"Kotlin\" => \"JetBrains\"\n];\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```php\n<?php\n\nclass Newsletter {\n    private $subscribers = [];\n\n    public function subscribe($email) {\n        if (!isset($this->subscribers[$email])) {\n            $this->subscribers[$email] = true;\n            return \"Subscribed successfully.\";\n        }\n        return \"Already subscribed.\";\n    }\n\n    public function unsubscribe($email) {\n        if (isset($this->subscribers[$email])) {\n            unset($this->subscribers[$email]);\n            return \"Unsubscribed successfully.\";\n        }\n        return \"Not subscribed.\";\n    }\n\n    public function listSubscribers() {\n        return array_keys($this->subscribers);\n    }\n}\n\n$newsletter = new Newsletter();\necho $newsletter->subscribe(\"user1@example.com\") . PHP_EOL;\necho $newsletter->subscribe(\"user2@example.com\") . PHP_EOL;\necho $newsletter->unsubscribe(\"user1@example.com\") . PHP_EOL;\nprint_r($newsletter->listSubscribers());\n\n?>\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```php\n<?php\n\n$postsLikes = [\n    \"post1\" => 0,\n    \"post2\" => 0,\n    \"post3\" => 0\n];\n\nfunction likePost(&$dictionary, $post) {\n    if (array_key_exists($post, $dictionary)) {\n        $dictionary[$post]++;\n    }\n}\n\nlikePost($postsLikes, \"post1\");\nlikePost($postsLikes, \"post2\");\nlikePost($postsLikes, \"post1\");\n\nprint_r($postsLikes);\n\n?>\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```php\n<?php\n\n$elements = [\n    \"Hydrogen\" => 1,\n    \"Helium\" => 2,\n    \"Lithium\" => 3,\n    \"Beryllium\" => 4,\n    \"Boron\" => 5,\n    \"Carbon\" => 6,\n    \"Nitrogen\" => 7,\n    \"Oxygen\" => 8,\n    \"Fluorine\" => 9,\n    \"Neon\" => 10\n];\n\n// Example lookup\n$elementName = \"Carbon\";\n$atomicNumber = $elements[$elementName];\n\necho \"The atomic number of $elementName is $atomicNumber.\";\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```php\nfunction groupMoviesByDirector($movies) {\n    $directorMap = [];\n    foreach ($movies as $movie) {\n        $director = $movie['director'];\n        $title = $movie['title'];\n        if (!isset($directorMap[$director])) {\n            $directorMap[$director] = [];\n        }\n        $directorMap[$director][] = $title;\n    }\n    return $directorMap;\n}\n\n// Example usage\n$movies = [\n    ['title' => 'Movie 1', 'director' => 'Director A'],\n    ['title' => 'Movie 2', 'director' => 'Director B'],\n    ['title' => 'Movie 3', 'director' => 'Director A'],\n    ['title' => 'Movie 4', 'director' => 'Director C'],\n];\n\n$result = groupMoviesByDirector($movies);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```php\n$historicalFigures = [\n    \"Albert Einstein\" => 1879,\n    \"Isaac Newton\" => 1643,\n    \"Marie Curie\" => 1867,\n    \"Leonardo da Vinci\" => 1452,\n    \"Cleopatra\" => 69,\n    \"George Washington\" => 1732\n];\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```php\n<?php\n\n$planets = [\n    \"Mercury\" => 4879,\n    \"Venus\" => 12104,\n    \"Earth\" => 12742,\n    \"Mars\" => 6779,\n    \"Jupiter\" => 139820,\n    \"Saturn\" => 116460,\n    \"Uranus\" => 50724,\n    \"Neptune\" => 49244\n];\n\nforeach ($planets as $name => $diameter) {\n    echo \"The diameter of $name is $diameter kilometers.\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```php\n<?php\n\nclass RestaurantRatings {\n    private $ratings = [];\n\n    public function setRating($restaurant, $rating) {\n        $this->ratings[$restaurant] = $rating;\n    }\n\n    public function getRating($restaurant) {\n        return $this->ratings[$restaurant] ?? null;\n    }\n\n    public function updateRating($restaurant, $rating) {\n        if (isset($this->ratings[$restaurant])) {\n            $this->ratings[$restaurant] = $rating;\n        }\n    }\n}\n\n// Example usage:\n$ratings = new RestaurantRatings();\n$ratings->setRating('Pizza Place', 4.5);\necho $ratings->getRating('Pizza Place'); // Output: 4.5\n$ratings->updateRating('Pizza Place', 4.7);\necho $ratings->getRating('Pizza Place'); // Output: 4.7\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```php\n<?php\n\nfunction binaryToDecimal($binaryNumbers) {\n    // Create a map to store binary to decimal translations\n    $binaryToDecimalMap = [];\n\n    foreach ($binaryNumbers as $binary) {\n        // Convert binary to decimal\n        $decimal = bindec($binary);\n        // Store in map\n        $binaryToDecimalMap[$binary] = $decimal;\n    }\n\n    return $binaryToDecimalMap;\n}\n\n$binaryNumbers = [\"1010\", \"1100\", \"1111\", \"1001\"];\n$result = binaryToDecimal($binaryNumbers);\n\n// Output result\nforeach ($result as $binary => $decimal) {\n    echo \"Binary: $binary -> Decimal: $decimal\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```php\n$artistsWorks = [\n    \"Leonardo da Vinci\" => \"Mona Lisa\",\n    \"Vincent van Gogh\" => \"Starry Night\",\n    \"Pablo Picasso\" => \"Guernica\",\n    \"Claude Monet\" => \"Water Lilies\",\n    \"Rembrandt\" => \"The Night Watch\"\n];\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```php\n<?php\n\nclass VehicleMaintenanceSchedule {\n    private $schedules = [];\n\n    public function addSchedule($vehicleId, $date) {\n        if (!isset($this->schedules[$vehicleId])) {\n            $this->schedules[$vehicleId] = [];\n        }\n        $this->schedules[$vehicleId][] = $date;\n    }\n\n    public function getSchedules($vehicleId) {\n        return isset($this->schedules[$vehicleId]) ? $this->schedules[$vehicleId] : [];\n    }\n\n    public function removeSchedule($vehicleId, $date) {\n        if (isset($this->schedules[$vehicleId])) {\n            $key = array_search($date, $this->schedules[$vehicleId]);\n            if ($key !== false) {\n                unset($this->schedules[$vehicleId][$key]);\n                $this->schedules[$vehicleId] = array_values($this->schedules[$vehicleId]);\n            }\n        }\n    }\n}\n\n// Example usage\n$scheduleSystem = new VehicleMaintenanceSchedule();\n$scheduleSystem->addSchedule(\"V001\", \"2023-11-01\");\n$scheduleSystem->addSchedule(\"V001\", \"2023-12-01\");\n$scheduleSystem->addSchedule(\"V002\", \"2023-11-15\");\n\nprint_r($scheduleSystem->getSchedules(\"V001\"));\n$scheduleSystem->removeSchedule(\"V001\", \"2023-11-01\");\nprint_r($scheduleSystem->getSchedules(\"V001\"));\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```php\n<?php\n\n$languages = [\n    \"English\" => 1500,\n    \"Mandarin\" => 1117,\n    \"Hindi\" => 615,\n    \"Spanish\" => 534,\n    \"French\" => 280,\n    \"Arabic\" => 274,\n    \"Bengali\" => 273,\n    \"Russian\" => 258,\n    \"Portuguese\" => 234,\n    \"Indonesian\" => 199\n];\n\nforeach ($languages as $language => $speakers) {\n    echo \"Language: $language, Speakers: $speakers million\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```php\n<?php\n$cityTemperatures = [\n    \"New York\" => 12.3,\n    \"Los Angeles\" => 18.5,\n    \"Chicago\" => 10.2,\n    \"Houston\" => 20.9,\n    \"Phoenix\" => 22.8\n];\n?>\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```php\nfunction convertMetricToImperial($value, $unit) {\n    $conversionMap = [\n        'meters' => ['conversion_factor' => 3.28084, 'imperial_unit' => 'feet'],\n        'kilometers' => ['conversion_factor' => 0.621371, 'imperial_unit' => 'miles'],\n        'grams' => ['conversion_factor' => 0.035274, 'imperial_unit' => 'ounces'],\n        'kilograms' => ['conversion_factor' => 2.20462, 'imperial_unit' => 'pounds'],\n        'liters' => ['conversion_factor' => 0.264172, 'imperial_unit' => 'gallons']\n    ];\n\n    if (array_key_exists($unit, $conversionMap)) {\n        $imperialValue = $value * $conversionMap[$unit]['conversion_factor'];\n        $imperialUnit = $conversionMap[$unit]['imperial_unit'];\n        return \"$imperialValue $imperialUnit\";\n    } else {\n        return \"Unit not recognized.\";\n    }\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```php\n<?php\n\n$sportsWorldRecords = [\n    \"100m Sprint\" => \"9.58 seconds\",\n    \"Marathon\" => \"2:01:39\",\n    \"High Jump\" => \"2.45 meters\",\n    \"Long Jump\" => \"8.95 meters\",\n    \"Shot Put\" => \"23.37 meters\"\n];\n\n// Example of accessing an item in the dictionary\necho \"The world record for 100m Sprint is \" . $sportsWorldRecords[\"100m Sprint\"] . \".\\n\";\n\n?>\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```php\n<?php\n\nclass FavoriteMovies {\n    private $movies;\n\n    public function __construct() {\n        $this->movies = [];\n    }\n\n    public function addMovie($title) {\n        $this->movies[$title] = true;\n    }\n\n    public function removeMovie($title) {\n        unset($this->movies[$title]);\n    }\n\n    public function getMovies() {\n        return array_keys($this->movies);\n    }\n}\n\n$favMovies = new FavoriteMovies();\n$favMovies->addMovie(\"Inception\");\n$favMovies->addMovie(\"The Matrix\");\n$favMovies->removeMovie(\"Inception\");\n$movies = $favMovies->getMovies();\n\nprint_r($movies);\n\n?>\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```php\n<?php\n\n$cityDistances = [\n    'New York' => [\n        'Los Angeles' => 2448,\n        'Chicago' => 790,\n        'Houston' => 1627\n    ],\n    'Los Angeles' => [\n        'New York' => 2448,\n        'Chicago' => 2015,\n        'Houston' => 1547\n    ],\n    'Chicago' => [\n        'New York' => 790,\n        'Los Angeles' => 2015,\n        'Houston' => 925\n    ],\n    'Houston' => [\n        'New York' => 1627,\n        'Los Angeles' => 1547,\n        'Chicago' => 925\n    ]\n];\n\nfunction getDistance($city1, $city2, $distances) {\n    if (isset($distances[$city1]) && isset($distances[$city1][$city2])) {\n        return $distances[$city1][$city2];\n    } elseif (isset($distances[$city2]) && isset($distances[$city2][$city1])) {\n        return $distances[$city2][$city1];\n    }\n    return null;\n}\n\necho \"Distance from New York to Los Angeles: \" . getDistance('New York', 'Los Angeles', $cityDistances) . \" miles\\n\";\necho \"Distance from Chicago to Houston: \" . getDistance('Chicago', 'Houston', $cityDistances) . \" miles\\n\";\necho \"Distance from Los Angeles to New York: \" . getDistance('Los Angeles', 'New York', $cityDistances) . \" miles\\n\";\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```php\n$planetOrbitalPeriods = [\n    \"Mercury\" => 88,\n    \"Venus\" => 225,\n    \"Earth\" => 365,\n    \"Mars\" => 687,\n    \"Jupiter\" => 4333,\n    \"Saturn\" => 10759,\n    \"Uranus\" => 30687,\n    \"Neptune\" => 60190\n];\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```php\n<?php\n\nfunction getColorNameFromCode($colorCode) {\n    $colorMap = [\n        '#FFFFFF' => 'White',\n        '#000000' => 'Black',\n        '#FF0000' => 'Red',\n        '#00FF00' => 'Green',\n        '#0000FF' => 'Blue',\n        '#FFFF00' => 'Yellow',\n        '#00FFFF' => 'Cyan',\n        '#FF00FF' => 'Magenta'\n    ];\n\n    return isset($colorMap[$colorCode]) ? $colorMap[$colorCode] : 'Unknown';\n}\n\n// Example usage:\n// echo getColorNameFromCode('#FF0000'); // Outputs: Red\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```php\n$composers = [\n    \"Ludwig van Beethoven\" => \"Symphony No. 9\",\n    \"Johann Sebastian Bach\" => \"Brandenburg Concertos\",\n    \"Wolfgang Amadeus Mozart\" => \"The Magic Flute\",\n    \"Pyotr Ilyich Tchaikovsky\" => \"Swan Lake\",\n    \"Fr\u00e9d\u00e9ric Chopin\" => \"Nocturnes\",\n    \"Igor Stravinsky\" => \"The Firebird\",\n    \"Giuseppe Verdi\" => \"La Traviata\",\n    \"Antonio Vivaldi\" => \"The Four Seasons\"\n];\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```php\n<?php\n\n$bridges = [\n    \"Golden Gate Bridge\" => 2737,\n    \"Brooklyn Bridge\" => 1595,\n    \"Tower Bridge\" => 801,\n    \"Sydney Harbour Bridge\" => 3770,\n    \"London Bridge\" => 269\n];\n\n// Example of accessing the map\nforeach ($bridges as $bridgeName => $length) {\n    echo \"The length of $bridgeName is $length meters.\\n\";\n}\n\n?>\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```php\n<?php\n\nclass GoalManager {\n    private $goals = [];\n\n    public function addOrUpdateGoal($name, $description) {\n        $this->goals[$name] = $description;\n    }\n\n    public function getGoal($name) {\n        return $this->goals[$name] ?? null;\n    }\n\n    public function getAllGoals() {\n        return $this->goals;\n    }\n}\n\n$goalManager = new GoalManager();\n$goalManager->addOrUpdateGoal('Fitness', 'Exercise 3 times a week');\n$goalManager->addOrUpdateGoal('Reading', 'Read 2 books per month');\n$goalManager->addOrUpdateGoal('Fitness', 'Exercise 4 times a week');\n\necho $goalManager->getGoal('Fitness'); // Output: Exercise 4 times a week\nprint_r($goalManager->getAllGoals());\n\n?>\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```php\n<?php\n\n$hexToBinMap = [\n    '0' => '0000',\n    '1' => '0001',\n    '2' => '0010',\n    '3' => '0011',\n    '4' => '0100',\n    '5' => '0101',\n    '6' => '0110',\n    '7' => '0111',\n    '8' => '1000',\n    '9' => '1001',\n    'A' => '1010',\n    'B' => '1011',\n    'C' => '1100',\n    'D' => '1101',\n    'E' => '1110',\n    'F' => '1111'\n];\n\nfunction hexToBinary($hexString, $map) {\n    $binaryString = '';\n    $hexString = strtoupper($hexString);\n    for ($i = 0; $i < strlen($hexString); $i++) {\n        $char = $hexString[$i];\n        if (isset($map[$char])) {\n            $binaryString .= $map[$char];\n        } else {\n            return \"Invalid hexadecimal input\";\n        }\n    }\n    return $binaryString;\n}\n\n$hexInput = '1A3F';\necho hexToBinary($hexInput, $hexToBinMap);\n\n?>\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```php\n$treeHeights = [\n    \"Oak\" => 70,\n    \"Pine\" => 80,\n    \"Maple\" => 50,\n    \"Birch\" => 40,\n    \"Cedar\" => 60\n];\n```"
+  }
+]

@@ -1,0 +1,358 @@
+[
+  {
+    "task": "Write a program that reads a user's name and age from the input, then prints a greeting message using both values.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let mut name = String::new();\n    let mut age = String::new();\n\n    println!(\"Please enter your name:\");\n    io::stdin().read_line(&mut name).expect(\"Failed to read line\");\n\n    println!(\"Please enter your age:\");\n    io::stdin().read_line(&mut age).expect(\"Failed to read line\");\n\n    let name = name.trim();\n    let age: u32 = age.trim().parse().expect(\"Please type a number!\");\n\n    println!(\"Hello, {}! You are {} years old.\", name, age);\n}\n```"
+  },
+  {
+    "task": "Create a script that continuously reads numbers from the input and prints their running total until a negative number is entered.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let mut total: i32 = 0;\n    loop {\n        let mut input = String::new();\n        io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n        let number: i32 = match input.trim().parse() {\n            Ok(num) => num,\n            Err(_) => continue,\n        };\n        if number < 0 {\n            break;\n        }\n        total += number;\n        println!(\"{}\", total);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that asks the user for a sentence and outputs the number of words it contains.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    \n    print!(\"Please enter a sentence: \");\n    io::stdout().flush().unwrap();\n    \n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    \n    let word_count = input.trim().split_whitespace().count();\n    \n    println!(\"The sentence contains {} words.\", word_count);\n}\n```"
+  },
+  {
+    "task": "Build a command-line tool that reads a list of integers and outputs them in sorted order.",
+    "code": "```rust\nuse std::env;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let args: Vec<String> = env::args().collect();\n\n    // If no arguments are provided, read from standard input\n    let numbers: Vec<i32> = if args.len() == 1 {\n        let stdin = io::stdin();\n        stdin\n            .lock()\n            .lines()\n            .filter_map(|line| line.ok())\n            .flat_map(|line| line.split_whitespace().map(str::parse::<i32>))\n            .filter_map(Result::ok)\n            .collect()\n    } else {\n        args.iter()\n            .skip(1)\n            .flat_map(|arg| arg.split_whitespace().map(str::parse::<i32>))\n            .filter_map(Result::ok)\n            .collect()\n    };\n\n    let mut sorted_numbers = numbers.clone();\n    sorted_numbers.sort();\n\n    for number in sorted_numbers {\n        println!(\"{}\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a file name from the input, then prints the number of lines in that file.",
+    "code": "```rust\nuse std::env;\nuse std::fs::File;\nuse std::io::{self, BufRead, BufReader};\n\nfn main() -> io::Result<()> {\n    let mut input = String::new();\n    io::stdin().read_line(&mut input)?;\n    let file_name = input.trim();\n\n    let file = File::open(file_name)?;\n    let reader = BufReader::new(file);\n\n    let line_count = reader.lines().count();\n    println!(\"{}\", line_count);\n\n    Ok(())\n}\n```"
+  },
+  {
+    "task": "Implement a calculator that reads two numbers and an operator (+, -, *, /) from the input and prints the result.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n\n    print!(\"Enter first number: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n    let num1: f64 = input.trim().parse().expect(\"Invalid input\");\n    input.clear();\n\n    print!(\"Enter operator (+, -, *, /): \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n    let operator = input.trim().chars().next().expect(\"Invalid input\");\n    input.clear();\n\n    print!(\"Enter second number: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n    let num2: f64 = input.trim().parse().expect(\"Invalid input\");\n\n    let result = match operator {\n        '+' => num1 + num2,\n        '-' => num1 - num2,\n        '*' => num1 * num2,\n        '/' => num1 / num2,\n        _ => {\n            println!(\"Invalid operator\");\n            return;\n        }\n    };\n\n    println!(\"Result: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a user's full name and prints it in reverse order.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut full_name = String::new();\n\n    print!(\"Enter your full name: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut full_name).expect(\"Failed to read line\");\n\n    let reversed: String = full_name.trim().chars().rev().collect();\n    println!(\"Reversed: {}\", reversed);\n}\n```"
+  },
+  {
+    "task": "Create a program that asks for a word and checks if it is a palindrome, printing the appropriate message.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a word: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let input = input.trim();\n\n    if input.chars().eq(input.chars().rev()) {\n        println!(\"The word is a palindrome.\");\n    } else {\n        println!(\"The word is not a palindrome.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads multiple lines of text and outputs the longest line.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut longest_line = String::new();\n\n    for line in stdin.lock().lines() {\n        let line = line.expect(\"Could not read line\");\n        if line.len() > longest_line.len() {\n            longest_line = line;\n        }\n    }\n\n    println!(\"{}\", longest_line);\n}\n```"
+  },
+  {
+    "task": "Design a script that reads a number 'n' and prints the first 'n' Fibonacci numbers.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let mut input = String::new();\n    println!(\"Enter a number:\");\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let n: usize = input.trim().parse().expect(\"Please enter a valid number\");\n\n    let mut fib = Vec::with_capacity(n);\n    fib.push(0);\n    if n > 1 {\n        fib.push(1);\n    }\n\n    for i in 2..n {\n        let next = fib[i - 1] + fib[i - 2];\n        fib.push(next);\n    }\n\n    for num in fib {\n        println!(\"{}\", num);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that takes a list of numbers from the input and prints only the even ones.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let handle = stdin.lock();\n    for line in handle.lines() {\n        if let Ok(line) = line {\n            let numbers: Vec<i32> = line\n                .split_whitespace()\n                .filter_map(|s| s.parse::<i32>().ok())\n                .collect();\n            for num in numbers {\n                if num % 2 == 0 {\n                    println!(\"{}\", num);\n                }\n            }\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a date (day, month, year) and prints the day of the week for that date.",
+    "code": "```rust\nuse std::io::{self, Write};\nuse chrono::{NaiveDate, Datelike};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter date (dd mm yyyy): \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n\n    let parts: Vec<&str> = input.trim().split_whitespace().collect();\n    if parts.len() != 3 {\n        println!(\"Please enter the date in the format dd mm yyyy.\");\n        return;\n    }\n\n    let day: u32 = parts[0].parse().unwrap_or(0);\n    let month: u32 = parts[1].parse().unwrap_or(0);\n    let year: i32 = parts[2].parse().unwrap_or(0);\n\n    if let Ok(date) = NaiveDate::from_ymd_opt(year, month, day) {\n        let weekday = date.weekday();\n        println!(\"The day of the week is: {}\", weekday);\n    } else {\n        println!(\"Invalid date entered.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a paragraph and counts the frequency of each letter in the text.",
+    "code": "```rust\nuse std::collections::HashMap;\nuse std::io::{self, Read};\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n\n    let mut letter_counts = HashMap::new();\n\n    for c in input.chars().filter(|c| c.is_alphabetic()) {\n        let counter = letter_counts.entry(c.to_ascii_lowercase()).or_insert(0);\n        *counter += 1;\n    }\n\n    for (letter, count) in letter_counts {\n        println!(\"{}: {}\", letter, count);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and a word, then prints the number of times the word appears in the text.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut text = String::new();\n    let mut word = String::new();\n\n    print!(\"Enter the text: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut text).unwrap();\n\n    print!(\"Enter the word to search for: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut word).unwrap();\n    \n    let word = word.trim();\n    let count = text.split_whitespace().filter(|&w| w == word).count();\n    \n    println!(\"The word '{}' appears {} time(s).\", word, count);\n}\n```"
+  },
+  {
+    "task": "Implement a script that reads a temperature in Celsius and converts it to Fahrenheit, printing the result.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let mut input = String::new();\n    \n    println!(\"Enter temperature in Celsius:\");\n\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n\n    let celsius: f64 = input.trim().parse().expect(\"Please enter a valid number\");\n    let fahrenheit = celsius * 9.0 / 5.0 + 32.0;\n\n    println!(\"Temperature in Fahrenheit: {:.2}\", fahrenheit);\n}\n```"
+  },
+  {
+    "task": "Write a program that continuously reads input until the word 'exit' is entered, then prints all entered inputs.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut inputs = Vec::new();\n    let stdin = io::stdin();\n    let stdout = io::stdout();\n    let mut handle = stdout.lock();\n\n    loop {\n        let mut buffer = String::new();\n        print!(\"Enter input: \");\n        handle.flush().unwrap();\n        stdin.read_line(&mut buffer).unwrap();\n        let input = buffer.trim().to_string();\n\n        if input == \"exit\" {\n            break;\n        }\n\n        inputs.push(input);\n    }\n\n    for input in inputs {\n        println!(\"{}\", input);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a tool that prompts for a filename, reads the file, and prints its content in uppercase.",
+    "code": "```rust\nuse std::fs::File;\nuse std::io::{self, Read, BufRead, BufReader, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter the filename: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n    let filename = input.trim();\n\n    let file = File::open(&filename).expect(\"Could not open file\");\n    let reader = BufReader::new(file);\n\n    for line in reader.lines() {\n        match line {\n            Ok(content) => println!(\"{}\", content.to_uppercase()),\n            Err(e) => eprintln!(\"Error reading line: {}\", e),\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a series of email addresses and prints the unique domain names.",
+    "code": "```rust\nuse std::collections::HashSet;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let handle = stdin.lock();\n    let mut domains = HashSet::new();\n\n    for line in handle.lines() {\n        if let Ok(email) = line {\n            if let Some(at_pos) = email.find('@') {\n                let domain = &email[at_pos + 1..];\n                domains.insert(domain.to_string());\n            }\n        }\n    }\n\n    for domain in domains {\n        println!(\"{}\", domain);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a script that reads a string and prints whether it contains all the letters of the alphabet.",
+    "code": "```rust\nuse std::collections::HashSet;\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a string: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n\n    let alphabet: HashSet<char> = ('a'..='z').collect();\n\n    let input_set: HashSet<char> = input.to_lowercase().chars().filter(|c| c.is_ascii_alphabetic()).collect();\n\n    if alphabet.is_subset(&input_set) {\n        println!(\"The string contains all the letters of the alphabet.\");\n    } else {\n        println!(\"The string does not contain all the letters of the alphabet.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a number and prints its factorial.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let mut input = String::new();\n    println!(\"Enter a number:\");\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n\n    let num: u64 = input.trim().parse().expect(\"Please enter a valid number\");\n    println!(\"Factorial of {} is {}\", num, factorial(num));\n}\n\nfn factorial(n: u64) -> u64 {\n    (1..=n).product()\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of names and prints them in alphabetical order.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let names: Vec<String> = stdin.lock().lines()\n        .map(|line| line.expect(\"Could not read line\"))\n        .collect();\n    \n    let mut sorted_names = names.clone();\n    sorted_names.sort();\n\n    for name in sorted_names {\n        println!(\"{}\", name);\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that asks for a sentence and prints each word on a new line.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a sentence: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n\n    for word in input.trim().split_whitespace() {\n        println!(\"{}\", word);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a script that reads a time in 12-hour format and converts it to 24-hour format.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter time in 12-hour format (e.g., 07:45PM): \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n    let input = input.trim();\n\n    if let Some(time) = parse_time(&input) {\n        println!(\"24-hour format: {:02}:{:02}\", time.0, time.1);\n    } else {\n        println!(\"Invalid time format.\");\n    }\n}\n\nfn parse_time(input: &str) -> Option<(u32, u32)> {\n    if input.len() < 7 {\n        return None;\n    }\n\n    let (hour_str, rest) = input.split_at(2);\n    let (minute_str, period) = rest.split_at(3);\n\n    let hour: u32 = hour_str.parse().ok()?;\n    let minute: u32 = minute_str[1..].parse().ok()?;\n\n    if !(1..=12).contains(&hour) || !(0..=59).contains(&minute) {\n        return None;\n    }\n\n    let is_pm = match &period.to_uppercase()[..] {\n        \"AM\" => false,\n        \"PM\" => true,\n        _ => return None,\n    };\n\n    let hour_24 = match (hour, is_pm) {\n        (12, false) => 0,\n        (12, true) => 12,\n        (_, true) => hour + 12,\n        _ => hour,\n    };\n\n    Some((hour_24, minute))\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads two strings and checks if they are anagrams, printing the result.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn are_anagrams(s1: &str, s2: &str) -> bool {\n    let mut chars1: Vec<char> = s1.chars().collect();\n    let mut chars2: Vec<char> = s2.chars().collect();\n    chars1.sort_unstable();\n    chars2.sort_unstable();\n    chars1 == chars2\n}\n\nfn main() {\n    let mut input1 = String::new();\n    let mut input2 = String::new();\n\n    print!(\"Enter the first string: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input1).unwrap();\n    print!(\"Enter the second string: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input2).unwrap();\n\n    let input1 = input1.trim();\n    let input2 = input2.trim();\n\n    if are_anagrams(input1, input2) {\n        println!(\"The strings are anagrams.\");\n    } else {\n        println!(\"The strings are not anagrams.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a tool that reads a paragraph and prints the first and last sentence.",
+    "code": "```rust\nuse std::io::{self, Read};\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n\n    let sentences: Vec<&str> = input.split_terminator('.').collect();\n\n    if let Some(first_sentence) = sentences.first() {\n        println!(\"First sentence: {}\", first_sentence.trim());\n    }\n\n    if let Some(last_sentence) = sentences.last() {\n        if first_sentence != last_sentence {\n            println!(\"Last sentence: {}\", last_sentence.trim());\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a binary number and converts it to decimal.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    print!(\"Enter a binary number: \");\n    io::stdout().flush().unwrap();\n\n    let mut binary_input = String::new();\n    io::stdin().read_line(&mut binary_input).unwrap();\n    let binary_input = binary_input.trim();\n\n    match isize::from_str_radix(binary_input, 2) {\n        Ok(decimal) => println!(\"Decimal: {}\", decimal),\n        Err(_) => println!(\"Invalid binary number\"),\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a script that reads a series of scores and prints the average score.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut scores = Vec::new();\n    \n    println!(\"Enter scores, one per line. Press Ctrl+D (or Ctrl+Z on Windows) to finish:\");\n    \n    for line in stdin.lock().lines() {\n        match line {\n            Ok(input) => {\n                if let Ok(score) = input.trim().parse::<f64>() {\n                    scores.push(score);\n                } else {\n                    println!(\"Invalid input, please enter a valid number.\");\n                }\n            }\n            Err(_) => break,\n        }\n    }\n    \n    if !scores.is_empty() {\n        let sum: f64 = scores.iter().sum();\n        let average = sum / scores.len() as f64;\n        println!(\"Average score: {:.2}\", average);\n    } else {\n        println!(\"No scores entered.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of integers and prints the prime numbers.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn is_prime(n: i32) -> bool {\n    if n <= 1 {\n        return false;\n    }\n    if n <= 3 {\n        return true;\n    }\n    if n % 2 == 0 || n % 3 == 0 {\n        return false;\n    }\n    let mut i = 5;\n    while i * i <= n {\n        if n % i == 0 || n % (i + 2) == 0 {\n            return false;\n        }\n        i += 6;\n    }\n    true\n}\n\nfn main() {\n    let stdin = io::stdin();\n    let input = stdin.lock().lines().next().unwrap().unwrap();\n    let numbers: Vec<i32> = input\n        .split_whitespace()\n        .filter_map(|s| s.parse().ok())\n        .collect();\n\n    for number in numbers {\n        if is_prime(number) {\n            println!(\"{}\", number);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a word and prints its Pig Latin translation.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a word: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let word = input.trim();\n\n    let pig_latin = if let Some(first_char) = word.chars().next() {\n        if \"aeiouAEIOU\".contains(first_char) {\n            format!(\"{}-hay\", word)\n        } else {\n            let mut chars = word.chars();\n            let first = chars.next().unwrap();\n            format!(\"{}-{}ay\", chars.as_str(), first)\n        }\n    } else {\n        String::from(\"\")\n    };\n\n    println!(\"Pig Latin: {}\", pig_latin);\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a matrix of numbers and prints its transpose.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let lines: Vec<Vec<i32>> = stdin.lock().lines()\n        .map(|line| {\n            line.unwrap().split_whitespace()\n                .map(|num| num.parse().unwrap())\n                .collect()\n        })\n        .collect();\n\n    if lines.is_empty() {\n        return;\n    }\n\n    let rows = lines.len();\n    let cols = lines[0].len();\n\n    for c in 0..cols {\n        for r in 0..rows {\n            print!(\"{}{}\", lines[r][c], if r < rows - 1 { \" \" } else { \"\\n\" });\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a URL and prints the domain name.",
+    "code": "```rust\nuse std::io::{self, Write};\nuse url::Url;\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a URL: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n\n    let input = input.trim();\n    match Url::parse(input) {\n        Ok(parsed_url) => {\n            if let Some(domain) = parsed_url.host_str() {\n                println!(\"Domain name: {}\", domain);\n            } else {\n                println!(\"No domain found.\");\n            }\n        }\n        Err(_) => {\n            println!(\"Invalid URL.\");\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a number and prints its multiplication table up to 12.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    println!(\"Enter a number:\");\n\n    let mut input = String::new();\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let number: i32 = input.trim().parse().expect(\"Please enter a valid number\");\n\n    for i in 1..=12 {\n        println!(\"{} * {} = {}\", number, i, number * i);\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dates and prints them in order of occurrence.",
+    "code": "```rust\nuse std::io::{self, BufRead};\nuse chrono::NaiveDate;\n\nfn main() {\n    let stdin = io::stdin();\n    let mut dates = Vec::new();\n\n    for line in stdin.lock().lines() {\n        if let Ok(date_str) = line {\n            if let Ok(date) = NaiveDate::parse_from_str(&date_str, \"%Y-%m-%d\") {\n                dates.push(date);\n            }\n        }\n    }\n\n    dates.sort();\n\n    for date in dates {\n        println!(\"{}\", date);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a text and prints it with each sentence capitalized.",
+    "code": "```rust\nuse std::io::{self, Read};\n\nfn capitalize_sentences(text: &str) -> String {\n    let mut result = String::new();\n    let mut capitalize_next = true;\n    for c in text.chars() {\n        if capitalize_next && c.is_alphabetic() {\n            result.extend(c.to_uppercase());\n            capitalize_next = false;\n        } else {\n            result.push(c);\n        }\n        if c == '.' || c == '!' || c == '?' {\n            capitalize_next = true;\n        }\n    }\n    result\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n    let output = capitalize_sentences(&input);\n    println!(\"{}\", output);\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of words and prints them in reverse alphabetical order.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let input = stdin.lock().lines().map(|line| line.unwrap()).collect::<Vec<String>>();\n\n    let mut words = input.into_iter().flat_map(|line| line.split_whitespace().map(String::from)).collect::<Vec<String>>();\n    words.sort_by(|a, b| b.cmp(a));\n\n    for word in words {\n        println!(\"{}\", word);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that asks for two times and prints the difference in minutes.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let mut input1 = String::new();\n    let mut input2 = String::new();\n\n    println!(\"Enter the first time (HH:MM): \");\n    io::stdin().read_line(&mut input1).expect(\"Failed to read line\");\n    \n    println!(\"Enter the second time (HH:MM): \");\n    io::stdin().read_line(&mut input2).expect(\"Failed to read line\");\n\n    let time1 = parse_time(&input1.trim());\n    let time2 = parse_time(&input2.trim());\n\n    let diff_minutes = calculate_difference(time1, time2);\n\n    println!(\"The difference is {} minutes.\", diff_minutes);\n}\n\nfn parse_time(time_str: &str) -> (i32, i32) {\n    let parts: Vec<&str> = time_str.split(':').collect();\n    let hours = parts[0].parse::<i32>().expect(\"Invalid input\");\n    let minutes = parts[1].parse::<i32>().expect(\"Invalid input\");\n    (hours, minutes)\n}\n\nfn calculate_difference(time1: (i32, i32), time2: (i32, i32)) -> i32 {\n    let total_minutes1 = time1.0 * 60 + time1.1;\n    let total_minutes2 = time2.0 * 60 + time2.1;\n    (total_minutes2 - total_minutes1).abs()\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a text and prints the number of vowels and consonants.",
+    "code": "```rust\nuse std::io::{self, Read};\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n\n    let (mut vowels, mut consonants) = (0, 0);\n\n    for c in input.chars() {\n        if c.is_alphabetic() {\n            match c.to_ascii_lowercase() {\n                'a' | 'e' | 'i' | 'o' | 'u' => vowels += 1,\n                _ => consonants += 1,\n            }\n        }\n    }\n\n    println!(\"Vowels: {}\", vowels);\n    println!(\"Consonants: {}\", consonants);\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a JSON object from input and prints its keys.",
+    "code": "```rust\nuse std::io::{self, Read};\nuse serde_json::Value;\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).unwrap();\n    let json: Value = serde_json::from_str(&input).unwrap();\n\n    if let Value::Object(map) = json {\n        for key in map.keys() {\n            println!(\"{}\", key);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a CSV file from input and prints each row as a dictionary.",
+    "code": "```rust\nuse std::env;\nuse std::fs::File;\nuse std::io::{self, BufRead};\nuse std::path::Path;\nuse std::collections::HashMap;\n\nfn main() -> io::Result<()> {\n    let args: Vec<String> = env::args().collect();\n    if args.len() != 2 {\n        eprintln!(\"Usage: {} <file_path>\", args[0]);\n        return Ok(());\n    }\n\n    let file_path = &args[1];\n    if let Ok(lines) = read_lines(file_path) {\n        let mut headers: Vec<String> = Vec::new();\n        for (index, line) in lines.enumerate() {\n            if let Ok(row) = line {\n                let values: Vec<&str> = row.split(',').collect();\n                if index == 0 {\n                    headers = values.iter().map(|s| s.to_string()).collect();\n                } else {\n                    let mut map = HashMap::new();\n                    for (i, value) in values.iter().enumerate() {\n                        if let Some(header) = headers.get(i) {\n                            map.insert(header.clone(), value.to_string());\n                        }\n                    }\n                    println!(\"{:?}\", map);\n                }\n            }\n        }\n    }\n    Ok(())\n}\n\nfn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>\nwhere\n    P: AsRef<Path>,\n{\n    let file = File::open(filename)?;\n    Ok(io::BufReader::new(file).lines())\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with the words in reverse order.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a sentence: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n    let reversed: Vec<&str> = input.trim().split_whitespace().rev().collect();\n    println!(\"{}\", reversed.join(\" \"));\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a list of numbers and prints their median.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let numbers: Vec<f64> = stdin\n        .lock()\n        .lines()\n        .filter_map(|line| line.ok())\n        .filter_map(|line| line.trim().parse::<f64>().ok())\n        .collect();\n\n    if numbers.is_empty() {\n        println!(\"No numbers provided.\");\n        return;\n    }\n\n    let median = find_median(&numbers);\n    println!(\"The median is: {}\", median);\n}\n\nfn find_median(numbers: &[f64]) -> f64 {\n    let mut sorted_numbers = numbers.to_vec();\n    sorted_numbers.sort_by(|a, b| a.partial_cmp(b).unwrap());\n\n    let len = sorted_numbers.len();\n    if len % 2 == 0 {\n        (sorted_numbers[len / 2 - 1] + sorted_numbers[len / 2]) / 2.0\n    } else {\n        sorted_numbers[len / 2]\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a sequence of characters and prints the first non-repeated character.",
+    "code": "```rust\nuse std::collections::HashMap;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let input = stdin.lock().lines().next().unwrap().unwrap();\n    let mut char_count = HashMap::new();\n\n    for c in input.chars() {\n        let counter = char_count.entry(c).or_insert(0);\n        *counter += 1;\n    }\n\n    for c in input.chars() {\n        if let Some(&count) = char_count.get(&c) {\n            if count == 1 {\n                println!(\"{}\", c);\n                break;\n            }\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of tuples and prints them sorted by the second element.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut lines: Vec<(String, i32)> = Vec::new();\n\n    for line in stdin.lock().lines() {\n        let line = line.unwrap();\n        let parts: Vec<&str> = line.split_whitespace().collect();\n        if parts.len() != 2 {\n            continue;\n        }\n        let text = parts[0].to_string();\n        if let Ok(number) = parts[1].parse::<i32>() {\n            lines.push((text, number));\n        }\n    }\n\n    lines.sort_by(|a, b| a.1.cmp(&b.1));\n\n    for (text, number) in lines {\n        println!(\"({}, {})\", text, number);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a list of cities and prints them grouped by their starting letter.",
+    "code": "```rust\nuse std::collections::HashMap;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut input = String::new();\n    let mut cities_by_letter: HashMap<char, Vec<String>> = HashMap::new();\n\n    println!(\"Enter city names, one per line. Press Ctrl+D (or Ctrl+Z on Windows) to finish.\");\n\n    for line in stdin.lock().lines() {\n        let city = line.unwrap();\n        if let Some(first_char) = city.chars().next() {\n            cities_by_letter.entry(first_char.to_ascii_uppercase())\n                .or_insert(Vec::new())\n                .push(city);\n        }\n    }\n\n    for (letter, cities) in cities_by_letter {\n        println!(\"{}:\", letter);\n        for city in cities {\n            println!(\"  {}\", city);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the longest word.",
+    "code": "```rust\nuse std::io::{self, Read};\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n\n    let longest_word = input\n        .split_whitespace()\n        .max_by_key(|word| word.len())\n        .unwrap_or(\"\");\n\n    println!(\"{}\", longest_word);\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a string and prints the number of unique characters.",
+    "code": "```rust\nuse std::collections::HashSet;\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a string: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n    \n    let unique_chars: HashSet<char> = input.trim().chars().collect();\n    println!(\"Number of unique characters: {}\", unique_chars.len());\n}\n```"
+  },
+  {
+    "task": "Write a script that reads two strings and prints the longest common substring.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn longest_common_substring(s1: &str, s2: &str) -> String {\n    let mut max_len = 0;\n    let mut end_idx = 0;\n    let mut dp = vec![vec![0; s2.len() + 1]; s1.len() + 1];\n\n    for i in 1..=s1.len() {\n        for j in 1..=s2.len() {\n            if s1.as_bytes()[i - 1] == s2.as_bytes()[j - 1] {\n                dp[i][j] = dp[i - 1][j - 1] + 1;\n                if dp[i][j] > max_len {\n                    max_len = dp[i][j];\n                    end_idx = i;\n                }\n            }\n        }\n    }\n\n    s1[end_idx - max_len..end_idx].to_string()\n}\n\nfn main() {\n    let mut input1 = String::new();\n    let mut input2 = String::new();\n\n    print!(\"Enter first string: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input1).unwrap();\n    print!(\"Enter second string: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input2).unwrap();\n\n    let input1 = input1.trim();\n    let input2 = input2.trim();\n\n    let result = longest_common_substring(input1, input2);\n    println!(\"Longest common substring: {}\", result);\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a chessboard position and prints all possible moves for a knight.",
+    "code": "```rust\nuse std::io;\n\nfn is_valid_position(x: i32, y: i32) -> bool {\n    x >= 0 && x < 8 && y >= 0 && y < 8\n}\n\nfn knight_moves(x: i32, y: i32) -> Vec<(i32, i32)> {\n    let moves = [\n        (2, 1), (1, 2), (-1, 2), (-2, 1),\n        (-2, -1), (-1, -2), (1, -2), (2, -1),\n    ];\n\n    moves.iter()\n        .filter_map(|&(dx, dy)| {\n            let nx = x + dx;\n            let ny = y + dy;\n            if is_valid_position(nx, ny) {\n                Some((nx, ny))\n            } else {\n                None\n            }\n        })\n        .collect()\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_line(&mut input).expect(\"Failed to read input\");\n\n    let input = input.trim();\n    if input.len() != 2 {\n        println!(\"Invalid input\");\n        return;\n    }\n\n    let file = input.chars().nth(0).unwrap();\n    let rank = input.chars().nth(1).unwrap();\n\n    let x = file as i32 - 'a' as i32;\n    let y = rank as i32 - '1' as i32;\n\n    if !is_valid_position(x, y) {\n        println!(\"Invalid position\");\n        return;\n    }\n\n    let moves = knight_moves(x, y);\n    for (nx, ny) in moves {\n        let file = (nx as u8 + b'a') as char;\n        let rank = (ny as u8 + b'1') as char;\n        println!(\"{}{}\", file, rank);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of numbers and prints the mode.",
+    "code": "```rust\nuse std::collections::HashMap;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let numbers: Vec<i32> = stdin.lock().lines()\n        .filter_map(|line| line.ok()?.trim().parse().ok())\n        .collect();\n\n    let mut occurrences = HashMap::new();\n    for &number in &numbers {\n        *occurrences.entry(number).or_insert(0) += 1;\n    }\n\n    let mode = occurrences.into_iter()\n        .max_by_key(|&(_, count)| count)\n        .map(|(num, _)| num);\n\n    if let Some(mode) = mode {\n        println!(\"{}\", mode);\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of file paths and prints the largest file.",
+    "code": "```rust\nuse std::env;\nuse std::fs::metadata;\nuse std::io;\nuse std::path::Path;\n\nfn main() -> io::Result<()> {\n    let args: Vec<String> = env::args().skip(1).collect();\n    let mut largest_file: Option<String> = None;\n    let mut largest_size: u64 = 0;\n\n    for file_path in args {\n        if let Ok(meta) = metadata(&file_path) {\n            if meta.is_file() {\n                let file_size = meta.len();\n                if file_size > largest_size {\n                    largest_size = file_size;\n                    largest_file = Some(file_path);\n                }\n            }\n        }\n    }\n\n    if let Some(file) = largest_file {\n        println!(\"Largest file: {}\", file);\n    } else {\n        println!(\"No valid files provided.\");\n    }\n\n    Ok(())\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of prices and prints the total cost with tax.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    const TAX_RATE: f32 = 0.07;\n\n    let stdin = io::stdin();\n    let mut total_cost = 0.0;\n\n    for line in stdin.lock().lines() {\n        if let Ok(price_str) = line {\n            if let Ok(price) = price_str.trim().parse::<f32>() {\n                total_cost += price;\n            }\n        }\n    }\n\n    let total_with_tax = total_cost * (1.0 + TAX_RATE);\n    println!(\"Total cost with tax: {:.2}\", total_with_tax);\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of temperatures and prints them in Fahrenheit.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let handle = stdin.lock();\n\n    for line in handle.lines() {\n        if let Ok(temp_str) = line {\n            if let Ok(celsius) = temp_str.trim().parse::<f64>() {\n                let fahrenheit = celsius * 9.0 / 5.0 + 32.0;\n                println!(\"{:.2}\", fahrenheit);\n            }\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of book titles and prints them sorted by length.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut titles: Vec<String> = stdin.lock().lines()\n        .map(|line| line.expect(\"Failed to read line\"))\n        .collect();\n\n    titles.sort_by_key(|s| s.len());\n\n    for title in titles {\n        println!(\"{}\", title);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a directory path and prints all file names.",
+    "code": "```rust\nuse std::env;\nuse std::fs;\n\nfn main() {\n    let args: Vec<String> = env::args().collect();\n    if args.len() != 2 {\n        eprintln!(\"Usage: {} <directory_path>\", args[0]);\n        std::process::exit(1);\n    }\n\n    let dir_path = &args[1];\n    match fs::read_dir(dir_path) {\n        Ok(entries) => {\n            for entry in entries {\n                if let Ok(entry) = entry {\n                    if let Ok(file_name) = entry.file_name().into_string() {\n                        println!(\"{}\", file_name);\n                    }\n                }\n            }\n        }\n        Err(e) => {\n            eprintln!(\"Error reading directory: {}\", e);\n            std::process::exit(1);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a list of URLs and prints those with a secure connection.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let urls = stdin.lock().lines();\n\n    for url in urls {\n        if let Ok(url) = url {\n            if url.starts_with(\"https://\") {\n                println!(\"{}\", url);\n            }\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a sequence of numbers and prints if it is strictly increasing.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let lines = stdin.lock().lines();\n\n    for line in lines {\n        if let Ok(numbers_str) = line {\n            let numbers: Vec<i32> = numbers_str\n                .split_whitespace()\n                .filter_map(|s| s.parse().ok())\n                .collect();\n\n            if is_strictly_increasing(&numbers) {\n                println!(\"The sequence is strictly increasing.\");\n            } else {\n                println!(\"The sequence is not strictly increasing.\");\n            }\n        }\n    }\n}\n\nfn is_strictly_increasing(numbers: &[i32]) -> bool {\n    for i in 0..numbers.len() - 1 {\n        if numbers[i] >= numbers[i + 1] {\n            return false;\n        }\n    }\n    true\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of products and prints them grouped by category.",
+    "code": "```rust\nuse std::collections::HashMap;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut products_by_category: HashMap<String, Vec<String>> = HashMap::new();\n\n    println!(\"Enter products in the format 'category:product'. Type 'end' to finish:\");\n\n    for line in stdin.lock().lines() {\n        let line = line.unwrap();\n        if line.trim() == \"end\" {\n            break;\n        }\n\n        if let Some((category, product)) = line.split_once(':') {\n            products_by_category\n                .entry(category.trim().to_string())\n                .or_insert_with(Vec::new)\n                .push(product.trim().to_string());\n        }\n    }\n\n    println!(\"Products grouped by category:\");\n    for (category, products) in products_by_category {\n        println!(\"{}:\", category);\n        for product in products {\n            println!(\"  - {}\", product);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a sentence and prints it with alternating word capitalization.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a sentence: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n\n    let result: Vec<String> = input\n        .split_whitespace()\n        .enumerate()\n        .map(|(i, word)| {\n            if i % 2 == 0 {\n                word.to_uppercase()\n            } else {\n                word.to_lowercase()\n            }\n        })\n        .collect();\n\n    println!(\"{}\", result.join(\" \"));\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a list of grades and prints the highest and lowest grade.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut grades = Vec::new();\n\n    for line in stdin.lock().lines() {\n        match line {\n            Ok(value) => {\n                if let Ok(grade) = value.trim().parse::<i32>() {\n                    grades.push(grade);\n                }\n            }\n            Err(_) => break,\n        }\n    }\n\n    if let Some(max_grade) = grades.iter().max() {\n        if let Some(min_grade) = grades.iter().min() {\n            println!(\"Highest grade: {}\", max_grade);\n            println!(\"Lowest grade: {}\", min_grade);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a text and prints the number of sentences.",
+    "code": "```rust\nuse std::io::{self, Read};\n\nfn count_sentences(text: &str) -> usize {\n    text.matches(|c| c == '.' || c == '!' || c == '?').count()\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n\n    let sentence_count = count_sentences(&input);\n    println!(\"{}\", sentence_count);\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of integers and prints the sum of all odd numbers.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let sum: i32 = stdin\n        .lock()\n        .lines()\n        .flat_map(|line| line.unwrap().split_whitespace().map(str::parse::<i32>))\n        .filter_map(Result::ok)\n        .filter(|&x| x % 2 != 0)\n        .sum();\n    println!(\"{}\", sum);\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the shortest sentence.",
+    "code": "```rust\nuse std::io::{self, Read};\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n\n    let sentences: Vec<&str> = input.split_terminator(|c| c == '.' || c == '!' || c == '?')\n                                    .map(str::trim)\n                                    .filter(|s| !s.is_empty())\n                                    .collect();\n\n    if let Some(shortest) = sentences.iter().min_by_key(|s| s.len()) {\n        println!(\"{}\", shortest);\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a list of dictionaries and prints them sorted by a specific key.",
+    "code": "```rust\nuse std::collections::HashMap;\nuse std::io::{self, Read};\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n\n    let list_of_dicts: Vec<HashMap<String, String>> = serde_json::from_str(&input).expect(\"Invalid JSON input\");\n\n    let key_to_sort_by = \"your_key_here\"; // Replace with the actual key\n\n    let mut sorted_list = list_of_dicts.clone();\n    sorted_list.sort_by(|a, b| {\n        a.get(key_to_sort_by)\n            .unwrap_or(&String::new())\n            .cmp(b.get(key_to_sort_by).unwrap_or(&String::new()))\n    });\n\n    for dict in sorted_list {\n        println!(\"{:?}\", dict);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a sequence of strings and prints the common prefix.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn common_prefix(strings: &[String]) -> String {\n    if strings.is_empty() {\n        return String::new();\n    }\n\n    let mut prefix = strings[0].clone();\n    for s in strings.iter().skip(1) {\n        while !s.starts_with(&prefix) {\n            if prefix.is_empty() {\n                return String::new();\n            }\n            prefix.pop();\n        }\n    }\n    prefix\n}\n\nfn main() {\n    let stdin = io::stdin();\n    let lines: Vec<String> = stdin.lock().lines().filter_map(Result::ok).collect();\n\n    let prefix = common_prefix(&lines);\n    println!(\"{}\", prefix);\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a number and prints all of its divisors.",
+    "code": "```rust\nuse std::io;\n\nfn main() {\n    let mut input = String::new();\n\n    println!(\"Enter a number:\");\n    io::stdin()\n        .read_line(&mut input)\n        .expect(\"Failed to read line\");\n\n    let number: u32 = input.trim().parse().expect(\"Please enter a valid number\");\n\n    println!(\"Divisors of {}:\", number);\n    for i in 1..=number {\n        if number % i == 0 {\n            println!(\"{}\", i);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints each word with its length.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let input = stdin.lock().lines();\n\n    for line in input {\n        if let Ok(text) = line {\n            for word in text.split_whitespace() {\n                println!(\"{}: {}\", word, word.len());\n            }\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of colors and prints them in a rainbow order.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut colors: Vec<String> = stdin\n        .lock()\n        .lines()\n        .filter_map(Result::ok)\n        .collect();\n\n    let rainbow_order = vec![\"red\", \"orange\", \"yellow\", \"green\", \"blue\", \"indigo\", \"violet\"];\n\n    colors.sort_by_key(|color| {\n        rainbow_order\n            .iter()\n            .position(|&r_color| r_color == color)\n            .unwrap_or(usize::MAX)\n    });\n\n    for color in colors {\n        println!(\"{}\", color);\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a list of names and prints them with their initials.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let handle = stdin.lock();\n\n    for line in handle.lines() {\n        if let Ok(name) = line {\n            let initials: String = name\n                .split_whitespace()\n                .filter_map(|word| word.chars().next())\n                .collect();\n            println!(\"{}: {}\", name, initials);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a series of coordinates and prints the center point.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut x_sum = 0.0;\n    let mut y_sum = 0.0;\n    let mut count = 0;\n\n    for line in stdin.lock().lines() {\n        let line = line.expect(\"Failed to read line\");\n        let coords: Vec<f64> = line.trim().split_whitespace()\n            .filter_map(|s| s.parse().ok())\n            .collect();\n\n        if coords.len() == 2 {\n            x_sum += coords[0];\n            y_sum += coords[1];\n            count += 1;\n        }\n    }\n\n    if count > 0 {\n        let x_center = x_sum / count as f64;\n        let y_center = y_sum / count as f64;\n        println!(\"Center point: ({}, {})\", x_center, y_center);\n    } else {\n        println!(\"No coordinates provided.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each vowel replaced by its uppercase form.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a sentence: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n\n    let result: String = input.chars().map(|c| {\n        match c {\n            'a' => 'A',\n            'e' => 'E',\n            'i' => 'I',\n            'o' => 'O',\n            'u' => 'U',\n            'A' | 'E' | 'I' | 'O' | 'U' => c,\n            _ => c,\n        }\n    }).collect();\n\n    println!(\"{}\", result);\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a mathematical expression and evaluates its result.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a mathematical expression: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n\n    match meval::eval_str(&input.trim()) {\n        Ok(result) => println!(\"Result: {}\", result),\n        Err(e) => println!(\"Error evaluating expression: {}\", e),\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a text and prints the first three words.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let handle = stdin.lock();\n    let mut lines = handle.lines();\n    \n    if let Some(Ok(line)) = lines.next() {\n        let words: Vec<&str> = line.split_whitespace().collect();\n        for word in words.iter().take(3) {\n            println!(\"{}\", word);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a list of numbers and prints them without duplicates.",
+    "code": "```rust\nuse std::collections::HashSet;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut unique_numbers = HashSet::new();\n\n    for line in stdin.lock().lines() {\n        let line = line.expect(\"Failed to read line\");\n        let number: i32 = line.trim().parse().expect(\"Please enter valid numbers\");\n        unique_numbers.insert(number);\n    }\n\n    for number in unique_numbers {\n        println!(\"{}\", number);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a string and prints it with spaces between each character.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a string: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).unwrap();\n    let input = input.trim();\n    let result: String = input.chars().map(|c| format!(\"{} \", c)).collect();\n    println!(\"{}\", result.trim_end());\n}\n```"
+  },
+  {
+    "task": "Build a tool that reads a list of events with dates and prints them by chronological order.",
+    "code": "```rust\nuse std::io::{self, BufRead};\nuse std::str::FromStr;\nuse chrono::NaiveDate;\nuse std::collections::BTreeMap;\n\nfn main() {\n    let stdin = io::stdin();\n    let handle = stdin.lock();\n\n    let mut events = BTreeMap::new();\n\n    for line in handle.lines() {\n        if let Ok(event_line) = line {\n            let parts: Vec<&str> = event_line.splitn(2, ',').collect();\n            if parts.len() == 2 {\n                if let Ok(date) = NaiveDate::from_str(parts[0].trim()) {\n                    events.entry(date).or_insert_with(Vec::new).push(parts[1].trim().to_string());\n                }\n            }\n        }\n    }\n\n    for (date, event_list) in events {\n        for event in event_list {\n            println!(\"{}, {}\", date, event);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a program that reads a list of fractions and prints their sum as a reduced fraction.",
+    "code": "```rust\nuse std::io::{self, BufRead};\nuse num::rational::Ratio;\nuse num::integer::Integer;\n\nfn main() {\n    let stdin = io::stdin();\n    let input = stdin.lock().lines().next().unwrap().unwrap();\n\n    let sum: Ratio<i64> = input.split_whitespace()\n        .map(|fraction| {\n            let mut parts = fraction.split('/');\n            let numerator: i64 = parts.next().unwrap().parse().unwrap();\n            let denominator: i64 = parts.next().unwrap().parse().unwrap();\n            Ratio::new(numerator, denominator)\n        })\n        .sum();\n\n    let gcd = sum.numer().gcd(sum.denom());\n    let reduced_numerator = sum.numer() / gcd;\n    let reduced_denominator = sum.denom() / gcd;\n    println!(\"{}/{}\", reduced_numerator, reduced_denominator);\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints it with each consonant doubled.",
+    "code": "```rust\nuse std::io::{self, Read};\n\nfn double_consonants(input: &str) -> String {\n    input.chars().map(|c| {\n        if c.is_alphabetic() && !\"aeiouAEIOU\".contains(c) {\n            format!(\"{}{}\", c, c)\n        } else {\n            c.to_string()\n        }\n    }).collect()\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n    let result = double_consonants(&input);\n    println!(\"{}\", result);\n}\n```"
+  },
+  {
+    "task": "Develop a program that reads a number and prints its representation in Roman numerals.",
+    "code": "```rust\nuse std::io;\n\nfn int_to_roman(mut num: i32) -> String {\n    let val = [\n        1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1\n    ];\n    let syms = [\n        \"M\", \"CM\", \"D\", \"CD\", \"C\", \"XC\", \"L\", \"XL\", \"X\", \"IX\", \"V\", \"IV\", \"I\"\n    ];\n    let mut roman = String::new();\n    for (i, &v) in val.iter().enumerate() {\n        while num >= v {\n            num -= v;\n            roman.push_str(syms[i]);\n        }\n    }\n    roman\n}\n\nfn main() {\n    let mut input = String::new();\n    println!(\"Enter a number: \");\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let num: i32 = input.trim().parse().expect(\"Please enter a valid integer\");\n    let roman = int_to_roman(num);\n    println!(\"Roman numeral: {}\", roman);\n}\n```"
+  },
+  {
+    "task": "Create a tool that reads a list of words and prints them with each letter in reverse order.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let handle = stdin.lock();\n\n    for line in handle.lines() {\n        if let Ok(word) = line {\n            let reversed: String = word.chars().rev().collect();\n            println!(\"{}\", reversed);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a set of points and prints the one closest to the origin.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\n#[derive(Debug)]\nstruct Point {\n    x: f64,\n    y: f64,\n}\n\nimpl Point {\n    fn distance_from_origin(&self) -> f64 {\n        (self.x.powi(2) + self.y.powi(2)).sqrt()\n    }\n}\n\nfn main() {\n    let stdin = io::stdin();\n    let mut closest_point: Option<Point> = None;\n\n    for line in stdin.lock().lines() {\n        if let Ok(line) = line {\n            let coords: Vec<&str> = line.split_whitespace().collect();\n            if coords.len() == 2 {\n                if let (Ok(x), Ok(y)) = (coords[0].parse::<f64>(), coords[1].parse::<f64>()) {\n                    let point = Point { x, y };\n                    if closest_point.is_none() || point.distance_from_origin() < closest_point.as_ref().unwrap().distance_from_origin() {\n                        closest_point = Some(point);\n                    }\n                }\n            }\n        }\n    }\n\n    if let Some(point) = closest_point {\n        println!(\"Closest point: ({}, {})\", point.x, point.y);\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a text and prints the frequency of each word.",
+    "code": "```rust\nuse std::collections::HashMap;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let handle = stdin.lock();\n    \n    let mut word_count = HashMap::new();\n\n    for line in handle.lines() {\n        let line = line.unwrap();\n        for word in line.split_whitespace() {\n            *word_count.entry(word.to_string()).or_insert(0) += 1;\n        }\n    }\n\n    for (word, count) in word_count.iter() {\n        println!(\"{}: {}\", word, count);\n    }\n}\n```"
+  },
+  {
+    "task": "Build a program that reads a list of integers and prints the second smallest.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut input = String::new();\n    stdin.lock().read_line(&mut input).unwrap();\n    let mut numbers: Vec<i32> = input\n        .trim()\n        .split_whitespace()\n        .map(|s| s.parse().unwrap())\n        .collect();\n    \n    numbers.sort_unstable();\n    numbers.dedup();\n    \n    if numbers.len() > 1 {\n        println!(\"{}\", numbers[1]);\n    } else {\n        println!(\"No second smallest number\");\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a tool that reads a string and prints all its substrings.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n\n    print!(\"Enter a string: \");\n    io::stdout().flush().unwrap(); // Ensure the prompt is printed\n\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    \n    let input = input.trim(); // Remove any newline or extra spaces\n\n    for start in 0..input.len() {\n        for end in start+1..=input.len() {\n            println!(\"{}\", &input[start..end]);\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Write a program that reads a number and generates a random number up to that number.",
+    "code": "```rust\nuse std::io;\nuse rand::Rng;\n\nfn main() {\n    let mut input = String::new();\n    println!(\"Enter a number:\");\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let max: u32 = input.trim().parse().expect(\"Please enter a valid number\");\n    \n    let random_number = rand::thread_rng().gen_range(0..max);\n    println!(\"Random number: {}\", random_number);\n}\n```"
+  },
+  {
+    "task": "Create a script that reads a sentence and prints it with each word reversed.",
+    "code": "```rust\nuse std::io::{self, Write};\n\nfn main() {\n    let mut input = String::new();\n    print!(\"Enter a sentence: \");\n    io::stdout().flush().unwrap();\n    io::stdin().read_line(&mut input).expect(\"Failed to read line\");\n    let reversed_sentence: String = input\n        .trim()\n        .split_whitespace()\n        .map(|word| word.chars().rev().collect::<String>())\n        .collect::<Vec<String>>()\n        .join(\" \");\n    println!(\"{}\", reversed_sentence);\n}\n```"
+  },
+  {
+    "task": "Develop a tool that reads a text and prints it with each sentence on a new line.",
+    "code": "```rust\nuse std::io::{self, Read};\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n\n    let sentences: Vec<&str> = input.split_terminator(|c| c == '.' || c == '?' || c == '!').collect();\n    \n    for sentence in sentences {\n        if !sentence.trim().is_empty() {\n            println!(\"{}\", sentence.trim());\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Design a program that reads a list of numbers and prints the product of all negative numbers.",
+    "code": "```rust\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut product = 1;\n    let mut has_negative = false;\n    \n    for line in stdin.lock().lines() {\n        let line = line.unwrap();\n        let numbers = line.split_whitespace();\n        \n        for number in numbers {\n            if let Ok(num) = number.parse::<i32>() {\n                if num < 0 {\n                    product *= num;\n                    has_negative = true;\n                }\n            }\n        }\n    }\n\n    if has_negative {\n        println!(\"{}\", product);\n    } else {\n        println!(\"No negative numbers found.\");\n    }\n}\n```"
+  },
+  {
+    "task": "Write a script that reads a dictionary and prints the keys and values in sorted order.",
+    "code": "```rust\nuse std::collections::BTreeMap;\nuse std::io::{self, BufRead};\n\nfn main() {\n    let stdin = io::stdin();\n    let mut map = BTreeMap::new();\n\n    for line in stdin.lock().lines() {\n        let line = line.unwrap();\n        if line.trim().is_empty() {\n            continue;\n        }\n        let parts: Vec<&str> = line.split(':').collect();\n        if parts.len() == 2 {\n            let key = parts[0].trim();\n            let value = parts[1].trim();\n            map.insert(key.to_string(), value.to_string());\n        }\n    }\n\n    for (key, value) in &map {\n        println!(\"{}: {}\", key, value);\n    }\n}\n```"
+  },
+  {
+    "task": "Create a program that reads a text and prints the number of unique words.",
+    "code": "```rust\nuse std::collections::HashSet;\nuse std::io::{self, Read};\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).expect(\"Failed to read input\");\n    \n    let words: HashSet<&str> = input.split_whitespace().collect();\n    println!(\"{}\", words.len());\n}\n```"
+  }
+]

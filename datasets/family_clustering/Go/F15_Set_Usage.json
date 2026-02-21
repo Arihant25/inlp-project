@@ -1,0 +1,370 @@
+[
+  {
+    "task": "Create a set to store unique usernames and demonstrate adding new ones.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Initialize a map to simulate a set in Go\n\tusernames := make(map[string]struct{})\n\n\t// Function to add a username to the set\n\taddUsername := func(username string) {\n\t\tif _, exists := usernames[username]; !exists {\n\t\t\tusernames[username] = struct{}{}\n\t\t\tfmt.Printf(\"Added username: %s\\n\", username)\n\t\t} else {\n\t\t\tfmt.Printf(\"Username already exists: %s\\n\", username)\n\t\t}\n\t}\n\n\t// Add new usernames\n\taddUsername(\"alice\")\n\taddUsername(\"bob\")\n\taddUsername(\"charlie\")\n\taddUsername(\"alice\") // Attempt to add a duplicate\n\n\t// Display all unique usernames\n\tfmt.Println(\"Unique usernames:\")\n\tfor username := range usernames {\n\t\tfmt.Println(username)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function that returns the union of two sets of integers.",
+    "code": "```go\npackage main\n\nfunc union(set1, set2 []int) []int {\n\tsetMap := make(map[int]bool)\n\tfor _, num := range set1 {\n\t\tsetMap[num] = true\n\t}\n\tfor _, num := range set2 {\n\t\tsetMap[num] = true\n\t}\n\tunionSet := make([]int, 0, len(setMap))\n\tfor num := range setMap {\n\t\tunionSet = append(unionSet, num)\n\t}\n\treturn unionSet\n}\n\nfunc main() {\n\t// Example usage\n\tset1 := []int{1, 2, 3, 4}\n\tset2 := []int{3, 4, 5, 6}\n\tresult := union(set1, set2)\n}\n```"
+  },
+  {
+    "task": "Given two sets of strings, find their intersection.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tset1 := map[string]struct{}{\n\t\t\"apple\":  {},\n\t\t\"banana\": {},\n\t\t\"cherry\": {},\n\t}\n\tset2 := map[string]struct{}{\n\t\t\"banana\": {},\n\t\t\"date\":   {},\n\t\t\"fig\":    {},\n\t}\n\n\tintersection := make(map[string]struct{})\n\n\tfor element := range set1 {\n\t\tif _, exists := set2[element]; exists {\n\t\t\tintersection[element] = struct{}{}\n\t\t}\n\t}\n\n\tfor element := range intersection {\n\t\tfmt.Println(element)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to track visited web pages and check if a page has been visited.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype VisitedPages struct {\n\tpages map[string]struct{}\n}\n\nfunc NewVisitedPages() *VisitedPages {\n\treturn &VisitedPages{\n\t\tpages: make(map[string]struct{}),\n\t}\n}\n\nfunc (vp *VisitedPages) AddPage(url string) {\n\tvp.pages[url] = struct{}{}\n}\n\nfunc (vp *VisitedPages) HasVisited(url string) bool {\n\t_, visited := vp.pages[url]\n\treturn visited\n}\n\nfunc main() {\n\tvisited := NewVisitedPages()\n\tvisited.AddPage(\"https://example.com\")\n\tfmt.Println(visited.HasVisited(\"https://example.com\")) // true\n\tfmt.Println(visited.HasVisited(\"https://notvisited.com\")) // false\n}\n```"
+  },
+  {
+    "task": "Create a set from a list of numbers and remove duplicates.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tnumbers := []int{1, 2, 3, 2, 4, 3, 5, 1}\n\tset := make(map[int]struct{})\n\n\tfor _, num := range numbers {\n\t\tset[num] = struct{}{}\n\t}\n\n\tuniqueNumbers := make([]int, 0, len(set))\n\tfor num := range set {\n\t\tuniqueNumbers = append(uniqueNumbers, num)\n\t}\n\n\tfmt.Println(uniqueNumbers)\n}\n```"
+  },
+  {
+    "task": "Check if a set is a subset of another set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc isSubset(set1, set2 map[int]struct{}) bool {\n\tfor key := range set1 {\n\t\tif _, exists := set2[key]; !exists {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n\nfunc main() {\n\tsetA := map[int]struct{}{1: {}, 2: {}, 3: {}}\n\tsetB := map[int]struct{}{1: {}, 2: {}, 3: {}, 4: {}, 5: {}}\n\n\tfmt.Println(isSubset(setA, setB)) // true\n\tfmt.Println(isSubset(setB, setA)) // false\n}\n```"
+  },
+  {
+    "task": "Demonstrate adding and removing elements from a set of book titles.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Set map[string]struct{}\n\nfunc (s Set) Add(element string) {\n\ts[element] = struct{}{}\n}\n\nfunc (s Set) Remove(element string) {\n\tdelete(s, element)\n}\n\nfunc (s Set) Contains(element string) bool {\n\t_, exists := s[element]\n\treturn exists\n}\n\nfunc main() {\n\tbooks := Set{}\n\n\t// Add elements to the set\n\tbooks.Add(\"The Catcher in the Rye\")\n\tbooks.Add(\"To Kill a Mockingbird\")\n\tbooks.Add(\"1984\")\n\n\tfmt.Println(\"Books in set after additions:\")\n\tfor book := range books {\n\t\tfmt.Println(book)\n\t}\n\n\t// Remove an element from the set\n\tbooks.Remove(\"1984\")\n\n\tfmt.Println(\"\\nBooks in set after removal:\")\n\tfor book := range books {\n\t\tfmt.Println(book)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set and show how to clear all its elements.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tset := make(map[int]struct{})\n\t\n\t// Add elements to the set\n\tset[1] = struct{}{}\n\tset[2] = struct{}{}\n\tset[3] = struct{}{}\n\t\n\tfmt.Println(\"Set before clearing:\", set)\n\t\n\t// Clear the set by reinitializing it\n\tset = make(map[int]struct{})\n\t\n\tfmt.Println(\"Set after clearing:\", set)\n}\n```"
+  },
+  {
+    "task": "Write a program to find the difference between two sets of employee IDs.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc difference(set1, set2 map[int]struct{}) map[int]struct{} {\n\tdiff := make(map[int]struct{})\n\tfor id := range set1 {\n\t\tif _, found := set2[id]; !found {\n\t\t\tdiff[id] = struct{}{}\n\t\t}\n\t}\n\treturn diff\n}\n\nfunc main() {\n\tset1 := map[int]struct{}{\n\t\t101: {},\n\t\t102: {},\n\t\t103: {},\n\t}\n\n\tset2 := map[int]struct{}{\n\t\t102: {},\n\t\t104: {},\n\t}\n\n\tdiff := difference(set1, set2)\n\n\tfmt.Println(\"Difference between set1 and set2:\")\n\tfor id := range diff {\n\t\tfmt.Println(id)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique email addresses and check membership.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\t// Define a map to act as a set for storing unique email addresses\n\temailSet := make(map[string]struct{})\n\n\t// Add some email addresses to the set\n\temailSet[\"example1@example.com\"] = struct{}{}\n\temailSet[\"example2@example.com\"] = struct{}{}\n\temailSet[\"example3@example.com\"] = struct{}{}\n\n\t// Function to check if an email is in the set\n\tcheckEmail := func(email string) bool {\n\t\t_, exists := emailSet[email]\n\t\treturn exists\n\t}\n\n\t// Check membership of an email address\n\tfmt.Println(checkEmail(\"example1@example.com\")) // true\n\tfmt.Println(checkEmail(\"example4@example.com\")) // false\n}\n```"
+  },
+  {
+    "task": "Use a set to determine if two lists have any common elements.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc hasCommonElement(list1, list2 []int) bool {\n\tset := make(map[int]struct{})\n\tfor _, elem := range list1 {\n\t\tset[elem] = struct{}{}\n\t}\n\tfor _, elem := range list2 {\n\t\tif _, found := set[elem]; found {\n\t\t\treturn true\n\t\t}\n\t}\n\treturn false\n}\n\nfunc main() {\n\tlist1 := []int{1, 2, 3, 4, 5}\n\tlist2 := []int{5, 6, 7, 8, 9}\n\tfmt.Println(hasCommonElement(list1, list2)) // Output: true\n\n\tlist3 := []int{10, 11, 12}\n\tfmt.Println(hasCommonElement(list1, list3)) // Output: false\n}\n```"
+  },
+  {
+    "task": "Create a set to represent a group of students and update it with new entries.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a set using a map where the keys are student names\n\tstudents := make(map[string]struct{})\n\n\t// Add students to the set\n\tstudents[\"Alice\"] = struct{}{}\n\tstudents[\"Bob\"] = struct{}{}\n\n\t// Update the set with new entries\n\tstudents[\"Charlie\"] = struct{}{}\n\tstudents[\"Diana\"] = struct{}{}\n\n\t// Display the students\n\tfor student := range students {\n\t\tfmt.Println(student)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function to find symmetric difference between two sets of colors.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc symmetricDifference(set1, set2 map[string]struct{}) map[string]struct{} {\n\tresult := make(map[string]struct{})\n\n\tfor color := range set1 {\n\t\tif _, found := set2[color]; !found {\n\t\t\tresult[color] = struct{}{}\n\t\t}\n\t}\n\n\tfor color := range set2 {\n\t\tif _, found := set1[color]; !found {\n\t\t\tresult[color] = struct{}{}\n\t\t}\n\t}\n\n\treturn result\n}\n\nfunc main() {\n\tset1 := map[string]struct{}{\n\t\t\"red\":    {},\n\t\t\"green\":  {},\n\t\t\"blue\":   {},\n\t\t\"yellow\": {},\n\t}\n\n\tset2 := map[string]struct{}{\n\t\t\"green\":  {},\n\t\t\"blue\":   {},\n\t\t\"orange\": {},\n\t\t\"purple\": {},\n\t}\n\n\tsymDiff := symmetricDifference(set1, set2)\n\tfor color := range symDiff {\n\t\tfmt.Println(color)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique product codes and demonstrate iteration over it.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Initialize a map to act as a set\n\tproductCodes := make(map[string]struct{})\n\n\t// Add unique product codes to the set\n\tproductCodes[\"P001\"] = struct{}{}\n\tproductCodes[\"P002\"] = struct{}{}\n\tproductCodes[\"P003\"] = struct{}{}\n\n\t// Iterate over the set and print the product codes\n\tfor code := range productCodes {\n\t\tfmt.Println(code)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `discard` method.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    // Create a set using a map with empty struct as value\n    set := make(map[string]struct{})\n\n    // Add elements to the set\n    set[\"apple\"] = struct{}{}\n    set[\"banana\"] = struct{}{}\n    set[\"cherry\"] = struct{}{}\n\n    // Function to discard an element from the set\n    discard := func(s map[string]struct{}, item string) {\n        delete(s, item)\n    }\n\n    // Discard an element\n    discard(set, \"banana\")\n\n    // Display the set\n    for item := range set {\n        fmt.Println(item)\n    }\n}\n```"
+  },
+  {
+    "task": "Given a list of numbers, create a set and check if a specific number is present.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tnumbers := []int{1, 2, 3, 4, 5}\n\tnumberToCheck := 3\n\n\tnumberSet := make(map[int]struct{})\n\tfor _, num := range numbers {\n\t\tnumberSet[num] = struct{}{}\n\t}\n\n\tif _, exists := numberSet[numberToCheck]; exists {\n\t\tfmt.Println(\"Number is present in the set.\")\n\t} else {\n\t\tfmt.Println(\"Number is not present in the set.\")\n\t}\n}\n```"
+  },
+  {
+    "task": "Use a set to find all unique words in a sentence.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc uniqueWords(sentence string) map[string]struct{} {\n\twords := strings.Fields(sentence)\n\twordSet := make(map[string]struct{})\n\n\tfor _, word := range words {\n\t\twordSet[word] = struct{}{}\n\t}\n\n\treturn wordSet\n}\n\nfunc main() {\n\tsentence := \"this is a test this is only a test\"\n\tunique := uniqueWords(sentence)\n\n\tfor word := range unique {\n\t\tfmt.Println(word)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set from a sequence of characters and demonstrate set operations.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tseq := []rune{'a', 'b', 'c', 'a', 'd', 'b'}\n\tset := make(map[rune]struct{})\n\n\t// Create a set from the sequence\n\tfor _, char := range seq {\n\t\tset[char] = struct{}{}\n\t}\n\n\t// Demonstrate set operations\n\t// Check if an element is in the set\n\telement := 'a'\n\tif _, exists := set[element]; exists {\n\t\tfmt.Printf(\"%c is in the set\\n\", element)\n\t} else {\n\t\tfmt.Printf(\"%c is not in the set\\n\", element)\n\t}\n\n\t// Add an element to the set\n\tnewElement := 'e'\n\tset[newElement] = struct{}{}\n\tfmt.Printf(\"%c added to the set\\n\", newElement)\n\n\t// Remove an element from the set\n\tdelete(set, 'b')\n\tfmt.Println(\"b removed from the set\")\n\n\t// Print the elements in the set\n\tfmt.Println(\"Elements in the set:\")\n\tfor char := range set {\n\t\tfmt.Printf(\"%c \", char)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function to merge two sets and return the result.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc mergeSets(set1, set2 map[interface{}]struct{}) map[interface{}]struct{} {\n\tmergedSet := make(map[interface{}]struct{})\n\n\tfor key := range set1 {\n\t\tmergedSet[key] = struct{}{}\n\t}\n\n\tfor key := range set2 {\n\t\tmergedSet[key] = struct{}{}\n\t}\n\n\treturn mergedSet\n}\n\nfunc main() {\n\tset1 := map[interface{}]struct{}{\"a\": {}, \"b\": {}, \"c\": {}}\n\tset2 := map[interface{}]struct{}{\"b\": {}, \"c\": {}, \"d\": {}}\n\n\tmergedSet := mergeSets(set1, set2)\n\n\tfmt.Println(mergedSet)\n}\n```"
+  },
+  {
+    "task": "Implement a set to hold unique IP addresses and demonstrate basic operations.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\t// Initialize a set to hold unique IP addresses\n\tipSet := make(map[string]struct{})\n\n\t// Function to add an IP address to the set\n\taddIP := func(ip string) {\n\t\tipSet[ip] = struct{}{}\n\t}\n\n\t// Function to check if an IP address is in the set\n\tcontainsIP := func(ip string) bool {\n\t\t_, exists := ipSet[ip]\n\t\treturn exists\n\t}\n\n\t// Function to remove an IP address from the set\n\tremoveIP := func(ip string) {\n\t\tdelete(ipSet, ip)\n\t}\n\n\t// Demonstrate adding IPs\n\taddIP(\"192.168.1.1\")\n\taddIP(\"192.168.1.2\")\n\taddIP(\"10.0.0.1\")\n\n\t// Demonstrate checking if IPs are in the set\n\tfmt.Println(\"Contains 192.168.1.1?\", containsIP(\"192.168.1.1\")) // true\n\tfmt.Println(\"Contains 10.0.0.2?\", containsIP(\"10.0.0.2\"))     // false\n\n\t// Demonstrate removing an IP\n\tremoveIP(\"192.168.1.1\")\n\tfmt.Println(\"Contains 192.168.1.1?\", containsIP(\"192.168.1.1\")) // false\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to find the size of the set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tmySet := make(map[int]struct{})\n\tmySet[1] = struct{}{}\n\tmySet[2] = struct{}{}\n\tmySet[3] = struct{}{}\n\n\tsize := len(mySet)\n\n\tfmt.Println(\"Size of the set:\", size)\n}\n```"
+  },
+  {
+    "task": "Write a program to check if two sets of dates are disjoint.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"time\"\n)\n\nfunc main() {\n\tdatesSet1 := []string{\"2023-10-01\", \"2023-10-05\", \"2023-10-10\"}\n\tdatesSet2 := []string{\"2023-10-15\", \"2023-10-20\", \"2023-10-25\"}\n\n\tset1 := make(map[time.Time]struct{})\n\tfor _, dateStr := range datesSet1 {\n\t\tdate, _ := time.Parse(\"2006-01-02\", dateStr)\n\t\tset1[date] = struct{}{}\n\t}\n\n\tdisjoint := true\n\tfor _, dateStr := range datesSet2 {\n\t\tdate, _ := time.Parse(\"2006-01-02\", dateStr)\n\t\tif _, exists := set1[date]; exists {\n\t\t\tdisjoint = false\n\t\t\tbreak\n\t\t}\n\t}\n\n\tfmt.Println(disjoint)\n}\n```"
+  },
+  {
+    "task": "Create a set to manage a collection of tags and demonstrate addition and removal.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\ttags := make(map[string]struct{})\n\n\t// Add tags\n\ttags[\"go\"] = struct{}{}\n\ttags[\"programming\"] = struct{}{}\n\ttags[\"code\"] = struct{}{}\n\n\t// Display tags\n\tfmt.Println(\"Tags after addition:\")\n\tfor tag := range tags {\n\t\tfmt.Println(tag)\n\t}\n\n\t// Remove a tag\n\tdelete(tags, \"programming\")\n\n\t// Display tags after removal\n\tfmt.Println(\"\\nTags after removal:\")\n\tfor tag := range tags {\n\t\tfmt.Println(tag)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to track unique inventory items in a store.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype InventorySet struct {\n\titems map[string]struct{}\n}\n\nfunc NewInventorySet() *InventorySet {\n\treturn &InventorySet{items: make(map[string]struct{})}\n}\n\nfunc (s *InventorySet) Add(item string) {\n\ts.items[item] = struct{}{}\n}\n\nfunc (s *InventorySet) Remove(item string) {\n\tdelete(s.items, item)\n}\n\nfunc (s *InventorySet) Contains(item string) bool {\n\t_, exists := s.items[item]\n\treturn exists\n}\n\nfunc (s *InventorySet) ListItems() []string {\n\titemList := make([]string, 0, len(s.items))\n\tfor item := range s.items {\n\t\titemList = append(itemList, item)\n\t}\n\treturn itemList\n}\n\nfunc main() {\n\tinventory := NewInventorySet()\n\tinventory.Add(\"apple\")\n\tinventory.Add(\"banana\")\n\tinventory.Add(\"apple\") // duplicate, won't be added again\n\n\tfmt.Println(\"Inventory contains 'apple':\", inventory.Contains(\"apple\"))\n\tfmt.Println(\"Inventory contains 'orange':\", inventory.Contains(\"orange\"))\n\n\tinventory.Remove(\"banana\")\n\n\tfmt.Println(\"Inventory items:\", inventory.ListItems())\n}\n```"
+  },
+  {
+    "task": "Create a set of numbers and demonstrate conversion to a list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a set of numbers using a map\n\tset := map[int]struct{}{\n\t\t1: {},\n\t\t2: {},\n\t\t3: {},\n\t}\n\n\t// Convert set to a list\n\tlist := make([]int, 0, len(set))\n\tfor num := range set {\n\t\tlist = append(list, num)\n\t}\n\n\tfmt.Println(list)\n}\n```"
+  },
+  {
+    "task": "Write a function that returns all elements present in either of two sets but not both.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc symmetricDifference(set1, set2 []int) []int {\n\tsetMap1 := make(map[int]bool)\n\tsetMap2 := make(map[int]bool)\n\tresult := []int{}\n\n\tfor _, num := range set1 {\n\t\tsetMap1[num] = true\n\t}\n\n\tfor _, num := range set2 {\n\t\tsetMap2[num] = true\n\t}\n\n\tfor num := range setMap1 {\n\t\tif !setMap2[num] {\n\t\t\tresult = append(result, num)\n\t\t}\n\t}\n\n\tfor num := range setMap2 {\n\t\tif !setMap1[num] {\n\t\t\tresult = append(result, num)\n\t\t}\n\t}\n\n\treturn result\n}\n\nfunc main() {\n\tset1 := []int{1, 2, 3, 4}\n\tset2 := []int{3, 4, 5, 6}\n\tfmt.Println(symmetricDifference(set1, set2))\n}\n```"
+  },
+  {
+    "task": "Use a set to manage a collection of unique transaction IDs.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\t// Create a set to store unique transaction IDs\n\ttransactionIDs := make(map[string]struct{})\n\n\t// Function to add a transaction ID to the set\n\taddTransactionID := func(id string) {\n\t\ttransactionIDs[id] = struct{}{}\n\t}\n\n\t// Function to check if a transaction ID exists in the set\n\thasTransactionID := func(id string) bool {\n\t\t_, exists := transactionIDs[id]\n\t\treturn exists\n\t}\n\n\t// Function to remove a transaction ID from the set\n\tremoveTransactionID := func(id string) {\n\t\tdelete(transactionIDs, id)\n\t}\n\n\t// Add some transaction IDs\n\taddTransactionID(\"tx123\")\n\taddTransactionID(\"tx456\")\n\taddTransactionID(\"tx789\")\n\n\t// Check for a transaction ID\n\tfmt.Println(hasTransactionID(\"tx123\")) // true\n\tfmt.Println(hasTransactionID(\"tx000\")) // false\n\n\t// Remove a transaction ID\n\tremoveTransactionID(\"tx123\")\n\tfmt.Println(hasTransactionID(\"tx123\")) // false\n}\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate the `pop` operation.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Initialize a set using a map with empty struct\n\tset := make(map[int]struct{})\n\n\t// Add some integers to the set\n\tset[1] = struct{}{}\n\tset[2] = struct{}{}\n\tset[3] = struct{}{}\n\n\t// Pop an element from the set\n\tfor val := range set {\n\t\tdelete(set, val)\n\t\tfmt.Println(\"Popped:\", val)\n\t\tbreak\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program to find the maximum element in a set of floating-point numbers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tfloats := []float64{2.5, 3.7, 1.8, 4.9, 2.1}\n\tuniqueFloats := make(map[float64]struct{})\n\n\tfor _, v := range floats {\n\t\tuniqueFloats[v] = struct{}{}\n\t}\n\n\tvar max float64 = -math.MaxFloat64\n\tfor num := range uniqueFloats {\n\t\tif num > max {\n\t\t\tmax = num\n\t\t}\n\t}\n\n\tfmt.Printf(\"The maximum element in the set is: %f\\n\", max)\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `update` method with another set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tsetA := map[int]struct{}{1: {}, 2: {}, 3: {}}\n\tsetB := map[int]struct{}{3: {}, 4: {}, 5: {}}\n\n\t// Update setA with elements from setB\n\tfor key := range setB {\n\t\tsetA[key] = struct{}{}\n\t}\n\n\t// Display the updated setA\n\tfor key := range setA {\n\t\tfmt.Println(key)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to keep track of unique file extensions in a directory.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"log\"\n\t\"path/filepath\"\n)\n\nfunc main() {\n\tdir := \"./your-directory\" // specify your directory here\n\n\textensionsSet := make(map[string]struct{})\n\n\tfiles, err := ioutil.ReadDir(dir)\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\tfor _, file := range files {\n\t\tif !file.IsDir() {\n\t\t\text := filepath.Ext(file.Name())\n\t\t\textensionsSet[ext] = struct{}{}\n\t\t}\n\t}\n\n\tfor ext := range extensionsSet {\n\t\tfmt.Println(ext)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set of strings and demonstrate how to iterate over it in reverse order.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tset := map[string]struct{}{\n\t\t\"apple\":  {},\n\t\t\"banana\": {},\n\t\t\"cherry\": {},\n\t}\n\n\tkeys := make([]string, 0, len(set))\n\tfor k := range set {\n\t\tkeys = append(keys, k)\n\t}\n\n\tfor i := len(keys) - 1; i >= 0; i-- {\n\t\tfmt.Println(keys[i])\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function to check if a set is empty.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc isSetEmpty(set map[interface{}]struct{}) bool {\n\treturn len(set) == 0\n}\n\nfunc main() {\n\tset := map[interface{}]struct{}{}\n\n\tfmt.Println(isSetEmpty(set)) // true\n\n\tset[1] = struct{}{}\n\tfmt.Println(isSetEmpty(set)) // false\n}\n```"
+  },
+  {
+    "task": "Use a set to filter out duplicate entries from a list of participants.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tparticipants := []string{\"Alice\", \"Bob\", \"Charlie\", \"Alice\", \"Bob\", \"David\"}\n\tuniqueParticipants := make(map[string]struct{})\n\n\tfor _, participant := range participants {\n\t\tuniqueParticipants[participant] = struct{}{}\n\t}\n\n\tvar result []string\n\tfor participant := range uniqueParticipants {\n\t\tresult = append(result, participant)\n\t}\n\n\tfmt.Println(result)\n}\n```"
+  },
+  {
+    "task": "Create a set of tuples and demonstrate basic set operations.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Tuple struct {\n\ta, b int\n}\n\nfunc main() {\n\tset := make(map[Tuple]struct{})\n\n\t// Add tuples\n\tset[Tuple{1, 2}] = struct{}{}\n\tset[Tuple{3, 4}] = struct{}{}\n\tset[Tuple{5, 6}] = struct{}{}\n\n\t// Check if a tuple is in the set\n\ttuple := Tuple{1, 2}\n\tif _, exists := set[tuple]; exists {\n\t\tfmt.Println(\"Tuple\", tuple, \"exists in the set.\")\n\t} else {\n\t\tfmt.Println(\"Tuple\", tuple, \"does not exist in the set.\")\n\t}\n\n\t// Remove a tuple from the set\n\tdelete(set, Tuple{3, 4})\n\n\t// Iterate over the set\n\tfmt.Println(\"Tuples in the set:\")\n\tfor t := range set {\n\t\tfmt.Println(t)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program to find the common elements between two sets of country names.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tset1 := map[string]struct{}{\n\t\t\"USA\":      {},\n\t\t\"Canada\":   {},\n\t\t\"Mexico\":   {},\n\t\t\"Brazil\":   {},\n\t\t\"Argentina\": {},\n\t}\n\n\tset2 := map[string]struct{}{\n\t\t\"UK\":       {},\n\t\t\"Canada\":   {},\n\t\t\"Brazil\":   {},\n\t\t\"France\":   {},\n\t\t\"Germany\":  {},\n\t}\n\n\tcommonElements := []string{}\n\tfor country := range set1 {\n\t\tif _, exists := set2[country]; exists {\n\t\t\tcommonElements = append(commonElements, country)\n\t\t}\n\t}\n\n\tfmt.Println(\"Common elements:\", commonElements)\n}\n```"
+  },
+  {
+    "task": "Create a set of characters and demonstrate the use of the `issubset` method.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype CharSet map[rune]struct{}\n\nfunc NewCharSet(chars string) CharSet {\n\tset := make(CharSet)\n\tfor _, c := range chars {\n\t\tset[c] = struct{}{}\n\t}\n\treturn set\n}\n\nfunc (set CharSet) IsSubset(other CharSet) bool {\n\tfor c := range set {\n\t\tif _, exists := other[c]; !exists {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n\nfunc main() {\n\tset1 := NewCharSet(\"abc\")\n\tset2 := NewCharSet(\"abcdef\")\n\n\tisSubset := set1.IsSubset(set2)\n\tfmt.Println(\"Set1 is subset of Set2:\", isSubset)\n}\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique hashtags from social media posts.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\ntype HashtagSet struct {\n\tset map[string]struct{}\n}\n\nfunc NewHashtagSet() *HashtagSet {\n\treturn &HashtagSet{\n\t\tset: make(map[string]struct{}),\n\t}\n}\n\nfunc (h *HashtagSet) Add(hashtag string) {\n\th.set[hashtag] = struct{}{}\n}\n\nfunc (h *HashtagSet) Remove(hashtag string) {\n\tdelete(h.set, hashtag)\n}\n\nfunc (h *HashtagSet) Contains(hashtag string) bool {\n\t_, exists := h.set[hashtag]\n\treturn exists\n}\n\nfunc (h *HashtagSet) List() []string {\n\thashtags := make([]string, 0, len(h.set))\n\tfor hashtag := range h.set {\n\t\thashtags = append(hashtags, hashtag)\n\t}\n\treturn hashtags\n}\n\nfunc main() {\n\thashtags := NewHashtagSet()\n\thashtags.Add(\"#golang\")\n\thashtags.Add(\"#programming\")\n\thashtags.Add(\"#coding\")\n\n\tfmt.Println(hashtags.List()) // Output: [#golang #programming #coding]\n\n\thashtags.Remove(\"#coding\")\n\tfmt.Println(hashtags.Contains(\"#coding\")) // Output: false\n\tfmt.Println(hashtags.List())              // Output: [#golang #programming]\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to copy it to another set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a set using a map with empty struct as value\n\tset1 := map[string]struct{}{\n\t\t\"apple\":  {},\n\t\t\"banana\": {},\n\t\t\"cherry\": {},\n\t}\n\n\t// Copy set1 to set2\n\tset2 := make(map[string]struct{})\n\tfor k := range set1 {\n\t\tset2[k] = struct{}{}\n\t}\n\n\t// Print both sets to demonstrate the copy\n\tfmt.Println(\"Set1:\", set1)\n\tfmt.Println(\"Set2:\", set2)\n}\n```"
+  },
+  {
+    "task": "Write a function that accepts two sets and returns a new set with elements found in both.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc intersection(set1, set2 map[interface{}]struct{}) map[interface{}]struct{} {\n\tresult := make(map[interface{}]struct{})\n\tfor elem := range set1 {\n\t\tif _, found := set2[elem]; found {\n\t\t\tresult[elem] = struct{}{}\n\t\t}\n\t}\n\treturn result\n}\n\nfunc main() {\n\tset1 := map[interface{}]struct{}{\n\t\t1: {},\n\t\t2: {},\n\t\t3: {},\n\t}\n\n\tset2 := map[interface{}]struct{}{\n\t\t2: {},\n\t\t3: {},\n\t\t4: {},\n\t}\n\n\tintersectedSet := intersection(set1, set2)\n\tfmt.Println(intersectedSet)\n}\n```"
+  },
+  {
+    "task": "Use a set to determine the unique items purchased in a day.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Example purchases for a day\n\tpurchases := []string{\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"kiwi\"}\n\n\t// Use a map as a set to store unique items\n\tuniqueItems := make(map[string]struct{})\n\n\tfor _, item := range purchases {\n\t\tuniqueItems[item] = struct{}{}\n\t}\n\n\t// Print unique items\n\tfor item := range uniqueItems {\n\t\tfmt.Println(item)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set of student IDs and demonstrate set comprehension to filter IDs.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a set of student IDs using a map for uniqueness\n\tstudentIDs := map[int]struct{}{\n\t\t101: {},\n\t\t102: {},\n\t\t103: {},\n\t\t104: {},\n\t\t105: {},\n\t}\n\n\t// Filter IDs (e.g., keep only even IDs)\n\tfilteredIDs := make(map[int]struct{})\n\tfor id := range studentIDs {\n\t\tif id%2 == 0 {\n\t\t\tfilteredIDs[id] = struct{}{}\n\t\t}\n\t}\n\n\t// Display filtered IDs\n\tfor id := range filteredIDs {\n\t\tfmt.Println(id)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program to check if a set of strings is a superset of another set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc isSuperset(superset, subset map[string]struct{}) bool {\n\tfor k := range subset {\n\t\tif _, found := superset[k]; !found {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n\nfunc main() {\n\tsuperset := map[string]struct{}{\n\t\t\"apple\":  {},\n\t\t\"banana\": {},\n\t\t\"cherry\": {},\n\t}\n\tsubset := map[string]struct{}{\n\t\t\"apple\": {},\n\t\t\"banana\": {},\n\t}\n\n\tfmt.Println(isSuperset(superset, subset)) // Output: true\n}\n```"
+  },
+  {
+    "task": "Create a set of unique words from a text file.",
+    "code": "```go\npackage main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tfile, err := os.Open(\"input.txt\")\n\tif err != nil {\n\t\tfmt.Println(\"Error opening file:\", err)\n\t\treturn\n\t}\n\tdefer file.Close()\n\n\tuniqueWords := make(map[string]struct{})\n\tscanner := bufio.NewScanner(file)\n\n\tfor scanner.Scan() {\n\t\twords := scanner.Text()\n\t\tfor _, word := range words {\n\t\t\tuniqueWords[word] = struct{}{}\n\t\t}\n\t}\n\n\tfor word := range uniqueWords {\n\t\tfmt.Println(word)\n\t}\n\n\tif err := scanner.Err(); err != nil {\n\t\tfmt.Println(\"Error reading file:\", err)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique project identifiers and demonstrate membership testing.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tprojectIDs := make(map[string]struct{})\n\t\n\t// Adding project identifiers to the set\n\tprojectIDs[\"project1\"] = struct{}{}\n\tprojectIDs[\"project2\"] = struct{}{}\n\tprojectIDs[\"project3\"] = struct{}{}\n\n\t// Checking membership\n\tcheckProjectID := \"project2\"\n\tif _, exists := projectIDs[checkProjectID]; exists {\n\t\tfmt.Printf(\"%s exists in the set\\n\", checkProjectID)\n\t} else {\n\t\tfmt.Printf(\"%s does not exist in the set\\n\", checkProjectID)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `symmetric_difference_update` method.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Define two sets using maps\n\tsetA := map[int]bool{1: true, 2: true, 3: true, 4: true}\n\tsetB := map[int]bool{3: true, 4: true, 5: true, 6: true}\n\n\t// Perform symmetric difference update\n\tfor k := range setB {\n\t\tif setA[k] {\n\t\t\tdelete(setA, k)\n\t\t} else {\n\t\t\tsetA[k] = true\n\t\t}\n\t}\n\n\t// Print the updated setA\n\tfor k := range setA {\n\t\tfmt.Println(k)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function to remove all elements from a set that are also in another set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc removeElements(set1, set2 map[int]struct{}) {\n\tfor elem := range set2 {\n\t\tdelete(set1, elem)\n\t}\n}\n\nfunc main() {\n\tset1 := map[int]struct{}{1: {}, 2: {}, 3: {}, 4: {}}\n\tset2 := map[int]struct{}{2: {}, 3: {}}\n\n\tremoveElements(set1, set2)\n\n\tfmt.Println(set1) // Output should be: map[1:{} 4:{}]\n}\n```"
+  },
+  {
+    "task": "Use a set to keep track of unique error codes from server logs.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\terrorCodes := []string{\"404\", \"500\", \"404\", \"403\", \"500\", \"200\"}\n\tuniqueErrors := make(map[string]struct{})\n\n\tfor _, code := range errorCodes {\n\t\tuniqueErrors[code] = struct{}{}\n\t}\n\n\tfor code := range uniqueErrors {\n\t\tfmt.Println(code)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to find all unique pairs of elements.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc uniquePairs(elements []int) [][2]int {\n\tuniqueElements := make(map[int]struct{})\n\tfor _, el := range elements {\n\t\tuniqueElements[el] = struct{}{}\n\t}\n\n\tkeys := make([]int, 0, len(uniqueElements))\n\tfor k := range uniqueElements {\n\t\tkeys = append(keys, k)\n\t}\n\n\tvar pairs [][2]int\n\tfor i := 0; i < len(keys); i++ {\n\t\tfor j := i + 1; j < len(keys); j++ {\n\t\t\tpairs = append(pairs, [2]int{keys[i], keys[j]})\n\t\t}\n\t}\n\n\treturn pairs\n}\n\nfunc main() {\n\telements := []int{1, 2, 3, 4, 2, 1, 3}\n\tpairs := uniquePairs(elements)\n\tfmt.Println(\"Unique pairs:\", pairs)\n}\n```"
+  },
+  {
+    "task": "Write a program to find the smallest element in a set of integers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tintSet := map[int]struct{}{3: {}, 1: {}, 4: {}, 1: {}, 5: {}, 9: {}, 2: {}, 6: {}, 5: {}, 3: {}, 5: {}}\n\tsmallest := math.MaxInt64\n\tfor num := range intSet {\n\t\tif num < smallest {\n\t\t\tsmallest = num\n\t\t}\n\t}\n\tfmt.Println(\"The smallest element in the set is:\", smallest)\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `add` method with multiple elements.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tset := make(map[string]struct{})\n\t\n\t// Add elements to the set\n\tset[\"apple\"] = struct{}{}\n\tset[\"banana\"] = struct{}{}\n\tset[\"cherry\"] = struct{}{}\n\t\n\t// Display the set\n\tfor key := range set {\n\t\tfmt.Println(key)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique author names.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype AuthorSet struct {\n\telements map[string]struct{}\n}\n\nfunc NewAuthorSet() *AuthorSet {\n\treturn &AuthorSet{elements: make(map[string]struct{})}\n}\n\nfunc (s *AuthorSet) Add(author string) {\n\ts.elements[author] = struct{}{}\n}\n\nfunc (s *AuthorSet) Remove(author string) {\n\tdelete(s.elements, author)\n}\n\nfunc (s *AuthorSet) Contains(author string) bool {\n\t_, exists := s.elements[author]\n\treturn exists\n}\n\nfunc (s *AuthorSet) List() []string {\n\tauthors := make([]string, 0, len(s.elements))\n\tfor author := range s.elements {\n\t\tauthors = append(authors, author)\n\t}\n\treturn authors\n}\n\nfunc main() {\n\tauthors := NewAuthorSet()\n\tauthors.Add(\"J.K. Rowling\")\n\tauthors.Add(\"George R.R. Martin\")\n\tauthors.Add(\"J.K. Rowling\") // Duplicate entry\n\tfmt.Println(authors.List()) // Output: [J.K. Rowling George R.R. Martin]\n\tauthors.Remove(\"J.K. Rowling\")\n\tfmt.Println(authors.List()) // Output: [George R.R. Martin]\n}\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate converting it to a sorted list.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\nfunc main() {\n\t// Initialize a map to simulate a set of integers\n\tset := map[int]struct{}{\n\t\t3: {},\n\t\t1: {},\n\t\t4: {},\n\t\t1: {},\n\t\t5: {},\n\t\t9: {},\n\t}\n\n\t// Convert the set to a slice\n\tvar list []int\n\tfor k := range set {\n\t\tlist = append(list, k)\n\t}\n\n\t// Sort the slice\n\tsort.Ints(list)\n\n\t// Print the sorted list\n\tfmt.Println(list)\n}\n```"
+  },
+  {
+    "task": "Write a function that returns the union of multiple sets.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc union(sets ...map[interface{}]struct{}) map[interface{}]struct{} {\n\tresult := make(map[interface{}]struct{})\n\tfor _, set := range sets {\n\t\tfor elem := range set {\n\t\t\tresult[elem] = struct{}{}\n\t\t}\n\t}\n\treturn result\n}\n\nfunc main() {\n\tset1 := map[interface{}]struct{}{\n\t\t1: {},\n\t\t2: {},\n\t\t3: {},\n\t}\n\tset2 := map[interface{}]struct{}{\n\t\t3: {},\n\t\t4: {},\n\t\t5: {},\n\t}\n\tset3 := map[interface{}]struct{}{\n\t\t5: {},\n\t\t6: {},\n\t\t7: {},\n\t}\n\n\tunionSet := union(set1, set2, set3)\n\tfor elem := range unionSet {\n\t\tfmt.Println(elem)\n\t}\n}\n```"
+  },
+  {
+    "task": "Use a set to identify unique characters in a string.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc uniqueCharacters(s string) map[rune]struct{} {\n\tuniqueSet := make(map[rune]struct{})\n\tfor _, char := range s {\n\t\tuniqueSet[char] = struct{}{}\n\t}\n\treturn uniqueSet\n}\n\nfunc main() {\n\tstr := \"hello world\"\n\tuniqueChars := uniqueCharacters(str)\n\tfor char := range uniqueChars {\n\t\tfmt.Printf(\"%c \", char)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set of prime numbers and demonstrate basic set operations.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\n// Function to determine if a number is prime\nfunc isPrime(n int) bool {\n\tif n <= 1 {\n\t\treturn false\n\t}\n\tfor i := 2; i*i <= n; i++ {\n\t\tif n%i == 0 {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n\n// Function to create a set of prime numbers up to a given limit\nfunc createPrimeSet(limit int) map[int]struct{} {\n\tprimes := make(map[int]struct{})\n\tfor i := 2; i <= limit; i++ {\n\t\tif isPrime(i) {\n\t\t\tprimes[i] = struct{}{}\n\t\t}\n\t}\n\treturn primes\n}\n\n// Function to demonstrate basic set operations\nfunc setOperations(primeSet map[int]struct{}) {\n\tfmt.Println(\"Prime set:\", primeSet)\n\n\t// Check if a number is in the set\n\tnum := 3\n\tif _, exists := primeSet[num]; exists {\n\t\tfmt.Printf(\"%d is in the set\\n\", num)\n\t} else {\n\t\tfmt.Printf(\"%d is not in the set\\n\", num)\n\t}\n\n\t// Add a new prime number to the set\n\tnewPrime := 11\n\tprimeSet[newPrime] = struct{}{}\n\tfmt.Println(\"Added 11 to the set:\", primeSet)\n\n\t// Remove a number from the set\n\tdelete(primeSet, 2)\n\tfmt.Println(\"Removed 2 from the set:\", primeSet)\n}\n\nfunc main() {\n\tprimeSet := createPrimeSet(10)\n\tsetOperations(primeSet)\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to check for non-membership.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a set using a map with empty struct\n\tset := make(map[string]struct{})\n\n\t// Add elements to the set\n\tset[\"apple\"] = struct{}{}\n\tset[\"banana\"] = struct{}{}\n\n\t// Check for non-membership\n\telement := \"cherry\"\n\tif _, exists := set[element]; !exists {\n\t\tfmt.Printf(\"%s is not in the set.\\n\", element)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program to find the largest element in a set of numbers.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tnumbers := []int{10, 20, 30, 40, 50}\n\tset := make(map[int]struct{})\n\n\tfor _, num := range numbers {\n\t\tset[num] = struct{}{}\n\t}\n\n\tvar max int\n\tfor num := range set {\n\t\tif num > max {\n\t\t\tmax = num\n\t\t}\n\t}\n\n\tfmt.Println(\"Largest element:\", max)\n}\n```"
+  },
+  {
+    "task": "Create a set of unique movie titles and demonstrate membership testing.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tmovieSet := make(map[string]struct{})\n\tmovieSet[\"Inception\"] = struct{}{}\n\tmovieSet[\"The Matrix\"] = struct{}{}\n\tmovieSet[\"Interstellar\"] = struct{}{}\n\n\tmovieToCheck := \"Inception\"\n\tif _, exists := movieSet[movieToCheck]; exists {\n\t\tfmt.Printf(\"%s is in the set.\\n\", movieToCheck)\n\t} else {\n\t\tfmt.Printf(\"%s is not in the set.\\n\", movieToCheck)\n\t}\n\n\tmovieToCheck = \"Avatar\"\n\tif _, exists := movieSet[movieToCheck]; exists {\n\t\tfmt.Printf(\"%s is in the set.\\n\", movieToCheck)\n\t} else {\n\t\tfmt.Printf(\"%s is not in the set.\\n\", movieToCheck)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique keys from a dictionary.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tdictionary := map[string]string{\n\t\t\"apple\":  \"fruit\",\n\t\t\"carrot\": \"vegetable\",\n\t\t\"banana\": \"fruit\",\n\t\t\"celery\": \"vegetable\",\n\t}\n\n\tset := make(map[string]struct{})\n\tfor key := range dictionary {\n\t\tset[key] = struct{}{}\n\t}\n\n\tfmt.Println(\"Unique keys in the set:\")\n\tfor key := range set {\n\t\tfmt.Println(key)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `difference_update` method.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tset1 := map[int]struct{}{1: {}, 2: {}, 3: {}, 4: {}}\n\tset2 := map[int]struct{}{3: {}, 4: {}, 5: {}, 6: {}}\n\n\tdifferenceUpdate(set1, set2)\n\n\tfmt.Println(set1) // Output should be: map[1:{} 2:{}]\n}\n\nfunc differenceUpdate(set1, set2 map[int]struct{}) {\n\tfor elem := range set2 {\n\t\tdelete(set1, elem)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function to merge multiple sets into a single set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc mergeSets(sets ...map[int]struct{}) map[int]struct{} {\n\tmergedSet := make(map[int]struct{})\n\tfor _, set := range sets {\n\t\tfor key := range set {\n\t\t\tmergedSet[key] = struct{}{}\n\t\t}\n\t}\n\treturn mergedSet\n}\n\nfunc main() {\n\tset1 := map[int]struct{}{1: {}, 2: {}, 3: {}}\n\tset2 := map[int]struct{}{3: {}, 4: {}, 5: {}}\n\tset3 := map[int]struct{}{5: {}, 6: {}, 7: {}}\n\n\tmergedSet := mergeSets(set1, set2, set3)\n\tfmt.Println(mergedSet)\n}\n```"
+  },
+  {
+    "task": "Use a set to filter out duplicate letters from a word.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc uniqueLetters(word string) string {\n\tletterSet := make(map[rune]struct{})\n\tvar result []rune\n\n\tfor _, letter := range word {\n\t\tif _, exists := letterSet[letter]; !exists {\n\t\t\tletterSet[letter] = struct{}{}\n\t\t\tresult = append(result, letter)\n\t\t}\n\t}\n\n\treturn string(result)\n}\n\nfunc main() {\n\tword := \"programming\"\n\tunique := uniqueLetters(word)\n\tfmt.Println(unique)\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `isdisjoint` method.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tsetA := map[int]struct{}{1: {}, 2: {}, 3: {}}\n\tsetB := map[int]struct{}{4: {}, 5: {}, 6: {}}\n\n\tisDisjoint := true\n\tfor key := range setA {\n\t\tif _, exists := setB[key]; exists {\n\t\t\tisDisjoint = false\n\t\t\tbreak\n\t\t}\n\t}\n\n\tfmt.Println(\"Sets are disjoint:\", isDisjoint)\n}\n```"
+  },
+  {
+    "task": "Write a program to find all elements that are only in one of two sets.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tset1 := map[int]struct{}{1: {}, 2: {}, 3: {}, 4: {}}\n\tset2 := map[int]struct{}{3: {}, 4: {}, 5: {}, 6: {}}\n\n\tuniqueSet := make(map[int]struct{})\n\n\tfor key := range set1 {\n\t\tif _, found := set2[key]; !found {\n\t\t\tuniqueSet[key] = struct{}{}\n\t\t}\n\t}\n\n\tfor key := range set2 {\n\t\tif _, found := set1[key]; !found {\n\t\t\tuniqueSet[key] = struct{}{}\n\t\t}\n\t}\n\n\tfor key := range uniqueSet {\n\t\tfmt.Println(key)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set of unique book authors and demonstrate basic set operations.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tauthors := make(map[string]struct{})\n\n\t// Add authors to the set\n\tauthors[\"J.K. Rowling\"] = struct{}{}\n\tauthors[\"George R.R. Martin\"] = struct{}{}\n\tauthors[\"J.R.R. Tolkien\"] = struct{}{}\n\tauthors[\"Agatha Christie\"] = struct{}{}\n\n\t// Try to add a duplicate author\n\tauthors[\"J.K. Rowling\"] = struct{}{}\n\n\t// Display the set of authors\n\tfmt.Println(\"Authors in the set:\")\n\tfor author := range authors {\n\t\tfmt.Println(author)\n\t}\n\n\t// Demonstrate basic set operations\n\t// Check if an author is in the set\n\t_, exists := authors[\"J.K. Rowling\"]\n\tfmt.Println(\"Is J.K. Rowling in the set?\", exists)\n\n\t// Remove an author from the set\n\tdelete(authors, \"Agatha Christie\")\n\n\t// Check again after removal\n\t_, exists = authors[\"Agatha Christie\"]\n\tfmt.Println(\"Is Agatha Christie in the set after removal?\", exists)\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique phone numbers and check for duplicates.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tphoneNumbers := make(map[string]struct{})\n\n\taddPhoneNumber := func(phone string) bool {\n\t\tif _, exists := phoneNumbers[phone]; exists {\n\t\t\treturn false\n\t\t}\n\t\tphoneNumbers[phone] = struct{}{}\n\t\treturn true\n\t}\n\n\tphonesToAdd := []string{\"123-456-7890\", \"987-654-3210\", \"123-456-7890\"}\n\tfor _, phone := range phonesToAdd {\n\t\tif !addPhoneNumber(phone) {\n\t\t\tfmt.Printf(\"Duplicate found: %s\\n\", phone)\n\t\t}\n\t}\n\n\tfmt.Println(\"Unique phone numbers stored:\", phoneNumbers)\n}\n```"
+  },
+  {
+    "task": "Create a set of floating-point numbers and demonstrate rounding each element.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\t// Create a set using a map with empty structs for unique values\n\tset := map[float64]struct{}{\n\t\t1.234: {},\n\t\t5.678: {},\n\t\t9.101: {},\n\t}\n\n\t// Demonstrate rounding each element\n\tfor value := range set {\n\t\troundedValue := math.Round(value)\n\t\tfmt.Println(roundedValue)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function that returns a set of all vowels present in a given sentence.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc vowelsInSentence(sentence string) map[rune]struct{} {\n\tvowels := \"aeiou\"\n\tvowelSet := make(map[rune]struct{})\n\n\tfor _, char := range strings.ToLower(sentence) {\n\t\tif strings.ContainsRune(vowels, char) {\n\t\t\tvowelSet[char] = struct{}{}\n\t\t}\n\t}\n\n\treturn vowelSet\n}\n\nfunc main() {\n\tsentence := \"The quick brown fox jumps over the lazy dog.\"\n\tvowels := vowelsInSentence(sentence)\n\tfor vowel := range vowels {\n\t\tfmt.Printf(\"%c \", vowel)\n\t}\n}\n```"
+  },
+  {
+    "task": "Use a set to track unique session IDs for a web application.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tsessionIDs := make(map[string]struct{})\n\n\t// Example session IDs\n\tsessions := []string{\"session1\", \"session2\", \"session3\", \"session1\"}\n\n\tfor _, id := range sessions {\n\t\tsessionIDs[id] = struct{}{}\n\t}\n\n\tfmt.Println(\"Unique session IDs:\")\n\tfor id := range sessionIDs {\n\t\tfmt.Println(id)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set of unique city names and demonstrate set operations with it.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a set of unique city names\n\tcitySet := make(map[string]struct{})\n\tcitySet[\"New York\"] = struct{}{}\n\tcitySet[\"Los Angeles\"] = struct{}{}\n\tcitySet[\"Chicago\"] = struct{}{}\n\tcitySet[\"Houston\"] = struct{}{}\n\tcitySet[\"Phoenix\"] = struct{}{}\n\n\t// Add a new city\n\tcitySet[\"San Francisco\"] = struct{}{}\n\n\t// Remove a city\n\tdelete(citySet, \"Phoenix\")\n\n\t// Check if a city is in the set\n\t_, exists := citySet[\"Chicago\"]\n\tfmt.Println(\"Is Chicago in the set?\", exists)\n\n\t// Print all cities\n\tfmt.Println(\"Cities in the set:\")\n\tfor city := range citySet {\n\t\tfmt.Println(city)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program to find the common elements in three sets.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tset1 := map[int]struct{}{1: {}, 2: {}, 3: {}, 4: {}}\n\tset2 := map[int]struct{}{3: {}, 4: {}, 5: {}, 6: {}}\n\tset3 := map[int]struct{}{0: {}, 2: {}, 3: {}, 4: {}}\n\n\tcommon := make(map[int]struct{})\n\n\tfor k := range set1 {\n\t\tif _, ok := set2[k]; ok {\n\t\t\tif _, ok := set3[k]; ok {\n\t\t\t\tcommon[k] = struct{}{}\n\t\t\t}\n\t\t}\n\t}\n\n\tfmt.Println(\"Common elements:\", keys(common))\n}\n\nfunc keys(set map[int]struct{}) []int {\n\tks := make([]int, 0, len(set))\n\tfor k := range set {\n\t\tks = append(ks, k)\n\t}\n\treturn ks\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to remove an element by its value.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a set using a map with empty struct values\n\tset := make(map[string]struct{})\n\t\n\t// Add elements to the set\n\tset[\"element1\"] = struct{}{}\n\tset[\"element2\"] = struct{}{}\n\tset[\"element3\"] = struct{}{}\n\t\n\t// Remove an element by its value\n\tdelete(set, \"element2\")\n\t\n\t// Print the set to demonstrate the element has been removed\n\tfor key := range set {\n\t\tfmt.Println(key)\n\t}\n}\n```"
+  },
+  {
+    "task": "Implement a set to store a collection of unique ISBN numbers.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype ISBNSet struct {\n\telements map[string]struct{}\n}\n\nfunc NewISBNSet() *ISBNSet {\n\treturn &ISBNSet{elements: make(map[string]struct{})}\n}\n\nfunc (s *ISBNSet) Add(isbn string) {\n\ts.elements[isbn] = struct{}{}\n}\n\nfunc (s *ISBNSet) Remove(isbn string) {\n\tdelete(s.elements, isbn)\n}\n\nfunc (s *ISBNSet) Contains(isbn string) bool {\n\t_, exists := s.elements[isbn]\n\treturn exists\n}\n\nfunc (s *ISBNSet) Size() int {\n\treturn len(s.elements)\n}\n\nfunc main() {\n\tisbnSet := NewISBNSet()\n\tisbnSet.Add(\"978-3-16-148410-0\")\n\tisbnSet.Add(\"978-1-4028-9462-6\")\n\tfmt.Println(isbnSet.Contains(\"978-3-16-148410-0\")) // true\n\tfmt.Println(isbnSet.Contains(\"978-0-306-40615-7\")) // false\n\tfmt.Println(isbnSet.Size())                         // 2\n\tisbnSet.Remove(\"978-3-16-148410-0\")\n\tfmt.Println(isbnSet.Size())                         // 1\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `intersection_update` method.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc main() {\n\tset1 := map[int]struct{}{1: {}, 2: {}, 3: {}, 4: {}}\n\tset2 := map[int]struct{}{3: {}, 4: {}, 5: {}, 6: {}}\n\n\tintersectionUpdate(set1, set2)\n\n\tfmt.Println(\"Intersection Update Result:\", set1)\n}\n\nfunc intersectionUpdate(set1, set2 map[int]struct{}) {\n\tfor key := range set1 {\n\t\tif _, found := set2[key]; !found {\n\t\t\tdelete(set1, key)\n\t\t}\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a function to generate a set of all unique elements in a list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc uniqueSet(elements []int) map[int]struct{} {\n\tset := make(map[int]struct{})\n\tfor _, elem := range elements {\n\t\tset[elem] = struct{}{}\n\t}\n\treturn set\n}\n\nfunc main() {\n\telements := []int{1, 2, 3, 2, 1, 4, 5}\n\tuniqueElements := uniqueSet(elements)\n\tfmt.Println(uniqueElements)\n}\n```"
+  },
+  {
+    "task": "Use a set to determine the unique characters in two strings.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc uniqueChars(s1, s2 string) map[rune]struct{} {\n\tuniqueSet := make(map[rune]struct{})\n\n\tfor _, char := range s1 {\n\t\tuniqueSet[char] = struct{}{}\n\t}\n\n\tfor _, char := range s2 {\n\t\tuniqueSet[char] = struct{}{}\n\t}\n\n\treturn uniqueSet\n}\n\nfunc main() {\n\ts1 := \"hello\"\n\ts2 := \"world\"\n\n\tuniqueSet := uniqueChars(s1, s2)\n\tfor char := range uniqueSet {\n\t\tfmt.Printf(\"%c \", char)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set of unique animal names and demonstrate the `discard` method.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Set map[string]struct{}\n\nfunc NewSet() Set {\n\treturn make(Set)\n}\n\nfunc (s Set) Add(item string) {\n\ts[item] = struct{}{}\n}\n\nfunc (s Set) Discard(item string) {\n\tdelete(s, item)\n}\n\nfunc (s Set) Contains(item string) bool {\n\t_, exists := s[item]\n\treturn exists\n}\n\nfunc main() {\n\tanimals := NewSet()\n\tanimals.Add(\"lion\")\n\tanimals.Add(\"tiger\")\n\tanimals.Add(\"bear\")\n\n\tfmt.Println(\"Before discard:\")\n\tfor animal := range animals {\n\t\tfmt.Println(animal)\n\t}\n\n\tanimals.Discard(\"tiger\")\n\n\tfmt.Println(\"After discard:\")\n\tfor animal := range animals {\n\t\tfmt.Println(animal)\n\t}\n}\n```"
+  },
+  {
+    "task": "Write a program to find all elements present in the first set but not in the second.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Define two sets using maps to simulate set behavior\n\tset1 := map[string]struct{}{\n\t\t\"apple\":  {},\n\t\t\"banana\": {},\n\t\t\"cherry\": {},\n\t}\n\tset2 := map[string]struct{}{\n\t\t\"banana\": {},\n\t\t\"kiwi\":   {},\n\t}\n\n\t// Find elements present in set1 but not in set2\n\tdifference := []string{}\n\tfor elem := range set1 {\n\t\tif _, found := set2[elem]; !found {\n\t\t\tdifference = append(difference, elem)\n\t\t}\n\t}\n\n\t// Output the result\n\tfmt.Println(\"Elements in set1 but not in set2:\", difference)\n}\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate using it to eliminate duplicates from a list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    list := []int{1, 2, 2, 3, 4, 4, 5}\n    set := make(map[int]struct{})\n\n    for _, num := range list {\n        set[num] = struct{}{}\n    }\n\n    uniqueList := make([]int, 0, len(set))\n    for num := range set {\n        uniqueList = append(uniqueList, num)\n    }\n\n    fmt.Println(uniqueList)\n}\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique car models.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype CarSet struct {\n\tmodels map[string]struct{}\n}\n\nfunc NewCarSet() *CarSet {\n\treturn &CarSet{\n\t\tmodels: make(map[string]struct{}),\n\t}\n}\n\nfunc (cs *CarSet) Add(model string) {\n\tcs.models[model] = struct{}{}\n}\n\nfunc (cs *CarSet) Remove(model string) {\n\tdelete(cs.models, model)\n}\n\nfunc (cs *CarSet) Exists(model string) bool {\n\t_, exists := cs.models[model]\n\treturn exists\n}\n\nfunc (cs *CarSet) Size() int {\n\treturn len(cs.models)\n}\n\nfunc main() {\n\tcarSet := NewCarSet()\n\tcarSet.Add(\"Toyota\")\n\tcarSet.Add(\"Ford\")\n\tcarSet.Add(\"Honda\")\n\tcarSet.Remove(\"Ford\")\n\n\tfmt.Println(\"Honda exists:\", carSet.Exists(\"Honda\"))\n\tfmt.Println(\"Ford exists:\", carSet.Exists(\"Ford\"))\n\tfmt.Println(\"Car set size:\", carSet.Size())\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `clear` method.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\ntype Set map[interface{}]struct{}\n\nfunc NewSet() Set {\n\treturn make(Set)\n}\n\nfunc (s Set) Add(value interface{}) {\n\ts[value] = struct{}{}\n}\n\nfunc (s Set) Clear() {\n\tfor k := range s {\n\t\tdelete(s, k)\n\t}\n}\n\nfunc (s Set) String() string {\n\tkeys := make([]interface{}, 0, len(s))\n\tfor k := range s {\n\t\tkeys = append(keys, k)\n\t}\n\treturn fmt.Sprintf(\"%v\", keys)\n}\n\nfunc main() {\n\tset := NewSet()\n\tset.Add(1)\n\tset.Add(2)\n\tset.Add(3)\n\tfmt.Println(\"Set before clear:\", set)\n\tset.Clear()\n\tfmt.Println(\"Set after clear:\", set)\n}\n```"
+  },
+  {
+    "task": "Write a function that finds the intersection of multiple sets.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc intersectSets(sets ...map[int]struct{}) map[int]struct{} {\n\tif len(sets) == 0 {\n\t\treturn map[int]struct{}{}\n\t}\n\n\tintersection := make(map[int]struct{})\n\tfor key := range sets[0] {\n\t\tintersection[key] = struct{}{}\n\t}\n\n\tfor _, set := range sets[1:] {\n\t\tfor key := range intersection {\n\t\t\tif _, exists := set[key]; !exists {\n\t\t\t\tdelete(intersection, key)\n\t\t\t}\n\t\t}\n\t}\n\n\treturn intersection\n}\n\nfunc main() {\n\tset1 := map[int]struct{}{1: {}, 2: {}, 3: {}}\n\tset2 := map[int]struct{}{2: {}, 3: {}, 4: {}}\n\tset3 := map[int]struct{}{3: {}, 4: {}, 5: {}}\n\n\tresult := intersectSets(set1, set2, set3)\n\tfor key := range result {\n\t\tfmt.Println(key)\n\t}\n}\n```"
+  },
+  {
+    "task": "Use a set to identify unique words in a paragraph.",
+    "code": "```go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tparagraph := \"This is a sample paragraph with several words. Some words repeat, and some words are unique.\"\n\n\twords := strings.Fields(paragraph)\n\tuniqueWords := make(map[string]struct{})\n\n\tfor _, word := range words {\n\t\tcleanedWord := strings.Trim(word, \".,\")\n\t\tuniqueWords[cleanedWord] = struct{}{}\n\t}\n\n\tfmt.Println(\"Unique words:\")\n\tfor word := range uniqueWords {\n\t\tfmt.Println(word)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set of unique country codes and demonstrate membership testing.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\t// Create a map to act as a set for unique country codes\n\tcountryCodes := make(map[string]struct{})\n\n\t// Add some country codes to the set\n\tcountryCodes[\"US\"] = struct{}{}\n\tcountryCodes[\"GB\"] = struct{}{}\n\tcountryCodes[\"IN\"] = struct{}{}\n\tcountryCodes[\"JP\"] = struct{}{}\n\n\t// Function to test membership\n\tcheckMembership := func(code string) bool {\n\t\t_, exists := countryCodes[code]\n\t\treturn exists\n\t}\n\n\t// Demonstrate membership testing\n\tfmt.Println(\"Is 'US' in the set?\", checkMembership(\"US\"))\n\tfmt.Println(\"Is 'FR' in the set?\", checkMembership(\"FR\"))\n}\n```"
+  },
+  {
+    "task": "Write a program to find the union of two sets and return it as a list.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc union(set1, set2 []int) []int {\n\tsetMap := make(map[int]bool)\n\tfor _, elem := range set1 {\n\t\tsetMap[elem] = true\n\t}\n\tfor _, elem := range set2 {\n\t\tsetMap[elem] = true\n\t}\n\tvar result []int\n\tfor key := range setMap {\n\t\tresult = append(result, key)\n\t}\n\treturn result\n}\n\nfunc main() {\n\tset1 := []int{1, 2, 3, 4}\n\tset2 := []int{3, 4, 5, 6}\n\tunionSet := union(set1, set2)\n\tfmt.Println(unionSet)\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate using it to check if all elements of another set are present.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tsetA := map[string]struct{}{\n\t\t\"apple\":  {},\n\t\t\"banana\": {},\n\t\t\"cherry\": {},\n\t}\n\n\tsetB := map[string]struct{}{\n\t\t\"apple\":  {},\n\t\t\"banana\": {},\n\t}\n\n\tallPresent := true\n\tfor key := range setB {\n\t\tif _, exists := setA[key]; !exists {\n\t\t\tallPresent = false\n\t\t\tbreak\n\t\t}\n\t}\n\n\tfmt.Println(\"All elements of setB are present in setA:\", allPresent)\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique coupon codes and demonstrate adding new codes.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tcoupons := make(map[string]struct{})\n\n\taddCoupon := func(code string) {\n\t\tif _, exists := coupons[code]; !exists {\n\t\t\tcoupons[code] = struct{}{}\n\t\t\tfmt.Println(\"Added coupon code:\", code)\n\t\t} else {\n\t\t\tfmt.Println(\"Coupon code already exists:\", code)\n\t\t}\n\t}\n\n\taddCoupon(\"SAVE10\")\n\taddCoupon(\"FREESHIP\")\n\taddCoupon(\"SAVE10\") // Attempt to add a duplicate\n\n\tfmt.Println(\"Current set of coupon codes:\")\n\tfor code := range coupons {\n\t\tfmt.Println(code)\n\t}\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `copy` method.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tset1 := map[string]struct{}{\n\t\t\"apple\":  {},\n\t\t\"banana\": {},\n\t\t\"cherry\": {},\n\t}\n\n\tset2 := copySet(set1)\n\n\tfmt.Println(\"Set1:\", set1)\n\tfmt.Println(\"Set2:\", set2)\n}\n\nfunc copySet(original map[string]struct{}) map[string]struct{} {\n\tnewSet := make(map[string]struct{})\n\tfor key := range original {\n\t\tnewSet[key] = struct{}{}\n\t}\n\treturn newSet\n}\n```"
+  },
+  {
+    "task": "Write a function to remove duplicates from a list using a set.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc removeDuplicates(list []int) []int {\n\tuniqueSet := make(map[int]struct{})\n\tfor _, item := range list {\n\t\tuniqueSet[item] = struct{}{}\n\t}\n\tuniqueList := make([]int, 0, len(uniqueSet))\n\tfor key := range uniqueSet {\n\t\tuniqueList = append(uniqueList, key)\n\t}\n\treturn uniqueList\n}\n\nfunc main() {\n\tlist := []int{1, 2, 3, 2, 1, 4, 5}\n\tfmt.Println(removeDuplicates(list))\n}\n```"
+  },
+  {
+    "task": "Use a set to identify unique numbers in a sequence.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    numbers := []int{4, 5, 6, 4, 2, 6, 3, 4, 5, 7}\n    uniqueNumbers := make(map[int]struct{})\n\n    for _, number := range numbers {\n        uniqueNumbers[number] = struct{}{}\n    }\n\n    for number := range uniqueNumbers {\n        fmt.Println(number)\n    }\n}\n```"
+  },
+  {
+    "task": "Create a set of unique fruit names and demonstrate set operations with it.",
+    "code": "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tfruits := make(map[string]struct{})\n\t\n\t// Add fruits to the set\n\tfruits[\"apple\"] = struct{}{}\n\tfruits[\"banana\"] = struct{}{}\n\tfruits[\"orange\"] = struct{}{}\n\tfruits[\"mango\"] = struct{}{}\n\n\t// Print the set\n\tfmt.Println(\"Fruits set:\")\n\tfor fruit := range fruits {\n\t\tfmt.Println(fruit)\n\t}\n\n\t// Add a new fruit and try adding a duplicate\n\tfruits[\"kiwi\"] = struct{}{}\n\tfruits[\"apple\"] = struct{}{}\n\n\t// Demonstrate membership test\n\t_, exists := fruits[\"banana\"]\n\tfmt.Println(\"Is banana in the set?\", exists)\n\n\t// Demonstrate removal\n\tdelete(fruits, \"mango\")\n\n\t// Print the updated set\n\tfmt.Println(\"Updated fruits set:\")\n\tfor fruit := range fruits {\n\t\tfmt.Println(fruit)\n\t}\n}\n```"
+  }
+]

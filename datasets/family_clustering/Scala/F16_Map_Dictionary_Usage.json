@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```scala\nobject StudentGrades {\n  def main(args: Array[String]): Unit = {\n    val studentGrades = Map(\"Alice\" -> 85, \"Bob\" -> 92, \"Charlie\" -> 78, \"David\" -> 90)\n    val averageGrade = studentGrades.values.sum / studentGrades.size.toDouble\n    println(f\"Average grade: $averageGrade%.2f\")\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```scala\ndef totalCost(products: Map[String, Double]): Double = {\n  products.values.sum\n}\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```scala\nobject WordFrequencyCounter {\n  def countWordFrequency(text: String): Map[String, Int] = {\n    val words = text.split(\"\\\\W+\")\n    words.foldLeft(Map.empty[String, Int]) { (acc, word) =>\n      acc + (word -> (acc.getOrElse(word, 0) + 1))\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val text = \"This is a sample text. This text is for counting word frequency.\"\n    val frequencyMap = countWordFrequency(text)\n    println(frequencyMap)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```scala\ndef employeeWithMostHours(workHours: Map[String, Int]): String = {\n  workHours.maxBy(_._2)._1\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```scala\nimport scala.collection.mutable\n\nclass AccountManager {\n  private val loginAttempts: mutable.Map[String, List[Long]] = mutable.Map()\n\n  def registerLoginAttempt(username: String, success: Boolean): Unit = {\n    val currentTime = System.currentTimeMillis()\n    if (!success) {\n      val attempts = loginAttempts.getOrElse(username, List()) :+ currentTime\n      loginAttempts.update(username, attempts.takeRight(3))\n    } else {\n      loginAttempts.remove(username)\n    }\n  }\n\n  def isAccountLocked(username: String): Boolean = {\n    loginAttempts.get(username) match {\n      case Some(attempts) if attempts.size >= 3 => true\n      case _ => false\n    }\n  }\n}\n\nobject Main extends App {\n  val accountManager = new AccountManager\n\n  accountManager.registerLoginAttempt(\"user1\", success = false)\n  accountManager.registerLoginAttempt(\"user1\", success = false)\n  accountManager.registerLoginAttempt(\"user1\", success = false)\n\n  println(accountManager.isAccountLocked(\"user1\")) // Should print true\n\n  accountManager.registerLoginAttempt(\"user1\", success = true)\n\n  println(accountManager.isAccountLocked(\"user1\")) // Should print false\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```scala\nobject PhoneBook {\n  private var phoneBook: Map[String, String] = Map()\n\n  def addContact(name: String, number: String): Unit = {\n    phoneBook += (name -> number)\n  }\n\n  def removeContact(name: String): Unit = {\n    phoneBook -= name\n  }\n\n  def lookupContact(name: String): Option[String] = {\n    phoneBook.get(name)\n  }\n}\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```scala\nobject CityPopulation {\n  def main(args: Array[String]): Unit = {\n    val cityPopulations = Map(\n      \"New York\" -> 8419600,\n      \"Los Angeles\" -> 3980400,\n      \"Chicago\" -> 2716000,\n      \"Houston\" -> 2328000,\n      \"Phoenix\" -> 1690000\n    )\n\n    val cityWithHighestPopulation = cityPopulations.maxBy(_._2)\n\n    println(s\"City with the highest population: ${cityWithHighestPopulation._1} with population ${cityWithHighestPopulation._2}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```scala\nobject Translator {\n  def main(args: Array[String]): Unit = {\n    val dictionary: Map[String, String] = Map(\n      \"hello\" -> \"hola\",\n      \"world\" -> \"mundo\",\n      \"good\" -> \"bueno\",\n      \"morning\" -> \"ma\u00f1ana\"\n    )\n\n    val sentence = \"hello world good morning\"\n    val translatedSentence = sentence.split(\" \").map(word => dictionary.getOrElse(word, word)).mkString(\" \")\n    \n    println(translatedSentence)\n  }\n}\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```scala\nobject BookAuthorMap {\n  val books: Map[String, String] = Map(\n    \"To Kill a Mockingbird\" -> \"Harper Lee\",\n    \"1984\" -> \"George Orwell\",\n    \"The Great Gatsby\" -> \"F. Scott Fitzgerald\",\n    \"Brave New World\" -> \"Aldous Huxley\",\n    \"Animal Farm\" -> \"George Orwell\"\n  )\n\n  def findBooksByAuthor(author: String): List[String] = {\n    books.collect { case (title, a) if a == author => title }.toList\n  }\n\n  def main(args: Array[String]): Unit = {\n    val author = \"George Orwell\"\n    val booksByAuthor = findBooksByAuthor(author)\n    println(s\"Books by $author: ${booksByAuthor.mkString(\", \")}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```scala\nobject InventoryManagement {\n  var stockLevels: Map[String, Int] = Map(\n    \"product1\" -> 100,\n    \"product2\" -> 150,\n    \"product3\" -> 200\n  )\n\n  def updateStock(productId: String, quantitySold: Int): Unit = {\n    stockLevels.get(productId) match {\n      case Some(stock) => stockLevels += (productId -> (stock - quantitySold))\n      case None => println(s\"Product $productId not found.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```scala\nobject CountryCodeConverter {\n  def main(args: Array[String]): Unit = {\n    val countryCodes: Map[String, String] = Map(\n      \"US\" -> \"United States\",\n      \"CA\" -> \"Canada\",\n      \"MX\" -> \"Mexico\",\n      \"FR\" -> \"France\",\n      \"DE\" -> \"Germany\"\n    )\n\n    val codeToConvert = \"US\"\n    val countryName = countryCodes.getOrElse(codeToConvert, \"Unknown Country\")\n\n    println(s\"The country code $codeToConvert corresponds to $countryName.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```scala\nobject StudentDirectory {\n  def main(args: Array[String]): Unit = {\n    val studentDirectory: Map[Int, String] = Map(\n      101 -> \"Alice\",\n      102 -> \"Bob\",\n      103 -> \"Charlie\"\n    )\n\n    def getStudentNameById(id: Int): Option[String] = {\n      studentDirectory.get(id)\n    }\n\n    val studentId = 102\n    getStudentNameById(studentId) match {\n      case Some(name) => println(s\"Student Name: $name\")\n      case None => println(s\"No student found with ID: $studentId\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```scala\nobject ConfigSettings {\n  private var settings: Map[String, String] = Map()\n\n  def updateSetting(key: String, value: String): Unit = {\n    settings += (key -> value)\n  }\n\n  def getSetting(key: String): Option[String] = {\n    settings.get(key)\n  }\n}\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```scala\nobject DictionaryExample {\n  def main(args: Array[String]): Unit = {\n    val dictionary: Map[String, String] = Map(\n      \"apple\" -> \"A fruit that is red or green\",\n      \"banana\" -> \"A long yellow fruit\",\n      \"cherry\" -> \"A small, round, red fruit\",\n      \"date\" -> \"A sweet, dark brown fruit\",\n      \"elephant\" -> \"A large mammal with a trunk\"\n    )\n\n    def displayWordsStartingWith(letter: Char): Unit = {\n      dictionary.keys.filter(_.startsWith(letter.toString)).foreach(println)\n    }\n\n    displayWordsStartingWith('a')\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```scala\nobject LoginVerification {\n  def main(args: Array[String]): Unit = {\n    val credentials: Map[String, String] = Map(\n      \"user1\" -> \"password123\",\n      \"user2\" -> \"securepass\",\n      \"admin\" -> \"adminpass\"\n    )\n\n    def verifyLogin(username: String, password: String): Boolean = {\n      credentials.get(username) match {\n        case Some(pw) if pw == password => true\n        case _ => false\n      }\n    }\n\n    // Example usage\n    println(verifyLogin(\"user1\", \"password123\")) // true\n    println(verifyLogin(\"user2\", \"wrongpass\"))   // false\n  }\n}\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```scala\nobject StoreSales {\n  def main(args: Array[String]): Unit = {\n    val purchases = List(\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\")\n    val purchaseCount = purchases.foldLeft(Map[String, Int]().withDefaultValue(0)) {\n      (map, item) => map + (item -> (map(item) + 1))\n    }\n    val mostPopularItem = purchaseCount.maxBy(_._2)._1\n    println(s\"The most popular item is: $mostPopularItem\")\n  }\n}\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```scala\nobject FileOpener {\n  val fileAssociations: Map[String, String] = Map(\n    \"txt\" -> \"Text Editor\",\n    \"jpg\" -> \"Image Viewer\",\n    \"png\" -> \"Image Viewer\",\n    \"pdf\" -> \"PDF Reader\",\n    \"docx\" -> \"Word Processor\"\n  )\n\n  def openFile(fileName: String): String = {\n    val extension = fileName.split(\"\\\\.\").lastOption.getOrElse(\"\")\n    fileAssociations.getOrElse(extension, \"Unknown Application\")\n  }\n\n  def main(args: Array[String]): Unit = {\n    val fileName = \"example.pdf\"\n    println(s\"To open $fileName, use: ${openFile(fileName)}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```scala\nobject MenuApp extends App {\n  val menu: Map[String, Double] = Map(\n    \"Burger\" -> 8.99,\n    \"Fries\" -> 3.49,\n    \"Soda\" -> 1.99,\n    \"Coffee\" -> 2.49\n  )\n\n  def calculateTotalBill(order: List[String]): Double = {\n    order.flatMap(menu.get).sum\n  }\n\n  val customerOrder = List(\"Burger\", \"Fries\", \"Coffee\")\n  val totalBill = calculateTotalBill(customerOrder)\n\n  println(s\"Total Bill: $$${totalBill}\")\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```scala\nobject WarehouseInventory {\n  private var inventory: Map[String, Int] = Map()\n\n  def addProduct(product: String, quantity: Int): Unit = {\n    inventory = inventory + (product -> (inventory.getOrElse(product, 0) + quantity))\n  }\n\n  def removeProduct(product: String, quantity: Int): Unit = {\n    val currentQuantity = inventory.getOrElse(product, 0)\n    if (currentQuantity >= quantity) {\n      inventory = inventory + (product -> (currentQuantity - quantity))\n    }\n  }\n\n  def checkInventory(product: String): Int = {\n    inventory.getOrElse(product, 0)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```scala\nobject RomanNumerals {\n  val romanToIntMap: Map[Char, Int] = Map(\n    'I' -> 1,\n    'V' -> 5,\n    'X' -> 10,\n    'L' -> 50,\n    'C' -> 100,\n    'D' -> 500,\n    'M' -> 1000\n  )\n\n  def romanToInt(s: String): Int = {\n    var total = 0\n    var prevValue = 0\n\n    for (char <- s.reverse) {\n      val currentValue = romanToIntMap(char)\n      if (currentValue < prevValue) {\n        total -= currentValue\n      } else {\n        total += currentValue\n      }\n      prevValue = currentValue\n    }\n    total\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```scala\nobject LetterFrequency {\n  def countLetters(input: String): Map[Char, Int] = {\n    input.foldLeft(Map.empty[Char, Int]) { (acc, char) =>\n      acc + (char -> (acc.getOrElse(char, 0) + 1))\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val inputString = \"example string\"\n    val frequencyMap = countLetters(inputString)\n    println(frequencyMap)\n  }\n}\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```scala\nval teamScores = Map(\"TeamA\" -> 85, \"TeamB\" -> 90, \"TeamC\" -> 78, \"TeamD\" -> 92)\n\nval highestScoringTeam = teamScores.maxBy(_._2)._1\n\nprintln(s\"The team with the highest score is: $highestScoringTeam\")\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```scala\ndef calculateTotalWeight(itemWeights: Map[String, Double]): Double = {\n  itemWeights.values.sum\n}\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```scala\nobject WebsiteVisits {\n  def main(args: Array[String]): Unit = {\n    val websiteVisits = Map(\n      \"https://example.com\" -> 150,\n      \"https://anotherexample.com\" -> 200,\n      \"https://yetanotherexample.com\" -> 100\n    )\n\n    val mostVisitedWebsite = websiteVisits.maxBy(_._2)._1\n\n    println(s\"The most visited website is: $mostVisitedWebsite\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```scala\nobject ErrorCodeMapper {\n  def main(args: Array[String]): Unit = {\n    val errorCodeMap: Map[Int, String] = Map(\n      404 -> \"Not Found\",\n      500 -> \"Internal Server Error\",\n      403 -> \"Forbidden\",\n      401 -> \"Unauthorized\"\n    )\n\n    val errorCode = 404\n    println(errorCodeMap.getOrElse(errorCode, \"Unknown Error Code\"))\n  }\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```scala\nobject Contacts {\n  private var contactInfo: Map[String, String] = Map()\n\n  def addOrUpdateContact(name: String, phoneNumber: String): Unit = {\n    contactInfo += (name -> phoneNumber)\n  }\n\n  def lookupContact(name: String): Option[String] = {\n    contactInfo.get(name)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```scala\nobject TaskAssigner {\n  def main(args: Array[String]): Unit = {\n    val employeeSkills = Map(\n      \"Alice\" -> \"Intermediate\",\n      \"Bob\" -> \"Expert\",\n      \"Charlie\" -> \"Beginner\"\n    )\n    \n    val taskAssignments = Map(\n      \"Beginner\" -> \"Data Entry\",\n      \"Intermediate\" -> \"Report Analysis\",\n      \"Expert\" -> \"System Architecture\"\n    )\n    \n    val assignedTasks = employeeSkills.map { case (employee, skill) =>\n      employee -> taskAssignments.getOrElse(skill, \"No Task Assigned\")\n    }\n    \n    assignedTasks.foreach { case (employee, task) =>\n      println(s\"$employee is assigned to: $task\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```scala\nobject AirportMap {\n  def main(args: Array[String]): Unit = {\n    val airportToCity = Map(\n      \"JFK\" -> \"New York\",\n      \"LAX\" -> \"Los Angeles\",\n      \"ORD\" -> \"Chicago\",\n      \"ATL\" -> \"Atlanta\",\n      \"DFW\" -> \"Dallas/Fort Worth\"\n    )\n\n    def getCityName(airportCode: String): Option[String] = {\n      airportToCity.get(airportCode)\n    }\n\n    // Example usage\n    println(getCityName(\"JFK\")) // Output: Some(\"New York\")\n    println(getCityName(\"LAX\")) // Output: Some(\"Los Angeles\")\n    println(getCityName(\"MIA\")) // Output: None\n  }\n}\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```scala\nobject MovieFinder {\n  def main(args: Array[String]): Unit = {\n    val movies = Map(\n      \"The Godfather\" -> 1972,\n      \"Star Wars\" -> 1977,\n      \"Back to the Future\" -> 1985,\n      \"Pulp Fiction\" -> 1994,\n      \"The Matrix\" -> 1999,\n      \"Gladiator\" -> 2000,\n      \"The Dark Knight\" -> 2008\n    )\n\n    def moviesInDecade(decadeStart: Int): List[String] = {\n      movies.filter { case (_, year) => year >= decadeStart && year < decadeStart + 10 }\n            .keys\n            .toList\n    }\n\n    val moviesIn1990s = moviesInDecade(1990)\n    println(moviesIn1990s)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```scala\ndef groupStudentsByGrade(students: List[(String, Char)]): Map[Char, List[String]] = {\n  students.groupBy(_._2).mapValues(_.map(_._1))\n}\n\n// Example usage\nval students = List((\"Alice\", 'A'), (\"Bob\", 'B'), (\"Charlie\", 'A'), (\"David\", 'C'))\nval grouped = groupStudentsByGrade(students)\nprintln(grouped)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```scala\nobject MostVisitedSection {\n  def main(args: Array[String]): Unit = {\n    val visitors = Map(\n      \"Home\" -> 1500,\n      \"About\" -> 300,\n      \"Contact\" -> 500,\n      \"Blog\" -> 1200,\n      \"Shop\" -> 2000\n    )\n\n    val mostVisited = visitors.maxBy(_._2)._1\n    println(s\"The most visited section is: $mostVisited\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```scala\nobject ProjectDeadlineManager {\n  def main(args: Array[String]): Unit = {\n    var projectDeadlines = Map[String, String](\n      \"Alice\" -> \"2023-11-01\",\n      \"Bob\" -> \"2023-11-05\",\n      \"Charlie\" -> \"2023-11-10\"\n    )\n\n    def extendDeadline(member: String, newDeadline: String): Unit = {\n      projectDeadlines = projectDeadlines.updated(member, newDeadline)\n    }\n\n    // Example usage\n    println(\"Initial Deadlines:\")\n    projectDeadlines.foreach { case (member, deadline) =>\n      println(s\"$member: $deadline\")\n    }\n\n    extendDeadline(\"Alice\", \"2023-11-15\")\n\n    println(\"\\nUpdated Deadlines:\")\n    projectDeadlines.foreach { case (member, deadline) =>\n      println(s\"$member: $deadline\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```scala\nobject Library {\n  private var borrowedBooks: Map[String, Boolean] = Map()\n\n  def addBook(title: String): Unit = {\n    borrowedBooks += (title -> false)\n  }\n\n  def borrowBook(title: String): Boolean = {\n    borrowedBooks.get(title) match {\n      case Some(false) =>\n        borrowedBooks += (title -> true)\n        true\n      case _ => false\n    }\n  }\n\n  def returnBook(title: String): Boolean = {\n    borrowedBooks.get(title) match {\n      case Some(true) =>\n        borrowedBooks += (title -> false)\n        true\n      case _ => false\n    }\n  }\n\n  def isAvailable(title: String): Boolean = {\n    borrowedBooks.get(title) match {\n      case Some(false) => true\n      case _ => false\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```scala\nobject PlanetDistance {\n  def main(args: Array[String]): Unit = {\n    val planetDistances = Map(\n      \"Mercury\" -> 57.91,\n      \"Venus\" -> 108.2,\n      \"Earth\" -> 149.6,\n      \"Mars\" -> 227.9,\n      \"Jupiter\" -> 778.5,\n      \"Saturn\" -> 1433.5,\n      \"Uranus\" -> 2872.5,\n      \"Neptune\" -> 4495.1\n    )\n\n    val earthDistance = planetDistances(\"Earth\")\n    val closestPlanet = planetDistances\n      .filterKeys(_ != \"Earth\")\n      .minBy { case (_, distance) => math.abs(distance - earthDistance) }\n      ._1\n\n    println(s\"The closest planet to Earth is $closestPlanet.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```scala\nobject MorseCodeTranslator {\n  def main(args: Array[String]): Unit = {\n    val morseCodeDict: Map[String, String] = Map(\n      \".-\" -> \"A\", \"-...\" -> \"B\", \"-.-.\" -> \"C\", \"-..\" -> \"D\", \".\" -> \"E\",\n      \"..-.\" -> \"F\", \"--.\" -> \"G\", \"....\" -> \"H\", \"..\" -> \"I\", \".---\" -> \"J\",\n      \"-.-\" -> \"K\", \".-..\" -> \"L\", \"--\" -> \"M\", \"-.\" -> \"N\", \"---\" -> \"O\",\n      \".--.\" -> \"P\", \"--.-\" -> \"Q\", \".-.\" -> \"R\", \"...\" -> \"S\", \"-\" -> \"T\",\n      \"..-\" -> \"U\", \"...-\" -> \"V\", \".--\" -> \"W\", \"-..-\" -> \"X\", \"-.--\" -> \"Y\",\n      \"--..\" -> \"Z\", \"-----\" -> \"0\", \".----\" -> \"1\", \"..---\" -> \"2\", \"...--\" -> \"3\",\n      \"....-\" -> \"4\", \".....\" -> \"5\", \"-....\" -> \"6\", \"--...\" -> \"7\", \"---..\" -> \"8\",\n      \"----.\" -> \"9\"\n    )\n\n    val morseCodeMessage = \"... --- ...\"\n    val translatedMessage = morseCodeMessage.split(\" \").map(morseCodeDict.getOrElse(_, \"\")).mkString(\"\")\n\n    println(translatedMessage)\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```scala\nobject VehicleRegistry {\n  def main(args: Array[String]): Unit = {\n    val vehicleRegistry: Map[String, String] = Map(\n      \"ABC123\" -> \"John Doe\",\n      \"XYZ789\" -> \"Jane Smith\",\n      \"LMN456\" -> \"Alice Johnson\"\n    )\n\n    vehicleRegistry.foreach { case (regNumber, owner) =>\n      println(s\"Registration: $regNumber, Owner: $owner\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```scala\nobject TeamRecords extends App {\n  val teamRecords = Map(\n    \"Team A\" -> (10, 2),\n    \"Team B\" -> (8, 5),\n    \"Team C\" -> (12, 1),\n    \"Team D\" -> (7, 6)\n  )\n\n  val bestTeam = teamRecords.maxBy { case (_, (wins, losses)) => wins.toDouble / (wins + losses) }\n  \n  println(s\"The team with the best record is ${bestTeam._1} with a record of ${bestTeam._2._1} wins and ${bestTeam._2._2} losses.\")\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```scala\ndef currencyCodeToName(code: String): String = {\n  val currencyMap = Map(\n    \"USD\" -> \"United States Dollar\",\n    \"EUR\" -> \"Euro\",\n    \"JPY\" -> \"Japanese Yen\",\n    \"GBP\" -> \"British Pound Sterling\",\n    \"AUD\" -> \"Australian Dollar\",\n    \"CAD\" -> \"Canadian Dollar\",\n    \"CHF\" -> \"Swiss Franc\",\n    \"CNY\" -> \"Chinese Yuan\",\n    \"SEK\" -> \"Swedish Krona\",\n    \"NZD\" -> \"New Zealand Dollar\"\n  )\n  \n  currencyMap.getOrElse(code, \"Unknown Currency Code\")\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```scala\nobject AttendanceTracker {\n  def main(args: Array[String]): Unit = {\n    val attendance = Map(\n      \"Alice\" -> 5,\n      \"Bob\" -> 8,\n      \"Charlie\" -> 7,\n      \"Diana\" -> 9\n    )\n\n    val studentWithMaxAttendance = attendance.maxBy(_._2)._1\n    println(s\"Student with the highest attendance: $studentWithMaxAttendance\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```scala\nobject CountryCapitalMap {\n  def main(args: Array[String]): Unit = {\n    val countryCapitals = Map(\n      \"United States\" -> \"Washington, D.C.\",\n      \"Canada\" -> \"Ottawa\",\n      \"United Kingdom\" -> \"London\",\n      \"France\" -> \"Paris\",\n      \"Germany\" -> \"Berlin\"\n    )\n\n    // Example lookup\n    val country = \"Canada\"\n    val capital = countryCapitals.getOrElse(country, \"Unknown\")\n    println(s\"The capital of $country is $capital.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```scala\nobject RecipeTracker {\n  def main(args: Array[String]): Unit = {\n    val recipeIngredients = Map(\n      \"Flour\" -> \"2 cups\",\n      \"Sugar\" -> \"1 cup\",\n      \"Eggs\" -> \"2 pcs\",\n      \"Butter\" -> \"1/2 cup\"\n    )\n\n    recipeIngredients.foreach { case (ingredient, quantity) =>\n      println(s\"$ingredient: $quantity\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```scala\ncase class UserProfile(name: String, age: Int, email: String)\n\nobject SocialMediaSystem {\n  private var userProfiles: Map[String, UserProfile] = Map()\n\n  def addUser(username: String, profile: UserProfile): Unit = {\n    userProfiles += (username -> profile)\n  }\n\n  def getUserProfile(username: String): Option[UserProfile] = {\n    userProfiles.get(username)\n  }\n\n  def removeUser(username: String): Unit = {\n    userProfiles -= username\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```scala\ndef listProductsInCategory(products: Map[String, List[String]], category: String): List[String] = {\n  products.getOrElse(category, List())\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```scala\nobject ShoppingList {\n  private val shoppingList: scala.collection.mutable.Map[String, Int] = scala.collection.mutable.Map()\n\n  def updateQuantity(item: String, quantity: Int): Unit = {\n    shoppingList.updateWith(item) {\n      case Some(existingQuantity) => Some(existingQuantity + quantity)\n      case None => Some(quantity)\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    updateQuantity(\"Apples\", 5)\n    updateQuantity(\"Bananas\", 2)\n    updateQuantity(\"Apples\", 3)\n    println(shoppingList)\n  }\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```scala\nobject HistoricalEvents {\n  def main(args: Array[String]): Unit = {\n    val events = Map(\n      \"Moon Landing\" -> 1969,\n      \"Fall of Berlin Wall\" -> 1989,\n      \"Signing of the Declaration of Independence\" -> 1776,\n      \"French Revolution\" -> 1789,\n      \"World War I Begins\" -> 1914,\n      \"World War II Ends\" -> 1945\n    )\n\n    def findEventsByYear(year: Int): List[String] = {\n      events.collect { case (event, eventYear) if eventYear == year => event }.toList\n    }\n\n    val yearToFind = 1989\n    val foundEvents = findEventsByYear(yearToFind)\n\n    println(s\"Events in $yearToFind: ${foundEvents.mkString(\", \")}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```scala\nobject UserRolesPermissions {\n  def main(args: Array[String]): Unit = {\n    // Define a Map to hold user roles and their permissions\n    val rolesPermissions: Map[String, List[String]] = Map(\n      \"admin\" -> List(\"read\", \"write\", \"delete\"),\n      \"editor\" -> List(\"read\", \"write\"),\n      \"viewer\" -> List(\"read\")\n    )\n\n    // Function to get permissions for a given role\n    def getPermissions(role: String): List[String] = {\n      rolesPermissions.getOrElse(role, List())\n    }\n\n    // Example usage\n    println(getPermissions(\"admin\"))  // Output: List(read, write, delete)\n    println(getPermissions(\"viewer\")) // Output: List(read)\n    println(getPermissions(\"guest\"))  // Output: List()\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```scala\nobject GradeConverter {\n  def main(args: Array[String]): Unit = {\n    val gradeMap = Map(\n      90 to 100 -> \"A\",\n      80 to 89 -> \"B\",\n      70 to 79 -> \"C\",\n      60 to 69 -> \"D\",\n      0 to 59 -> \"F\"\n    )\n\n    def convertGrade(numericGrade: Int): String = {\n      gradeMap.collectFirst {\n        case (range, letter) if range.contains(numericGrade) => letter\n      }.getOrElse(\"Invalid Grade\")\n    }\n\n    val numericGrades = List(95, 82, 73, 60, 45, 102)\n    val letterGrades = numericGrades.map(convertGrade)\n\n    println(letterGrades.mkString(\", \"))\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```scala\nobject HolidayDictionary {\n  def main(args: Array[String]): Unit = {\n    val holidays = Map(\n      \"New Year's Day\" -> \"January 1\",\n      \"Independence Day\" -> \"July 4\",\n      \"Christmas Day\" -> \"December 25\"\n    )\n\n    def getHolidayDate(holidayName: String): Option[String] = {\n      holidays.get(holidayName)\n    }\n\n    // Example usage\n    val holidayName = \"Christmas Day\"\n    val holidayDate = getHolidayDate(holidayName)\n    println(s\"The date for $holidayName is ${holidayDate.getOrElse(\"not found\")}.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```scala\nobject OrderTracker {\n  private var orderStatusMap: Map[String, String] = Map()\n\n  def addOrder(orderId: String, status: String): Unit = {\n    orderStatusMap += (orderId -> status)\n  }\n\n  def updateOrderStatus(orderId: String, newStatus: String): Unit = {\n    if (orderStatusMap.contains(orderId)) {\n      orderStatusMap += (orderId -> newStatus)\n    } else {\n      println(s\"Order ID $orderId not found.\")\n    }\n  }\n\n  def getOrderStatus(orderId: String): Option[String] = {\n    orderStatusMap.get(orderId)\n  }\n}\n\nobject Main extends App {\n  OrderTracker.addOrder(\"123\", \"Processing\")\n  OrderTracker.updateOrderStatus(\"123\", \"Shipped\")\n  println(OrderTracker.getOrderStatus(\"123\").getOrElse(\"Order not found\"))\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```scala\nobject FoodNutritionApp extends App {\n  val foodNutrition: Map[String, Map[String, Any]] = Map(\n    \"Apple\" -> Map(\"Calories\" -> 52, \"Carbohydrates\" -> 14, \"Protein\" -> 0.3),\n    \"Banana\" -> Map(\"Calories\" -> 89, \"Carbohydrates\" -> 23, \"Protein\" -> 1.1),\n    \"Carrot\" -> Map(\"Calories\" -> 41, \"Carbohydrates\" -> 10, \"Protein\" -> 0.9)\n  )\n\n  foodNutrition.foreach { case (food, nutrition) =>\n    println(s\"Nutritional information for $food:\")\n    nutrition.foreach { case (key, value) =>\n      println(s\"  $key: $value\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```scala\nobject BookGenreMap {\n  def main(args: Array[String]): Unit = {\n    val booksByGenre: Map[String, List[String]] = Map(\n      \"Science Fiction\" -> List(\"Dune\", \"Neuromancer\", \"Snow Crash\"),\n      \"Fantasy\" -> List(\"The Hobbit\", \"Harry Potter\", \"The Name of the Wind\"),\n      \"Mystery\" -> List(\"The Girl with the Dragon Tattoo\", \"Gone Girl\", \"In the Woods\")\n    )\n\n    def getBooksByGenre(genre: String): List[String] = {\n      booksByGenre.getOrElse(genre, List())\n    }\n\n    val genre = \"Fantasy\"\n    val books = getBooksByGenre(genre)\n    println(s\"Books in genre '$genre': ${books.mkString(\", \")}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```scala\nobject StateConverter {\n  val stateMap: Map[String, String] = Map(\n    \"AL\" -> \"Alabama\",\n    \"AK\" -> \"Alaska\",\n    \"AZ\" -> \"Arizona\",\n    \"AR\" -> \"Arkansas\",\n    \"CA\" -> \"California\",\n    \"CO\" -> \"Colorado\",\n    \"CT\" -> \"Connecticut\",\n    \"DE\" -> \"Delaware\",\n    \"FL\" -> \"Florida\",\n    \"GA\" -> \"Georgia\",\n    \"HI\" -> \"Hawaii\",\n    \"ID\" -> \"Idaho\",\n    \"IL\" -> \"Illinois\",\n    \"IN\" -> \"Indiana\",\n    \"IA\" -> \"Iowa\",\n    \"KS\" -> \"Kansas\",\n    \"KY\" -> \"Kentucky\",\n    \"LA\" -> \"Louisiana\",\n    \"ME\" -> \"Maine\",\n    \"MD\" -> \"Maryland\",\n    \"MA\" -> \"Massachusetts\",\n    \"MI\" -> \"Michigan\",\n    \"MN\" -> \"Minnesota\",\n    \"MS\" -> \"Mississippi\",\n    \"MO\" -> \"Missouri\",\n    \"MT\" -> \"Montana\",\n    \"NE\" -> \"Nebraska\",\n    \"NV\" -> \"Nevada\",\n    \"NH\" -> \"New Hampshire\",\n    \"NJ\" -> \"New Jersey\",\n    \"NM\" -> \"New Mexico\",\n    \"NY\" -> \"New York\",\n    \"NC\" -> \"North Carolina\",\n    \"ND\" -> \"North Dakota\",\n    \"OH\" -> \"Ohio\",\n    \"OK\" -> \"Oklahoma\",\n    \"OR\" -> \"Oregon\",\n    \"PA\" -> \"Pennsylvania\",\n    \"RI\" -> \"Rhode Island\",\n    \"SC\" -> \"South Carolina\",\n    \"SD\" -> \"South Dakota\",\n    \"TN\" -> \"Tennessee\",\n    \"TX\" -> \"Texas\",\n    \"UT\" -> \"Utah\",\n    \"VT\" -> \"Vermont\",\n    \"VA\" -> \"Virginia\",\n    \"WA\" -> \"Washington\",\n    \"WV\" -> \"West Virginia\",\n    \"WI\" -> \"Wisconsin\",\n    \"WY\" -> \"Wyoming\"\n  )\n\n  def convertStateAbbreviation(abbreviation: String): Option[String] = {\n    stateMap.get(abbreviation)\n  }\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```scala\nobject CustomerOrderHistory extends App {\n  val orderHistory: Map[String, List[String]] = Map(\n    \"Alice\" -> List(\"Order1\", \"Order2\"),\n    \"Bob\" -> List(\"Order3\"),\n    \"Charlie\" -> List(\"Order4\", \"Order5\", \"Order6\")\n  )\n\n  // Example usage: print order history for each customer\n  orderHistory.foreach { case (customer, orders) =>\n    println(s\"$customer: ${orders.mkString(\", \")}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```scala\nobject ParkingLotManager {\n  def main(args: Array[String]): Unit = {\n    var parkingLot: Map[Int, Boolean] = Map(1 -> false, 2 -> false, 3 -> false, 4 -> false, 5 -> false)\n\n    def occupySpace(spaceNumber: Int): Unit = {\n      if (parkingLot.contains(spaceNumber) && !parkingLot(spaceNumber)) {\n        parkingLot += (spaceNumber -> true)\n        println(s\"Space $spaceNumber is now occupied.\")\n      } else {\n        println(s\"Space $spaceNumber is either already occupied or does not exist.\")\n      }\n    }\n\n    def freeSpace(spaceNumber: Int): Unit = {\n      if (parkingLot.contains(spaceNumber) && parkingLot(spaceNumber)) {\n        parkingLot += (spaceNumber -> false)\n        println(s\"Space $spaceNumber is now free.\")\n      } else {\n        println(s\"Space $spaceNumber is either already free or does not exist.\")\n      }\n    }\n\n    def displayParkingLotStatus(): Unit = {\n      println(\"Parking Lot Status:\")\n      parkingLot.foreach { case (spaceNumber, isOccupied) =>\n        println(s\"Space $spaceNumber: ${if (isOccupied) \"Occupied\" else \"Free\"}\")\n      }\n    }\n\n    // Example usage\n    displayParkingLotStatus()\n    occupySpace(3)\n    displayParkingLotStatus()\n    freeSpace(3)\n    displayParkingLotStatus()\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```scala\nobject GameScores {\n  def main(args: Array[String]): Unit = {\n    var scores: Map[String, Int] = Map()\n\n    // Add players and their scores\n    scores += (\"Alice\" -> 10)\n    scores += (\"Bob\" -> 15)\n    scores += (\"Charlie\" -> 5)\n\n    // Update scores\n    scores += (\"Alice\" -> (scores(\"Alice\") + 5))\n    scores += (\"Bob\" -> (scores(\"Bob\") + 10))\n\n    // Print final scores\n    scores.foreach { case (player, score) =>\n      println(s\"$player: $score\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```scala\nobject ScientificDictionary {\n  private val dictionary: Map[String, String] = Map(\n    \"Atom\" -> \"The basic unit of a chemical element.\",\n    \"Molecule\" -> \"A group of atoms bonded together.\",\n    \"Photosynthesis\" -> \"The process by which green plants use sunlight to synthesize foods with carbon dioxide and water.\"\n  )\n\n  def lookup(term: String): Option[String] = {\n    dictionary.get(term)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val term = \"Atom\"\n    println(s\"Definition of $term: ${lookup(term).getOrElse(\"Term not found\")}\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```scala\nobject TemperatureConverter {\n  def convertTemperature(value: Double, fromScale: String, toScale: String): Double = {\n    val conversionMap: Map[(String, String), Double => Double] = Map(\n      (\"Celsius\", \"Fahrenheit\") -> (c => c * 9.0/5.0 + 32),\n      (\"Fahrenheit\", \"Celsius\") -> (f => (f - 32) * 5.0/9.0),\n      (\"Celsius\", \"Kelvin\") -> (c => c + 273.15),\n      (\"Kelvin\", \"Celsius\") -> (k => k - 273.15),\n      (\"Fahrenheit\", \"Kelvin\") -> (f => (f - 32) * 5.0/9.0 + 273.15),\n      (\"Kelvin\", \"Fahrenheit\") -> (k => (k - 273.15) * 9.0/5.0 + 32)\n    )\n    \n    conversionMap.get((fromScale, toScale)) match {\n      case Some(conversionFunction) => conversionFunction(value)\n      case None => throw new IllegalArgumentException(\"Invalid temperature scale conversion\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```scala\nval employeeDepartments: Map[String, String] = Map(\n  \"Alice\" -> \"Sales\",\n  \"Bob\" -> \"Engineering\",\n  \"Charlie\" -> \"Marketing\",\n  \"David\" -> \"Finance\"\n)\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```scala\nobject TouristAttractions {\n  def main(args: Array[String]): Unit = {\n    val attractions = Map(\n      \"Eiffel Tower\" -> \"Paris, France\",\n      \"Statue of Liberty\" -> \"New York, USA\",\n      \"Great Wall of China\" -> \"China\",\n      \"Colosseum\" -> \"Rome, Italy\",\n      \"Taj Mahal\" -> \"Agra, India\"\n    )\n\n    attractions.foreach { case (attraction, location) =>\n      println(s\"The $attraction is located in $location.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```scala\nobject MusicAlbumsManager {\n  private var albums: Map[String, String] = Map()\n\n  def addAlbum(title: String, artist: String): Unit = {\n    albums += (title -> artist)\n  }\n\n  def removeAlbum(title: String): Unit = {\n    albums -= title\n  }\n\n  def getAlbums: Map[String, String] = albums\n}\n\n// Usage example\nMusicAlbumsManager.addAlbum(\"Thriller\", \"Michael Jackson\")\nMusicAlbumsManager.addAlbum(\"Back in Black\", \"AC/DC\")\nMusicAlbumsManager.removeAlbum(\"Thriller\")\nval currentAlbums = MusicAlbumsManager.getAlbums\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```scala\nobject InventoryTracker {\n  def main(args: Array[String]): Unit = {\n    var inventory = Map[String, Int](\n      \"Apples\" -> 30,\n      \"Bananas\" -> 20,\n      \"Oranges\" -> 15\n    )\n\n    // Function to add stock\n    def addStock(item: String, quantity: Int): Unit = {\n      inventory = inventory.updated(item, inventory.getOrElse(item, 0) + quantity)\n    }\n\n    // Function to remove stock\n    def removeStock(item: String, quantity: Int): Unit = {\n      inventory.get(item) match {\n        case Some(stock) if stock >= quantity =>\n          inventory = inventory.updated(item, stock - quantity)\n        case Some(_) =>\n          println(s\"Not enough $item in stock to remove $quantity.\")\n        case None =>\n          println(s\"$item is not in the inventory.\")\n      }\n    }\n\n    // Display current inventory\n    def displayInventory(): Unit = {\n      println(\"Current Inventory:\")\n      inventory.foreach { case (item, quantity) =>\n        println(s\"$item: $quantity\")\n      }\n    }\n\n    // Example usage\n    displayInventory()\n    addStock(\"Apples\", 10)\n    removeStock(\"Bananas\", 5)\n    displayInventory()\n    removeStock(\"Oranges\", 20)\n    displayInventory()\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```scala\nobject RiverLengths {\n  def main(args: Array[String]): Unit = {\n    val riverLengths = Map(\n      \"Nile\" -> 6650,\n      \"Amazon\" -> 6400,\n      \"Yangtze\" -> 6300,\n      \"Mississippi\" -> 6275,\n      \"Yenisei\" -> 5539\n    )\n\n    // Example lookup\n    val riverName = \"Nile\"\n    val length = riverLengths.getOrElse(riverName, \"Unknown\")\n    println(s\"The length of the $riverName is $length kilometers.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```scala\nobject ConferenceRoomTracker {\n  private var roomAvailability: Map[String, Boolean] = Map(\n    \"Room A\" -> true,\n    \"Room B\" -> true,\n    \"Room C\" -> true\n  )\n\n  def isRoomAvailable(room: String): Boolean = {\n    roomAvailability.getOrElse(room, false)\n  }\n\n  def bookRoom(room: String): Boolean = {\n    if (isRoomAvailable(room)) {\n      roomAvailability = roomAvailability.updated(room, false)\n      true\n    } else {\n      false\n    }\n  }\n\n  def releaseRoom(room: String): Unit = {\n    roomAvailability = roomAvailability.updated(room, true)\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```scala\nobject AnimalHabitats {\n  def main(args: Array[String]): Unit = {\n    val animalHabitats = Map(\n      \"Lion\" -> \"Savanna\",\n      \"Polar Bear\" -> \"Arctic\",\n      \"Kangaroo\" -> \"Grassland\",\n      \"Penguin\" -> \"Antarctica\",\n      \"Eagle\" -> \"Mountains\"\n    )\n\n    animalHabitats.foreach { case (animal, habitat) =>\n      println(s\"The $animal lives in the $habitat.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```scala\nobject MountainElevation {\n  def main(args: Array[String]): Unit = {\n    val mountains = Map(\n      \"Everest\" -> 8848,\n      \"K2\" -> 8611,\n      \"Kangchenjunga\" -> 8586,\n      \"Lhotse\" -> 8516,\n      \"Makalu\" -> 8485\n    )\n\n    val tallestMountain = mountains.maxBy(_._2)\n    println(s\"The tallest mountain is ${tallestMountain._1} with an elevation of ${tallestMountain._2} meters.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```scala\ndef timeZoneToUtcOffset(timeZone: String): Option[String] = {\n  val timeZoneOffsets = Map(\n    \"PST\" -> \"-08:00\",\n    \"MST\" -> \"-07:00\",\n    \"CST\" -> \"-06:00\",\n    \"EST\" -> \"-05:00\",\n    \"GMT\" -> \"+00:00\",\n    \"CET\" -> \"+01:00\",\n    \"EET\" -> \"+02:00\",\n    \"IST\" -> \"+05:30\",\n    \"CST China\" -> \"+08:00\",\n    \"JST\" -> \"+09:00\"\n  )\n  timeZoneOffsets.get(timeZone)\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```scala\nobject LanguageCreators {\n  def main(args: Array[String]): Unit = {\n    val languageCreators = Map(\n      \"Scala\" -> \"Martin Odersky\",\n      \"Python\" -> \"Guido van Rossum\",\n      \"Java\" -> \"James Gosling\",\n      \"C++\" -> \"Bjarne Stroustrup\",\n      \"Ruby\" -> \"Yukihiro Matsumoto\"\n    )\n    \n    println(languageCreators)\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```scala\nobject NewsletterManager {\n  private var subscribers: Map[String, Boolean] = Map()\n\n  def subscribe(email: String): Unit = {\n    subscribers += (email -> true)\n  }\n\n  def unsubscribe(email: String): Unit = {\n    subscribers -= email\n  }\n\n  def isSubscribed(email: String): Boolean = {\n    subscribers.getOrElse(email, false)\n  }\n\n  def listSubscribers(): List[String] = {\n    subscribers.keys.toList\n  }\n}\n\n// Example usage:\n// NewsletterManager.subscribe(\"example@example.com\")\n// NewsletterManager.unsubscribe(\"example@example.com\")\n// println(NewsletterManager.isSubscribed(\"example@example.com\"))\n// println(NewsletterManager.listSubscribers())\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```scala\nobject SocialMediaLikes {\n  def main(args: Array[String]): Unit = {\n    var likesMap: Map[String, Int] = Map()\n\n    def addLike(postId: String): Unit = {\n      likesMap = likesMap.updated(postId, likesMap.getOrElse(postId, 0) + 1)\n    }\n\n    def getLikes(postId: String): Int = {\n      likesMap.getOrElse(postId, 0)\n    }\n\n    // Example usage:\n    addLike(\"post1\")\n    addLike(\"post1\")\n    addLike(\"post2\")\n    println(s\"Post1 has ${getLikes(\"post1\")} likes.\")\n    println(s\"Post2 has ${getLikes(\"post2\")} likes.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```scala\nobject PeriodicTable {\n  val elements: Map[String, Int] = Map(\n    \"Hydrogen\" -> 1,\n    \"Helium\" -> 2,\n    \"Lithium\" -> 3,\n    \"Beryllium\" -> 4,\n    \"Boron\" -> 5,\n    \"Carbon\" -> 6,\n    \"Nitrogen\" -> 7,\n    \"Oxygen\" -> 8,\n    \"Fluorine\" -> 9,\n    \"Neon\" -> 10\n    // Add more elements as needed\n  )\n\n  def getAtomicNumber(element: String): Option[Int] = {\n    elements.get(element)\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```scala\ndef groupMoviesByDirector(movies: List[(String, String)]): Map[String, List[String]] = {\n  movies.groupBy { case (movie, director) => director }\n        .mapValues(_.map { case (movie, _) => movie })\n}\n\n// Example usage\nval movies = List(\n  (\"Inception\", \"Christopher Nolan\"),\n  (\"Interstellar\", \"Christopher Nolan\"),\n  (\"The Dark Knight\", \"Christopher Nolan\"),\n  (\"Pulp Fiction\", \"Quentin Tarantino\"),\n  (\"Kill Bill\", \"Quentin Tarantino\")\n)\n\nval groupedMovies = groupMoviesByDirector(movies)\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```scala\nval historicalFigures: Map[String, Int] = Map(\n  \"Albert Einstein\" -> 1879,\n  \"Isaac Newton\" -> 1643,\n  \"Marie Curie\" -> 1867,\n  \"Galileo Galilei\" -> 1564,\n  \"Ada Lovelace\" -> 1815\n)\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```scala\nobject PlanetDiameters extends App {\n  val planetDiameters: Map[String, Double] = Map(\n    \"Mercury\" -> 4879.4,\n    \"Venus\" -> 12104.0,\n    \"Earth\" -> 12742.0,\n    \"Mars\" -> 6779.0,\n    \"Jupiter\" -> 139820.0,\n    \"Saturn\" -> 116460.0,\n    \"Uranus\" -> 50724.0,\n    \"Neptune\" -> 49244.0\n  )\n\n  planetDiameters.foreach { case (planet, diameter) =>\n    println(s\"The diameter of $planet is $diameter kilometers.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```scala\nobject RestaurantRatings {\n  private var ratings: Map[String, Int] = Map()\n\n  def addOrUpdateRating(restaurant: String, rating: Int): Unit = {\n    ratings += (restaurant -> rating)\n  }\n\n  def getRating(restaurant: String): Option[Int] = {\n    ratings.get(restaurant)\n  }\n\n  def main(args: Array[String]): Unit = {\n    addOrUpdateRating(\"Pasta Place\", 5)\n    addOrUpdateRating(\"Burger Joint\", 4)\n    addOrUpdateRating(\"Pasta Place\", 3)\n\n    println(getRating(\"Pasta Place\")) // Some(3)\n    println(getRating(\"Burger Joint\")) // Some(4)\n    println(getRating(\"Sushi Spot\")) // None\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```scala\nobject BinaryToDecimalTranslator {\n  def main(args: Array[String]): Unit = {\n    val binaryToDecimalMap: Map[String, Int] = Map(\n      \"0000\" -> 0,\n      \"0001\" -> 1,\n      \"0010\" -> 2,\n      \"0011\" -> 3,\n      \"0100\" -> 4,\n      \"0101\" -> 5,\n      \"0110\" -> 6,\n      \"0111\" -> 7,\n      \"1000\" -> 8,\n      \"1001\" -> 9,\n      \"1010\" -> 10,\n      \"1011\" -> 11,\n      \"1100\" -> 12,\n      \"1101\" -> 13,\n      \"1110\" -> 14,\n      \"1111\" -> 15\n    )\n\n    val binaryNumbers = List(\"0000\", \"0001\", \"0010\", \"1010\", \"1111\")\n    val decimalNumbers = binaryNumbers.map(binaryToDecimalMap)\n\n    println(decimalNumbers)\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```scala\nval artistsWorks = Map(\n  \"Leonardo da Vinci\" -> \"Mona Lisa\",\n  \"Vincent van Gogh\" -> \"Starry Night\",\n  \"Pablo Picasso\" -> \"Guernica\",\n  \"Claude Monet\" -> \"Water Lilies\",\n  \"Frida Kahlo\" -> \"The Two Fridas\"\n)\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```scala\nobject VehicleMaintenanceTracker {\n\n  case class Vehicle(id: String, make: String, model: String)\n  case class MaintenanceSchedule(date: String, description: String)\n\n  var maintenanceSchedules: Map[Vehicle, List[MaintenanceSchedule]] = Map()\n\n  def addSchedule(vehicle: Vehicle, schedule: MaintenanceSchedule): Unit = {\n    maintenanceSchedules = maintenanceSchedules.updated(\n      vehicle,\n      maintenanceSchedules.getOrElse(vehicle, List()) :+ schedule\n    )\n  }\n\n  def getSchedules(vehicle: Vehicle): List[MaintenanceSchedule] = {\n    maintenanceSchedules.getOrElse(vehicle, List())\n  }\n\n  def main(args: Array[String]): Unit = {\n    val vehicle1 = Vehicle(\"1\", \"Toyota\", \"Corolla\")\n    val schedule1 = MaintenanceSchedule(\"2023-12-01\", \"Oil Change\")\n    val schedule2 = MaintenanceSchedule(\"2024-01-15\", \"Tire Rotation\")\n    \n    addSchedule(vehicle1, schedule1)\n    addSchedule(vehicle1, schedule2)\n\n    val schedules = getSchedules(vehicle1)\n    schedules.foreach(schedule => println(s\"Date: ${schedule.date}, Description: ${schedule.description}\"))\n  }\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```scala\nobject LanguageSpeakers {\n  def main(args: Array[String]): Unit = {\n    val languageSpeakers = Map(\n      \"English\" -> 1132000000,\n      \"Mandarin Chinese\" -> 1117000000,\n      \"Hindi\" -> 615000000,\n      \"Spanish\" -> 534000000,\n      \"French\" -> 280000000\n    )\n\n    languageSpeakers.foreach { case (language, speakers) =>\n      println(s\"$language: $speakers speakers worldwide\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```scala\nval cityTemperatures = Map(\n  \"New York\" -> 12.5,\n  \"Los Angeles\" -> 18.2,\n  \"Chicago\" -> 10.0,\n  \"Houston\" -> 20.6,\n  \"Phoenix\" -> 22.3\n)\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```scala\nobject UnitConverter {\n  def convertToImperial(unit: String, value: Double): Option[Double] = {\n    val conversionMap: Map[String, Double] = Map(\n      \"meter\" -> 3.28084,      // meters to feet\n      \"kilogram\" -> 2.20462,   // kilograms to pounds\n      \"liter\" -> 0.264172      // liters to gallons\n    )\n\n    conversionMap.get(unit).map(_ * value)\n  }\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```scala\nobject SportsWorldRecords {\n  def main(args: Array[String]): Unit = {\n    val worldRecords = Map(\n      \"100m Sprint\" -> \"9.58 seconds\",\n      \"Marathon\" -> \"2:01:09 hours\",\n      \"High Jump\" -> \"2.45 meters\",\n      \"Long Jump\" -> \"8.95 meters\",\n      \"Pole Vault\" -> \"6.18 meters\"\n    )\n\n    worldRecords.foreach { case (sport, record) =>\n      println(s\"The world record for $sport is $record.\")\n    }\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```scala\nobject FavoriteMoviesManager {\n  private var favoriteMovies: Map[String, String] = Map()\n\n  def addMovie(title: String, genre: String): Unit = {\n    favoriteMovies += (title -> genre)\n  }\n\n  def removeMovie(title: String): Unit = {\n    favoriteMovies -= title\n  }\n\n  def getFavoriteMovies: Map[String, String] = favoriteMovies\n}\n\n// Usage Example\nFavoriteMoviesManager.addMovie(\"Inception\", \"Sci-Fi\")\nFavoriteMoviesManager.addMovie(\"The Godfather\", \"Crime\")\nFavoriteMoviesManager.removeMovie(\"Inception\")\nprintln(FavoriteMoviesManager.getFavoriteMovies)\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```scala\nobject CityDistances {\n  def main(args: Array[String]): Unit = {\n    val distances: Map[(String, String), Int] = Map(\n      (\"New York\", \"Los Angeles\") -> 2451,\n      (\"Chicago\", \"Houston\") -> 1081,\n      (\"Miami\", \"Atlanta\") -> 662,\n      (\"Dallas\", \"Phoenix\") -> 1065\n    )\n\n    // Example usage\n    val distanceNYtoLA = distances.get((\"New York\", \"Los Angeles\"))\n    println(s\"Distance from New York to Los Angeles: ${distanceNYtoLA.getOrElse(\"Unknown\")} miles\")\n  }\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```scala\nobject PlanetOrbitalPeriods {\n  val orbitalPeriods: Map[String, Double] = Map(\n    \"Mercury\" -> 87.97,\n    \"Venus\" -> 224.70,\n    \"Earth\" -> 365.25,\n    \"Mars\" -> 686.98,\n    \"Jupiter\" -> 4332.59,\n    \"Saturn\" -> 10759.22,\n    \"Uranus\" -> 30685.49,\n    \"Neptune\" -> 60189.0\n  )\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```scala\ndef htmlColorToName(htmlCode: String): Option[String] = {\n  val colorMap = Map(\n    \"#FFFFFF\" -> \"White\",\n    \"#000000\" -> \"Black\",\n    \"#FF0000\" -> \"Red\",\n    \"#00FF00\" -> \"Lime\",\n    \"#0000FF\" -> \"Blue\",\n    \"#FFFF00\" -> \"Yellow\",\n    \"#00FFFF\" -> \"Cyan\",\n    \"#FF00FF\" -> \"Magenta\"\n  )\n  colorMap.get(htmlCode.toUpperCase)\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```scala\nval composers = Map(\n  \"Ludwig van Beethoven\" -> \"Symphony No. 9\",\n  \"Wolfgang Amadeus Mozart\" -> \"The Magic Flute\",\n  \"Johann Sebastian Bach\" -> \"Brandenburg Concertos\",\n  \"Fr\u00e9d\u00e9ric Chopin\" -> \"Nocturnes\",\n  \"Pyotr Ilyich Tchaikovsky\" -> \"Swan Lake\",\n  \"Giuseppe Verdi\" -> \"La Traviata\",\n  \"Igor Stravinsky\" -> \"The Firebird\",\n  \"Richard Wagner\" -> \"The Ring of the Nibelung\",\n  \"Anton\u00edn Dvo\u0159\u00e1k\" -> \"New World Symphony\",\n  \"Franz Schubert\" -> \"Ave Maria\"\n)\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```scala\nobject BridgeLengths extends App {\n  val bridges: Map[String, Double] = Map(\n    \"Golden Gate Bridge\" -> 2737.4,\n    \"Brooklyn Bridge\" -> 1825.0,\n    \"London Bridge\" -> 269.0\n  )\n\n  bridges.foreach { case (name, length) =>\n    println(s\"The $name is $length meters long.\")\n  }\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```scala\nobject PersonalGoals {\n  var goals: Map[String, String] = Map()\n\n  def addGoal(name: String, description: String): Unit = {\n    goals += (name -> description)\n  }\n\n  def updateGoal(name: String, newDescription: String): Unit = {\n    if (goals.contains(name)) {\n      goals += (name -> newDescription)\n    } else {\n      println(s\"Goal '$name' not found.\")\n    }\n  }\n\n  def getGoal(name: String): Option[String] = {\n    goals.get(name)\n  }\n\n  def removeGoal(name: String): Unit = {\n    goals -= name\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```scala\nobject HexToBinaryConverter {\n  def main(args: Array[String]): Unit = {\n    val hexToBinaryMap = Map(\n      '0' -> \"0000\",\n      '1' -> \"0001\",\n      '2' -> \"0010\",\n      '3' -> \"0011\",\n      '4' -> \"0100\",\n      '5' -> \"0101\",\n      '6' -> \"0110\",\n      '7' -> \"0111\",\n      '8' -> \"1000\",\n      '9' -> \"1001\",\n      'A' -> \"1010\",\n      'B' -> \"1011\",\n      'C' -> \"1100\",\n      'D' -> \"1101\",\n      'E' -> \"1110\",\n      'F' -> \"1111\"\n    )\n\n    def hexToBinary(hex: String): String = {\n      hex.toUpperCase.map(c => hexToBinaryMap(c)).mkString\n    }\n\n    val hexNumber = \"1A3F\"\n    val binaryNumber = hexToBinary(hexNumber)\n    println(s\"Hexadecimal: $hexNumber => Binary: $binaryNumber\")\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```scala\nval treeHeights: Map[String, Double] = Map(\n  \"Oak\" -> 70.0,\n  \"Pine\" -> 80.0,\n  \"Birch\" -> 50.0,\n  \"Maple\" -> 60.0,\n  \"Cedar\" -> 75.0\n)\n```"
+  }
+]

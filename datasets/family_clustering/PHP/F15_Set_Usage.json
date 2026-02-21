@@ -1,0 +1,370 @@
+[
+  {
+    "task": "Create a set to store unique usernames and demonstrate adding new ones.",
+    "code": "```php\n$usernames = [];\n\nfunction addUsername(&$set, $username) {\n    if (!in_array($username, $set)) {\n        $set[] = $username;\n    }\n}\n\naddUsername($usernames, \"alice\");\naddUsername($usernames, \"bob\");\naddUsername($usernames, \"alice\"); // Duplicate, won't be added\naddUsername($usernames, \"charlie\");\n\nprint_r($usernames);\n```"
+  },
+  {
+    "task": "Write a function that returns the union of two sets of integers.",
+    "code": "```php\nfunction unionOfSets($set1, $set2) {\n    return array_values(array_unique(array_merge($set1, $set2)));\n}\n\n// Example usage:\n$setA = [1, 2, 3, 4];\n$setB = [3, 4, 5, 6];\n$result = unionOfSets($setA, $setB);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Given two sets of strings, find their intersection.",
+    "code": "```php\n<?php\n\nfunction intersectionOfSets($set1, $set2) {\n    $intersection = array_intersect($set1, $set2);\n    return $intersection;\n}\n\n$set1 = ['apple', 'banana', 'cherry'];\n$set2 = ['banana', 'kiwi', 'cherry'];\n\n$result = intersectionOfSets($set1, $set2);\n\nprint_r($result);\n\n?>\n```"
+  },
+  {
+    "task": "Implement a set to track visited web pages and check if a page has been visited.",
+    "code": "```php\n<?php\n\nclass VisitedPagesSet {\n    private $visitedPages;\n\n    public function __construct() {\n        $this->visitedPages = [];\n    }\n\n    public function visitPage($url) {\n        $this->visitedPages[$url] = true;\n    }\n\n    public function hasVisited($url) {\n        return isset($this->visitedPages[$url]);\n    }\n}\n\n// Example usage:\n$visitedSet = new VisitedPagesSet();\n$visitedSet->visitPage(\"https://example.com\");\nif ($visitedSet->hasVisited(\"https://example.com\")) {\n    echo \"Page has been visited.\";\n} else {\n    echo \"Page has not been visited.\";\n}\n?>\n```"
+  },
+  {
+    "task": "Create a set from a list of numbers and remove duplicates.",
+    "code": "```php\n$list = [1, 2, 3, 2, 4, 3, 5];\n$set = array_unique($list);\n```"
+  },
+  {
+    "task": "Check if a set is a subset of another set.",
+    "code": "```php\nfunction isSubset($setA, $setB) {\n    $setA = array_unique($setA);\n    $setB = array_unique($setB);\n    \n    $setA = array_flip($setA);\n    \n    foreach ($setB as $element) {\n        if (!isset($setA[$element])) {\n            return false;\n        }\n    }\n    \n    return true;\n}\n\n$setA = [1, 2, 3];\n$setB = [1, 2, 3, 4, 5];\n\necho isSubset($setA, $setB) ? 'true' : 'false';\n```"
+  },
+  {
+    "task": "Demonstrate adding and removing elements from a set of book titles.",
+    "code": "```php\n$bookTitles = [];\n\n// Adding elements to the set\n$bookTitles['The Great Gatsby'] = true;\n$bookTitles['1984'] = true;\n$bookTitles['To Kill a Mockingbird'] = true;\n\n// Removing an element from the set\nunset($bookTitles['1984']);\n\n// Display the set\necho \"Current book titles in the set:\\n\";\nforeach (array_keys($bookTitles) as $title) {\n    echo $title . \"\\n\";\n}\n```"
+  },
+  {
+    "task": "Create a set and show how to clear all its elements.",
+    "code": "```php\n$set = new \\Ds\\Set([1, 2, 3, 4, 5]);\n$set->clear();\n```"
+  },
+  {
+    "task": "Write a program to find the difference between two sets of employee IDs.",
+    "code": "```php\n<?php\n\n$set1 = [101, 102, 103, 104, 105];\n$set2 = [103, 104, 106, 107];\n\n$difference = array_diff($set1, $set2);\n\nprint_r($difference);\n\n?>\n```"
+  },
+  {
+    "task": "Implement a set to store unique email addresses and check membership.",
+    "code": "```php\n<?php\n\nclass EmailSet {\n    private $emails = [];\n\n    public function add($email) {\n        $this->emails[$email] = true;\n    }\n\n    public function contains($email) {\n        return isset($this->emails[$email]);\n    }\n}\n\n// Example usage\n$emailSet = new EmailSet();\n$emailSet->add('example@example.com');\n$isMember = $emailSet->contains('example@example.com'); // true\n$isNotMember = $emailSet->contains('notmember@example.com'); // false\n```"
+  },
+  {
+    "task": "Use a set to determine if two lists have any common elements.",
+    "code": "```php\n$list1 = [1, 2, 3, 4, 5];\n$list2 = [5, 6, 7, 8, 9];\n\n$set1 = array_fill_keys($list1, true);\n$hasCommonElement = false;\n\nforeach ($list2 as $element) {\n    if (isset($set1[$element])) {\n        $hasCommonElement = true;\n        break;\n    }\n}\n\necho $hasCommonElement ? 'true' : 'false';\n```"
+  },
+  {
+    "task": "Create a set to represent a group of students and update it with new entries.",
+    "code": "```php\n$students = [];\n\nfunction addStudent(&$set, $student) {\n    if (!in_array($student, $set)) {\n        $set[] = $student;\n    }\n}\n\n// Adding students\naddStudent($students, \"Alice\");\naddStudent($students, \"Bob\");\naddStudent($students, \"Charlie\");\n\n// Update with new entries\naddStudent($students, \"David\");\naddStudent($students, \"Eve\");\n```"
+  },
+  {
+    "task": "Write a function to find symmetric difference between two sets of colors.",
+    "code": "```php\nfunction symmetricDifference(array $setA, array $setB) {\n    $setA = array_flip($setA);\n    $setB = array_flip($setB);\n\n    $diffA = array_diff_key($setA, $setB);\n    $diffB = array_diff_key($setB, $setA);\n\n    return array_keys(array_flip($diffA) + array_flip($diffB));\n}\n\n$colors1 = ['red', 'green', 'blue'];\n$colors2 = ['green', 'yellow', 'blue'];\n\n$result = symmetricDifference($colors1, $colors2);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Implement a set to store unique product codes and demonstrate iteration over it.",
+    "code": "```php\n<?php\n\n$productCodes = [];\n\n// Adding unique product codes to the set\n$productCodes[\"ABC123\"] = null;\n$productCodes[\"XYZ789\"] = null;\n$productCodes[\"DEF456\"] = null;\n$productCodes[\"ABC123\"] = null; // Duplicate, will not be added again\n\n// Iterating over the set\nforeach ($productCodes as $code => $_) {\n    echo $code . PHP_EOL;\n}\n?>\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `discard` method.",
+    "code": "```php\n$set = new Ds\\Set([1, 2, 3, 4]);\n\n$set->remove(3);\n\nforeach ($set as $value) {\n    echo $value . \"\\n\";\n}\n```"
+  },
+  {
+    "task": "Given a list of numbers, create a set and check if a specific number is present.",
+    "code": "```php\n$numbers = [1, 2, 3, 4, 5];\n$numberToCheck = 3;\n\n$numberSet = array_flip($numbers);\n\n$isPresent = isset($numberSet[$numberToCheck]);\n\necho $isPresent ? 'Number is present' : 'Number is not present';\n```"
+  },
+  {
+    "task": "Use a set to find all unique words in a sentence.",
+    "code": "```php\n$sentence = \"Use a set to find all unique words in a sentence\";\n$words = explode(' ', $sentence);\n$uniqueWords = array_unique($words);\nprint_r($uniqueWords);\n```"
+  },
+  {
+    "task": "Create a set from a sequence of characters and demonstrate set operations.",
+    "code": "```php\n<?php\n\n// Create a sequence of characters\n$sequence = str_split('abcde');\n\n// Create a set from the sequence using associative array keys\n$setA = array_fill_keys($sequence, true);\n\n// Another sequence of characters\n$anotherSequence = str_split('cdefg');\n\n// Create another set\n$setB = array_fill_keys($anotherSequence, true);\n\n// Union of two sets\n$union = array_keys(array_merge($setA, $setB));\n\n// Intersection of two sets\n$intersection = array_keys(array_intersect_key($setA, $setB));\n\n// Difference of setA from setB\n$difference = array_keys(array_diff_key($setA, $setB));\n\n// Symmetric difference (elements in either set, but not both)\n$symmetricDifference = array_keys(array_merge(array_diff_key($setA, $setB), array_diff_key($setB, $setA)));\n\n// Output results\necho \"Set A: \" . implode('', array_keys($setA)) . PHP_EOL;\necho \"Set B: \" . implode('', array_keys($setB)) . PHP_EOL;\necho \"Union: \" . implode('', $union) . PHP_EOL;\necho \"Intersection: \" . implode('', $intersection) . PHP_EOL;\necho \"Difference (A - B): \" . implode('', $difference) . PHP_EOL;\necho \"Symmetric Difference: \" . implode('', $symmetricDifference) . PHP_EOL;\n\n?>\n```"
+  },
+  {
+    "task": "Write a function to merge two sets and return the result.",
+    "code": "```php\nfunction mergeSets($set1, $set2) {\n    return array_unique(array_merge($set1, $set2));\n}\n\n// Example usage\n$setA = [1, 2, 3];\n$setB = [3, 4, 5];\n$result = mergeSets($setA, $setB);\n// $result will be [1, 2, 3, 4, 5]\n```"
+  },
+  {
+    "task": "Implement a set to hold unique IP addresses and demonstrate basic operations.",
+    "code": "```php\n<?php\n\nclass IPSet {\n    private $ips;\n\n    public function __construct() {\n        $this->ips = [];\n    }\n\n    public function add($ip) {\n        $this->ips[$ip] = true;\n    }\n\n    public function remove($ip) {\n        unset($this->ips[$ip]);\n    }\n\n    public function contains($ip) {\n        return isset($this->ips[$ip]);\n    }\n\n    public function getAll() {\n        return array_keys($this->ips);\n    }\n}\n\n// Demonstration\n$ipSet = new IPSet();\n$ipSet->add(\"192.168.1.1\");\n$ipSet->add(\"10.0.0.1\");\n$ipSet->add(\"192.168.1.1\"); // Duplicate, will not be added\n\nvar_dump($ipSet->contains(\"192.168.1.1\")); // true\nvar_dump($ipSet->contains(\"10.0.0.2\")); // false\n\n$ipSet->remove(\"192.168.1.1\");\n\nvar_dump($ipSet->contains(\"192.168.1.1\")); // false\n\nprint_r($ipSet->getAll()); // Array ( [0] => 10.0.0.1 )\n\n?>\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to find the size of the set.",
+    "code": "```php\n$set = [];\n$set['a'] = true;\n$set['b'] = true;\n$set['c'] = true;\n\n$size = count($set);\necho $size;\n```"
+  },
+  {
+    "task": "Write a program to check if two sets of dates are disjoint.",
+    "code": "```php\nfunction areDatesDisjoint($dates1, $dates2) {\n    $set1 = array_flip($dates1);\n    foreach ($dates2 as $date) {\n        if (isset($set1[$date])) {\n            return false;\n        }\n    }\n    return true;\n}\n\n$dates1 = ['2023-01-01', '2023-01-02', '2023-01-03'];\n$dates2 = ['2023-01-04', '2023-01-05', '2023-01-06'];\n\n$result = areDatesDisjoint($dates1, $dates2);\necho $result ? 'Disjoint' : 'Not Disjoint';\n```"
+  },
+  {
+    "task": "Create a set to manage a collection of tags and demonstrate addition and removal.",
+    "code": "```php\n<?php\n\nclass TagSet {\n    private $tags;\n\n    public function __construct() {\n        $this->tags = [];\n    }\n\n    public function addTag($tag) {\n        $this->tags[$tag] = true;\n    }\n\n    public function removeTag($tag) {\n        unset($this->tags[$tag]);\n    }\n\n    public function getTags() {\n        return array_keys($this->tags);\n    }\n}\n\n$tagSet = new TagSet();\n$tagSet->addTag('php');\n$tagSet->addTag('coding');\n$tagSet->removeTag('php');\n$tags = $tagSet->getTags();\n\nprint_r($tags);\n```"
+  },
+  {
+    "task": "Implement a set to track unique inventory items in a store.",
+    "code": "```php\n<?php\n\nclass InventorySet {\n    private $items;\n\n    public function __construct() {\n        $this->items = [];\n    }\n\n    public function addItem($item) {\n        $this->items[$item] = true;\n    }\n\n    public function removeItem($item) {\n        unset($this->items[$item]);\n    }\n\n    public function hasItem($item) {\n        return isset($this->items[$item]);\n    }\n\n    public function getItems() {\n        return array_keys($this->items);\n    }\n}\n\n// Example usage:\n$inventory = new InventorySet();\n$inventory->addItem('item1');\n$inventory->addItem('item2');\n$inventory->removeItem('item1');\n$hasItem2 = $inventory->hasItem('item2');\n$allItems = $inventory->getItems();\n\n?>\n```"
+  },
+  {
+    "task": "Create a set of numbers and demonstrate conversion to a list.",
+    "code": "```php\n$numbers = [1, 2, 3, 4, 5];\n$uniqueNumbers = array_unique($numbers);\n$listFromSet = array_values($uniqueNumbers);\n```"
+  },
+  {
+    "task": "Write a function that returns all elements present in either of two sets but not both.",
+    "code": "```php\nfunction symmetricDifference($set1, $set2) {\n    $set1Only = array_diff($set1, $set2);\n    $set2Only = array_diff($set2, $set1);\n    return array_merge($set1Only, $set2Only);\n}\n\n$set1 = [1, 2, 3, 4];\n$set2 = [3, 4, 5, 6];\n$result = symmetricDifference($set1, $set2);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Use a set to manage a collection of unique transaction IDs.",
+    "code": "```php\n$transactionIds = [];\n\n// Function to add a transaction ID to the set\nfunction addTransactionId(&$set, $transactionId) {\n    if (!in_array($transactionId, $set)) {\n        $set[] = $transactionId;\n    }\n}\n\n// Function to check if a transaction ID exists in the set\nfunction containsTransactionId($set, $transactionId) {\n    return in_array($transactionId, $set);\n}\n\n// Function to remove a transaction ID from the set\nfunction removeTransactionId(&$set, $transactionId) {\n    $index = array_search($transactionId, $set);\n    if ($index !== false) {\n        unset($set[$index]);\n        $set = array_values($set);\n    }\n}\n\n// Example usage\naddTransactionId($transactionIds, 'TXN12345');\naddTransactionId($transactionIds, 'TXN12346');\naddTransactionId($transactionIds, 'TXN12345'); // Duplicate, will not be added\n\n$exists = containsTransactionId($transactionIds, 'TXN12345'); // true\nremoveTransactionId($transactionIds, 'TXN12345');\n$existsAfterRemoval = containsTransactionId($transactionIds, 'TXN12345'); // false\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate the `pop` operation.",
+    "code": "```php\n$set = new \\Ds\\Set([1, 2, 3, 4, 5]);\n\n$poppedElement = $set->pop();\n\nprint_r($poppedElement);\n```"
+  },
+  {
+    "task": "Write a program to find the maximum element in a set of floating-point numbers.",
+    "code": "```php\n$numbers = [3.14, 2.71, 1.41, 0.577, 4.669];\n$set = array_unique($numbers);\n$max = max($set);\necho $max;\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `update` method with another set.",
+    "code": "```php\n$set1 = new Ds\\Set([1, 2, 3]);\n$set2 = new Ds\\Set([3, 4, 5]);\n\n$set1->add(...$set2);\n\nvar_dump($set1);\n```"
+  },
+  {
+    "task": "Implement a set to keep track of unique file extensions in a directory.",
+    "code": "```php\n$directory = '/path/to/directory';\n$files = scandir($directory);\n$fileExtensions = [];\n\nforeach ($files as $file) {\n    if (is_file($directory . '/' . $file)) {\n        $extension = pathinfo($file, PATHINFO_EXTENSION);\n        if ($extension) {\n            $fileExtensions[$extension] = true;\n        }\n    }\n}\n\n$uniqueExtensions = array_keys($fileExtensions);\n```"
+  },
+  {
+    "task": "Create a set of strings and demonstrate how to iterate over it in reverse order.",
+    "code": "```php\n$set = array_unique([\"apple\", \"banana\", \"cherry\", \"date\", \"fig\"]);\n\nfor ($i = count($set) - 1; $i >= 0; $i--) {\n    echo $set[$i] . \"\\n\";\n}\n```"
+  },
+  {
+    "task": "Write a function to check if a set is empty.",
+    "code": "```php\nfunction isSetEmpty($set) {\n    return empty($set);\n}\n```"
+  },
+  {
+    "task": "Use a set to filter out duplicate entries from a list of participants.",
+    "code": "```php\n$participants = ['Alice', 'Bob', 'Charlie', 'Alice', 'Bob', 'David'];\n$uniqueParticipants = array_unique($participants);\n```"
+  },
+  {
+    "task": "Create a set of tuples and demonstrate basic set operations.",
+    "code": "```php\n$set1 = [\n    [1, 2],\n    [3, 4],\n    [5, 6]\n];\n\n$set2 = [\n    [3, 4],\n    [7, 8],\n    [9, 10]\n];\n\n// Union of sets\n$union = array_unique(array_merge($set1, $set2), SORT_REGULAR);\n\n// Intersection of sets\n$intersection = array_uintersect($set1, $set2, function($a, $b) {\n    return ($a === $b) ? 0 : -1;\n});\n\n// Difference of sets\n$difference = array_udiff($set1, $set2, function($a, $b) {\n    return ($a === $b) ? 0 : -1;\n});\n\n// Output results\nprint_r($union);\nprint_r($intersection);\nprint_r($difference);\n```"
+  },
+  {
+    "task": "Write a program to find the common elements between two sets of country names.",
+    "code": "```php\n<?php\n\n$set1 = ['USA', 'Canada', 'Mexico', 'Brazil'];\n$set2 = ['Brazil', 'Argentina', 'Canada', 'Chile'];\n\n$commonElements = array_intersect($set1, $set2);\n\nprint_r($commonElements);\n\n?>\n```"
+  },
+  {
+    "task": "Create a set of characters and demonstrate the use of the `issubset` method.",
+    "code": "```php\n$set1 = ['a', 'b', 'c'];\n$set2 = ['a', 'b'];\n\nfunction isSubset($set, $subset) {\n    return empty(array_diff($subset, $set));\n}\n\n$isSubset = isSubset($set1, $set2);\nvar_dump($isSubset);\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique hashtags from social media posts.",
+    "code": "```php\n<?php\n\nclass HashtagSet {\n    private $hashtags;\n\n    public function __construct() {\n        $this->hashtags = [];\n    }\n\n    public function addHashtag($hashtag) {\n        $hashtag = strtolower($hashtag);\n        $this->hashtags[$hashtag] = true;\n    }\n\n    public function removeHashtag($hashtag) {\n        $hashtag = strtolower($hashtag);\n        unset($this->hashtags[$hashtag]);\n    }\n\n    public function hasHashtag($hashtag) {\n        $hashtag = strtolower($hashtag);\n        return isset($this->hashtags[$hashtag]);\n    }\n\n    public function getAllHashtags() {\n        return array_keys($this->hashtags);\n    }\n}\n\n// Example usage:\n$hashtagSet = new HashtagSet();\n$hashtagSet->addHashtag('#PHP');\n$hashtagSet->addHashtag('#Coding');\n$hashtagSet->addHashtag('#PHP'); // Duplicate, won't be added again\n$hashtagSet->removeHashtag('#Coding');\n$allHashtags = $hashtagSet->getAllHashtags();\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to copy it to another set.",
+    "code": "```php\n$set1 = [1, 2, 3, 4, 5]; // PHP does not have a built-in set type, using array as a workaround\n$set2 = array_unique($set1); // Copying to another set (array with unique values)\n```"
+  },
+  {
+    "task": "Write a function that accepts two sets and returns a new set with elements found in both.",
+    "code": "```php\nfunction intersection($set1, $set2) {\n    return array_intersect($set1, $set2);\n}\n```"
+  },
+  {
+    "task": "Use a set to determine the unique items purchased in a day.",
+    "code": "```php\n$purchases = [\"apple\", \"banana\", \"apple\", \"orange\", \"banana\"];\n$uniqueItems = array_unique($purchases);\nprint_r($uniqueItems);\n```"
+  },
+  {
+    "task": "Create a set of student IDs and demonstrate set comprehension to filter IDs.",
+    "code": "```php\n$studentIDs = [101, 102, 103, 104, 105, 106, 107, 108, 109, 110];\n\n// Set comprehension to filter IDs (e.g., IDs greater than 105)\n$filteredIDs = array_filter($studentIDs, fn($id) => $id > 105);\n\n// Convert the filtered IDs into a set using associative array keys\n$setOfFilteredIDs = array_flip(array_flip($filteredIDs));\n\n// Output the set of filtered IDs\nprint_r($setOfFilteredIDs);\n```"
+  },
+  {
+    "task": "Write a program to check if a set of strings is a superset of another set.",
+    "code": "```php\nfunction isSuperset($setA, $setB) {\n    return count(array_diff($setB, $setA)) === 0;\n}\n\n$setA = ['apple', 'banana', 'cherry', 'date'];\n$setB = ['banana', 'cherry'];\n\nif (isSuperset($setA, $setB)) {\n    echo \"Set A is a superset of Set B.\";\n} else {\n    echo \"Set A is not a superset of Set B.\";\n}\n```"
+  },
+  {
+    "task": "Create a set of unique words from a text file.",
+    "code": "```php\n<?php\n\nfunction createUniqueWordSet($filename) {\n    $fileContents = file_get_contents($filename);\n    $words = preg_split('/\\s+/', $fileContents);\n    $uniqueWords = array_unique($words);\n    return $uniqueWords;\n}\n\n$uniqueWords = createUniqueWordSet('textfile.txt');\nprint_r($uniqueWords);\n\n?>\n```"
+  },
+  {
+    "task": "Implement a set to store unique project identifiers and demonstrate membership testing.",
+    "code": "```php\n<?php\n\n// Create a set using an associative array to store unique project identifiers\n$projectIds = [];\n\n// Function to add a project ID to the set\nfunction addProjectId(&$set, $projectId) {\n    $set[$projectId] = true;\n}\n\n// Function to check if a project ID exists in the set\nfunction isProjectIdExists($set, $projectId) {\n    return isset($set[$projectId]);\n}\n\n// Add project IDs to the set\naddProjectId($projectIds, 'proj-101');\naddProjectId($projectIds, 'proj-102');\naddProjectId($projectIds, 'proj-103');\n\n// Demonstrate membership testing\necho isProjectIdExists($projectIds, 'proj-101') ? 'Exists' : 'Does not exist';\necho \"\\n\";\necho isProjectIdExists($projectIds, 'proj-104') ? 'Exists' : 'Does not exist';\n\n?>\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `symmetric_difference_update` method.",
+    "code": "```php\nfunction symmetricDifferenceUpdate(&$set1, $set2) {\n    $set1 = array_values(array_unique(array_diff(array_merge($set1, $set2), array_intersect($set1, $set2))));\n}\n\n// Example usage\n$set1 = [1, 2, 3, 4];\n$set2 = [3, 4, 5, 6];\n\nsymmetricDifferenceUpdate($set1, $set2);\n\nprint_r($set1);\n```"
+  },
+  {
+    "task": "Write a function to remove all elements from a set that are also in another set.",
+    "code": "```php\nfunction removeSetElements($setA, $setB) {\n    return array_diff($setA, $setB);\n}\n\n$setA = [1, 2, 3, 4, 5];\n$setB = [2, 4];\n\n$result = removeSetElements($setA, $setB);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Use a set to keep track of unique error codes from server logs.",
+    "code": "```php\n$errorCodes = [];\n\n$logs = [\n    \"Error 404: Not Found\",\n    \"Error 500: Internal Server Error\",\n    \"Error 404: Not Found\",\n    \"Error 403: Forbidden\",\n    \"Error 500: Internal Server Error\",\n    \"Error 401: Unauthorized\"\n];\n\nforeach ($logs as $log) {\n    preg_match('/Error (\\d+):/', $log, $matches);\n    if (isset($matches[1])) {\n        $errorCodes[$matches[1]] = true;\n    }\n}\n\n$uniqueErrorCodes = array_keys($errorCodes);\n\nprint_r($uniqueErrorCodes);\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to find all unique pairs of elements.",
+    "code": "```php\n<?php\n\nfunction findUniquePairs($elements) {\n    $set = [];\n    $pairs = [];\n\n    foreach ($elements as $element) {\n        if (!in_array($element, $set)) {\n            $set[] = $element;\n        }\n    }\n\n    $setCount = count($set);\n    for ($i = 0; $i < $setCount; $i++) {\n        for ($j = $i + 1; $j < $setCount; $j++) {\n            $pairs[] = [$set[$i], $set[$j]];\n        }\n    }\n\n    return $pairs;\n}\n\n$elements = [1, 2, 2, 3, 4, 4];\n$uniquePairs = findUniquePairs($elements);\nprint_r($uniquePairs);\n\n?>\n```"
+  },
+  {
+    "task": "Write a program to find the smallest element in a set of integers.",
+    "code": "```php\n$numbers = [3, 1, 7, 2, 5]; // Example set of integers\n$numberSet = array_unique($numbers); // Ensure unique elements to mimic a set\n$smallest = min($numberSet);\necho $smallest;\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `add` method with multiple elements.",
+    "code": "```php\n<?php\n\n// Using SplObjectStorage as a set to demonstrate add functionality\nclass SetUsage\n{\n    private $set;\n\n    public function __construct()\n    {\n        $this->set = new SplObjectStorage();\n    }\n\n    public function add($element)\n    {\n        $object = (object)['value' => $element];\n        $this->set->attach($object);\n    }\n\n    public function getElements()\n    {\n        $elements = [];\n        foreach ($this->set as $obj) {\n            $elements[] = $obj->value;\n        }\n        return $elements;\n    }\n}\n\n$setUsage = new SetUsage();\n$setUsage->add(\"element1\");\n$setUsage->add(\"element2\");\n$setUsage->add(\"element3\");\n\n$elements = $setUsage->getElements();\nprint_r($elements);\n?>\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique author names.",
+    "code": "```php\n<?php\n\nclass AuthorSet {\n    private $authors = [];\n\n    public function addAuthor($authorName) {\n        $this->authors[$authorName] = true;\n    }\n\n    public function removeAuthor($authorName) {\n        unset($this->authors[$authorName]);\n    }\n\n    public function hasAuthor($authorName) {\n        return isset($this->authors[$authorName]);\n    }\n\n    public function getAuthors() {\n        return array_keys($this->authors);\n    }\n}\n\n// Example usage:\n$authorSet = new AuthorSet();\n$authorSet->addAuthor(\"Jane Austen\");\n$authorSet->addAuthor(\"Mark Twain\");\n$authorSet->addAuthor(\"Jane Austen\"); // Duplicate, won't be added again\n\n$authors = $authorSet->getAuthors(); // Returns [\"Jane Austen\", \"Mark Twain\"]\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate converting it to a sorted list.",
+    "code": "```php\n$set = new \\Ds\\Set([5, 3, 9, 1, 7]);\n$list = $set->toArray();\nsort($list);\nprint_r($list);\n```"
+  },
+  {
+    "task": "Write a function that returns the union of multiple sets.",
+    "code": "```php\nfunction unionOfSets(...$sets) {\n    $unionSet = [];\n    foreach ($sets as $set) {\n        foreach ($set as $item) {\n            $unionSet[$item] = true;\n        }\n    }\n    return array_keys($unionSet);\n}\n\n// Example usage\n$set1 = [1, 2, 3];\n$set2 = [3, 4, 5];\n$set3 = [5, 6, 7];\n$result = unionOfSets($set1, $set2, $set3);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Use a set to identify unique characters in a string.",
+    "code": "```php\nfunction uniqueCharacters($string) {\n    $uniqueChars = [];\n    $characters = str_split($string);\n    \n    foreach ($characters as $char) {\n        $uniqueChars[$char] = true;\n    }\n    \n    return array_keys($uniqueChars);\n}\n\n// Example usage\n$string = \"hello world\";\n$uniqueChars = uniqueCharacters($string);\nprint_r($uniqueChars);\n```"
+  },
+  {
+    "task": "Create a set of prime numbers and demonstrate basic set operations.",
+    "code": "```php\nfunction isPrime($num) {\n    if ($num <= 1) return false;\n    if ($num <= 3) return true;\n    if ($num % 2 == 0 || $num % 3 == 0) return false;\n    for ($i = 5; $i * $i <= $num; $i += 6) {\n        if ($num % $i == 0 || $num % ($i + 2) == 0) return false;\n    }\n    return true;\n}\n\n$primeNumbers = [];\nfor ($i = 2; $i < 30; $i++) {\n    if (isPrime($i)) {\n        $primeNumbers[] = $i;\n    }\n}\n\n$primeSet = array_flip($primeNumbers);\n\n$anotherSet = array_flip([2, 3, 5, 7, 11, 13, 17, 19, 23]);\n\n$union = array_keys(array_merge($primeSet, $anotherSet));\n$intersection = array_keys(array_intersect_key($primeSet, $anotherSet));\n$difference = array_keys(array_diff_key($primeSet, $anotherSet));\n\nprint_r($union);\nprint_r($intersection);\nprint_r($difference);\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to check for non-membership.",
+    "code": "```php\n$set = [1, 2, 3, 4, 5];\n$itemToCheck = 6;\n\nif (!in_array($itemToCheck, $set)) {\n    echo \"$itemToCheck is not in the set.\";\n}\n```"
+  },
+  {
+    "task": "Write a program to find the largest element in a set of numbers.",
+    "code": "```php\n$numbers = [3, 5, 9, 1, 7];\n$numberSet = array_unique($numbers);\n$largest = max($numberSet);\necho $largest;\n```"
+  },
+  {
+    "task": "Create a set of unique movie titles and demonstrate membership testing.",
+    "code": "```php\n$movieTitles = [\n    \"Inception\",\n    \"The Matrix\",\n    \"Interstellar\",\n    \"Inception\", // Duplicate entry to demonstrate uniqueness\n    \"The Matrix\", // Duplicate entry to demonstrate uniqueness\n];\n\n$uniqueMovieTitles = array_unique($movieTitles);\n\nfunction isMovieInSet($movie, $movieSet) {\n    return in_array($movie, $movieSet);\n}\n\n$movieToCheck = \"Interstellar\";\n$isInSet = isMovieInSet($movieToCheck, $uniqueMovieTitles);\n\nif ($isInSet) {\n    echo \"$movieToCheck is in the set.\";\n} else {\n    echo \"$movieToCheck is not in the set.\";\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique keys from a dictionary.",
+    "code": "```php\n$dictionary = [\n    'key1' => 'value1',\n    'key2' => 'value2',\n    'key3' => 'value3',\n    'key1' => 'value4', // Duplicate key with different value\n];\n\n$uniqueKeys = array_keys($dictionary);\n$uniqueKeysSet = array_flip($uniqueKeys);\n\n// Usage example: Check if a key is in the set\n$keyToCheck = 'key2';\nif (isset($uniqueKeysSet[$keyToCheck])) {\n    echo \"$keyToCheck is in the set.\";\n} else {\n    echo \"$keyToCheck is not in the set.\";\n}\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `difference_update` method.",
+    "code": "```php\n$a = [1, 2, 3, 4, 5];\n$b = [3, 4, 6];\n\n$setA = array_flip($a);\n$setB = array_flip($b);\n\nforeach ($setB as $key => $value) {\n    if (isset($setA[$key])) {\n        unset($setA[$key]);\n    }\n}\n\n$result = array_keys($setA);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Write a function to merge multiple sets into a single set.",
+    "code": "```php\nfunction mergeSets(...$sets) {\n    $mergedSet = [];\n    foreach ($sets as $set) {\n        $mergedSet = array_merge($mergedSet, array_unique($set));\n    }\n    return array_values(array_unique($mergedSet));\n}\n\n// Example usage:\n$set1 = [1, 2, 3];\n$set2 = [3, 4, 5];\n$set3 = [5, 6, 7];\n$result = mergeSets($set1, $set2, $set3);\nprint_r($result);\n```"
+  },
+  {
+    "task": "Use a set to filter out duplicate letters from a word.",
+    "code": "```php\nfunction filterDuplicates($word) {\n    $letters = str_split($word);\n    $uniqueLetters = array_unique($letters);\n    return implode('', $uniqueLetters);\n}\n\necho filterDuplicates(\"programming\");\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `isdisjoint` method.",
+    "code": "```php\n<?php\n\nfunction isDisjoint($set1, $set2) {\n    return count(array_intersect($set1, $set2)) === 0;\n}\n\n$set1 = [1, 2, 3];\n$set2 = [4, 5, 6];\n$set3 = [3, 4, 5];\n\necho isDisjoint($set1, $set2) ? 'Sets are disjoint' : 'Sets are not disjoint'; // Output: Sets are disjoint\necho \"\\n\";\necho isDisjoint($set1, $set3) ? 'Sets are disjoint' : 'Sets are not disjoint'; // Output: Sets are not disjoint\n\n?>\n```"
+  },
+  {
+    "task": "Write a program to find all elements that are only in one of two sets.",
+    "code": "```php\n<?php\n\nfunction findExclusiveElements($set1, $set2) {\n    $set1Only = array_diff($set1, $set2);\n    $set2Only = array_diff($set2, $set1);\n    return array_merge($set1Only, $set2Only);\n}\n\n$set1 = [1, 2, 3, 4, 5];\n$set2 = [4, 5, 6, 7, 8];\n$result = findExclusiveElements($set1, $set2);\n\nprint_r($result);\n\n?>\n```"
+  },
+  {
+    "task": "Create a set of unique book authors and demonstrate basic set operations.",
+    "code": "```php\n$authors = new \\Ds\\Set();\n\n// Add authors to the set\n$authors->add(\"J.K. Rowling\");\n$authors->add(\"George R.R. Martin\");\n$authors->add(\"J.R.R. Tolkien\");\n$authors->add(\"Isaac Asimov\");\n\n// Attempt to add a duplicate author\n$authors->add(\"J.K. Rowling\");\n\n// Check if an author is in the set\n$hasAuthor = $authors->contains(\"Isaac Asimov\");\n\n// Remove an author from the set\n$authors->remove(\"George R.R. Martin\");\n\n// Display the authors in the set\nforeach ($authors as $author) {\n    echo $author . PHP_EOL;\n}\n```"
+  },
+  {
+    "task": "Implement a set to store unique phone numbers and check for duplicates.",
+    "code": "```php\n$phoneNumbers = [];\n\n// Function to add phone number to the set\nfunction addPhoneNumber(&$set, $phoneNumber) {\n    if (!in_array($phoneNumber, $set)) {\n        $set[] = $phoneNumber;\n        return true; // Successfully added\n    }\n    return false; // Duplicate found\n}\n\n// Example usage:\naddPhoneNumber($phoneNumbers, '123-456-7890');\naddPhoneNumber($phoneNumbers, '987-654-3210');\n$isDuplicate = !addPhoneNumber($phoneNumbers, '123-456-7890'); // This will be true since it's a duplicate\n```"
+  },
+  {
+    "task": "Create a set of floating-point numbers and demonstrate rounding each element.",
+    "code": "```php\n$floats = [3.14, 2.718, 1.618, 0.5772, 1.414];\n$roundedSet = [];\n\nforeach ($floats as $number) {\n    $roundedSet[] = round($number);\n}\n\n$uniqueRoundedSet = array_unique($roundedSet);\nprint_r($uniqueRoundedSet);\n```"
+  },
+  {
+    "task": "Write a function that returns a set of all vowels present in a given sentence.",
+    "code": "```php\nfunction getVowelsSet($sentence) {\n    $vowels = ['a', 'e', 'i', 'o', 'u'];\n    $sentence = strtolower($sentence);\n    $vowelSet = [];\n    for ($i = 0; $i < strlen($sentence); $i++) {\n        if (in_array($sentence[$i], $vowels)) {\n            $vowelSet[$sentence[$i]] = true;\n        }\n    }\n    return array_keys($vowelSet);\n}\n```"
+  },
+  {
+    "task": "Use a set to track unique session IDs for a web application.",
+    "code": "```php\n$sessionIDs = [];\n\nfunction addSessionID($sessionID) {\n    global $sessionIDs;\n    if (!in_array($sessionID, $sessionIDs)) {\n        $sessionIDs[] = $sessionID;\n    }\n}\n\nfunction getSessionIDs() {\n    global $sessionIDs;\n    return $sessionIDs;\n}\n\n// Example usage\naddSessionID('abc123');\naddSessionID('def456');\naddSessionID('abc123'); // Duplicate, won't be added\n\nprint_r(getSessionIDs());\n```"
+  },
+  {
+    "task": "Create a set of unique city names and demonstrate set operations with it.",
+    "code": "```php\n<?php\n\n// Create a set using an associative array where keys are city names\n$cities = [\n    \"New York\" => true,\n    \"Paris\" => true,\n    \"Tokyo\" => true,\n    \"Berlin\" => true\n];\n\n// Add a new city\n$cities[\"Sydney\"] = true;\n\n// Remove a city\nunset($cities[\"Berlin\"]);\n\n// Check if a city is in the set\n$hasParis = isset($cities[\"Paris\"]);\n\n// Get the set of city names\n$cityNames = array_keys($cities);\n\n// Output results\nforeach ($cityNames as $city) {\n    echo $city . PHP_EOL;\n}\necho \"Has Paris: \" . ($hasParis ? \"Yes\" : \"No\") . PHP_EOL;\n?>\n```"
+  },
+  {
+    "task": "Write a program to find the common elements in three sets.",
+    "code": "```php\n<?php\n\n$set1 = [1, 2, 3, 4, 5];\n$set2 = [3, 4, 5, 6, 7];\n$set3 = [5, 6, 7, 8, 9];\n\n$commonElements = array_intersect($set1, $set2, $set3);\n\nprint_r($commonElements);\n```"
+  },
+  {
+    "task": "Create a set and demonstrate how to remove an element by its value.",
+    "code": "```php\n<?php\n\nclass CustomSet {\n    private $elements = [];\n\n    public function add($value) {\n        $this->elements[$value] = true;\n    }\n\n    public function remove($value) {\n        if (isset($this->elements[$value])) {\n            unset($this->elements[$value]);\n        }\n    }\n\n    public function getElements() {\n        return array_keys($this->elements);\n    }\n}\n\n$set = new CustomSet();\n$set->add('apple');\n$set->add('banana');\n$set->remove('apple');\n\nprint_r($set->getElements());\n```"
+  },
+  {
+    "task": "Implement a set to store a collection of unique ISBN numbers.",
+    "code": "```php\n$isbnSet = [];\n\nfunction addISBN(&$set, $isbn) {\n    if (!in_array($isbn, $set)) {\n        $set[] = $isbn;\n    }\n}\n\nfunction removeISBN(&$set, $isbn) {\n    $index = array_search($isbn, $set);\n    if ($index !== false) {\n        unset($set[$index]);\n        $set = array_values($set);\n    }\n}\n\nfunction containsISBN($set, $isbn) {\n    return in_array($isbn, $set);\n}\n\n// Example usage:\naddISBN($isbnSet, '978-3-16-148410-0');\naddISBN($isbnSet, '978-1-4028-9462-6');\nremoveISBN($isbnSet, '978-3-16-148410-0');\n$exists = containsISBN($isbnSet, '978-1-4028-9462-6');\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `intersection_update` method.",
+    "code": "```php\n<?php\n\nclass CustomSet {\n    private $elements;\n\n    public function __construct($elements = []) {\n        $this->elements = array_unique($elements);\n    }\n\n    public function intersectionUpdate($otherSet) {\n        $this->elements = array_intersect($this->elements, $otherSet->getElements());\n    }\n\n    public function getElements() {\n        return $this->elements;\n    }\n}\n\n$set1 = new CustomSet([1, 2, 3, 4]);\n$set2 = new CustomSet([3, 4, 5, 6]);\n\n$set1->intersectionUpdate($set2);\nprint_r($set1->getElements());\n\n?>\n```"
+  },
+  {
+    "task": "Write a function to generate a set of all unique elements in a list.",
+    "code": "```php\nfunction generateUniqueSet($list) {\n    return array_unique($list);\n}\n```"
+  },
+  {
+    "task": "Use a set to determine the unique characters in two strings.",
+    "code": "```php\nfunction uniqueCharacters($string1, $string2) {\n    $set = [];\n    $combinedString = $string1 . $string2;\n\n    for ($i = 0; $i < strlen($combinedString); $i++) {\n        $set[$combinedString[$i]] = true;\n    }\n\n    return array_keys($set);\n}\n\n$string1 = \"hello\";\n$string2 = \"world\";\n$result = uniqueCharacters($string1, $string2);\n\nprint_r($result);\n```"
+  },
+  {
+    "task": "Create a set of unique animal names and demonstrate the `discard` method.",
+    "code": "```php\n$animalNames = array(\"dog\", \"cat\", \"bird\", \"fish\");\n$animalSet = array_flip($animalNames);\n\nfunction discard(&$set, $value) {\n    unset($set[$value]);\n}\n\ndiscard($animalSet, \"cat\");\n\n$uniqueAnimalNames = array_keys($animalSet);\nprint_r($uniqueAnimalNames);\n```"
+  },
+  {
+    "task": "Write a program to find all elements present in the first set but not in the second.",
+    "code": "```php\n<?php\n\n$set1 = [1, 2, 3, 4, 5];\n$set2 = [4, 5, 6, 7, 8];\n\n$result = array_diff($set1, $set2);\n\nprint_r($result);\n\n?>\n```"
+  },
+  {
+    "task": "Create a set of integers and demonstrate using it to eliminate duplicates from a list.",
+    "code": "```php\n$list = [1, 2, 2, 3, 4, 4, 5];\n$uniqueSet = array_unique($list);\nprint_r($uniqueSet);\n```"
+  },
+  {
+    "task": "Implement a set to manage a collection of unique car models.",
+    "code": "```php\n<?php\n\nclass CarModelSet {\n    private $models = [];\n\n    public function add($model) {\n        $this->models[$model] = true;\n    }\n\n    public function remove($model) {\n        unset($this->models[$model]);\n    }\n\n    public function contains($model) {\n        return isset($this->models[$model]);\n    }\n\n    public function getAllModels() {\n        return array_keys($this->models);\n    }\n}\n\n// Example usage:\n$carSet = new CarModelSet();\n$carSet->add(\"Toyota Corolla\");\n$carSet->add(\"Honda Accord\");\n$carSet->remove(\"Toyota Corolla\");\n$models = $carSet->getAllModels();\nvar_dump($models);\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the use of the `clear` method.",
+    "code": "```php\n$set = [];\n$set['item1'] = true;\n$set['item2'] = true;\n$set['item3'] = true;\n\n// Clear the set\n$set = [];\n```"
+  },
+  {
+    "task": "Write a function that finds the intersection of multiple sets.",
+    "code": "```php\nfunction findIntersection(...$sets) {\n    if (empty($sets)) return [];\n    $intersection = array_shift($sets);\n    foreach ($sets as $set) {\n        $intersection = array_intersect($intersection, $set);\n    }\n    return $intersection;\n}\n```"
+  },
+  {
+    "task": "Use a set to identify unique words in a paragraph.",
+    "code": "```php\n<?php\n\n$paragraph = \"This is a sample paragraph. This paragraph is meant to identify unique words using a set.\";\n$words = preg_split('/\\s+/', strtolower($paragraph));\n$uniqueWords = array_unique($words);\n\nprint_r($uniqueWords);\n\n?>\n```"
+  },
+  {
+    "task": "Create a set of unique country codes and demonstrate membership testing.",
+    "code": "```php\n$countryCodes = ['US', 'CA', 'MX', 'GB', 'FR'];\n$uniqueCountryCodes = array_unique($countryCodes);\n\nfunction isCountryCodeInSet($code, $set) {\n    return in_array($code, $set);\n}\n\necho isCountryCodeInSet('US', $uniqueCountryCodes) ? 'US is in the set.' : 'US is not in the set.';\necho PHP_EOL;\necho isCountryCodeInSet('JP', $uniqueCountryCodes) ? 'JP is in the set.' : 'JP is not in the set.';\n```"
+  },
+  {
+    "task": "Write a program to find the union of two sets and return it as a list.",
+    "code": "```php\n<?php\n\nfunction unionOfSets(array $set1, array $set2): array {\n    $unionSet = array_unique(array_merge($set1, $set2));\n    return $unionSet;\n}\n\n// Example usage:\n$set1 = [1, 2, 3, 4];\n$set2 = [3, 4, 5, 6];\n$result = unionOfSets($set1, $set2);\nprint_r($result);\n\n?>\n```"
+  },
+  {
+    "task": "Create a set and demonstrate using it to check if all elements of another set are present.",
+    "code": "```php\n$setA = [1, 2, 3, 4, 5];\n$setB = [2, 4, 5];\n\n$setA_unique = array_flip($setA);\n$allElementsPresent = true;\n\nforeach ($setB as $element) {\n    if (!isset($setA_unique[$element])) {\n        $allElementsPresent = false;\n        break;\n    }\n}\n\necho $allElementsPresent ? 'All elements are present' : 'Some elements are missing';\n```"
+  },
+  {
+    "task": "Implement a set to store unique coupon codes and demonstrate adding new codes.",
+    "code": "```php\n$couponCodes = [];\n\nfunction addCouponCode(&$set, $code) {\n    if (!in_array($code, $set)) {\n        $set[] = $code;\n    }\n}\n\naddCouponCode($couponCodes, 'SAVE10');\naddCouponCode($couponCodes, 'WELCOME20');\naddCouponCode($couponCodes, 'SAVE10'); // Duplicate, won't be added again\n\nprint_r($couponCodes);\n```"
+  },
+  {
+    "task": "Create a set and demonstrate the `copy` method.",
+    "code": "```php\n$set = new Ds\\Set([1, 2, 3, 4, 5]);\n$setCopy = $set->copy();\n\nforeach ($setCopy as $item) {\n    echo $item . \"\\n\";\n}\n```"
+  },
+  {
+    "task": "Write a function to remove duplicates from a list using a set.",
+    "code": "```php\nfunction removeDuplicates($list) {\n    return array_values(array_unique($list));\n}\n```"
+  },
+  {
+    "task": "Use a set to identify unique numbers in a sequence.",
+    "code": "```php\n$sequence = [1, 2, 2, 3, 4, 4, 5];\n$uniqueNumbers = array_keys(array_flip($sequence));\n\nprint_r($uniqueNumbers);\n```"
+  },
+  {
+    "task": "Create a set of unique fruit names and demonstrate set operations with it.",
+    "code": "```php\n$fruits = array_unique([\"apple\", \"banana\", \"orange\", \"apple\", \"kiwi\", \"banana\"]);\n\n// Convert array to a set-like structure using associative array keys\n$fruitSet = array_flip($fruits);\n\n// Add a new fruit\n$fruitSet['mango'] = true;\n\n// Remove a fruit\nunset($fruitSet['banana']);\n\n// Check if a fruit is in the set\n$hasOrange = isset($fruitSet['orange']);\n\n// Get all unique fruit names\n$uniqueFruits = array_keys($fruitSet);\n\n// Output results\nvar_dump($hasOrange);\nvar_dump($uniqueFruits);\n```"
+  }
+]

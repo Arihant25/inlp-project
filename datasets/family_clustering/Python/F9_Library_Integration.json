@@ -1,0 +1,382 @@
+[
+  {
+    "task": "Create a program that reads a CSV file using a library designed for parsing CSV data.",
+    "code": "```python\nimport csv\n\ndef read_csv_file(file_path):\n    with open(file_path, mode='r', newline='') as file:\n        csv_reader = csv.reader(file)\n        for row in csv_reader:\n            print(row)\n\n# Example usage:\n# read_csv_file('example.csv')\n```"
+  },
+  {
+    "task": "Implement a function that generates a random number using a standard library for random number generation.",
+    "code": "```python\nimport random\n\ndef generate_random_number():\n    return random.random()\n```"
+  },
+  {
+    "task": "Use a third-party library to send an HTTP GET request to a public API and print the response.",
+    "code": "```python\nimport requests\n\nresponse = requests.get('https://api.example.com/data')\nprint(response.text)\n```"
+  },
+  {
+    "task": "Write a script that extracts the text from a PDF file using a library for PDF manipulation.",
+    "code": "```python\nfrom PyPDF2 import PdfReader\n\ndef extract_text_from_pdf(file_path):\n    reader = PdfReader(file_path)\n    text = ''\n    for page in reader.pages:\n        text += page.extract_text()\n    return text\n\n# Example usage\npdf_text = extract_text_from_pdf('example.pdf')\nprint(pdf_text)\n```"
+  },
+  {
+    "task": "Develop a tool that resizes images by integrating an image processing library.",
+    "code": "```python\nfrom PIL import Image\n\ndef resize_image(input_path, output_path, new_size):\n    with Image.open(input_path) as img:\n        resized_img = img.resize(new_size)\n        resized_img.save(output_path)\n\n# Example usage\nresize_image('input.jpg', 'output.jpg', (800, 600))\n```"
+  },
+  {
+    "task": "Create a program that connects to a database using a library for database interaction.",
+    "code": "```python\nimport sqlite3\n\ndef connect_to_database(db_name):\n    connection = sqlite3.connect(db_name)\n    return connection\n\n# Example usage\ndb_connection = connect_to_database('example.db')\ndb_connection.close()\n```"
+  },
+  {
+    "task": "Build an application that converts Markdown text to HTML using a Markdown parsing library.",
+    "code": "```python\nimport markdown\n\ndef convert_markdown_to_html(markdown_text):\n    html = markdown.markdown(markdown_text)\n    return html\n\n# Example usage\nmarkdown_text = \"\"\"\n# Sample Markdown\n\nThis is a paragraph with **bold** text and *italic* text.\n\n- List item 1\n- List item 2\n\n[Link](https://example.com)\n\"\"\"\n\nhtml_output = convert_markdown_to_html(markdown_text)\nprint(html_output)\n```"
+  },
+  {
+    "task": "Use a library to transform XML data into JSON format for easier manipulation.",
+    "code": "```python\nimport xmltodict\nimport json\n\ndef xml_to_json(xml_data):\n    # Parse the XML data into a dictionary\n    xml_dict = xmltodict.parse(xml_data)\n    # Convert the dictionary to a JSON formatted string\n    json_data = json.dumps(xml_dict)\n    return json_data\n\n# Example XML data\nxml_data = '''<root>\n  <element key=\"value\">Text</element>\n</root>'''\n\n# Transform XML to JSON\njson_result = xml_to_json(xml_data)\nprint(json_result)\n```"
+  },
+  {
+    "task": "Implement a feature that schedules tasks at regular intervals using a scheduler library.",
+    "code": "```python\nfrom apscheduler.schedulers.blocking import BlockingScheduler\n\ndef my_task():\n    print(\"Task is running...\")\n\nscheduler = BlockingScheduler()\nscheduler.add_job(my_task, 'interval', seconds=10)\n\ntry:\n    scheduler.start()\nexcept (KeyboardInterrupt, SystemExit):\n    pass\n```"
+  },
+  {
+    "task": "Develop a chat application that utilizes a library for WebSocket communication.",
+    "code": "```python\nimport asyncio\nimport websockets\n\nasync def chat_handler(websocket, path):\n    async for message in websocket:\n        await websocket.send(f\"Message received: {message}\")\n\nasync def main():\n    async with websockets.serve(chat_handler, \"localhost\", 8765):\n        await asyncio.Future()  # run forever\n\nasyncio.run(main())\n```"
+  },
+  {
+    "task": "Create a game that uses a library to handle physics simulations for realistic movements.",
+    "code": "```python\nimport pygame\nimport pymunk\nfrom pymunk.pygame_util import DrawOptions\n\n# Initialize Pygame and Pymunk\npygame.init()\nscreen = pygame.display.set_mode((600, 400))\nclock = pygame.time.Clock()\nspace = pymunk.Space()\nspace.gravity = (0, 900)\n\n# Create a ball\ndef create_ball(space, pos):\n    mass = 1\n    radius = 14\n    inertia = pymunk.moment_for_circle(mass, 0, radius)\n    body = pymunk.Body(mass, inertia)\n    body.position = pos\n    shape = pymunk.Circle(body, radius)\n    shape.elasticity = 0.95\n    space.add(body, shape)\n\n# Create a static line (ground)\ndef create_ground(space):\n    body = pymunk.Body(body_type=pymunk.Body.STATIC)\n    shape = pymunk.Segment(body, (50, 350), (550, 350), 5)\n    shape.elasticity = 0.95\n    space.add(shape)\n\ncreate_ground(space)\ncreate_ball(space, (300, 100))\n\n# Game loop\nrunning = True\nwhile running:\n    for event in pygame.event.get():\n        if event.type == pygame.QUIT:\n            running = False\n\n    # Clear screen\n    screen.fill((255, 255, 255))\n\n    # Draw objects\n    options = DrawOptions(screen)\n    space.debug_draw(options)\n\n    # Update physics\n    space.step(1/50.0)\n\n    # Update display\n    pygame.display.flip()\n    clock.tick(50)\n\npygame.quit()\n```"
+  },
+  {
+    "task": "Write a function that hashes a string using a cryptographic hashing library.",
+    "code": "```python\nimport hashlib\n\ndef hash_string(input_string):\n    return hashlib.sha256(input_string.encode()).hexdigest()\n```"
+  },
+  {
+    "task": "Build a program that validates email addresses using a library for regular expression matching.",
+    "code": "```python\nimport re\n\ndef is_valid_email(email):\n    pattern = r\"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\"\n    return re.match(pattern, email) is not None\n\n# Example usage\nemail = \"example@test.com\"\nprint(is_valid_email(email))\n```"
+  },
+  {
+    "task": "Implement a feature that reads and writes Excel files using a library tailored for Excel file manipulation.",
+    "code": "```python\nimport pandas as pd\n\n# Reading an Excel file\ndf = pd.read_excel('input_file.xlsx')\n\n# Writing to an Excel file\ndf.to_excel('output_file.xlsx', index=False)\n```"
+  },
+  {
+    "task": "Use a library to translate text from one language to another in your application.",
+    "code": "```python\nfrom googletrans import Translator\n\ndef translate_text(text, dest_language):\n    translator = Translator()\n    translation = translator.translate(text, dest=dest_language)\n    return translation.text\n\ntext_to_translate = \"Hello, how are you?\"\ntranslated_text = translate_text(text_to_translate, 'es')  # Translate to Spanish\nprint(translated_text)\n```"
+  },
+  {
+    "task": "Create a script that generates QR codes using a library for QR code creation.",
+    "code": "```python\nimport qrcode\n\ndef generate_qr_code(data, filename):\n    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)\n    qr.add_data(data)\n    qr.make(fit=True)\n    \n    img = qr.make_image(fill_color=\"black\", back_color=\"white\")\n    img.save(filename)\n\n# Example usage:\ngenerate_qr_code('https://www.example.com', 'example_qr.png')\n```"
+  },
+  {
+    "task": "Build an app that plays audio files using a library for audio processing.",
+    "code": "```python\nimport simpleaudio as sa\n\ndef play_audio(file_path):\n    wave_obj = sa.WaveObject.from_wave_file(file_path)\n    play_obj = wave_obj.play()\n    play_obj.wait_done()\n\n# Example usage\nplay_audio('your_audio_file.wav')\n```"
+  },
+  {
+    "task": "Develop a tool that scrapes web pages for specific data using a web scraping library.",
+    "code": "```python\nimport requests\nfrom bs4 import BeautifulSoup\n\ndef scrape_web_page(url, tag, class_name):\n    response = requests.get(url)\n    if response.status_code == 200:\n        soup = BeautifulSoup(response.text, 'html.parser')\n        return soup.find_all(tag, class_=class_name)\n    else:\n        return None\n\n# Example usage\nurl = 'https://example.com'\ntag = 'div'\nclass_name = 'specific-class'\ndata = scrape_web_page(url, tag, class_name)\n\nif data:\n    for item in data:\n        print(item.get_text())\n```"
+  },
+  {
+    "task": "Implement a service that sends emails using a library that facilitates SMTP communication.",
+    "code": "```python\nimport smtplib\nfrom email.message import EmailMessage\n\ndef send_email(subject, body, to_email, from_email, smtp_server, smtp_port, smtp_user, smtp_pass):\n    msg = EmailMessage()\n    msg.set_content(body)\n    msg['Subject'] = subject\n    msg['From'] = from_email\n    msg['To'] = to_email\n\n    with smtplib.SMTP(smtp_server, smtp_port) as server:\n        server.starttls()\n        server.login(smtp_user, smtp_pass)\n        server.send_message(msg)\n```"
+  },
+  {
+    "task": "Create a program that visualizes data in charts using a charting library.",
+    "code": "```python\nimport matplotlib.pyplot as plt\n\n# Sample data\ncategories = ['A', 'B', 'C', 'D']\nvalues = [10, 15, 7, 10]\n\n# Bar chart\nplt.figure(figsize=(10, 5))\nplt.bar(categories, values)\nplt.title('Sample Bar Chart')\nplt.xlabel('Categories')\nplt.ylabel('Values')\nplt.show()\n```"
+  },
+  {
+    "task": "Write a script that compresses files into a zip archive using a standard library.",
+    "code": "```python\nimport zipfile\nimport os\n\ndef compress_files_to_zip(zip_name, files):\n    with zipfile.ZipFile(zip_name, 'w') as zipf:\n        for file in files:\n            if os.path.isfile(file):\n                zipf.write(file, os.path.basename(file))\n\n# Example usage:\nfiles_to_compress = ['file1.txt', 'file2.txt', 'file3.txt']\ncompress_files_to_zip('compressed_archive.zip', files_to_compress)\n```"
+  },
+  {
+    "task": "Use a library to parse command-line arguments in your application.",
+    "code": "```python\nimport argparse\n\ndef main():\n    parser = argparse.ArgumentParser(description='A simple command-line parser.')\n    parser.add_argument('--input', type=str, help='Input file path')\n    parser.add_argument('--output', type=str, help='Output file path')\n    parser.add_argument('--verbose', action='store_true', help='Enable verbose output')\n\n    args = parser.parse_args()\n\n    if args.verbose:\n        print(f'Input file: {args.input}')\n        print(f'Output file: {args.output}')\n\nif __name__ == '__main__':\n    main()\n```"
+  },
+  {
+    "task": "Build a weather application that displays data from a weather API using a library for JSON parsing.",
+    "code": "```python\nimport requests\nimport json\n\ndef get_weather_data(api_key, city):\n    url = f\"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}\"\n    response = requests.get(url)\n    return json.loads(response.text)\n\ndef display_weather(data):\n    temperature = data['main']['temp']\n    weather_description = data['weather'][0]['description']\n    print(f\"Temperature: {temperature}\u00b0K\")\n    print(f\"Weather: {weather_description}\")\n\ndef main():\n    api_key = 'your_api_key_here'\n    city = 'London'\n    weather_data = get_weather_data(api_key, city)\n    display_weather(weather_data)\n\nif __name__ == \"__main__\":\n    main()\n```"
+  },
+  {
+    "task": "Create a video player application using a library that handles video playback.",
+    "code": "```python\nimport vlc\nimport tkinter as tk\nfrom tkinter import filedialog\n\nclass VideoPlayer:\n    def __init__(self, root):\n        self.root = root\n        self.root.title(\"Video Player\")\n        self.instance = vlc.Instance()\n        self.player = self.instance.media_player_new()\n        \n        self.create_ui()\n        \n    def create_ui(self):\n        self.canvas = tk.Canvas(self.root, width=640, height=480)\n        self.canvas.pack()\n\n        self.load_button = tk.Button(self.root, text=\"Load Video\", command=self.load_video)\n        self.load_button.pack()\n\n        self.play_button = tk.Button(self.root, text=\"Play\", command=self.play)\n        self.play_button.pack()\n\n        self.pause_button = tk.Button(self.root, text=\"Pause\", command=self.pause)\n        self.pause_button.pack()\n\n        self.stop_button = tk.Button(self.root, text=\"Stop\", command=self.stop)\n        self.stop_button.pack()\n\n    def load_video(self):\n        filepath = filedialog.askopenfilename()\n        if filepath:\n            media = self.instance.media_new(filepath)\n            self.player.set_media(media)\n            self.player.set_hwnd(self.canvas.winfo_id())\n\n    def play(self):\n        self.player.play()\n\n    def pause(self):\n        self.player.pause()\n\n    def stop(self):\n        self.player.stop()\n\nif __name__ == \"__main__\":\n    root = tk.Tk()\n    player = VideoPlayer(root)\n    root.mainloop()\n```"
+  },
+  {
+    "task": "Develop a system that logs application events using a logging library for better traceability.",
+    "code": "```python\nimport logging\n\n# Configure the logging\nlogging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')\n\ndef log_event(event_message):\n    logging.info(event_message)\n\n# Example of logging an event\nlog_event('Application started')\nlog_event('An important event occurred')\nlog_event('Application terminated')\n```"
+  },
+  {
+    "task": "Implement a feature that encrypts and decrypts data using a library for encryption.",
+    "code": "```python\nfrom cryptography.fernet import Fernet\n\n# Generate a key for encryption and decryption\nkey = Fernet.generate_key()\ncipher_suite = Fernet(key)\n\n# Function to encrypt data\ndef encrypt_data(data):\n    return cipher_suite.encrypt(data.encode())\n\n# Function to decrypt data\ndef decrypt_data(encrypted_data):\n    return cipher_suite.decrypt(encrypted_data).decode()\n\n# Example usage\ndata = \"Hello, World!\"\nencrypted = encrypt_data(data)\ndecrypted = decrypt_data(encrypted)\n\nprint(\"Encrypted:\", encrypted)\nprint(\"Decrypted:\", decrypted)\n```"
+  },
+  {
+    "task": "Write a program that fetches and displays cryptocurrency prices using a third-party library for API interaction.",
+    "code": "```python\nimport requests\n\ndef get_crypto_price(crypto):\n    url = f\"https://api.coingecko.com/api/v3/simple/price?ids={crypto}&vs_currencies=usd\"\n    response = requests.get(url)\n    data = response.json()\n    return data[crypto]['usd']\n\ndef main():\n    crypto = 'bitcoin'\n    price = get_crypto_price(crypto)\n    print(f\"The current price of {crypto.capitalize()} is ${price}\")\n\nif __name__ == \"__main__\":\n    main()\n```"
+  },
+  {
+    "task": "Use a library to implement OAuth authentication for secure user login in your application.",
+    "code": "```python\nfrom requests_oauthlib import OAuth2Session\nfrom oauthlib.oauth2 import BackendApplicationClient\n\n# Replace these with your application's credentials\nclient_id = 'YOUR_CLIENT_ID'\nclient_secret = 'YOUR_CLIENT_SECRET'\nauthorization_base_url = 'https://provider.com/oauth2/authorize'\ntoken_url = 'https://provider.com/oauth2/token'\n\n# Create a session\nclient = BackendApplicationClient(client_id=client_id)\noauth = OAuth2Session(client=client)\n\n# Fetch the token\ntoken = oauth.fetch_token(token_url=token_url, client_id=client_id, client_secret=client_secret)\n\n# Use the token in your application\nresponse = oauth.get('https://provider.com/api/userinfo')\nuser_info = response.json()\n```"
+  },
+  {
+    "task": "Build a calculator that evaluates mathematical expressions using a math parsing library.",
+    "code": "```python\nfrom sympy import sympify\n\ndef evaluate_expression(expression: str) -> float:\n    return float(sympify(expression))\n\n# Example usage\nresult = evaluate_expression(\"2 + 3 * (8 / 4) - 7\")\nprint(result)\n```"
+  },
+  {
+    "task": "Create a chatbot that integrates a natural language processing library for understanding user input.",
+    "code": "```python\nimport openai\n\nclass Chatbot:\n    def __init__(self, api_key):\n        self.api_key = api_key\n        openai.api_key = self.api_key\n\n    def get_response(self, user_input):\n        response = openai.Completion.create(\n            engine=\"davinci\",\n            prompt=user_input,\n            max_tokens=150\n        )\n        return response.choices[0].text.strip()\n\n# Example usage:\n# chatbot = Chatbot('your-openai-api-key')\n# print(chatbot.get_response(\"Hello, how are you?\"))\n```"
+  },
+  {
+    "task": "Develop a tool that detects faces in images using a computer vision library.",
+    "code": "```python\nimport cv2\n\ndef detect_faces(image_path):\n    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')\n    image = cv2.imread(image_path)\n    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n    \n    faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))\n    \n    for (x, y, w, h) in faces:\n        cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)\n    \n    cv2.imshow('Faces', image)\n    cv2.waitKey(0)\n    cv2.destroyAllWindows()\n\n# Example usage\ndetect_faces('path_to_image.jpg')\n```"
+  },
+  {
+    "task": "Implement a program that converts date and time across different time zones using a library for date manipulation.",
+    "code": "```python\nfrom datetime import datetime\nimport pytz\n\ndef convert_timezone(date_time_str, from_tz_str, to_tz_str):\n    from_tz = pytz.timezone(from_tz_str)\n    to_tz = pytz.timezone(to_tz_str)\n    \n    naive_datetime = datetime.strptime(date_time_str, \"%Y-%m-%d %H:%M:%S\")\n    from_tz_datetime = from_tz.localize(naive_datetime)\n    to_tz_datetime = from_tz_datetime.astimezone(to_tz)\n    \n    return to_tz_datetime.strftime(\"%Y-%m-%d %H:%M:%S\")\n\n# Example usage\ndate_time = \"2023-10-15 13:45:00\"\nfrom_timezone = \"America/New_York\"\nto_timezone = \"Europe/London\"\nconverted_time = convert_timezone(date_time, from_timezone, to_timezone)\nprint(converted_time)\n```"
+  },
+  {
+    "task": "Write a utility that uploads files to a cloud storage service using a library that interfaces with the service's API.",
+    "code": "```python\nimport boto3\nfrom botocore.exceptions import NoCredentialsError\n\ndef upload_to_s3(file_name, bucket, object_name=None):\n    s3_client = boto3.client('s3')\n    if object_name is None:\n        object_name = file_name\n    try:\n        s3_client.upload_file(file_name, bucket, object_name)\n        print(f\"File {file_name} uploaded to {bucket}/{object_name}\")\n    except FileNotFoundError:\n        print(f\"The file {file_name} was not found\")\n    except NoCredentialsError:\n        print(\"Credentials not available\")\n\n# Example usage:\n# upload_to_s3('local_file.txt', 'my-bucket')\n```"
+  },
+  {
+    "task": "Create a real-time chat system using a library that supports asynchronous communication.",
+    "code": "```python\nimport asyncio\nimport websockets\n\nconnected_clients = set()\n\nasync def chat_handler(websocket, path):\n    connected_clients.add(websocket)\n    try:\n        async for message in websocket:\n            await asyncio.wait([client.send(message) for client in connected_clients if client != websocket])\n    finally:\n        connected_clients.remove(websocket)\n\nasync def main():\n    async with websockets.serve(chat_handler, \"localhost\", 6789):\n        await asyncio.Future()  # run forever\n\nasyncio.run(main())\n```"
+  },
+  {
+    "task": "Use a library to generate and manipulate UUIDs for unique identification in your application.",
+    "code": "```python\nimport uuid\n\n# Generate a new UUID\nnew_uuid = uuid.uuid4()\n\n# Convert UUID to a string\nuuid_str = str(new_uuid)\n\n# Manipulate UUID: Create a UUID from a string\nmanipulated_uuid = uuid.UUID(uuid_str)\n\n# Output the generated UUIDs\nprint(\"Generated UUID:\", new_uuid)\nprint(\"Manipulated UUID:\", manipulated_uuid)\n```"
+  },
+  {
+    "task": "Build a desktop application that uses a library for creating graphical user interfaces.",
+    "code": "```python\nimport tkinter as tk\n\ndef main():\n    root = tk.Tk()\n    root.title(\"My Desktop Application\")\n\n    label = tk.Label(root, text=\"Hello, World!\")\n    label.pack(pady=20)\n\n    button = tk.Button(root, text=\"Exit\", command=root.quit)\n    button.pack(pady=10)\n\n    root.mainloop()\n\nif __name__ == \"__main__\":\n    main()\n```"
+  },
+  {
+    "task": "Develop an algorithm that finds the shortest path in a graph using a library that provides graph algorithms.",
+    "code": "```python\nimport networkx as nx\n\n# Create a graph\nG = nx.Graph()\n\n# Add edges to the graph (example)\nG.add_edge('A', 'B', weight=1)\nG.add_edge('B', 'C', weight=2)\nG.add_edge('A', 'D', weight=4)\nG.add_edge('C', 'D', weight=1)\n\n# Find the shortest path\nshortest_path = nx.shortest_path(G, source='A', target='C', weight='weight')\n\nprint(\"Shortest path:\", shortest_path)\n```"
+  },
+  {
+    "task": "Create a digital clock application that uses a library for handling time events.",
+    "code": "```python\nimport tkinter as tk\nfrom tkinter import Label\nimport time\n\ndef update_time():\n    current_time = time.strftime('%H:%M:%S')\n    clock_label.config(text=current_time)\n    clock_label.after(1000, update_time)\n\nroot = tk.Tk()\nroot.title(\"Digital Clock\")\n\nclock_label = Label(root, font=('calibri', 40, 'bold'), background='purple', foreground='white')\nclock_label.pack(anchor='center')\n\nupdate_time()\nroot.mainloop()\n```"
+  },
+  {
+    "task": "Write a program that uses a library to convert between different units of measurement.",
+    "code": "```python\nfrom pint import UnitRegistry\n\nureg = UnitRegistry()\n\ndef convert_units(value, from_unit, to_unit):\n    quantity = value * ureg(from_unit)\n    return quantity.to(to_unit).magnitude\n\n# Example usage:\nvalue_in_kilometers = convert_units(5, 'miles', 'kilometers')\nprint(value_in_kilometers)\n```"
+  },
+  {
+    "task": "Use a library to implement a caching mechanism for improving application performance.",
+    "code": "```python\nfrom cachetools import cached, TTLCache\n\n# Create a cache with a time-to-live of 300 seconds and a maximum size of 100\ncache = TTLCache(maxsize=100, ttl=300)\n\n@cached(cache)\ndef expensive_function(x):\n    # Simulate an expensive computation\n    return x * x\n\n# Example usage\nresult = expensive_function(10)\n```"
+  },
+  {
+    "task": "Build an e-commerce platform that integrates a payment processing library for handling transactions.",
+    "code": "```python\nfrom flask import Flask, request, jsonify\nimport stripe\n\napp = Flask(__name__)\n\n# Configure the Stripe library with your secret key\nstripe.api_key = 'your_stripe_secret_key'\n\n@app.route('/create-payment-intent', methods=['POST'])\ndef create_payment_intent():\n    try:\n        # Assume the request contains a JSON payload with `amount` and `currency`\n        data = request.json\n        amount = data['amount']\n        currency = data['currency']\n\n        # Create a PaymentIntent with the order amount and currency\n        payment_intent = stripe.PaymentIntent.create(\n            amount=amount,\n            currency=currency,\n        )\n\n        return jsonify({'clientSecret': payment_intent['client_secret']})\n\n    except Exception as e:\n        return jsonify(error=str(e)), 403\n\n@app.route('/webhook', methods=['POST'])\ndef stripe_webhook():\n    payload = request.get_data(as_text=True)\n    sig_header = request.headers.get('Stripe-Signature')\n    endpoint_secret = 'your_endpoint_secret'\n\n    event = None\n\n    try:\n        event = stripe.Webhook.construct_event(\n            payload, sig_header, endpoint_secret\n        )\n    except ValueError as e:\n        return 'Invalid payload', 400\n    except stripe.error.SignatureVerificationError as e:\n        return 'Invalid signature', 400\n\n    # Handle the event\n    if event['type'] == 'payment_intent.succeeded':\n        payment_intent = event['data']['object']\n        print('PaymentIntent was successful!')\n\n    return '', 200\n\nif __name__ == '__main__':\n    app.run(port=4242)\n```"
+  },
+  {
+    "task": "Create a to-do list application that stores data locally using a library for file management.",
+    "code": "```python\nimport json\nimport os\n\nclass ToDoList:\n    def __init__(self, filename='todo.json'):\n        self.filename = filename\n        self.tasks = []\n        self.load_tasks()\n\n    def load_tasks(self):\n        if os.path.exists(self.filename):\n            with open(self.filename, 'r') as file:\n                self.tasks = json.load(file)\n\n    def save_tasks(self):\n        with open(self.filename, 'w') as file:\n            json.dump(self.tasks, file)\n\n    def add_task(self, task):\n        self.tasks.append({'task': task, 'completed': False})\n        self.save_tasks()\n\n    def complete_task(self, task_index):\n        if 0 <= task_index < len(self.tasks):\n            self.tasks[task_index]['completed'] = True\n            self.save_tasks()\n\n    def delete_task(self, task_index):\n        if 0 <= task_index < len(self.tasks):\n            self.tasks.pop(task_index)\n            self.save_tasks()\n\n    def get_tasks(self):\n        return self.tasks\n\n# Example usage\nif __name__ == \"__main__\":\n    todo_list = ToDoList()\n    todo_list.add_task(\"Buy groceries\")\n    todo_list.add_task(\"Read a book\")\n    print(todo_list.get_tasks())\n    todo_list.complete_task(0)\n    print(todo_list.get_tasks())\n    todo_list.delete_task(1)\n    print(todo_list.get_tasks())\n```"
+  },
+  {
+    "task": "Develop a system that monitors server health using a library that provides network utilities.",
+    "code": "```python\nimport psutil\nimport time\n\ndef check_server_health():\n    cpu_usage = psutil.cpu_percent(interval=1)\n    mem_usage = psutil.virtual_memory().percent\n    disk_usage = psutil.disk_usage('/').percent\n\n    return {\n        \"cpu_usage\": cpu_usage,\n        \"mem_usage\": mem_usage,\n        \"disk_usage\": disk_usage\n    }\n\ndef main():\n    while True:\n        health_status = check_server_health()\n        print(f\"CPU Usage: {health_status['cpu_usage']}%\")\n        print(f\"Memory Usage: {health_status['mem_usage']}%\")\n        print(f\"Disk Usage: {health_status['disk_usage']}%\")\n        print(\"--------\")\n        time.sleep(5)\n\nif __name__ == \"__main__\":\n    main()\n```"
+  },
+  {
+    "task": "Implement a program that detects language from a given text using a language detection library.",
+    "code": "```python\nfrom langdetect import detect\n\ndef detect_language(text):\n    return detect(text)\n\n# Example usage\ntext = \"Bonjour tout le monde\"\nlanguage = detect_language(text)\nprint(f\"The detected language is: {language}\")\n```"
+  },
+  {
+    "task": "Write a script that sends notifications to a mobile device using a push notification library.",
+    "code": "```python\nfrom pushbullet import Pushbullet\n\nAPI_KEY = 'your_pushbullet_api_key'\npb = Pushbullet(API_KEY)\n\ndevice = pb.devices[0]  # Select the first device for demonstration\ntitle = \"Notification Title\"\nbody = \"This is the body of the notification.\"\n\npush = pb.push_note(title, body)\n```"
+  },
+  {
+    "task": "Use a library to generate reports in PDF format from application data.",
+    "code": "```python\nfrom fpdf import FPDF\n\nclass PDF(FPDF):\n    def header(self):\n        self.set_font('Arial', 'B', 12)\n        self.cell(0, 10, 'Report Header', 0, 1, 'C')\n\n    def footer(self):\n        self.set_y(-15)\n        self.set_font('Arial', 'I', 8)\n        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')\n\n    def chapter_title(self, title):\n        self.set_font('Arial', 'B', 12)\n        self.cell(0, 10, title, 0, 1, 'L')\n        self.ln(4)\n\n    def chapter_body(self, body):\n        self.set_font('Arial', '', 12)\n        self.multi_cell(0, 10, body)\n        self.ln()\n\ndata = [\n    {'title': 'Introduction', 'content': 'This is the introduction to the report.'},\n    {'title': 'Data Analysis', 'content': 'Here is the data analysis of the report.'},\n    {'title': 'Conclusion', 'content': 'This is the conclusion of the report.'}\n]\n\npdf = PDF()\npdf.add_page()\n\nfor section in data:\n    pdf.chapter_title(section['title'])\n    pdf.chapter_body(section['content'])\n\npdf.output('report.pdf')\n```"
+  },
+  {
+    "task": "Build a program that performs statistical analysis on datasets using a statistical computing library.",
+    "code": "```python\nimport pandas as pd\nimport numpy as np\nimport scipy.stats as stats\n\n# Example dataset\ndata = {\n    'A': np.random.normal(0, 1, 100),\n    'B': np.random.normal(5, 2, 100),\n    'C': np.random.normal(10, 3, 100)\n}\n\ndf = pd.DataFrame(data)\n\n# Descriptive statistics\ndescriptive_stats = df.describe()\n\n# Correlation matrix\ncorrelation_matrix = df.corr()\n\n# Hypothesis testing: t-test for the means of two independent samples\nt_stat, p_value = stats.ttest_ind(df['A'], df['B'])\n\n# Output results\nprint(\"Descriptive Statistics:\\n\", descriptive_stats)\nprint(\"\\nCorrelation Matrix:\\n\", correlation_matrix)\nprint(\"\\nT-Test between A and B:\\n\", f\"T-statistic: {t_stat}, P-value: {p_value}\")\n```"
+  },
+  {
+    "task": "Create an image gallery application that uses a library for image caching and lazy loading.",
+    "code": "```python\nfrom flask import Flask, render_template\nfrom flask_caching import Cache\nfrom PIL import Image\nimport os\n\napp = Flask(__name__)\ncache = Cache(app, config={'CACHE_TYPE': 'simple'})\n\nIMAGE_FOLDER = 'static/images'\napp.config['IMAGE_FOLDER'] = IMAGE_FOLDER\n\ndef get_all_images(folder):\n    return [f for f in os.listdir(folder) if f.endswith(('.png', '.jpg', '.jpeg', '.gif'))]\n\n@cache.cached(timeout=60)\ndef load_image(image_path):\n    with Image.open(image_path) as img:\n        return img\n\n@app.route('/')\ndef gallery():\n    images = get_all_images(app.config['IMAGE_FOLDER'])\n    return render_template('gallery.html', images=images)\n\nif __name__ == '__main__':\n    app.run(debug=True)\n```\n\n```html\n<!-- templates/gallery.html -->\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Image Gallery</title>\n    <style>\n        img { width: 150px; margin: 10px; }\n    </style>\n    <script>\n        document.addEventListener(\"DOMContentLoaded\", function() {\n            const images = document.querySelectorAll('img[data-src]');\n            const lazyLoad = (img) => {\n                img.setAttribute('src', img.getAttribute('data-src'));\n                img.onload = () => img.removeAttribute('data-src');\n            };\n\n            if ('IntersectionObserver' in window) {\n                const observer = new IntersectionObserver((entries, observer) => {\n                    entries.forEach(entry => {\n                        if (entry.isIntersecting) {\n                            lazyLoad(entry.target);\n                            observer.unobserve(entry.target);\n                        }\n                    });\n                });\n\n                images.forEach(img => observer.observe(img));\n            } else {\n                images.forEach(lazyLoad);\n            }\n        });\n    </script>\n</head>\n<body>\n    <h1>Image Gallery</h1>\n    <div>\n        {% for image in images %}\n            <img data-src=\"{{ url_for('static', filename='images/' + image) }}\" alt=\"Image\">\n        {% endfor %}\n    </div>\n</body>\n</html>\n```"
+  },
+  {
+    "task": "Develop a machine learning model that predicts outcomes using a machine learning library.",
+    "code": "```python\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import accuracy_score\n\n# Load dataset\ndata = load_iris()\nX, y = data.data, data.target\n\n# Split the dataset\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\n\n# Initialize the model\nmodel = RandomForestClassifier()\n\n# Train the model\nmodel.fit(X_train, y_train)\n\n# Make predictions\npredictions = model.predict(X_test)\n\n# Evaluate the model\naccuracy = accuracy_score(y_test, predictions)\nprint(f\"Accuracy: {accuracy}\")\n```"
+  },
+  {
+    "task": "Implement a feature that automatically formats code according to style guidelines using a code formatter library.",
+    "code": "```python\nimport autopep8\n\ndef format_code(code: str) -> str:\n    return autopep8.fix_code(code)\n\n# Example usage\nraw_code = \"def myfunc(x,y):return x+y\"\nformatted_code = format_code(raw_code)\nprint(formatted_code)\n```"
+  },
+  {
+    "task": "Write a program that generates barcodes using a library for barcode generation.",
+    "code": "```python\nfrom barcode import Code128\nfrom barcode.writer import ImageWriter\n\n# Create a barcode\nbarcode_data = \"123456789012\"\ncode128 = Code128(barcode_data, writer=ImageWriter())\n\n# Save the barcode as an image file\ncode128.save(\"barcode\")\n```"
+  },
+  {
+    "task": "Use a library to create interactive maps for displaying geographical data in your application.",
+    "code": "```python\nimport folium\n\n# Create a map object centered at a specific latitude and longitude\nmymap = folium.Map(location=[45.5236, -122.6750], zoom_start=13)\n\n# Add a marker to the map\nfolium.Marker([45.5236, -122.6750], popup='Portland').add_to(mymap)\n\n# Display the map\nmymap.save('interactive_map.html')\n```"
+  },
+  {
+    "task": "Build a simulation that models fluid dynamics using a library for physics simulations.",
+    "code": "```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.integrate import solve_ivp\n\n# Constants\nL = 1.0  # Length of the domain\nN = 100  # Number of grid points\ndx = L / (N - 1)  # Grid spacing\nnu = 0.1  # Viscosity\n\n# Initial conditions\nu0 = np.zeros(N)\nu0[int(0.5 / dx):int(1.0 / dx + 1)] = 2  # Initial velocity profile\n\n# Time parameters\nt0, tf = 0, 2\ndt = 0.01\n\ndef dudt(t, u):\n    dudx = np.gradient(u, dx)\n    d2udx2 = np.gradient(dudx, dx)\n    return -u * dudx + nu * d2udx2\n\n# Integrate the PDE\nsolution = solve_ivp(dudt, (t0, tf), u0, method='RK45', t_eval=np.arange(t0, tf, dt))\n\n# Plot the results\nplt.figure()\nfor i, t in enumerate(solution.t):\n    if i % 10 == 0:\n        plt.plot(np.linspace(0, L, N), solution.y[:, i], label=f\"t={t:.2f}\")\nplt.xlabel('x')\nplt.ylabel('u')\nplt.legend()\nplt.title('Fluid Dynamics Simulation')\nplt.show()\n```"
+  },
+  {
+    "task": "Create a program that reads barcodes from images using a library for barcode scanning.",
+    "code": "```python\nfrom pyzbar.pyzbar import decode\nfrom PIL import Image\n\ndef read_barcodes_from_image(image_path):\n    image = Image.open(image_path)\n    barcodes = decode(image)\n    for barcode in barcodes:\n        print(f\"Barcode data: {barcode.data.decode('utf-8')}, Type: {barcode.type}\")\n\n# Example usage:\nread_barcodes_from_image('barcode_image.png')\n```"
+  },
+  {
+    "task": "Develop a feature that performs spell checking using a library for text processing.",
+    "code": "```python\nfrom spellchecker import SpellChecker\n\ndef check_spelling(text):\n    spell = SpellChecker()\n    words = text.split()\n    misspelled = spell.unknown(words)\n    corrections = {word: spell.correction(word) for word in misspelled}\n    return corrections\n\ntext_to_check = \"This is a smple text with erors.\"\nprint(check_spelling(text_to_check))\n```"
+  },
+  {
+    "task": "Implement a service that aggregates news articles from various sources using a library for web content aggregation.",
+    "code": "```python\nimport feedparser\n\ndef aggregate_news(feed_urls):\n    aggregated_news = []\n    for url in feed_urls:\n        feed = feedparser.parse(url)\n        for entry in feed.entries:\n            aggregated_news.append({\n                'title': entry.title,\n                'link': entry.link,\n                'published': entry.published\n            })\n    return aggregated_news\n\ndef main():\n    feed_urls = [\n        'http://feeds.bbci.co.uk/news/rss.xml',\n        'http://rss.cnn.com/rss/edition.rss',\n        'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'\n    ]\n    news = aggregate_news(feed_urls)\n    for article in news:\n        print(f\"Title: {article['title']}\\nLink: {article['link']}\\nPublished: {article['published']}\\n\")\n\nif __name__ == \"__main__\":\n    main()\n```"
+  },
+  {
+    "task": "Write a script that converts spoken language to text using a speech recognition library.",
+    "code": "```python\nimport speech_recognition as sr\n\ndef speech_to_text():\n    recognizer = sr.Recognizer()\n    with sr.Microphone() as source:\n        print(\"Please speak now...\")\n        audio = recognizer.listen(source)\n        try:\n            text = recognizer.recognize_google(audio)\n            print(\"You said: \" + text)\n        except sr.UnknownValueError:\n            print(\"Could not understand audio\")\n        except sr.RequestError:\n            print(\"Could not request results from the service\")\n\nspeech_to_text()\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that tracks user behavior in a web application.",
+    "code": "```python\nfrom flask import Flask, request\nfrom sqlalchemy import create_engine, Column, Integer, String, MetaData, Table\nfrom sqlalchemy.orm import sessionmaker\n\napp = Flask(__name__)\n\n# Database setup\nengine = create_engine('sqlite:///user_behavior.db')\nmetadata = MetaData()\nuser_behavior = Table('user_behavior', metadata,\n                      Column('id', Integer, primary_key=True),\n                      Column('user_id', Integer),\n                      Column('action', String),\n                      Column('path', String))\n\nmetadata.create_all(engine)\nSession = sessionmaker(bind=engine)\nsession = Session()\n\n@app.route('/track_action', methods=['POST'])\ndef track_action():\n    user_id = request.json.get('user_id')\n    action = request.json.get('action')\n    path = request.json.get('path')\n\n    ins = user_behavior.insert().values(user_id=user_id, action=action, path=path)\n    conn = engine.connect()\n    conn.execute(ins)\n    conn.close()\n\n    return {'status': 'success'}\n\nif __name__ == '__main__':\n    app.run(debug=True)\n```"
+  },
+  {
+    "task": "Build a program that analyzes sentiment in social media posts using a sentiment analysis library.",
+    "code": "```python\nfrom textblob import TextBlob\n\ndef analyze_sentiment(post):\n    analysis = TextBlob(post)\n    if analysis.sentiment.polarity > 0:\n        return 'Positive'\n    elif analysis.sentiment.polarity == 0:\n        return 'Neutral'\n    else:\n        return 'Negative'\n\n# Example usage:\nsocial_media_posts = [\n    \"I love the new design of the app, it's fantastic!\",\n    \"The update is okay, but I preferred the old version.\",\n    \"I really dislike the new update, it's terrible.\"\n]\n\nfor post in social_media_posts:\n    sentiment = analyze_sentiment(post)\n    print(f\"Post: {post}\\nSentiment: {sentiment}\\n\")\n```"
+  },
+  {
+    "task": "Create a utility that detects plagiarism in text using a library for text comparison.",
+    "code": "```python\nfrom difflib import SequenceMatcher\n\ndef detect_plagiarism(text1, text2):\n    matcher = SequenceMatcher(None, text1, text2)\n    similarity = matcher.ratio()\n    return similarity\n\ntext1 = \"This is a sample text for comparison.\"\ntext2 = \"This is a sample text for checking plagiarism.\"\n\nsimilarity_score = detect_plagiarism(text1, text2)\nprint(f\"Similarity score: {similarity_score:.2f}\")\n```"
+  },
+  {
+    "task": "Develop a program that predicts weather trends using a library for time series forecasting.",
+    "code": "```python\nimport pandas as pd\nfrom fbprophet import Prophet\n\n# Sample data for demonstration purposes\ndata = {\n    'ds': pd.date_range(start='2023-01-01', periods=30, freq='D'),\n    'y': [20.5, 21.0, 19.5, 20.8, 21.2, 22.1, 23.0, 22.5, 23.1, 22.0,\n          21.8, 22.2, 23.5, 24.0, 23.8, 22.9, 23.4, 23.8, 24.2, 24.5,\n          24.0, 23.5, 23.0, 22.6, 22.2, 21.9, 21.5, 21.0, 20.8, 21.2]\n}\n\ndf = pd.DataFrame(data)\n\nmodel = Prophet()\nmodel.fit(df)\n\nfuture = model.make_future_dataframe(periods=10)\nforecast = model.predict(future)\n\nprint(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']])\n```"
+  },
+  {
+    "task": "Implement a feature that performs facial recognition using a library specialized for biometric analysis.",
+    "code": "```python\nimport face_recognition\n\n# Load the known images\nknown_image = face_recognition.load_image_file(\"known_person.jpg\")\nknown_face_encoding = face_recognition.face_encodings(known_image)[0]\n\n# Load the image to check\nunknown_image = face_recognition.load_image_file(\"unknown_person.jpg\")\nunknown_face_encodings = face_recognition.face_encodings(unknown_image)\n\n# Compare faces\nresults = face_recognition.compare_faces([known_face_encoding], unknown_face_encodings[0])\n\nif results[0]:\n    print(\"It's a match!\")\nelse:\n    print(\"No match found.\")\n```"
+  },
+  {
+    "task": "Write a program that interacts with blockchain networks using a library for blockchain communication.",
+    "code": "```python\nfrom web3 import Web3\n\n# Connect to a blockchain network (e.g., Ethereum mainnet)\ninfura_url = \"https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID\"\nweb3 = Web3(Web3.HTTPProvider(infura_url))\n\n# Check if connected to the blockchain\nif web3.isConnected():\n    print(\"Connected to blockchain\")\nelse:\n    print(\"Connection failed\")\n\n# Example: Get the latest block number\nlatest_block = web3.eth.blockNumber\nprint(f\"Latest Block Number: {latest_block}\")\n\n# Example: Get the balance of an Ethereum address\naddress = \"0xYourEthereumAddress\"\nbalance = web3.eth.getBalance(address)\nprint(f\"Balance of {address}: {web3.fromWei(balance, 'ether')} ether\")\n```"
+  },
+  {
+    "task": "Use a library to perform image recognition tasks in your application.",
+    "code": "```python\nfrom PIL import Image\nimport pytesseract\n\n# Load an image from file\nimage = Image.open('example.jpg')\n\n# Use pytesseract to do OCR on the image\ntext = pytesseract.image_to_string(image)\n\nprint(text)\n```"
+  },
+  {
+    "task": "Build a program that converts audio files from one format to another using an audio conversion library.",
+    "code": "```python\nfrom pydub import AudioSegment\n\ndef convert_audio(input_file, output_file, output_format):\n    audio = AudioSegment.from_file(input_file)\n    audio.export(output_file, format=output_format)\n\n# Example usage\nconvert_audio(\"input.mp3\", \"output.wav\", \"wav\")\n```"
+  },
+  {
+    "task": "Create a web application that uses a library for rendering 3D graphics.",
+    "code": "```python\nfrom flask import Flask, render_template_string\nimport pythreejs\n\napp = Flask(__name__)\n\n@app.route('/')\ndef index():\n    scene = pythreejs.Scene(children=[\n        pythreejs.AmbientLight(color='#777777'),\n        pythreejs.DirectionalLight(color='white', position=[3, 5, 1], intensity=0.5),\n        pythreejs.Mesh(\n            geometry=pythreejs.BoxGeometry(width=1, height=1, depth=1),\n            material=pythreejs.MeshStandardMaterial(color='red')\n        )\n    ])\n    camera = pythreejs.PerspectiveCamera(position=[0, 5, 5], up=[0, 1, 0], children=[\n        pythreejs.DirectionalLight(color='white', position=[0, 10, 0], intensity=0.5)\n    ])\n    renderer = pythreejs.Renderer(camera=camera, scene=scene, controls=[pythreejs.OrbitControls(controlling=camera)], width=800, height=600)\n    return render_template_string('<html><body>{{renderer}}</body></html>', renderer=renderer)\n\nif __name__ == '__main__':\n    app.run(debug=True)\n```"
+  },
+  {
+    "task": "Develop a feature that performs currency conversion using a library for financial calculations.",
+    "code": "```python\nfrom forex_python.converter import CurrencyRates\n\ndef convert_currency(amount, from_currency, to_currency):\n    currency_rates = CurrencyRates()\n    return currency_rates.convert(from_currency, to_currency, amount)\n\n# Example usage:\namount_in_usd = 100\namount_in_eur = convert_currency(amount_in_usd, 'USD', 'EUR')\nprint(f\"{amount_in_usd} USD is equal to {amount_in_eur} EUR\")\n```"
+  },
+  {
+    "task": "Implement a program that manages user sessions using a library for session handling.",
+    "code": "```python\nfrom flask import Flask, session\n\napp = Flask(__name__)\napp.secret_key = 'your_secret_key'\n\n@app.route('/set_session/<username>')\ndef set_session(username):\n    session['username'] = username\n    return f'Session set for user: {username}'\n\n@app.route('/get_session')\ndef get_session():\n    if 'username' in session:\n        return f'Logged in as: {session[\"username\"]}'\n    return 'No active session found'\n\n@app.route('/clear_session')\ndef clear_session():\n    session.pop('username', None)\n    return 'Session cleared'\n\nif __name__ == '__main__':\n    app.run(debug=True)\n```"
+  },
+  {
+    "task": "Write a script that automates browser actions using a browser automation library.",
+    "code": "```python\nfrom selenium import webdriver\nfrom selenium.webdriver.common.by import By\nfrom selenium.webdriver.common.keys import Keys\nimport time\n\n# Setup the WebDriver (assuming the use of Chrome)\ndriver = webdriver.Chrome()\n\n# Navigate to a webpage\ndriver.get(\"https://www.example.com\")\n\n# Find an element (e.g., search box) and perform actions\nsearch_box = driver.find_element(By.NAME, \"q\")\nsearch_box.send_keys(\"example search\")\nsearch_box.send_keys(Keys.RETURN)\n\n# Wait for some time to observe the actions\ntime.sleep(5)\n\n# Close the browser\ndriver.quit()\n```"
+  },
+  {
+    "task": "Use a library to implement data serialization and deserialization in your application.",
+    "code": "```python\nimport json\n\n# Example data\ndata = {\n    'name': 'Alice',\n    'age': 30,\n    'city': 'New York'\n}\n\n# Serialization: Convert Python object to JSON string\njson_data = json.dumps(data)\n\n# Deserialization: Convert JSON string back to Python object\ndeserialized_data = json.loads(json_data)\n\nprint(json_data)\nprint(deserialized_data)\n```"
+  },
+  {
+    "task": "Build an application that generates interactive reports using a library for data visualization.",
+    "code": "```python\nimport plotly.express as px\nimport pandas as pd\n\n# Sample data\ndata = {\n    'Category': ['A', 'B', 'C', 'D'],\n    'Values': [10, 15, 7, 20]\n}\n\n# Create a DataFrame\ndf = pd.DataFrame(data)\n\n# Generate an interactive bar chart\nfig = px.bar(df, x='Category', y='Values', title='Interactive Report')\n\n# Show the interactive chart\nfig.show()\n```"
+  },
+  {
+    "task": "Create a system that backs up and restores data using a library for file system operations.",
+    "code": "```python\nimport shutil\nimport os\n\ndef backup_data(source, backup_dir):\n    if not os.path.exists(backup_dir):\n        os.makedirs(backup_dir)\n    shutil.copytree(source, backup_dir, dirs_exist_ok=True)\n\ndef restore_data(backup_dir, destination):\n    if not os.path.exists(destination):\n        os.makedirs(destination)\n    shutil.copytree(backup_dir, destination, dirs_exist_ok=True)\n\n# Example usage:\nsource_directory = '/path/to/source'\nbackup_directory = '/path/to/backup'\ndestination_directory = '/path/to/restore'\n\nbackup_data(source_directory, backup_directory)\nrestore_data(backup_directory, destination_directory)\n```"
+  },
+  {
+    "task": "Develop a feature that performs real-time language translation using a translation library.",
+    "code": "```python\nfrom googletrans import Translator\n\ndef real_time_translation(text, src_lang='en', dest_lang='es'):\n    translator = Translator()\n    translation = translator.translate(text, src=src_lang, dest=dest_lang)\n    return translation.text\n\n# Example usage\ntext_to_translate = \"Hello, how are you?\"\ntranslated_text = real_time_translation(text_to_translate, src_lang='en', dest_lang='fr')\nprint(translated_text)\n```"
+  },
+  {
+    "task": "Implement a program that tracks stock market prices using a library for financial data retrieval.",
+    "code": "```python\nimport yfinance as yf\n\ndef track_stock_price(ticker):\n    stock = yf.Ticker(ticker)\n    return stock.history(period=\"1d\")\n\nticker_symbol = \"AAPL\"\nstock_data = track_stock_price(ticker_symbol)\nprint(stock_data)\n```"
+  },
+  {
+    "task": "Write a script that generates and validates JSON Web Tokens using a library for JWT handling.",
+    "code": "```python\nimport jwt\nimport datetime\n\n# Secret key for encoding and decoding the JWT\nsecret_key = 'your-secret-key'\n\n# Function to generate a new JWT\ndef generate_token(data, secret, algorithm='HS256'):\n    payload = {\n        'data': data,\n        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)\n    }\n    token = jwt.encode(payload, secret, algorithm=algorithm)\n    return token\n\n# Function to validate a JWT\ndef validate_token(token, secret, algorithm='HS256'):\n    try:\n        decoded = jwt.decode(token, secret, algorithms=[algorithm])\n        return decoded\n    except jwt.ExpiredSignatureError:\n        return 'Token expired'\n    except jwt.InvalidTokenError:\n        return 'Invalid token'\n\n# Example usage\ndata = {'user_id': 123}\ntoken = generate_token(data, secret_key)\nprint('Generated Token:', token)\n\nvalidation_result = validate_token(token, secret_key)\nprint('Validation Result:', validation_result)\n```"
+  },
+  {
+    "task": "Use a library to build a feature that synchronizes data across multiple devices.",
+    "code": "```python\nfrom flask import Flask, request, jsonify\nfrom flask_cors import CORS\nfrom firebase_admin import credentials, initialize_app, firestore\n\napp = Flask(__name__)\nCORS(app)\n\ncred = credentials.Certificate('path/to/your/firebase/credentials.json')\ninitialize_app(cred)\n\ndb = firestore.client()\nsync_collection = db.collection('syncData')\n\n@app.route('/sync', methods=['POST'])\ndef sync_data():\n    data = request.json\n    device_id = data.get('device_id')\n    sync_data = data.get('data')\n\n    if not device_id or not sync_data:\n        return jsonify({\"error\": \"Invalid data\"}), 400\n\n    sync_collection.document(device_id).set(sync_data)\n    return jsonify({\"message\": \"Data synchronized successfully\"}), 200\n\n@app.route('/sync/<device_id>', methods=['GET'])\ndef get_sync_data(device_id):\n    doc = sync_collection.document(device_id).get()\n    if doc.exists:\n        return jsonify(doc.to_dict()), 200\n    return jsonify({\"error\": \"Data not found\"}), 404\n\nif __name__ == '__main__':\n    app.run(debug=True)\n```"
+  },
+  {
+    "task": "Build a program that implements pattern recognition using a library for machine learning.",
+    "code": "```python\nimport numpy as np\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.svm import SVC\nfrom sklearn.metrics import accuracy_score\n\n# Example dataset\nX = np.random.rand(100, 5)\ny = np.random.randint(0, 2, size=100)\n\n# Split the dataset\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# Preprocess the data\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\n# Train the model\nmodel = SVC(kernel='linear')\nmodel.fit(X_train_scaled, y_train)\n\n# Make predictions\ny_pred = model.predict(X_test_scaled)\n\n# Evaluate the model\naccuracy = accuracy_score(y_test, y_pred)\nprint(f\"Accuracy: {accuracy:.2f}\")\n```"
+  },
+  {
+    "task": "Create an email client that uses a library for IMAP and POP3 communication.",
+    "code": "```python\nimport imaplib\nimport poplib\nimport email\nfrom email.parser import BytesParser\n\n# IMAP Client\ndef fetch_emails_imap(server, email_id, password, folder='inbox'):\n    with imaplib.IMAP4_SSL(server) as mail:\n        mail.login(email_id, password)\n        mail.select(folder)\n        \n        result, data = mail.search(None, 'ALL')\n        email_ids = data[0].split()\n        \n        emails = []\n        for e_id in email_ids:\n            result, msg_data = mail.fetch(e_id, '(RFC822)')\n            raw_email = msg_data[0][1]\n            msg = BytesParser().parsebytes(raw_email)\n            emails.append(msg)\n        \n        return emails\n\n# POP3 Client\ndef fetch_emails_pop3(server, email_id, password):\n    with poplib.POP3_SSL(server) as mail:\n        mail.user(email_id)\n        mail.pass_(password)\n        \n        num_messages = len(mail.list()[1])\n        emails = []\n        \n        for i in range(num_messages):\n            response, lines, octets = mail.retr(i + 1)\n            msg_content = b'\\r\\n'.join(lines)\n            msg = BytesParser().parsebytes(msg_content)\n            emails.append(msg)\n        \n        return emails\n\n# Example usage:\n# imap_emails = fetch_emails_imap('imap.example.com', 'user@example.com', 'password')\n# pop3_emails = fetch_emails_pop3('pop.example.com', 'user@example.com', 'password')\n```"
+  },
+  {
+    "task": "Develop a feature that analyzes network traffic using a library for network monitoring.",
+    "code": "```python\nimport scapy.all as scapy\n\ndef analyze_network_traffic(interface):\n    def process_packet(packet):\n        print(packet.summary())\n\n    scapy.sniff(iface=interface, prn=process_packet)\n\n# Example usage: analyze_network_traffic('eth0')\n```"
+  },
+  {
+    "task": "Implement a program that manages user authentication and authorization using a security library.",
+    "code": "```python\nfrom flask import Flask, request, jsonify\nfrom flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity\n\napp = Flask(__name__)\napp.config['JWT_SECRET_KEY'] = 'your_secret_key'\njwt = JWTManager(app)\n\nusers = {\n    \"admin\": \"password123\",\n    \"user\": \"mypassword\"\n}\n\n@app.route('/login', methods=['POST'])\ndef login():\n    username = request.json.get('username', None)\n    password = request.json.get('password', None)\n    if username in users and users[username] == password:\n        access_token = create_access_token(identity=username)\n        return jsonify(access_token=access_token)\n    return jsonify({\"msg\": \"Bad username or password\"}), 401\n\n@app.route('/protected', methods=['GET'])\n@jwt_required()\ndef protected():\n    current_user = get_jwt_identity()\n    return jsonify(logged_in_as=current_user), 200\n\nif __name__ == '__main__':\n    app.run()\n```"
+  },
+  {
+    "task": "Write a script that generates word clouds from text data using a library for text visualization.",
+    "code": "```python\nfrom wordcloud import WordCloud\nimport matplotlib.pyplot as plt\n\ntext_data = \"Here is some sample text data to generate a word cloud.\"\n\nwordcloud = WordCloud(width=800, height=400, background_color='white').generate(text_data)\n\nplt.figure(figsize=(10, 5))\nplt.imshow(wordcloud, interpolation='bilinear')\nplt.axis('off')\nplt.show()\n```"
+  },
+  {
+    "task": "Use a library to create a feature that schedules and sends automated emails.",
+    "code": "```python\nimport smtplib\nfrom email.mime.text import MIMEText\nfrom email.mime.multipart import MIMEMultipart\nimport schedule\nimport time\n\ndef send_email(subject, body, to_email):\n    from_email = 'your_email@example.com'\n    from_password = 'your_email_password'\n\n    msg = MIMEMultipart()\n    msg['From'] = from_email\n    msg['To'] = to_email\n    msg['Subject'] = subject\n    msg.attach(MIMEText(body, 'plain'))\n\n    with smtplib.SMTP('smtp.example.com', 587) as server:\n        server.starttls()\n        server.login(from_email, from_password)\n        server.sendmail(from_email, to_email, msg.as_string())\n\ndef job():\n    subject = \"Scheduled Email\"\n    body = \"This is a scheduled email sent using Python.\"\n    to_email = \"recipient@example.com\"\n    send_email(subject, body, to_email)\n\nschedule.every().day.at(\"10:00\").do(job)\n\nwhile True:\n    schedule.run_pending()\n    time.sleep(60)\n```"
+  },
+  {
+    "task": "Build a mobile application that accesses device sensors using a library for hardware interaction.",
+    "code": "```python\nimport kivy\nfrom kivy.app import App\nfrom kivy.uix.label import Label\nfrom plyer import accelerometer\n\nkivy.require('2.0.0')\n\nclass SensorApp(App):\n    def build(self):\n        self.label = Label(text=\"Sensor Data\")\n        accelerometer.enable()\n        self.bind(on_start=self.update_label)\n        return self.label\n\n    def update_label(self, *args):\n        try:\n            accel_data = accelerometer.acceleration\n            self.label.text = f\"Accelerometer:\\nX: {accel_data[0]:.2f}, Y: {accel_data[1]:.2f}, Z: {accel_data[2]:.2f}\"\n        except Exception as e:\n            self.label.text = \"Error accessing sensor\"\n\nif __name__ == '__main__':\n    SensorApp().run()\n```"
+  },
+  {
+    "task": "Create a system that audits and logs file system changes using a library for filesystem monitoring.",
+    "code": "```python\nimport time\nfrom watchdog.observers import Observer\nfrom watchdog.events import FileSystemEventHandler\n\nclass AuditHandler(FileSystemEventHandler):\n    def on_modified(self, event):\n        with open('audit_log.txt', 'a') as log_file:\n            log_file.write(f'Modified: {event.src_path} at {time.ctime()}\\n')\n\n    def on_created(self, event):\n        with open('audit_log.txt', 'a') as log_file:\n            log_file.write(f'Created: {event.src_path} at {time.ctime()}\\n')\n\n    def on_deleted(self, event):\n        with open('audit_log.txt', 'a') as log_file:\n            log_file.write(f'Deleted: {event.src_path} at {time.ctime()}\\n')\n\n    def on_moved(self, event):\n        with open('audit_log.txt', 'a') as log_file:\n            log_file.write(f'Moved: from {event.src_path} to {event.dest_path} at {time.ctime()}\\n')\n\nif __name__ == \"__main__\":\n    path = '.'  # Directory to be monitored\n    event_handler = AuditHandler()\n    observer = Observer()\n    observer.schedule(event_handler, path, recursive=True)\n    observer.start()\n\n    try:\n        while True:\n            time.sleep(1)\n    except KeyboardInterrupt:\n        observer.stop()\n    observer.join()\n```"
+  },
+  {
+    "task": "Develop a feature that visualizes geospatial data using a library for geographic information systems.",
+    "code": "```python\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Load geospatial data\ngdf = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))\n\n# Plot the data\ngdf.plot()\nplt.show()\n```"
+  },
+  {
+    "task": "Implement a program that performs clustering analysis using a library for statistical computing.",
+    "code": "```python\nimport numpy as np\nfrom sklearn.cluster import KMeans\nimport matplotlib.pyplot as plt\n\n# Sample data\ndata = np.random.rand(100, 2)\n\n# Perform KMeans clustering\nkmeans = KMeans(n_clusters=3)\nkmeans.fit(data)\n\n# Get cluster labels\nlabels = kmeans.labels_\n\n# Plot the results\nplt.scatter(data[:, 0], data[:, 1], c=labels, cmap='viridis')\nplt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=100, c='red', marker='X')\nplt.show()\n```"
+  },
+  {
+    "task": "Write a script that monitors and analyzes CPU and memory usage using a library for system diagnostics.",
+    "code": "```python\nimport psutil\nimport time\n\ndef monitor_system(interval=1):\n    print(f\"{'Time':<10} {'CPU (%)':<10} {'Memory (%)':<10}\")\n    while True:\n        cpu_usage = psutil.cpu_percent(interval=interval)\n        memory_info = psutil.virtual_memory()\n        memory_usage = memory_info.percent\n        print(f\"{time.strftime('%H:%M:%S'):<10} {cpu_usage:<10} {memory_usage:<10}\")\n        \nif __name__ == \"__main__\":\n    monitor_system()\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that provides voice commands in your application.",
+    "code": "```python\nimport speech_recognition as sr\n\ndef recognize_speech_from_mic():\n    recognizer = sr.Recognizer()\n    microphone = sr.Microphone()\n\n    with microphone as source:\n        recognizer.adjust_for_ambient_noise(source)\n        print(\"Listening for a voice command...\")\n        audio = recognizer.listen(source)\n\n    try:\n        command = recognizer.recognize_google(audio)\n        print(\"You said: \" + command)\n        return command\n    except sr.UnknownValueError:\n        print(\"Sorry, I could not understand the audio.\")\n    except sr.RequestError:\n        print(\"Could not request results from the speech recognition service.\")\n\nif __name__ == \"__main__\":\n    recognize_speech_from_mic()\n```"
+  },
+  {
+    "task": "Build a tool that converts video files to different resolutions using a video processing library.",
+    "code": "```python\nimport moviepy.editor as mp\n\ndef convert_video_resolution(input_file, output_file, resolution):\n    video = mp.VideoFileClip(input_file)\n    video_resized = video.resize(resolution)\n    video_resized.write_videofile(output_file, codec='libx264')\n\n# Example usage:\n# convert_video_resolution('input.mp4', 'output_720p.mp4', (1280, 720))\n```"
+  },
+  {
+    "task": "Create a program that detects and classifies objects in images using a library for image recognition.",
+    "code": "```python\nfrom PIL import Image\nimport torch\nfrom torchvision import models, transforms\n\n# Load a pre-trained model\nmodel = models.detection.fasterrcnn_resnet50_fpn(pretrained=True)\nmodel.eval()\n\n# Define the image transformation\ntransform = transforms.Compose([\n    transforms.ToTensor()\n])\n\ndef detect_and_classify_objects(image_path):\n    # Load and transform the image\n    image = Image.open(image_path)\n    image_tensor = transform(image).unsqueeze(0)\n\n    # Perform object detection\n    with torch.no_grad():\n        predictions = model(image_tensor)\n\n    # Extract and print the detected objects and their scores\n    for idx, label in enumerate(predictions[0]['labels']):\n        score = predictions[0]['scores'][idx].item()\n        if score > 0.5:  # Threshold for displaying\n            print(f\"Detected object: {label} with confidence: {score}\")\n\n# Example usage\ndetect_and_classify_objects('path_to_your_image.jpg')\n```"
+  },
+  {
+    "task": "Develop a feature that generates synthetic test data using a data generation library.",
+    "code": "```python\nfrom faker import Faker\n\ndef generate_synthetic_data(num_records=10):\n    fake = Faker()\n    data = []\n    for _ in range(num_records):\n        record = {\n            'name': fake.name(),\n            'address': fake.address(),\n            'email': fake.email(),\n            'date_of_birth': fake.date_of_birth(),\n            'phone_number': fake.phone_number()\n        }\n        data.append(record)\n    return data\n\n# Example usage\nsynthetic_data = generate_synthetic_data(5)\nfor record in synthetic_data:\n    print(record)\n```"
+  },
+  {
+    "task": "Implement a script that interacts with IoT devices using a library for IoT communication.",
+    "code": "```python\nfrom some_iot_library import IoTClient\n\n# Initialize the client for IoT communication\nclient = IoTClient()\n\n# Connect to the IoT device\ndevice_id = 'your_device_id'\nclient.connect(device_id)\n\n# Send a command to the IoT device\ncommand = 'turn_on'\nclient.send_command(device_id, command)\n\n# Retrieve data from the IoT device\ndata = client.get_data(device_id)\nprint(f\"Data from device {device_id}: {data}\")\n\n# Disconnect from the IoT device\nclient.disconnect(device_id)\n```"
+  },
+  {
+    "task": "Write a program that compresses and decompresses data using a data compression library.",
+    "code": "```python\nimport zlib\n\ndef compress_data(data: bytes) -> bytes:\n    return zlib.compress(data)\n\ndef decompress_data(data: bytes) -> bytes:\n    return zlib.decompress(data)\n\n# Example usage\noriginal_data = b\"This is some text that will be compressed\"\ncompressed_data = compress_data(original_data)\ndecompressed_data = decompress_data(compressed_data)\n\nassert original_data == decompressed_data\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that generates dynamic web content from templates.",
+    "code": "```python\nfrom jinja2 import Environment, FileSystemLoader\n\n# Set up the Jinja2 environment\nenv = Environment(loader=FileSystemLoader('templates'))\n\n# Load a template\ntemplate = env.get_template('index.html')\n\n# Define data to pass to the template\ndata = {\n    'title': 'Dynamic Web Page',\n    'content': 'This is a dynamically generated web page using Jinja2 templates.'\n}\n\n# Render the template with data\noutput = template.render(data)\n\n# Print or store the generated HTML content\nprint(output)\n```"
+  },
+  {
+    "task": "Build an application that integrates with social media platforms using a library for API communication.",
+    "code": "```python\nimport requests\n\nclass SocialMediaAPI:\n    def __init__(self, base_url, api_key):\n        self.base_url = base_url\n        self.api_key = api_key\n\n    def get_headers(self):\n        return {\n            'Authorization': f'Bearer {self.api_key}',\n            'Content-Type': 'application/json'\n        }\n        \n    def get_user_profile(self, user_id):\n        url = f'{self.base_url}/user/{user_id}'\n        response = requests.get(url, headers=self.get_headers())\n        return response.json()\n\n    def post_status_update(self, message):\n        url = f'{self.base_url}/status'\n        data = {'message': message}\n        response = requests.post(url, headers=self.get_headers(), json=data)\n        return response.json()\n\n# Example usage:\n# twitter_api = SocialMediaAPI('https://api.twitter.com/2', 'your_api_key')\n# user_profile = twitter_api.get_user_profile('user_id')\n# status_response = twitter_api.post_status_update('Hello, world!')\n```"
+  }
+]

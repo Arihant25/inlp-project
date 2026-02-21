@@ -1,0 +1,378 @@
+[
+  {
+    "task": "Create a function that initializes an array with the first ten prime numbers.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> initializePrimeArray() {\n    int primes[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};\n    std::vector<int> primeVector(primes, primes + 10);\n    return primeVector;\n}\n\nint main() {\n    std::vector<int> primes = initializePrimeArray();\n    for (int prime : primes) {\n        std::cout << prime << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a program to reverse the elements of a given array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> array = {1, 2, 3, 4, 5};\n    int n = array.size();\n    \n    for (int i = 0; i < n / 2; ++i) {\n        std::swap(array[i], array[n - i - 1]);\n    }\n    \n    for (int i = 0; i < n; ++i) {\n        std::cout << array[i] << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement an algorithm that finds the maximum value in an array of integers.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <limits.h>\n\nint findMaxValue(const std::vector<int>& arr) {\n    int maxValue = INT_MIN;\n    for (int num : arr) {\n        if (num > maxValue) {\n            maxValue = num;\n        }\n    }\n    return maxValue;\n}\n\nint main() {\n    std::vector<int> arr = {12, 35, 7, 10, 34, 2};\n    int maxValue = findMaxValue(arr);\n    std::cout << \"The maximum value in the array is: \" << maxValue << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a routine to rotate an array to the right by a given number of steps.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid rotateArray(std::vector<int>& arr, int steps) {\n    int n = arr.size();\n    steps = steps % n;\n    std::vector<int> temp(arr.end() - steps, arr.end());\n    arr.erase(arr.end() - steps, arr.end());\n    arr.insert(arr.begin(), temp.begin(), temp.end());\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5};\n    int steps = 2;\n    \n    rotateArray(arr, steps);\n    \n    for (int num : arr) {\n        std::cout << num << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a function to merge two sorted arrays into one sorted array.",
+    "code": "```cpp\n#include <vector>\n\nstd::vector<int> mergeSortedArrays(const std::vector<int>& arr1, const std::vector<int>& arr2) {\n    std::vector<int> mergedArray;\n    int i = 0, j = 0;\n\n    while (i < arr1.size() && j < arr2.size()) {\n        if (arr1[i] < arr2[j]) {\n            mergedArray.push_back(arr1[i]);\n            ++i;\n        } else {\n            mergedArray.push_back(arr2[j]);\n            ++j;\n        }\n    }\n\n    while (i < arr1.size()) {\n        mergedArray.push_back(arr1[i]);\n        ++i;\n    }\n\n    while (j < arr2.size()) {\n        mergedArray.push_back(arr2[j]);\n        ++j;\n    }\n\n    return mergedArray;\n}\n```"
+  },
+  {
+    "task": "Create a method to remove duplicate values from an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <set>\n\nstd::vector<int> removeDuplicates(const std::vector<int>& arr) {\n    std::set<int> seen;\n    std::vector<int> result;\n    for (int num : arr) {\n        if (seen.find(num) == seen.end()) {\n            result.push_back(num);\n            seen.insert(num);\n        }\n    }\n    return result;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 2, 3, 4, 4, 5};\n    std::vector<int> uniqueArr = removeDuplicates(arr);\n    \n    for (int num : uniqueArr) {\n        std::cout << num << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a script to calculate the sum of all elements in an array.",
+    "code": "```cpp\n#include <iostream>\n\nint main() {\n    int arr[] = {1, 2, 3, 4, 5}; // Example array\n    int sum = 0;\n    int n = sizeof(arr) / sizeof(arr[0]);\n\n    for(int i = 0; i < n; ++i) {\n        sum += arr[i];\n    }\n\n    std::cout << \"Sum of array elements: \" << sum << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Construct a function that finds the second largest element in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <limits.h>\n\nint findSecondLargest(int arr[], int size) {\n    if (size < 2) return INT_MIN;\n    int first = INT_MIN, second = INT_MIN;\n    for (int i = 0; i < size; i++) {\n        if (arr[i] > first) {\n            second = first;\n            first = arr[i];\n        } else if (arr[i] > second && arr[i] != first) {\n            second = arr[i];\n        }\n    }\n    return second;\n}\n\nint main() {\n    int arr[] = {3, 1, 4, 1, 5, 9, 2};\n    int size = sizeof(arr) / sizeof(arr[0]);\n    int secondLargest = findSecondLargest(arr, size);\n    std::cout << \"The second largest element is: \" << secondLargest << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a program to check if an array contains a specific value.",
+    "code": "```cpp\n#include <iostream>\n\nbool containsValue(int arr[], int size, int value) {\n    for (int i = 0; i < size; ++i) {\n        if (arr[i] == value) {\n            return true;\n        }\n    }\n    return false;\n}\n\nint main() {\n    int arr[] = {1, 2, 3, 4, 5};\n    int size = sizeof(arr) / sizeof(arr[0]);\n    int valueToCheck = 3;\n\n    if (containsValue(arr, size, valueToCheck)) {\n        std::cout << \"Array contains the value.\" << std::endl;\n    } else {\n        std::cout << \"Array does not contain the value.\" << std::endl;\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to sort an array of strings alphabetically.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <algorithm>\n\nvoid sortArrayOfStrings(std::vector<std::string>& arr) {\n    std::sort(arr.begin(), arr.end());\n}\n\nint main() {\n    std::vector<std::string> arr = {\"banana\", \"apple\", \"orange\", \"mango\"};\n    sortArrayOfStrings(arr);\n    for (const auto& str : arr) {\n        std::cout << str << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a method to search for a value in an array using binary search.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nint binarySearch(const std::vector<int>& arr, int target) {\n    int left = 0;\n    int right = arr.size() - 1;\n    \n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        \n        if (arr[mid] == target) {\n            return mid;\n        }\n        if (arr[mid] < target) {\n            left = mid + 1;\n        } else {\n            right = mid - 1;\n        }\n    }\n    \n    return -1;\n}\n\nint main() {\n    std::vector<int> data = {2, 3, 4, 10, 40};\n    int target = 10;\n    int result = binarySearch(data, target);\n    \n    if (result != -1) {\n        std::cout << \"Element found at index \" << result << std::endl;\n    } else {\n        std::cout << \"Element not found\" << std::endl;\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a routine to calculate the average of numbers in an array.",
+    "code": "```cpp\n#include <iostream>\n\ndouble calculateAverage(int arr[], int size) {\n    if (size == 0) return 0.0;\n    double sum = 0.0;\n    for (int i = 0; i < size; ++i) {\n        sum += arr[i];\n    }\n    return sum / size;\n}\n\nint main() {\n    int numbers[] = {1, 2, 3, 4, 5};\n    int size = sizeof(numbers) / sizeof(numbers[0]);\n    double average = calculateAverage(numbers, size);\n    std::cout << \"Average: \" << average << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a function to find the intersection of two arrays.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_set>\n\nstd::vector<int> findIntersection(const std::vector<int>& array1, const std::vector<int>& array2) {\n    std::unordered_set<int> set1(array1.begin(), array1.end());\n    std::vector<int> intersection;\n\n    for (int num : array2) {\n        if (set1.erase(num)) {\n            intersection.push_back(num);\n        }\n    }\n\n    return intersection;\n}\n\nint main() {\n    std::vector<int> array1 = {1, 2, 2, 3, 4};\n    std::vector<int> array2 = {2, 2, 4, 6};\n\n    std::vector<int> intersection = findIntersection(array1, array2);\n\n    for (int num : intersection) {\n        std::cout << num << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a method to find the union of two arrays without duplicates.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_set>\n\nstd::vector<int> unionOfArrays(const std::vector<int>& array1, const std::vector<int>& array2) {\n    std::unordered_set<int> resultSet;\n    \n    for (int num : array1) {\n        resultSet.insert(num);\n    }\n    \n    for (int num : array2) {\n        resultSet.insert(num);\n    }\n    \n    return std::vector<int>(resultSet.begin(), resultSet.end());\n}\n\nint main() {\n    std::vector<int> array1 = {1, 2, 3, 4};\n    std::vector<int> array2 = {3, 4, 5, 6};\n    \n    std::vector<int> result = unionOfArrays(array1, array2);\n    \n    for (int num : result) {\n        std::cout << num << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a program that shifts all zeroes in an array to the end.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid shiftZeroesToEnd(std::vector<int>& arr) {\n    int n = arr.size();\n    int j = 0; // index of the next non-zero element\n\n    for (int i = 0; i < n; ++i) {\n        if (arr[i] != 0) {\n            arr[j++] = arr[i];\n        }\n    }\n    while (j < n) {\n        arr[j++] = 0;\n    }\n}\n\nint main() {\n    std::vector<int> arr = {0, 1, 0, 3, 12};\n    shiftZeroesToEnd(arr);\n\n    for (int num : arr) {\n        std::cout << num << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a function to split an array into two parts at a given index.",
+    "code": "```cpp\n#include <vector>\n#include <tuple>\n\nstd::tuple<std::vector<int>, std::vector<int>> splitArray(const std::vector<int>& arr, int index) {\n    std::vector<int> firstPart(arr.begin(), arr.begin() + index);\n    std::vector<int> secondPart(arr.begin() + index, arr.end());\n    return std::make_tuple(firstPart, secondPart);\n}\n```"
+  },
+  {
+    "task": "Design a script to find all pairs in an array that sum up to a specific target.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_map>\n\nstd::vector<std::pair<int, int>> findPairsWithSum(const std::vector<int>& nums, int target) {\n    std::unordered_map<int, int> numCount;\n    std::vector<std::pair<int, int>> result;\n\n    for (int num : nums) {\n        int complement = target - num;\n        if (numCount[complement] > 0) {\n            result.emplace_back(complement, num);\n            numCount[complement]--;\n        } else {\n            numCount[num]++;\n        }\n    }\n\n    return result;\n}\n\nint main() {\n    std::vector<int> nums = {2, 4, 3, 3, 5, 7, 8, 9};\n    int target = 6;\n    std::vector<std::pair<int, int>> pairs = findPairsWithSum(nums, target);\n\n    for (const auto& pair : pairs) {\n        std::cout << \"(\" << pair.first << \", \" << pair.second << \")\\n\";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Construct a method to remove all occurrences of a specific value from an array.",
+    "code": "```cpp\n#include <vector>\n\nstd::vector<int> removeOccurrences(const std::vector<int>& array, int valueToRemove) {\n    std::vector<int> result;\n    for (int num : array) {\n        if (num != valueToRemove) {\n            result.push_back(num);\n        }\n    }\n    return result;\n}\n```"
+  },
+  {
+    "task": "Write a function to find the longest increasing subsequence in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint longestIncreasingSubsequence(const std::vector<int>& nums) {\n    if (nums.empty()) return 0;\n\n    std::vector<int> dp(nums.size(), 1);\n\n    for (size_t i = 1; i < nums.size(); ++i) {\n        for (size_t j = 0; j < i; ++j) {\n            if (nums[i] > nums[j]) {\n                dp[i] = std::max(dp[i], dp[j] + 1);\n            }\n        }\n    }\n\n    return *std::max_element(dp.begin(), dp.end());\n}\n\nint main() {\n    std::vector<int> nums = {10, 9, 2, 5, 3, 7, 101, 18};\n    std::cout << \"Length of Longest Increasing Subsequence: \" << longestIncreasingSubsequence(nums) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop an algorithm to find the missing number in a sequential array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nint findMissingNumber(const std::vector<int>& nums) {\n    int n = nums.size();\n    int total = (n + 1) * (n + 2) / 2;\n    for (int num : nums) {\n        total -= num;\n    }\n    return total;\n}\n\nint main() {\n    std::vector<int> nums = {1, 2, 3, 5, 6, 7, 8};\n    std::cout << \"Missing number: \" << findMissingNumber(nums) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a program to find the common elements between two arrays.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_set>\n\nint main() {\n    std::vector<int> array1 = {1, 2, 3, 4, 5};\n    std::vector<int> array2 = {4, 5, 6, 7, 8};\n    std::unordered_set<int> elementsSet(array1.begin(), array1.end());\n    std::vector<int> commonElements;\n\n    for (int num : array2) {\n        if (elementsSet.count(num)) {\n            commonElements.push_back(num);\n        }\n    }\n\n    std::cout << \"Common elements: \";\n    for (int num : commonElements) {\n        std::cout << num << \" \";\n    }\n    std::cout << std::endl;\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to move all negative numbers to the beginning of an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid moveNegativesToFront(std::vector<int>& arr) {\n    int n = arr.size();\n    int j = 0;\n    for (int i = 0; i < n; ++i) {\n        if (arr[i] < 0) {\n            if (i != j) {\n                std::swap(arr[i], arr[j]);\n            }\n            ++j;\n        }\n    }\n}\n\nint main() {\n    std::vector<int> arr = {1, -2, 3, -4, 5, -6, 7, -8};\n    moveNegativesToFront(arr);\n    for (int num : arr) {\n        std::cout << num << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a palindrome.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nbool isPalindrome(const std::vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 0; i < n / 2; ++i) {\n        if (arr[i] != arr[n - i - 1]) {\n            return false;\n        }\n    }\n    return true;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 2, 1};\n    if (isPalindrome(arr)) {\n        std::cout << \"Array is a palindrome.\" << std::endl;\n    } else {\n        std::cout << \"Array is not a palindrome.\" << std::endl;\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a routine to create a new array that is the element-wise sum of two input arrays.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> elementWiseSum(const std::vector<int>& array1, const std::vector<int>& array2) {\n    std::vector<int> result;\n    for (size_t i = 0; i < array1.size() && i < array2.size(); ++i) {\n        result.push_back(array1[i] + array2[i]);\n    }\n    return result;\n}\n\nint main() {\n    std::vector<int> array1 = {1, 2, 3};\n    std::vector<int> array2 = {4, 5, 6};\n    std::vector<int> result = elementWiseSum(array1, array2);\n\n    for (int num : result) {\n        std::cout << num << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a function to find the product of all elements in an array, excluding the current element.",
+    "code": "```cpp\n#include <vector>\n#include <iostream>\n\nstd::vector<int> productExceptSelf(const std::vector<int>& nums) {\n    int n = nums.size();\n    std::vector<int> result(n, 1);\n    \n    int temp = 1;\n    for (int i = 0; i < n; ++i) {\n        result[i] = temp;\n        temp *= nums[i];\n    }\n\n    temp = 1;\n    for (int i = n - 1; i >= 0; --i) {\n        result[i] *= temp;\n        temp *= nums[i];\n    }\n\n    return result;\n}\n\nint main() {\n    std::vector<int> nums = {1, 2, 3, 4};\n    std::vector<int> result = productExceptSelf(nums);\n\n    for (int val : result) {\n        std::cout << val << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a script to remove elements from an array that are smaller than a given threshold.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> removeElementsBelowThreshold(const std::vector<int>& arr, int threshold) {\n    std::vector<int> result;\n    for (int element : arr) {\n        if (element >= threshold) {\n            result.push_back(element);\n        }\n    }\n    return result;\n}\n\nint main() {\n    std::vector<int> arr = {1, 5, 8, 3, 10};\n    int threshold = 5;\n    std::vector<int> filteredArr = removeElementsBelowThreshold(arr, threshold);\n\n    for (int element : filteredArr) {\n        std::cout << element << \" \";\n    }\n    std::cout << std::endl;\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a method to clone an array without using built-in functions.",
+    "code": "```cpp\n#include <iostream>\n\nint* cloneArray(int* original, int size) {\n    int* clone = new int[size];\n    for (int i = 0; i < size; ++i) {\n        clone[i] = original[i];\n    }\n    return clone;\n}\n\nint main() {\n    int original[] = {1, 2, 3, 4, 5};\n    int size = sizeof(original) / sizeof(original[0]);\n    \n    int* clonedArray = cloneArray(original, size);\n    \n    for (int i = 0; i < size; ++i) {\n        std::cout << clonedArray[i] << \" \";\n    }\n    \n    delete[] clonedArray;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a program that rotates a 2D array (matrix) 90 degrees clockwise.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid rotateMatrix90Clockwise(std::vector<std::vector<int>>& matrix) {\n    int n = matrix.size();\n    for (int i = 0; i < n / 2; ++i) {\n        for (int j = i; j < n - i - 1; ++j) {\n            int temp = matrix[i][j];\n            matrix[i][j] = matrix[n - j - 1][i];\n            matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];\n            matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];\n            matrix[j][n - i - 1] = temp;\n        }\n    }\n}\n\nvoid printMatrix(const std::vector<std::vector<int>>& matrix) {\n    for (const auto& row : matrix) {\n        for (int val : row) {\n            std::cout << val << \" \";\n        }\n        std::cout << std::endl;\n    }\n}\n\nint main() {\n    std::vector<std::vector<int>> matrix = {\n        {1, 2, 3},\n        {4, 5, 6},\n        {7, 8, 9}\n    };\n\n    std::cout << \"Original matrix:\" << std::endl;\n    printMatrix(matrix);\n\n    rotateMatrix90Clockwise(matrix);\n\n    std::cout << \"\\nRotated matrix:\" << std::endl;\n    printMatrix(matrix);\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a function to find the kth smallest element in an unsorted array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint findKthSmallest(std::vector<int> &arr, int k) {\n    std::sort(arr.begin(), arr.end());\n    return arr[k - 1];\n}\n\nint main() {\n    std::vector<int> arr = {7, 10, 4, 3, 20, 15};\n    int k = 3;\n    std::cout << \"The \" << k << \"th smallest element is \" << findKthSmallest(arr, k) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a routine to partition an array into even and odd numbers.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid partitionArray(std::vector<int>& arr) {\n    int left = 0, right = arr.size() - 1;\n    while (left < right) {\n        while (left < right && arr[left] % 2 == 0) {\n            left++;\n        }\n        while (left < right && arr[right] % 2 != 0) {\n            right--;\n        }\n        if (left < right) {\n            std::swap(arr[left], arr[right]);\n            left++;\n            right--;\n        }\n    }\n}\n\nint main() {\n    std::vector<int> arr = {12, 34, 45, 9, 8, 90, 3};\n    partitionArray(arr);\n    for (int num : arr) {\n        std::cout << num << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a method to merge overlapping intervals in an array.",
+    "code": "```cpp\n#include <vector>\n#include <algorithm>\n\nclass IntervalMerger {\npublic:\n    std::vector<std::pair<int, int>> mergeIntervals(std::vector<std::pair<int, int>>& intervals) {\n        if (intervals.empty()) return {};\n\n        std::sort(intervals.begin(), intervals.end());\n        std::vector<std::pair<int, int>> merged;\n        \n        merged.push_back(intervals[0]);\n        for (size_t i = 1; i < intervals.size(); ++i) {\n            if (merged.back().second >= intervals[i].first) {\n                merged.back().second = std::max(merged.back().second, intervals[i].second);\n            } else {\n                merged.push_back(intervals[i]);\n            }\n        }\n        return merged;\n    }\n};\n```"
+  },
+  {
+    "task": "Develop a function to count the frequency of each unique element in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <unordered_map>\n#include <vector>\n\nstd::unordered_map<int, int> countFrequencies(const std::vector<int>& arr) {\n    std::unordered_map<int, int> frequencyMap;\n    for (int num : arr) {\n        frequencyMap[num]++;\n    }\n    return frequencyMap;\n}\n\nint main() {\n    std::vector<int> array = {1, 2, 2, 3, 4, 4, 4, 5};\n    std::unordered_map<int, int> frequencies = countFrequencies(array);\n\n    for (const auto& pair : frequencies) {\n        std::cout << pair.first << \": \" << pair.second << std::endl;\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a program to generate all possible subsets of an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <cmath>\n\nvoid printSubset(const std::vector<int>& subset) {\n    std::cout << \"{ \";\n    for (int num : subset) {\n        std::cout << num << \" \";\n    }\n    std::cout << \"}\" << std::endl;\n}\n\nvoid generateSubsets(const std::vector<int>& array) {\n    int n = array.size();\n    int totalSubsets = pow(2, n);\n    for (int i = 0; i < totalSubsets; ++i) {\n        std::vector<int> subset;\n        for (int j = 0; j < n; ++j) {\n            if (i & (1 << j)) {\n                subset.push_back(array[j]);\n            }\n        }\n        printSubset(subset);\n    }\n}\n\nint main() {\n    std::vector<int> array = {1, 2, 3};\n    generateSubsets(array);\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a routine to cyclically permute the elements of an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid cyclicPermute(std::vector<int>& arr) {\n    if (arr.empty()) return;\n    int lastElement = arr.back();\n    for (int i = arr.size() - 1; i > 0; --i) {\n        arr[i] = arr[i - 1];\n    }\n    arr[0] = lastElement;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5};\n    cyclicPermute(arr);\n    for (int num : arr) {\n        std::cout << num << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a function that checks if two arrays are equal regardless of element order.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nbool areArraysEqual(std::vector<int>& arr1, std::vector<int>& arr2) {\n    if (arr1.size() != arr2.size()) {\n        return false;\n    }\n    std::sort(arr1.begin(), arr1.end());\n    std::sort(arr2.begin(), arr2.end());\n    return arr1 == arr2;\n}\n\nint main() {\n    std::vector<int> array1 = {1, 2, 3, 4};\n    std::vector<int> array2 = {4, 3, 2, 1};\n\n    if (areArraysEqual(array1, array2)) {\n        std::cout << \"Arrays are equal.\" << std::endl;\n    } else {\n        std::cout << \"Arrays are not equal.\" << std::endl;\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a script to initialize an array with random integers within a specified range.",
+    "code": "```cpp\n#include <iostream>\n#include <cstdlib>\n#include <ctime>\n\nint main() {\n    const int ARRAY_SIZE = 10;\n    int arr[ARRAY_SIZE];\n    int lowerBound = 1;\n    int upperBound = 100;\n\n    std::srand(std::time(0));\n\n    for (int i = 0; i < ARRAY_SIZE; ++i) {\n        arr[i] = lowerBound + std::rand() % (upperBound - lowerBound + 1);\n    }\n\n    for (int i = 0; i < ARRAY_SIZE; ++i) {\n        std::cout << arr[i] << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a method to convert an array of integers to a single concatenated number.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n\nint concatenateArrayToNumber(const std::vector<int>& arr) {\n    std::string concatenatedString;\n    for (int num : arr) {\n        concatenatedString += std::to_string(num);\n    }\n    return std::stoi(concatenatedString);\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5};\n    int result = concatenateArrayToNumber(arr);\n    std::cout << result << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a function to find the median value of an unsorted array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\ndouble findMedian(std::vector<int>& nums) {\n    std::sort(nums.begin(), nums.end());\n    int n = nums.size();\n    if (n % 2 == 0) {\n        return (nums[n / 2 - 1] + nums[n / 2]) / 2.0;\n    } else {\n        return nums[n / 2];\n    }\n}\n\nint main() {\n    std::vector<int> array = {5, 3, 8, 1, 2};\n    double median = findMedian(array);\n    std::cout << \"Median: \" << median << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a routine to determine if an array is sorted in ascending order.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nbool isSortedAscending(const std::vector<int>& arr) {\n    for (size_t i = 1; i < arr.size(); ++i) {\n        if (arr[i] < arr[i - 1]) {\n            return false;\n        }\n    }\n    return true;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5};\n    if (isSortedAscending(arr)) {\n        std::cout << \"Array is sorted in ascending order.\" << std::endl;\n    } else {\n        std::cout << \"Array is not sorted in ascending order.\" << std::endl;\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a method to find the longest contiguous subarray with equal number of 0s and 1s.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_map>\n#include <algorithm>\n\nint findMaxLength(std::vector<int>& nums) {\n    std::unordered_map<int, int> map;\n    map[0] = -1;\n    int maxLength = 0, count = 0;\n    \n    for (int i = 0; i < nums.size(); ++i) {\n        count += nums[i] == 1 ? 1 : -1;\n        \n        if (map.find(count) != map.end()) {\n            maxLength = std::max(maxLength, i - map[count]);\n        } else {\n            map[count] = i;\n        }\n    }\n    \n    return maxLength;\n}\n\nint main() {\n    std::vector<int> nums = {0, 1, 0, 1, 1, 0, 0, 1};\n    std::cout << \"The length of the longest contiguous subarray is: \" << findMaxLength(nums) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a function to interleave two arrays of equal length.",
+    "code": "```cpp\n#include <vector>\n\nstd::vector<int> interleaveArrays(const std::vector<int>& arr1, const std::vector<int>& arr2) {\n    std::vector<int> result;\n    for (size_t i = 0; i < arr1.size(); ++i) {\n        result.push_back(arr1[i]);\n        result.push_back(arr2[i]);\n    }\n    return result;\n}\n```"
+  },
+  {
+    "task": "Design a program to replace each element in an array with the next greatest element.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nvoid replaceWithNextGreatest(std::vector<int>& arr) {\n    int n = arr.size();\n    int max_from_right = arr[n-1];\n    arr[n-1] = -1; // Last element is always replaced with -1\n\n    for (int i = n-2; i >= 0; i--) {\n        int temp = arr[i];\n        arr[i] = max_from_right;\n        if (temp > max_from_right) {\n            max_from_right = temp;\n        }\n    }\n}\n\nint main() {\n    std::vector<int> arr = {16, 17, 4, 3, 5, 2};\n    replaceWithNextGreatest(arr);\n    for (int num : arr) {\n        std::cout << num << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a function to calculate the dot product of two numeric arrays.",
+    "code": "```cpp\n#include <vector>\n#include <iostream>\n\ndouble dotProduct(const std::vector<double>& a, const std::vector<double>& b) {\n    if (a.size() != b.size()) {\n        throw std::invalid_argument(\"Vectors must be of the same length.\");\n    }\n\n    double product = 0.0;\n    for (size_t i = 0; i < a.size(); ++i) {\n        product += a[i] * b[i];\n    }\n    return product;\n}\n\nint main() {\n    std::vector<double> array1 = {1.0, 2.0, 3.0};\n    std::vector<double> array2 = {4.0, 5.0, 6.0};\n\n    try {\n        double result = dotProduct(array1, array2);\n        std::cout << \"Dot product: \" << result << std::endl;\n    } catch (const std::invalid_argument& e) {\n        std::cerr << e.what() << std::endl;\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a script to find the first recurring element in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <unordered_set>\n#include <vector>\n\nint findFirstRecurringElement(const std::vector<int>& arr) {\n    std::unordered_set<int> seen;\n    for (int num : arr) {\n        if (seen.find(num) != seen.end()) {\n            return num;\n        }\n        seen.insert(num);\n    }\n    return -1; // Return -1 if no recurring element is found\n}\n\nint main() {\n    std::vector<int> arr = {2, 5, 1, 2, 3, 5, 1, 2, 4};\n    int result = findFirstRecurringElement(arr);\n    if (result != -1) {\n        std::cout << \"First recurring element: \" << result << std::endl;\n    } else {\n        std::cout << \"No recurring element found\" << std::endl;\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a method to check if an array is a subset of another array.",
+    "code": "```cpp\n#include <iostream>\n#include <unordered_set>\n#include <vector>\n\nbool isSubset(const std::vector<int>& array1, const std::vector<int>& array2) {\n    std::unordered_set<int> set(array1.begin(), array1.end());\n    for (int element : array2) {\n        if (set.find(element) == set.end()) {\n            return false;\n        }\n    }\n    return true;\n}\n\nint main() {\n    std::vector<int> array1 = {1, 2, 3, 4, 5};\n    std::vector<int> array2 = {2, 3, 5};\n    if (isSubset(array1, array2)) {\n        std::cout << \"Array2 is a subset of Array1\" << std::endl;\n    } else {\n        std::cout << \"Array2 is not a subset of Array1\" << std::endl;\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to add a specific value to each element in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid addValueToArray(std::vector<int>& arr, int value) {\n    for (int& element : arr) {\n        element += value;\n    }\n}\n\nint main() {\n    std::vector<int> array = {1, 2, 3, 4, 5};\n    int valueToAdd = 10;\n\n    addValueToArray(array, valueToAdd);\n\n    for (const int& element : array) {\n        std::cout << element << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a program that finds the largest product of three numbers in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint main() {\n    std::vector<int> arr = {1, 10, 2, 6, 5, 3};\n    int n = arr.size();\n    \n    if (n < 3) {\n        std::cout << \"Array must have at least three numbers.\" << std::endl;\n        return 0;\n    }\n    \n    std::sort(arr.begin(), arr.end());\n    \n    int maxProduct = std::max(arr[n-1] * arr[n-2] * arr[n-3],\n                              arr[0] * arr[1] * arr[n-1]);\n    \n    std::cout << \"Largest product of three numbers is: \" << maxProduct << std::endl;\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a routine to find all unique permutations of an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <set>\n\nvoid permuteUnique(std::vector<int> &nums, int start, std::set<std::vector<int>> &result) {\n    if (start >= nums.size()) {\n        result.insert(nums);\n        return;\n    }\n    for (int i = start; i < nums.size(); ++i) {\n        std::swap(nums[start], nums[i]);\n        permuteUnique(nums, start + 1, result);\n        std::swap(nums[start], nums[i]);\n    }\n}\n\nstd::vector<std::vector<int>> findUniquePermutations(std::vector<int> &nums) {\n    std::set<std::vector<int>> result;\n    permuteUnique(nums, 0, result);\n    return std::vector<std::vector<int>>(result.begin(), result.end());\n}\n\nint main() {\n    std::vector<int> nums = {1, 1, 2};\n    std::vector<std::vector<int>> permutations = findUniquePermutations(nums);\n    \n    for (const auto &permutation : permutations) {\n        for (int num : permutation) {\n            std::cout << num << \" \";\n        }\n        std::cout << std::endl;\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a function to transpose a square matrix represented as a 2D array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid transposeMatrix(std::vector<std::vector<int>>& matrix) {\n    int n = matrix.size();\n    for (int i = 0; i < n; ++i) {\n        for (int j = i + 1; j < n; ++j) {\n            std::swap(matrix[i][j], matrix[j][i]);\n        }\n    }\n}\n\nint main() {\n    std::vector<std::vector<int>> matrix = {\n        {1, 2, 3},\n        {4, 5, 6},\n        {7, 8, 9}\n    };\n\n    transposeMatrix(matrix);\n\n    for (const auto& row : matrix) {\n        for (int val : row) {\n            std::cout << val << \" \";\n        }\n        std::cout << std::endl;\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a method to find the longest common prefix in an array of strings.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n\nstd::string longestCommonPrefix(std::vector<std::string>& strs) {\n    if (strs.empty()) return \"\";\n    std::string prefix = strs[0];\n    for (int i = 1; i < strs.size(); ++i) {\n        while (strs[i].find(prefix) != 0) {\n            prefix = prefix.substr(0, prefix.size() - 1);\n            if (prefix.empty()) return \"\";\n        }\n    }\n    return prefix;\n}\n\nint main() {\n    std::vector<std::string> strs = {\"flower\", \"flow\", \"flight\"};\n    std::cout << \"Longest Common Prefix: \" << longestCommonPrefix(strs) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to flatten a multi-dimensional array into a single array.",
+    "code": "```cpp\n#include <vector>\n\ntemplate<typename T>\nvoid flatten(const std::vector<std::vector<T>>& input, std::vector<T>& output) {\n    for (const auto& subArray : input) {\n        output.insert(output.end(), subArray.begin(), subArray.end());\n    }\n}\n\nint main() {\n    std::vector<std::vector<int>> multiDimArray = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};\n    std::vector<int> flatArray;\n    flatten(multiDimArray, flatArray);\n\n    for (int value : flatArray) {\n        std::cout << value << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a script to shift elements of an array to the left by a given number of positions.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nvoid shiftLeft(std::vector<int>& arr, int positions) {\n    int n = arr.size();\n    positions = positions % n;\n    std::vector<int> temp(arr.begin(), arr.begin() + positions);\n    for (int i = 0; i < n - positions; ++i) {\n        arr[i] = arr[i + positions];\n    }\n    for (int i = 0; i < positions; ++i) {\n        arr[n - positions + i] = temp[i];\n    }\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5, 6};\n    int positions = 2;\n    shiftLeft(arr, positions);\n    \n    for (int num : arr) {\n        std::cout << num << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a routine to sort an array of objects based on a specific property.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nclass MyObject {\npublic:\n    int key;\n    // Other properties and methods...\n    MyObject(int k) : key(k) {}\n};\n\nbool compareByKey(const MyObject &a, const MyObject &b) {\n    return a.key < b.key;\n}\n\nvoid sortArray(std::vector<MyObject> &arr) {\n    std::sort(arr.begin(), arr.end(), compareByKey);\n}\n\nint main() {\n    std::vector<MyObject> arr = {MyObject(5), MyObject(3), MyObject(8), MyObject(1)};\n    \n    sortArray(arr);\n    \n    for (const auto& obj : arr) {\n        std::cout << obj.key << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a program to find the smallest missing positive integer in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint findSmallestMissingPositive(std::vector<int>& nums) {\n    int n = nums.size();\n    for (int i = 0; i < n; ++i) {\n        while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {\n            std::swap(nums[i], nums[nums[i] - 1]);\n        }\n    }\n    for (int i = 0; i < n; ++i) {\n        if (nums[i] != i + 1) {\n            return i + 1;\n        }\n    }\n    return n + 1;\n}\n\nint main() {\n    std::vector<int> nums = {3, 4, -1, 1};\n    int result = findSmallestMissingPositive(nums);\n    std::cout << \"The smallest missing positive integer is: \" << result << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a function to calculate the cumulative sum of an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> cumulativeSum(const std::vector<int>& arr) {\n    std::vector<int> result(arr.size());\n    if (arr.empty()) return result;\n    result[0] = arr[0];\n    for (size_t i = 1; i < arr.size(); ++i) {\n        result[i] = result[i - 1] + arr[i];\n    }\n    return result;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5};\n    std::vector<int> result = cumulativeSum(arr);\n    for (int value : result) {\n        std::cout << value << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a function to remove consecutive duplicate elements in an array.",
+    "code": "```cpp\n#include <vector>\n\nstd::vector<int> removeConsecutiveDuplicates(const std::vector<int>& arr) {\n    if (arr.empty()) return {};\n\n    std::vector<int> result;\n    result.push_back(arr[0]);\n\n    for (size_t i = 1; i < arr.size(); ++i) {\n        if (arr[i] != arr[i - 1]) {\n            result.push_back(arr[i]);\n        }\n    }\n\n    return result;\n}\n```"
+  },
+  {
+    "task": "Implement a method to find the majority element in an array, if any.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_map>\n\nint findMajorityElement(const std::vector<int>& nums) {\n    std::unordered_map<int, int> counts;\n    for (int num : nums) {\n        counts[num]++;\n    }\n    for (const auto& pair : counts) {\n        if (pair.second > nums.size() / 2) {\n            return pair.first;\n        }\n    }\n    return -1; // Return -1 if there is no majority element\n}\n\nint main() {\n    std::vector<int> nums = {2, 2, 1, 1, 1, 2, 2};\n    int result = findMajorityElement(nums);\n    if (result != -1) {\n        std::cout << \"Majority element is: \" << result << std::endl;\n    } else {\n        std::cout << \"No majority element found.\" << std::endl;\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a script to split an array into chunks of a given size.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<std::vector<int>> chunkArray(const std::vector<int>& arr, int chunkSize) {\n    std::vector<std::vector<int>> chunks;\n    int n = arr.size();\n    for (int i = 0; i < n; i += chunkSize) {\n        std::vector<int> chunk;\n        for (int j = i; j < i + chunkSize && j < n; ++j) {\n            chunk.push_back(arr[j]);\n        }\n        chunks.push_back(chunk);\n    }\n    return chunks;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};\n    int chunkSize = 3;\n    std::vector<std::vector<int>> chunks = chunkArray(arr, chunkSize);\n\n    for (const auto& chunk : chunks) {\n        for (int num : chunk) {\n            std::cout << num << \" \";\n        }\n        std::cout << std::endl;\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a program to calculate the difference between the largest and smallest values in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <climits>\n\nint main() {\n    int arr[] = {10, 5, 3, 8, 15, 2};\n    int size = sizeof(arr) / sizeof(arr[0]);\n    int maxVal = INT_MIN;\n    int minVal = INT_MAX;\n\n    for (int i = 0; i < size; ++i) {\n        if (arr[i] > maxVal) {\n            maxVal = arr[i];\n        }\n        if (arr[i] < minVal) {\n            minVal = arr[i];\n        }\n    }\n\n    int difference = maxVal - minVal;\n    std::cout << \"Difference: \" << difference << std::endl;\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a routine to find the starting index of a target subarray in a larger array.",
+    "code": "```cpp\n#include <vector>\n\nint findSubarrayStartIndex(const std::vector<int>& array, const std::vector<int>& subarray) {\n    int n = array.size();\n    int m = subarray.size();\n    \n    for (int i = 0; i <= n - m; ++i) {\n        bool found = true;\n        for (int j = 0; j < m; ++j) {\n            if (array[i + j] != subarray[j]) {\n                found = false;\n                break;\n            }\n        }\n        if (found) {\n            return i;\n        }\n    }\n    return -1;\n}\n```"
+  },
+  {
+    "task": "Write a function to compress an array by eliminating zero values.",
+    "code": "```cpp\n#include <vector>\n\nstd::vector<int> compressArray(const std::vector<int>& arr) {\n    std::vector<int> compressed;\n    for (int value : arr) {\n        if (value != 0) {\n            compressed.push_back(value);\n        }\n    }\n    return compressed;\n}\n```"
+  },
+  {
+    "task": "Develop a method to determine if an array can be split into two parts with equal sums.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <numeric>\n\nbool canSplitArrayEqualSum(const std::vector<int>& arr) {\n    int totalSum = std::accumulate(arr.begin(), arr.end(), 0);\n    if (totalSum % 2 != 0) return false;\n    int targetSum = totalSum / 2;\n    int currentSum = 0;\n    \n    for (int num : arr) {\n        currentSum += num;\n        if (currentSum == targetSum) return true;\n    }\n    return false;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5, 5};\n    if (canSplitArrayEqualSum(arr)) {\n        std::cout << \"The array can be split into two parts with equal sums.\" << std::endl;\n    } else {\n        std::cout << \"The array cannot be split into two parts with equal sums.\" << std::endl;\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to round each element in an array to the nearest integer.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <cmath>\n\nstd::vector<int> roundArrayElements(const std::vector<double>& arr) {\n    std::vector<int> rounded;\n    for (double num : arr) {\n        rounded.push_back(static_cast<int>(std::round(num)));\n    }\n    return rounded;\n}\n\nint main() {\n    std::vector<double> input = {2.3, 3.7, 4.5, 5.2, 6.8};\n    std::vector<int> output = roundArrayElements(input);\n\n    for (int num : output) {\n        std::cout << num << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a routine to generate an array of the Fibonacci sequence up to a given number.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> generateFibonacci(int n) {\n    std::vector<int> fibonacci;\n    if (n < 1) return fibonacci;\n    fibonacci.push_back(0);\n    if (n == 1) return fibonacci;\n    fibonacci.push_back(1);\n    for (int i = 2; i < n; ++i) {\n        fibonacci.push_back(fibonacci[i - 1] + fibonacci[i - 2]);\n    }\n    return fibonacci;\n}\n\nint main() {\n    int number;\n    std::cout << \"Enter the number of Fibonacci terms: \";\n    std::cin >> number;\n    std::vector<int> fibonacci = generateFibonacci(number);\n    for (int num : fibonacci) {\n        std::cout << num << \" \";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a program to find the longest repeating sequence in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_map>\n\nint findLongestRepeatingSequence(const std::vector<int>& arr) {\n    std::unordered_map<int, int> countMap;\n    int maxCount = 0, maxElement = -1;\n\n    for (int num : arr) {\n        countMap[num]++;\n        if (countMap[num] > maxCount) {\n            maxCount = countMap[num];\n            maxElement = num;\n        }\n    }\n\n    return maxElement;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 1, 2, 1, 1, 3, 1};\n    int result = findLongestRepeatingSequence(arr);\n    std::cout << \"Element with the longest repeating sequence: \" << result << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a function to multiply each element of an array by its index.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> multiplyByIndex(const std::vector<int>& arr) {\n    std::vector<int> result(arr.size());\n    for (std::size_t i = 0; i < arr.size(); ++i) {\n        result[i] = arr[i] * static_cast<int>(i);\n    }\n    return result;\n}\n\nint main() {\n    std::vector<int> array = {1, 2, 3, 4, 5};\n    std::vector<int> modifiedArray = multiplyByIndex(array);\n    \n    for (int val : modifiedArray) {\n        std::cout << val << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a method to convert an array of characters into a single string.",
+    "code": "```cpp\n#include <iostream>\n#include <string>\n\nstd::string arrayToString(char arr[], int size) {\n    return std::string(arr, size);\n}\n\nint main() {\n    char arr[] = {'H', 'e', 'l', 'l', 'o'};\n    int size = sizeof(arr) / sizeof(arr[0]);\n    std::string result = arrayToString(arr, size);\n    std::cout << result << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a function to fill an array with a specified value.",
+    "code": "```cpp\n#include <iostream>\n\nvoid fillArray(int arr[], int size, int value) {\n    for (int i = 0; i < size; ++i) {\n        arr[i] = value;\n    }\n}\n\nint main() {\n    const int size = 10;\n    int arr[size];\n    int value = 5;\n    \n    fillArray(arr, size, value);\n    \n    for (int i = 0; i < size; ++i) {\n        std::cout << arr[i] << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a routine to determine if an array has any duplicate elements.",
+    "code": "```cpp\n#include <iostream>\n#include <unordered_set>\n\nbool hasDuplicates(int arr[], int size) {\n    std::unordered_set<int> elements;\n    for (int i = 0; i < size; ++i) {\n        if (elements.find(arr[i]) != elements.end()) {\n            return true;\n        }\n        elements.insert(arr[i]);\n    }\n    return false;\n}\n\nint main() {\n    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};\n    int size = sizeof(arr) / sizeof(arr[0]);\n    if (hasDuplicates(arr, size)) {\n        std::cout << \"Array has duplicates.\\n\";\n    } else {\n        std::cout << \"Array has no duplicates.\\n\";\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a script to reverse the order of words in an array of strings.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <algorithm>\n\nint main() {\n    std::vector<std::string> words = {\"hello\", \"world\", \"this\", \"is\", \"a\", \"test\"};\n    \n    std::reverse(words.begin(), words.end());\n    \n    for (const auto& word : words) {\n        std::cout << word << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a function to calculate the total number of distinct elements in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <unordered_set>\n#include <vector>\n\nint countDistinctElements(const std::vector<int>& arr) {\n    std::unordered_set<int> distinctElements(arr.begin(), arr.end());\n    return distinctElements.size();\n}\n\nint main() {\n    std::vector<int> myArray = {1, 2, 3, 4, 2, 3, 5, 1, 6};\n    std::cout << \"Total distinct elements: \" << countDistinctElements(myArray) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a program to find the largest gap between consecutive elements in a sorted array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint findLargestGap(const std::vector<int>& arr) {\n    if (arr.size() < 2) return 0;\n    int maxGap = 0;\n    for (size_t i = 1; i < arr.size(); ++i) {\n        int gap = arr[i] - arr[i - 1];\n        if (gap > maxGap) maxGap = gap;\n    }\n    return maxGap;\n}\n\nint main() {\n    std::vector<int> arr = {3, 6, 9, 1};\n    std::sort(arr.begin(), arr.end());\n    int largestGap = findLargestGap(arr);\n    std::cout << \"Largest gap: \" << largestGap << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a routine to perform element-wise multiplication of two arrays.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> elementWiseMultiplication(const std::vector<int>& array1, const std::vector<int>& array2) {\n    std::vector<int> result;\n    if (array1.size() != array2.size()) {\n        throw std::invalid_argument(\"Arrays must be of the same size.\");\n    }\n    for (size_t i = 0; i < array1.size(); ++i) {\n        result.push_back(array1[i] * array2[i]);\n    }\n    return result;\n}\n\nint main() {\n    std::vector<int> array1 = {1, 2, 3, 4};\n    std::vector<int> array2 = {5, 6, 7, 8};\n\n    try {\n        std::vector<int> result = elementWiseMultiplication(array1, array2);\n        for (int value : result) {\n            std::cout << value << \" \";\n        }\n        std::cout << std::endl;\n    } catch (const std::exception& e) {\n        std::cerr << e.what() << std::endl;\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a method to split a string into an array of words.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <sstream>\n\nstd::vector<std::string> splitStringIntoWords(const std::string &str) {\n    std::vector<std::string> words;\n    std::istringstream stream(str);\n    std::string word;\n    while (stream >> word) {\n        words.push_back(word);\n    }\n    return words;\n}\n\nint main() {\n    std::string input = \"Develop a method to split a string into an array of words\";\n    std::vector<std::string> words = splitStringIntoWords(input);\n\n    for (const std::string &word : words) {\n        std::cout << word << std::endl;\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to find the longest contiguous subarray with a sum less than a target.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nint longestSubarrayWithSumLessThanTarget(const std::vector<int>& nums, int target) {\n    int maxLength = 0;\n    int currentSum = 0;\n    int start = 0;\n\n    for (int end = 0; end < nums.size(); ++end) {\n        currentSum += nums[end];\n\n        while (currentSum >= target && start <= end) {\n            currentSum -= nums[start];\n            ++start;\n        }\n\n        maxLength = std::max(maxLength, end - start + 1);\n    }\n\n    return maxLength;\n}\n\nint main() {\n    std::vector<int> nums = {1, 2, 3, 4, 5};\n    int target = 10;\n    std::cout << \"Longest subarray length: \" << longestSubarrayWithSumLessThanTarget(nums, target) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a script to rotate a 2D array (matrix) 180 degrees.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nusing namespace std;\n\nvoid rotateMatrix180(vector<vector<int>>& matrix) {\n    int n = matrix.size();\n    int m = matrix[0].size();\n    for (int i = 0; i < n / 2; ++i) {\n        for (int j = 0; j < m; ++j) {\n            swap(matrix[i][j], matrix[n - i - 1][m - j - 1]);\n        }\n    }\n    if (n % 2 == 1) {\n        int mid = n / 2;\n        for (int j = 0; j < m / 2; ++j) {\n            swap(matrix[mid][j], matrix[mid][m - j - 1]);\n        }\n    }\n}\n\nvoid printMatrix(const vector<vector<int>>& matrix) {\n    for (const auto& row : matrix) {\n        for (int val : row) {\n            cout << val << \" \";\n        }\n        cout << endl;\n    }\n}\n\nint main() {\n    vector<vector<int>> matrix = {\n        {1, 2, 3},\n        {4, 5, 6},\n        {7, 8, 9}\n    };\n\n    rotateMatrix180(matrix);\n\n    printMatrix(matrix);\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a program to convert an array of binary digits to its decimal equivalent.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <cmath>\n\nint binaryToDecimal(const std::vector<int>& binaryArray) {\n    int decimal = 0;\n    int size = binaryArray.size();\n    for (int i = 0; i < size; ++i) {\n        decimal += binaryArray[size - 1 - i] * std::pow(2, i);\n    }\n    return decimal;\n}\n\nint main() {\n    std::vector<int> binaryArray = {1, 0, 1, 1}; // Example binary number: 1011\n    int decimalValue = binaryToDecimal(binaryArray);\n    std::cout << \"Decimal equivalent: \" << decimalValue << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a function to return a new array with elements squared from the input array.",
+    "code": "```cpp\n#include <vector>\n\nstd::vector<int> squareArray(const std::vector<int>& input) {\n    std::vector<int> result;\n    for (int num : input) {\n        result.push_back(num * num);\n    }\n    return result;\n}\n```"
+  },
+  {
+    "task": "Create a method to check if all elements in an array are unique.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_set>\n\nbool allElementsUnique(const std::vector<int>& arr) {\n    std::unordered_set<int> elements;\n    for (int num : arr) {\n        if (elements.find(num) != elements.end()) {\n            return false;\n        }\n        elements.insert(num);\n    }\n    return true;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5};\n    std::cout << (allElementsUnique(arr) ? \"All elements are unique\" : \"There are duplicates\") << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a routine to find the indices of all occurrences of a specific element in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> findIndicesOfElement(int arr[], int size, int element) {\n    std::vector<int> indices;\n    for (int i = 0; i < size; ++i) {\n        if (arr[i] == element) {\n            indices.push_back(i);\n        }\n    }\n    return indices;\n}\n\nint main() {\n    int arr[] = {1, 2, 3, 2, 4, 2, 5};\n    int size = sizeof(arr) / sizeof(arr[0]);\n    int element = 2;\n    \n    std::vector<int> indices = findIndicesOfElement(arr, size, element);\n    \n    for (int index : indices) {\n        std::cout << index << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to merge multiple arrays into one.",
+    "code": "```cpp\n#include <vector>\n\nstd::vector<int> mergeArrays(const std::vector<std::vector<int>>& arrays) {\n    std::vector<int> mergedArray;\n    for (const auto& array : arrays) {\n        mergedArray.insert(mergedArray.end(), array.begin(), array.end());\n    }\n    return mergedArray;\n}\n```"
+  },
+  {
+    "task": "Write a script to convert an array of integers into a formatted string.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <string>\n#include <sstream>\n\nstd::string convertArrayToString(const std::vector<int>& arr) {\n    std::ostringstream oss;\n    for (size_t i = 0; i < arr.size(); ++i) {\n        oss << arr[i];\n        if (i < arr.size() - 1) {\n            oss << \", \";\n        }\n    }\n    return oss.str();\n}\n\nint main() {\n    std::vector<int> numbers = {1, 2, 3, 4, 5};\n    std::string formattedString = convertArrayToString(numbers);\n    std::cout << formattedString << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a program to find the largest sum of any contiguous subarray.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint maxSubArraySum(const std::vector<int>& nums) {\n    int maxSum = nums[0];\n    int currentSum = nums[0];\n\n    for (size_t i = 1; i < nums.size(); ++i) {\n        currentSum = std::max(nums[i], currentSum + nums[i]);\n        maxSum = std::max(maxSum, currentSum);\n    }\n\n    return maxSum;\n}\n\nint main() {\n    std::vector<int> nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};\n    std::cout << \"Largest sum of contiguous subarray: \" << maxSubArraySum(nums) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a function to compare two arrays and return the differences.",
+    "code": "```cpp\n#include <vector>\n#include <iostream>\n\nstd::vector<int> findDifferences(const std::vector<int>& array1, const std::vector<int>& array2) {\n    std::vector<int> differences;\n    size_t size1 = array1.size();\n    size_t size2 = array2.size();\n    size_t maxSize = size1 > size2 ? size1 : size2;\n\n    for (size_t i = 0; i < maxSize; ++i) {\n        if (i < size1 && i < size2) {\n            if (array1[i] != array2[i]) {\n                differences.push_back(array1[i]);\n                differences.push_back(array2[i]);\n            }\n        } else if (i < size1) {\n            differences.push_back(array1[i]);\n        } else {\n            differences.push_back(array2[i]);\n        }\n    }\n\n    return differences;\n}\n\nint main() {\n    std::vector<int> array1 = {1, 2, 3};\n    std::vector<int> array2 = {1, 4, 3, 5};\n\n    std::vector<int> differences = findDifferences(array1, array2);\n\n    for (int diff : differences) {\n        std::cout << diff << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a method to find the longest subarray with elements in arithmetic progression.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nstd::vector<int> longestAPSubarray(const std::vector<int>& arr) {\n    if (arr.size() < 2) return arr;\n\n    int maxLength = 1;\n    int start = 0;\n    int currentStart = 0;\n    int currentLength = 1;\n    int difference = arr[1] - arr[0];\n\n    for (size_t i = 1; i < arr.size(); ++i) {\n        if (arr[i] - arr[i - 1] == difference) {\n            ++currentLength;\n        } else {\n            difference = arr[i] - arr[i - 1];\n            currentStart = i - 1;\n            currentLength = 2;\n        }\n\n        if (currentLength > maxLength) {\n            maxLength = currentLength;\n            start = currentStart;\n        }\n    }\n\n    return std::vector<int>(arr.begin() + start, arr.begin() + start + maxLength);\n}\n\nint main() {\n    std::vector<int> arr = {1, 7, 10, 13, 14, 19};\n    std::vector<int> result = longestAPSubarray(arr);\n\n    for (int num : result) {\n        std::cout << num << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Develop a routine to remove elements from an array based on a predicate function.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <functional>\n\nstd::vector<int> removeIf(const std::vector<int>& inputArray, std::function<bool(int)> predicate) {\n    std::vector<int> result;\n    for (int element : inputArray) {\n        if (!predicate(element)) {\n            result.push_back(element);\n        }\n    }\n    return result;\n}\n\nint main() {\n    std::vector<int> array = {1, 2, 3, 4, 5, 6};\n    auto isEven = [](int x) { return x % 2 == 0; };\n\n    std::vector<int> filteredArray = removeIf(array, isEven);\n\n    for (int element : filteredArray) {\n        std::cout << element << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to determine if two arrays have any common elements.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <unordered_set>\n\nbool haveCommonElements(const std::vector<int>& array1, const std::vector<int>& array2) {\n    std::unordered_set<int> elements(array1.begin(), array1.end());\n    for (int elem : array2) {\n        if (elements.find(elem) != elements.end()) {\n            return true;\n        }\n    }\n    return false;\n}\n\nint main() {\n    std::vector<int> array1 = {1, 2, 3, 4, 5};\n    std::vector<int> array2 = {5, 6, 7, 8, 9};\n    if (haveCommonElements(array1, array2)) {\n        std::cout << \"Arrays have common elements.\" << std::endl;\n    } else {\n        std::cout << \"Arrays do not have common elements.\" << std::endl;\n    }\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a script to initialize an empty array and populate it with user input.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> array;\n    int n, value;\n    \n    std::cout << \"Enter the number of elements: \";\n    std::cin >> n;\n    \n    for (int i = 0; i < n; ++i) {\n        std::cout << \"Enter value for element \" << i + 1 << \": \";\n        std::cin >> value;\n        array.push_back(value);\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a program to find the maximum sum of non-adjacent elements in an array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint maxNonAdjacentSum(const std::vector<int>& nums) {\n    if (nums.empty()) return 0;\n    int include = 0, exclude = 0;\n    for (int num : nums) {\n        int new_exclude = std::max(include, exclude);\n        include = exclude + num;\n        exclude = new_exclude;\n    }\n    return std::max(include, exclude);\n}\n\nint main() {\n    std::vector<int> nums = {3, 2, 7, 10};\n    std::cout << \"Maximum sum of non-adjacent elements: \" << maxNonAdjacentSum(nums) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Design a function to shuffle an array randomly.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <random>\n#include <ctime>\n\nvoid shuffleArray(std::vector<int>& arr) {\n    std::srand(std::time(0));\n    std::random_shuffle(arr.begin(), arr.end());\n}\n\nint main() {\n    std::vector<int> array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\n    shuffleArray(array);\n    \n    for (int num : array) {\n        std::cout << num << \" \";\n    }\n    \n    return 0;\n}\n```"
+  },
+  {
+    "task": "Create a method to generate a new array where each element is the cumulative product of the input array.",
+    "code": "```cpp\n#include <vector>\n\nstd::vector<int> cumulativeProduct(const std::vector<int>& input) {\n    std::vector<int> result(input.size(), 1);\n    if (input.empty()) return result;\n    \n    result[0] = input[0];\n    for (size_t i = 1; i < input.size(); ++i) {\n        result[i] = result[i - 1] * input[i];\n    }\n    \n    return result;\n}\n```"
+  },
+  {
+    "task": "Develop a routine to find the largest element in each row of a 2D array.",
+    "code": "```cpp\n#include <iostream>\n#include <vector>\n#include <climits>\n\nstd::vector<int> findLargestInRows(const std::vector<std::vector<int>>& array) {\n    std::vector<int> largestElements;\n    for (const auto& row : array) {\n        int largest = INT_MIN;\n        for (int element : row) {\n            if (element > largest) {\n                largest = element;\n            }\n        }\n        largestElements.push_back(largest);\n    }\n    return largestElements;\n}\n\nint main() {\n    std::vector<std::vector<int>> array = {\n        {3, 8, 9},\n        {5, 12, 7},\n        {6, 3, 4}\n    };\n\n    std::vector<int> largestElements = findLargestInRows(array);\n\n    for (int largest : largestElements) {\n        std::cout << largest << \" \";\n    }\n\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Implement a function to count the number of negative numbers in an array.",
+    "code": "```cpp\n#include <iostream>\n\nint countNegativeNumbers(int arr[], int size) {\n    int count = 0;\n    for (int i = 0; i < size; ++i) {\n        if (arr[i] < 0) {\n            ++count;\n        }\n    }\n    return count;\n}\n\nint main() {\n    int arr[] = {1, -2, 3, -4, 5, -6};\n    int size = sizeof(arr) / sizeof(arr[0]);\n    std::cout << \"Number of negative numbers: \" << countNegativeNumbers(arr, size) << std::endl;\n    return 0;\n}\n```"
+  },
+  {
+    "task": "Write a script to find the longest subarray with all distinct elements.",
+    "code": "```cpp\n#include <iostream>\n#include <unordered_map>\n#include <vector>\n\nint longestDistinctSubarray(const std::vector<int>& arr) {\n    std::unordered_map<int, int> lastIndex;\n    int maxLength = 0, start = 0;\n\n    for (int i = 0; i < arr.size(); ++i) {\n        if (lastIndex.find(arr[i]) != lastIndex.end()) {\n            start = std::max(start, lastIndex[arr[i]] + 1);\n        }\n        lastIndex[arr[i]] = i;\n        maxLength = std::max(maxLength, i - start + 1);\n    }\n    \n    return maxLength;\n}\n\nint main() {\n    std::vector<int> arr = {1, 2, 1, 3, 4, 2, 3};\n    std::cout << \"Length of longest subarray with all distinct elements: \" \n              << longestDistinctSubarray(arr) << std::endl;\n    return 0;\n}\n```"
+  }
+]

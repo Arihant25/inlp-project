@@ -1,0 +1,382 @@
+[
+  {
+    "task": "Create a program that reads a CSV file using a library designed for parsing CSV data.",
+    "code": "```raku\nuse Text::CSV;\n\nmy $csv = Text::CSV.new;\nmy $filename = 'data.csv';\n\nmy $fh = open $filename, :r;\nwhile my $row = $csv.getline($fh) {\n    say $row;\n}\n$fh.close;\n```"
+  },
+  {
+    "task": "Implement a function that generates a random number using a standard library for random number generation.",
+    "code": "```raku\nuse Random;\n\nsub generate-random-number() {\n    my $random = Random.new;\n    return $random.rand;\n}\n\nsay generate-random-number();\n```"
+  },
+  {
+    "task": "Use a third-party library to send an HTTP GET request to a public API and print the response.",
+    "code": "```raku\nuse HTTP::UserAgent;\n\nmy $ua = HTTP::UserAgent.new;\nmy $response = $ua.get('https://api.example.com/data');\n\nsay $response.content if $response.is-success;\n```"
+  },
+  {
+    "task": "Write a script that extracts the text from a PDF file using a library for PDF manipulation.",
+    "code": "```raku\nuse PDF::Class;\n\nmy $pdf = PDF::Class.new(\"example.pdf\");\nmy $text = $pdf.extract-text;\nsay $text;\n```"
+  },
+  {
+    "task": "Develop a tool that resizes images by integrating an image processing library.",
+    "code": "```raku\nuse Imager;\n\nsub resize-image($input-file, $output-file, $new-width, $new-height) {\n    my $image = Imager.new(file => $input-file);\n    my $resized = $image.scale(xpixels => $new-width, ypixels => $new-height);\n    $resized.write(file => $output-file);\n}\n\nresize-image('input.jpg', 'output.jpg', 200, 200);\n```"
+  },
+  {
+    "task": "Create a program that connects to a database using a library for database interaction.",
+    "code": "```raku\nuse DBIish;\n\nmy $dbh = DBIish.connect('Pg', 'dbname=testdb', 'host=localhost', 'port=5432', 'user=testuser', 'password=secret');\n\nsay \"Connected to the database!\" if $dbh;\n$dbh.dispose;\n```"
+  },
+  {
+    "task": "Build an application that converts Markdown text to HTML using a Markdown parsing library.",
+    "code": "```raku\nuse Text::Markdown 'markdown';\n\nmy $markdown-text = q:to/END/;\n# Raku Markdown Example\n\nThis is a simple Markdown document to demonstrate conversion.\n\n## Features\n\n- Easy to read\n- Simple syntax\n- Widely used\n\nEND\n\nmy $html-output = markdown($markdown-text);\nsay $html-output;\n```"
+  },
+  {
+    "task": "Use a library to transform XML data into JSON format for easier manipulation.",
+    "code": "```raku\nuse XML::Tiny;\nuse JSON::Fast;\n\nmy $xml-data = q{\n<root>\n    <element>\n        <name>Example</name>\n        <value>42</value>\n    </element>\n</root>\n};\n\nmy $xml-struct = parse-xml($xml-data);\nmy $json-data = to-json($xml-struct);\n\nsay $json-data;\n```"
+  },
+  {
+    "task": "Implement a feature that schedules tasks at regular intervals using a scheduler library.",
+    "code": "```raku\nuse Cro::Timer;\n\nmy $scheduler = Cro::Timer.new;\n\n$scheduler.schedule(\n    interval => 10, # Schedule every 10 seconds\n    &{\n        say \"Task executed at: \" ~ DateTime.now;\n    }\n);\n\nreact whenever signal(SIGINT) {\n    $scheduler.stop;\n    done;\n}\n```"
+  },
+  {
+    "task": "Develop a chat application that utilizes a library for WebSocket communication.",
+    "code": "```raku\nuse Cro::WebSocket;\n\nclass ChatServer {\n    has @.clients;\n\n    method start-server(Str $host, Int $port) {\n        my $server = Cro::WebSocket::Server.new;\n        \n        react {\n            whenever $server.listen(:host($host), :port($port)) -> $conn {\n                @!clients.push($conn);\n                $conn.send(\"Welcome to the chat!\");\n\n                whenever $conn.supply(:binary) -> $data {\n                    for @!clients -> $client {\n                        if $client !== $conn {\n                            $client.send($data);\n                        }\n                    }\n                }\n\n                $conn.done.tap({\n                    @!clients .= grep(* !== $conn);\n                });\n            }\n        }\n    }\n}\n\nmy $chat-server = ChatServer.new;\n$chat-server.start-server('127.0.0.1', 3000);\n```"
+  },
+  {
+    "task": "Create a game that uses a library to handle physics simulations for realistic movements.",
+    "code": "```raku\nuse Physics::Engine;\n\nclass Game {\n    has Physics::Engine $.physics = Physics::Engine.new;\n\n    method start() {\n        $.physics.init;\n        self.run-game-loop;\n    }\n\n    method run-game-loop() {\n        while True {\n            $.physics.update;\n            self.render;\n            sleep 0.016; # simulate ~60 FPS\n        }\n    }\n\n    method render() {\n        # Code to render the game state, depends on the game design\n    }\n}\n\nmy $game = Game.new;\n$game.start;\n```"
+  },
+  {
+    "task": "Write a function that hashes a string using a cryptographic hashing library.",
+    "code": "```raku\nuse Digest;\n\nsub hash-string(Str $input) {\n    my $digest = Digest::SHA256.new;\n    $digest.add($input);\n    return $digest.hexdigest;\n}\n\nsay hash-string(\"example string\");\n```"
+  },
+  {
+    "task": "Build a program that validates email addresses using a library for regular expression matching.",
+    "code": "```raku\nuse Email::Valid;\n\nsub validate-email($email) {\n    return Email::Valid.is_valid($email) ?? 'Valid' !! 'Invalid';\n}\n\nmy @emails = ('test@example.com', 'invalid-email', 'user@domain.com');\nfor @emails -> $email {\n    say \"$email: { validate-email($email) }\";\n}\n```"
+  },
+  {
+    "task": "Implement a feature that reads and writes Excel files using a library tailored for Excel file manipulation.",
+    "code": "```raku\nuse Excel::Writer::XLSX;\nuse Excel::Reader::XLSX;\n\nsub write-excel-file($filename, @data) {\n    my $workbook  = Excel::Writer::XLSX.new(:$filename);\n    my $worksheet = $workbook.add-worksheet();\n\n    for @data.kv -> $row, @fields {\n        $worksheet.write_row($row, 0, @fields);\n    }\n    $workbook.close;\n}\n\nsub read-excel-file($filename) {\n    my $reader   = Excel::Reader::XLSX.new(:$filename);\n    my $workbook = $reader.workbook;\n    for $workbook.worksheets -> $worksheet {\n        my $range = $worksheet.range;\n        for $range.rows -> $row {\n            say $row.join(', ');\n        }\n    }\n}\n\n# Example usage:\nmy $filename = 'example.xlsx';\nmy @data = ( ['Name', 'Age'], ['Alice', 30], ['Bob', 25] );\n\nwrite-excel-file($filename, @data);\nread-excel-file($filename);\n```"
+  },
+  {
+    "task": "Use a library to translate text from one language to another in your application.",
+    "code": "```raku\nuse Text::Translate;\n\nmy $translator = Text::Translate.new(\n    engine => 'Google',\n    key    => 'your-google-api-key'\n);\n\nmy $text = 'Hello, world!';\nmy $translated-text = $translator.translate($text, 'en', 'es');\n\nsay $translated-text;\n```"
+  },
+  {
+    "task": "Create a script that generates QR codes using a library for QR code creation.",
+    "code": "```raku\nuse MIME::Base64;\nuse File::Temp;\nuse IO::Path;\nuse GD::Barcode::QRcode;\n\nsub generate-qr-code(Str $text, Str $filename) {\n    my $qrcode = GD::Barcode::QRcode.new(\n        'data'   => $text,\n        'module' => 4,\n        'version'=> 1,\n        'level'  => 'L'\n    );\n\n    my $image = $qrcode.plot;\n    my $temp-file = IO::Path.new($filename);\n    $image.write($temp-file);\n}\n\ngenerate-qr-code(\"Hello, Raku!\", \"qrcode.png\");\n```"
+  },
+  {
+    "task": "Build an app that plays audio files using a library for audio processing.",
+    "code": "```raku\nuse Audio::Lib;\n\nmy $player = Audio::Lib::Player.new;\n\nsub play-audio-file(Str $filename) {\n    $player.load($filename);\n    $player.play;\n}\n\nmy $audio-file = 'sample.mp3';\nplay-audio-file($audio-file);\n```"
+  },
+  {
+    "task": "Develop a tool that scrapes web pages for specific data using a web scraping library.",
+    "code": "```raku\nuse Web::Scraper;\nuse HTTP::UserAgent;\n\nmy $url = 'http://example.com';\nmy $scraper = scraper {\n    process 'h1', 'title' => 'TEXT';\n    process 'p', 'paragraphs[]' => 'TEXT';\n};\n\nmy $ua = HTTP::UserAgent.new;\nmy $response = $ua.get($url);\nif $response.is-success {\n    my $result = $scraper.scrape($response.content);\n    say \"Title: \" ~ $result<title>;\n    say \"Paragraphs: \" ~ $result<paragraphs>.join(\"\\n\");\n} else {\n    say \"Failed to retrieve web page: \" ~ $response.status-line;\n}\n```"
+  },
+  {
+    "task": "Implement a service that sends emails using a library that facilitates SMTP communication.",
+    "code": "```raku\nuse Email::Sender::Transport::SMTP;\nuse Email::Simple;\nuse Email::Sender::Simple;\n\nclass EmailService {\n    has $.smtp-server;\n    has $.smtp-port = 587;\n    has $.username;\n    has $.password;\n\n    method send-email(Str $to, Str $subject, Str $body) {\n        my $transport = Email::Sender::Transport::SMTP.new(\n            host     => $!smtp-server,\n            port     => $!smtp-port,\n            sasl_username => $!username,\n            sasl_password => $!password\n        );\n\n        my $email = Email::Simple.new(\n            header => [\n                To      => $to,\n                From    => $!username,\n                Subject => $subject\n            ],\n            body => $body\n        );\n\n        Email::Sender::Simple.send($email, { transport => $transport });\n    }\n}\n\nmy $service = EmailService.new(\n    smtp-server => 'smtp.example.com',\n    username    => 'user@example.com',\n    password    => 'password'\n);\n\n$service.send-email('recipient@example.com', 'Test Subject', 'This is a test email body.');\n```"
+  },
+  {
+    "task": "Create a program that visualizes data in charts using a charting library.",
+    "code": "```raku\nuse Chart::Plotly::Plot;\n\nmy @x = <2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020>;\nmy @y = <20 30 40 50 60 70 80 90 100 110 120>;\n\nmy $plot = Chart::Plotly::Plot.new(\n    data => [Chart::Plotly::Trace::Scatter.new(\n        x => @x,\n        y => @y,\n        mode => 'lines+markers',\n        name => 'Sample Data'\n    )],\n    layout => {\n        title => 'Sample Data Visualization',\n        xaxis => {title => 'Year'},\n        yaxis => {title => 'Value'}\n    }\n);\n\n$plot.show();\n```"
+  },
+  {
+    "task": "Write a script that compresses files into a zip archive using a standard library.",
+    "code": "```raku\nuse Archive::Libarchive::Raw;\n\nsub MAIN(Str $output-zip, *@files) {\n    my $archive = Archive::Libarchive::Raw::ArchiveWrite.new;\n    $archive.open_filename($output-zip);\n    $archive.set_format_zip;\n\n    for @files -> $file {\n        my $entry = Archive::Libarchive::Raw::Entry.new;\n        $entry.set_pathname($file);\n        $entry.set_size($file.IO.s);\n        $entry.set_filetype('file');\n        $entry.set_perm(0o644);\n\n        $archive.write_header($entry);\n\n        my $fh = $file.IO.open(:r);\n        my $buffer;\n        while $fh.read($buffer, 10240) -> $len {\n            $archive.write_data($buffer, $len);\n        }\n        $fh.close;\n    }\n    $archive.finish;\n}\n```"
+  },
+  {
+    "task": "Use a library to parse command-line arguments in your application.",
+    "code": "```raku\nuse Getopt::Long;\n\nmy %options;\nGetOptions(%options,\n    'verbose',\n    'output=s',\n    'input=s'\n);\n\nsay \"Verbose mode is \", %options<verbose> ?? 'on' !! 'off';\nsay \"Output file: \", %options<output> // 'not specified';\nsay \"Input file: \", %options<input> // 'not specified';\n```"
+  },
+  {
+    "task": "Build a weather application that displays data from a weather API using a library for JSON parsing.",
+    "code": "```raku\nuse HTTP::UserAgent;\nuse JSON::Fast;\n\nsub get-weather(Str $city) {\n    my $api-key = 'your_api_key_here';\n    my $url = \"http://api.openweathermap.org/data/2.5/weather?q={$city}&appid={$api-key}&units=metric\";\n\n    my $ua = HTTP::UserAgent.new;\n    my $response = $ua.get($url);\n\n    if $response.is-success {\n        my %weather-data = from-json $response.content;\n        say \"Weather in {$city}: { %weather-data<main><temp> }\u00b0C, { %weather-data<weather>[0]<description> }\";\n    } else {\n        say \"Failed to fetch weather data: \", $response.status-line;\n    }\n}\n\nget-weather('London');\n```"
+  },
+  {
+    "task": "Create a video player application using a library that handles video playback.",
+    "code": "```raku\nuse Video::Lib;\n\nmy $video-file = 'sample.mp4';\nmy $player = Video::Lib::Player.new(file => $video-file);\n\n$player.play;\n\nreact {\n    whenever $player.on('playback-ended') {\n        say \"Video playback has ended.\";\n        exit;\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a system that logs application events using a logging library for better traceability.",
+    "code": "```raku\nuse Log::Any;\nuse Log::Any::Adapter::Stdout;\n\nclass AppLogger {\n    has $.logger = Log::Any.new;\n\n    method log-event(Str $event) {\n        $.logger.info($event);\n    }\n}\n\nmy $logger = AppLogger.new;\n\n$logger.log-event('Application started');\n$logger.log-event('User logged in');\n$logger.log-event('Error occurred: Invalid input');\n$logger.log-event('Application terminated');\n```"
+  },
+  {
+    "task": "Implement a feature that encrypts and decrypts data using a library for encryption.",
+    "code": "```raku\nuse Crypt::Libsodium:from<cpan>;\n\nsub encrypt-data(Str $plaintext, Str $key) {\n    my $nonce = randombytes_buf(crypto_secretbox_NONCEBYTES);\n    my $ciphertext = crypto_secretbox_easy($plaintext, $nonce, $key.encode('utf8'));\n    return ($nonce, $ciphertext);\n}\n\nsub decrypt-data(Str $nonce, Str $ciphertext, Str $key) {\n    my $decoded = crypto_secretbox_open_easy($ciphertext, $nonce, $key.encode('utf8'));\n    die \"Decryption failed\" unless $decoded.defined;\n    return $decoded;\n}\n\nmy $key = randombytes_buf(crypto_secretbox_KEYBYTES);\nmy ($nonce, $ciphertext) = encrypt-data(\"Hello, Raku!\", $key);\nsay decrypt-data($nonce, $ciphertext, $key);\n```"
+  },
+  {
+    "task": "Write a program that fetches and displays cryptocurrency prices using a third-party library for API interaction.",
+    "code": "```raku\nuse HTTP::UserAgent;\nuse JSON::Fast;\n\nmy $ua = HTTP::UserAgent.new;\nmy $response = $ua.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');\n\nif $response.is-success {\n    my $prices = from-json $response.content;\n    say \"Bitcoin Price (USD): { $prices<bitcoin><usd> }\";\n    say \"Ethereum Price (USD): { $prices<ethereum><usd> }\";\n} else {\n    say \"Failed to fetch cryptocurrency prices. Status: { $response.status }\";\n}\n```"
+  },
+  {
+    "task": "Use a library to implement OAuth authentication for secure user login in your application.",
+    "code": "```raku\nuse HTTP::UserAgent;\nuse JSON::Fast;\n\n# Define your OAuth credentials\nmy $client_id = 'your_client_id';\nmy $client_secret = 'your_client_secret';\nmy $redirect_uri = 'http://your.redirect.uri';\n\n# Create an HTTP User Agent\nmy $ua = HTTP::UserAgent.new;\n\n# Step 1: Redirect user to OAuth server\nmy $auth_url = \"https://oauth.example.com/authorize?response_type=code&client_id=$client_id&redirect_uri=$redirect_uri\";\nsay \"Please go to the following URL to authenticate: $auth_url\";\n\n# Step 2: Handle the redirect back and extract the authorization code\n# Assume $auth_code is obtained from query parameter after redirection\nmy $auth_code = 'authorization_code_from_redirect';\n\n# Step 3: Exchange the authorization code for an access token\nmy %form = (\n    grant_type    => 'authorization_code',\n    code          => $auth_code,\n    redirect_uri  => $redirect_uri,\n    client_id     => $client_id,\n    client_secret => $client_secret\n);\n\nmy $response = $ua.post('https://oauth.example.com/token', :content-type('application/x-www-form-urlencoded'), :content(%form));\nmy $token_data = from-json $response.content;\n\nif $token_data<access_token> {\n    say \"Access token: {$token_data<access_token>}\";\n} else {\n    die \"Failed to obtain access token: \" ~ $response.content;\n}\n```"
+  },
+  {
+    "task": "Build a calculator that evaluates mathematical expressions using a math parsing library.",
+    "code": "```raku\nuse Math::Expression::Evaluator;\n\nmy $evaluator = Math::Expression::Evaluator.new();\n\nsub evaluate_expression(Str $expression) {\n    return $evaluator.parse($expression).val;\n}\n\nsay evaluate_expression('3 + 4 * 2');\nsay evaluate_expression('(1 + 2) * (3 + 4)');\nsay evaluate_expression('10 / (2 + 3)');\n```"
+  },
+  {
+    "task": "Create a chatbot that integrates a natural language processing library for understanding user input.",
+    "code": "```raku\nuse AI::Chatbot;\n\nmy $chatbot = AI::Chatbot.new;\n\nloop {\n    my $user_input = prompt 'You: ';\n    my $response = $chatbot.respond($user_input);\n    say \"Bot: $response\";\n}\n```"
+  },
+  {
+    "task": "Develop a tool that detects faces in images using a computer vision library.",
+    "code": "```raku\nuse OpenCV; # Assuming OpenCV is the library used for computer vision\n\nsub detect-faces(Str $image-path) {\n    my $image = OpenCV::imread($image-path, OpenCV::IMREAD_COLOR);\n    my $face-cascade = OpenCV::CascadeClassifier.new(\"haarcascade_frontalface_default.xml\");\n\n    my @faces = $face-cascade.detectMultiScale($image);\n\n    for @faces -> $face {\n        my ($x, $y, $w, $h) = $face.list;\n        OpenCV::rectangle($image, OpenCV::Point.new($x, $y), OpenCV::Point.new($x + $w, $y + $h), OpenCV::Scalar.new(255, 0, 0), 2);\n    }\n\n    OpenCV::imwrite(\"output.jpg\", $image);\n}\n\ndetect-faces(\"input.jpg\");\n```"
+  },
+  {
+    "task": "Implement a program that converts date and time across different time zones using a library for date manipulation.",
+    "code": "```raku\nuse DateTime::TimeZone;\nuse DateTime;\n\nmy $datetime = DateTime.new(year => 2023, month => 10, day => 12, hour => 15, minute => 30, second => 0);\n\nsub convert-timezone($datetime, $from, $to) {\n    my $from-tz = DateTime::TimeZone.new(name => $from);\n    my $to-tz = DateTime::TimeZone.new(name => $to);\n\n    my $dt = $datetime.clone;\n    $dt.set-timezone($from-tz);\n    $dt.set-timezone($to-tz);\n    \n    return $dt;\n}\n\nmy $converted = convert-timezone($datetime, 'America/New_York', 'Europe/London');\nsay \"Converted Time: \" ~ $converted;\n```"
+  },
+  {
+    "task": "Write a utility that uploads files to a cloud storage service using a library that interfaces with the service's API.",
+    "code": "```raku\nuse Cloud::Storage::Client; # Hypothetical module for cloud storage\n\nsub upload-file-to-cloud($file-path, $bucket-name, $storage-client) {\n    my $file = open $file-path, :r;\n    my $upload-result = $storage-client.upload(:file($file), :bucket($bucket-name));\n    if $upload-result.success {\n        say \"File uploaded successfully!\";\n    } else {\n        die \"Failed to upload file: {$upload-result.error-message}\";\n    }\n}\n\nmy $client = Cloud::Storage::Client.new(:api-key<your-api-key>);\nupload-file-to-cloud('path/to/your/file.txt', 'your-bucket-name', $client);\n```"
+  },
+  {
+    "task": "Create a real-time chat system using a library that supports asynchronous communication.",
+    "code": "```raku\nuse Cro::HTTP::Router;\nuse Cro::WebSocket::Server;\n\nmy $app = Cro::HTTP::Router.new;\n\n$app.get('/chat') => -> (Cro::HTTP::Request $req) {\n    start react {\n        my $ws = Cro::WebSocket::Server.from-psgi($req.to-psgi);\n        whenever $ws.Supply -> $message {\n            say \"Received message: $message.content\";\n            $ws.send(\"Echo: $message.content\");\n        }\n    }\n};\n\nmy Cro::HTTP::Server $server .= new: :host<localhost>, :port(10000), :$app;\n$server.start;\nsay \"Chat server running at http://localhost:10000/chat\";\nreact whenever signal(SIGINT) { $server.stop; exit 0 }\n```"
+  },
+  {
+    "task": "Use a library to generate and manipulate UUIDs for unique identification in your application.",
+    "code": "```raku\nuse UUID::Tiny;\n\n# Generate a new UUID\nmy $uuid = uuid();\n\n# Convert UUID to string\nmy $uuid-str = uuid_to_str($uuid);\n\n# Parse a UUID string back to a UUID object\nmy $parsed-uuid = str_to_uuid($uuid-str);\n\n# Check if two UUIDs are equal\nsay $uuid eqv $parsed-uuid;  # Outputs True\n```"
+  },
+  {
+    "task": "Build a desktop application that uses a library for creating graphical user interfaces.",
+    "code": "```raku\nuse GTK::Simple;\n\nmy $window = GTK::Simple::Window.new(:title('My Raku App'), :default-size(300, 200));\nmy $button = GTK::Simple::Button.new(:label('Click Me'));\n\n$button.tap({\n    say \"Button clicked!\";\n});\n\n$window.add($button);\n$window.show-all();\n\nGTK::Simple::MainLoop.run;\n```"
+  },
+  {
+    "task": "Develop an algorithm that finds the shortest path in a graph using a library that provides graph algorithms.",
+    "code": "```raku\nuse Graph::Simple;\nuse Graph::Traversal::Dijkstra;\n\nmy $graph = Graph::Simple.new;\n\n# Add vertices and edges\n$graph.add-edge('A', 'B', 1);\n$graph.add-edge('A', 'C', 4);\n$graph.add-edge('B', 'C', 2);\n$graph.add-edge('B', 'D', 5);\n$graph.add-edge('C', 'D', 1);\n\n# Create a Dijkstra traversal object\nmy $dijkstra = Graph::Traversal::Dijkstra.new(graph => $graph);\n\n# Find the shortest path from 'A' to 'D'\nmy @shortest-path = $dijkstra.shortest-path('A', 'D');\n\nsay \"Shortest path from A to D: {@shortest-path}\";\n```"
+  },
+  {
+    "task": "Create a digital clock application that uses a library for handling time events.",
+    "code": "```raku\nuse Date::Namedays;\n\nclass DigitalClock {\n    has DateTime $!current-time;\n    \n    method display-time {\n        $!current-time = DateTime.now;\n        say $!current-time.strftime('%H:%M:%S');\n    }\n}\n\nmy $clock = DigitalClock.new;\nreact whenever Supply.interval(1) {\n    $clock.display-time;\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a library to convert between different units of measurement.",
+    "code": "```raku\nuse Math::Units;\n\nmy $value = 2.5; # example value\nmy $from-unit = 'miles';\nmy $to-unit = 'kilometers';\n\nmy $converted-value = convert($value, $from-unit, $to-unit);\nsay \"$value $from-unit is $converted-value $to-unit\";\n```"
+  },
+  {
+    "task": "Use a library to implement a caching mechanism for improving application performance.",
+    "code": "```raku\nuse Cache::LRU;\n\nmy $cache = Cache::LRU.new(size => 100);\n\nsub get_data($key) {\n    if my $cached = $cache.get($key) {\n        return $cached;\n    }\n    my $data = fetch_data_from_source($key);\n    $cache.set($key, $data);\n    return $data;\n}\n\nsub fetch_data_from_source($key) {\n    # Simulated data retrieval, replace with actual data source logic\n    return \"Data for $key\";\n}\n\n# Example usage\nsay get_data('key1');\nsay get_data('key2');\nsay get_data('key1'); # Should hit the cache\n```"
+  },
+  {
+    "task": "Build an e-commerce platform that integrates a payment processing library for handling transactions.",
+    "code": "```raku\nuse v6;\nuse HTTP::Server::Simple;\nuse JSON::Fast;\nuse Payment::Processor::Library;\n\nclass ECommercePlatform {\n    has %!products;\n    has HTTP::Server::Simple $!server;\n    has Payment::Processor::Library $!payment-processor;\n\n    method new() {\n        %!products = (\n            '1' => { name => 'Laptop', price => 1000 },\n            '2' => { name => 'Phone', price => 500 },\n        );\n        $!server = HTTP::Server::Simple.new(:host<localhost>, :port(8080));\n        $!payment-processor = Payment::Processor::Library.new;\n        self;\n    }\n\n    method start() {\n        $!server.run(sub ($env) {\n            return self.handle-request($env);\n        });\n    }\n\n    method handle-request($env) {\n        my $path = $env<PATH_INFO>;\n        my $response;\n        given $path {\n            when '/' {\n                $response = self.show-products();\n            }\n            when /^ \\/buy\\/ (\\d+) $/ {\n                $response = self.process-payment($0);\n            }\n            default {\n                $response = self.not-found();\n            }\n        }\n        return $response;\n    }\n\n    method show-products() {\n        my $body = to-json(%!products);\n        return { status => 200, headers => [ 'Content-Type' => 'application/json' ], body => $body };\n    }\n\n    method process-payment($product-id) {\n        my $product = %!products{$product-id};\n        if $product {\n            my $amount = $product<price>;\n            my $result = $!payment-processor.process-payment(:amount($amount));\n            if $result<success> {\n                return { status => 200, body => \"Payment successful for {$product<name>}\" };\n            } else {\n                return { status => 500, body => \"Payment failed: {$result<error>}\" };\n            }\n        } else {\n            return self.not-found();\n        }\n    }\n\n    method not-found {\n        return { status => 404, body => \"Not Found\" };\n    }\n}\n\nmy $platform = ECommercePlatform.new;\n$platform.start();\n```"
+  },
+  {
+    "task": "Create a to-do list application that stores data locally using a library for file management.",
+    "code": "```raku\nuse JSON::Fast;\nuse IO::Path;\n\nclass ToDoList {\n    has @.tasks;\n    has $!file-path = 'todo-list.json';\n\n    method save {\n        my $json = to-json(@!tasks);\n        $!file-path.spurt($json);\n    }\n\n    method load {\n        if $!file-path.e {\n            my $json = $!file-path.slurp;\n            @!tasks = from-json($json);\n        }\n    }\n\n    method add-task(Str $task) {\n        @!tasks.push($task);\n        self.save;\n    }\n\n    method remove-task(Int $index) {\n        @!tasks.splice($index, 1);\n        self.save;\n    }\n\n    method show-tasks {\n        for @!tasks.kv -> $index, $task {\n            say \"$index: $task\";\n        }\n    }\n}\n\nmy $todo = ToDoList.new;\n$todo.load;\n\nloop {\n    say \"To-Do List Application\";\n    say \"1. Show tasks\";\n    say \"2. Add task\";\n    say \"3. Remove task\";\n    say \"4. Exit\";\n    my $choice = prompt \"Choose an option: \";\n\n    given $choice {\n        when '1' { $todo.show-tasks }\n        when '2' {\n            my $task = prompt \"Enter a new task: \";\n            $todo.add-task($task);\n        }\n        when '3' {\n            my $index = prompt \"Enter the task number to remove: \";\n            $todo.remove-task($index.Int);\n        }\n        when '4' { last }\n        default { say \"Invalid choice\" }\n    }\n}\n```"
+  },
+  {
+    "task": "Develop a system that monitors server health using a library that provides network utilities.",
+    "code": "```raku\nuse Net::Monitor;\n\nmy $monitor = Net::Monitor.new(servers => ['192.168.1.1', '192.168.1.2']);\n$monitor.start: sub ($status) {\n    for $status.kv -> $server, $health {\n        say \"Server $server is $health\";\n    }\n};\n```"
+  },
+  {
+    "task": "Implement a program that detects language from a given text using a language detection library.",
+    "code": "```raku\nuse Text::Language::Guess;\n\nsub detect-language(Str $text) {\n    my $guesser = Text::Language::Guess.new;\n    my $language = $guesser.guess-language: $text;\n    return $language;\n}\n\nmy $text = \"Ceci est un texte en fran\u00e7ais.\";\nsay detect-language($text);\n```"
+  },
+  {
+    "task": "Write a script that sends notifications to a mobile device using a push notification library.",
+    "code": "```raku\nuse PushNotification::Fcm;\n\nmy $fcm = PushNotification::Fcm.new(\n    api_key => 'your-fcm-server-key'\n);\n\nmy $message = {\n    to   => 'device-token',\n    notification => {\n        title => 'Hello',\n        body  => 'This is a push notification'\n    }\n};\n\n$fcm.send($message).then(-> $response {\n    say \"Notification sent successfully: \", $response;\n}).catch(-> $error {\n    say \"Error sending notification: \", $error;\n}).wait;\n```"
+  },
+  {
+    "task": "Use a library to generate reports in PDF format from application data.",
+    "code": "```raku\nuse PDF::Document;\n\nsub generate-pdf-report($data, $file-name) {\n    my $pdf = PDF::Document.new;\n    my $page = $pdf.new-page;\n    \n    # Assuming $data is a list of strings to be included in the report\n    for $data.kv -> $i, $line {\n        $page.text(0, 750 - ($i * 20), $line);\n    }\n\n    $pdf.save-as($file-name);\n}\n\nmy @data = <\"Report Title\", \"Introduction\", \"Data Analysis\", \"Conclusion\">;\ngenerate-pdf-report(@data, 'report.pdf');\n```"
+  },
+  {
+    "task": "Build a program that performs statistical analysis on datasets using a statistical computing library.",
+    "code": "```raku\nuse Statistics::Basic;\n\nmy @data = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);\n\nmy $mean = mean(@data);\nmy $median = median(@data);\nmy $variance = variance(@data);\nmy $stddev = stddev(@data);\n\nsay \"Mean: $mean\";\nsay \"Median: $median\";\nsay \"Variance: $variance\";\nsay \"Standard Deviation: $stddev\";\n```"
+  },
+  {
+    "task": "Create an image gallery application that uses a library for image caching and lazy loading.",
+    "code": "```raku\nuse Web::App;\nuse Image::Cache;\n\nclass ImageGallery {\n    has Image::Cache $!cache .= new(:max-size(100));\n\n    method load-image(Str $url) {\n        return $!cache.get($url) // $!cache.set($url, self.fetch-image($url));\n    }\n\n    method fetch-image(Str $url) {\n        # Simulate fetching and loading the image\n        return \"Image data for {$url}\";\n    }\n\n    method display-gallery(@image-urls) {\n        for @image-urls -> $url {\n            say \"Displaying: \" ~ self.load-image($url);\n        }\n    }\n}\n\nmy @images = <http://example.com/img1.jpg http://example.com/img2.jpg http://example.com/img3.jpg>;\nmy $gallery = ImageGallery.new;\n$gallery.display-gallery(@images);\n```"
+  },
+  {
+    "task": "Develop a machine learning model that predicts outcomes using a machine learning library.",
+    "code": "```raku\nuse AI::MXNet qw(:all);\n\nmy $data = mx->nd->array([[1, 2], [3, 4], [5, 6]]);\nmy $labels = mx->nd->array([0, 1, 0]);\n\nmy $model = nn->Sequential();\n$model->add(nn->Dense(units => 2, activation => 'relu'));\n$model->add(nn->Dense(units => 2));\n\nmy $trainer = gluon->Trainer($model->collect_params(), 'sgd', {learning_rate => 0.01});\n\nfor ^100 {\n    my $output = $model->($data);\n    my $loss = gluon->loss->SoftmaxCrossEntropyLoss()($output, $labels);\n    $trainer->step(batch_size => 3);\n    say \"Loss: \", $loss->asscalar;\n}\n\nsay \"Prediction: \", $model->($data)->argmax(axis => 1);\n```"
+  },
+  {
+    "task": "Implement a feature that automatically formats code according to style guidelines using a code formatter library.",
+    "code": "```raku\nuse Code::Formatter;\n\nmy $formatter = Code::Formatter.new;\nmy $unformatted-code = q:to/END/;\n    sub foo {\n    say \"Hello, World!\";\n    }\nEND\n\nmy $formatted-code = $formatter.format($unformatted-code);\nsay $formatted-code;\n```"
+  },
+  {
+    "task": "Write a program that generates barcodes using a library for barcode generation.",
+    "code": "```raku\nuse Barcode::Code128;\n\nsub MAIN(Str $text) {\n    my $barcode = Barcode::Code128.new;\n    my $image = $barcode.encode($text);\n    $image.save('barcode.png');\n}\n```"
+  },
+  {
+    "task": "Use a library to create interactive maps for displaying geographical data in your application.",
+    "code": "```raku\nuse Geo::OSM;\n\n# Create a new map object\nmy $map = Geo::OSM.new;\n\n# Set the map's center to a specific latitude and longitude\n$map.center(latitude => 51.5074, longitude => -0.1278);\n\n# Add a marker at a specific location\n$map.add-marker(latitude => 51.5074, longitude => -0.1278, title => 'London');\n\n# Display the map in an interactive window\n$map.show;\n```"
+  },
+  {
+    "task": "Build a simulation that models fluid dynamics using a library for physics simulations.",
+    "code": "```raku\nuse Physics::FluidDynamics;\n\nmy $fluid-sim = Physics::FluidDynamics::Simulation.new(\n    viscosity => 0.001,\n    density   => 1.0,\n    dimensions => (100, 100, 100)\n);\n\n$fluid-sim.add-particle(\n    position => (10, 10, 10),\n    velocity => (1, 0, 0),\n    mass     => 1.0\n);\n\nfor 1..100 {\n    $fluid-sim.step-time(0.1);\n    say \"Particle position: \", $fluid-sim.particle-position(0);\n}\n```"
+  },
+  {
+    "task": "Create a program that reads barcodes from images using a library for barcode scanning.",
+    "code": "```raku\nuse Barcode::ZBar;\n\nmy $scanner = Barcode::ZBar::ImageScanner.new;\n$scanner.scan('barcode-image.png').map(-> $symbol {\n    say \"Barcode: \", $symbol.data;\n});\n```"
+  },
+  {
+    "task": "Develop a feature that performs spell checking using a library for text processing.",
+    "code": "```raku\nuse NativeCall;\n\nclass SpellChecker {\n    has $.text;\n\n    method check-spelling() {\n        my $spell-library = 'libspellchecker.so'; # Example library\n        my $spellcheck = nativecast(Pointer, $spell-library);\n        my $result = $spellcheck($.text);\n        return $result;\n    }\n}\n\nmy $checker = SpellChecker.new(text => 'Ths is an exmple txt with speling errs.');\nsay $checker.check-spelling();\n```"
+  },
+  {
+    "task": "Implement a service that aggregates news articles from various sources using a library for web content aggregation.",
+    "code": "```raku\nuse JSON::Fast;\nuse HTTP::UserAgent;\n\nclass NewsAggregator {\n    has @.sources;\n    has HTTP::UserAgent $.ua = HTTP::UserAgent.new;\n\n    method add-source(Str $url) {\n        @.sources.push($url);\n    }\n\n    method fetch-news {\n        my @articles;\n        for @.sources -> $source {\n            my $response = $.ua.get($source);\n            if $response.is-success {\n                my $content = from-json $response.content;\n                @articles.append: $content<articles>;\n            }\n        }\n        return @articles;\n    }\n}\n\nmy $aggregator = NewsAggregator.new;\n$aggregator.add-source('https://newsapi.org/v2/top-headlines?country=us&apiKey=YOUR_API_KEY');\n$aggregator.add-source('https://another-news-source.com/api/v1/articles?apiKey=YOUR_API_KEY');\n\nmy @news = $aggregator.fetch-news;\nsay @news;\n```"
+  },
+  {
+    "task": "Write a script that converts spoken language to text using a speech recognition library.",
+    "code": "```raku\nuse NativeCall;\n\nclass SpeechRecognitionLibrary is repr('CStruct') {\n    # Assume the library provides these two functions\n    method initialize() returns int32 is native('speechlib') { ... }\n    method recognize_speech(Str $audio-file) returns Str is native('speechlib') { ... }\n}\n\nsub MAIN(Str $audio-file) {\n    my SpeechRecognitionLibrary $speech-recognizer .= new;\n    my int32 $init-result = $speech-recognizer.initialize();\n    die \"Failed to initialize speech recognition\" if $init-result != 0;\n    \n    my Str $recognized-text = $speech-recognizer.recognize_speech($audio-file);\n    say \"Recognized text: $recognized-text\";\n}\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that tracks user behavior in a web application.",
+    "code": "```raku\nuse Web::App::Tracker;\n\nmy $tracker = Web::App::Tracker.new;\n\n# Example usage\n$tracker.track('page_view', :user('user123'), :page('/home'));\n$tracker.track('click', :user('user123'), :element('#submit-button'));\n\n# Retrieve tracked data\nmy $data = $tracker.get_data(:user('user123'));\nsay $data;\n```"
+  },
+  {
+    "task": "Build a program that analyzes sentiment in social media posts using a sentiment analysis library.",
+    "code": "```raku\nuse Text::Sentiment;\n\nmy $sentiment-analyzer = Text::Sentiment.new;\n\nsub analyze-sentiment(@posts) {\n    for @posts -> $post {\n        my $result = $sentiment-analyzer.analyze($post);\n        say \"Post: $post\";\n        say \"Sentiment: \", $result<sentiment>;\n        say \"Score: \", $result<score>;\n        say \"-------\";\n    }\n}\n\nmy @social-media-posts = (\n    \"I love this new phone!\",\n    \"This movie was terrible.\",\n    \"What a great day to be alive!\",\n);\n\nanalyze-sentiment(@social-media-posts);\n```"
+  },
+  {
+    "task": "Create a utility that detects plagiarism in text using a library for text comparison.",
+    "code": "```raku\nuse Text::Fuzzy;\n\nsub detect-plagiarism(Str $text1, Str $text2) {\n    my $fuzzy = Text::Fuzzy.new(:text($text1));\n    my $distance = $fuzzy.distance($text2);\n    return $distance;\n}\n\nmy $text1 = \"This is a sample text for comparison.\";\nmy $text2 = \"This is a sample text for detecting plagiarism.\";\n\nmy $plagiarism-score = detect-plagiarism($text1, $text2);\nsay \"Plagiarism score: $plagiarism-score\";\n```"
+  },
+  {
+    "task": "Develop a program that predicts weather trends using a library for time series forecasting.",
+    "code": "```raku\nuse TimeSeries::ARIMA;\n\nsub predict-weather-trends(@historical-data) {\n    my $model = TimeSeries::ARIMA.new;\n    $model.fit(@historical-data);\n    my @forecast = $model.forecast(steps => 5);\n    return @forecast;\n}\n\nmy @weather-data = (23, 24, 22, 25, 26, 27, 28, 30, 29, 31);\nmy @predicted-trends = predict-weather-trends(@weather-data);\nsay \"Predicted Weather Trends: {@predicted-trends}\";\n```"
+  },
+  {
+    "task": "Implement a feature that performs facial recognition using a library specialized for biometric analysis.",
+    "code": "```raku\nuse BioMetric::FaceRecognition;\n\nmy $image-path = 'path/to/image.jpg';\n\nmy $recognizer = BioMetric::FaceRecognition.new;\nmy $result = $recognizer.recognize($image-path);\n\nif $result.defined {\n    say \"Face recognized: \", $result.name;\n} else {\n    say \"No face recognized.\";\n}\n```"
+  },
+  {
+    "task": "Write a program that interacts with blockchain networks using a library for blockchain communication.",
+    "code": "```raku\nuse Web3::Ethereum;\n\nmy $eth = Web3::Ethereum.new(\n    rpc_url => 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID'\n);\n\nmy $block_number = $eth.eth_blockNumber();\nsay \"Current Ethereum block number: $block_number\";\n\nmy $balance = $eth.eth_getBalance('0xYourEthereumAddress', 'latest');\nsay \"Balance of the address: $balance\";\n```"
+  },
+  {
+    "task": "Use a library to perform image recognition tasks in your application.",
+    "code": "```raku\nuse Image::Magick;\n\nmy $image = Image::Magick.new;\n$image.Read('path/to/image.jpg');\n\nmy ($result, $width, $height) = $image.Get('width', 'height');\nsay \"Image dimensions: { $width } x { $height }\";\n\n# Example: Using another library for more advanced image recognition\nuse AI::ComputerVision;\n\nmy $cv = AI::ComputerVision.new;\nmy $objects = $cv.detect-objects($image);\nfor $objects -> $object {\n    say \"Detected: {$object<name>} at ({$object<x>}, {$object<y>})\";\n}\n```"
+  },
+  {
+    "task": "Build a program that converts audio files from one format to another using an audio conversion library.",
+    "code": "```raku\nuse Audio::Convert;\n\nsub MAIN(Str $input-file, Str $output-file, Str $output-format) {\n    my $converter = Audio::Convert.new;\n    $converter.convert($input-file, $output-file, :format($output-format));\n    say \"Conversion complete: $output-file\";\n}\n```"
+  },
+  {
+    "task": "Create a web application that uses a library for rendering 3D graphics.",
+    "code": "```raku\nuse Cro::HTTP::Router;\nuse Cro::HTTP::Server;\nuse Graphics::Lib3D; # Hypothetical 3D graphics library\n\nmy $app = route {\n    get -> {\n        my $graphics = Graphics::Lib3D.new;\n        my $scene = $graphics.create-scene;\n        $graphics.render($scene)\n    }\n};\n\nmy Cro::HTTP::Server $server .= new:\n    :host<localhost>,\n    :port(10000),\n    :$app;\n\n$server.start;\nreact whenever $server.Supply { }\n```"
+  },
+  {
+    "task": "Develop a feature that performs currency conversion using a library for financial calculations.",
+    "code": "```raku\nuse Finance::Currency::Convert;\n\nsub convert-currency($amount, $from, $to) {\n    my $converter = Finance::Currency::Convert.new;\n    return $converter.convert($amount, $from, $to);\n}\n\nmy $amount = 100;\nmy $from = 'USD';\nmy $to = 'EUR';\n\nsay \"Converting $amount $from to $to: {convert-currency($amount, $from, $to)} $to\";\n```"
+  },
+  {
+    "task": "Implement a program that manages user sessions using a library for session handling.",
+    "code": "```raku\nuse Session::Simple;\n\nmy $session-manager = Session::Simple.new;\n\nsub start-session($user-id) {\n    my $session-id = $session-manager.create-session($user-id);\n    say \"Session started for user $user-id with session ID $session-id\";\n    return $session-id;\n}\n\nsub end-session($session-id) {\n    $session-manager.destroy-session($session-id);\n    say \"Session $session-id ended\";\n}\n\nsub get-session($session-id) {\n    if my $session = $session-manager.get-session($session-id) {\n        say \"Session found: $session-id for user \" ~ $session<user-id>;\n        return $session;\n    } else {\n        say \"Session $session-id not found\";\n        return Nil;\n    }\n}\n\nmy $session-id = start-session('user123');\nget-session($session-id);\nend-session($session-id);\n```"
+  },
+  {
+    "task": "Write a script that automates browser actions using a browser automation library.",
+    "code": "```raku\nuse Web::Driver;\n\n# Create a new WebDriver instance\nmy $driver = Web::Driver.new;\n\n# Start a new browser session\n$driver.start-browser('firefox');\n\n# Navigate to a webpage\n$driver.get('https://example.com');\n\n# Find an element and perform an action\nmy $element = $driver.find-element('css selector', 'h1');\nsay $element.text;\n\n# Close the browser session\n$driver.quit;\n```"
+  },
+  {
+    "task": "Use a library to implement data serialization and deserialization in your application.",
+    "code": "```raku\nuse JSON::Fast;\n\nmy %data = (\n    name => 'John Doe',\n    age  => 30,\n    email => 'john.doe@example.com'\n);\n\n# Serialize the data\nmy $json-str = to-json %data;\nsay \"Serialized JSON: $json-str\";\n\n# Deserialize the data\nmy %deserialized-data = from-json $json-str;\nsay \"Deserialized Data: \", %deserialized-data;\n```"
+  },
+  {
+    "task": "Build an application that generates interactive reports using a library for data visualization.",
+    "code": "```raku\nuse Cro::HTTP::Server;\nuse JSON::Fast;\nuse Chart::Plotly;\n\nmy $app = Cro::HTTP::Server.new: :host<localhost>, :port(8080), :$uri;\n\n$app.route('GET', '/report', -> $req {\n    my %data = (\n        x => [1, 2, 3, 4, 5],\n        y => [10, 15, 13, 17, 21],\n        type => 'scatter'\n    );\n\n    my $chart = Chart::Plotly::Plot.new(data => [%data]);\n    my $chart_html = $chart.render();\n\n    return $req.respond: :content-type<text/html>, :body($chart_html);\n});\n\n$app.run;\n```"
+  },
+  {
+    "task": "Create a system that backs up and restores data using a library for file system operations.",
+    "code": "```raku\nuse File::Find;\nuse File::Copy;\n\nclass BackupSystem {\n    has $.source;\n    has $.destination;\n\n    method backup() {\n        find(dir => $.source, wanted => sub ($file) {\n            return if $file.IO.d;\n            my $dest-file = $.destination.IO.child($file.IO.relative($.source));\n            $dest-file.dirname.mkpath;\n            copy($file, $dest-file) or die \"Failed to copy $file: $!\";\n        });\n    }\n\n    method restore() {\n        find(dir => $.destination, wanted => sub ($file) {\n            return if $file.IO.d;\n            my $source-file = $.source.IO.child($file.IO.relative($.destination));\n            $source-file.dirname.mkpath;\n            copy($file, $source-file) or die \"Failed to copy $file: $!\";\n        });\n    }\n}\n\nmy $backup-system = BackupSystem.new(source => 'source-dir', destination => 'backup-dir');\n$backup-system.backup;\n$backup-system.restore;\n```"
+  },
+  {
+    "task": "Develop a feature that performs real-time language translation using a translation library.",
+    "code": "```raku\nuse Translate::Library; # assuming Translate::Library is a hypothetical translation library\n\nmy $translator = Translate::Library.new(api-key => 'your-api-key-here');\n\nreact {\n    whenever Supply.interval(5) {\n        my $text = \"Hello, World!\";\n        my $translated-text = $translator.translate($text, :from<en>, :to<es>);\n        say \"Translated Text: $translated-text\";\n    }\n}\n```"
+  },
+  {
+    "task": "Implement a program that tracks stock market prices using a library for financial data retrieval.",
+    "code": "```raku\nuse Finance::Quote;\n\nclass StockTracker {\n    has $.symbol;\n    has $!quote = Finance::Quote.new;\n\n    method get-price() {\n        my %info = $!quote.fetch('usa', $!symbol);\n        return %info{$!symbol, 'last'};\n    }\n}\n\nmy $tracker = StockTracker.new(symbol => 'AAPL');\nsay \"Current price for AAPL is \" ~ $tracker.get-price();\n```"
+  },
+  {
+    "task": "Write a script that generates and validates JSON Web Tokens using a library for JWT handling.",
+    "code": "```raku\nuse JSON::JWT;\n\nmy $key = 'my_secret_key';\nmy %payload = (\n    user => 'example_user',\n    role => 'admin'\n);\n\n# Generate a JWT\nmy $jwt = JSON::JWT::encode(%payload, $key);\n\nsay \"Generated JWT: $jwt\";\n\n# Validate the JWT\ntry {\n    my %decoded = JSON::JWT::decode($jwt, $key);\n    say \"Validated JWT. Payload: \", %decoded.perl;\n    CATCH {\n        default {\n            say \"Failed to validate JWT: \", .message;\n        }\n    }\n}\n```"
+  },
+  {
+    "task": "Use a library to build a feature that synchronizes data across multiple devices.",
+    "code": "```raku\nuse WebService::CloudSync;\n\nmy $sync = WebService::CloudSync.new;\n\nmy @devices = ('device1', 'device2', 'device3');\n\nfor @devices -> $device {\n    $sync.add-device($device);\n}\n\n$sync.synchronize;\n```"
+  },
+  {
+    "task": "Build a program that implements pattern recognition using a library for machine learning.",
+    "code": "```raku\nuse AI::MXNet;\n\n# Create a simple neural network model\nmy $net = nn->Sequential();\n$net->add(nn->Dense(128, activation => 'relu'));\n$net->add(nn->Dense(64, activation => 'relu'));\n$net->add(nn->Dense(10));\n\n# Define loss function and optimizer\nmy $loss = AI::MXNet::Loss->SoftmaxCrossEntropyLoss();\nmy $trainer = AI::MXNet::Gluon::Trainer.new(\n    params => $net->collect_params(),\n    optimizer => 'adam',\n    optimizer_params => { learning_rate => 0.001 }\n);\n\n# Example data (randomly generated for illustration)\nmy $data = AI::MXNet::NDArray->random_normal(0, 1, shape => [100, 20]);\nmy $label = AI::MXNet::NDArray->random_uniform(0, 10, shape => [100]);\n\n# Train the model with the data\nfor 1..10 {\n    my $batch_data = [$data, $label];\n    my $with_autograd = AI::MXNet::Autograd->record: {\n        my $output = $net->($batch_data[0]);\n        my $loss_value = $loss->($output, $batch_data[1]);\n        $loss_value->backward();\n    };\n    $trainer->step(batch_size => 10);\n}\n\n# Perform pattern recognition on new data\nmy $new_data = AI::MXNet::NDArray->random_normal(0, 1, shape => [1, 20]);\nmy $prediction = $net->($new_data);\nsay $prediction->argmax(axis => 1);\n```"
+  },
+  {
+    "task": "Create an email client that uses a library for IMAP and POP3 communication.",
+    "code": "```raku\nuse Email::MIME;\nuse Net::IMAP::Client;\nuse Net::POP3;\n\nclass EmailClient {\n    has $.imap-client = Net::IMAP::Client.new(\n        server   => 'imap.example.com',\n        user     => 'user@example.com',\n        password => 'password'\n    );\n\n    has $.pop3-client = Net::POP3.new(\n        server   => 'pop3.example.com',\n        user     => 'user@example.com',\n        password => 'password'\n    );\n\n    method fetch-imap-mails {\n        $.imap-client.connect;\n        my @messages = $.imap-client.search('ALL');\n        for @messages -> $message-id {\n            my $email = $.imap-client.fetch($message-id);\n            my $parsed-email = Email::MIME.parse($email);\n            say \"Subject: \", $parsed-email.header('Subject');\n        }\n        $.imap-client.disconnect;\n    }\n\n    method fetch-pop3-mails {\n        $.pop3-client.connect;\n        my @messages = $.pop3-client.list;\n        for @messages -> $message-id {\n            my $email = $.pop3-client.retr($message-id);\n            my $parsed-email = Email::MIME.parse($email);\n            say \"Subject: \", $parsed-email.header('Subject');\n        }\n        $.pop3-client.quit;\n    }\n}\n\nmy $client = EmailClient.new;\n$client.fetch-imap-mails;\n$client.fetch-pop3-mails;\n```"
+  },
+  {
+    "task": "Develop a feature that analyzes network traffic using a library for network monitoring.",
+    "code": "```raku\nuse Net::Pcap;\n\nsub analyze-traffic() {\n    my $err;\n    my $dev = Net::Pcap::lookupdev($err);\n\n    die \"Cannot find a network device: $err\" if $err;\n\n    my $pcap = Net::Pcap::open_live($dev, 1024, 1, 0, $err);\n\n    die \"Cannot open device $dev: $err\" if $err;\n\n    Net::Pcap::loop($pcap, 10, sub ($user, $header, $packet) {\n        say \"Packet captured at \" ~ $header.timestamp;\n        # Additional packet analysis logic goes here\n    }, Nil);\n\n    Net::Pcap::close($pcap);\n}\n\nanalyze-traffic();\n```"
+  },
+  {
+    "task": "Implement a program that manages user authentication and authorization using a security library.",
+    "code": "```raku\nuse Auth::RBAC;\n\nclass User {\n    has Str $.username;\n    has Str $.password;\n}\n\nclass Authenticator {\n    has Auth::RBAC $!rbac .= new;\n\n    method add-user(User $user) {\n        $!rbac.add-user($user.username, $user.password);\n    }\n\n    method authenticate(Str $username, Str $password) {\n        $!rbac.check-credentials($username, $password);\n    }\n\n    method authorize(Str $username, Str $role) {\n        $!rbac.user-has-role($username, $role);\n    }\n}\n\n# Example usage:\nmy $auth = Authenticator.new;\nmy $user = User.new(username => 'john_doe', password => 'password123');\n\n$auth.add-user($user);\n\nsay $auth.authenticate('john_doe', 'password123'); # True or False\nsay $auth.authorize('john_doe', 'admin'); # True or False\n```"
+  },
+  {
+    "task": "Write a script that generates word clouds from text data using a library for text visualization.",
+    "code": "```raku\nuse Text::WordCloud;\n\nmy $text = \"Raku is a member of the Perl family of programming languages. \\\nIt aims to carry forward the high-level, feature-rich essence of Perl.\";\n\nmy %options = (\n    width  => 800,\n    height => 600,\n    font   => 'Arial',\n    max_words => 100,\n);\n\nmy $wordcloud = Text::WordCloud.new(:text($text), |%options);\n$wordcloud.generate().save(\"wordcloud.png\");\n```"
+  },
+  {
+    "task": "Use a library to create a feature that schedules and sends automated emails.",
+    "code": "```raku\nuse Email::Sender::Simple;\nuse Email::Sender::Transport::SMTP;\nuse Email::Simple;\nuse Email::Simple::Creator;\nuse Cro::Timer;\n\nmy $transport = Email::Sender::Transport::SMTP.new({\n    host => 'smtp.example.com',\n    port => 587,\n    sasl_username => 'user@example.com',\n    sasl_password => 'password'\n});\n\nmy $email = Email::Simple.new(\n    header => [\n        To      => 'recipient@example.com',\n        From    => 'user@example.com',\n        Subject => 'Automated Email'\n    ],\n    body => 'This is an automated email sent by Raku.'\n);\n\nsub send-email() {\n    Email::Sender::Simple.send($email, { transport => $transport });\n    say \"Email sent successfully.\";\n}\n\n# Schedule the email to be sent every day at 8 AM\nmy $timer = Cro::Timer.new;\n$timer.schedule-at(DateTime.now.DateTime + Duration.new(days => 1), '08:00', &send-email);\n$timer.run;\n```"
+  },
+  {
+    "task": "Build a mobile application that accesses device sensors using a library for hardware interaction.",
+    "code": "```raku\nuse NativeCall;\n\n# A hypothetical library for hardware interaction\nclass DeviceSensors is repr('CStruct') {\n    method get-accelerometer() returns CArray[num64] is native('libhardware') { * }\n    method get-gyroscope() returns CArray[num64] is native('libhardware') { * }\n}\n\nsub MAIN() {\n    my DeviceSensors $sensors .= new;\n    \n    my $accelerometer-data = $sensors.get-accelerometer();\n    my $gyroscope-data = $sensors.get-gyroscope();\n    \n    say \"Accelerometer Data: {$accelerometer-data.join(', ')}\";\n    say \"Gyroscope Data: {$gyroscope-data.join(', ')}\";\n}\n```"
+  },
+  {
+    "task": "Create a system that audits and logs file system changes using a library for filesystem monitoring.",
+    "code": "```raku\nuse File::Monitor;\n\nmy $monitor = File::Monitor.new;\n\n# Configure the monitor to watch the directory\n$monitor.watch('/path/to/watch', sub ($change) {\n    my $log = \"Change detected: \" ~ $change.path ~ \" at \" ~ DateTime.now;\n    spurt 'file_changes.log', \"$log\\n\", :append;\n});\n\n# Start monitoring\n$monitor.scan while True;\n```"
+  },
+  {
+    "task": "Develop a feature that visualizes geospatial data using a library for geographic information systems.",
+    "code": "```raku\nuse Geo::ShapeFile;\nuse Geo::Proj4;\nuse Cairo;\nuse GTK::Simple;\n\n# Load shapefile\nmy $shapefile = Geo::ShapeFile.new('path/to/shapefile.shp');\n\n# Set up Cairo surface and context\nmy $surface = Cairo::ImageSurface.new(:format('ARGB32'), :width(800), :height(600));\nmy $context = Cairo::Context.new($surface);\n\n# Set up GTK window\nmy $window = GTK::Simple::Window.new(:title('Geospatial Visualization'), :width(800), :height(600));\n$window.add(Gtk::DrawingArea.new.tap({\n    .set-size-request(800, 600);\n    .on('draw', sub ($area, $context) {\n        # Draw shapes\n        for $shapefile.shapes -> $shape {\n            $context.move-to(|$shape.points[0]);\n            for $shape.points -> $point {\n                $context.line-to(|$point);\n            }\n            $context.close-path;\n        }\n        $context.set-source-rgb(0.2, 0.4, 0.6);\n        $context.fill-preserve;\n        $context.set-source-rgb(0, 0, 0);\n        $context.stroke;\n    });\n}));\n\n$window.show-all;\nGTK::Simple::MainLoop.run;\n```"
+  },
+  {
+    "task": "Implement a program that performs clustering analysis using a library for statistical computing.",
+    "code": "```raku\nuse Statistics::R;\n\nmy $R = Statistics::R.new();\n$R.start;\n\n$R.run(q:to/END/);\n  library(cluster)\n  data <- matrix(rnorm(100), nrow=10)\n  result <- kmeans(data, centers=3)\n  print(result$cluster)\nEND\n\nmy $clusters = $R.read;\nsay \"Clusters: $clusters\";\n\n$R.stop;\n```"
+  },
+  {
+    "task": "Write a script that monitors and analyzes CPU and memory usage using a library for system diagnostics.",
+    "code": "```raku\nuse Sys::Statistics::Linux;\n\nmy $lxs = Sys::Statistics::Linux->new( sysinfo => 1, memusage => 1, cpustats => 1 );\n\nloop {\n    my $stats = $lxs->get;\n\n    my $cpu_usage = $stats->cpustats->{total}->{idle};\n    my $mem_usage = $stats->memusage->{used};\n\n    say \"CPU Idle: {$cpu_usage}%\";\n    say \"Memory Used: {$mem_usage}kB\";\n\n    sleep 5;\n}\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that provides voice commands in your application.",
+    "code": "```raku\nuse NativeCall;\nuse Audio::PortAudio;\nuse Audio::LibSndFile;\nuse Speech::Recognizer::PocketSphinx;\n\nmy $recognizer = Speech::Recognizer::PocketSphinx.new(\n    hmm => '/path/to/acoustic/model',\n    lm  => '/path/to/language/model',\n    dict => '/path/to/dictionary'\n);\n\nmy $stream = Audio::PortAudio::Stream.new(\n    sample-rate => 16000,\n    channels    => 1,\n    format      => 'int16',\n);\n\n$stream.open();\n\nloop {\n    my $audio-buffer = $stream.read-buffer(4096);\n    my $result = $recognizer.process($audio-buffer);\n    if $result {\n        say \"Recognized command: $result\";\n    }\n}\n\n$stream.close();\n```"
+  },
+  {
+    "task": "Build a tool that converts video files to different resolutions using a video processing library.",
+    "code": "```raku\nuse Video::LibAV;\n\nsub convert-video($input-file, $output-file, $resolution) {\n    my $video = Video::LibAV.new(:filename($input-file));\n    my ($width, $height) = $resolution.split('x').map(*.Int);\n\n    $video.set-output-file($output-file);\n    $video.set-output-resolution($width, $height);\n\n    $video.process;\n}\n\nmy $input-file = 'input.mp4';\nmy $output-file = 'output_720p.mp4';\nmy $resolution = '1280x720';\n\nconvert-video($input-file, $output-file, $resolution);\n```"
+  },
+  {
+    "task": "Create a program that detects and classifies objects in images using a library for image recognition.",
+    "code": "```raku\nuse AI::LibCV;\n\nmy $image = AI::LibCV::Image.new('path/to/image.jpg');\nmy $detector = AI::LibCV::ObjectDetector.new;\nmy @objects = $detector.detect($image);\n\nfor @objects -> $object {\n    say \"Detected: \", $object.type, \" at \", $object.bounds;\n}\n```"
+  },
+  {
+    "task": "Develop a feature that generates synthetic test data using a data generation library.",
+    "code": "```raku\nuse Data::Faker;\n\nmy $faker = Data::Faker.new;\n\n# Generate synthetic test data\nmy $name = $faker.name;\nmy $email = $faker.email;\nmy $address = $faker.address;\n\nsay \"Name: $name\";\nsay \"Email: $email\";\nsay \"Address: $address\";\n```"
+  },
+  {
+    "task": "Implement a script that interacts with IoT devices using a library for IoT communication.",
+    "code": "```raku\nuse IoT::Library; # Assume IoT::Library is the library for IoT communication\n\nmy $device = IoT::Library::Device.new(\n    id   => 'device-001',\n    type => 'sensor'\n);\n\n# Connect to the IoT device\n$device.connect;\n\n# Fetch data from the IoT device\nmy $data = $device.fetch-data;\n\n# Print the received data\nsay \"Data from device: $data\";\n\n# Disconnect from the IoT device\n$device.disconnect;\n```"
+  },
+  {
+    "task": "Write a program that compresses and decompresses data using a data compression library.",
+    "code": "```raku\nuse Compress::Zlib;\n\nsub compress-data($data) {\n    my $compressed = compress($data.encode('utf8'));\n    return $compressed;\n}\n\nsub decompress-data($compressed) {\n    my $decompressed = uncompress($compressed).decode('utf8');\n    return $decompressed;\n}\n\nmy $original-data = \"This is some data to be compressed and decompressed.\";\nmy $compressed-data = compress-data($original-data);\nsay \"Compressed: \", $compressed-data;\n\nmy $decompressed-data = decompress-data($compressed-data);\nsay \"Decompressed: \", $decompressed-data;\n```"
+  },
+  {
+    "task": "Use a library to implement a feature that generates dynamic web content from templates.",
+    "code": "```raku\nuse Template::Mojo;\n\nmy $template = Template::Mojo.new(template => q{\n    <html>\n    <head><title><%= title %></title></head>\n    <body>\n        <h1><%= heading %></h1>\n        <p><%= content %></p>\n    </body>\n    </html>\n});\n\nmy %data = (\n    title   => 'My Web Page',\n    heading => 'Welcome to My Web Page!',\n    content => 'This is a dynamically generated page using Raku.'\n);\n\nmy $output = $template.render(%data);\nsay $output;\n```"
+  },
+  {
+    "task": "Build an application that integrates with social media platforms using a library for API communication.",
+    "code": "```raku\nuse HTTP::Tiny;\nuse JSON::Fast;\n\nclass SocialMediaAPI {\n    has $.api-url;\n    has $.access-token;\n\n    method get-friends {\n        my $response = HTTP::Tiny.new.get(\n            \"$.api-url/friends\",\n            {\n                headers => {\n                    Authorization => \"Bearer $.access-token\"\n                }\n            }\n        );\n        return $response.status == 200\n            ?? from-json($response.content)\n            !! die \"Failed to fetch friends: {$response.reason}\";\n    }\n\n    method post-status(Str $message) {\n        my $response = HTTP::Tiny.new.post(\n            \"$.api-url/status\",\n            {\n                headers => {\n                    Authorization => \"Bearer $.access-token\",\n                    'Content-Type' => 'application/json'\n                },\n                content => to-json({status => $message})\n            }\n        );\n        return $response.status == 200\n            ?? True\n            !! die \"Failed to post status: {$response.reason}\";\n    }\n}\n\n# Usage example\nmy $api = SocialMediaAPI.new(\n    api-url     => 'https://api.socialmedia.com/v1',\n    access-token => 'your-access-token'\n);\n\nsay $api.get-friends;\n$api.post-status(\"Hello, Raku World!\");\n```"
+  }
+]

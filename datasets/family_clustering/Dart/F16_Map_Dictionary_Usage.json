@@ -1,0 +1,362 @@
+[
+  {
+    "task": "Create a map to store student names as keys and their grades as values, then calculate the average grade.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> studentGrades = {\n    'Alice': 85.0,\n    'Bob': 78.5,\n    'Charlie': 92.0,\n    'Diana': 88.0\n  };\n\n  double total = studentGrades.values.reduce((a, b) => a + b);\n  double average = total / studentGrades.length;\n\n  print('Average grade: $average');\n}\n```"
+  },
+  {
+    "task": "Develop a function that takes a dictionary of product names and prices, and returns the total cost of all products.",
+    "code": "```dart\ndouble totalCost(Map<String, double> products) {\n  return products.values.fold(0.0, (sum, price) => sum + price);\n}\n```"
+  },
+  {
+    "task": "Implement a program that counts the frequency of each word in a given text using a dictionary.",
+    "code": "```dart\nvoid main() {\n  String text = \"this is a sample text with sample words and sample frequency\";\n  Map<String, int> wordFrequency = {};\n\n  List<String> words = text.split(' ');\n\n  for (String word in words) {\n    if (wordFrequency.containsKey(word)) {\n      wordFrequency[word] = wordFrequency[word]! + 1;\n    } else {\n      wordFrequency[word] = 1;\n    }\n  }\n\n  print(wordFrequency);\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of employee IDs and their work hours, and returns the ID of the employee with the most hours.",
+    "code": "```dart\nString employeeWithMostHours(Map<String, int> employeeHours) {\n  String maxId = '';\n  int maxHours = -1;\n\n  employeeHours.forEach((id, hours) {\n    if (hours > maxHours) {\n      maxHours = hours;\n      maxId = id;\n    }\n  });\n\n  return maxId;\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to store users' login attempts and timestamps, then locks the account after three failed attempts.",
+    "code": "```dart\nclass LoginSystem {\n  Map<String, List<DateTime>> loginAttempts = {};\n  Map<String, bool> accountLocked = {};\n\n  void recordLoginAttempt(String username) {\n    if (!accountLocked.containsKey(username)) {\n      accountLocked[username] = false;\n    }\n    \n    if (accountLocked[username]!) {\n      print('Account for $username is locked.');\n      return;\n    }\n\n    if (!loginAttempts.containsKey(username)) {\n      loginAttempts[username] = [];\n    }\n\n    loginAttempts[username]!.add(DateTime.now());\n\n    if (loginAttempts[username]!.length >= 3) {\n      accountLocked[username] = true;\n      print('Account for $username is now locked due to 3 failed attempts.');\n    }\n  }\n\n  void displayAttempts(String username) {\n    if (loginAttempts.containsKey(username)) {\n      print('Login attempts for $username: ${loginAttempts[username]}');\n    } else {\n      print('No login attempts for $username.');\n    }\n  }\n}\n\nvoid main() {\n  var system = LoginSystem();\n  \n  system.recordLoginAttempt('user1');\n  system.recordLoginAttempt('user1');\n  system.recordLoginAttempt('user1');\n  \n  system.displayAttempts('user1');\n  system.recordLoginAttempt('user1');\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to represent a phonebook, allowing users to add, remove, and look up contacts by name.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> phonebook = {};\n\n  // Add a contact\n  void addContact(String name, String number) {\n    phonebook[name] = number;\n    print('$name added with number $number.');\n  }\n\n  // Remove a contact\n  void removeContact(String name) {\n    if (phonebook.containsKey(name)) {\n      phonebook.remove(name);\n      print('$name removed from phonebook.');\n    } else {\n      print('$name not found in phonebook.');\n    }\n  }\n\n  // Look up a contact\n  void lookupContact(String name) {\n    if (phonebook.containsKey(name)) {\n      print('$name\\'s number is ${phonebook[name]}.');\n    } else {\n      print('$name not found in phonebook.');\n    }\n  }\n\n  // Example usage:\n  addContact('Alice', '123-456-7890');\n  addContact('Bob', '987-654-3210');\n  lookupContact('Alice');\n  removeContact('Alice');\n  lookupContact('Alice');\n}\n```"
+  },
+  {
+    "task": "Build a map that associates city names with their population, then find the city with the highest population.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> cityPopulation = {\n    'New York': 8419600,\n    'Los Angeles': 3980400,\n    'Chicago': 2716000,\n    'Houston': 2328000,\n    'Phoenix': 1690000,\n  };\n\n  var cityWithHighestPopulation = cityPopulation.entries.reduce((a, b) => a.value > b.value ? a : b).key;\n\n  print('City with the highest population: $cityWithHighestPopulation');\n}\n```"
+  },
+  {
+    "task": "Write a program that translates English words to another language using a provided dictionary, and translates a given sentence.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> dictionary = {\n    'hello': 'hola',\n    'world': 'mundo',\n    'dart': 'dardo',\n    'programming': 'programaci\u00f3n'\n  };\n\n  String translateSentence(String sentence, Map<String, String> dictionary) {\n    return sentence\n        .split(' ')\n        .map((word) => dictionary[word] ?? word)\n        .join(' ');\n  }\n\n  String sentence = 'hello world dart programming';\n  String translatedSentence = translateSentence(sentence, dictionary);\n\n  print(translatedSentence);\n}\n```"
+  },
+  {
+    "task": "Construct a dictionary to map book titles to their authors, and implement a search function to find all books by a given author.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> booksToAuthors = {\n    'The Great Gatsby': 'F. Scott Fitzgerald',\n    '1984': 'George Orwell',\n    'To Kill a Mockingbird': 'Harper Lee',\n    'The Hobbit': 'J.R.R. Tolkien',\n    'Pride and Prejudice': 'Jane Austen'\n  };\n\n  List<String> findBooksByAuthor(String author) {\n    List<String> booksByAuthor = [];\n    booksToAuthors.forEach((book, bookAuthor) {\n      if (bookAuthor == author) {\n        booksByAuthor.add(book);\n      }\n    });\n    return booksByAuthor;\n  }\n\n  // Example usage:\n  String authorToSearch = 'George Orwell';\n  List<String> books = findBooksByAuthor(authorToSearch);\n  print('Books by $authorToSearch: $books');\n}\n```"
+  },
+  {
+    "task": "Create a map to store product IDs and their stock levels, then implement a function to update stock levels after a sale.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> productStock = {\n    'product1': 100,\n    'product2': 150,\n    'product3': 200,\n  };\n\n  updateStock(productStock, 'product1', 5);\n  print(productStock);\n}\n\nvoid updateStock(Map<String, int> stock, String productId, int quantitySold) {\n  if (stock.containsKey(productId)) {\n    stock[productId] = stock[productId]! - quantitySold;\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to convert country codes to country names and prints the full name for a given code.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> countryCodes = {\n    'US': 'United States',\n    'CA': 'Canada',\n    'FR': 'France',\n    'DE': 'Germany',\n    'JP': 'Japan'\n  };\n  \n  String code = 'FR';\n  if (countryCodes.containsKey(code)) {\n    print('The country for code $code is ${countryCodes[code]}.');\n  } else {\n    print('Country code $code not found.');\n  }\n}\n```"
+  },
+  {
+    "task": "Design a program that stores student IDs and names in a dictionary, and allows retrieval of names by ID.",
+    "code": "```dart\nvoid main() {\n  Map<int, String> studentDirectory = {\n    101: 'Alice',\n    102: 'Bob',\n    103: 'Charlie'\n  };\n\n  int studentIdToFind = 102;\n  String studentName = studentDirectory[studentIdToFind] ?? 'Student not found';\n  print('Student ID $studentIdToFind: $studentName');\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to store configuration settings for a software application, allowing updates and retrieval of settings.",
+    "code": "```dart\nclass Configuration {\n  final Map<String, dynamic> _settings = {};\n\n  void updateSetting(String key, dynamic value) {\n    _settings[key] = value;\n  }\n\n  dynamic getSetting(String key) {\n    return _settings[key];\n  }\n}\n\nvoid main() {\n  var config = Configuration();\n  config.updateSetting('theme', 'dark');\n  config.updateSetting('volume', 75);\n\n  print(config.getSetting('theme')); // Outputs: dark\n  print(config.getSetting('volume')); // Outputs: 75\n}\n```"
+  },
+  {
+    "task": "Create a map that stores words as keys and their definitions as values, and write a function to display all words starting with a given letter.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> dictionary = {\n    'apple': 'A fruit that is red, green, or yellow.',\n    'banana': 'A long, yellow fruit with soft flesh.',\n    'cherry': 'A small, round fruit that is usually red or black.',\n    'date': 'A sweet, dark brown fruit with a pit, from the date palm tree.',\n    'elderberry': 'A small, dark purple fruit from the elder tree.'\n  };\n\n  displayWordsStartingWith(dictionary, 'a');\n}\n\nvoid displayWordsStartingWith(Map<String, String> dictionary, String letter) {\n  dictionary.forEach((word, definition) {\n    if (word.startsWith(letter)) {\n      print('$word: $definition');\n    }\n  });\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a dictionary to store usernames and passwords, and verifies login attempts.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> userCredentials = {\n    'user1': 'password123',\n    'user2': 'qwerty456',\n    'user3': 'abc789'\n  };\n\n  bool verifyLogin(String username, String password) {\n    if (userCredentials.containsKey(username) &&\n        userCredentials[username] == password) {\n      return true;\n    } else {\n      return false;\n    }\n  }\n\n  // Example login attempts\n  print(verifyLogin('user1', 'password123')); // true\n  print(verifyLogin('user2', 'wrongpassword')); // false\n}\n```"
+  },
+  {
+    "task": "Design a map to track the number of times each item is purchased in a store, then find the most popular item.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> purchaseCount = {\n    'Apples': 34,\n    'Bananas': 48,\n    'Oranges': 27,\n    'Grapes': 53,\n    'Peaches': 42\n  };\n\n  String mostPopularItem = '';\n  int maxPurchases = 0;\n\n  purchaseCount.forEach((item, count) {\n    if (count > maxPurchases) {\n      maxPurchases = count;\n      mostPopularItem = item;\n    }\n  });\n\n  print('Most popular item: $mostPopularItem with $maxPurchases purchases.');\n}\n```"
+  },
+  {
+    "task": "Build a dictionary that associates file extensions with their corresponding application types and uses it to determine how to open a given file.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> fileAssociations = {\n    'txt': 'Text Editor',\n    'jpg': 'Image Viewer',\n    'mp4': 'Video Player',\n    'pdf': 'PDF Reader',\n    'html': 'Web Browser'\n  };\n\n  String fileName = 'document.pdf';\n  String fileExtension = fileName.split('.').last;\n\n  if (fileAssociations.containsKey(fileExtension)) {\n    print('Open with: ${fileAssociations[fileExtension]}');\n  } else {\n    print('Unknown file type');\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a map to store menu items and their prices, and allows customers to calculate their total bill.",
+    "code": "```dart\nvoid main() {\n  // Menu items with prices\n  Map<String, double> menu = {\n    'Burger': 5.99,\n    'Fries': 2.99,\n    'Drink': 1.99,\n    'Salad': 4.99\n  };\n\n  // Example order\n  List<String> order = ['Burger', 'Fries', 'Drink'];\n\n  // Calculate total bill\n  double totalBill = order.fold(0, (sum, item) => sum + (menu[item] ?? 0));\n\n  print('Total Bill: \\$${totalBill.toStringAsFixed(2)}');\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the inventory of a warehouse, allowing additions, removals, and inventory checks.",
+    "code": "```dart\nclass WarehouseInventory {\n  Map<String, int> _inventory = {};\n\n  void addItem(String item, int quantity) {\n    if (_inventory.containsKey(item)) {\n      _inventory[item] = _inventory[item]! + quantity;\n    } else {\n      _inventory[item] = quantity;\n    }\n  }\n\n  void removeItem(String item, int quantity) {\n    if (_inventory.containsKey(item)) {\n      int currentQuantity = _inventory[item]!;\n      if (currentQuantity >= quantity) {\n        _inventory[item] = currentQuantity - quantity;\n        if (_inventory[item] == 0) {\n          _inventory.remove(item);\n        }\n      } else {\n        print('Not enough $item in inventory to remove.');\n      }\n    } else {\n      print('$item does not exist in inventory.');\n    }\n  }\n\n  int checkInventory(String item) {\n    return _inventory[item] ?? 0;\n  }\n}\n\nvoid main() {\n  WarehouseInventory inventory = WarehouseInventory();\n\n  inventory.addItem('Apples', 50);\n  inventory.addItem('Bananas', 30);\n  inventory.removeItem('Apples', 10);\n  print('Apples in inventory: ${inventory.checkInventory('Apples')}');\n  print('Bananas in inventory: ${inventory.checkInventory('Bananas')}');\n  inventory.removeItem('Oranges', 5);\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert Roman numerals to integers.",
+    "code": "```dart\nint romanToInt(String s) {\n  Map<String, int> romanMap = {\n    'I': 1,\n    'V': 5,\n    'X': 10,\n    'L': 50,\n    'C': 100,\n    'D': 500,\n    'M': 1000\n  };\n\n  int result = 0;\n  for (int i = 0; i < s.length; i++) {\n    int current = romanMap[s[i]]!;\n    if (i + 1 < s.length && current < romanMap[s[i + 1]]!) {\n      result -= current;\n    } else {\n      result += current;\n    }\n  }\n  return result;\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to track the number of occurrences of each letter in a string.",
+    "code": "```dart\nvoid main() {\n  String input = \"example string\";\n  Map<String, int> letterCount = {};\n\n  for (var letter in input.split('')) {\n    if (letter != ' ') {\n      letterCount.update(letter, (value) => value + 1, ifAbsent: () => 1);\n    }\n  }\n\n  print(letterCount);\n}\n```"
+  },
+  {
+    "task": "Create a map to store team names and their scores, then determine the team with the highest score.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> teamScores = {\n    'Team A': 85,\n    'Team B': 92,\n    'Team C': 78,\n    'Team D': 88,\n  };\n\n  String highestScoringTeam = '';\n  int highestScore = 0;\n\n  teamScores.forEach((team, score) {\n    if (score > highestScore) {\n      highestScore = score;\n      highestScoringTeam = team;\n    }\n  });\n\n  print('The team with the highest score is $highestScoringTeam with a score of $highestScore.');\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of item weights and calculates the total weight of all items.",
+    "code": "```dart\ndouble calculateTotalWeight(Map<String, double> itemWeights) {\n  double totalWeight = 0.0;\n  itemWeights.forEach((key, value) {\n    totalWeight += value;\n  });\n  return totalWeight;\n}\n```"
+  },
+  {
+    "task": "Implement a map to store website URLs and their respective visit counts, then find the most visited website.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> websiteVisits = {\n    'https://example.com': 120,\n    'https://anotherexample.com': 250,\n    'https://yetanotherexample.com': 90,\n  };\n\n  String mostVisitedWebsite = '';\n  int maxVisits = 0;\n\n  websiteVisits.forEach((website, visits) {\n    if (visits > maxVisits) {\n      maxVisits = visits;\n      mostVisitedWebsite = website;\n    }\n  });\n\n  print('The most visited website is: $mostVisitedWebsite');\n}\n```"
+  },
+  {
+    "task": "Create a script that uses a dictionary to map error codes to error messages, and prints the message for a given code.",
+    "code": "```dart\nvoid main() {\n  Map<int, String> errorMessages = {\n    404: 'Not Found',\n    500: 'Internal Server Error',\n    403: 'Forbidden',\n    401: 'Unauthorized',\n  };\n\n  int errorCode = 404;\n  if (errorMessages.containsKey(errorCode)) {\n    print(errorMessages[errorCode]);\n  } else {\n    print('Unknown error code');\n  }\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store contact information with names as keys and phone numbers as values, allowing updates and lookups.",
+    "code": "```dart\nvoid main() {\n  // Create a dictionary to store contact information\n  Map<String, String> contacts = {\n    'Alice': '123-456-7890',\n    'Bob': '987-654-3210',\n  };\n\n  // Function to update contact information\n  void updateContact(String name, String phoneNumber) {\n    contacts[name] = phoneNumber;\n  }\n\n  // Function to lookup contact information\n  String? lookupContact(String name) {\n    return contacts[name];\n  }\n\n  // Update a contact's phone number\n  updateContact('Alice', '111-222-3333');\n\n  // Lookup a contact's phone number\n  String? phoneNumber = lookupContact('Alice');\n  if (phoneNumber != null) {\n    print('Alice\\'s phone number is $phoneNumber');\n  } else {\n    print('Contact not found.');\n  }\n}\n```"
+  },
+  {
+    "task": "Write a program that uses a map to assign tasks to employees based on their skill levels.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> employeeTasks = {\n    'Alice': 'Advanced',\n    'Bob': 'Intermediate',\n    'Charlie': 'Beginner',\n    'David': 'Intermediate',\n    'Eve': 'Advanced'\n  };\n\n  Map<String, List<String>> tasksBySkill = {\n    'Beginner': ['Documentation', 'Data Entry'],\n    'Intermediate': ['Code Review', 'Testing'],\n    'Advanced': ['Development', 'System Design']\n  };\n\n  Map<String, String> assignedTasks = {};\n\n  employeeTasks.forEach((employee, skillLevel) {\n    if (tasksBySkill.containsKey(skillLevel)) {\n      assignedTasks[employee] = tasksBySkill[skillLevel]!.first;\n      tasksBySkill[skillLevel]!.removeAt(0);\n    }\n  });\n\n  assignedTasks.forEach((employee, task) {\n    print('$employee is assigned to: $task');\n  });\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps airport codes to their respective city names, and allows retrieval of city names by code.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> airportToCity = {\n    'JFK': 'New York City',\n    'LAX': 'Los Angeles',\n    'ORD': 'Chicago',\n    'DFW': 'Dallas/Fort Worth',\n    'DEN': 'Denver',\n  };\n\n  String airportCode = 'LAX';\n  String? cityName = airportToCity[airportCode];\n  if (cityName != null) {\n    print('The city for airport code $airportCode is $cityName.');\n  } else {\n    print('No city found for airport code $airportCode.');\n  }\n}\n```"
+  },
+  {
+    "task": "Build a map to store movie titles and their release years, then find all movies released in a given decade.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> movies = {\n    'The Shawshank Redemption': 1994,\n    'The Godfather': 1972,\n    'The Dark Knight': 2008,\n    'Pulp Fiction': 1994,\n    'The Lord of the Rings: The Return of the King': 2003,\n  };\n\n  List<String> findMoviesByDecade(int decade) {\n    List<String> result = [];\n    int startYear = decade;\n    int endYear = decade + 9;\n\n    movies.forEach((title, year) {\n      if (year >= startYear && year <= endYear) {\n        result.add(title);\n      }\n    });\n\n    return result;\n  }\n\n  int decade = 1990;\n  List<String> moviesInDecade = findMoviesByDecade(decade);\n  print('Movies released in the $decade\\'s: $moviesInDecade');\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to group students by their grades.",
+    "code": "```dart\nMap<String, List<String>> groupStudentsByGrades(Map<String, String> students) {\n  Map<String, List<String>> groupedByGrades = {};\n\n  students.forEach((student, grade) {\n    if (!groupedByGrades.containsKey(grade)) {\n      groupedByGrades[grade] = [];\n    }\n    groupedByGrades[grade]!.add(student);\n  });\n\n  return groupedByGrades;\n}\n\nvoid main() {\n  Map<String, String> students = {\n    'Alice': 'A',\n    'Bob': 'B',\n    'Charlie': 'A',\n    'David': 'C',\n    'Eve': 'B'\n  };\n\n  Map<String, List<String>> grouped = groupStudentsByGrades(students);\n  print(grouped);\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the number of visitors to different sections of a website, and determine the most visited section.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> visitors = {\n    'home': 150,\n    'about': 120,\n    'contact': 90,\n    'blog': 200,\n    'shop': 180,\n  };\n\n  String mostVisitedSection = visitors.entries.reduce((a, b) => a.value > b.value ? a : b).key;\n  print('Most visited section: $mostVisitedSection');\n}\n```"
+  },
+  {
+    "task": "Design a program that uses a map to assign project deadlines to team members, allowing for deadline extensions.",
+    "code": "```dart\nvoid main() {\n  Map<String, DateTime> projectDeadlines = {\n    'Alice': DateTime(2023, 12, 15),\n    'Bob': DateTime(2023, 12, 20),\n    'Charlie': DateTime(2023, 12, 25),\n  };\n\n  void extendDeadline(String member, int days) {\n    if (projectDeadlines.containsKey(member)) {\n      projectDeadlines[member] =\n          projectDeadlines[member]!.add(Duration(days: days));\n    }\n  }\n\n  extendDeadline('Alice', 5);\n  print(projectDeadlines);\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary that keeps track of borrowed books in a library, allowing users to check available books.",
+    "code": "```dart\nclass Library {\n  Map<String, bool> books = {\n    'The Great Gatsby': true,\n    '1984': true,\n    'Moby Dick': true,\n    'War and Peace': true,\n  };\n\n  bool isBookAvailable(String title) {\n    return books[title] ?? false;\n  }\n\n  void borrowBook(String title) {\n    if (isBookAvailable(title)) {\n      books[title] = false;\n      print('$title has been borrowed.');\n    } else {\n      print('$title is not available.');\n    }\n  }\n\n  void returnBook(String title) {\n    if (books.containsKey(title)) {\n      books[title] = true;\n      print('$title has been returned.');\n    } else {\n      print('$title does not belong to this library.');\n    }\n  }\n}\n\nvoid main() {\n  var library = Library();\n  \n  print('Is \"1984\" available? ${library.isBookAvailable('1984')}');\n  \n  library.borrowBook('1984');\n  print('Is \"1984\" available? ${library.isBookAvailable('1984')}');\n  \n  library.returnBook('1984');\n  print('Is \"1984\" available? ${library.isBookAvailable('1984')}');\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of planets and their distances from the sun, then find the closest planet to Earth.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> planetDistances = {\n    'Mercury': 57.91,\n    'Venus': 108.2,\n    'Earth': 149.6,\n    'Mars': 227.9,\n    'Jupiter': 778.5,\n    'Saturn': 1434.0,\n    'Uranus': 2871.0,\n    'Neptune': 4495.1,\n  };\n\n  String closestPlanet = '';\n  double minDistance = double.infinity;\n\n  planetDistances.forEach((planet, distance) {\n    if (planet != 'Earth' && (distance - planetDistances['Earth']!).abs() < minDistance) {\n      minDistance = (distance - planetDistances['Earth']!).abs();\n      closestPlanet = planet;\n    }\n  });\n\n  print('The closest planet to Earth is $closestPlanet.');\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a dictionary to translate Morse code into plain text.",
+    "code": "```dart\nvoid main() {\n  final morseToText = {\n    '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',\n    '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',\n    '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',\n    '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',\n    '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',\n    '--..': 'Z', '-----': '0', '.----': '1', '..---': '2', '...--': '3',\n    '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',\n    '----.': '9'\n  };\n\n  String morseCode = \"... --- ...\";\n  List<String> morseWords = morseCode.split(' ');\n  String plainText = morseWords.map((code) => morseToText[code] ?? '').join();\n  \n  print(plainText);\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a map to store vehicle registration numbers and their corresponding owner's name.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> vehicleRegistry = {\n    'ABC123': 'John Doe',\n    'XYZ789': 'Jane Smith',\n    'LMN456': 'Alice Johnson',\n  };\n\n  vehicleRegistry.forEach((registrationNumber, ownerName) {\n    print('Registration Number: $registrationNumber, Owner: $ownerName');\n  });\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps sports teams to their win-loss records, and find the team with the best record.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> teamRecords = {\n    'Team A': '10-2',\n    'Team B': '12-1',\n    'Team C': '8-4',\n    'Team D': '11-3',\n  };\n\n  String bestTeam = '';\n  double bestWinRate = 0.0;\n\n  teamRecords.forEach((team, record) {\n    var parts = record.split('-');\n    int wins = int.parse(parts[0]);\n    int losses = int.parse(parts[1]);\n    double winRate = wins / (wins + losses);\n\n    if (winRate > bestWinRate) {\n      bestWinRate = winRate;\n      bestTeam = team;\n    }\n  });\n\n  print('The team with the best record is: $bestTeam');\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert currency codes to full currency names.",
+    "code": "```dart\nString getCurrencyName(String code) {\n  Map<String, String> currencyMap = {\n    'USD': 'United States Dollar',\n    'EUR': 'Euro',\n    'JPY': 'Japanese Yen',\n    'GBP': 'British Pound Sterling',\n    'AUD': 'Australian Dollar',\n    'CAD': 'Canadian Dollar',\n    'CHF': 'Swiss Franc',\n    'CNY': 'Chinese Yuan',\n    'SEK': 'Swedish Krona',\n    'NZD': 'New Zealand Dollar'\n  };\n  \n  return currencyMap[code] ?? 'Unknown Currency Code';\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store student names and their attendance counts, and determine the student with the highest attendance.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> studentAttendance = {\n    'Alice': 22,\n    'Bob': 18,\n    'Charlie': 25,\n    'David': 20\n  };\n\n  String topStudent = '';\n  int maxAttendance = 0;\n\n  studentAttendance.forEach((student, attendance) {\n    if (attendance > maxAttendance) {\n      maxAttendance = attendance;\n      topStudent = student;\n    }\n  });\n\n  print('Student with the highest attendance: $topStudent');\n}\n```"
+  },
+  {
+    "task": "Implement a map to store the names of countries and their capitals, allowing lookups by country name.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> countryCapitals = {\n    'USA': 'Washington, D.C.',\n    'Germany': 'Berlin',\n    'France': 'Paris',\n    'Japan': 'Tokyo',\n    'India': 'New Delhi'\n  };\n\n  String country = 'Germany';\n  if (countryCapitals.containsKey(country)) {\n    print('The capital of $country is ${countryCapitals[country]}.');\n  } else {\n    print('Capital not found for $country.');\n  }\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to keep track of recipe ingredients and their quantities.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> recipeIngredients = {\n    'Flour': 2.5,\n    'Sugar': 1.0,\n    'Butter': 0.5,\n    'Eggs': 3,\n    'Milk': 1.5\n  };\n\n  recipeIngredients.forEach((ingredient, quantity) {\n    print('$ingredient: $quantity');\n  });\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to associate social media usernames with user profiles.",
+    "code": "```dart\nclass UserProfile {\n  final String name;\n  final int age;\n  final String email;\n\n  UserProfile(this.name, this.age, this.email);\n}\n\nvoid main() {\n  Map<String, UserProfile> userProfiles = {\n    'john_doe': UserProfile('John Doe', 28, 'john@example.com'),\n    'jane_smith': UserProfile('Jane Smith', 34, 'jane@example.com'),\n    'alice_jones': UserProfile('Alice Jones', 25, 'alice@example.com'),\n  };\n\n  // Example of accessing a user's profile\n  String username = 'john_doe';\n  UserProfile? profile = userProfiles[username];\n\n  if (profile != null) {\n    print('Name: ${profile.name}');\n    print('Age: ${profile.age}');\n    print('Email: ${profile.email}');\n  } else {\n    print('User not found.');\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that takes a dictionary of product categories and lists all products in a given category.",
+    "code": "```dart\nMap<String, List<String>> productCategories = {\n  'Electronics': ['TV', 'Smartphone', 'Laptop'],\n  'Groceries': ['Apples', 'Bread', 'Milk'],\n  'Clothing': ['Shirt', 'Jeans', 'Jacket'],\n};\n\nList<String> listProductsInCategory(Map<String, List<String>> categories, String category) {\n  return categories[category] ?? [];\n}\n\nvoid main() {\n  String category = 'Electronics';\n  List<String> products = listProductsInCategory(productCategories, category);\n  print('Products in $category: $products');\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store shopping list items and their quantities, and implement a function to update quantities.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> shoppingList = {\n    'Apples': 5,\n    'Bananas': 3,\n    'Oranges': 2,\n  };\n\n  updateQuantity(shoppingList, 'Bananas', 6);\n  updateQuantity(shoppingList, 'Grapes', 4);\n\n  print(shoppingList);\n}\n\nvoid updateQuantity(Map<String, int> list, String item, int quantity) {\n  list[item] = quantity;\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store historical events and their dates, and finds events that occurred in a given year.",
+    "code": "```dart\nvoid main() {\n  var historicalEvents = {\n    'Moon Landing': 1969,\n    'Fall of Berlin Wall': 1989,\n    'First iPhone Released': 2007,\n    'Y2K': 2000,\n  };\n\n  int yearToFind = 1989;\n  var eventsInYear = historicalEvents.entries\n      .where((entry) => entry.value == yearToFind)\n      .map((entry) => entry.key)\n      .toList();\n\n  print('Events in $yearToFind: $eventsInYear');\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage user roles and permissions within an application.",
+    "code": "```dart\nvoid main() {\n  // Define a map to store user roles and their permissions\n  Map<String, List<String>> userRoles = {\n    'admin': ['create', 'read', 'update', 'delete'],\n    'editor': ['read', 'update'],\n    'viewer': ['read']\n  };\n\n  // Function to get permissions for a specific role\n  List<String>? getPermissions(String role) {\n    return userRoles[role];\n  }\n\n  // Example usage\n  String role = 'editor';\n  List<String>? permissions = getPermissions(role);\n  if (permissions != null) {\n    print('Permissions for $role: $permissions');\n  } else {\n    print('Role not found.');\n  }\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert numeric grades to letter grades.",
+    "code": "```dart\nvoid main() {\n  Map<int, String> gradeMap = {\n    90: 'A',\n    80: 'B',\n    70: 'C',\n    60: 'D',\n    0: 'F'\n  };\n\n  int numericGrade = 85;\n  String letterGrade = 'F';\n\n  gradeMap.forEach((key, value) {\n    if (numericGrade >= key) {\n      letterGrade = value;\n      return;\n    }\n  });\n\n  print('The letter grade for $numericGrade is $letterGrade.');\n}\n```"
+  },
+  {
+    "task": "Create a dictionary that maps holiday names to their corresponding dates, and allows lookup by holiday name.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> holidays = {\n    'New Year\\'s Day': '2023-01-01',\n    'Independence Day': '2023-07-04',\n    'Thanksgiving': '2023-11-23',\n    'Christmas': '2023-12-25'\n  };\n  \n  String holidayName = 'Christmas';\n  if (holidays.containsKey(holidayName)) {\n    print('The date for $holidayName is ${holidays[holidayName]}.');\n  } else {\n    print('Holiday not found.');\n  }\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the status of online orders, allowing updates to order status.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> orderStatus = {\n    'order1': 'Pending',\n    'order2': 'Shipped',\n    'order3': 'Delivered',\n  };\n\n  void updateOrderStatus(String orderId, String status) {\n    if (orderStatus.containsKey(orderId)) {\n      orderStatus[orderId] = status;\n      print('Order $orderId status updated to $status');\n    } else {\n      print('Order $orderId not found');\n    }\n  }\n\n  updateOrderStatus('order1', 'Shipped');\n  updateOrderStatus('order4', 'Pending');\n  \n  print(orderStatus);\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate food items with their nutritional information.",
+    "code": "```dart\nvoid main() {\n  Map<String, Map<String, dynamic>> foodNutritionalInfo = {\n    'Apple': {\n      'calories': 52,\n      'protein': 0.3,\n      'carbs': 14,\n      'fat': 0.2,\n    },\n    'Banana': {\n      'calories': 96,\n      'protein': 1.3,\n      'carbs': 27,\n      'fat': 0.3,\n    },\n    'Chicken Breast': {\n      'calories': 165,\n      'protein': 31,\n      'carbs': 0,\n      'fat': 3.6,\n    },\n  };\n\n  foodNutritionalInfo.forEach((food, nutrition) {\n    print('Nutritional information for $food:');\n    print('Calories: ${nutrition['calories']}');\n    print('Protein: ${nutrition['protein']}g');\n    print('Carbs: ${nutrition['carbs']}g');\n    print('Fat: ${nutrition['fat']}g\\n');\n  });\n}\n```"
+  },
+  {
+    "task": "Create a map to store book genres and lists of book titles, allowing retrieval of all books in a given genre.",
+    "code": "```dart\nvoid main() {\n  Map<String, List<String>> bookGenres = {\n    'Science Fiction': ['Dune', 'Neuromancer', 'Snow Crash'],\n    'Fantasy': ['The Hobbit', 'Game of Thrones', 'The Name of the Wind'],\n    'Mystery': ['The Girl with the Dragon Tattoo', 'Gone Girl', 'Big Little Lies'],\n  };\n\n  // Function to retrieve books by genre\n  List<String> getBooksByGenre(String genre) {\n    return bookGenres[genre] ?? [];\n  }\n\n  // Example usage\n  List<String> sciFiBooks = getBooksByGenre('Science Fiction');\n  print('Science Fiction Books: $sciFiBooks');\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert state abbreviations to full state names.",
+    "code": "```dart\nString getStateName(String abbreviation) {\n  Map<String, String> stateMap = {\n    'AL': 'Alabama',\n    'AK': 'Alaska',\n    'AZ': 'Arizona',\n    'AR': 'Arkansas',\n    'CA': 'California',\n    'CO': 'Colorado',\n    'CT': 'Connecticut',\n    'DE': 'Delaware',\n    'FL': 'Florida',\n    'GA': 'Georgia',\n    'HI': 'Hawaii',\n    'ID': 'Idaho',\n    'IL': 'Illinois',\n    'IN': 'Indiana',\n    'IA': 'Iowa',\n    'KS': 'Kansas',\n    'KY': 'Kentucky',\n    'LA': 'Louisiana',\n    'ME': 'Maine',\n    'MD': 'Maryland',\n    'MA': 'Massachusetts',\n    'MI': 'Michigan',\n    'MN': 'Minnesota',\n    'MS': 'Mississippi',\n    'MO': 'Missouri',\n    'MT': 'Montana',\n    'NE': 'Nebraska',\n    'NV': 'Nevada',\n    'NH': 'New Hampshire',\n    'NJ': 'New Jersey',\n    'NM': 'New Mexico',\n    'NY': 'New York',\n    'NC': 'North Carolina',\n    'ND': 'North Dakota',\n    'OH': 'Ohio',\n    'OK': 'Oklahoma',\n    'OR': 'Oregon',\n    'PA': 'Pennsylvania',\n    'RI': 'Rhode Island',\n    'SC': 'South Carolina',\n    'SD': 'South Dakota',\n    'TN': 'Tennessee',\n    'TX': 'Texas',\n    'UT': 'Utah',\n    'VT': 'Vermont',\n    'VA': 'Virginia',\n    'WA': 'Washington',\n    'WV': 'West Virginia',\n    'WI': 'Wisconsin',\n    'WY': 'Wyoming'\n  };\n  return stateMap[abbreviation] ?? 'Unknown abbreviation';\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store customer names and their order histories.",
+    "code": "```dart\nvoid main() {\n  Map<String, List<String>> customerOrders = {\n    'Alice': ['Order1', 'Order2'],\n    'Bob': ['Order3'],\n    'Charlie': ['Order4', 'Order5', 'Order6']\n  };\n\n  // Example usage\n  customerOrders.forEach((customer, orders) {\n    print('$customer: ${orders.join(', ')}');\n  });\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage parking lot spaces, tracking which spaces are occupied.",
+    "code": "```dart\nvoid main() {\n  // Initialize a map to represent parking lot spaces\n  Map<int, bool> parkingLot = {\n    1: false,\n    2: false,\n    3: false,\n    4: false,\n    5: false,\n  };\n\n  // Function to occupy a parking space\n  void occupySpace(int spaceNumber) {\n    if (parkingLot.containsKey(spaceNumber) && !parkingLot[spaceNumber]!) {\n      parkingLot[spaceNumber] = true;\n      print('Space $spaceNumber is now occupied.');\n    } else {\n      print('Space $spaceNumber is already occupied or does not exist.');\n    }\n  }\n\n  // Function to free a parking space\n  void freeSpace(int spaceNumber) {\n    if (parkingLot.containsKey(spaceNumber) && parkingLot[spaceNumber]!) {\n      parkingLot[spaceNumber] = false;\n      print('Space $spaceNumber is now free.');\n    } else {\n      print('Space $spaceNumber is already free or does not exist.');\n    }\n  }\n\n  // Test the functions\n  occupySpace(1); // Occupy space 1\n  occupySpace(3); // Occupy space 3\n  occupySpace(1); // Try to occupy space 1 again\n  freeSpace(3);   // Free space 3\n  freeSpace(2);   // Try to free space 2 which is already free\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the scores of players in a game.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> playerScores = {\n    'Alice': 10,\n    'Bob': 15,\n    'Charlie': 7,\n  };\n\n  print('Player Scores:');\n  playerScores.forEach((player, score) {\n    print('$player: $score');\n  });\n\n  // Update score for a player\n  playerScores['Alice'] = 12;\n\n  // Add a new player\n  playerScores['Dave'] = 5;\n\n  print('\\nUpdated Player Scores:');\n  playerScores.forEach((player, score) {\n    print('$player: $score');\n  });\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store scientific terms and their definitions, allowing users to look up definitions.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> scientificTerms = {\n    'Atom': 'The basic unit of a chemical element.',\n    'Photosynthesis': 'The process by which green plants use sunlight to synthesize foods.',\n    'Gravity': 'The force that attracts a body toward the center of the earth.',\n  };\n\n  String termToLookup = 'Atom';\n  if (scientificTerms.containsKey(termToLookup)) {\n    print('Definition of $termToLookup: ${scientificTerms[termToLookup]}');\n  } else {\n    print('Term not found.');\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert temperature scales (e.g., Celsius to Fahrenheit).",
+    "code": "```dart\ndouble convertTemperature(double value, String fromScale, String toScale) {\n  final conversionMap = {\n    'Celsius': {\n      'Fahrenheit': (double c) => c * 9 / 5 + 32,\n      'Kelvin': (double c) => c + 273.15,\n    },\n    'Fahrenheit': {\n      'Celsius': (double f) => (f - 32) * 5 / 9,\n      'Kelvin': (double f) => (f - 32) * 5 / 9 + 273.15,\n    },\n    'Kelvin': {\n      'Celsius': (double k) => k - 273.15,\n      'Fahrenheit': (double k) => (k - 273.15) * 9 / 5 + 32,\n    }\n  };\n\n  if (fromScale == toScale) {\n    return value;\n  }\n\n  final conversionFunction = conversionMap[fromScale]?[toScale];\n  if (conversionFunction != null) {\n    return conversionFunction(value);\n  } else {\n    throw ArgumentError('Invalid conversion scales');\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store employee names and their respective departments.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> employeeDepartments = {\n    'Alice': 'HR',\n    'Bob': 'Engineering',\n    'Charlie': 'Marketing',\n    'David': 'Sales'\n  };\n\n  print(employeeDepartments);\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store tourist attractions and their locations.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> attractions = {\n    'Eiffel Tower': 'Paris, France',\n    'Statue of Liberty': 'New York, USA',\n    'Great Wall': 'China',\n    'Taj Mahal': 'Agra, India',\n    'Colosseum': 'Rome, Italy',\n  };\n\n  attractions.forEach((attraction, location) {\n    print('The $attraction is located in $location.');\n  });\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a collection of music albums, allowing additions and removals.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> musicAlbums = {};\n\n  // Add albums\n  musicAlbums['Thriller'] = 'Michael Jackson';\n  musicAlbums['Back in Black'] = 'AC/DC';\n  musicAlbums['The Dark Side of the Moon'] = 'Pink Floyd';\n\n  // Remove an album\n  musicAlbums.remove('Back in Black');\n\n  // Print all albums\n  musicAlbums.forEach((album, artist) {\n    print('Album: $album, Artist: $artist');\n  });\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to track the inventory of a small retail store.",
+    "code": "```dart\nvoid main() {\n  var inventory = <String, int>{\n    'Shirts': 50,\n    'Pants': 30,\n    'Shoes': 20,\n    'Hats': 15,\n  };\n\n  // Adding new items to the inventory\n  inventory['Socks'] = 40;\n\n  // Updating the quantity of an existing item\n  inventory['Shirts'] = 45;\n\n  // Removing an item from the inventory\n  inventory.remove('Hats');\n\n  // Display the current inventory\n  inventory.forEach((item, quantity) {\n    print('$item: $quantity');\n  });\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of rivers and their lengths, allowing length lookups by river name.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> riverLengths = {\n    'Nile': 6650.0,\n    'Amazon': 6400.0,\n    'Yangtze': 6300.0,\n    'Mississippi': 6275.0,\n    'Yenisei': 5539.0\n  };\n\n  String riverName = 'Amazon';\n  if (riverLengths.containsKey(riverName)) {\n    double length = riverLengths[riverName]!;\n    print('The length of the $riverName is $length km.');\n  } else {\n    print('River not found.');\n  }\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the availability of conference rooms in an office building.",
+    "code": "```dart\nvoid main() {\n  // Initialize the map for tracking conference room availability\n  Map<String, bool> conferenceRooms = {\n    'Room A': true,\n    'Room B': false,\n    'Room C': true,\n    'Room D': false,\n  };\n\n  // Function to check the availability of a specific room\n  bool isRoomAvailable(String roomName) {\n    return conferenceRooms[roomName] ?? false;\n  }\n\n  // Function to book a room if available\n  bool bookRoom(String roomName) {\n    if (isRoomAvailable(roomName)) {\n      conferenceRooms[roomName] = false;\n      return true;\n    }\n    return false;\n  }\n\n  // Function to release a room\n  void releaseRoom(String roomName) {\n    conferenceRooms[roomName] = true;\n  }\n\n  // Example usage\n  print('Is Room A available? ${isRoomAvailable('Room A')}');\n  print('Booking Room A: ${bookRoom('Room A')}');\n  print('Is Room A available after booking? ${isRoomAvailable('Room A')}');\n  releaseRoom('Room A');\n  print('Is Room A available after release? ${isRoomAvailable('Room A')}');\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate animal species with their habitats.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> animalHabitats = {\n    'Tiger': 'Forest',\n    'Penguin': 'Antarctica',\n    'Kangaroo': 'Grassland',\n    'Polar Bear': 'Arctic',\n    'Camel': 'Desert',\n  };\n\n  animalHabitats.forEach((animal, habitat) {\n    print('$animal lives in the $habitat.');\n  });\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of mountains and their elevations, then find the tallest mountain.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> mountains = {\n    'Everest': 8848,\n    'K2': 8611,\n    'Kangchenjunga': 8586,\n    'Lhotse': 8516,\n    'Makalu': 8485\n  };\n\n  String tallestMountain = '';\n  int highestElevation = 0;\n\n  mountains.forEach((name, elevation) {\n    if (elevation > highestElevation) {\n      highestElevation = elevation;\n      tallestMountain = name;\n    }\n  });\n\n  print('The tallest mountain is $tallestMountain with an elevation of $highestElevation meters.');\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert time zones to their respective UTC offsets.",
+    "code": "```dart\nMap<String, String> timeZoneToUtcOffset = {\n  'PST': '-08:00',\n  'MST': '-07:00',\n  'CST': '-06:00',\n  'EST': '-05:00',\n  'UTC': '+00:00',\n  'GMT': '+00:00',\n  'CET': '+01:00',\n  'EET': '+02:00',\n  'IST': '+05:30',\n  'CST': '+08:00',\n  'JST': '+09:00',\n  'AEST': '+10:00',\n};\n\nString getUtcOffset(String timeZone) {\n  return timeZoneToUtcOffset[timeZone] ?? 'Unknown time zone';\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of programming languages and their creators.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> programmingLanguages = {\n    'Python': 'Guido van Rossum',\n    'Java': 'James Gosling',\n    'C++': 'Bjarne Stroustrup',\n    'JavaScript': 'Brendan Eich',\n    'Ruby': 'Yukihiro Matsumoto'\n  };\n\n  print(programmingLanguages);\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of subscribers to a newsletter, allowing subscriptions and cancellations.",
+    "code": "```dart\nclass NewsletterManager {\n  Map<String, bool> subscribers = {};\n\n  void subscribe(String email) {\n    subscribers[email] = true;\n  }\n\n  void cancelSubscription(String email) {\n    if (subscribers.containsKey(email)) {\n      subscribers[email] = false;\n    }\n  }\n\n  bool isSubscribed(String email) {\n    return subscribers[email] ?? false;\n  }\n}\n\nvoid main() {\n  NewsletterManager manager = NewsletterManager();\n\n  manager.subscribe(\"user1@example.com\");\n  manager.subscribe(\"user2@example.com\");\n\n  print(manager.isSubscribed(\"user1@example.com\")); // true\n  print(manager.isSubscribed(\"user2@example.com\")); // true\n\n  manager.cancelSubscription(\"user1@example.com\");\n\n  print(manager.isSubscribed(\"user1@example.com\")); // false\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the number of likes for social media posts.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> postLikes = {\n    'post1': 0,\n    'post2': 10,\n    'post3': 5,\n  };\n\n  void likePost(String postId) {\n    if (postLikes.containsKey(postId)) {\n      postLikes[postId] = postLikes[postId]! + 1;\n    } else {\n      print('Post not found.');\n    }\n  }\n\n  // Example usage\n  likePost('post1');\n  likePost('post3');\n  likePost('post4'); // Non-existing post\n\n  print(postLikes);\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of elements and their atomic numbers, allowing lookups by element name.",
+    "code": "```dart\nvoid main() {\n  var elements = {\n    'Hydrogen': 1,\n    'Helium': 2,\n    'Lithium': 3,\n    'Beryllium': 4,\n    'Boron': 5,\n    'Carbon': 6,\n    'Nitrogen': 7,\n    'Oxygen': 8,\n    'Fluorine': 9,\n    'Neon': 10\n  };\n  \n  var elementName = 'Oxygen';\n  if (elements.containsKey(elementName)) {\n    print('The atomic number of $elementName is ${elements[elementName]}.');\n  } else {\n    print('Element not found.');\n  }\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to group movies by their directors.",
+    "code": "```dart\nMap<String, List<String>> groupMoviesByDirector(List<Map<String, String>> movies) {\n  Map<String, List<String>> directorMap = {};\n\n  for (var movie in movies) {\n    String director = movie['director'] ?? '';\n    String title = movie['title'] ?? '';\n\n    if (directorMap.containsKey(director)) {\n      directorMap[director]!.add(title);\n    } else {\n      directorMap[director] = [title];\n    }\n  }\n\n  return directorMap;\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of historical figures and their birth years.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> historicalFigures = {\n    'Albert Einstein': 1879,\n    'Isaac Newton': 1643,\n    'Marie Curie': 1867,\n    'Galileo Galilei': 1564,\n    'Leonardo da Vinci': 1452\n  };\n  \n  print(historicalFigures);\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of planets and their diameters.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> planetDiameters = {\n    'Mercury': 4879.4,\n    'Venus': 12104.0,\n    'Earth': 12742.0,\n    'Mars': 6779.0,\n    'Jupiter': 139820.0,\n    'Saturn': 116460.0,\n    'Uranus': 50724.0,\n    'Neptune': 49244.0\n  };\n\n  planetDiameters.forEach((planet, diameter) {\n    print('The diameter of $planet is $diameter kilometers.');\n  });\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to track the ratings of restaurants, allowing updates to ratings.",
+    "code": "```dart\nvoid main() {\n  // Initialize a Map to track restaurant ratings\n  Map<String, double> restaurantRatings = {\n    'Pasta Palace': 4.5,\n    'Burger Barn': 4.7,\n    'Sushi Spot': 4.8\n  };\n\n  // Function to update the rating of a restaurant\n  void updateRating(String restaurant, double newRating) {\n    if (restaurantRatings.containsKey(restaurant)) {\n      restaurantRatings[restaurant] = newRating;\n      print('Updated $restaurant rating to $newRating.');\n    } else {\n      print('Restaurant not found.');\n    }\n  }\n\n  // Example usage of updating a rating\n  updateRating('Burger Barn', 4.9);\n\n  // Print the updated ratings\n  print(restaurantRatings);\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to translate binary numbers to decimal.",
+    "code": "```dart\nvoid main() {\n  final binaryToDecimalMap = {\n    '0000': 0,\n    '0001': 1,\n    '0010': 2,\n    '0011': 3,\n    '0100': 4,\n    '0101': 5,\n    '0110': 6,\n    '0111': 7,\n    '1000': 8,\n    '1001': 9,\n    '1010': 10,\n    '1011': 11,\n    '1100': 12,\n    '1101': 13,\n    '1110': 14,\n    '1111': 15\n  };\n  \n  String binaryNumber = '1010';\n  if (binaryToDecimalMap.containsKey(binaryNumber)) {\n    print('Decimal value of $binaryNumber is ${binaryToDecimalMap[binaryNumber]}');\n  } else {\n    print('Binary number not recognized');\n  }\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of artists and their famous works.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> artistsWorks = {\n    'Leonardo da Vinci': 'Mona Lisa',\n    'Vincent van Gogh': 'Starry Night',\n    'Pablo Picasso': 'Guernica',\n    'Claude Monet': 'Water Lilies',\n    'Michelangelo': 'David'\n  };\n\n  print(artistsWorks);\n}\n```"
+  },
+  {
+    "task": "Design a system that uses a map to track the maintenance schedules of vehicles.",
+    "code": "```dart\nvoid main() {\n  Map<String, List<String>> maintenanceSchedule = {\n    'Car A': ['2023-10-15', '2024-01-10', '2024-04-05'],\n    'Car B': ['2023-11-20', '2024-02-15', '2024-05-10'],\n    'Car C': ['2023-12-25', '2024-03-20', '2024-06-15'],\n  };\n\n  // Accessing maintenance schedule for a specific vehicle\n  String vehicle = 'Car A';\n  List<String>? schedule = maintenanceSchedule[vehicle];\n  print('Maintenance schedule for $vehicle: $schedule');\n}\n```"
+  },
+  {
+    "task": "Develop a program that uses a dictionary to associate languages with their number of speakers worldwide.",
+    "code": "```dart\nvoid main() {\n  Map<String, int> languageSpeakers = {\n    'English': 1132000000,\n    'Mandarin': 1117000000,\n    'Hindi': 615000000,\n    'Spanish': 534000000,\n    'French': 280000000,\n  };\n\n  languageSpeakers.forEach((language, speakers) {\n    print('Language: $language, Speakers: $speakers');\n  });\n}\n```"
+  },
+  {
+    "task": "Create a map to store the names of cities and their average annual temperatures.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> cityTemperatures = {\n    'New York': 12.3,\n    'Los Angeles': 18.5,\n    'Chicago': 10.2,\n    'Houston': 20.8,\n    'Phoenix': 23.1\n  };\n  \n  print(cityTemperatures);\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a dictionary to convert metric units to imperial units.",
+    "code": "```dart\nvoid main() {\n  print(convertMetricToImperial('kilometers', 5)); // 3.10686\n  print(convertMetricToImperial('meters', 100)); // 328.084\n  print(convertMetricToImperial('centimeters', 50)); // 19.685\n}\n\ndouble convertMetricToImperial(String unit, double value) {\n  Map<String, double> conversionFactors = {\n    'kilometers': 0.621371,\n    'meters': 3.28084,\n    'centimeters': 0.393701,\n  };\n\n  if (conversionFactors.containsKey(unit)) {\n    return value * conversionFactors[unit]!;\n  } else {\n    throw ArgumentError('Unsupported unit: $unit');\n  }\n}\n```"
+  },
+  {
+    "task": "Build a dictionary to store the names of sports and their respective world records.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> worldRecords = {\n    '100m Sprint': '9.58s by Usain Bolt',\n    'Long Jump': '8.95m by Mike Powell',\n    'Marathon': '2:01:09 by Eliud Kipchoge',\n    'High Jump': '2.45m by Javier Sotomayor',\n    'Pole Vault': '6.18m by Armand Duplantis',\n  };\n\n  print(worldRecords);\n}\n```"
+  },
+  {
+    "task": "Implement a map to manage a list of favorite movies, allowing additions and deletions.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> favoriteMovies = {};\n\n  // Add movies\n  favoriteMovies['Inception'] = '2010';\n  favoriteMovies['The Matrix'] = '1999';\n  favoriteMovies['Interstellar'] = '2014';\n\n  print('Favorite Movies:');\n  favoriteMovies.forEach((title, year) {\n    print('$title: $year');\n  });\n\n  // Remove a movie\n  favoriteMovies.remove('The Matrix');\n\n  print('\\nUpdated Favorite Movies:');\n  favoriteMovies.forEach((title, year) {\n    print('$title: $year');\n  });\n}\n```"
+  },
+  {
+    "task": "Create a program that uses a dictionary to track the distances between pairs of cities.",
+    "code": "```dart\nvoid main() {\n  Map<String, Map<String, double>> cityDistances = {\n    'New York': {'Los Angeles': 2445.0, 'Chicago': 790.0},\n    'Los Angeles': {'New York': 2445.0, 'Chicago': 2015.0},\n    'Chicago': {'New York': 790.0, 'Los Angeles': 2015.0},\n  };\n\n  print('Distance from New York to Los Angeles: ${cityDistances['New York']?['Los Angeles']} miles');\n  print('Distance from Chicago to New York: ${cityDistances['Chicago']?['New York']} miles');\n}\n```"
+  },
+  {
+    "task": "Design a dictionary to store the names of planets and their orbital periods.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> planetOrbitalPeriods = {\n    'Mercury': 88.0,\n    'Venus': 224.7,\n    'Earth': 365.2,\n    'Mars': 687.0,\n    'Jupiter': 4331.0,\n    'Saturn': 10747.0,\n    'Uranus': 30589.0,\n    'Neptune': 59800.0\n  };\n\n  print(planetOrbitalPeriods);\n}\n```"
+  },
+  {
+    "task": "Write a function that uses a map to convert HTML color codes to their respective color names.",
+    "code": "```dart\nString getColorName(String colorCode) {\n  final colorMap = {\n    '#FFFFFF': 'White',\n    '#000000': 'Black',\n    '#FF0000': 'Red',\n    '#00FF00': 'Lime',\n    '#0000FF': 'Blue',\n    '#FFFF00': 'Yellow',\n    '#00FFFF': 'Cyan',\n    '#FF00FF': 'Magenta'\n  };\n  \n  return colorMap[colorCode] ?? 'Unknown';\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of composers and their famous compositions.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> composers = {\n    'Ludwig van Beethoven': 'Symphony No. 9',\n    'Wolfgang Amadeus Mozart': 'Eine kleine Nachtmusik',\n    'Johann Sebastian Bach': 'Brandenburg Concertos',\n    'Fr\u00e9d\u00e9ric Chopin': 'Nocturne in E-flat major, Op. 9, No. 2',\n    'Pyotr Ilyich Tchaikovsky': 'Swan Lake',\n  };\n  \n  print(composers);\n}\n```"
+  },
+  {
+    "task": "Build a program that uses a map to store the names of bridges and their lengths.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> bridgeLengths = {\n    'Golden Gate Bridge': 2737.4,\n    'Brooklyn Bridge': 1825.0,\n    'Tower Bridge': 244.0,\n    'Sydney Harbour Bridge': 1149.0,\n  };\n\n  bridgeLengths.forEach((name, length) {\n    print('The $name is $length meters long.');\n  });\n}\n```"
+  },
+  {
+    "task": "Implement a dictionary to manage a list of personal goals, allowing updates to goals.",
+    "code": "```dart\nvoid main() {\n  var goals = {\n    'health': 'Run 5 miles a week',\n    'career': 'Get a promotion',\n    'education': 'Complete a Dart course',\n  };\n\n  // Update a goal\n  goals['health'] = 'Run 10 miles a week';\n\n  // Print all goals\n  goals.forEach((key, value) {\n    print('$key: $value');\n  });\n}\n```"
+  },
+  {
+    "task": "Write a script that uses a map to convert hexadecimal numbers to binary.",
+    "code": "```dart\nvoid main() {\n  Map<String, String> hexToBinary = {\n    '0': '0000',\n    '1': '0001',\n    '2': '0010',\n    '3': '0011',\n    '4': '0100',\n    '5': '0101',\n    '6': '0110',\n    '7': '0111',\n    '8': '1000',\n    '9': '1001',\n    'A': '1010',\n    'B': '1011',\n    'C': '1100',\n    'D': '1101',\n    'E': '1110',\n    'F': '1111',\n  };\n\n  String hexNumber = '1A3F';\n  String binaryNumber = '';\n\n  for (int i = 0; i < hexNumber.length; i++) {\n    String hexDigit = hexNumber[i].toUpperCase();\n    binaryNumber += hexToBinary[hexDigit] ?? '';\n  }\n\n  print('Hexadecimal: $hexNumber');\n  print('Binary: $binaryNumber');\n}\n```"
+  },
+  {
+    "task": "Create a dictionary to store the names of trees and their average heights.",
+    "code": "```dart\nvoid main() {\n  Map<String, double> treeHeights = {\n    'Oak': 20.5,\n    'Pine': 30.0,\n    'Maple': 15.7,\n    'Birch': 18.2,\n    'Cedar': 25.4\n  };\n  \n  print(treeHeights);\n}\n```"
+  }
+]

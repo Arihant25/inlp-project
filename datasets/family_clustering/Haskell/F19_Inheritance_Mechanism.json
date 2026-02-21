@@ -1,0 +1,386 @@
+[
+  {
+    "task": "Create a base class for a vehicle with methods for speed and fuel efficiency, then derive a car class that overrides these methods to provide specific implementations.",
+    "code": "```haskell\nclass Vehicle a where\n    speed :: a -> Double\n    fuelEfficiency :: a -> Double\n\ndata Car = Car { carSpeed :: Double, carFuelEfficiency :: Double }\n\ninstance Vehicle Car where\n    speed = carSpeed\n    fuelEfficiency = carFuelEfficiency\n```"
+  },
+  {
+    "task": "Design a base class for a multimedia file with properties like duration and format, then extend it with a video class that includes resolution and frame rate.",
+    "code": "```haskell\ndata MultimediaFile = MultimediaFile\n  { duration :: Double\n  , format :: String\n  }\n\ndata VideoFile = VideoFile\n  { multimediaFile :: MultimediaFile\n  , resolution :: (Int, Int)\n  , frameRate :: Double\n  }\n```"
+  },
+  {
+    "task": "Develop a superclass for bank accounts with methods for deposit and withdrawal, then create a savings account subclass that overrides the withdrawal method to incorporate interest deductions.",
+    "code": "```haskell\nclass BankAccount a where\n    deposit :: a -> Double -> a\n    withdraw :: a -> Double -> a\n\ndata SavingsAccount = SavingsAccount { balance :: Double, interestRate :: Double }\n\ninstance BankAccount SavingsAccount where\n    deposit (SavingsAccount bal rate) amount = SavingsAccount (bal + amount) rate\n    withdraw (SavingsAccount bal rate) amount = SavingsAccount newBalance rate\n        where\n            deduction = amount * rate\n            newBalance = bal - (amount + deduction)\n```"
+  },
+  {
+    "task": "Implement a base class for a geometric shape with methods to calculate area and perimeter, then create a rectangle subclass that provides specific calculations for these methods.",
+    "code": "```haskell\nclass Shape a where\n    area :: a -> Double\n    perimeter :: a -> Double\n\ndata Rectangle = Rectangle { width :: Double, height :: Double }\n\ninstance Shape Rectangle where\n    area (Rectangle w h) = w * h\n    perimeter (Rectangle w h) = 2 * (w + h)\n```"
+  },
+  {
+    "task": "Construct a parent class for employees with a method to calculate salary, then derive a manager class that overrides this method to include bonuses.",
+    "code": "```haskell\nclass Employee a where\n    calculateSalary :: a -> Float\n\ndata RegularEmployee = RegularEmployee { baseSalary :: Float }\n\ninstance Employee RegularEmployee where\n    calculateSalary (RegularEmployee base) = base\n\ndata Manager = Manager { baseSalary :: Float, bonus :: Float }\n\ninstance Employee Manager where\n    calculateSalary (Manager base bonus) = base + bonus\n```"
+  },
+  {
+    "task": "Set up a base class for a library item with properties like title and author, and extend it with a book subclass that adds a number of pages property.",
+    "code": "```haskell\nclass LibraryItem a where\n    getTitle :: a -> String\n    getAuthor :: a -> String\n\ndata BaseItem = BaseItem {\n    title :: String,\n    author :: String\n}\n\ninstance LibraryItem BaseItem where\n    getTitle = title\n    getAuthor = author\n\ndata Book = Book {\n    baseItem :: BaseItem,\n    pages :: Int\n}\n\ninstance LibraryItem Book where\n    getTitle (Book b _) = getTitle b\n    getAuthor (Book b _) = getAuthor b\n```"
+  },
+  {
+    "task": "Create a foundation class for an electronic device with a method to turn on and off, and derive a smartphone class that overrides the turn on method to require a passcode.",
+    "code": "```haskell\nclass ElectronicDevice a where\n    turnOn :: a -> IO ()\n    turnOff :: a -> IO ()\n\ndata Device = Device\ninstance ElectronicDevice Device where\n    turnOn _ = putStrLn \"Device is now on.\"\n    turnOff _ = putStrLn \"Device is now off.\"\n\ndata Smartphone = Smartphone { passcode :: String }\ninstance ElectronicDevice Smartphone where\n    turnOn smartphone = do\n        putStrLn \"Enter passcode:\"\n        input <- getLine\n        if input == passcode smartphone\n            then putStrLn \"Smartphone is now on.\"\n            else putStrLn \"Incorrect passcode. Smartphone remains off.\"\n    turnOff _ = putStrLn \"Smartphone is now off.\"\n```"
+  },
+  {
+    "task": "Design a base class for an animal with a method to make a sound, then create a dog subclass that overrides this method to bark.",
+    "code": "```haskell\nclass Animal a where\n    makeSound :: a -> String\n\ndata Dog = Dog\n\ninstance Animal Dog where\n    makeSound _ = \"Bark\"\n```"
+  },
+  {
+    "task": "Develop a superclass for meals with a method to calculate calories, then create a dessert subclass that overrides it to add extra sugar calories.",
+    "code": "```haskell\nclass Meal a where\n    calculateCalories :: a -> Int\n\ndata BasicMeal = BasicMeal { baseCalories :: Int }\n\ninstance Meal BasicMeal where\n    calculateCalories (BasicMeal cal) = cal\n\ndata Dessert = Dessert { baseMeal :: BasicMeal, sugarCalories :: Int }\n\ninstance Meal Dessert where\n    calculateCalories (Dessert bm sugarCal) =\n        calculateCalories bm + sugarCal\n```"
+  },
+  {
+    "task": "Implement a base class for a transportation mode with a method to calculate travel time, then extend it with a plane subclass that overrides the method to calculate based on speed.",
+    "code": "```haskell\nclass TransportationMode a where\n    calculateTravelTime :: a -> Double -> Double\n\ndata Plane = Plane { speed :: Double }\n\ninstance TransportationMode Plane where\n    calculateTravelTime plane distance = distance / speed plane\n```"
+  },
+  {
+    "task": "Construct a parent class for a musical instrument with a method to play sound, then derive a piano class that overrides the method to play specific notes.",
+    "code": "```haskell\nclass MusicalInstrument a where\n    playSound :: a -> IO ()\n\ndata Piano = Piano\n\ninstance MusicalInstrument Piano where\n    playSound _ = putStrLn \"Playing piano notes: C, E, G\"\n```"
+  },
+  {
+    "task": "Set up a base class for a user account with a method to reset password, and extend it with an admin account subclass that overrides it to include security questions.",
+    "code": "```haskell\nclass UserAccount a where\n    resetPassword :: a -> String -> a\n\ndata BasicAccount = BasicAccount { username :: String, password :: String }\n\ninstance UserAccount BasicAccount where\n    resetPassword account newPassword = account { password = newPassword }\n\ndata AdminAccount = AdminAccount { username :: String, password :: String, securityQuestions :: [String] }\n\ninstance UserAccount AdminAccount where\n    resetPassword account newPassword = account { password = newPassword }\n\nresetPasswordWithSecurity :: AdminAccount -> String -> [String] -> AdminAccount\nresetPasswordWithSecurity account newPassword newQuestions =\n    account { password = newPassword, securityQuestions = newQuestions }\n```"
+  },
+  {
+    "task": "Create a foundational class for a beverage with properties like volume and temperature, and derive a coffee class that overrides the temperature property to be hot.",
+    "code": "```haskell\nclass Beverage a where\n    volume :: a -> Int\n    temperature :: a -> String\n\ndata BasicBeverage = BasicBeverage { basicVolume :: Int, basicTemperature :: String }\n\ninstance Beverage BasicBeverage where\n    volume = basicVolume\n    temperature = basicTemperature\n\ndata Coffee = Coffee { coffeeVolume :: Int }\n\ninstance Beverage Coffee where\n    volume = coffeeVolume\n    temperature _ = \"hot\"\n```"
+  },
+  {
+    "task": "Design a base class for a service appointment with a method to schedule time, then create a doctor appointment subclass that overrides this method to include consultation duration.",
+    "code": "```haskell\nclass ServiceAppointment a where\n    scheduleTime :: a -> String -> String\n\ndata BaseAppointment = BaseAppointment\ninstance ServiceAppointment BaseAppointment where\n    scheduleTime _ time = \"Scheduled at \" ++ time\n\ndata DoctorAppointment = DoctorAppointment\ninstance ServiceAppointment DoctorAppointment where\n    scheduleTime _ time = \"Scheduled at \" ++ time ++ \" with consultation duration included\"\n\nmain :: IO ()\nmain = do\n    let baseAppointment = BaseAppointment\n    let doctorAppointment = DoctorAppointment\n    putStrLn $ scheduleTime baseAppointment \"10:00 AM\"\n    putStrLn $ scheduleTime doctorAppointment \"11:00 AM\"\n```"
+  },
+  {
+    "task": "Develop a superclass for electronic gadgets with a method to calculate battery life, then extend it with a laptop class that overrides this method to consider usage patterns.",
+    "code": "```haskell\nclass ElectronicGadget a where\n  batteryLife :: a -> Int\n\ndata Laptop = Laptop { usagePattern :: String, baseBatteryLife :: Int }\n\ninstance ElectronicGadget Laptop where\n  batteryLife laptop = \n    case usagePattern laptop of\n      \"heavy\" -> baseBatteryLife laptop `div` 2\n      \"moderate\" -> (baseBatteryLife laptop * 3) `div` 4\n      \"light\" -> baseBatteryLife laptop\n      _ -> baseBatteryLife laptop\n```"
+  },
+  {
+    "task": "Implement a base class for a website component with a method to render content, then create a blog post subclass that overrides this method to include author information.",
+    "code": "```haskell\nclass WebsiteComponent a where\n    renderContent :: a -> String\n\ndata BaseComponent = BaseComponent\n\ninstance WebsiteComponent BaseComponent where\n    renderContent _ = \"Base Component Content\"\n\ndata BlogPost = BlogPost\n    { author :: String\n    , content :: String\n    }\n\ninstance WebsiteComponent BlogPost where\n    renderContent post = \"Blog Post Content by \" ++ author post ++ \": \" ++ content post\n```"
+  },
+  {
+    "task": "Construct a parent class for a recipe with methods for ingredients and instructions, then derive a cake recipe class that overrides these methods to add baking steps.",
+    "code": "```haskell\nclass Recipe a where\n    ingredients :: a -> [String]\n    instructions :: a -> [String]\n\ndata Cake = Cake\n\ninstance Recipe Cake where\n    ingredients _ = [\"flour\", \"sugar\", \"eggs\", \"butter\", \"baking powder\"]\n    instructions _ = [\"Mix the dry ingredients.\", \"Add eggs and butter.\", \"Pour into a pan.\", \"Bake at 350 degrees for 30 minutes.\"]\n```"
+  },
+  {
+    "task": "Set up a base class for a plant with methods for sunlight and water needs, and extend it with a cactus subclass that overrides these methods to require less water.",
+    "code": "```haskell\nclass Plant a where\n    sunlightNeeds :: a -> String\n    waterNeeds :: a -> String\n\ndata GenericPlant = GenericPlant\n\ninstance Plant GenericPlant where\n    sunlightNeeds _ = \"Needs moderate sunlight.\"\n    waterNeeds _ = \"Needs regular water.\"\n\ndata Cactus = Cactus\n\ninstance Plant Cactus where\n    sunlightNeeds _ = \"Needs plenty of sunlight.\"\n    waterNeeds _ = \"Needs little water.\"\n```"
+  },
+  {
+    "task": "Create a foundational class for a building with properties like height and material, and derive a skyscraper class that overrides the height property to be significantly taller.",
+    "code": "```haskell\nclass Building a where\n    height :: a -> Int\n    material :: a -> String\n\ndata BasicBuilding = BasicBuilding { baseHeight :: Int, baseMaterial :: String }\n\ninstance Building BasicBuilding where\n    height = baseHeight\n    material = baseMaterial\n\ndata Skyscraper = Skyscraper { skyMaterial :: String }\n\ninstance Building Skyscraper where\n    height _ = 300\n    material = skyMaterial\n```"
+  },
+  {
+    "task": "Design a base class for a payment method with a method to process transactions, then create a credit card subclass that overrides this method to include credit limits.",
+    "code": "```haskell\nclass PaymentMethod a where\n    processTransaction :: a -> Double -> IO ()\n\ndata CreditCard = CreditCard { creditLimit :: Double, usedCredit :: Double }\n\ninstance PaymentMethod CreditCard where\n    processTransaction card amount =\n        if usedCredit card + amount <= creditLimit card \n        then putStrLn \"Transaction approved\"\n        else putStrLn \"Transaction denied\"\n```"
+  },
+  {
+    "task": "Develop a superclass for a computer program with methods for input and output, then extend it with a game subclass that overrides these methods to include player interactions.",
+    "code": "```haskell\nclass Program a where\n    input :: a -> IO String\n    output :: a -> String -> IO ()\n\ndata Game = Game\n\ninstance Program Game where\n    input _ = do\n        putStrLn \"Enter your move:\"\n        getLine\n    output _ message = putStrLn $ \"Game says: \" ++ message\n```"
+  },
+  {
+    "task": "Implement a base class for a dining establishment with a method to calculate wait time, then create a fast food subclass that overrides this method to be shorter.",
+    "code": "```haskell\nclass DiningEstablishment where\n    calculateWaitTime :: Int -> Int\n\ndata Restaurant = Restaurant\n\ninstance DiningEstablishment Restaurant where\n    calculateWaitTime guests = guests * 10\n\ndata FastFood = FastFood\n\ninstance DiningEstablishment FastFood where\n    calculateWaitTime guests = guests * 5\n```"
+  },
+  {
+    "task": "Construct a parent class for a social media profile with methods for posting and liking, then derive a business profile class that overrides these methods to include promotions.",
+    "code": "```haskell\n-- Define a type class for a social media profile\nclass SocialMediaProfile a where\n    post :: a -> String -> IO ()\n    like :: a -> IO ()\n\n-- A data type representing a generic profile\ndata Profile = Profile String\n\n-- An instance of SocialMediaProfile for a generic profile\ninstance SocialMediaProfile Profile where\n    post (Profile name) content = putStrLn $ name ++ \" posted: \" ++ content\n    like (Profile name) = putStrLn $ name ++ \" liked a post\"\n\n-- A data type representing a business profile\ndata BusinessProfile = BusinessProfile String\n\n-- An instance of SocialMediaProfile for a business profile\ninstance SocialMediaProfile BusinessProfile where\n    post (BusinessProfile name) content = putStrLn $ name ++ \" posted a promotion: \" ++ content\n    like (BusinessProfile name) = putStrLn $ name ++ \" liked a promotion\"\n```"
+  },
+  {
+    "task": "Set up a base class for an educational course with methods for syllabus and grading, and extend it with an online course subclass that overrides these methods for remote learning.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\n-- Define a type class for Course\nclass Course a where\n    syllabus :: a -> String\n    grading :: a -> String\n\n-- Define a base data type for EducationalCourse\ndata EducationalCourse = EducationalCourse\n\n-- Make EducationalCourse an instance of Course\ninstance Course EducationalCourse where\n    syllabus _ = \"General syllabus for educational course.\"\n    grading _ = \"Standard grading system.\"\n\n-- Define a data type for OnlineCourse\ndata OnlineCourse = OnlineCourse\n\n-- Make OnlineCourse an instance of Course\ninstance Course OnlineCourse where\n    syllabus _ = \"Online syllabus with video lectures and forums.\"\n    grading _ = \"Grading based on online assignments and quizzes.\"\n\n-- Example usage (commented out to avoid execution outside of a main function):\n-- main = do\n--     let ec = EducationalCourse\n--     let oc = OnlineCourse\n--     putStrLn $ syllabus ec\n--     putStrLn $ grading ec\n--     putStrLn $ syllabus oc\n--     putStrLn $ grading oc\n```"
+  },
+  {
+    "task": "Create a foundational class for a sports team with properties like team name and coach, and derive a football team class that overrides the coach property with a specific person.",
+    "code": "```haskell\n{-# LANGUAGE ExistentialQuantification #-}\n\nclass SportsTeam a where\n  teamName :: a -> String\n  coach :: a -> String\n\ndata BasicTeam = BasicTeam { basicTeamName :: String, basicCoach :: String }\n\ninstance SportsTeam BasicTeam where\n  teamName = basicTeamName\n  coach = basicCoach\n\ndata FootballTeam = FootballTeam { footballTeamName :: String }\n\ninstance SportsTeam FootballTeam where\n  teamName = footballTeamName\n  coach _ = \"Specific Person\"\n```"
+  },
+  {
+    "task": "Design a base class for a document with methods for printing and saving, then create a PDF document subclass that overrides these methods to include encryption.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nclass Document a where\n    printDoc :: a -> IO ()\n    saveDoc :: a -> IO ()\n\ndata BaseDocument = BaseDocument\ninstance Document BaseDocument where\n    printDoc _ = putStrLn \"Printing document...\"\n    saveDoc _ = putStrLn \"Saving document...\"\n\ndata PDFDocument = PDFDocument\ninstance Document PDFDocument where\n    printDoc _ = putStrLn \"Printing PDF document with encryption...\"\n    saveDoc _ = putStrLn \"Saving PDF document with encryption...\"\n```"
+  },
+  {
+    "task": "Develop a superclass for a retail product with methods for pricing and discount, then extend it with an electronics product class that overrides the discount method to offer more.",
+    "code": "```haskell\nclass RetailProduct a where\n    price :: a -> Double\n    discount :: a -> Double\n\ndata BasicProduct = BasicProduct { basicPrice :: Double }\n\ninstance RetailProduct BasicProduct where\n    price = basicPrice\n    discount _ = 0.0\n\ndata ElectronicsProduct = ElectronicsProduct { electronicsPrice :: Double }\n\ninstance RetailProduct ElectronicsProduct where\n    price = electronicsPrice\n    discount _ = 10.0\n```"
+  },
+  {
+    "task": "Implement a base class for a subscription service with a method to renew membership, then create a monthly subscription subclass that overrides this method for automatic renewal.",
+    "code": "```haskell\nclass Subscription a where\n    renewMembership :: a -> String\n\ndata BaseSubscription = BaseSubscription\n\ninstance Subscription BaseSubscription where\n    renewMembership _ = \"Renewing base membership.\"\n\ndata MonthlySubscription = MonthlySubscription\n\ninstance Subscription MonthlySubscription where\n    renewMembership _ = \"Automatically renewing monthly subscription.\"\n```"
+  },
+  {
+    "task": "Construct a parent class for a language translator with a method to translate text, then derive a French translator class that overrides this method for French language specifics.",
+    "code": "```haskell\nclass LanguageTranslator a where\n    translate :: a -> String -> String\n\ndata FrenchTranslator = FrenchTranslator\n\ninstance LanguageTranslator FrenchTranslator where\n    translate _ text = \"Traduction en fran\u00e7ais: \" ++ text\n```"
+  },
+  {
+    "task": "Set up a base class for a customer order with methods for placing and tracking, and extend it with a food order subclass that overrides tracking for delivery status.",
+    "code": "```haskell\n{-# LANGUAGE ExistentialQuantification #-}\n\nclass CustomerOrder a where\n    placeOrder :: a -> String\n    trackOrder :: a -> String\n\ndata GeneralOrder = GeneralOrder\n\ninstance CustomerOrder GeneralOrder where\n    placeOrder _ = \"Order has been placed.\"\n    trackOrder _ = \"Tracking order.\"\n\ndata FoodOrder = FoodOrder\n\ninstance CustomerOrder FoodOrder where\n    placeOrder _ = \"Food order has been placed.\"\n    trackOrder _ = \"Tracking food delivery status.\"\n```"
+  },
+  {
+    "task": "Create a foundational class for an artwork with properties like artist and medium, and derive a painting class that overrides the medium property to be 'canvas'.",
+    "code": "```haskell\nclass Artwork a where\n    artist :: a -> String\n    medium :: a -> String\n\ndata Painting = Painting { paintingArtist :: String }\n\ninstance Artwork Painting where\n    artist = paintingArtist\n    medium _ = \"canvas\"\n```"
+  },
+  {
+    "task": "Design a base class for a computer network with methods for connectivity and bandwidth, then create a wireless network subclass that overrides these methods for signal strength.",
+    "code": "```haskell\nclass Network a where\n    connectivity :: a -> String\n    bandwidth :: a -> String\n\ndata ComputerNetwork = ComputerNetwork\n\ninstance Network ComputerNetwork where\n    connectivity _ = \"Base connectivity method\"\n    bandwidth _ = \"Base bandwidth method\"\n\ndata WirelessNetwork = WirelessNetwork\n\ninstance Network WirelessNetwork where\n    connectivity _ = \"Wireless connectivity based on signal strength\"\n    bandwidth _ = \"Wireless bandwidth adjusted for signal strength\"\n```"
+  },
+  {
+    "task": "Develop a superclass for a messaging app with methods for sending and receiving messages, then extend it with a secure messaging subclass that overrides these methods for encryption.",
+    "code": "```haskell\nclass MessagingApp a where\n    sendMessage :: a -> String -> IO ()\n    receiveMessage :: a -> IO String\n\ndata BasicMessagingApp = BasicMessagingApp\n\ninstance MessagingApp BasicMessagingApp where\n    sendMessage _ msg = putStrLn $ \"Sending message: \" ++ msg\n    receiveMessage _ = return \"Received a basic message\"\n\ndata SecureMessagingApp = SecureMessagingApp\n\ninstance MessagingApp SecureMessagingApp where\n    sendMessage _ msg = putStrLn $ \"Sending encrypted message: \" ++ encrypt msg\n    receiveMessage _ = return \"Received an encrypted message\"\n\nencrypt :: String -> String\nencrypt = map succ\n```"
+  },
+  {
+    "task": "Implement a base class for a travel itinerary with methods for destinations and activities, then create a vacation itinerary subclass that overrides these methods for leisure activities.",
+    "code": "```haskell\nclass Itinerary a where\n    destinations :: a -> [String]\n    activities :: a -> [String]\n\ndata TravelItinerary = TravelItinerary\ninstance Itinerary TravelItinerary where\n    destinations _ = [\"Museum\", \"Historical Site\", \"Park\"]\n    activities _ = [\"Guided Tour\", \"Cultural Experience\"]\n\ndata VacationItinerary = VacationItinerary\ninstance Itinerary VacationItinerary where\n    destinations _ = [\"Beach\", \"Resort\", \"Spa\"]\n    activities _ = [\"Sunbathing\", \"Swimming\", \"Relaxation\"]\n```"
+  },
+  {
+    "task": "Construct a parent class for a healthcare record with methods for patient data and treatment history, then derive a pediatric record class that overrides these methods for child-specific data.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\n-- Parent class for healthcare record\nclass HealthcareRecord a where\n    patientData :: a -> String\n    treatmentHistory :: a -> String\n\n-- Derived class for pediatric record\ndata PediatricRecord = PediatricRecord {\n    childPatientData :: String,\n    childTreatmentHistory :: String\n}\n\ninstance HealthcareRecord PediatricRecord where\n    patientData = childPatientData\n    treatmentHistory = childTreatmentHistory\n```"
+  },
+  {
+    "task": "Set up a base class for a culinary dish with methods for preparation and serving, and extend it with an appetizer subclass that overrides these methods for smaller portions.",
+    "code": "```haskell\nclass Dish a where\n    prepare :: a -> String\n    serve :: a -> String\n\ndata BaseDish = BaseDish\n\ninstance Dish BaseDish where\n    prepare _ = \"Preparing the main dish.\"\n    serve _ = \"Serving the main dish.\"\n\ndata Appetizer = Appetizer\n\ninstance Dish Appetizer where\n    prepare _ = \"Preparing the appetizer in smaller portions.\"\n    serve _ = \"Serving the appetizer in smaller portions.\"\n```"
+  },
+  {
+    "task": "Create a foundational class for a book collection with properties like genre and author, and derive a mystery collection class that overrides the genre property to be 'mystery'.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nclass BookCollection a where\n    genre :: a -> String\n    author :: a -> String\n\ndata GeneralCollection = GeneralCollection { genGenre :: String, genAuthor :: String }\n\ninstance BookCollection GeneralCollection where\n    genre = genGenre\n    author = genAuthor\n\ndata MysteryCollection = MysteryCollection { mysteryAuthor :: String }\n\ninstance BookCollection MysteryCollection where\n    genre _ = \"mystery\"\n    author = mysteryAuthor\n```"
+  },
+  {
+    "task": "Design a base class for a file storage system with methods for saving and deleting files, then create a cloud storage subclass that overrides these methods for remote access.",
+    "code": "```haskell\nclass FileStorageSystem a where\n    saveFile :: a -> FilePath -> IO ()\n    deleteFile :: a -> FilePath -> IO ()\n\ndata LocalStorage = LocalStorage\n\ninstance FileStorageSystem LocalStorage where\n    saveFile _ filePath = putStrLn $ \"Saving file locally at \" ++ filePath\n    deleteFile _ filePath = putStrLn $ \"Deleting file locally at \" ++ filePath\n\ndata CloudStorage = CloudStorage\n\ninstance FileStorageSystem CloudStorage where\n    saveFile _ filePath = putStrLn $ \"Saving file to the cloud at \" ++ filePath\n    deleteFile _ filePath = putStrLn $ \"Deleting file from the cloud at \" ++ filePath\n```"
+  },
+  {
+    "task": "Develop a superclass for a seasonal sale event with methods for discounts and promotions, then extend it with a summer sale subclass that overrides these methods for summer items.",
+    "code": "```haskell\nclass SeasonalSaleEvent a where\n  discount :: a -> Double -> Double\n  promotion :: a -> String\n\ndata SummerSale = SummerSale\n\ninstance SeasonalSaleEvent SummerSale where\n  discount _ price = price * 0.8\n  promotion _ = \"Special summer promotion: 20% off on all items!\"\n```"
+  },
+  {
+    "task": "Implement a base class for a personal budget with methods for income and expenses, then create a student budget subclass that overrides these methods for tuition and fees.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nclass PersonalBudget a where\n    income :: a -> Double\n    expenses :: a -> Double\n\ndata BasicBudget = BasicBudget { basicIncome :: Double, basicExpenses :: Double }\n\ninstance PersonalBudget BasicBudget where\n    income = basicIncome\n    expenses = basicExpenses\n\ndata StudentBudget = StudentBudget { \n    studentIncome :: Double, \n    studentExpenses :: Double, \n    tuition :: Double, \n    fees :: Double \n}\n\ninstance PersonalBudget StudentBudget where\n    income sb = studentIncome sb\n    expenses sb = studentExpenses sb + tuition sb + fees sb\n```"
+  },
+  {
+    "task": "Construct a parent class for a fitness routine with methods for exercises and duration, then derive a yoga routine class that overrides these methods for flexibility exercises.",
+    "code": "```haskell\nclass FitnessRoutine a where\n    exercises :: a -> String\n    duration :: a -> Int\n\ndata YogaRoutine = YogaRoutine\n\ninstance FitnessRoutine YogaRoutine where\n    exercises _ = \"Flexibility exercises: Sun Salutation, Downward Dog, Cobra Pose\"\n    duration _ = 60\n```"
+  },
+  {
+    "task": "Set up a base class for a transportation ticket with methods for pricing and validity, and extend it with an airline ticket subclass that overrides these methods for baggage allowance.",
+    "code": "```haskell\nclass Ticket a where\n    price :: a -> Double\n    isValid :: a -> Bool\n\ndata TransportationTicket = TransportationTicket Double Bool\n\ninstance Ticket TransportationTicket where\n    price (TransportationTicket p _) = p\n    isValid (TransportationTicket _ v) = v\n\ndata AirlineTicket = AirlineTicket Double Bool Int\n\ninstance Ticket AirlineTicket where\n    price (AirlineTicket p _ _) = p\n    isValid (AirlineTicket _ v _) = v\n\nbaggageAllowance :: AirlineTicket -> Int\nbaggageAllowance (AirlineTicket _ _ allowance) = allowance\n```"
+  },
+  {
+    "task": "Create a foundational class for a digital photo album with properties like album name and date, and derive a vacation album class that overrides the date property to be specific.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nimport Data.Time (Day)\n\nclass DigitalPhotoAlbum a where\n    getAlbumName :: a -> String\n    getDate :: a -> Day\n\ndata BasicAlbum = BasicAlbum {\n    albumName :: String,\n    date :: Day\n}\n\ninstance DigitalPhotoAlbum BasicAlbum where\n    getAlbumName = albumName\n    getDate = date\n\ndata VacationAlbum = VacationAlbum {\n    vacationAlbumName :: String,\n    vacationDate :: Day\n}\n\ninstance DigitalPhotoAlbum VacationAlbum where\n    getAlbumName = vacationAlbumName\n    getDate = vacationDate\n```"
+  },
+  {
+    "task": "Design a base class for a home appliance with methods for power usage and warranty, then create a refrigerator subclass that overrides these methods for energy efficiency.",
+    "code": "```haskell\nclass Appliance a where\n    powerUsage :: a -> Double\n    warranty :: a -> Int\n\ndata Refrigerator = Refrigerator Double Int\n\ninstance Appliance Refrigerator where\n    powerUsage (Refrigerator usage _) = usage * 0.8\n    warranty (Refrigerator _ years) = years + 1\n```"
+  },
+  {
+    "task": "Develop a superclass for a software update with methods for versioning and patch notes, then extend it with a security update subclass that overrides these methods for vulnerabilities.",
+    "code": "```haskell\nclass SoftwareUpdate a where\n    getVersion :: a -> String\n    getPatchNotes :: a -> String\n\ndata GeneralUpdate = GeneralUpdate { version :: String, patchNotes :: String }\n\ninstance SoftwareUpdate GeneralUpdate where\n    getVersion = version\n    getPatchNotes = patchNotes\n\ndata SecurityUpdate = SecurityUpdate { secVersion :: String, vulnerabilities :: String }\n\ninstance SoftwareUpdate SecurityUpdate where\n    getVersion = secVersion\n    getPatchNotes = vulnerabilities\n```"
+  },
+  {
+    "task": "Implement a base class for a musical performance with methods for rehearsal and execution, then create a concert performance subclass that overrides these methods for live audience.",
+    "code": "```haskell\nclass MusicalPerformance a where\n    rehearsal :: a -> String\n    execution :: a -> String\n\ndata BasePerformance = BasePerformance\n\ninstance MusicalPerformance BasePerformance where\n    rehearsal _ = \"Rehearsing the performance.\"\n    execution _ = \"Executing the performance.\"\n\ndata ConcertPerformance = ConcertPerformance\n\ninstance MusicalPerformance ConcertPerformance where\n    rehearsal _ = \"Rehearsing the concert for live audience.\"\n    execution _ = \"Executing the concert for live audience.\"\n```"
+  },
+  {
+    "task": "Construct a parent class for an academic degree with methods for course requirements and credits, then derive a master's degree class that overrides these methods for advanced studies.",
+    "code": "```haskell\nclass AcademicDegree a where\n    courseRequirements :: a -> String\n    credits :: a -> Int\n\ndata BachelorsDegree = BachelorsDegree\ninstance AcademicDegree BachelorsDegree where\n    courseRequirements _ = \"Core courses and electives for undergraduate studies.\"\n    credits _ = 120\n\ndata MastersDegree = MastersDegree\ninstance AcademicDegree MastersDegree where\n    courseRequirements _ = \"Advanced courses and research for master's studies.\"\n    credits _ = 60\n```"
+  },
+  {
+    "task": "Set up a base class for a weather forecast with methods for temperature and conditions, and extend it with a winter forecast subclass that overrides these methods for snow conditions.",
+    "code": "```haskell\nclass WeatherForecast a where\n    temperature :: a -> String\n    conditions :: a -> String\n\ndata BaseForecast = BaseForecast\n\ninstance WeatherForecast BaseForecast where\n    temperature _ = \"Temperature: 20\u00b0C\"\n    conditions _ = \"Conditions: Clear\"\n\ndata WinterForecast = WinterForecast\n\ninstance WeatherForecast WinterForecast where\n    temperature _ = \"Temperature: -5\u00b0C\"\n    conditions _ = \"Conditions: Snowy\"\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal diary with properties like date and entries, and derive a travel diary class that overrides the date property with travel dates.",
+    "code": "```haskell\n{-# LANGUAGE FlexibleInstances #-}\n\nclass Diary a where\n    date :: a -> String\n    entries :: a -> [String]\n\ndata PersonalDiary = PersonalDiary {\n    personalDate :: String,\n    personalEntries :: [String]\n}\n\ninstance Diary PersonalDiary where\n    date = personalDate\n    entries = personalEntries\n\ndata TravelDiary = TravelDiary {\n    travelDate :: String,\n    travelEntries :: [String]\n}\n\ninstance Diary TravelDiary where\n    date = travelDate\n    entries = travelEntries\n```"
+  },
+  {
+    "task": "Design a base class for a pet with methods for feeding and grooming, then create a cat subclass that overrides these methods with specific food preferences.",
+    "code": "```haskell\nclass Pet a where\n    feed :: a -> String\n    groom :: a -> String\n\ndata Cat = Cat\n\ninstance Pet Cat where\n    feed _ = \"Feeding the cat with fish.\"\n    groom _ = \"Grooming the cat with a soft brush.\"\n```"
+  },
+  {
+    "task": "Develop a superclass for a software library with methods for installation and updates, then extend it with a graphics library subclass that overrides these methods for rendering capabilities.",
+    "code": "```haskell\nclass SoftwareLibrary a where\n    install :: a -> IO ()\n    update :: a -> IO ()\n\ndata GeneralLibrary = GeneralLibrary\n\ninstance SoftwareLibrary GeneralLibrary where\n    install _ = putStrLn \"Installing general software library...\"\n    update _ = putStrLn \"Updating general software library...\"\n\ndata GraphicsLibrary = GraphicsLibrary\n\ninstance SoftwareLibrary GraphicsLibrary where\n    install _ = putStrLn \"Installing graphics library with rendering capabilities...\"\n    update _ = putStrLn \"Updating graphics library with rendering capabilities...\"\n```"
+  },
+  {
+    "task": "Implement a base class for a political campaign with methods for fundraising and events, then create a presidential campaign subclass that overrides these methods for national scale.",
+    "code": "```haskell\nclass Campaign c where\n    fundraise :: c -> IO ()\n    organizeEvent :: c -> IO ()\n\ndata BaseCampaign = BaseCampaign\ninstance Campaign BaseCampaign where\n    fundraise _ = putStrLn \"Fundraising for a local campaign.\"\n    organizeEvent _ = putStrLn \"Organizing a local campaign event.\"\n\ndata PresidentialCampaign = PresidentialCampaign\ninstance Campaign PresidentialCampaign where\n    fundraise _ = putStrLn \"Fundraising for a national presidential campaign.\"\n    organizeEvent _ = putStrLn \"Organizing a national presidential campaign event.\"\n```"
+  },
+  {
+    "task": "Construct a parent class for an automotive part with methods for durability and replacement, then derive an engine part class that overrides these methods for performance.",
+    "code": "```haskell\nclass AutomotivePart a where\n    durability :: a -> String\n    replacement :: a -> String\n\ndata EnginePart = EnginePart\n\ninstance AutomotivePart EnginePart where\n    durability _ = \"High durability\"\n    replacement _ = \"Engine replacement requires skilled labor\"\n```"
+  },
+  {
+    "task": "Set up a base class for an online tutorial with methods for lessons and quizzes, and extend it with a coding tutorial subclass that overrides these methods for interactive exercises.",
+    "code": "```haskell\n{-# LANGUAGE ExistentialQuantification #-}\n\ndata Tutorial = forall a. TutorialClass a => Tutorial a\n\nclass TutorialClass a where\n  lessons :: a -> [String]\n  quizzes :: a -> [String]\n\ndata BaseTutorial = BaseTutorial\n\ninstance TutorialClass BaseTutorial where\n  lessons _ = [\"Lesson 1: Introduction\", \"Lesson 2: Basics\"]\n  quizzes _ = [\"Quiz 1: Basics\", \"Quiz 2: Advanced\"]\n\ndata CodingTutorial = CodingTutorial\n\ninstance TutorialClass CodingTutorial where\n  lessons _ = [\"Interactive Lesson 1: Setup\", \"Interactive Lesson 2: First Program\"]\n  quizzes _ = [\"Interactive Quiz 1: Debugging\", \"Interactive Quiz 2: Optimization\"]\n\ngetLessons :: Tutorial -> [String]\ngetLessons (Tutorial t) = lessons t\n\ngetQuizzes :: Tutorial -> [String]\ngetQuizzes (Tutorial t) = quizzes t\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal collection with properties like item type and value, and derive a stamp collection class that overrides the item type property to be 'stamps'.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nclass PersonalCollection a where\n    itemType :: a -> String\n    value :: a -> Double\n\ndata CollectionItem = CollectionItem { _itemType :: String, _value :: Double }\n\ninstance PersonalCollection CollectionItem where\n    itemType = _itemType\n    value = _value\n\ndata StampCollection = StampCollection { _stampValue :: Double }\n\ninstance PersonalCollection StampCollection where\n    itemType _ = \"stamps\"\n    value = _stampValue\n```"
+  },
+  {
+    "task": "Design a base class for a video game character with methods for health and abilities, then create a warrior character subclass that overrides these methods for strength.",
+    "code": "```haskell\n{-# LANGUAGE DeriveAnyClass #-}\n{-# LANGUAGE DeriveGeneric #-}\n\nimport GHC.Generics (Generic)\n\nclass Character a where\n    health :: a -> Int\n    abilities :: a -> [String]\n\ndata BaseCharacter = BaseCharacter {\n    baseHealth :: Int,\n    baseAbilities :: [String]\n} deriving (Show, Generic)\n\ninstance Character BaseCharacter where\n    health = baseHealth\n    abilities = baseAbilities\n\ndata Warrior = Warrior {\n    warriorHealth :: Int,\n    warriorAbilities :: [String]\n} deriving (Show, Generic)\n\ninstance Character Warrior where\n    health = warriorHealth\n    abilities = warriorAbilities\n\ncreateBaseCharacter :: BaseCharacter\ncreateBaseCharacter = BaseCharacter {\n    baseHealth = 100,\n    baseAbilities = [\"Basic Attack\", \"Defend\"]\n}\n\ncreateWarrior :: Warrior\ncreateWarrior = Warrior {\n    warriorHealth = 150,\n    warriorAbilities = [\"Power Strike\", \"Shield Bash\"]\n}\n```"
+  },
+  {
+    "task": "Develop a superclass for an event planner with methods for scheduling and budgeting, then extend it with a wedding planner subclass that overrides these methods for ceremony details.",
+    "code": "```haskell\nclass EventPlanner a where\n    schedule :: a -> String\n    budget :: a -> String\n\ndata GeneralEvent = GeneralEvent\ndata Wedding = Wedding\n\ninstance EventPlanner GeneralEvent where\n    schedule _ = \"General event scheduled.\"\n    budget _ = \"General event budget calculated.\"\n\ninstance EventPlanner Wedding where\n    schedule _ = \"Wedding ceremony scheduled.\"\n    budget _ = \"Wedding ceremony budget calculated.\"\n```"
+  },
+  {
+    "task": "Implement a base class for a software feature with methods for functionality and user feedback, then create a beta feature subclass that overrides these methods for testing.",
+    "code": "```haskell\n-- Base class definition using type classes\nclass SoftwareFeature a where\n    functionality :: a -> String\n    userFeedback :: a -> String\n\n-- Base class instance\ndata BaseFeature = BaseFeature\n\ninstance SoftwareFeature BaseFeature where\n    functionality _ = \"Base functionality executed.\"\n    userFeedback _ = \"User feedback collected.\"\n\n-- Subclass definition\ndata BetaFeature = BetaFeature\n\ninstance SoftwareFeature BetaFeature where\n    functionality _ = \"Beta functionality executed for testing.\"\n    userFeedback _ = \"User feedback collected for beta testing.\"\n\n-- Example usage\nmain :: IO ()\nmain = do\n    let baseFeature = BaseFeature\n    let betaFeature = BetaFeature\n    putStrLn $ functionality baseFeature\n    putStrLn $ userFeedback baseFeature\n    putStrLn $ functionality betaFeature\n    putStrLn $ userFeedback betaFeature\n```"
+  },
+  {
+    "task": "Construct a parent class for a gardening tool with methods for usage and maintenance, then derive a lawn mower class that overrides these methods for grass cutting.",
+    "code": "```haskell\nclass GardeningTool a where\n    usage :: a -> String\n    maintenance :: a -> String\n\ndata LawnMower = LawnMower\n\ninstance GardeningTool LawnMower where\n    usage _ = \"Use the lawn mower to cut grass.\"\n    maintenance _ = \"Regularly check the blades and engine of the lawn mower.\"\n```"
+  },
+  {
+    "task": "Set up a base class for a household chore with methods for time and effort, and extend it with a cleaning chore subclass that overrides these methods for dirt removal.",
+    "code": "```haskell\nclass HouseholdChore a where\n  time :: a -> Int\n  effort :: a -> Int\n\ndata CleaningChore = CleaningChore Int Int\n\ninstance HouseholdChore CleaningChore where\n  time (CleaningChore t _) = t\n  effort (CleaningChore _ e) = e\n```"
+  },
+  {
+    "task": "Create a foundational class for a personal project with properties like name and deadline, and derive a coding project class that overrides the deadline property for milestones.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nclass Project a where\n    name :: a -> String\n    deadline :: a -> String\n\ndata BaseProject = BaseProject\n    { projectName :: String\n    , projectDeadline :: String\n    }\n\ninstance Project BaseProject where\n    name = projectName\n    deadline = projectDeadline\n\ndata CodingProject = CodingProject\n    { codingProjectName :: String\n    , codingProjectMilestoneDeadline :: String\n    }\n\ninstance Project CodingProject where\n    name = codingProjectName\n    deadline = codingProjectMilestoneDeadline\n```"
+  },
+  {
+    "task": "Design a base class for a holiday celebration with methods for traditions and activities, then create a Christmas celebration subclass that overrides these methods for gift exchange.",
+    "code": "```haskell\nclass HolidayCelebration a where\n    traditions :: a -> String\n    activities :: a -> String\n\ndata ChristmasCelebration = ChristmasCelebration\n\ninstance HolidayCelebration ChristmasCelebration where\n    traditions _ = \"Exchanging gifts and decorating the tree\"\n    activities _ = \"Gift exchange, singing carols, and festive dinners\"\n```"
+  },
+  {
+    "task": "Develop a superclass for a customer feedback system with methods for collecting and analyzing, then extend it with a product feedback subclass that overrides these methods for reviews.",
+    "code": "```haskell\nclass FeedbackSystem a where\n    collectFeedback :: a -> IO ()\n    analyzeFeedback :: a -> IO ()\n\ndata CustomerFeedback = CustomerFeedback\n\ninstance FeedbackSystem CustomerFeedback where\n    collectFeedback _ = putStrLn \"Collecting customer feedback...\"\n    analyzeFeedback _ = putStrLn \"Analyzing customer feedback...\"\n\ndata ProductFeedback = ProductFeedback\n\ninstance FeedbackSystem ProductFeedback where\n    collectFeedback _ = putStrLn \"Collecting product reviews...\"\n    analyzeFeedback _ = putStrLn \"Analyzing product reviews...\"\n```"
+  },
+  {
+    "task": "Implement a base class for a civic service with methods for public engagement and policy, then create a community service subclass that overrides these methods for local impact.",
+    "code": "```haskell\nclass CivicService a where\n    publicEngagement :: a -> String\n    policy :: a -> String\n\ndata BaseCivicService = BaseCivicService\n\ninstance CivicService BaseCivicService where\n    publicEngagement _ = \"General public engagement\"\n    policy _ = \"General policy\"\n\ndata CommunityService = CommunityService\n\ninstance CivicService CommunityService where\n    publicEngagement _ = \"Local community engagement\"\n    policy _ = \"Local community policy\"\n```"
+  },
+  {
+    "task": "Construct a parent class for a culinary ingredient with methods for flavor and preparation, then derive a spice ingredient class that overrides these methods for seasoning.",
+    "code": "```haskell\nclass CulinaryIngredient a where\n    flavor :: a -> String\n    preparation :: a -> String\n\ndata Spice = Spice\n\ninstance CulinaryIngredient Spice where\n    flavor _ = \"Spicy\"\n    preparation _ = \"Ground into powder\"\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific experiment with methods for hypothesis and testing, and extend it with a chemistry experiment subclass that overrides these methods for reactions.",
+    "code": "```haskell\nclass Experiment a where\n    hypothesis :: a -> String\n    testing :: a -> String\n\ndata ScientificExperiment = ScientificExperiment\n\ninstance Experiment ScientificExperiment where\n    hypothesis _ = \"General scientific hypothesis\"\n    testing _ = \"General scientific testing\"\n\ndata ChemistryExperiment = ChemistryExperiment\n\ninstance Experiment ChemistryExperiment where\n    hypothesis _ = \"Hypothesis for a chemical reaction\"\n    testing _ = \"Testing a chemical reaction\"\n```"
+  },
+  {
+    "task": "Create a foundational class for an inventory system with properties like item ID and quantity, and derive a warehouse inventory class that overrides the quantity property for bulk storage.",
+    "code": "```haskell\nclass InventoryItem a where\n  getItemID :: a -> String\n  getQuantity :: a -> Int\n\ndata BasicInventory = BasicInventory { itemId :: String, quantity :: Int }\n\ninstance InventoryItem BasicInventory where\n  getItemID = itemId\n  getQuantity = quantity\n\ndata WarehouseInventory = WarehouseInventory { warehouseItemId :: String, bulkQuantity :: Int }\n\ninstance InventoryItem WarehouseInventory where\n  getItemID = warehouseItemId\n  getQuantity = bulkQuantity\n```"
+  },
+  {
+    "task": "Design a base class for a travel agency with methods for itinerary and bookings, then create a luxury travel subclass that overrides these methods for premium services.",
+    "code": "```haskell\nclass TravelAgency a where\n    itinerary :: a -> String\n    bookings :: a -> String\n\ndata BasicTravel = BasicTravel\n\ninstance TravelAgency BasicTravel where\n    itinerary _ = \"Basic Itinerary\"\n    bookings _ = \"Basic Bookings\"\n\ndata LuxuryTravel = LuxuryTravel\n\ninstance TravelAgency LuxuryTravel where\n    itinerary _ = \"Luxury Itinerary with Premium Services\"\n    bookings _ = \"Luxury Bookings with Premium Services\"\n```"
+  },
+  {
+    "task": "Develop a superclass for an educational tool with methods for teaching and assessment, then extend it with a math tool subclass that overrides these methods for problem-solving.",
+    "code": "```haskell\nclass EducationalTool a where\n    teach :: a -> String\n    assess :: a -> String\n\ndata MathTool = MathTool\n\ninstance EducationalTool MathTool where\n    teach _ = \"Teaching math problems...\"\n    assess _ = \"Assessing math problem-solving skills...\"\n```"
+  },
+  {
+    "task": "Implement a base class for a community project with methods for planning and execution, then create a park renovation subclass that overrides these methods for landscaping.",
+    "code": "```haskell\nclass CommunityProject a where\n    plan :: a -> String\n    execute :: a -> String\n\ndata BaseProject = BaseProject\n\ninstance CommunityProject BaseProject where\n    plan _ = \"Base project planning\"\n    execute _ = \"Base project execution\"\n\ndata ParkRenovation = ParkRenovation\n\ninstance CommunityProject ParkRenovation where\n    plan _ = \"Park renovation planning with landscaping\"\n    execute _ = \"Park renovation execution with landscaping\"\n```"
+  },
+  {
+    "task": "Construct a parent class for a digital marketing strategy with methods for targeting and engagement, then derive a social media strategy class that overrides these methods for platforms.",
+    "code": "```haskell\nclass DigitalMarketingStrategy a where\n    targeting :: a -> String\n    engagement :: a -> String\n\ndata SocialMediaStrategy = SocialMediaStrategy\n\ninstance DigitalMarketingStrategy SocialMediaStrategy where\n    targeting _ = \"Targeting on social media platforms\"\n    engagement _ = \"Engagement through social media content\"\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific publication with methods for research and review, and extend it with a journal article subclass that overrides these methods for peer review.",
+    "code": "```haskell\n{-# LANGUAGE ExistentialQuantification #-}\n\nclass ScientificPublication a where\n    research :: a -> String\n    review :: a -> String\n\ndata AnyScientificPublication = forall a. ScientificPublication a => AnyScientificPublication a\n\ninstance ScientificPublication AnyScientificPublication where\n    research (AnyScientificPublication a) = research a\n    review (AnyScientificPublication a) = review a\n\ndata BasePublication = BasePublication\n\ninstance ScientificPublication BasePublication where\n    research _ = \"Conducting general research\"\n    review _ = \"Conducting general review\"\n\ndata JournalArticle = JournalArticle\n\ninstance ScientificPublication JournalArticle where\n    research _ = \"Conducting journal-specific research\"\n    review _ = \"Conducting peer review\"\n```"
+  },
+  {
+    "task": "Create a foundational class for a software module with properties like name and dependencies, and derive a user interface module class that overrides the dependencies property for UI libraries.",
+    "code": "```haskell\n{-# LANGUAGE DeriveAnyClass #-}\n{-# LANGUAGE DeriveGeneric  #-}\n{-# LANGUAGE OverloadedStrings #-}\n\nimport GHC.Generics (Generic)\n\nclass Module a where\n    getName :: a -> String\n    getDependencies :: a -> [String]\n\ndata BaseModule = BaseModule\n    { baseName :: String\n    , baseDependencies :: [String]\n    } deriving (Show, Generic)\n\ninstance Module BaseModule where\n    getName = baseName\n    getDependencies = baseDependencies\n\ndata UIModule = UIModule\n    { uiName :: String\n    , uiDependencies :: [String]\n    } deriving (Show, Generic)\n\ninstance Module UIModule where\n    getName = uiName\n    getDependencies _ = [\"ui-library-1\", \"ui-library-2\"] -- Overriding dependencies\n```"
+  },
+  {
+    "task": "Design a base class for a fashion line with methods for design and production, then create a summer collection subclass that overrides these methods for seasonal trends.",
+    "code": "```haskell\nclass FashionLine a where\n    design :: a -> String\n    production :: a -> String\n\ndata SummerCollection = SummerCollection\n\ninstance FashionLine SummerCollection where\n    design _ = \"Summer collection design with vibrant colors and light fabrics\"\n    production _ = \"Summer collection production focusing on breathable materials\"\n```"
+  },
+  {
+    "task": "Develop a superclass for a family tree with methods for ancestry and descendants, then extend it with a royal lineage subclass that overrides these methods for historical accuracy.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nclass FamilyTree a where\n    ancestry :: a -> [String]\n    descendants :: a -> [String]\n\ndata GeneralFamily = GeneralFamily { generalName :: String }\n\ninstance FamilyTree GeneralFamily where\n    ancestry _ = [\"General Ancestor 1\", \"General Ancestor 2\"]\n    descendants _ = [\"General Descendant 1\", \"General Descendant 2\"]\n\ndata RoyalLineage = RoyalLineage { royalName :: String }\n\ninstance FamilyTree RoyalLineage where\n    ancestry _ = [\"Royal Ancestor 1\", \"Royal Ancestor 2\", \"Royal Ancestor 3\"]\n    descendants _ = [\"Royal Descendant 1\", \"Royal Descendant 2\", \"Royal Descendant 3\"]\n\n-- Example usage\ngeneralFamilyExample :: GeneralFamily\ngeneralFamilyExample = GeneralFamily \"Smith\"\n\nroyalLineageExample :: RoyalLineage\nroyalLineageExample = RoyalLineage \"Windsor\"\n```"
+  },
+  {
+    "task": "Implement a base class for a musical score with methods for composition and arrangement, then create a symphony subclass that overrides these methods for orchestration.",
+    "code": "```haskell\nclass MusicalScore a where\n    composition :: a -> String\n    arrangement :: a -> String\n\ndata Symphony = Symphony\n\ninstance MusicalScore Symphony where\n    composition _ = \"Symphony composition\"\n    arrangement _ = \"Symphony arrangement\"\n\norchestration :: Symphony -> String\norchestration _ = \"Symphony orchestration\"\n```"
+  },
+  {
+    "task": "Construct a parent class for a historical record with methods for events and dates, then derive a war history class that overrides these methods for battles.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\n-- Parent class for a historical record\nclass HistoricalRecord a where\n    events :: a -> [String]\n    dates :: a -> [String]\n\n-- Data type for a generic historical record\ndata GenericRecord = GenericRecord { genericEvents :: [String], genericDates :: [String] }\n\ninstance HistoricalRecord GenericRecord where\n    events = genericEvents\n    dates = genericDates\n\n-- Data type for a war history record\ndata WarHistory = WarHistory { warBattles :: [String], warDates :: [String] }\n\ninstance HistoricalRecord WarHistory where\n    events = warBattles\n    dates = warDates\n```"
+  },
+  {
+    "task": "Set up a base class for a pet adoption service with methods for application and approval, and extend it with a dog adoption subclass that overrides these methods for breed compatibility.",
+    "code": "```haskell\nclass PetAdoptionService a where\n    applyForAdoption :: a -> String -> Bool\n    approveAdoption :: a -> String -> Bool\n\ndata GeneralPetAdoption = GeneralPetAdoption\n\ninstance PetAdoptionService GeneralPetAdoption where\n    applyForAdoption _ _ = True\n    approveAdoption _ _ = True\n\ndata DogAdoption = DogAdoption { compatibleBreeds :: [String] }\n\ninstance PetAdoptionService DogAdoption where\n    applyForAdoption (DogAdoption breeds) breed = breed `elem` breeds\n    approveAdoption (DogAdoption breeds) breed = breed `elem` breeds\n```"
+  },
+  {
+    "task": "Create a foundational class for a financial report with properties like fiscal year and summary, and derive an annual report class that overrides the fiscal year property for yearly data.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\nclass FinancialReport a where\n    fiscalYear :: a -> String\n    summary :: a -> String\n\ndata BaseReport = BaseReport {\n    baseFiscalYear :: String,\n    baseSummary :: String\n}\n\ninstance FinancialReport BaseReport where\n    fiscalYear = baseFiscalYear\n    summary = baseSummary\n\ndata AnnualReport = AnnualReport {\n    annualSummary :: String\n}\n\ninstance FinancialReport AnnualReport where\n    fiscalYear _ = \"Annual\"\n    summary = annualSummary\n```"
+  },
+  {
+    "task": "Design a base class for a movie franchise with methods for casting and production, then create a sequel subclass that overrides these methods for continuity.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\ndata MovieFranchise = MovieFranchise {\n    cast :: String,\n    production :: String\n}\n\ndata Sequel = Sequel {\n    baseMovieFranchise :: MovieFranchise\n}\n\nclass Franchise a where\n    getCast :: a -> String\n    getProduction :: a -> String\n\ninstance Franchise MovieFranchise where\n    getCast = cast\n    getProduction = production\n\ninstance Franchise Sequel where\n    getCast _ = \"Continuity Cast for Sequel\"\n    getProduction _ = \"Continuity Production for Sequel\"\n\n-- Example Usage\nbaseMovie = MovieFranchise \"Original Cast\" \"Original Production\"\nsequel = Sequel baseMovie\n```"
+  },
+  {
+    "task": "Develop a superclass for a real estate listing with methods for pricing and description, then extend it with a luxury listing subclass that overrides these methods for high-end features.",
+    "code": "```haskell\nclass RealEstateListing a where\n    price :: a -> Double\n    description :: a -> String\n\ndata BasicListing = BasicListing { basicPrice :: Double, basicDescription :: String }\n\ninstance RealEstateListing BasicListing where\n    price = basicPrice\n    description = basicDescription\n\ndata LuxuryListing = LuxuryListing { luxuryPrice :: Double, luxuryDescription :: String }\n\ninstance RealEstateListing LuxuryListing where\n    price = (* 1.5) . luxuryPrice\n    description = (++ \" - Luxury Edition\") . luxuryDescription\n```"
+  },
+  {
+    "task": "Implement a base class for a mobile app with methods for user interface and performance, then create a gaming app subclass that overrides these methods for graphics and speed.",
+    "code": "```haskell\nclass MobileApp a where\n    userInterface :: a -> String\n    performance :: a -> String\n\ndata BaseApp = BaseApp\n\ninstance MobileApp BaseApp where\n    userInterface _ = \"Standard UI\"\n    performance _ = \"Moderate Performance\"\n\ndata GamingApp = GamingApp\n\ninstance MobileApp GamingApp where\n    userInterface _ = \"Enhanced 3D Graphics\"\n    performance _ = \"High Speed Performance\"\n```"
+  },
+  {
+    "task": "Construct a parent class for a corporate policy with methods for compliance and enforcement, then derive an HR policy class that overrides these methods for employee relations.",
+    "code": "```haskell\nclass CorporatePolicy a where\n  compliance :: a -> String\n  enforcement :: a -> String\n\ndata HRPolicy = HRPolicy\ninstance CorporatePolicy HRPolicy where\n  compliance _ = \"HR compliance for employee relations\"\n  enforcement _ = \"HR enforcement for employee relations\"\n```"
+  },
+  {
+    "task": "Set up a base class for a scientific calculator with methods for basic operations and advanced functions, and extend it with a graphing calculator subclass that overrides these methods for plotting.",
+    "code": "```haskell\nclass ScientificCalculator a where\n  add :: a -> a -> a\n  subtract :: a -> a -> a\n  multiply :: a -> a -> a\n  divide :: a -> a -> a\n  sinFunc :: a -> a\n  cosFunc :: a -> a\n  tanFunc :: a -> a\n\ndata GraphingCalculator = GraphingCalculator\n\ninstance ScientificCalculator GraphingCalculator where\n  add _ _ = error \"Graphing add function not implemented\"\n  subtract _ _ = error \"Graphing subtract function not implemented\"\n  multiply _ _ = error \"Graphing multiply function not implemented\"\n  divide _ _ = error \"Graphing divide function not implemented\"\n  sinFunc _ = error \"Graphing sin function not implemented\"\n  cosFunc _ = error \"Graphing cos function not implemented\"\n  tanFunc _ = error \"Graphing tan function not implemented\"\n\nplot :: String -> IO ()\nplot _ = putStrLn \"Plotting function\"\n```"
+  },
+  {
+    "task": "Create a foundational class for a children's book with properties like age group and illustrations, and derive a picture book class that overrides the illustrations property to be more prominent.",
+    "code": "```haskell\n{-# LANGUAGE OverloadedStrings #-}\n\n-- Define a typeclass for Book\nclass Book a where\n    ageGroup :: a -> String\n    illustrations :: a -> String\n\n-- Define a data type for Children's Book\ndata ChildrensBook = ChildrensBook {\n    cbAgeGroup :: String,\n    cbIllustrations :: String\n}\n\n-- Make ChildrensBook an instance of Book\ninstance Book ChildrensBook where\n    ageGroup = cbAgeGroup\n    illustrations = cbIllustrations\n\n-- Define a data type for Picture Book, which is a type of Children's Book\ndata PictureBook = PictureBook {\n    pbAgeGroup :: String,\n    pbIllustrations :: String\n}\n\n-- Make PictureBook an instance of Book with overridden illustrations\ninstance Book PictureBook where\n    ageGroup = pbAgeGroup\n    illustrations book = \"Prominent: \" ++ pbIllustrations book\n```"
+  },
+  {
+    "task": "Design a base class for a cooking class with methods for ingredients and techniques, then create a baking class subclass that overrides these methods for dough preparation.",
+    "code": "```haskell\nclass Cooking a where\n    ingredients :: a -> String\n    techniques :: a -> String\n\ndata Baking = Baking\n\ninstance Cooking Baking where\n    ingredients _ = \"Flour, Water, Yeast, Sugar, Salt\"\n    techniques _ = \"Mixing, Kneading, Proofing, Baking\"\n```"
+  },
+  {
+    "task": "Develop a superclass for a public transportation system with methods for routes and schedules, then extend it with a metro system subclass that overrides these methods for urban areas.",
+    "code": "```haskell\nclass TransportationSystem a where\n    routes :: a -> String\n    schedules :: a -> String\n\ndata MetroSystem = MetroSystem\n\ninstance TransportationSystem MetroSystem where\n    routes _ = \"Metro system routes for urban areas.\"\n    schedules _ = \"Metro system schedules for urban areas.\"\n```"
+  },
+  {
+    "task": "Implement a base class for a music store inventory with methods for stock and sales, then create a vinyl record subclass that overrides these methods for collectible items.",
+    "code": "```haskell\n{-# LANGUAGE ExistentialQuantification #-}\n\ndata Item = forall a. Inventory a => Item a\n\nclass Inventory a where\n    stock :: a -> Int\n    sales :: a -> Int\n\ndata MusicStoreItem = MusicStoreItem {\n    baseStock :: Int,\n    baseSales :: Int\n}\n\ninstance Inventory MusicStoreItem where\n    stock = baseStock\n    sales = baseSales\n\ndata VinylRecord = VinylRecord {\n    recordStock :: Int,\n    recordSales :: Int,\n    isCollectible :: Bool\n}\n\ninstance Inventory VinylRecord where\n    stock _ = 0 -- Placeholder implementation for collectible item\n    sales vinyl\n        | isCollectible vinyl = 0 -- Placeholder for collectible sales\n        | otherwise = recordSales vinyl\n\nmusicStoreInventory :: [Item]\nmusicStoreInventory = [\n    Item (MusicStoreItem 100 50),\n    Item (VinylRecord 20 10 True)\n    ]\n```"
+  },
+  {
+    "task": "Construct a parent class for a legal contract with methods for terms and conditions, then derive a rental agreement class that overrides these methods for tenant rights.",
+    "code": "```haskell\nclass LegalContract a where\n    terms :: a -> String\n    conditions :: a -> String\n\ndata RentalAgreement = RentalAgreement\n\ninstance LegalContract RentalAgreement where\n    terms _ = \"Rental Agreement Terms: ...\"\n    conditions _ = \"Tenant Rights: ...\"\n```"
+  },
+  {
+    "task": "Set up a base class for a journalism piece with methods for reporting and editing, and extend it with an investigative article subclass that overrides these methods for in-depth analysis.",
+    "code": "```haskell\nclass JournalismPiece a where\n    report :: a -> String\n    edit :: a -> String\n\ndata BaseArticle = BaseArticle\ninstance JournalismPiece BaseArticle where\n    report _ = \"Reporting general news.\"\n    edit _ = \"Editing general news.\"\n\ndata InvestigativeArticle = InvestigativeArticle\ninstance JournalismPiece InvestigativeArticle where\n    report _ = \"Reporting investigative findings.\"\n    edit _ = \"Editing for in-depth analysis.\"\n```"
+  },
+  {
+    "task": "Create a foundational class for a wildlife reserve with properties like area and species, and derive a bird sanctuary class that overrides the species property for avians.",
+    "code": "```haskell\n{-# LANGUAGE DeriveAnyClass #-}\n\nclass WildlifeReserve a where\n    area :: a -> Double\n    species :: a -> [String]\n\ndata GenericReserve = GenericReserve {\n    reserveArea :: Double,\n    reserveSpecies :: [String]\n}\n\ninstance WildlifeReserve GenericReserve where\n    area = reserveArea\n    species = reserveSpecies\n\ndata BirdSanctuary = BirdSanctuary {\n    sanctuaryArea :: Double,\n    birdSpecies :: [String]\n}\n\ninstance WildlifeReserve BirdSanctuary where\n    area = sanctuaryArea\n    species = birdSpecies\n```"
+  },
+  {
+    "task": "Design a base class for a subscription box service with methods for curation and delivery, then create a gourmet food box subclass that overrides these methods for artisanal products.",
+    "code": "```haskell\nclass SubscriptionBoxService a where\n    curation :: a -> String\n    delivery :: a -> String\n\ndata SubscriptionBox = SubscriptionBox\n\ninstance SubscriptionBoxService SubscriptionBox where\n    curation _ = \"Generic curation of items.\"\n    delivery _ = \"Standard delivery process.\"\n\ndata GourmetFoodBox = GourmetFoodBox\n\ninstance SubscriptionBoxService GourmetFoodBox where\n    curation _ = \"Curating artisanal gourmet foods.\"\n    delivery _ = \"Express delivery for gourmet foods.\"\n```"
+  },
+  {
+    "task": "Develop a superclass for a fitness app with methods for tracking and motivation, then extend it with a running app subclass that overrides these methods for pace and distance.",
+    "code": "```haskell\nclass FitnessApp a where\n  track :: a -> String\n  motivate :: a -> String\n\ndata RunningApp = RunningApp\n\ninstance FitnessApp RunningApp where\n  track _ = \"Tracking pace and distance for running.\"\n  motivate _ = \"Keep running to improve your pace and distance!\"\n```"
+  },
+  {
+    "task": "Implement a base class for a digital portfolio with methods for showcasing and updating, then create an artist portfolio subclass that overrides these methods for galleries.",
+    "code": "```haskell\nclass DigitalPortfolio a where\n    showcase :: a -> IO ()\n    update :: a -> IO ()\n\ndata ArtistPortfolio = ArtistPortfolio { name :: String, gallery :: String }\n\ninstance DigitalPortfolio ArtistPortfolio where\n    showcase (ArtistPortfolio name gallery) = putStrLn $ \"Artist: \" ++ name ++ \", Gallery: \" ++ gallery\n    update (ArtistPortfolio name gallery) = putStrLn $ \"Updating gallery for \" ++ name ++ \" to: \" ++ gallery\n```"
+  },
+  {
+    "task": "Construct a parent class for a gaming console with methods for performance and compatibility, then derive a next-gen console class that overrides these methods for new features.",
+    "code": "```haskell\nclass GamingConsole a where\n    performance :: a -> String\n    compatibility :: a -> String\n\ndata CurrentGenConsole = CurrentGenConsole\n\ninstance GamingConsole CurrentGenConsole where\n    performance _ = \"Standard Performance\"\n    compatibility _ = \"Compatible with Current Gen Games\"\n\ndata NextGenConsole = NextGenConsole\n\ninstance GamingConsole NextGenConsole where\n    performance _ = \"Enhanced Performance\"\n    compatibility _ = \"Compatible with Next Gen and Current Gen Games\"\n```"
+  },
+  {
+    "task": "Set up a base class for a cultural festival with methods for events and participation, and extend it with a music festival subclass that overrides these methods for performances.",
+    "code": "```haskell\nclass CulturalFestival a where\n    events :: a -> String\n    participation :: a -> String\n\ndata BaseFestival = BaseFestival\n\ninstance CulturalFestival BaseFestival where\n    events _ = \"General cultural events\"\n    participation _ = \"Open to all participants\"\n\ndata MusicFestival = MusicFestival\n\ninstance CulturalFestival MusicFestival where\n    events _ = \"Live music performances\"\n    participation _ = \"Participation through music bands\"\n```"
+  }
+]
