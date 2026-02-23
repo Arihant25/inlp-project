@@ -40,14 +40,14 @@ plt.rcParams.update({
 
 # Colourblind-friendly palette for languages (up to 8)
 LANG_PALETTE = [
-    "#E69F00",  # orange
-    "#56B4E9",  # sky blue
-    "#009E73",  # green
-    "#F0E442",  # yellow
-    "#0072B2",  # blue
-    "#D55E00",  # vermillion
-    "#CC79A7",  # pink
-    "#000000",  # black
+    "#274001",
+    "#828a00",
+    "#f29f05",
+    "#f25c05",
+    "#d6568c",
+    "#4d8584",
+    "#a62f03",
+    "#400d01",
 ]
 
 # Distinct markers for frameworks within each language (up to ~10)
@@ -94,7 +94,15 @@ def plot_tsne(df: pd.DataFrame, output_dir: str):
         fws = sorted(df.loc[df["language"] == lang, "framework"].unique())
         lang_fw_marker[lang] = build_fw_marker(fws)
 
-    fig, ax = plt.subplots(figsize=(13, 9))
+    # bottom_pad must clear the full height of the tallest legend column:
+    # roughly (title + max_fw entries) × ~0.045 each, plus a gap above.
+    max_fw = max(len(v) for v in lang_fw_marker.values())
+    legend_col_h = (1 + max_fw) * 0.015   # approx figure-fraction height per legend
+    bottom_pad = legend_col_h + 0.10       # legend height + comfortable gap
+
+    fig, ax = plt.subplots(figsize=(14, 11))
+    # right=0.82 leaves room for the language legend; bottom clears the column legends
+    fig.subplots_adjust(bottom=bottom_pad, right=0.82)
 
     for lang in languages:
         color = lang_color[lang]
@@ -113,50 +121,56 @@ def plot_tsne(df: pd.DataFrame, output_dir: str):
                 zorder=2,
             )
 
-    # ── Legend panel 1: Language colours ──
+    # ── Legend (right): one colour patch per Language ──
     lang_handles = [
         mpatches.Patch(facecolor=lang_color[lang], edgecolor="grey", linewidth=0.5, label=lang)
         for lang in languages
     ]
-    legend1 = ax.legend(
+    legend_lang = ax.legend(
         handles=lang_handles,
         title="Language",
         loc="upper left",
         bbox_to_anchor=(1.01, 1.0),
+        bbox_transform=ax.transAxes,
         frameon=True,
         framealpha=0.9,
     )
-    ax.add_artist(legend1)
+    ax.add_artist(legend_lang)
 
-    # ── Legend panel 2: Framework markers, grouped per language ──
-    fw_handles = []
-    for lang in languages:
-        # Section header (invisible dummy line used as a bold title entry)
-        fw_handles.append(
-            mlines.Line2D([], [], color="none", label=f"── {lang} ──")
-        )
-        fw_marker = lang_fw_marker[lang]
+    # ── Legend (below): one column per Language, each listing its frameworks ──
+    n_langs = len(languages)
+    col_width = 1.0 / n_langs
+    # Anchor at the bottom of the figure; legends grow upward from there
+    legend_y = 0.02
+
+    for k, lang in enumerate(languages):
         color = lang_color[lang]
-        for fw, marker in sorted(fw_marker.items()):
-            fw_handles.append(
-                mlines.Line2D(
-                    [], [],
-                    marker=marker, color=color,
-                    markeredgecolor="white", markeredgewidth=0.3,
-                    markersize=7, linestyle="None",
-                    label=f"  {fw}",
-                )
+        handles = [
+            mlines.Line2D(
+                [], [],
+                marker=marker, color=color,
+                markeredgecolor="white", markeredgewidth=0.3,
+                markersize=7, linestyle="None",
+                label=fw,
             )
-
-    ax.legend(
-        handles=fw_handles,
-        title="Framework",
-        loc="upper left",
-        bbox_to_anchor=(1.01, 0.58),
-        frameon=True,
-        framealpha=0.9,
-        handlelength=1.2,
-    )
+            for fw, marker in sorted(lang_fw_marker[lang].items())
+        ]
+        x_center = (k + 0.5) * col_width
+        leg = fig.legend(
+            handles=handles,
+            title=lang,
+            title_fontproperties={"weight": "bold", "size": 8},
+            loc="lower center",
+            bbox_to_anchor=(x_center, legend_y),
+            bbox_transform=fig.transFigure,
+            frameon=True,
+            framealpha=0.88,
+            fontsize=7.5,
+            ncol=1,
+            borderpad=0.5,
+            handletextpad=0.4,
+            labelcolor=color,
+        )
 
     ax.set_title(
         "RQ2: t-SNE of Code Embeddings\n"
@@ -164,7 +178,6 @@ def plot_tsne(df: pd.DataFrame, output_dir: str):
     )
     ax.set_xlabel("t-SNE 1")
     ax.set_ylabel("t-SNE 2")
-    plt.tight_layout()
 
     path = os.path.join(output_dir, "tsne_scatter.png")
     fig.savefig(path, bbox_inches="tight")
@@ -274,8 +287,8 @@ def plot_distance_heatmap(metrics: dict, df_meta: pd.DataFrame, output_dir: str)
         if col_start > 0:
             ax.axvline(x=col_start - 0.5, color="white", linewidth=2.0)
 
-        # Language label above columns
-        ax.text(col_mid, -0.85, lang, ha="center", va="bottom",
+        # Language label just below the tick labels
+        ax.text(col_mid, -0.11, lang, ha="center", va="top",
                 fontsize=8, fontweight="bold", color=lc,
                 transform=ax.get_xaxis_transform())
 
@@ -285,7 +298,7 @@ def plot_distance_heatmap(metrics: dict, df_meta: pd.DataFrame, output_dir: str)
 
     ax.set_title("RQ2: Same-Language Cross-Framework Cosine Distance by Pattern\n"
                  "(grouped by language; only intra-language framework pairs shown)")
-    ax.set_xlabel("Framework Pair  (grouped by Language)")
+    ax.set_xlabel("Framework Pair  (grouped by Language)", labelpad=28)
     ax.set_ylabel("Software Pattern")
     plt.tight_layout()
 
@@ -323,6 +336,11 @@ def plot_silhouette_bars(metrics: dict, output_dir: str):
     ax.axhline(y=overall, color="crimson", linestyle="--", linewidth=1.4,
                label=f"Overall = {overall:.4f}")
     ax.axhline(y=0, color="grey", linewidth=0.6)
+
+    # Increase visible y range so bars aren't cramped against the edges
+    y_min = min(min(scores), 0)
+    y_max = max(max(scores), overall)
+    ax.set_ylim(y_min - 0.06, y_max + 0.06)
 
     ax.set_ylabel("Framework Silhouette Score")
     ax.set_xlabel("Language")
