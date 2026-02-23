@@ -35,7 +35,7 @@ Below is the summary of statistical testing across all six models:
 
 While a t-test proves the gap exists, Cohen’s $d$ measures its practical magnitude.
 
-![Effect Size Comparison](/Users/unignoramus/Developer/inlp-project/results/rq2/cross_model/effect_size_comparison.png)
+![Effect Size Comparison](./cross_model/effect_size_comparison.png)
 
 Five of the six models demonstrate a **Large** effect size ($d > 0.8$), proving that the framework used dictates a massive semantic shift in the embedding vector. The sole outlier, UniXCoder (a bidirectional encoder pre-trained structurally on ASTs), still exhibits a **Medium** effect size, indicating that structural pre-training mitigates, but does not eliminate, framework dialects.
 
@@ -45,7 +45,7 @@ Five of the six models demonstrate a **Large** effect size ($d > 0.8$), proving 
 
 To understand if these numerical distances translate into distinct clusters in the ambient embedding space, we analyze the silhouette score per language.
 
-![Silhouette Model Comparison](/Users/unignoramus/Developer/inlp-project/results/rq2/cross_model/silhouette_comparison.png)
+![Silhouette Model Comparison](./cross_model/silhouette_comparison.png)
 
 _A score $>0$ means frameworks form distinct, separable clusters within the host language._
 
@@ -56,7 +56,7 @@ _A score $>0$ means frameworks form distinct, separable clusters within the host
 
 Below is an illustration of this fracturing using `bge-m3` vectors projected via t-SNE:
 
-![t-SNE bge-m3](/Users/unignoramus/Developer/inlp-project/results/rq2/bge_m3/tsne_scatter.png)
+![t-SNE bge-m3](./bge_m3/tsne_scatter.png)
 
 > _Notice how variations (shapes) cluster tightly together despite belonging to the same host language (colour)._
 
@@ -66,7 +66,7 @@ Below is an illustration of this fracturing using `bge-m3` vectors projected via
 
 Does framework choice alter the semantics of all code equally? We analyzed the distance gap injected by frameworks across specific software patterns.
 
-![Distance per Pattern](/Users/unignoramus/Developer/inlp-project/results/rq2/cross_model/distance_comparison.png)
+![Distance per Pattern](./cross_model/distance_comparison.png)
 
 The visualization above highlights that **structural and conceptual patterns** suffer extreme semantic distortion when crossing frameworks, whereas fundamental syntax patterns remain relatively stable:
 
