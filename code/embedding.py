@@ -146,7 +146,14 @@ def get_sentence_transformer_embeddings(model_name: str, texts: List[str]) -> Li
     print(f"Loading SentenceTransformer: {model_name}")
     model = SentenceTransformer(model_name, trust_remote_code=True)
     
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    # Device selection: CUDA > MPS (Apple Silicon) > CPU
+    if torch.cuda.is_available():
+        device = 'cuda'
+    elif torch.backends.mps.is_available():
+        device = 'mps'
+    else:
+        device = 'cpu'
+    print(f"  Using device: {device}")
     model = model.to(device)
 
     embeddings = []
@@ -172,7 +179,7 @@ def get_sentence_transformer_embeddings(model_name: str, texts: List[str]) -> Li
         del model
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
-            gc.collect()
+        gc.collect()
             
     return embeddings
 
@@ -182,8 +189,15 @@ def get_unixcoder_embeddings(model_name: str, texts: List[str], batch_size: int 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModel.from_pretrained(model_name)
     
+    # Device selection: CUDA > MPS (Apple Silicon) > CPU
     if torch.cuda.is_available():
-        model = model.to('cuda')
+        device = 'cuda'
+    elif torch.backends.mps.is_available():
+        device = 'mps'
+    else:
+        device = 'cpu'
+    print(f"  Using device: {device}")
+    model = model.to(device)
     model.eval()
     
     embeddings = []
@@ -194,8 +208,7 @@ def get_unixcoder_embeddings(model_name: str, texts: List[str], batch_size: int 
             
             # Tokenize
             inputs = tokenizer(batch_texts, padding=True, truncation=True, max_length=512, return_tensors="pt")
-            if torch.cuda.is_available():
-                inputs = {k: v.to('cuda') for k, v in inputs.items()}
+            inputs = {k: v.to(device) for k, v in inputs.items()}
                 
             with torch.no_grad():
                 outputs = model(**inputs)
@@ -221,7 +234,7 @@ def get_unixcoder_embeddings(model_name: str, texts: List[str], batch_size: int 
         del tokenizer
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
-            gc.collect()
+        gc.collect()
             
     return embeddings
 

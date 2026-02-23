@@ -303,7 +303,7 @@ def finetune_family(family_name: str, dry_run: bool = False) -> None:
         save_total_limit=2,
         save_strategy="epoch",
         logging_dir=os.path.join(output_dir, "logs"),
-        fp16=torch.cuda.is_available(),
+        fp16=torch.cuda.is_available(),  # fp16 is CUDA-only; MPS uses default precision
         report_to="none",
     )
 
