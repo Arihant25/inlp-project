@@ -60,7 +60,7 @@ The analysis follows a four-stage pipeline:
    - **Welch's t-test** and **Cohen's d** quantify whether the gap between cross- and intra-framework distances is statistically significant and practically meaningful.
    - **95% bootstrap confidence intervals** are computed for all key metrics.
 
-3. **Visualisation** (`3_visualize.py`): Per-model figures are generated -- t-SNE scatter plots, cross-framework distance heatmaps, and per-language silhouette bar charts.
+3. **Visualisation** (`3_visualize.py`): Per-model figures are generated—t-SNE scatter plots, cross-framework distance heatmaps, and per-language silhouette bar charts.
 
 4. **Cross-model aggregation** (`4_cross_model.py`): Metrics are compared across all six embedding models to assess robustness.
 
@@ -107,7 +107,7 @@ The table below aggregates key metrics across all six embedding models:
 **Key observations:**
 
 - **All six models detect a statistically significant difference** between cross-framework and intra-framework distances (p < 0.001 in every case), confirming that framework choice creates measurable structure in the embedding space.
-- **Five of six models show a large effect size** (Cohen's d > 0.8). The exception is UniXCoder (d = 0.679, medium), which is notable since it is the only code-specialised model in the set -- suggesting that models trained specifically on code may partially normalise away framework-specific surface patterns in favour of deeper semantic representations.
+- **Five of six models show a large effect size** (Cohen's d > 0.8). The exception is UniXCoder (d = 0.679, medium), which is notable since it is the only code-specialised model in the set—suggesting that models trained specifically on code may partially normalise away framework-specific surface patterns in favour of deeper semantic representations.
 - **BGE-M3 shows the strongest framework separation** (d = 1.878), followed by MiniLM (d = 1.587). Both are general-purpose sentence embedding models, suggesting they are more sensitive to the lexical and structural cues that frameworks introduce (import statements, decorator patterns, API naming conventions).
 - **Language silhouette consistently exceeds framework silhouette** across all models (e.g., ada002: 0.304 vs 0.060), indicating that while frameworks create detectable sub-structure, the primary organising axis in embedding space remains the programming language itself.
 
@@ -117,19 +117,19 @@ The per-language framework silhouette scores reveal which languages exhibit the 
 
 | Language       | BGE-M3    | MiniLM | Ada-002 | Range (all models) |
 | -------------- | --------- | ------ | ------- | ------------------ |
-| **Ruby**       | **0.216** | 0.180  | 0.167   | 0.041 -- 0.253     |
-| **Kotlin**     | **0.192** | 0.243  | 0.134   | 0.040 -- 0.243     |
-| **Rust**       | **0.191** | 0.253  | 0.192   | 0.035 -- 0.253     |
-| **Go**         | **0.179** | 0.164  | 0.114   | -0.016 -- 0.179    |
-| **Python**     | **0.174** | 0.186  | 0.155   | 0.072 -- 0.186     |
-| **JavaScript** | **0.131** | 0.214  | 0.199   | 0.054 -- 0.214     |
-| **Java**       | **0.129** | 0.201  | 0.093   | 0.022 -- 0.201     |
-| **PHP**        | **0.087** | 0.233  | 0.172   | 0.068 -- 0.233     |
+| **Ruby**       | **0.216** | 0.180  | 0.167   | 0.041–0.253        |
+| **Kotlin**     | **0.192** | 0.243  | 0.134   | 0.040–0.243        |
+| **Rust**       | **0.191** | 0.253  | 0.192   | 0.035–0.253        |
+| **Go**         | **0.179** | 0.164  | 0.114   | -0.016–0.179       |
+| **Python**     | **0.174** | 0.186  | 0.155   | 0.072–0.186        |
+| **JavaScript** | **0.131** | 0.214  | 0.199   | 0.054–0.214        |
+| **Java**       | **0.129** | 0.201  | 0.093   | 0.022–0.201        |
+| **PHP**        | **0.087** | 0.233  | 0.172   | 0.068–0.233        |
 
 **Observations:**
 
 - **Ruby, Kotlin, and Rust consistently show the highest framework silhouette scores**, indicating that frameworks in these languages produce the most distinctive embedding signatures. This is consistent with the strong API-design idioms of Rails vs. Sinatra vs. Hanami (Ruby), Ktor vs. Spring Boot vs. Javalin (Kotlin), and Actix vs. Rocket vs. Axum (Rust), which each impose substantially different code structures and patterns.
-- **PHP shows the lowest score on BGE-M3** (0.087) but high scores on MiniLM (0.233), suggesting model sensitivity varies -- PHP frameworks (Laravel, Symfony, Slim) may introduce less syntactic divergence that BGE-M3 can detect but more semantic patterns that MiniLM's broader training captures.
+- **PHP shows the lowest score on BGE-M3** (0.087) but high scores on MiniLM (0.233), suggesting model sensitivity varies—PHP frameworks (Laravel, Symfony, Slim) may introduce less syntactic divergence that BGE-M3 can detect but more semantic patterns that MiniLM's broader training captures.
 - **Go's silhouette analysis is particularly interesting**: the Go frameworks (Gin, Echo, Fiber) are architecturally similar (all are lightweight HTTP routers), and UniXCoder actually assigns Go a _negative_ silhouette (-0.016), meaning that the code-specialised model cannot distinguish Go frameworks at all. This aligns with Go's design philosophy of minimal abstraction, where frameworks tend to be thin wrappers rather than opinionated ecosystems.
 
 ### 5.3 Distance Analysis by Software Pattern
@@ -151,7 +151,7 @@ Cross-framework distances vary across the eight software patterns, revealing whi
 
 **Observations:**
 
-- **Middleware/Interceptors shows the largest distance gap** (0.100), which is expected since middleware implementation is one of the most framework-opinionated concerns -- each framework provides its own middleware architecture (e.g., Django's middleware classes vs. Flask's decorators vs. FastAPI's dependency injection).
+- **Middleware/Interceptors shows the largest distance gap** (0.100), which is expected since middleware implementation is one of the most framework-opinionated concerns—each framework provides its own middleware architecture (e.g., Django's middleware classes vs. Flask's decorators vs. FastAPI's dependency injection).
 - **Authentication & Authorization has the smallest cross-framework distance** (0.289), suggesting that authentication logic is relatively standardised across frameworks, likely because the underlying cryptographic and session-management patterns are framework-agnostic.
 - The pattern-level variation is relatively modest (cross-framework distances range from 0.289 to 0.312), indicating that the framework "dialect" effect is reasonably consistent across software concerns rather than being driven by a single pattern type.
 
@@ -161,15 +161,15 @@ The detailed heatmap (Figure 2) reveals fine-grained framework-pair distances wi
 
 **Same-language framework pairs with the smallest distances (most similar):**
 
-- **Go:** Echo vs. Gin (0.125), Echo vs. Fiber (0.136), Fiber vs. Gin (0.147) -- Go's frameworks are tightly clustered, consistent with their shared lightweight-router design.
-- **Kotlin:** Javalin vs. Ktor (0.174) -- both are Kotlin-native lightweight frameworks.
-- **Rust:** Actix vs. Rocket (0.221), Actix vs. Axum (0.230) -- Rust web frameworks share Rust's ownership-based idioms.
+- **Go:** Echo vs. Gin (0.125), Echo vs. Fiber (0.136), Fiber vs. Gin (0.147)—Go's frameworks are tightly clustered, consistent with their shared lightweight-router design.
+- **Kotlin:** Javalin vs. Ktor (0.174)—both are Kotlin-native lightweight frameworks.
+- **Rust:** Actix vs. Rocket (0.221), Actix vs. Axum (0.230)—Rust web frameworks share Rust's ownership-based idioms.
 
 **Same-language framework pairs with the largest distances (most distinct):**
 
-- **Ruby:** Hanami vs. Rails (0.286), Hanami vs. Sinatra (0.261) -- Hanami's clean-architecture approach is the most distinctive Ruby framework.
-- **Java:** Micronaut vs. Quarkus show moderate separation, while Javalin vs. Ktor (0.174) are close -- the JVM enterprise frameworks impose different enough conventions to be distinguishable.
-- **Python:** Django vs. Flask (0.334 on Authentication) -- Django's opinionated, batteries-included approach creates the largest within-language gap.
+- **Ruby:** Hanami vs. Rails (0.286), Hanami vs. Sinatra (0.261)—Hanami's clean-architecture approach is the most distinctive Ruby framework.
+- **Java:** Micronaut vs. Quarkus show moderate separation, while Javalin vs. Ktor (0.174) are close—the JVM enterprise frameworks impose different enough conventions to be distinguishable.
+- **Python:** Django vs. Flask (0.334 on Authentication)—Django's opinionated, batteries-included approach creates the largest within-language gap.
 
 ### 5.5 t-SNE Visualisation
 
@@ -187,7 +187,7 @@ UniXCoder deserves special attention as the only code-specialised embedding mode
 - **Cohen's d is medium** (0.679) rather than large, and the distance gap (0.071) is among the smallest.
 - **Go receives a negative per-language silhouette** (-0.016), the only language with a negative score across any model.
 
-This pattern is consistent with the hypothesis that **code-specialised models learn representations that are more invariant to superficial framework-specific patterns** (import paths, decorator syntax, API naming) and instead capture deeper semantic structure (algorithmic intent, data flow). The framework "dialect" signal is real but relatively shallow -- it is readily detected by general-purpose text/sentence embedders that are sensitive to surface form, but partially normalised away by models explicitly trained to understand code semantics.
+This pattern is consistent with the hypothesis that **code-specialised models learn representations that are more invariant to superficial framework-specific patterns** (import paths, decorator syntax, API naming) and instead capture deeper semantic structure (algorithmic intent, data flow). The framework "dialect" signal is real but relatively shallow—it is readily detected by general-purpose text/sentence embedders that are sensitive to surface form, but partially normalised away by models explicitly trained to understand code semantics.
 
 ## 6. Discussion
 
@@ -200,16 +200,16 @@ This pattern is consistent with the hypothesis that **code-specialised models le
 The framework signal appears to be driven primarily by:
 
 1. **Import and API surface patterns**: Framework-specific imports, decorators, and class hierarchies create distinctive lexical signatures (e.g., `@app.route` in Flask vs. `class UserView(APIView)` in Django REST Framework).
-2. **Architectural scaffolding**: Frameworks impose structural patterns -- Rails' convention-over-configuration generates distinctive directory/file references, NestJS's decorator-heavy approach differs from Express's middleware chaining.
+2. **Architectural scaffolding**: Frameworks impose structural patterns—Rails' convention-over-configuration generates distinctive directory/file references, NestJS's decorator-heavy approach differs from Express's middleware chaining.
 3. **Idiomatic usage patterns**: Each framework encourages specific coding idioms (e.g., Django's ORM syntax vs. Flask-SQLAlchemy's different model declaration style).
 
-The weaker signal in UniXCoder suggests that once a model learns to look past surface syntax toward semantic intent, much of the framework differentiation diminishes -- the underlying algorithmic logic of "authenticate a user" or "cache a result" is framework-independent.
+The weaker signal in UniXCoder suggests that once a model learns to look past surface syntax toward semantic intent, much of the framework differentiation diminishes—the underlying algorithmic logic of "authenticate a user" or "cache a result" is framework-independent.
 
 ### 6.3 Practical Implications
 
-- **Code search and retrieval**: Framework-aware code search could leverage the detected sub-clusters to improve precision -- a query for "Flask authentication" should return results from the Flask sub-cluster rather than the broader Python space.
+- **Code search and retrieval**: Framework-aware code search could leverage the detected sub-clusters to improve precision—a query for "Flask authentication" should return results from the Flask sub-cluster rather than the broader Python space.
 - **Migration tooling**: The measured distances between framework pairs provide a quantitative basis for estimating framework migration difficulty. For example, Go framework migrations (Gin to Echo: distance 0.125) should be substantially easier than Python framework migrations (Django to Flask: distance 0.334).
-- **Transfer learning for code models**: The finding that code-specialised models partially normalise framework patterns suggests that fine-tuning strategies should consider whether framework-specific performance is a goal -- if so, general-purpose embedders may be more appropriate starting points.
+- **Transfer learning for code models**: The finding that code-specialised models partially normalise framework patterns suggests that fine-tuning strategies should consider whether framework-specific performance is a goal—if so, general-purpose embedders may be more appropriate starting points.
 
 ### 6.4 Limitations
 
@@ -240,7 +240,7 @@ _Per-language framework silhouette scores for BGE-M3. Ruby (0.216) and Kotlin (0
 ![Silhouette Comparison](cross_model/silhouette_comparison.png)
 _Framework silhouette scores compared across all six embedding models and eight languages. MiniLM and BGE-M3 consistently show the highest scores; UniXCoder and Octen/Qwen3 show the lowest._
 
-### Figure 5: Cross-Framework Distance by Pattern -- Model Comparison
+### Figure 5: Cross-Framework Distance by Pattern—Model Comparison
 
 ![Distance Comparison](cross_model/distance_comparison.png)
 _Mean cross-framework cosine distance by software pattern for each embedding model. MiniLM produces the largest absolute distances; Ada-002 the smallest. The relative ordering of patterns is largely consistent across models._
@@ -254,4 +254,4 @@ _Cohen's d for the cross-vs-intra framework distance gap. Five models show large
 
 This analysis provides strong evidence that **framework choice creates detectable "dialects" within programming languages in embedding space**. Across six diverse embedding models, cross-framework distances are consistently and significantly larger than intra-framework distances (all p < 0.001), with large effect sizes in five of six models (Cohen's d range: 1.42--1.88). The framework signal is strongest in languages with highly opinionated frameworks (Ruby, Kotlin, Rust) and weakest in languages with architecturally homogeneous frameworks (Go) or when measured by code-specialised models (UniXCoder) that look past surface syntax.
 
-These findings extend the language-family clustering baseline by demonstrating a second level of embedding structure -- one driven not by core syntax but by the API ecosystems and design patterns that frameworks impose. This framework-level granularity has practical implications for code search, migration planning, and fine-tuning strategy design.
+These findings extend the language-family clustering baseline by demonstrating a second level of embedding structure—one driven not by core syntax but by the API ecosystems and design patterns that frameworks impose. This framework-level granularity has practical implications for code search, migration planning, and fine-tuning strategy design.
