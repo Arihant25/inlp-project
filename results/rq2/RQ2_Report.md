@@ -111,6 +111,12 @@ The table below aggregates key metrics across all six embedding models:
 - **BGE-M3 shows the strongest framework separation** (d = 1.878), followed by MiniLM (d = 1.587). Both are general-purpose sentence embedding models, suggesting they are more sensitive to the lexical and structural cues that frameworks introduce (import statements, decorator patterns, API naming conventions).
 - **Language silhouette consistently exceeds framework silhouette** across all models (e.g., ada002: 0.304 vs 0.060), indicating that while frameworks create detectable sub-structure, the primary organising axis in embedding space remains the programming language itself.
 
+![Effect Size Comparison Across Models](cross_model/effect_size_comparison.png)
+_Cohen's d for the cross-vs-intra framework distance gap across all six models. Five models show large effects (d > 0.8); UniXCoder is the sole medium-effect outlier._
+
+![Silhouette Comparison Across Models](cross_model/silhouette_comparison.png)
+_Per-language framework silhouette scores compared across all six models. MiniLM and BGE-M3 consistently score highest; UniXCoder and Octen/Qwen3 the lowest._
+
 ### 5.2 Framework Silhouette Scores per Language
 
 The per-language framework silhouette scores reveal which languages exhibit the strongest framework-driven dialectal variation. The table below shows scores for BGE-M3 (the model with the strongest overall framework separation), alongside ranges observed across all six models:
@@ -131,6 +137,9 @@ The per-language framework silhouette scores reveal which languages exhibit the 
 - **Ruby, Kotlin, and Rust consistently show the highest framework silhouette scores**, indicating that frameworks in these languages produce the most distinctive embedding signatures. This is consistent with the strong API-design idioms of Rails vs. Sinatra vs. Hanami (Ruby), Ktor vs. Spring Boot vs. Javalin (Kotlin), and Actix vs. Rocket vs. Axum (Rust), which each impose substantially different code structures and patterns.
 - **PHP shows the lowest score on BGE-M3** (0.087) but high scores on MiniLM (0.233), suggesting model sensitivity varies — PHP frameworks (Laravel, Symfony, Slim) may introduce less syntactic divergence that BGE-M3 can detect but more semantic patterns that MiniLM's broader training captures.
 - **Go's silhouette analysis is particularly interesting**: the Go frameworks (Gin, Echo, Fiber) are architecturally similar (all are lightweight HTTP routers), and UniXCoder actually assigns Go a _negative_ silhouette (-0.016), meaning that the code-specialised model cannot distinguish Go frameworks at all. This aligns with Go's design philosophy of minimal abstraction, where frameworks tend to be thin wrappers rather than opinionated ecosystems.
+
+![Framework Silhouette per Language (BGE-M3)](bge_m3/silhouette_per_language.png)
+_Per-language framework silhouette scores for BGE-M3. Ruby (0.216) and Kotlin (0.192) show the strongest framework separability; PHP (0.087) the weakest. The dashed red line marks the overall average (0.108)._
 
 ### 5.3 Distance Analysis by Software Pattern
 
@@ -155,6 +164,12 @@ Cross-framework distances vary across the eight software patterns, revealing whi
 - **Authentication & Authorization has the smallest cross-framework distance** (0.289), suggesting that authentication logic is relatively standardised across frameworks, likely because the underlying cryptographic and session-management patterns are framework-agnostic.
 - The pattern-level variation is relatively modest (cross-framework distances range from 0.289 to 0.312), indicating that the framework "dialect" effect is reasonably consistent across software concerns rather than being driven by a single pattern type.
 
+![Cross-Framework Distance Heatmap (BGE-M3)](bge_m3/distance_heatmap.png)
+_Same-language cross-framework cosine distances by software pattern. Go frameworks cluster tightly (yellow); PHP and Python show the highest cross-framework spread (orange/red). Columns are grouped by language._
+
+![Cross-Framework Distance by Pattern — Model Comparison](cross_model/distance_comparison.png)
+_Mean cross-framework cosine distance by software pattern for each model. MiniLM produces the largest absolute distances; Ada-002 the smallest. Pattern ordering is broadly consistent across models._
+
 ### 5.4 Intra-Language Framework Pair Analysis
 
 The detailed heatmap (Figure 2) reveals fine-grained framework-pair distances within each language. Notable findings from the BGE-M3 model:
@@ -178,6 +193,9 @@ The t-SNE scatter plot (Figure 1, shown for BGE-M3) reveals the two-level struct
 1. **Language is the primary organising axis**: Points cluster by colour (language), with Go (dark green), Java (olive), Rust (brown), Ruby (red-orange), and PHP (pink) forming visually distinct regions.
 2. **Within-language framework sub-structure is visible**: Within each language cluster, different marker shapes (representing frameworks) show partial separation. This is most pronounced for Ruby (where Hanami points are displaced from the Rails/Sinatra core) and Python (where Django forms a sub-cluster offset from Flask/FastAPI).
 3. **Cross-language framework affinity is limited**: There is no strong visual evidence that, for example, Spring Boot (Java) clusters near Spring Boot (Kotlin). Language identity dominates over framework identity in the global embedding space, though localised framework effects are clearly present within each language cluster.
+
+![t-SNE Scatter Plot (BGE-M3)](bge_m3/tsne_scatter.png)
+_t-SNE projection of all 1,024 embeddings for BGE-M3. Colour = programming language; marker shape = framework. Language clusters are clearly visible, with within-cluster framework sub-structure most apparent for Ruby, Python, and Rust._
 
 ### 5.6 UniXCoder: The Code-Specialised Outlier
 
