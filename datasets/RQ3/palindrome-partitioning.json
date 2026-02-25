@@ -1,0 +1,228 @@
+{
+    "problem_name": "Palindrome Partitioning",
+    "problem_slug": "palindrome-partitioning",
+    "difficulty": "medium",
+    "topic_tags": [
+        "string",
+        "dynamic programming",
+        "backtracking"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def partition(self, s: str) -> List[List[str]]:\n        res, part = [], []\n\n        def dfs(j, i):\n            if i >= len(s):\n                if i == j:\n                    res.append(part.copy())\n                return\n\n            if self.isPali(s, j, i):\n                part.append(s[j : i + 1])\n                dfs(i + 1, i + 1)\n                part.pop()\n\n            dfs(j, i + 1)\n\n        dfs(0, 0)\n        return res\n\n    def isPali(self, s, l, r):\n        while l < r:\n            if s[l] != s[r]:\n                return False\n            l, r = l + 1, r - 1\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private List<List<String>> res = new ArrayList<>();\n    private List<String> part = new ArrayList<>();\n\n    public List<List<String>> partition(String s) {\n        dfs(0, 0, s);\n        return res;\n    }\n\n    private void dfs(int j, int i, String s) {\n        if (i >= s.length()) {\n            if (i == j) {\n                res.add(new ArrayList<>(part));\n            }\n            return;\n        }\n\n        if (isPali(s, j, i)) {\n            part.add(s.substring(j, i + 1));\n            dfs(i + 1, i + 1, s);\n            part.remove(part.size() - 1);\n        }\n\n        dfs(j, i + 1, s);\n    }\n\n    private boolean isPali(String s, int l, int r) {\n        while (l < r) {\n            if (s.charAt(l) != s.charAt(r)) {\n                return false;\n            }\n            l++;\n            r--;\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    vector<vector<string>> res;\npublic:\n    vector<vector<string>> partition(string s) {\n        vector<string> part;\n        dfs(0, 0, s, part);\n        return res;\n    }\n\n    void dfs(int j, int i, string &s, vector<string> &part) {\n        if (i >= s.size()) {\n            if (i == j) {\n                res.push_back(part);\n            }\n            return;\n        }\n\n        if (isPali(s, j, i)) {\n            part.push_back(s.substr(j, i - j + 1));\n            dfs(i + 1, i + 1, s, part);\n            part.pop_back();\n        }\n\n        dfs(j, i + 1, s, part);\n    }\n\n    bool isPali(string &s, int l, int r) {\n        while (l < r) {\n            if (s[l] != s[r]) {\n                return false;\n            }\n            l++;\n            r--;\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {string[][]}\n     */\n    partition(s) {\n        const res = [];\n        const part = [];\n\n        const dfs = (j, i) => {\n            if (i >= s.length) {\n                if (i === j) {\n                    res.push([...part]);\n                }\n                return;\n            }\n\n            if (this.isPali(s, j, i)) {\n                part.push(s.substring(j, i + 1));\n                dfs(i + 1, i + 1);\n                part.pop();\n            }\n\n            dfs(j, i + 1);\n        };\n\n        dfs(0, 0);\n        return res;\n    }\n\n    /**\n     * @param {string} s\n     * @param {number} l\n     * @param {number} r\n     * @return {boolean}\n     */\n    isPali(s, l, r) {\n        while (l < r) {\n            if (s[l] !== s[r]) {\n                return false;\n            }\n            l++;\n            r--;\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private List<List<string>> res = new List<List<string>>();\n    private List<string> part = new List<string>();\n\n    public List<List<string>> Partition(string s) {\n        dfs(0, 0, s);\n        return res;\n    }\n\n    private void dfs(int j, int i, string s) {\n        if (i >= s.Length) {\n            if (i == j) {\n                res.Add(new List<string>(part));\n            }\n            return;\n        }\n\n        if (isPali(s, j, i)) {\n            part.Add(s.Substring(j, i - j + 1));\n            dfs(i + 1, i + 1, s);\n            part.RemoveAt(part.Count - 1);\n        }\n\n        dfs(j, i + 1, s);\n    }\n\n    private bool isPali(string s, int l, int r) {\n        while (l < r) {\n            if (s[l] != s[r]) {\n                return false;\n            }\n            l++;\n            r--;\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func partition(s string) [][]string {\n    res := [][]string{}\n    part := []string{}\n\n    var dfs func(j, i int)\n    dfs = func(j, i int) {\n        if i >= len(s) {\n            if i == j {\n                res = append(res, append([]string{}, part...))\n            }\n            return\n        }\n\n        if isPali(s, j, i) {\n            part = append(part, s[j:i+1])\n            dfs(i+1, i+1)\n            part = part[:len(part)-1]\n        }\n\n        dfs(j, i+1)\n    }\n\n    dfs(0, 0)\n    return res\n}\n\nfunc isPali(s string, l, r int) bool {\n    for l < r {\n        if s[l] != s[r] {\n            return false\n        }\n        l++\n        r--\n    }\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun partition(s: String): List<List<String>> {\n        val res = mutableListOf<List<String>>()\n        val part = mutableListOf<String>()\n\n        fun dfs(j: Int, i: Int) {\n            if (i >= s.length) {\n                if (i == j) {\n                    res.add(part.toList())\n                }\n                return\n            }\n\n            if (isPali(s, j, i)) {\n                part.add(s.substring(j, i + 1))\n                dfs(i + 1, i + 1)\n                part.removeAt(part.size - 1)\n            }\n\n            dfs(j, i + 1)\n        }\n\n        dfs(0, 0)\n        return res\n    }\n\n    private fun isPali(s: String, l: Int, r: Int): Boolean {\n        var left = l\n        var right = r\n        while (left < right) {\n            if (s[left] != s[right]) {\n                return false\n            }\n            left++\n            right--\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func partition(_ s: String) -> [[String]] {\n        var res = [[String]]()\n        var part = [String]()\n        let sArray = Array(s)\n\n        func dfs(_ j: Int, _ i: Int) {\n            if i >= sArray.count {\n                if i == j {\n                    res.append(part)\n                }\n                return\n            }\n\n            if isPali(sArray, j, i) {\n                part.append(String(sArray[j...i]))\n                dfs(i + 1, i + 1)\n                part.removeLast()\n            }\n\n            dfs(j, i + 1)\n        }\n\n        func isPali(_ s: [Character], _ l: Int, _ r: Int) -> Bool {\n            var l = l, r = r\n            while l < r {\n                if s[l] != s[r] {\n                    return false\n                }\n                l += 1\n                r -= 1\n            }\n            return true\n        }\n\n        dfs(0, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn partition(s: String) -> Vec<Vec<String>> {\n        let s = s.as_bytes();\n        let mut res = Vec::new();\n        let mut part = Vec::new();\n\n        fn is_pali(s: &[u8], mut l: usize, mut r: usize) -> bool {\n            while l < r {\n                if s[l] != s[r] {\n                    return false;\n                }\n                l += 1;\n                r -= 1;\n            }\n            true\n        }\n\n        fn dfs(s: &[u8], j: usize, i: usize, part: &mut Vec<String>,\n               res: &mut Vec<Vec<String>>) {\n            if i >= s.len() {\n                if i == j {\n                    res.push(part.clone());\n                }\n                return;\n            }\n            if is_pali(s, j, i) {\n                part.push(String::from_utf8(s[j..=i].to_vec()).unwrap());\n                dfs(s, i + 1, i + 1, part, res);\n                part.pop();\n            }\n            dfs(s, j, i + 1, part, res);\n        }\n\n        dfs(s, 0, 0, &mut part, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n\n    def partition(self, s: str) -> List[List[str]]:\n        res, part = [], []\n\n        def dfs(i):\n            if i >= len(s):\n                res.append(part.copy())\n                return\n            for j in range(i, len(s)):\n                if self.isPali(s, i, j):\n                    part.append(s[i : j + 1])\n                    dfs(j + 1)\n                    part.pop()\n\n        dfs(0)\n        return res\n\n    def isPali(self, s, l, r):\n        while l < r:\n            if s[l] != s[r]:\n                return False\n            l, r = l + 1, r - 1\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    public List<List<String>> partition(String s) {\n        List<List<String>> res = new ArrayList<>();\n        List<String> part = new ArrayList<>();\n        dfs(0, s, part, res);\n        return res;\n    }\n\n    private void dfs(int i, String s, List<String> part, List<List<String>> res) {\n        if (i >= s.length()) {\n            res.add(new ArrayList<>(part));\n            return;\n        }\n        for (int j = i; j < s.length(); j++) {\n            if (isPali(s, i, j)) {\n                part.add(s.substring(i, j + 1));\n                dfs(j + 1, s, part, res);\n                part.remove(part.size() - 1);\n            }\n        }\n    }\n\n    private boolean isPali(String s, int l, int r) {\n        while (l < r) {\n            if (s.charAt(l) != s.charAt(r)) {\n                return false;\n            }\n            l++;\n            r--;\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<string>> partition(string s) {\n        vector<vector<string>> res;\n        vector<string> part;\n        dfs(0, s, part, res);\n        return res;\n    }\n\nprivate:\n    void dfs(int i, const string& s, vector<string>& part, vector<vector<string>>& res) {\n        if (i >= s.length()) {\n            res.push_back(part);\n            return;\n        }\n        for (int j = i; j < s.length(); j++) {\n            if (isPali(s, i, j)) {\n                part.push_back(s.substr(i, j - i + 1));\n                dfs(j + 1, s, part, res);\n                part.pop_back();\n            }\n        }\n    }\n\n    bool isPali(const string& s, int l, int r) {\n        while (l < r) {\n            if (s[l] != s[r]) {\n                return false;\n            }\n            l++;\n            r--;\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {string[][]}\n     */\n    partition(s) {\n        const res = [];\n        const part = [];\n        this.dfs(0, s, part, res);\n        return res;\n    }\n\n    /**\n     * @param {number} i\n     * @param {string} s\n     * @param {string[]} part\n     * @param {string[][]} res\n     * @return {void}\n     */\n    dfs(i, s, part, res) {\n        if (i >= s.length) {\n            res.push([...part]);\n            return;\n        }\n        for (let j = i; j < s.length; j++) {\n            if (this.isPali(s, i, j)) {\n                part.push(s.substring(i, j + 1));\n                this.dfs(j + 1, s, part, res);\n                part.pop();\n            }\n        }\n    }\n\n    /**\n     * @param {string} s\n     * @param {number} l\n     * @param {number} r\n     * @return {boolean}\n     */\n    isPali(s, l, r) {\n        while (l < r) {\n            if (s[l] !== s[r]) {\n                return false;\n            }\n            l++;\n            r--;\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    public List<List<string>> Partition(string s) {\n        List<List<string>> res = new List<List<string>>();\n        List<string> part = new List<string>();\n        Dfs(0, s, part, res);\n        return res;\n    }\n\n    private void Dfs(int i, string s, List<string> part, List<List<string>> res) {\n        if (i >= s.Length) {\n            res.Add(new List<string>(part));\n            return;\n        }\n        for (int j = i; j < s.Length; j++) {\n            if (IsPali(s, i, j)) {\n                part.Add(s.Substring(i, j - i + 1));\n                Dfs(j + 1, s, part, res);\n                part.RemoveAt(part.Count - 1);\n            }\n        }\n    }\n\n    private bool IsPali(string s, int l, int r) {\n        while (l < r) {\n            if (s[l] != s[r]) {\n                return false;\n            }\n            l++;\n            r--;\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func partition(s string) [][]string {\n    res := [][]string{}\n    part := []string{}\n\n    var dfs func(i int)\n    dfs = func(i int) {\n        if i >= len(s) {\n            res = append(res, append([]string{}, part...))\n            return\n        }\n        for j := i; j < len(s); j++ {\n            if isPali(s, i, j) {\n                part = append(part, s[i:j+1])\n                dfs(j + 1)\n                part = part[:len(part)-1]\n            }\n        }\n    }\n\n    dfs(0)\n    return res\n}\n\nfunc isPali(s string, l, r int) bool {\n    for l < r {\n        if s[l] != s[r] {\n            return false\n        }\n        l++\n        r--\n    }\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun partition(s: String): List<List<String>> {\n        val res = mutableListOf<List<String>>()\n        val part = mutableListOf<String>()\n\n        fun dfs(i: Int) {\n            if (i >= s.length) {\n                res.add(part.toList())\n                return\n            }\n            for (j in i until s.length) {\n                if (isPali(s, i, j)) {\n                    part.add(s.substring(i, j + 1))\n                    dfs(j + 1)\n                    part.removeAt(part.size - 1)\n                }\n            }\n        }\n\n        dfs(0)\n        return res\n    }\n\n    private fun isPali(s: String, l: Int, r: Int): Boolean {\n        var left = l\n        var right = r\n        while (left < right) {\n            if (s[left] != s[right]) {\n                return false\n            }\n            left++\n            right--\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func partition(_ s: String) -> [[String]] {\n        var res = [[String]]()\n        var part = [String]()\n        let sArray = Array(s)\n\n        func dfs(_ i: Int) {\n            if i >= sArray.count {\n                res.append(part)\n                return\n            }\n            for j in i..<sArray.count {\n                if isPali(sArray, i, j) {\n                    part.append(String(sArray[i...j]))\n                    dfs(j + 1)\n                    part.removeLast()\n                }\n            }\n        }\n\n        func isPali(_ s: [Character], _ l: Int, _ r: Int) -> Bool {\n            var l = l, r = r\n            while l < r {\n                if s[l] != s[r] {\n                    return false\n                }\n                l += 1\n                r -= 1\n            }\n            return true\n        }\n\n        dfs(0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn partition(s: String) -> Vec<Vec<String>> {\n        let s = s.as_bytes();\n        let mut res = Vec::new();\n        let mut part = Vec::new();\n\n        fn is_pali(s: &[u8], mut l: usize, mut r: usize) -> bool {\n            while l < r {\n                if s[l] != s[r] {\n                    return false;\n                }\n                l += 1;\n                r -= 1;\n            }\n            true\n        }\n\n        fn dfs(s: &[u8], i: usize, part: &mut Vec<String>,\n               res: &mut Vec<Vec<String>>) {\n            if i >= s.len() {\n                res.push(part.clone());\n                return;\n            }\n            for j in i..s.len() {\n                if is_pali(s, i, j) {\n                    part.push(String::from_utf8(s[i..=j].to_vec()).unwrap());\n                    dfs(s, j + 1, part, res);\n                    part.pop();\n                }\n            }\n        }\n\n        dfs(s, 0, &mut part, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n\n    def partition(self, s: str) -> List[List[str]]:\n        n = len(s)\n        dp = [[False] * n for _ in range(n)]\n        for l in range(1, n + 1):\n            for i in range(n - l + 1):\n                dp[i][i + l - 1] = (s[i] == s[i + l - 1] and\n                                    (i + 1 > (i + l - 2) or\n                                    dp[i + 1][i + l - 2]))\n\n        res, part = [], []\n        def dfs(i):\n            if i >= len(s):\n                res.append(part.copy())\n                return\n            for j in range(i, len(s)):\n                if dp[i][j]:\n                    part.append(s[i : j + 1])\n                    dfs(j + 1)\n                    part.pop()\n\n        dfs(0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    boolean[][] dp;\n    public List<List<String>> partition(String s) {\n        int n = s.length();\n        dp = new boolean[n][n];\n        for (int l = 1; l <= n; l++) {\n            for (int i = 0; i <= n - l; i++) {\n                dp[i][i + l - 1] = (s.charAt(i) == s.charAt(i + l - 1) &&\n                                    (i + 1 > (i + l - 2) ||\n                                    dp[i + 1][i + l - 2]));\n            }\n        }\n\n        List<List<String>> res = new ArrayList<>();\n        List<String> part = new ArrayList<>();\n        dfs(0, s, part, res);\n        return res;\n    }\n\n    private void dfs(int i, String s, List<String> part, List<List<String>> res) {\n        if (i >= s.length()) {\n            res.add(new ArrayList<>(part));\n            return;\n        }\n        for (int j = i; j < s.length(); j++) {\n            if (dp[i][j]) {\n                part.add(s.substring(i, j + 1));\n                dfs(j + 1, s, part, res);\n                part.remove(part.size() - 1);\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    vector<vector<bool>> dp;\npublic:\n    vector<vector<string>> partition(string s) {\n        int n = s.length();\n        dp.resize(n, vector<bool>(n));\n        for (int l = 1; l <= n; l++) {\n            for (int i = 0; i <= n - l; i++) {\n                dp[i][i + l - 1] = (s[i] == s[i + l - 1] &&\n                                    (i + 1 > (i + l - 2) ||\n                                    dp[i + 1][i + l - 2]));\n            }\n        }\n\n        vector<vector<string>> res;\n        vector<string> part;\n        dfs(0, s, part, res);\n        return res;\n    }\n\nprivate:\n    void dfs(int i, const string& s, vector<string>& part, vector<vector<string>>& res) {\n        if (i >= s.length()) {\n            res.push_back(part);\n            return;\n        }\n        for (int j = i; j < s.length(); j++) {\n            if (dp[i][j]) {\n                part.push_back(s.substr(i, j - i + 1));\n                dfs(j + 1, s, part, res);\n                part.pop_back();\n            }\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {string[][]}\n     */\n    partition(s) {\n        const n = s.length;\n        const dp = Array.from({ length: n }, () => Array(n).fill(false));\n        for (let l = 1; l <= n; l++) {\n            for (let i = 0; i <= n - l; i++) {\n                dp[i][i + l - 1] =\n                    s[i] === s[i + l - 1] &&\n                    (i + 1 > i + l - 2 || dp[i + 1][i + l - 2]);\n            }\n        }\n\n        const res = [];\n        const part = [];\n        const dfs = (i) => {\n            if (i >= s.length) {\n                res.push([...part]);\n                return;\n            }\n            for (let j = i; j < s.length; j++) {\n                if (dp[i][j]) {\n                    part.push(s.substring(i, j + 1));\n                    dfs(j + 1, s, part, res);\n                    part.pop();\n                }\n            }\n        };\n        dfs(0);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n\n    public List<List<string>> Partition(string s) {\n        int n = s.Length;\n        bool[,] dp = new bool[n, n];\n        for (int l = 1; l <= n; l++) {\n            for (int i = 0; i <= n - l; i++) {\n                dp[i, i + l - 1] = (s[i] == s[i + l - 1] &&\n                                    (i + 1 > (i + l - 2) ||\n                                    dp[i + 1, i + l - 2]));\n            }\n        }\n\n        List<List<string>> res = new List<List<string>>();\n        List<string> part = new List<string>();\n        Dfs(0, s, part, res, dp);\n        return res;\n    }\n\n    private void Dfs(int i, string s, List<string> part, List<List<string>> res, bool[,] dp) {\n        if (i >= s.Length) {\n            res.Add(new List<string>(part));\n            return;\n        }\n        for (int j = i; j < s.Length; j++) {\n            if (dp[i, j]) {\n                part.Add(s.Substring(i, j - i + 1));\n                Dfs(j + 1, s, part, res, dp);\n                part.RemoveAt(part.Count - 1);\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "func partition(s string) [][]string {\n    n := len(s)\n    dp := make([][]bool, n)\n    for i := range dp {\n        dp[i] = make([]bool, n)\n    }\n\n    for l := 1; l <= n; l++ {\n        for i := 0; i <= n-l; i++ {\n            dp[i][i+l-1] = (s[i] == s[i+l-1] && (i+1 > (i+l-2) || dp[i+1][i+l-2]))\n        }\n    }\n\n    res := [][]string{}\n    part := []string{}\n\n    var dfs func(i int)\n    dfs = func(i int) {\n        if i >= len(s) {\n            res = append(res, append([]string{}, part...))\n            return\n        }\n        for j := i; j < len(s); j++ {\n            if dp[i][j] {\n                part = append(part, s[i:j+1])\n                dfs(j + 1)\n                part = part[:len(part)-1]\n            }\n        }\n    }\n\n    dfs(0)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    fun partition(s: String): List<List<String>> {\n        val n = s.length\n        val dp = Array(n) { BooleanArray(n) }\n\n        for (l in 1..n) {\n            for (i in 0..n - l) {\n                dp[i][i + l - 1] = s[i] == s[i + l - 1] &&\n                                   (i + 1 > (i + l - 2) || dp[i + 1][i + l - 2])\n            }\n        }\n\n        val res = mutableListOf<List<String>>()\n        val part = mutableListOf<String>()\n\n        fun dfs(i: Int) {\n            if (i >= s.length) {\n                res.add(part.toList())\n                return\n            }\n            for (j in i until s.length) {\n                if (dp[i][j]) {\n                    part.add(s.substring(i, j + 1))\n                    dfs(j + 1)\n                    part.removeAt(part.size - 1)\n                }\n            }\n        }\n\n        dfs(0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func partition(_ s: String) -> [[String]] {\n        let n = s.count\n        let sArray = Array(s)\n        var dp = Array(repeating: Array(repeating: false, count: n), count: n)\n\n        for l in 1...n {\n            for i in 0...(n - l) {\n                dp[i][i + l - 1] = (sArray[i] == sArray[i + l - 1] &&\n                                    (i + 1 > (i + l - 2) || dp[i + 1][i + l - 2]))\n            }\n        }\n\n        var res = [[String]]()\n        var part = [String]()\n\n        func dfs(_ i: Int) {\n            if i >= sArray.count {\n                res.append(part)\n                return\n            }\n            for j in i..<sArray.count {\n                if dp[i][j] {\n                    part.append(String(sArray[i...j]))\n                    dfs(j + 1)\n                    part.removeLast()\n                }\n            }\n        }\n\n        dfs(0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn partition(s: String) -> Vec<Vec<String>> {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut dp = vec![vec![false; n]; n];\n        for l in 1..=n {\n            for i in 0..=n - l {\n                dp[i][i + l - 1] = s[i] == s[i + l - 1]\n                    && (i + 1 > i + l - 2 || dp[i + 1][i + l - 2]);\n            }\n        }\n\n        let mut res = Vec::new();\n        let mut part = Vec::new();\n\n        fn dfs(s: &[u8], dp: &Vec<Vec<bool>>, i: usize,\n               part: &mut Vec<String>, res: &mut Vec<Vec<String>>) {\n            if i >= s.len() {\n                res.push(part.clone());\n                return;\n            }\n            for j in i..s.len() {\n                if dp[i][j] {\n                    part.push(String::from_utf8(s[i..=j].to_vec()).unwrap());\n                    dfs(s, dp, j + 1, part, res);\n                    part.pop();\n                }\n            }\n        }\n\n        dfs(s, &dp, 0, &mut part, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n\n    def partition(self, s: str) -> List[List[str]]:\n        n = len(s)\n        dp = [[False] * n for _ in range(n)]\n        for l in range(1, n + 1):\n            for i in range(n - l + 1):\n                dp[i][i + l - 1] = (s[i] == s[i + l - 1] and\n                                    (i + 1 > (i + l - 2) or\n                                    dp[i + 1][i + l - 2]))\n\n        def dfs(i):\n            if i >= n:\n                return [[]]\n\n            ret = []\n            for j in range(i, n):\n                if dp[i][j]:\n                    nxt = dfs(j + 1)\n                    for part in nxt:\n                        cur = [s[i : j + 1]] + part\n                        ret.append(cur)\n            return ret\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n\n    public List<List<String>> partition(String s) {\n        int n = s.length();\n        boolean[][] dp = new boolean[n][n];\n        for (int l = 1; l <= n; l++) {\n            for (int i = 0; i <= n - l; i++) {\n                dp[i][i + l - 1] = (s.charAt(i) == s.charAt(i + l - 1) &&\n                                    (i + 1 > (i + l - 2) ||\n                                    dp[i + 1][i + l - 2]));\n            }\n        }\n\n        return dfs(s, dp, 0);\n    }\n\n    private List<List<String>> dfs(String s, boolean[][] dp, int i) {\n        if (i >= s.length()) {\n            return new ArrayList<List<String>>() {{ add(new ArrayList<>()); }};\n        }\n\n        List<List<String>> ret = new ArrayList<>();\n        for (int j = i; j < s.length(); j++) {\n            if (dp[i][j]) {\n                List<List<String>> nxt = dfs(s, dp, j + 1);\n                for (List<String> part : nxt) {\n                    List<String> cur = new ArrayList<>();\n                    cur.add(s.substring(i, j + 1));\n                    cur.addAll(part);\n                    ret.add(cur);\n                }\n            }\n        }\n        return ret;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\npublic:\n    vector<vector<string>> partition(string s) {\n        int n = s.size();\n        vector<vector<bool>> dp(n, vector<bool>(n, false));\n        for (int l = 1; l <= n; l++) {\n            for (int i = 0; i <= n - l; i++) {\n                dp[i][i + l - 1] = (s[i] == s[i + l - 1] &&\n                                    (i + 1 > (i + l - 2) ||\n                                    dp[i + 1][i + l - 2]));\n            }\n        }\n\n        return dfs(s, dp, 0);\n    }\n\n    vector<vector<string>> dfs(string& s, vector<vector<bool>>& dp, int i) {\n        if (i >= s.size()) {\n            return {{}};\n        }\n\n        vector<vector<string>> ret;\n        for (int j = i; j < s.size(); j++) {\n            if (dp[i][j]) {\n                auto nxt = dfs(s, dp, j + 1);\n                for (auto& part : nxt) {\n                    vector<string> cur;\n                    cur.push_back(s.substr(i, j - i + 1));\n                    cur.insert(cur.end(), part.begin(), part.end());\n                    ret.push_back(cur);\n                }\n            }\n        }\n        return ret;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {string[][]}\n     */\n    partition(s) {\n        const n = s.length;\n        const dp = Array.from({ length: n }, () => Array(n).fill(false));\n        for (let l = 1; l <= n; l++) {\n            for (let i = 0; i <= n - l; i++) {\n                dp[i][i + l - 1] =\n                    s[i] === s[i + l - 1] &&\n                    (i + 1 > i + l - 2 || dp[i + 1][i + l - 2]);\n            }\n        }\n\n        const dfs = (i) => {\n            if (i >= s.length) {\n                return [[]];\n            }\n\n            const ret = [];\n            for (let j = i; j < s.length; j++) {\n                if (dp[i][j]) {\n                    const nxt = dfs(j + 1);\n                    for (const part of nxt) {\n                        const cur = [s.slice(i, j + 1), ...part];\n                        ret.push(cur);\n                    }\n                }\n            }\n            return ret;\n        };\n\n        return dfs(0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n\n    public List<List<string>> Partition(string s) {\n        int n = s.Length;\n        bool[,] dp = new bool[n, n];\n        for (int l = 1; l <= n; l++) {\n            for (int i = 0; i <= n - l; i++) {\n                dp[i, i + l - 1] = (s[i] == s[i + l - 1] &&\n                                    (i + 1 > (i + l - 2) ||\n                                    dp[i + 1, i + l - 2]));\n            }\n        }\n\n        return Dfs(s, dp, 0);\n    }\n\n    private List<List<string>> Dfs(string s, bool[,] dp, int i) {\n        if (i >= s.Length) {\n            return new List<List<string>> { new List<string>() };\n        }\n\n        var ret = new List<List<string>>();\n        for (int j = i; j < s.Length; j++) {\n            if (dp[i, j]) {\n                var nxt = Dfs(s, dp, j + 1);\n                foreach (var part in nxt) {\n                    var cur = new List<string> { s.Substring(i, j - i + 1) };\n                    cur.AddRange(part);\n                    ret.Add(cur);\n                }\n            }\n        }\n        return ret;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "func partition(s string) [][]string {\n    n := len(s)\n    dp := make([][]bool, n)\n    for i := range dp {\n        dp[i] = make([]bool, n)\n    }\n\n    for l := 1; l <= n; l++ {\n        for i := 0; i <= n-l; i++ {\n            dp[i][i+l-1] = (s[i] == s[i+l-1] &&\n                           (i+1 > (i+l-2) || dp[i+1][i+l-2]))\n        }\n    }\n\n    var dfs func(i int) [][]string\n    dfs = func(i int) [][]string {\n        if i >= n {\n            return [][]string{{}}\n        }\n\n        ret := [][]string{}\n        for j := i; j < n; j++ {\n            if dp[i][j] {\n                nxt := dfs(j + 1)\n                for _, part := range nxt {\n                    cur := append([]string{s[i : j+1]}, part...)\n                    ret = append(ret, cur)\n                }\n            }\n        }\n        return ret\n    }\n\n    return dfs(0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    fun partition(s: String): List<List<String>> {\n        val n = s.length\n        val dp = Array(n) { BooleanArray(n) }\n\n        for (l in 1..n) {\n            for (i in 0..n - l) {\n                dp[i][i + l - 1] = s[i] == s[i + l - 1] &&\n                                   (i + 1 > (i + l - 2) || dp[i + 1][i + l - 2])\n            }\n        }\n\n        fun dfs(i: Int): List<List<String>> {\n            if (i >= n) {\n                return listOf(emptyList())\n            }\n\n            val ret = mutableListOf<List<String>>()\n            for (j in i until n) {\n                if (dp[i][j]) {\n                    val nxt = dfs(j + 1)\n                    for (part in nxt) {\n                        val cur = listOf(s.substring(i, j + 1)) + part\n                        ret.add(cur)\n                    }\n                }\n            }\n            return ret\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func partition(_ s: String) -> [[String]] {\n        let n = s.count\n        let sArray = Array(s)\n        var dp = Array(repeating: Array(repeating: false, count: n), count: n)\n\n        for l in 1...n {\n            for i in 0...(n - l) {\n                dp[i][i + l - 1] = (sArray[i] == sArray[i + l - 1] &&\n                                    (i + 1 > (i + l - 2) || dp[i + 1][i + l - 2]))\n            }\n        }\n\n        func dfs(_ i: Int) -> [[String]] {\n            if i >= n {\n                return [[]]\n            }\n\n            var ret = [[String]]()\n            for j in i..<n {\n                if dp[i][j] {\n                    let nextPartitions = dfs(j + 1)\n                    for part in nextPartitions {\n                        var cur = [String]()\n                        cur.append(String(sArray[i...j]))\n                        cur.append(contentsOf: part)\n                        ret.append(cur)\n                    }\n                }\n            }\n            return ret\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn partition(s: String) -> Vec<Vec<String>> {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut dp = vec![vec![false; n]; n];\n        for l in 1..=n {\n            for i in 0..=n - l {\n                dp[i][i + l - 1] = s[i] == s[i + l - 1]\n                    && (i + 1 > i + l - 2 || dp[i + 1][i + l - 2]);\n            }\n        }\n\n        fn dfs(s: &[u8], dp: &Vec<Vec<bool>>, i: usize) -> Vec<Vec<String>> {\n            if i >= s.len() {\n                return vec![vec![]];\n            }\n            let mut ret = Vec::new();\n            for j in i..s.len() {\n                if dp[i][j] {\n                    let nxt = dfs(s, dp, j + 1);\n                    for part in nxt {\n                        let mut cur = vec![\n                            String::from_utf8(s[i..=j].to_vec()).unwrap()\n                        ];\n                        cur.extend(part);\n                        ret.push(cur);\n                    }\n                }\n            }\n            ret\n        }\n\n        dfs(s, &dp, 0)\n    }\n}"
+        }
+    ]
+}

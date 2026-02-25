@@ -1,0 +1,174 @@
+{
+    "problem_name": "Balanced Binary Tree",
+    "problem_slug": "balanced-binary-tree",
+    "difficulty": "easy",
+    "topic_tags": [
+        "tree",
+        "depth-first search",
+        "binary tree"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def isBalanced(self, root: Optional[TreeNode]) -> bool:\n        if not root:\n            return True\n\n        left = self.height(root.left)\n        right = self.height(root.right)\n        if abs(left - right) > 1:\n            return False\n        return self.isBalanced(root.left) and self.isBalanced(root.right)\n\n    def height(self, root: Optional[TreeNode]) -> int:\n        if not root:\n            return 0\n\n        return 1 + max(self.height(root.left), self.height(root.right))"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    public boolean isBalanced(TreeNode root) {\n        if (root == null) return true;\n\n        int left = height(root.left);\n        int right = height(root.right);\n        if (Math.abs(left - right) > 1) return false;\n        return isBalanced(root.left) && isBalanced(root.right);\n    }\n\n    public int height(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n\n        return 1 + Math.max(height(root.left), height(root.right));\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        if (!root) return true;\n\n        int left = height(root->left);\n        int right = height(root->right);\n        if (abs(left - right) > 1) return false;\n        return isBalanced(root->left) && isBalanced(root->right);\n    }\n\n    int height(TreeNode* root) {\n        if (root == nullptr) {\n            return 0;\n        }\n\n        return 1 + max(height(root->left), height(root->right));\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {boolean}\n     */\n    isBalanced(root) {\n        if (root === null) return true;\n\n        let left = this.height(root.left);\n        let right = this.height(root.right);\n        if (Math.abs(left - right) > 1) return false;\n        return this.isBalanced(root.left) && this.isBalanced(root.right);\n    }\n\n    /**\n     * @param {TreeNode} root\n     * @return {number}\n     */\n    height(root) {\n        if (root === null) {\n            return 0;\n        }\n\n        return 1 + Math.max(this.height(root.left), this.height(root.right));\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public bool IsBalanced(TreeNode root) {\n        if (root == null) return true;\n\n        int left = Height(root.left);\n        int right = Height(root.right);\n        if (Math.Abs(left - right) > 1) return false;\n        return IsBalanced(root.left) && IsBalanced(root.right);\n    }\n\n    public int Height(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n\n        return 1 + Math.Max(Height(root.left), Height(root.right));\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc isBalanced(root *TreeNode) bool {\n    if root == nil {\n        return true\n    }\n\n    left := height(root.Left)\n    right := height(root.Right)\n    if abs(left-right) > 1 {\n        return false\n    }\n    return isBalanced(root.Left) && isBalanced(root.Right)\n}\n\nfunc height(root *TreeNode) int {\n    if root == nil {\n        return 0\n    }\n    return 1 + max(height(root.Left), height(root.Right))\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n\nfunc abs(x int) int {\n    if x < 0 {\n        return -x\n    }\n    return x\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun isBalanced(root: TreeNode?): Boolean {\n        if (root == null) {\n            return true\n        }\n\n        val left = height(root.left)\n        val right = height(root.right)\n        if (Math.abs(left - right) > 1) {\n            return false\n        }\n        return isBalanced(root.left) && isBalanced(root.right)\n    }\n\n    private fun height(root: TreeNode?): Int {\n        if (root == null) {\n            return 0\n        }\n        return 1 + maxOf(height(root.left), height(root.right))\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func isBalanced(_ root: TreeNode?) -> Bool {\n        guard let root = root else { return true }\n\n        let left = height(root.left)\n        let right = height(root.right)\n\n        if abs(left - right) > 1 {\n            return false\n        }\n\n        return isBalanced(root.left) && isBalanced(root.right)\n    }\n\n    private func height(_ root: TreeNode?) -> Int {\n        guard let root = root else { return 0 }\n        return 1 + max(height(root.left), height(root.right))\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "// Definition for a binary tree node.\n// #[derive(Debug, PartialEq, Eq)]\n// pub struct TreeNode {\n//   pub val: i32,\n//   pub left: Option<Rc<RefCell<TreeNode>>>,\n//   pub right: Option<Rc<RefCell<TreeNode>>>,\n// }\nimpl Solution {\n    pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n        fn height(root: &Option<Rc<RefCell<TreeNode>>>) -> i32 {\n            match root {\n                None => 0,\n                Some(node) => {\n                    let node = node.borrow();\n                    1 + height(&node.left).max(height(&node.right))\n                }\n            }\n        }\n\n        match root {\n            None => true,\n            Some(ref node) => {\n                let node_ref = node.borrow();\n                let left = height(&node_ref.left);\n                let right = height(&node_ref.right);\n                (left - right).abs() <= 1\n                    && Self::is_balanced(node_ref.left.clone())\n                    && Self::is_balanced(node_ref.right.clone())\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def isBalanced(self, root: Optional[TreeNode]) -> bool:\n        def dfs(root):\n            if not root:\n                return [True, 0]\n\n            left, right = dfs(root.left), dfs(root.right)\n            balanced = left[0] and right[0] and abs(left[1] - right[1]) <= 1\n            return [balanced, 1 + max(left[1], right[1])]\n\n        return dfs(root)[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n\n    public boolean isBalanced(TreeNode root) {\n        return dfs(root)[0] == 1;\n    }\n\n    private int[] dfs(TreeNode root) {\n        if (root == null) {\n            return new int[]{1, 0};\n        }\n\n        int[] left = dfs(root.left);\n        int[] right = dfs(root.right);\n\n        boolean balanced = (left[0] == 1 && right[0] == 1) &&\n                            (Math.abs(left[1] - right[1]) <= 1);\n        int height = 1 + Math.max(left[1], right[1]);\n\n        return new int[]{balanced ? 1 : 0, height};\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        return dfs(root)[0] == 1;\n    }\n\nprivate:\n    vector<int> dfs(TreeNode* root) {\n        if (!root) {\n            return {1, 0};\n        }\n\n        vector<int> left = dfs(root->left);\n        vector<int> right = dfs(root->right);\n\n        bool balanced = (left[0] == 1 && right[0] == 1) &&\n                        (abs(left[1] - right[1]) <= 1);\n        int height = 1 + max(left[1], right[1]);\n\n        return {balanced ? 1 : 0, height};\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {boolean}\n     */\n    isBalanced(root) {\n        return this.dfs(root)[0] === 1;\n    }\n\n    /**\n     * @param {TreeNode} root\n     * @return {number[]}\n     */\n    dfs(root) {\n        if (!root) {\n            return [1, 0];\n        }\n\n        const left = this.dfs(root.left);\n        const right = this.dfs(root.right);\n\n        const balanced =\n            left[0] === 1 &&\n            right[0] === 1 &&\n            Math.abs(left[1] - right[1]) <= 1;\n        const height = 1 + Math.max(left[1], right[1]);\n\n        return [balanced ? 1 : 0, height];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n\n    public bool IsBalanced(TreeNode root) {\n        return Dfs(root)[0] == 1;\n    }\n\n    private int[] Dfs(TreeNode root) {\n        if (root == null) {\n            return new int[]{1, 0};\n        }\n\n        int[] left = Dfs(root.left);\n        int[] right = Dfs(root.right);\n\n        bool balanced = (left[0] == 1 && right[0] == 1) &&\n                        (Math.Abs(left[1] - right[1]) <= 1);\n        int height = 1 + Math.Max(left[1], right[1]);\n\n        return new int[]{balanced ? 1 : 0, height};\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc isBalanced(root *TreeNode) bool {\n    return dfs(root).balanced\n}\n\ntype Result struct {\n    balanced bool\n    height   int\n}\n\nfunc dfs(root *TreeNode) Result {\n    if root == nil {\n        return Result{true, 0}\n    }\n\n    left := dfs(root.Left)\n    right := dfs(root.Right)\n\n    balanced := left.balanced && right.balanced && abs(left.height - right.height) <= 1\n    return Result{balanced, 1 + max(left.height, right.height)}\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n\nfunc abs(x int) int {\n    if x < 0 {\n        return -x\n    }\n    return x\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun isBalanced(root: TreeNode?): Boolean {\n        return dfs(root).first\n    }\n\n    private fun dfs(root: TreeNode?): Pair<Boolean, Int> {\n        if (root == null) {\n            return Pair(true, 0)\n        }\n\n        val left = dfs(root.left)\n        val right = dfs(root.right)\n        val balanced = left.first && right.first && Math.abs(left.second - right.second) <= 1\n        return Pair(balanced, 1 + maxOf(left.second, right.second))\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func isBalanced(_ root: TreeNode?) -> Bool {\n        return dfs(root).0\n    }\n\n    private func dfs(_ root: TreeNode?) -> (Bool, Int) {\n        guard let root = root else { return (true, 0) }\n\n        let left = dfs(root.left)\n        let right = dfs(root.right)\n\n        let balanced = left.0 && right.0 && abs(left.1 - right.1) <= 1\n        return (balanced, 1 + max(left.1, right.1))\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "impl Solution {\n    pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n        fn dfs(root: &Option<Rc<RefCell<TreeNode>>>) -> (bool, i32) {\n            match root {\n                None => (true, 0),\n                Some(node) => {\n                    let node = node.borrow();\n                    let left = dfs(&node.left);\n                    let right = dfs(&node.right);\n                    let balanced =\n                        left.0 && right.0 && (left.1 - right.1).abs() <= 1;\n                    (balanced, 1 + left.1.max(right.1))\n                }\n            }\n        }\n        dfs(&root).0\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def isBalanced(self, root):\n        stack = []\n        node = root\n        last = None\n        depths = {}\n\n        while stack or node:\n            if node:\n                stack.append(node)\n                node = node.left\n            else:\n                node = stack[-1]\n                if not node.right or last == node.right:\n                    stack.pop()\n                    left = depths.get(node.left, 0)\n                    right = depths.get(node.right, 0)\n\n                    if abs(left - right) > 1:\n                        return False\n\n                    depths[node] = 1 + max(left, right)\n                    last = node\n                    node = None\n                else:\n                    node = node.right\n\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public boolean isBalanced(TreeNode root) {\n        Stack<TreeNode> stack = new Stack<>();\n        TreeNode node = root, last = null;\n        Map<TreeNode, Integer> depths = new HashMap<>();\n\n        while (!stack.isEmpty() || node != null) {\n            if (node != null) {\n                stack.push(node);\n                node = node.left;\n            } else {\n                node = stack.peek();\n                if (node.right == null || last == node.right) {\n                    stack.pop();\n                    int left = depths.getOrDefault(node.left, 0);\n                    int right = depths.getOrDefault(node.right, 0);\n                    if (Math.abs(left - right) > 1) return false;\n                    depths.put(node, 1 + Math.max(left, right));\n                    last = node;\n                    node = null;\n                } else {\n                    node = node.right;\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        stack<TreeNode*> stack;\n        TreeNode* node = root;\n        TreeNode* last = nullptr;\n        unordered_map<TreeNode*, int> depths;\n\n        while (!stack.empty() || node != nullptr) {\n            if (node != nullptr) {\n                stack.push(node);\n                node = node->left;\n            } else {\n                node = stack.top();\n                if (node->right == nullptr || last == node->right) {\n                    stack.pop();\n                    int left = depths[node->left];\n                    int right = depths[node->right];\n                    if (abs(left - right) > 1) return false;\n                    depths[node] = 1 + max(left, right);\n                    last = node;\n                    node = nullptr;\n                } else {\n                    node = node->right;\n                }\n            }\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {boolean}\n     */\n    isBalanced(root) {\n        let stack = [];\n        let node = root,\n            last = null;\n        let depths = new Map();\n\n        while (stack.length > 0 || node !== null) {\n            if (node !== null) {\n                stack.push(node);\n                node = node.left;\n            } else {\n                node = stack[stack.length - 1];\n                if (node.right === null || last === node.right) {\n                    stack.pop();\n                    let left = depths.get(node.left) || 0;\n                    let right = depths.get(node.right) || 0;\n                    if (Math.abs(left - right) > 1) return false;\n                    depths.set(node, 1 + Math.max(left, right));\n                    last = node;\n                    node = null;\n                } else {\n                    node = node.right;\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public bool IsBalanced(TreeNode root) {\n        Stack<TreeNode> stack = new Stack<TreeNode>();\n        TreeNode node = root, last = null;\n        Dictionary<TreeNode, int> depths = new Dictionary<TreeNode, int>();\n\n        while (stack.Count > 0 || node != null) {\n            if (node != null) {\n                stack.Push(node);\n                node = node.left;\n            } else {\n                node = stack.Peek();\n                if (node.right == null || last == node.right) {\n                    stack.Pop();\n\n                    int left = (node.left != null && depths.ContainsKey(node.left))\n                                ? depths[node.left] : 0;\n                    int right = (node.right != null && depths.ContainsKey(node.right))\n                                ? depths[node.right] : 0;\n\n                    if (Math.Abs(left - right) > 1) return false;\n\n                    depths[node] = 1 + Math.Max(left, right);\n                    last = node;\n                    node = null;\n                } else {\n                    node = node.right;\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc isBalanced(root *TreeNode) bool {\n    stack := []*TreeNode{}\n    node := root\n    last := (*TreeNode)(nil)\n    depths := make(map[*TreeNode]int)\n\n    for len(stack) > 0 || node != nil {\n        if node != nil {\n            stack = append(stack, node)\n            node = node.Left\n        } else {\n            node = stack[len(stack)-1]\n            if node.Right == nil || last == node.Right {\n                stack = stack[:len(stack)-1]\n                left := depths[node.Left]\n                right := depths[node.Right]\n\n                if abs(left-right) > 1 {\n                    return false\n                }\n\n                depths[node] = 1 + max(left, right)\n                last = node\n                node = nil\n            } else {\n                node = node.Right\n            }\n        }\n    }\n    return true\n}\n\nfunc abs(x int) int {\n    if x < 0 {\n        return -x\n    }\n    return x\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun isBalanced(root: TreeNode?): Boolean {\n        val stack = mutableListOf<TreeNode?>()\n        var node = root\n        var last: TreeNode? = null\n        val depths = HashMap<TreeNode?, Int>()\n\n        while (stack.isNotEmpty() || node != null) {\n            if (node != null) {\n                stack.add(node)\n                node = node.left\n            } else {\n                node = stack.last()\n                if (node?.right == null || last == node.right) {\n                    stack.removeAt(stack.size - 1)\n                    val left = depths[node?.left] ?: 0\n                    val right = depths[node?.right] ?: 0\n\n                    if (Math.abs(left - right) > 1) {\n                        return false\n                    }\n\n                    depths[node] = 1 + Math.max(left, right)\n                    last = node\n                    node = null\n                } else {\n                    node = node.right\n                }\n            }\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func isBalanced(_ root: TreeNode?) -> Bool {\n        var stack = [TreeNode]()\n        var node = root\n        var last: TreeNode? = nil\n        var depths = [ObjectIdentifier: Int]()\n\n        while !stack.isEmpty || node != nil {\n            if let current = node {\n                stack.append(current)\n                node = current.left\n            } else {\n                guard let current = stack.last else { break }\n                if current.right == nil || last === current.right {\n                    stack.removeLast()\n\n                    let leftDepth = current.left != nil ? depths[ObjectIdentifier(current.left!)] ?? 0 : 0\n                    let rightDepth = current.right != nil ? depths[ObjectIdentifier(current.right!)] ?? 0 : 0\n                    if abs(leftDepth - rightDepth) > 1 {\n                        return false\n                    }\n\n                    depths[ObjectIdentifier(current)] = 1 + max(leftDepth, rightDepth)\n                    last = current\n                    node = nil\n                } else {\n                    node = current.right\n                }\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n        let mut stack: Vec<Rc<RefCell<TreeNode>>> = Vec::new();\n        let mut node = root.clone();\n        let mut last: Option<Rc<RefCell<TreeNode>>> = None;\n        let mut depths: HashMap<*const RefCell<TreeNode>, i32> = HashMap::new();\n\n        while !stack.is_empty() || node.is_some() {\n            if let Some(n) = node {\n                stack.push(n.clone());\n                node = n.borrow().left.clone();\n            } else {\n                let current = stack.last().unwrap().clone();\n                let current_ref = current.borrow();\n                let right_matches = match (&current_ref.right, &last) {\n                    (None, _) => true,\n                    (Some(r), Some(l)) => Rc::ptr_eq(r, l),\n                    _ => false,\n                };\n                if right_matches {\n                    drop(current_ref);\n                    stack.pop();\n                    let current_ref = current.borrow();\n                    let left_depth = current_ref.left.as_ref()\n                        .map_or(0, |l| *depths.get(&Rc::as_ptr(l)).unwrap_or(&0));\n                    let right_depth = current_ref.right.as_ref()\n                        .map_or(0, |r| *depths.get(&Rc::as_ptr(r)).unwrap_or(&0));\n                    if (left_depth - right_depth).abs() > 1 {\n                        return false;\n                    }\n                    depths.insert(Rc::as_ptr(&current), 1 + left_depth.max(right_depth));\n                    drop(current_ref);\n                    last = Some(current);\n                    node = None;\n                } else {\n                    node = current_ref.right.clone();\n                }\n            }\n        }\n\n        true\n    }\n}"
+        }
+    ]
+}

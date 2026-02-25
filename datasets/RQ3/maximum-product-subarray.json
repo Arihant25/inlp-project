@@ -1,0 +1,227 @@
+{
+    "problem_name": "Maximum Product Subarray",
+    "problem_slug": "maximum-product-subarray",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def maxProduct(self, nums: List[int]) -> int:\n        res = nums[0]\n\n        for i in range(len(nums)):\n            cur = nums[i]\n            res = max(res, cur)\n            for j in range(i + 1, len(nums)):\n                cur *= nums[j]\n                res = max(res, cur)\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int maxProduct(int[] nums) {\n        int res = nums[0];\n\n        for (int i = 0; i < nums.length; i++) {\n            int cur = nums[i];\n            res = Math.max(res, cur);\n            for (int j = i + 1; j < nums.length; j++) {\n                cur *= nums[j];\n                res = Math.max(res, cur);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int maxProduct(vector<int>& nums) {\n        int res = nums[0];\n\n        for (int i = 0; i < nums.size(); i++) {\n            int cur = nums[i];\n            res = max(res, cur);\n            for (int j = i + 1; j < nums.size(); j++) {\n                cur *= nums[j];\n                res = max(res, cur);\n            }\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    maxProduct(nums) {\n        let res = nums[0];\n\n        for (let i = 0; i < nums.length; i++) {\n            let cur = nums[i];\n            res = Math.max(res, cur);\n            for (let j = i + 1; j < nums.length; j++) {\n                cur *= nums[j];\n                res = Math.max(res, cur);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int MaxProduct(int[] nums) {\n        int res = nums[0];\n\n        for (int i = 0; i < nums.Length; i++) {\n            int cur = nums[i];\n            res = Math.Max(res, cur);\n            for (int j = i + 1; j < nums.Length; j++) {\n                cur *= nums[j];\n                res = Math.Max(res, cur);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "func maxProduct(nums []int) int {\n    res := nums[0]\n    for i := 0; i < len(nums); i++ {\n        cur := nums[i]\n        res = max(res, cur)\n        for j := i + 1; j < len(nums); j++ {\n            cur *= nums[j]\n            res = max(res, cur)\n        }\n    }\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun maxProduct(nums: IntArray): Int {\n        var res = nums[0]\n        for (i in nums.indices) {\n            var cur = nums[i]\n            res = maxOf(res, cur)\n            for (j in i + 1 until nums.size) {\n                cur *= nums[j]\n                res = maxOf(res, cur)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func maxProduct(_ nums: [Int]) -> Int {\n        var res = nums[0]\n\n        for i in 0..<nums.count {\n            var cur = nums[i]\n            res = max(res, cur)\n            for j in (i + 1)..<nums.count {\n                cur *= nums[j]\n                res = max(res, cur)\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn max_product(nums: Vec<i32>) -> i32 {\n        let mut res = nums[0];\n        for i in 0..nums.len() {\n            let mut cur = nums[i];\n            res = res.max(cur);\n            for j in (i + 1)..nums.len() {\n                cur *= nums[j];\n                res = res.max(cur);\n            }\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def maxProduct(self, nums: List[int]) -> int:\n        A = []\n        cur = []\n        res = float('-inf')\n\n        for num in nums:\n            res = max(res, num)\n            if num == 0:\n                if cur:\n                    A.append(cur)\n                cur = []\n            else:\n                cur.append(num)\n\n        if cur:\n            A.append(cur)\n\n        for sub in A:\n            negs = sum(1 for i in sub if i < 0)\n            prod = 1\n            need = negs if negs % 2 == 0 else negs - 1\n            negs = 0\n            j = 0\n\n            for i in range(len(sub)):\n                prod *= sub[i]\n                if sub[i] < 0:\n                    negs += 1\n                    while negs > need:\n                        prod //= sub[j]\n                        if sub[j] < 0:\n                            negs -= 1\n                        j += 1\n                if j <= i:\n                    res = max(res, prod)\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int maxProduct(int[] nums) {\n        List<List<Integer>> A = new ArrayList<>();\n        List<Integer> cur = new ArrayList<>();\n        int res = Integer.MIN_VALUE;\n\n        for (int num : nums) {\n            res = Math.max(res, num);\n            if (num == 0) {\n                if (!cur.isEmpty()) A.add(cur);\n                cur = new ArrayList<>();\n            } else cur.add(num);\n        }\n        if (!cur.isEmpty()) A.add(cur);\n\n        for (List<Integer> sub : A) {\n            int negs = 0;\n            for (int i : sub) {\n                if (i < 0) negs++;\n            }\n\n            int prod = 1;\n            int need = (negs % 2 == 0) ? negs : (negs - 1);\n            negs = 0;\n            for (int i = 0, j = 0; i < sub.size(); i++) {\n                prod *= sub.get(i);\n                if (sub.get(i) < 0) {\n                    negs++;\n                    while (negs > need) {\n                        prod /= sub.get(j);\n                        if (sub.get(j) < 0) negs--;\n                        j++;\n                    }\n                }\n                if (j <= i) res = Math.max(res, prod);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int maxProduct(vector<int>& nums) {\n        vector<vector<int>> A;\n        vector<int> cur;\n        int res = INT_MIN;\n        for (auto& num : nums) {\n            res = max(res, num);\n            if (num == 0) {\n                if (!cur.empty()) A.push_back(cur);\n                cur.clear();\n            } else cur.push_back(num);\n        }\n        if (!cur.empty()) {\n            A.push_back(cur);\n        }\n\n        for (auto& sub : A) {\n            int negs = 0;\n            for (auto& i : sub) {\n                if (i < 0) negs++;\n            }\n\n            int prod = 1;\n            int need = (negs % 2 == 0) ? negs : (negs - 1);\n            negs = 0;\n            for (int i = 0, j = 0; i < sub.size(); i++) {\n                prod *= sub[i];\n                if (sub[i] < 0) {\n                    negs++;\n                    while (negs > need) {\n                        prod /= sub[j];\n                        if (sub[j] < 0) negs--;\n                        j++;\n                    }\n                }\n                if (j <= i) res = max(res, prod);\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    maxProduct(nums) {\n        let A = [];\n        let cur = [];\n        let res = -Infinity;\n\n        nums.forEach((num) => {\n            res = Math.max(res, num);\n            if (num === 0) {\n                if (cur.length) A.push(cur);\n                cur = [];\n            } else {\n                cur.push(num);\n            }\n        });\n        if (cur.length) A.push(cur);\n\n        A.forEach((sub) => {\n            let negs = 0;\n            sub.forEach((i) => {\n                if (i < 0) negs++;\n            });\n\n            let prod = 1;\n            let need = negs % 2 === 0 ? negs : negs - 1;\n            negs = 0;\n            for (let i = 0, j = 0; i < sub.length; i++) {\n                prod *= sub[i];\n                if (sub[i] < 0) {\n                    negs++;\n                    while (negs > need) {\n                        prod /= sub[j];\n                        if (sub[j] < 0) negs--;\n                        j++;\n                    }\n                }\n                if (j <= i) res = Math.max(res, prod);\n            }\n        });\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int MaxProduct(int[] nums) {\n        List<List<int>> A = new List<List<int>>();\n        List<int> cur = new List<int>();\n        int res = int.MinValue;\n\n        foreach (int num in nums) {\n            res = Math.Max(res, num);\n            if (num == 0) {\n                if (cur.Count > 0) {\n                    A.Add(new List<int>(cur));\n                }\n                cur.Clear();\n            } else cur.Add(num);\n        }\n        if (cur.Count > 0) A.Add(new List<int>(cur));\n\n        foreach (var sub in A) {\n            int negs = 0;\n            foreach (var i in sub) {\n                if (i < 0) negs++;\n            }\n\n            int prod = 1;\n            int need = (negs % 2 == 0) ? negs : (negs - 1);\n            negs = 0;\n            for (int i = 0, j = 0; i < sub.Count; i++) {\n                prod *= sub[i];\n                if (sub[i] < 0) {\n                    negs++;\n                    while (negs > need) {\n                        prod /= sub[j];\n                        if (sub[j] < 0) negs--;\n                        j++;\n                    }\n                }\n                if (j <= i) res = Math.Max(res, prod);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func maxProduct(nums []int) int {\n    res := math.MinInt32\n    for _, num := range nums {\n        res = max(res, num)\n    }\n\n    var A [][]int\n    var cur []int\n    for _, num := range nums {\n        if num == 0 {\n            if len(cur) > 0 {\n                A = append(A, cur)\n            }\n            cur = nil\n        } else {\n            cur = append(cur, num)\n        }\n    }\n    if len(cur) > 0 {\n        A = append(A, cur)\n    }\n\n    for _, sub := range A {\n        negs := 0\n        for _, i := range sub {\n            if i < 0 {\n                negs++\n            }\n        }\n        prod := 1\n        need := negs\n        if negs%2 != 0 {\n            need = negs - 1\n        }\n        negs = 0\n        j := 0\n        for i := range sub {\n            prod *= sub[i]\n            if sub[i] < 0 {\n                negs++\n                for negs > need {\n                    prod /= sub[j]\n                    if sub[j] < 0 {\n                        negs--\n                    }\n                    j++\n                }\n            }\n            if j <= i {\n                res = max(res, prod)\n            }\n        }\n    }\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun maxProduct(nums: IntArray): Int {\n        var res = Int.MIN_VALUE\n        for (num in nums) {\n            res = maxOf(res, num)\n        }\n\n        val A = mutableListOf<MutableList<Int>>()\n        var cur = mutableListOf<Int>()\n        for (num in nums) {\n            if (num == 0) {\n                if (cur.isNotEmpty()) {\n                    A.add(cur.toMutableList())\n                }\n                cur.clear()\n            } else {\n                cur.add(num)\n            }\n        }\n        if (cur.isNotEmpty()) {\n            A.add(cur.toMutableList())\n        }\n\n        for (sub in A) {\n            var negs = 0\n            for (i in sub) {\n                if (i < 0) {\n                    negs++\n                }\n            }\n            var prod = 1\n            var need = if (negs % 2 == 0) negs else negs - 1\n            negs = 0\n            var j = 0\n            for (i in sub.indices) {\n                prod *= sub[i]\n                if (sub[i] < 0) {\n                    negs++\n                    while (negs > need) {\n                        prod /= sub[j]\n                        if (sub[j] < 0) {\n                            negs--\n                        }\n                        j++\n                    }\n                }\n                if (j <= i) {\n                    res = maxOf(res, prod)\n                }\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func maxProduct(_ nums: [Int]) -> Int {\n        var A = [[Int]]()\n        var cur = [Int]()\n        var res = Int.min\n\n        for num in nums {\n            res = max(res, num)\n            if num == 0 {\n                if !cur.isEmpty {\n                    A.append(cur)\n                }\n                cur = []\n            } else {\n                cur.append(num)\n            }\n        }\n\n        if !cur.isEmpty {\n            A.append(cur)\n        }\n\n        for sub in A {\n            let negsCount = sub.filter { $0 < 0 }.count\n            var prod = 1\n            var need = negsCount % 2 == 0 ? negsCount : negsCount - 1\n            var negs = 0\n            var j = 0\n\n            for i in 0..<sub.count {\n                prod *= sub[i]\n                if sub[i] < 0 {\n                    negs += 1\n                    while negs > need {\n                        prod /= sub[j]\n                        if sub[j] < 0 {\n                            negs -= 1\n                        }\n                        j += 1\n                    }\n                }\n                if j <= i {\n                    res = max(res, prod)\n                }\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn max_product(nums: Vec<i32>) -> i32 {\n        let mut res = i32::MIN;\n        let mut segments: Vec<Vec<i32>> = vec![];\n        let mut cur: Vec<i32> = vec![];\n\n        for &num in &nums {\n            res = res.max(num);\n            if num == 0 {\n                if !cur.is_empty() {\n                    segments.push(cur.clone());\n                    cur.clear();\n                }\n            } else {\n                cur.push(num);\n            }\n        }\n        if !cur.is_empty() {\n            segments.push(cur);\n        }\n\n        for sub in &segments {\n            let neg_count = sub.iter().filter(|&&x| x < 0).count() as i32;\n            let need = if neg_count % 2 == 0 { neg_count } else { neg_count - 1 };\n            let mut negs = 0;\n            let mut prod = 1i32;\n            let mut j = 0;\n            for i in 0..sub.len() {\n                prod *= sub[i];\n                if sub[i] < 0 {\n                    negs += 1;\n                    while negs > need {\n                        prod /= sub[j];\n                        if sub[j] < 0 {\n                            negs -= 1;\n                        }\n                        j += 1;\n                    }\n                }\n                if j <= i {\n                    res = res.max(prod);\n                }\n            }\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def maxProduct(self, nums: List[int]) -> int:\n        res = nums[0]\n        curMin, curMax = 1, 1\n\n        for num in nums:\n            tmp = curMax * num\n            curMax = max(num * curMax, num * curMin, num)\n            curMin = min(tmp, num * curMin, num)\n            res = max(res, curMax)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int maxProduct(int[] nums) {\n        int res = nums[0];\n        int curMin = 1, curMax = 1;\n\n        for (int num : nums) {\n            int tmp = curMax * num;\n            curMax = Math.max(Math.max(num * curMax, num * curMin), num);\n            curMin = Math.min(Math.min(tmp, num * curMin), num);\n            res = Math.max(res, curMax);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int maxProduct(vector<int>& nums) {\n        int res = nums[0];\n        int curMin = 1, curMax = 1;\n\n        for (int num : nums) {\n            int tmp = curMax * num;\n            curMax = max(max(num * curMax, num * curMin), num);\n            curMin = min(min(tmp, num * curMin), num);\n            res = max(res, curMax);\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    maxProduct(nums) {\n        let res = nums[0];\n        let curMin = 1;\n        let curMax = 1;\n\n        for (const num of nums) {\n            const tmp = curMax * num;\n            curMax = Math.max(Math.max(num * curMax, num * curMin), num);\n            curMin = Math.min(Math.min(tmp, num * curMin), num);\n            res = Math.max(res, curMax);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int MaxProduct(int[] nums) {\n        int res = nums[0];\n        int curMin = 1, curMax = 1;\n\n        foreach (int num in nums) {\n            int tmp = curMax * num;\n            curMax = Math.Max(Math.Max(num * curMax, num * curMin), num);\n            curMin = Math.Min(Math.Min(tmp, num * curMin), num);\n            res = Math.Max(res, curMax);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func maxProduct(nums []int) int {\n    res := nums[0]\n    curMin, curMax := 1, 1\n    for _, num := range nums {\n        tmp := curMax * num\n        curMax = max(num*curMax, max(num*curMin, num))\n        curMin = min(tmp, min(num*curMin, num))\n        res = max(res, curMax)\n    }\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun maxProduct(nums: IntArray): Int {\n        var res = nums[0]\n        var curMin = 1\n        var curMax = 1\n        for (num in nums) {\n            val tmp = curMax * num\n            curMax = maxOf(num * curMax, maxOf(num * curMin, num))\n            curMin = minOf(tmp, minOf(num * curMin, num))\n            res = maxOf(res, curMax)\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func maxProduct(_ nums: [Int]) -> Int {\n        var res = nums[0]\n        var curMin = 1, curMax = 1\n\n        for num in nums {\n            let tmp = curMax * num\n            curMax = max(num * curMax, num * curMin, num)\n            curMin = min(tmp, num * curMin, num)\n            res = max(res, curMax)\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn max_product(nums: Vec<i32>) -> i32 {\n        let mut res = nums[0];\n        let (mut cur_min, mut cur_max) = (1, 1);\n        for &num in &nums {\n            let tmp = cur_max * num;\n            cur_max = (num * cur_max).max(num * cur_min).max(num);\n            cur_min = tmp.min(num * cur_min).min(num);\n            res = res.max(cur_max);\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def maxProduct(self, nums: List[int]) -> int:\n        n, res = len(nums), nums[0]\n        prefix = suffix = 0\n\n        for i in range(n):\n            prefix = nums[i] * (prefix or 1)\n            suffix = nums[n - 1 - i] * (suffix or 1)\n            res = max(res, max(prefix, suffix))\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int maxProduct(int[] nums) {\n        int n = nums.length;\n        int res = nums[0];\n        int prefix = 0, suffix = 0;\n\n        for (int i = 0; i < n; i++) {\n            prefix = nums[i] * (prefix == 0 ? 1 : prefix);\n            suffix = nums[n - 1 - i] * (suffix == 0 ? 1 : suffix);\n            res = Math.max(res, Math.max(prefix, suffix));\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int maxProduct(vector<int>& nums) {\n        int n = nums.size(), res = nums[0];\n        int prefix = 0, suffix = 0;\n\n        for (int i = 0; i < n; i++) {\n            prefix = nums[i] * (prefix == 0 ? 1 : prefix);\n            suffix = nums[n - 1 - i] * (suffix == 0 ? 1 : suffix);\n            res = max(res, max(prefix, suffix));\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    maxProduct(nums) {\n        let n = nums.length,\n            res = nums[0];\n        let prefix = 0,\n            suffix = 0;\n\n        for (let i = 0; i < n; i++) {\n            prefix = nums[i] * (prefix === 0 ? 1 : prefix);\n            suffix = nums[n - 1 - i] * (suffix === 0 ? 1 : suffix);\n            res = Math.max(res, Math.max(prefix, suffix));\n        }\n        return res === -0 ? 0 : res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int MaxProduct(int[] nums) {\n        int n = nums.Length;\n        int res = nums[0];\n        int prefix = 0, suffix = 0;\n\n        for (int i = 0; i < n; i++) {\n            prefix = nums[i] * (prefix == 0 ? 1 : prefix);\n            suffix = nums[n - 1 - i] * (suffix == 0 ? 1 : suffix);\n            res = Math.Max(res, Math.Max(prefix, suffix));\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func maxProduct(nums []int) int {\n    n := len(nums)\n    res := nums[0]\n    prefix, suffix := 0, 0\n\n    for i := 0; i < n; i++ {\n        if prefix == 0 {\n            prefix = 1\n        }\n        if suffix == 0 {\n            suffix = 1\n        }\n\n        prefix *= nums[i]\n        suffix *= nums[n-1-i]\n        res = max(res, max(prefix, suffix))\n    }\n\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun maxProduct(nums: IntArray): Int {\n        val n = nums.size\n        var res = nums[0]\n        var prefix = 0\n        var suffix = 0\n\n        for (i in 0 until n) {\n            if (prefix == 0) prefix = 1\n            if (suffix == 0) suffix = 1\n\n            prefix *= nums[i]\n            suffix *= nums[n - 1 - i]\n            res = maxOf(res, prefix, suffix)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func maxProduct(_ nums: [Int]) -> Int {\n        let n = nums.count\n        var res = nums[0]\n        var prefix = 0, suffix = 0\n\n        for i in 0..<n {\n            prefix = nums[i] * (prefix != 0 ? prefix : 1)\n            suffix = nums[n - 1 - i] * (suffix != 0 ? suffix : 1)\n            res = max(res, max(prefix, suffix))\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn max_product(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let mut res = nums[0];\n        let (mut prefix, mut suffix) = (0, 0);\n        for i in 0..n {\n            prefix = nums[i] * if prefix != 0 { prefix } else { 1 };\n            suffix = nums[n - 1 - i] * if suffix != 0 { suffix } else { 1 };\n            res = res.max(prefix.max(suffix));\n        }\n        res\n    }\n}"
+        }
+    ]
+}

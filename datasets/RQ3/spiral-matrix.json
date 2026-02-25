@@ -1,0 +1,174 @@
+{
+    "problem_name": "Spiral Matrix",
+    "problem_slug": "spiral-matrix",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "matrix",
+        "simulation"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        m, n = len(matrix), len(matrix[0])\n        res = []\n\n        # append all the elements in the given direction\n        def dfs(row, col, r, c, dr, dc):\n            if row == 0 or col == 0:\n                return\n\n            for i in range(col):\n                r += dr\n                c += dc\n                res.append(matrix[r][c])\n\n            # sub-problem\n            dfs(col, row - 1, r, c, dc, -dr)\n\n        # start by going to the right\n        dfs(m, n, 0, -1, 0, 1)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "public class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        int m = matrix.length, n = matrix[0].length;\n        List<Integer> res = new ArrayList<>();\n\n        // append all the elements in the given direction\n        dfs(m, n, 0, -1, 0, 1, matrix, res);\n        return res;\n    }\n\n    private void dfs(int row, int col, int r, int c,\n                     int dr, int dc, int[][] matrix, List<Integer> res) {\n        if (row == 0 || col == 0) return;\n\n        for (int i = 0; i < col; i++) {\n            r += dr;\n            c += dc;\n            res.add(matrix[r][c]);\n        }\n\n        // sub-problem\n        dfs(col, row - 1, r, c, dc, -dr, matrix, res);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        int m = matrix.size(), n = matrix[0].size();\n        vector<int> res;\n\n        // append all the elements in the given direction\n        dfs(m, n, 0, -1, 0, 1, matrix, res);\n        return res;\n    }\n\n    void dfs(int row, int col, int r, int c, int dr, int dc,\n             vector<vector<int>>& matrix, vector<int>& res) {\n        if (row == 0 || col == 0) return;\n\n        for (int i = 0; i < col; i++) {\n            r += dr;\n            c += dc;\n            res.push_back(matrix[r][c]);\n        }\n\n        // sub-problem\n        dfs(col, row - 1, r, c, dc, -dr, matrix, res);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} matrix\n     * @return {number[]}\n     */\n    spiralOrder(matrix) {\n        const m = matrix.length,\n            n = matrix[0].length;\n        const res = [];\n\n        // append all the elements in the given direction\n        const dfs = (row, col, r, c, dr, dc) => {\n            if (row === 0 || col === 0) return;\n\n            for (let i = 0; i < col; i++) {\n                r += dr;\n                c += dc;\n                res.push(matrix[r][c]);\n            }\n\n            // sub-problem\n            dfs(col, row - 1, r, c, dc, -dr);\n        };\n\n        // start by going to the right\n        dfs(m, n, 0, -1, 0, 1);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "public class Solution {\n    public List<int> SpiralOrder(int[][] matrix) {\n        int m = matrix.Length, n = matrix[0].Length;\n        List<int> res = new List<int>();\n\n        // append all the elements in the given direction\n        Dfs(m, n, 0, -1, 0, 1, matrix, res);\n        return res;\n    }\n\n    private void Dfs(int row, int col, int r, int c, int dr,\n                     int dc, int[][] matrix, List<int> res) {\n        if (row == 0 || col == 0) return;\n\n        for (int i = 0; i < col; i++) {\n            r += dr;\n            c += dc;\n            res.Add(matrix[r][c]);\n        }\n\n        // sub-problem\n        Dfs(col, row - 1, r, c, dc, -dr, matrix, res);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "func spiralOrder(matrix [][]int) []int {\n\tm, n := len(matrix), len(matrix[0])\n\tres := []int{}\n\n\t// Helper function for DFS traversal\n\tvar dfs func(row, col, r, c, dr, dc int)\n\tdfs = func(row, col, r, c, dr, dc int) {\n\t\tif row == 0 || col == 0 {\n\t\t\treturn\n\t\t}\n\n\t\tfor i := 0; i < col; i++ {\n\t\t\tr += dr\n\t\t\tc += dc\n\t\t\tres = append(res, matrix[r][c])\n\t\t}\n\n\t\t// Recursive call with updated direction and dimensions\n\t\tdfs(col, row-1, r, c, dc, -dr)\n\t}\n\n\t// Start the DFS by going to the right\n\tdfs(m, n, 0, -1, 0, 1)\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    fun spiralOrder(matrix: Array<IntArray>): List<Int> {\n        val m = matrix.size\n        val n = matrix[0].size\n        val res = mutableListOf<Int>()\n\n        // Helper function for DFS traversal\n        fun dfs(row: Int, col: Int, r: Int, c: Int, dr: Int, dc: Int) {\n            if (row == 0 || col == 0) return\n\n            var newRow = r\n            var newCol = c\n\n            for (i in 0 until col) {\n                newRow += dr\n                newCol += dc\n                res.add(matrix[newRow][newCol])\n            }\n\n            // Recursive call with updated direction and dimensions\n            dfs(col, row - 1, newRow, newCol, dc, -dr)\n        }\n\n        // Start the DFS by going to the right\n        dfs(m, n, 0, -1, 0, 1)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    func spiralOrder(_ matrix: [[Int]]) -> [Int] {\n        var m = matrix.count\n        var n = matrix[0].count\n        var res: [Int] = []\n\n        // append all the elements in the given direction\n        func dfs(_ row: Int, _ col: Int, _ r: inout Int, _ c: inout Int, _ dr: Int, _ dc: Int) {\n            if row == 0 || col == 0 {\n                return\n            }\n\n            for _ in 0..<col {\n                r += dr\n                c += dc\n                res.append(matrix[r][c])\n            }\n\n            // sub-problem\n            dfs(col, row - 1, &r, &c, dc, -dr)\n        }\n\n        var r = 0\n        var c = -1\n\n        // start by going to the right\n        dfs(m, n, &r, &c, 0, 1)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "impl Solution {\n    pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {\n        let m = matrix.len() as i32;\n        let n = matrix[0].len() as i32;\n        let mut res = Vec::new();\n\n        fn dfs(\n            row: i32, col: i32, r: &mut i32, c: &mut i32,\n            dr: i32, dc: i32, matrix: &[Vec<i32>], res: &mut Vec<i32>,\n        ) {\n            if row == 0 || col == 0 {\n                return;\n            }\n            for _ in 0..col {\n                *r += dr;\n                *c += dc;\n                res.push(matrix[*r as usize][*c as usize]);\n            }\n            dfs(col, row - 1, r, c, dc, -dr, matrix, res);\n        }\n\n        let mut r = 0i32;\n        let mut c = -1i32;\n        dfs(m, n, &mut r, &mut c, 0, 1, &matrix, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        res = []\n        left, right = 0, len(matrix[0])\n        top, bottom = 0, len(matrix)\n\n        while left < right and top < bottom:\n            for i in range(left, right):\n                res.append(matrix[top][i])\n            top += 1\n            for i in range(top, bottom):\n                res.append(matrix[i][right - 1])\n            right -= 1\n            if not (left < right and top < bottom):\n                break\n            for i in range(right - 1, left - 1, -1):\n                res.append(matrix[bottom - 1][i])\n            bottom -= 1\n            for i in range(bottom - 1, top - 1, -1):\n                res.append(matrix[i][left])\n            left += 1\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        List<Integer> res = new ArrayList<>();\n        int left = 0, right = matrix[0].length;\n        int top = 0, bottom = matrix.length;\n\n        while (left < right && top < bottom) {\n            for (int i = left; i < right; i++) {\n                res.add(matrix[top][i]);\n            }\n            top++;\n            for (int i = top; i < bottom; i++) {\n                res.add(matrix[i][right - 1]);\n            }\n            right--;\n            if (!(left < right && top < bottom)) {\n                break;\n            }\n            for (int i = right - 1; i >= left; i--) {\n                res.add(matrix[bottom - 1][i]);\n            }\n            bottom--;\n            for (int i = bottom - 1; i >= top; i--) {\n                res.add(matrix[i][left]);\n            }\n            left++;\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        vector<int> res;\n        int left = 0, right = matrix[0].size();\n        int top = 0, bottom = matrix.size();\n\n        while (left < right && top < bottom) {\n            for (int i = left; i < right; i++) {\n                res.push_back(matrix[top][i]);\n            }\n            top++;\n            for (int i = top; i < bottom; i++) {\n                res.push_back(matrix[i][right - 1]);\n            }\n            right--;\n            if (!(left < right && top < bottom)) {\n                break;\n            }\n            for (int i = right - 1; i >= left; i--) {\n                res.push_back(matrix[bottom - 1][i]);\n            }\n            bottom--;\n            for (int i = bottom - 1; i >= top; i--) {\n                res.push_back(matrix[i][left]);\n            }\n            left++;\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} matrix\n     * @return {number[]}\n     */\n    spiralOrder(matrix) {\n        const res = [];\n        let left = 0;\n        let right = matrix[0].length;\n        let top = 0;\n        let bottom = matrix.length;\n\n        while (left < right && top < bottom) {\n            for (let i = left; i < right; i++) {\n                res.push(matrix[top][i]);\n            }\n            top++;\n            for (let i = top; i < bottom; i++) {\n                res.push(matrix[i][right - 1]);\n            }\n            right--;\n            if (!(left < right && top < bottom)) {\n                break;\n            }\n            for (let i = right - 1; i >= left; i--) {\n                res.push(matrix[bottom - 1][i]);\n            }\n            bottom--;\n            for (let i = bottom - 1; i >= top; i--) {\n                res.push(matrix[i][left]);\n            }\n            left++;\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public List<int> SpiralOrder(int[][] matrix) {\n        List<int> res = new List<int>();\n        int left = 0, right = matrix[0].Length;\n        int top = 0, bottom = matrix.Length;\n\n        while (left < right && top < bottom) {\n            for (int i = left; i < right; i++) {\n                res.Add(matrix[top][i]);\n            }\n            top++;\n            for (int i = top; i < bottom; i++) {\n                res.Add(matrix[i][right - 1]);\n            }\n            right--;\n            if (!(left < right && top < bottom)) {\n                break;\n            }\n            for (int i = right - 1; i >= left; i--) {\n                res.Add(matrix[bottom - 1][i]);\n            }\n            bottom--;\n            for (int i = bottom - 1; i >= top; i--) {\n                res.Add(matrix[i][left]);\n            }\n            left++;\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "func spiralOrder(matrix [][]int) []int {\n\tres := []int{}\n\tif len(matrix) == 0 || len(matrix[0]) == 0 {\n\t\treturn res\n\t}\n\n\tleft, right := 0, len(matrix[0])\n\ttop, bottom := 0, len(matrix)\n\n\tfor left < right && top < bottom {\n\t\tfor i := left; i < right; i++ {\n\t\t\tres = append(res, matrix[top][i])\n\t\t}\n\t\ttop++\n\n\t\tfor i := top; i < bottom; i++ {\n\t\t\tres = append(res, matrix[i][right-1])\n\t\t}\n\t\tright--\n\n\t\tif !(left < right && top < bottom) {\n\t\t\tbreak\n\t\t}\n\n\t\tfor i := right - 1; i >= left; i-- {\n\t\t\tres = append(res, matrix[bottom-1][i])\n\t\t}\n\t\tbottom--\n\n\t\tfor i := bottom - 1; i >= top; i-- {\n\t\t\tres = append(res, matrix[i][left])\n\t\t}\n\t\tleft++\n\t}\n\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun spiralOrder(matrix: Array<IntArray>): List<Int> {\n        val res = mutableListOf<Int>()\n        if (matrix.isEmpty() || matrix[0].isEmpty()) return res\n\n        var left = 0\n        var right = matrix[0].size\n        var top = 0\n        var bottom = matrix.size\n\n        while (left < right && top < bottom) {\n            for (i in left until right) {\n                res.add(matrix[top][i])\n            }\n            top++\n\n            for (i in top until bottom) {\n                res.add(matrix[i][right - 1])\n            }\n            right--\n\n            if (!(left < right && top < bottom)) break\n\n            for (i in right - 1 downTo left) {\n                res.add(matrix[bottom - 1][i])\n            }\n            bottom--\n\n            for (i in bottom - 1 downTo top) {\n                res.add(matrix[i][left])\n            }\n            left++\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func spiralOrder(_ matrix: [[Int]]) -> [Int] {\n        var res: [Int] = []\n        var left = 0, right = matrix[0].count\n        var top = 0, bottom = matrix.count\n\n        while left < right && top < bottom {\n            for i in left..<right {\n                res.append(matrix[top][i])\n            }\n            top += 1\n            for i in top..<bottom {\n                res.append(matrix[i][right - 1])\n            }\n            right -= 1\n            if !(left < right && top < bottom) {\n                break\n            }\n            for i in stride(from: right - 1, through: left, by: -1) {\n                res.append(matrix[bottom - 1][i])\n            }\n            bottom -= 1\n            for i in stride(from: bottom - 1, through: top, by: -1) {\n                res.append(matrix[i][left])\n            }\n            left += 1\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {\n        let mut res = Vec::new();\n        let (mut left, mut right) = (0i32, matrix[0].len() as i32);\n        let (mut top, mut bottom) = (0i32, matrix.len() as i32);\n\n        while left < right && top < bottom {\n            for i in left..right {\n                res.push(matrix[top as usize][i as usize]);\n            }\n            top += 1;\n            for i in top..bottom {\n                res.push(matrix[i as usize][(right - 1) as usize]);\n            }\n            right -= 1;\n            if !(left < right && top < bottom) {\n                break;\n            }\n            for i in (left..right).rev() {\n                res.push(matrix[(bottom - 1) as usize][i as usize]);\n            }\n            bottom -= 1;\n            for i in (top..bottom).rev() {\n                res.push(matrix[i as usize][left as usize]);\n            }\n            left += 1;\n        }\n\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        res = []\n        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n        steps = [len(matrix[0]), len(matrix) - 1]\n\n        r, c, d = 0, -1, 0\n        while steps[d & 1]:\n            for i in range(steps[d & 1]):\n                r += directions[d][0]\n                c += directions[d][1]\n                res.append(matrix[r][c])\n            steps[d & 1] -= 1\n            d += 1\n            d %= 4\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        List<Integer> res = new ArrayList<>();\n        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};\n        int[] steps = {matrix[0].length, matrix.length - 1};\n\n        int r = 0, c = -1, d = 0;\n        while (steps[d % 2] > 0) {\n            for (int i = 0; i < steps[d % 2]; i++) {\n                r += directions[d][0];\n                c += directions[d][1];\n                res.add(matrix[r][c]);\n            }\n            steps[d % 2]--;\n            d = (d + 1) % 4;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        vector<int> res;\n        vector<pair<int, int>> directions = {{0, 1}, {1, 0},\n                                             {0, -1}, {-1, 0}};\n        vector<int> steps = {matrix[0].size(), matrix.size() - 1};\n\n        int r = 0, c = -1, d = 0;\n        while (steps[d % 2]) {\n            for (int i = 0; i < steps[d % 2]; i++) {\n                r += directions[d].first;\n                c += directions[d].second;\n                res.push_back(matrix[r][c]);\n            }\n            steps[d % 2]--;\n            d = (d + 1) % 4;\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} matrix\n     * @return {number[]}\n     */\n    spiralOrder(matrix) {\n        const res = [];\n        const directions = [\n            [0, 1],\n            [1, 0],\n            [0, -1],\n            [-1, 0],\n        ];\n        const steps = [matrix[0].length, matrix.length - 1];\n\n        let r = 0,\n            c = -1,\n            d = 0;\n        while (steps[d % 2]) {\n            for (let i = 0; i < steps[d % 2]; i++) {\n                r += directions[d][0];\n                c += directions[d][1];\n                res.push(matrix[r][c]);\n            }\n            steps[d % 2]--;\n            d = (d + 1) % 4;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public List<int> SpiralOrder(int[][] matrix) {\n        var res = new List<int>();\n        var directions = new (int, int)[] { (0, 1), (1, 0),\n                                            (0, -1), (-1, 0) };\n        var steps = new int[] { matrix[0].Length, matrix.Length - 1 };\n\n        int r = 0, c = -1, d = 0;\n        while (steps[d % 2] > 0) {\n            for (int i = 0; i < steps[d % 2]; i++) {\n                r += directions[d].Item1;\n                c += directions[d].Item2;\n                res.Add(matrix[r][c]);\n            }\n            steps[d % 2]--;\n            d = (d + 1) % 4;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "func spiralOrder(matrix [][]int) []int {\n\tres := []int{}\n\tif len(matrix) == 0 || len(matrix[0]) == 0 {\n\t\treturn res\n\t}\n\n\tdirections := [4][2]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}\n\tsteps := []int{len(matrix[0]), len(matrix) - 1}\n\n\tr, c, d := 0, -1, 0\n\n\tfor steps[d&1] > 0 {\n\t\tfor i := 0; i < steps[d&1]; i++ {\n\t\t\tr += directions[d][0]\n\t\t\tc += directions[d][1]\n\t\t\tres = append(res, matrix[r][c])\n\t\t}\n\t\tsteps[d&1]--\n\t\td = (d + 1) % 4\n\t}\n\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun spiralOrder(matrix: Array<IntArray>): List<Int> {\n        val res = mutableListOf<Int>()\n        if (matrix.isEmpty() || matrix[0].isEmpty()) return res\n\n        val directions = arrayOf(\n            intArrayOf(0, 1),\n            intArrayOf(1, 0),\n            intArrayOf(0, -1),\n            intArrayOf(-1, 0)\n        )\n        val steps = mutableListOf(matrix[0].size, matrix.size - 1)\n\n        var r = 0\n        var c = -1\n        var d = 0\n\n        while (steps[d and 1] > 0) {\n            for (i in 0 until steps[d and 1]) {\n                r += directions[d][0]\n                c += directions[d][1]\n                res.add(matrix[r][c])\n            }\n            steps[d and 1]--\n            d = (d + 1) % 4\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func spiralOrder(_ matrix: [[Int]]) -> [Int] {\n        var res: [Int] = []\n        let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n        var steps = [matrix[0].count, matrix.count - 1]\n\n        var r = 0, c = -1, d = 0\n        while steps[d & 1] > 0 {\n            for _ in 0..<steps[d & 1] {\n                r += directions[d].0\n                c += directions[d].1\n                res.append(matrix[r][c])\n            }\n            steps[d & 1] -= 1\n            d += 1\n            d %= 4\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {\n        let mut res = Vec::new();\n        let directions = [(0i32, 1i32), (1, 0), (0, -1), (-1, 0)];\n        let mut steps = [matrix[0].len() as i32, matrix.len() as i32 - 1];\n\n        let (mut r, mut c, mut d) = (0i32, -1i32, 0usize);\n        while steps[d & 1] > 0 {\n            for _ in 0..steps[d & 1] {\n                r += directions[d].0;\n                c += directions[d].1;\n                res.push(matrix[r as usize][c as usize]);\n            }\n            steps[d & 1] -= 1;\n            d = (d + 1) % 4;\n        }\n        res\n    }\n}"
+        }
+    ]
+}

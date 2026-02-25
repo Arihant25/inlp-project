@@ -1,0 +1,390 @@
+{
+    "problem_name": "Longest Increasing Subsequence",
+    "problem_slug": "longest-increasing-subsequence",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "binary search",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n\n        def dfs(i, j):\n            if i == len(nums):\n                return 0\n\n            LIS = dfs(i + 1, j) # not include\n\n            if j == -1 or nums[j] < nums[i]:\n                LIS = max(LIS, 1 + dfs(i + 1, i)) # include\n\n            return LIS\n\n        return dfs(0, -1)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int lengthOfLIS(int[] nums) {\n        return dfs(nums, 0, -1);\n    }\n\n    private int dfs(int[] nums, int i, int j) {\n        if (i == nums.length) {\n            return 0;\n        }\n\n        int LIS = dfs(nums, i + 1, j); // not include\n\n        if (j == -1 || nums[j] < nums[i]) {\n            LIS = Math.max(LIS, 1 + dfs(nums, i + 1, i)); // include\n        }\n\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        return dfs(nums, 0, -1);\n    }\n\nprivate:\n    int dfs(vector<int>& nums, int i, int j) {\n        if (i == nums.size()) {\n            return 0;\n        }\n\n        int LIS = dfs(nums, i + 1, j); // not include\n\n        if (j == -1 || nums[j] < nums[i]) {\n            LIS = max(LIS, 1 + dfs(nums, i + 1, i)); // include\n        }\n\n        return LIS;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    lengthOfLIS(nums) {\n        return this.dfs(nums, 0, -1);\n    }\n\n    /**\n     * @param {number[]} nums\n     * @param {number} i\n     * @param {number} j\n     * @return {number}\n     */\n    dfs(nums, i, j) {\n        if (i === nums.length) {\n            return 0;\n        }\n\n        let LIS = this.dfs(nums, i + 1, j); // not include\n\n        if (j === -1 || nums[j] < nums[i]) {\n            LIS = Math.max(LIS, 1 + this.dfs(nums, i + 1, i)); // include\n        }\n\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int LengthOfLIS(int[] nums) {\n        return Dfs(nums, 0, -1);\n    }\n\n    private int Dfs(int[] nums, int i, int j) {\n        if (i == nums.Length) {\n            return 0;\n        }\n\n        int LIS = Dfs(nums, i + 1, j); // not include\n\n        if (j == -1 || nums[j] < nums[i]) {\n            LIS = Math.Max(LIS, 1 + Dfs(nums, i + 1, i)); // include\n        }\n\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "func lengthOfLIS(nums []int) int {\n    var dfs func(i, j int) int\n    dfs = func(i, j int) int {\n        if i == len(nums) {\n            return 0\n        }\n\n        LIS := dfs(i + 1, j) // not include\n\n        if j == -1 || nums[j] < nums[i] {\n            LIS = max(LIS, 1 + dfs(i + 1, i)) // include\n        }\n\n        return LIS\n    }\n\n    return dfs(0, -1)\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun lengthOfLIS(nums: IntArray): Int {\n        fun dfs(i: Int, j: Int): Int {\n            if (i == nums.size) {\n                return 0\n            }\n\n            var LIS = dfs(i + 1, j) // not include\n\n            if (j == -1 || nums[j] < nums[i]) {\n                LIS = maxOf(LIS, 1 + dfs(i + 1, i)) // include\n            }\n\n            return LIS\n        }\n\n        return dfs(0, -1)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func lengthOfLIS(_ nums: [Int]) -> Int {\n        func dfs(_ i: Int, _ j: Int) -> Int {\n            if i == nums.count {\n                return 0\n            }\n\n            var LIS = dfs(i + 1, j) // not include\n\n            if j == -1 || nums[j] < nums[i] {\n                LIS = max(LIS, 1 + dfs(i + 1, i)) // include\n            }\n\n            return LIS\n        }\n\n        return dfs(0, -1)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn length_of_lis(nums: Vec<i32>) -> i32 {\n        fn dfs(nums: &[i32], i: usize, j: i32) -> i32 {\n            if i == nums.len() {\n                return 0;\n            }\n            let mut lis = dfs(nums, i + 1, j); // not include\n            if j == -1 || nums[j as usize] < nums[i] {\n                lis = lis.max(1 + dfs(nums, i + 1, i as i32)); // include\n            }\n            lis\n        }\n        dfs(&nums, 0, -1)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n    def lengthOfLIS(self, nums):\n        n = len(nums)\n        memo = [[-1] * (n + 1) for _ in range(n)]\n\n        def dfs(i, j):\n            if i == n:\n                return 0\n            if memo[i][j + 1] != -1:\n                return memo[i][j + 1]\n\n            LIS = dfs(i + 1, j)\n\n            if j == -1 or nums[j] < nums[i]:\n                LIS = max(LIS, 1 + dfs(i + 1, i))\n\n            memo[i][j + 1] = LIS\n            return LIS\n\n        return dfs(0, -1)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    private int[][] memo;\n\n    private int dfs(int i, int j, int[] nums) {\n        if (i == nums.length) {\n            return 0;\n        }\n        if (memo[i][j + 1] != -1) {\n            return memo[i][j + 1];\n        }\n\n        int LIS = dfs(i + 1, j, nums);\n\n        if (j == -1 || nums[j] < nums[i]) {\n            LIS = Math.max(LIS, 1 + dfs(i + 1, i, nums));\n        }\n\n        memo[i][j + 1] = LIS;\n        return LIS;\n    }\n\n    public int lengthOfLIS(int[] nums) {\n        int n = nums.length;\n        memo = new int[n][n + 1];\n        for (int[] row : memo) {\n            Arrays.fill(row, -1);\n        }\n        return dfs(0, -1, nums);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> memo;\n\n    int dfs(int i, int j, vector<int>& nums) {\n        if (i == nums.size()) {\n            return 0;\n        }\n        if (memo[i][j + 1] != -1) {\n            return memo[i][j + 1];\n        }\n\n        int LIS = dfs(i + 1, j, nums);\n\n        if (j == -1 || nums[j] < nums[i]) {\n            LIS = max(LIS, 1 + dfs(i + 1, i, nums));\n        }\n\n        memo[i][j + 1] = LIS;\n        return LIS;\n    }\n\n    int lengthOfLIS(vector<int>& nums) {\n        int n = nums.size();\n        memo = vector<vector<int>>(n, vector<int>(n + 1, -1));\n        return dfs(0, -1, nums);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    lengthOfLIS(nums) {\n        const n = nums.length;\n        const memo = Array.from({ length: n }, () => Array(n + 2).fill(-1));\n\n        return this.dfs(nums, 0, -1, memo);\n    }\n\n    /**\n     * @param {number[]} nums\n     * @param {number} i\n     * @param {number} j\n     * @param {number[][]} memo\n     * @return {number}\n     */\n    dfs(nums, i, j, memo) {\n        if (i === nums.length) return 0;\n        if (memo[i][j + 1] !== -1) return memo[i][j + 1];\n\n        let LIS = this.dfs(nums, i + 1, j, memo);\n\n        if (j === -1 || nums[j] < nums[i]) {\n            LIS = Math.max(LIS, 1 + this.dfs(nums, i + 1, i, memo));\n        }\n\n        memo[i][j + 1] = LIS;\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public int LengthOfLIS(int[] nums) {\n        int n = nums.Length;\n        int[,] memo = new int[n, n + 1];\n\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j <= n; j++)\n                memo[i, j] = -1;\n\n        return DFS(nums, 0, -1, memo);\n    }\n\n    private int DFS(int[] nums, int i, int j, int[,] memo) {\n        if (i == nums.Length) return 0;\n        if (memo[i, j + 1] != -1) {\n            return memo[i, j + 1];\n        }\n\n        int LIS = DFS(nums, i + 1, j, memo);\n\n        if (j == -1 || nums[j] < nums[i]) {\n            LIS = Math.Max(LIS, 1 + DFS(nums, i + 1, i, memo));\n        }\n\n        memo[i, j + 1] = LIS;\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "func lengthOfLIS(nums []int) int {\n    n := len(nums)\n    memo := make([][]int, n)\n    for i := range memo {\n        memo[i] = make([]int, n+1)\n        for j := range memo[i] {\n            memo[i][j] = -1\n        }\n    }\n\n    var dfs func(i, j int) int\n    dfs = func(i, j int) int {\n        if i == n {\n            return 0\n        }\n        if memo[i][j+1] != -1 {\n            return memo[i][j+1]\n        }\n\n        LIS := dfs(i + 1, j)\n\n        if j == -1 || nums[j] < nums[i] {\n            LIS = max(LIS, 1 + dfs(i + 1, i))\n        }\n\n        memo[i][j+1] = LIS\n        return LIS\n    }\n\n    return dfs(0, -1)\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    private lateinit var memo: Array<IntArray>\n\n    private fun dfs(i: Int, j: Int, nums: IntArray): Int {\n        if (i == nums.size) {\n            return 0\n        }\n        if (memo[i][j + 1] != -1) {\n            return memo[i][j + 1]\n        }\n\n        var LIS = dfs(i + 1, j, nums)\n\n        if (j == -1 || nums[j] < nums[i]) {\n            LIS = maxOf(LIS, 1 + dfs(i + 1, i, nums))\n        }\n\n        memo[i][j + 1] = LIS\n        return LIS\n    }\n\n    fun lengthOfLIS(nums: IntArray): Int {\n        val n = nums.size\n        memo = Array(n) { IntArray(n + 1) { -1 } }\n        return dfs(0, -1, nums)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func lengthOfLIS(_ nums: [Int]) -> Int {\n        let n = nums.count\n        var memo = Array(repeating: Array(repeating: -1, count: n + 1), count: n)\n\n        func dfs(_ i: Int, _ j: Int) -> Int {\n            if i == n {\n                return 0\n            }\n            if memo[i][j + 1] != -1 {\n                return memo[i][j + 1]\n            }\n\n            var LIS = dfs(i + 1, j) // not include\n\n            if j == -1 || nums[j] < nums[i] {\n                LIS = max(LIS, 1 + dfs(i + 1, i)) // include\n            }\n\n            memo[i][j + 1] = LIS\n            return LIS\n        }\n\n        return dfs(0, -1)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn length_of_lis(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let mut memo = vec![vec![-1i32; n + 1]; n];\n\n        fn dfs(nums: &[i32], memo: &mut Vec<Vec<i32>>, i: usize, j: i32) -> i32 {\n            if i == nums.len() {\n                return 0;\n            }\n            if memo[i][(j + 1) as usize] != -1 {\n                return memo[i][(j + 1) as usize];\n            }\n            let mut lis = dfs(nums, memo, i + 1, j);\n            if j == -1 || nums[j as usize] < nums[i] {\n                lis = lis.max(1 + dfs(nums, memo, i + 1, i as i32));\n            }\n            memo[i][(j + 1) as usize] = lis;\n            lis\n        }\n\n        dfs(&nums, &mut memo, 0, -1)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        n = len(nums)\n        memo = [-1] * n\n\n        def dfs(i):\n            if memo[i] != -1:\n                return memo[i]\n\n            LIS = 1\n            for j in range(i + 1, n):\n                if nums[i] < nums[j]:\n                    LIS = max(LIS, 1 + dfs(j))\n\n            memo[i] = LIS\n            return LIS\n\n        return max(dfs(i) for i in range(n))"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int[] memo;\n\n    public int lengthOfLIS(int[] nums) {\n        int n = nums.length;\n        memo = new int[n];\n        Arrays.fill(memo, -1);\n\n        int maxLIS = 1;\n        for (int i = 0; i < n; i++) {\n            maxLIS = Math.max(maxLIS, dfs(nums, i));\n        }\n        return maxLIS;\n    }\n\n    private int dfs(int[] nums, int i) {\n        if (memo[i] != -1) {\n            return memo[i];\n        }\n\n        int LIS = 1;\n        for (int j = i + 1; j < nums.length; j++) {\n            if (nums[i] < nums[j]) {\n                LIS = Math.max(LIS, 1 + dfs(nums, j));\n            }\n        }\n\n        memo[i] = LIS;\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\nprivate:\n    vector<int> memo;\n\n    int dfs(vector<int>& nums, int i) {\n        if (memo[i] != -1) {\n            return memo[i];\n        }\n\n        int LIS = 1;\n        for (int j = i + 1; j < nums.size(); j++) {\n            if (nums[i] < nums[j]) {\n                LIS = max(LIS, 1 + dfs(nums, j));\n            }\n        }\n\n        return memo[i] = LIS;\n    }\n\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        int n = nums.size();\n        memo.assign(n, -1);\n\n        int maxLIS = 1;\n        for (int i = 0; i < n; i++) {\n            maxLIS = max(maxLIS, dfs(nums, i));\n        }\n        return maxLIS;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    lengthOfLIS(nums) {\n        const n = nums.length;\n        const memo = new Array(n).fill(-1);\n\n        const dfs = (i) => {\n            if (memo[i] !== -1) {\n                return memo[i];\n            }\n\n            let LIS = 1;\n            for (let j = i + 1; j < n; j++) {\n                if (nums[i] < nums[j]) {\n                    LIS = Math.max(LIS, 1 + dfs(j));\n                }\n            }\n\n            memo[i] = LIS;\n            return LIS;\n        };\n\n        return Math.max(...nums.map((_, i) => dfs(i)));\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int[] memo;\n\n    public int LengthOfLIS(int[] nums) {\n        int n = nums.Length;\n        memo = new int[n];\n        Array.Fill(memo, -1);\n\n        int maxLIS = 1;\n        for (int i = 0; i < n; i++) {\n            maxLIS = Math.Max(maxLIS, Dfs(nums, i));\n        }\n        return maxLIS;\n    }\n\n    private int Dfs(int[] nums, int i) {\n        if (memo[i] != -1) {\n            return memo[i];\n        }\n\n        int LIS = 1;\n        for (int j = i + 1; j < nums.Length; j++) {\n            if (nums[i] < nums[j]) {\n                LIS = Math.Max(LIS, 1 + Dfs(nums, j));\n            }\n        }\n\n        memo[i] = LIS;\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func lengthOfLIS(nums []int) int {\n    n := len(nums)\n    memo := make([]int, n)\n    for i := range memo {\n        memo[i] = -1\n    }\n\n    var dfs func(int) int\n    dfs = func(i int) int {\n        if memo[i] != -1 {\n            return memo[i]\n        }\n\n        LIS := 1\n        for j := i + 1; j < n; j++ {\n            if nums[i] < nums[j] {\n                LIS = max(LIS, 1+dfs(j))\n            }\n        }\n\n        memo[i] = LIS\n        return LIS\n    }\n\n    maxLIS := 1\n    for i := 0; i < n; i++ {\n        maxLIS = max(maxLIS, dfs(i))\n    }\n\n    return maxLIS\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    private lateinit var memo: IntArray\n\n    fun lengthOfLIS(nums: IntArray): Int {\n        val n = nums.size\n        memo = IntArray(n) { -1 }\n\n        var maxLIS = 1\n        for (i in nums.indices) {\n            maxLIS = maxOf(maxLIS, dfs(nums, i))\n        }\n        return maxLIS\n    }\n\n    private fun dfs(nums: IntArray, i: Int): Int {\n        if (memo[i] != -1) {\n            return memo[i]\n        }\n\n        var LIS = 1\n        for (j in i + 1 until nums.size) {\n            if (nums[i] < nums[j]) {\n                LIS = maxOf(LIS, 1 + dfs(nums, j))\n            }\n        }\n\n        memo[i] = LIS\n        return LIS\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func lengthOfLIS(_ nums: [Int]) -> Int {\n        let n = nums.count\n        var memo = Array(repeating: -1, count: n)\n\n        func dfs(_ i: Int) -> Int {\n            if memo[i] != -1 {\n                return memo[i]\n            }\n\n            var LIS = 1\n            for j in (i + 1)..<n {\n                if nums[i] < nums[j] {\n                    LIS = max(LIS, 1 + dfs(j))\n                }\n            }\n\n            memo[i] = LIS\n            return LIS\n        }\n\n        return (0..<n).map { dfs($0) }.max()!\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn length_of_lis(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let mut memo = vec![-1i32; n];\n\n        fn dfs(nums: &[i32], memo: &mut Vec<i32>, i: usize) -> i32 {\n            if memo[i] != -1 {\n                return memo[i];\n            }\n            let mut lis = 1;\n            for j in (i + 1)..nums.len() {\n                if nums[i] < nums[j] {\n                    lis = lis.max(1 + dfs(nums, memo, j));\n                }\n            }\n            memo[i] = lis;\n            lis\n        }\n\n        let mut max_lis = 1;\n        for i in 0..n {\n            max_lis = max_lis.max(dfs(&nums, &mut memo, i));\n        }\n        max_lis\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n    def lengthOfLIS(self, nums):\n        n = len(nums)\n        dp = [[0] * (n + 1) for _ in range(n + 1)]\n\n        for i in range(n - 1, -1, -1):\n            for j in range(i - 1, -2, -1):\n                LIS = dp[i + 1][j + 1]  # Not including nums[i]\n\n                if j == -1 or nums[j] < nums[i]:\n                    LIS = max(LIS, 1 + dp[i + 1][i + 1])  # Including nums[i]\n\n                dp[i][j + 1] = LIS\n\n        return dp[0][0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public int lengthOfLIS(int[] nums) {\n        int n = nums.length;\n        int[][] dp = new int[n + 1][n + 1];\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int j = i - 1; j >= -1; j--) {\n                int LIS = dp[i + 1][j + 1]; // Not including nums[i]\n\n                if (j == -1 || nums[j] < nums[i]) {\n                    LIS = Math.max(LIS, 1 + dp[i + 1][i + 1]); // Including nums[i]\n                }\n\n                dp[i][j + 1] = LIS;\n            }\n        }\n\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        int n = nums.size();\n        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));\n\n        for (int i = n - 1; i >= 0; --i) {\n            for (int j = i - 1; j >= -1; --j) {\n                int LIS = dp[i + 1][j + 1]; // Not including nums[i]\n\n                if (j == -1 || nums[j] < nums[i]) {\n                    LIS = max(LIS, 1 + dp[i + 1][i + 1]); // Including nums[i]\n                }\n\n                dp[i][j + 1] = LIS;\n            }\n        }\n\n        return dp[0][0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    lengthOfLIS(nums) {\n        const n = nums.length;\n        const dp = Array.from({ length: n + 1 }, () =>\n            new Array(n + 1).fill(0),\n        );\n\n        for (let i = n - 1; i >= 0; i--) {\n            for (let j = i - 1; j >= -1; j--) {\n                let LIS = dp[i + 1][j + 1]; // Not including nums[i]\n\n                if (j === -1 || nums[j] < nums[i]) {\n                    LIS = Math.max(LIS, 1 + dp[i + 1][i + 1]); // Including nums[i]\n                }\n\n                dp[i][j + 1] = LIS;\n            }\n        }\n\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public int LengthOfLIS(int[] nums) {\n        int n = nums.Length;\n        int[,] dp = new int[n + 1, n + 1];\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int j = i - 1; j >= -1; j--) {\n                int LIS = dp[i + 1, j + 1]; // Not including nums[i]\n\n                if (j == -1 || nums[j] < nums[i]) {\n                    LIS = Math.Max(LIS, 1 + dp[i + 1, i + 1]); // Including nums[i]\n                }\n\n                dp[i, j + 1] = LIS;\n            }\n        }\n\n        return dp[0, 0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "func lengthOfLIS(nums []int) int {\n    n := len(nums)\n    dp := make([][]int, n+1)\n    for i := range dp {\n        dp[i] = make([]int, n+1)\n    }\n\n    for i := n - 1; i >= 0; i-- {\n        for j := i - 1; j >= -1; j-- {\n            LIS := dp[i+1][j+1] // Not including nums[i]\n\n            if j == -1 || nums[j] < nums[i] {\n                LIS = max(LIS, 1+dp[i+1][i+1]) // Including nums[i]\n            }\n\n            dp[i][j+1] = LIS\n        }\n    }\n\n    return dp[0][0]\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    fun lengthOfLIS(nums: IntArray): Int {\n        val n = nums.size\n        val dp = Array(n + 1) { IntArray(n + 1) }\n\n        for (i in n - 1 downTo 0) {\n            for (j in i - 1 downTo -1) {\n                var LIS = dp[i + 1][j + 1] // Not including nums[i]\n\n                if (j == -1 || nums[j] < nums[i]) {\n                    LIS = maxOf(LIS, 1 + dp[i + 1][i + 1]) // Including nums[i]\n                }\n\n                dp[i][j + 1] = LIS\n            }\n        }\n\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func lengthOfLIS(_ nums: [Int]) -> Int {\n        let n = nums.count\n        var dp = Array(repeating: Array(repeating: 0, count: n + 1), count: n + 1)\n\n        for i in stride(from: n - 1, through: 0, by: -1) {\n            for j in stride(from: i - 1, through: -1, by: -1) {\n                var LIS = dp[i + 1][j + 1] // Not including nums[i]\n\n                if j == -1 || nums[j] < nums[i] {\n                    LIS = max(LIS, 1 + dp[i + 1][i + 1]) // Including nums[i]\n                }\n\n                dp[i][j + 1] = LIS\n            }\n        }\n\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn length_of_lis(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let mut dp = vec![vec![0i32; n + 1]; n + 1];\n\n        for i in (0..n).rev() {\n            for j in (-1..i as i32).rev() {\n                let mut lis = dp[i + 1][(j + 1) as usize]; // not including nums[i]\n                if j == -1 || nums[j as usize] < nums[i] {\n                    lis = lis.max(1 + dp[i + 1][i + 1]); // including nums[i]\n                }\n                dp[i][(j + 1) as usize] = lis;\n            }\n        }\n\n        dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        LIS = [1] * len(nums)\n\n        for i in range(len(nums) - 1, -1, -1):\n            for j in range(i + 1, len(nums)):\n                if nums[i] < nums[j]:\n                    LIS[i] = max(LIS[i], 1 + LIS[j])\n        return max(LIS)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int lengthOfLIS(int[] nums) {\n        int[] LIS = new int[nums.length];\n        Arrays.fill(LIS, 1);\n\n        for (int i = nums.length - 1; i >= 0; i--) {\n            for (int j = i + 1; j < nums.length; j++) {\n                if (nums[i] < nums[j]) {\n                    LIS[i] = Math.max(LIS[i], 1 + LIS[j]);\n                }\n            }\n        }\n        return Arrays.stream(LIS).max().getAsInt();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        vector<int> LIS(nums.size(), 1);\n\n        for (int i = nums.size() - 1; i >= 0; i--) {\n            for (int j = i + 1; j < nums.size(); j++) {\n                if (nums[i] < nums[j]) {\n                    LIS[i] = max(LIS[i], 1 + LIS[j]);\n                }\n            }\n        }\n        return *max_element(LIS.begin(), LIS.end());\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    lengthOfLIS(nums) {\n        const LIS = new Array(nums.length).fill(1);\n\n        for (let i = nums.length - 1; i >= 0; i--) {\n            for (let j = i + 1; j < nums.length; j++) {\n                if (nums[i] < nums[j]) {\n                    LIS[i] = Math.max(LIS[i], 1 + LIS[j]);\n                }\n            }\n        }\n        return Math.max(...LIS);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int LengthOfLIS(int[] nums) {\n        int[] LIS = new int[nums.Length];\n        for (int i = 0; i < LIS.Length; i++) LIS[i] = 1;\n\n        for (int i = nums.Length - 1; i >= 0; i--) {\n            for (int j = i + 1; j < nums.Length; j++) {\n                if (nums[i] < nums[j]) {\n                    LIS[i] = Math.Max(LIS[i], 1 + LIS[j]);\n                }\n            }\n        }\n        return LIS.Max();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func lengthOfLIS(nums []int) int {\n    LIS := make([]int, len(nums))\n    for i := range LIS {\n        LIS[i] = 1\n    }\n\n    for i := len(nums) - 1; i >= 0; i-- {\n        for j := i + 1; j < len(nums); j++ {\n            if nums[i] < nums[j] {\n                if 1 + LIS[j] > LIS[i] {\n                    LIS[i] = 1 + LIS[j]\n                }\n            }\n        }\n    }\n\n    maxLen := 1\n    for _, length := range LIS {\n        if length > maxLen {\n            maxLen = length\n        }\n    }\n\n    return maxLen\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun lengthOfLIS(nums: IntArray): Int {\n        val LIS = IntArray(nums.size) { 1 }\n\n        for (i in nums.size - 1 downTo 0) {\n            for (j in (i + 1) until nums.size) {\n                if (nums[i] < nums[j]) {\n                    LIS[i] = maxOf(LIS[i], 1 + LIS[j])\n                }\n            }\n        }\n\n        return LIS.maxOrNull() ?: 1\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func lengthOfLIS(_ nums: [Int]) -> Int {\n        var LIS = Array(repeating: 1, count: nums.count)\n\n        for i in stride(from: nums.count - 1, through: 0, by: -1) {\n            for j in (i + 1)..<nums.count {\n                if nums[i] < nums[j] {\n                    LIS[i] = max(LIS[i], 1 + LIS[j])\n                }\n            }\n        }\n        return LIS.max()!\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn length_of_lis(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let mut lis = vec![1; n];\n\n        for i in (0..n).rev() {\n            for j in (i + 1)..n {\n                if nums[i] < nums[j] {\n                    lis[i] = lis[i].max(1 + lis[j]);\n                }\n            }\n        }\n\n        *lis.iter().max().unwrap()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "from bisect import bisect_left\nclass SegmentTree:\n    def __init__(self, N):\n        self.n = N\n        while (self.n & (self.n - 1)) != 0:\n            self.n += 1\n        self.tree = [0] * (2 * self.n)\n\n    def update(self, i, val):\n        self.tree[self.n + i] = val\n        j = (self.n + i) >> 1\n        while j >= 1:\n            self.tree[j] = max(self.tree[j << 1], self.tree[j << 1 | 1])\n            j >>= 1\n\n    def query(self, l, r):\n        if l > r:\n            return 0\n        res = float('-inf')\n        l += self.n\n        r += self.n + 1\n        while l < r:\n            if l & 1:\n                res = max(res, self.tree[l])\n                l += 1\n            if r & 1:\n                r -= 1\n                res = max(res, self.tree[r])\n            l >>= 1\n            r >>= 1\n        return res\n\nclass Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        def compress(arr):\n            sortedArr = sorted(set(arr))\n            order = []\n            for num in arr:\n                order.append(bisect_left(sortedArr, num))\n            return order\n\n        nums = compress(nums)\n        n = len(nums)\n        segTree = SegmentTree(n)\n\n        LIS = 0\n        for num in nums:\n            curLIS = segTree.query(0, num - 1) + 1\n            segTree.update(num, curLIS)\n            LIS = max(LIS, curLIS)\n        return LIS"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree {\n    int n;\n    int[] tree;\n\n    public SegmentTree(int N) {\n        n = N;\n        while ((n & (n - 1)) != 0) {\n            n++;\n        }\n        tree = new int[2 * n];\n    }\n\n    void update(int i, int val) {\n        tree[n + i] = val;\n        int j = (n + i) >> 1;\n        while (j >= 1) {\n            tree[j] = Math.max(tree[j << 1], tree[j << 1 | 1]);\n            j >>= 1;\n        }\n    }\n\n    int query(int l, int r) {\n        if (l > r) {\n            return 0;\n        }\n        int res = Integer.MIN_VALUE;\n        l += n;\n        r += n + 1;\n        while (l < r) {\n            if ((l & 1) != 0) {\n                res = Math.max(res, tree[l]);\n                l++;\n            }\n            if ((r & 1) != 0) {\n                r--;\n                res = Math.max(res, tree[r]);\n            }\n            l >>= 1;\n            r >>= 1;\n        }\n        return res;\n    }\n}\n\npublic class Solution {\n    public int lengthOfLIS(int[] nums) {\n        int[] sortedArr = Arrays.stream(nums).distinct().sorted().toArray();\n        int[] order = new int[nums.length];\n        for (int i = 0; i < nums.length; i++) {\n            order[i] = Arrays.binarySearch(sortedArr, nums[i]);\n        }\n        int n = sortedArr.length;\n        SegmentTree segTree = new SegmentTree(n);\n\n        int LIS = 0;\n        for (int num : order) {\n            int curLIS = segTree.query(0, num - 1) + 1;\n            segTree.update(num, curLIS);\n            LIS = Math.max(LIS, curLIS);\n        }\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree {\npublic:\n    int n;\n    vector<int> tree;\n\n    SegmentTree(int N) {\n        n = N;\n        while (n & (n - 1)) {\n            n++;\n        }\n        tree.resize(2 * n);\n    }\n\n    void update(int i, int val) {\n        tree[n + i] = val;\n        int j = (n + i) >> 1;\n        while (j >= 1) {\n            tree[j] = max(tree[j << 1], tree[j << 1 | 1]);\n            j >>= 1;\n        }\n    }\n\n    int query(int l, int r) {\n        if (l > r) {\n            return 0;\n        }\n        int res = INT_MIN;\n        l += n;\n        r += n + 1;\n        while (l < r) {\n            if (l & 1) {\n                res = max(res, tree[l]);\n                l++;\n            }\n            if (r & 1) {\n                r--;\n                res = max(res, tree[r]);\n            }\n            l >>= 1;\n            r >>= 1;\n        }\n        return res;\n    }\n};\n\nclass Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        vector<int> sortedArr = nums;\n        sort(sortedArr.begin(), sortedArr.end());\n        sortedArr.erase(unique(sortedArr.begin(),\n                        sortedArr.end()), sortedArr.end());\n\n        vector<int> order(nums.size());\n        for (int i = 0; i < nums.size(); i++) {\n            order[i] = lower_bound(sortedArr.begin(), sortedArr.end(),\n                                   nums[i]) - sortedArr.begin();\n        }\n\n        int n = sortedArr.size();\n        SegmentTree segTree(n);\n\n        int LIS = 0;\n        for (int num : order) {\n            int curLIS = segTree.query(0, num - 1) + 1;\n            segTree.update(num, curLIS);\n            LIS = max(LIS, curLIS);\n        }\n        return LIS;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree {\n    constructor(N, a) {\n        this.n = N;\n        while ((this.n & (this.n - 1)) !== 0) {\n            this.n++;\n        }\n        this.tree = new Array(2 * this.n).fill(0);\n    }\n\n    /**\n     * @param {number} i\n     * @param {number} val\n     */\n    update(i, val) {\n        this.tree[this.n + i] = val;\n        let j = (this.n + i) >> 1;\n        while (j >= 1) {\n            this.tree[j] = Math.max(this.tree[j << 1], this.tree[(j << 1) | 1]);\n            j >>= 1;\n        }\n    }\n\n    /**\n     * @param {number} l\n     * @param {number} r\n     * @return {number}\n     */\n    query(l, r) {\n        if (l > r) {\n            return 0;\n        }\n        let res = -Infinity;\n        l += this.n;\n        r += this.n + 1;\n        while (l < r) {\n            if (l & 1) {\n                res = Math.max(res, this.tree[l]);\n                l++;\n            }\n            if (r & 1) {\n                r--;\n                res = Math.max(res, this.tree[r]);\n            }\n            l >>= 1;\n            r >>= 1;\n        }\n        return res;\n    }\n}\n\nclass Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    lengthOfLIS(nums) {\n        const sortedArr = Array.from(new Set(nums)).sort((a, b) => a - b);\n        const map = new Map();\n\n        sortedArr.forEach((num, index) => {\n            map.set(num, index);\n        });\n\n        const order = nums.map((num) => map.get(num));\n        const n = sortedArr.length;\n        const segTree = new SegmentTree(n, order);\n\n        let LIS = 0;\n        for (const num of order) {\n            const curLIS = segTree.query(0, num - 1) + 1;\n            segTree.update(num, curLIS);\n            LIS = Math.max(LIS, curLIS);\n        }\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class SegmentTree {\n    private int n;\n    private int[] tree;\n\n    public SegmentTree(int N) {\n        n = N;\n        tree = new int[2 * n];\n        Array.Fill(tree, 0);\n    }\n\n    public void Update(int i, int val) {\n        tree[n + i] = val;\n        int j = (n + i) >> 1;\n        while (j >= 1) {\n            tree[j] = Math.Max(tree[2 * j], tree[2 * j + 1]);\n            j >>= 1;\n        }\n    }\n\n    public int Query(int l, int r) {\n        if (l > r) {\n            return 0;\n        }\n        int res = int.MinValue;\n        l += n;\n        r += n + 1;\n        while (l < r) {\n            if ((l & 1) == 1) {\n                res = Math.Max(res, tree[l]);\n                l++;\n            }\n            if ((r & 1) == 1) {\n                r--;\n                res = Math.Max(res, tree[r]);\n            }\n            l >>= 1;\n            r >>= 1;\n        }\n        return res;\n    }\n}\n\npublic class Solution {\n    public int LengthOfLIS(int[] nums) {\n        var sortedArr = nums.Distinct().OrderBy(x => x).ToArray();\n        var map = new Dictionary<int, int>();\n\n        for (int i = 0; i < sortedArr.Length; i++) {\n            map[sortedArr[i]] = i;\n        }\n\n        int n = sortedArr.Length;\n        var segTree = new SegmentTree(n);\n\n        int LIS = 0;\n        foreach (var num in nums) {\n            int compressedIndex = map[num];\n            int curLIS = segTree.Query(0, compressedIndex - 1) + 1;\n            segTree.Update(compressedIndex, curLIS);\n            LIS = Math.Max(LIS, curLIS);\n        }\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "type SegmentTree struct {\n\tn    int\n\ttree []int\n}\n\nfunc NewSegmentTree(N int) *SegmentTree {\n\tn := N\n\tfor (n & (n - 1)) != 0 {\n\t\tn++\n\t}\n\ttree := make([]int, 2*n)\n\treturn &SegmentTree{n: n, tree: tree}\n}\n\nfunc (seg *SegmentTree) Update(i, val int) {\n\tseg.tree[seg.n+i] = val\n\tj := (seg.n + i) >> 1\n\tfor j >= 1 {\n\t\tseg.tree[j] = max(seg.tree[j<<1], seg.tree[j<<1|1])\n\t\tj >>= 1\n\t}\n}\n\nfunc (seg *SegmentTree) Query(l, r int) int {\n\tif l > r {\n\t\treturn 0\n\t}\n\tres := -1 << 63\n\tl += seg.n\n\tr += seg.n + 1\n\tfor l < r {\n\t\tif l&1 != 0 {\n\t\t\tres = max(res, seg.tree[l])\n\t\t\tl++\n\t\t}\n\t\tif r&1 != 0 {\n\t\t\tr--\n\t\t\tres = max(res, seg.tree[r])\n\t\t}\n\t\tl >>= 1\n\t\tr >>= 1\n\t}\n\treturn res\n}\n\nfunc compress(arr []int) []int {\n\tsortedArr := make([]int, len(arr))\n\tcopy(sortedArr, arr)\n\tsort.Ints(sortedArr)\n\torder := make([]int, len(arr))\n\tfor i, num := range arr {\n\t\torder[i] = sort.SearchInts(sortedArr, num)\n\t}\n\treturn order\n}\n\nfunc lengthOfLIS(nums []int) int {\n\tnums = compress(nums)\n\tn := len(nums)\n\tsegTree := NewSegmentTree(n)\n\tLIS := 0\n\tfor _, num := range nums {\n\t\tcurLIS := segTree.Query(0, num-1) + 1\n\t\tsegTree.Update(num, curLIS)\n\t\tLIS = max(LIS, curLIS)\n\t}\n\treturn LIS\n}\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree(N: Int) {\n    var n: Int = N\n    var tree: IntArray\n\n    init {\n        while ((n and (n - 1)) != 0) {\n            n++\n        }\n        tree = IntArray(2 * n)\n    }\n\n    fun update(i: Int, value: Int) {\n        tree[n + i] = value\n        var j = (n + i) / 2\n        while (j >= 1) {\n            tree[j] = max(tree[j * 2], tree[j * 2 + 1])\n            j /= 2\n        }\n    }\n\n    fun query(l: Int, r: Int): Int {\n        if (l > r) return 0\n        var res = Int.MIN_VALUE\n        var left = l + n\n        var right = r + n + 1\n        while (left < right) {\n            if (left and 1 != 0) {\n                res = max(res, tree[left])\n                left++\n            }\n            if (right and 1 != 0) {\n                right--\n                res = max(res, tree[right])\n            }\n            left /= 2\n            right /= 2\n        }\n        return res\n    }\n}\n\nclass Solution {\n    fun compress(arr: IntArray): IntArray {\n        val sortedArr = arr.toSortedSet().toIntArray()\n        return arr.map { sortedArr.binarySearch(it) }.toIntArray()\n    }\n\n    fun lengthOfLIS(nums: IntArray): Int {\n        val compressedNums = compress(nums)\n        val n = compressedNums.size\n        val segTree = SegmentTree(n)\n        var LIS = 0\n        for (num in compressedNums) {\n            val curLIS = segTree.query(0, num - 1) + 1\n            segTree.update(num, curLIS)\n            LIS = max(LIS, curLIS)\n        }\n        return LIS\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree {\n    private var n: Int\n    private var tree: [Int]\n\n    init(_ N: Int) {\n        self.n = N\n        while (self.n & (self.n - 1)) != 0 {\n            self.n += 1\n        }\n        self.tree = Array(repeating: 0, count: 2 * self.n)\n    }\n\n    func update(_ i: Int, _ val: Int) {\n        tree[n + i] = val\n        var j = (n + i) >> 1\n        while j >= 1 {\n            tree[j] = max(tree[j << 1], tree[j << 1 | 1])\n            j >>= 1\n        }\n    }\n\n    func query(_ l: Int, _ r: Int) -> Int {\n        if l > r {\n            return 0\n        }\n        var res = Int.min\n        var l = l + n\n        var r = r + n + 1\n        while l < r {\n            if l & 1 == 1 {\n                res = max(res, tree[l])\n                l += 1\n            }\n            if r & 1 == 1 {\n                r -= 1\n                res = max(res, tree[r])\n            }\n            l >>= 1\n            r >>= 1\n        }\n        return res\n    }\n}\n\nclass Solution {\n    func lengthOfLIS(_ nums: [Int]) -> Int {\n        func compress(_ arr: [Int]) -> [Int] {\n            let sortedArr = Array(Set(arr)).sorted()\n            return arr.map { sortedArr.firstIndex(of: $0)! }\n        }\n\n        let nums = compress(nums)\n        let n = nums.count\n        let segTree = SegmentTree(n)\n\n        var LIS = 0\n        for num in nums {\n            let curLIS = segTree.query(0, num - 1) + 1\n            segTree.update(num, curLIS)\n            LIS = max(LIS, curLIS)\n        }\n        return LIS\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "struct SegmentTree {\n    n: usize,\n    tree: Vec<i32>,\n}\n\nimpl SegmentTree {\n    fn new(mut n: usize) -> Self {\n        while n & (n - 1) != 0 { n += 1; }\n        Self { n, tree: vec![0; 2 * n] }\n    }\n\n    fn update(&mut self, i: usize, val: i32) {\n        self.tree[self.n + i] = val;\n        let mut j = (self.n + i) >> 1;\n        while j >= 1 {\n            self.tree[j] = self.tree[j << 1].max(self.tree[j << 1 | 1]);\n            j >>= 1;\n        }\n    }\n\n    fn query(&self, l: i32, r: i32) -> i32 {\n        if l > r { return 0; }\n        let (mut l, mut r) = (l as usize + self.n, r as usize + self.n + 1);\n        let mut res = i32::MIN;\n        while l < r {\n            if l & 1 == 1 { res = res.max(self.tree[l]); l += 1; }\n            if r & 1 == 1 { r -= 1; res = res.max(self.tree[r]); }\n            l >>= 1; r >>= 1;\n        }\n        res\n    }\n}\n\nimpl Solution {\n    pub fn length_of_lis(nums: Vec<i32>) -> i32 {\n        let mut sorted_arr: Vec<i32> = nums.iter().cloned().collect::<BTreeSet<_>>().into_iter().collect();\n        let order: Vec<usize> = nums.iter().map(|&x|\n            sorted_arr.binary_search(&x).unwrap()\n        ).collect();\n\n        let n = sorted_arr.len();\n        let mut seg_tree = SegmentTree::new(n);\n        let mut lis = 0;\n        for &num in &order {\n            let cur_lis = seg_tree.query(0, num as i32 - 1) + 1;\n            seg_tree.update(num, cur_lis);\n            lis = lis.max(cur_lis);\n        }\n        lis\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "from bisect import bisect_left\nclass Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        dp = []\n        dp.append(nums[0])\n\n        LIS = 1\n        for i in range(1, len(nums)):\n            if dp[-1] < nums[i]:\n                dp.append(nums[i])\n                LIS += 1\n                continue\n\n            idx = bisect_left(dp, nums[i])\n            dp[idx] = nums[i]\n\n        return LIS"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int lengthOfLIS(int[] nums) {\n        List<Integer> dp = new ArrayList<>();\n        dp.add(nums[0]);\n\n        int LIS = 1;\n        for (int i = 1; i < nums.length; i++) {\n            if (dp.get(dp.size() - 1) < nums[i]) {\n                dp.add(nums[i]);\n                LIS++;\n                continue;\n            }\n\n            int idx = Collections.binarySearch(dp, nums[i]);\n            if (idx < 0) idx = -idx - 1;\n            dp.set(idx, nums[i]);\n        }\n\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        vector<int> dp;\n        dp.push_back(nums[0]);\n\n        int LIS = 1;\n        for (int i = 1; i < nums.size(); i++) {\n            if (dp.back() < nums[i]) {\n                dp.push_back(nums[i]);\n                LIS++;\n                continue;\n            }\n\n            int idx = lower_bound(dp.begin(),\n                                  dp.end(), nums[i]) - dp.begin();\n            dp[idx] = nums[i];\n        }\n\n        return LIS;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    lengthOfLIS(nums) {\n        const dp = [];\n        dp.push(nums[0]);\n\n        let LIS = 1;\n        for (let i = 1; i < nums.length; i++) {\n            if (dp[dp.length - 1] < nums[i]) {\n                dp.push(nums[i]);\n                LIS++;\n                continue;\n            }\n\n            let left = 0,\n                right = dp.length - 1;\n            while (left < right) {\n                const mid = Math.floor((left + right) / 2);\n                if (dp[mid] < nums[i]) {\n                    left = mid + 1;\n                } else {\n                    right = mid;\n                }\n            }\n            dp[left] = nums[i];\n        }\n\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int LengthOfLIS(int[] nums) {\n        List<int> dp = new List<int>();\n        dp.Add(nums[0]);\n\n        int LIS = 1;\n        for (int i = 1; i < nums.Length; i++) {\n            if (dp[dp.Count - 1] < nums[i]) {\n                dp.Add(nums[i]);\n                LIS++;\n                continue;\n            }\n\n            int idx = dp.BinarySearch(nums[i]);\n            if (idx < 0) idx = ~idx;\n            dp[idx] = nums[i];\n        }\n\n        return LIS;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func lengthOfLIS(nums []int) int {\n\tdp := []int{}\n\tdp = append(dp, nums[0])\n\n\tLIS := 1\n\tfor i := 1; i < len(nums); i++ {\n\t\tif dp[len(dp)-1] < nums[i] {\n\t\t\tdp = append(dp, nums[i])\n\t\t\tLIS++\n\t\t\tcontinue\n\t\t}\n\n\t\tidx := sort.Search(len(dp), func(j int) bool {\n\t\t\treturn dp[j] >= nums[i]\n\t\t})\n\t\tdp[idx] = nums[i]\n\t}\n\n\treturn LIS\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun lengthOfLIS(nums: IntArray): Int {\n        val dp = mutableListOf<Int>()\n        dp.add(nums[0])\n\n        var LIS = 1\n        for (i in 1 until nums.size) {\n            if (dp[dp.size - 1] < nums[i]) {\n                dp.add(nums[i])\n                LIS++\n                continue\n            }\n\n            val idx = dp.binarySearch(nums[i]).let { if (it < 0) -it - 1 else it }\n            dp[idx] = nums[i]\n        }\n\n        return LIS\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func lengthOfLIS(_ nums: [Int]) -> Int {\n        var dp = [nums[0]]\n        var LIS = 1\n\n        for i in 1..<nums.count {\n            if let last = dp.last, last < nums[i] {\n                dp.append(nums[i])\n                LIS += 1\n            } else {\n                let idx = binarySearch(dp, nums[i])\n                dp[idx] = nums[i]\n            }\n        }\n        return LIS\n    }\n\n    private func binarySearch(_ dp: [Int], _ target: Int) -> Int {\n        var left = 0, right = dp.count - 1\n        while left < right {\n            let mid = (left + right) / 2\n            if dp[mid] < target {\n                left = mid + 1\n            } else {\n                right = mid\n            }\n        }\n        return left\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn length_of_lis(nums: Vec<i32>) -> i32 {\n        let mut dp = vec![nums[0]];\n\n        for i in 1..nums.len() {\n            if *dp.last().unwrap() < nums[i] {\n                dp.push(nums[i]);\n            } else {\n                let idx = dp.partition_point(|&x| x < nums[i]);\n                dp[idx] = nums[i];\n            }\n        }\n\n        dp.len() as i32\n    }\n}"
+        }
+    ]
+}

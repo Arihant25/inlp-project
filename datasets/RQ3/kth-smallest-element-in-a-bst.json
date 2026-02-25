@@ -1,0 +1,283 @@
+{
+    "problem_name": "Kth Smallest Element In a Bst",
+    "problem_slug": "kth-smallest-element-in-a-bst",
+    "difficulty": "medium",
+    "topic_tags": [
+        "tree",
+        "depth-first search",
+        "binary search tree",
+        "binary tree"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        arr = []\n\n        def dfs(node):\n            if not node:\n                return\n\n            arr.append(node.val)\n            dfs(node.left)\n            dfs(node.right)\n\n        dfs(root)\n        arr.sort()\n        return arr[k - 1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        List<Integer> arr = new ArrayList<>();\n\n        dfs(root, arr);\n        Collections.sort(arr);\n        return arr.get(k - 1);\n    }\n\n    private void dfs(TreeNode node, List<Integer> arr) {\n        if (node == null) {\n            return;\n        }\n\n        arr.add(node.val);\n        dfs(node.left, arr);\n        dfs(node.right, arr);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        vector<int> arr;\n        dfs(root, arr);\n        sort(arr.begin(), arr.end());\n        return arr[k - 1];\n    }\n\n    void dfs(TreeNode* node, vector<int>& arr) {\n        if (!node) return;\n        arr.push_back(node->val);\n        dfs(node->left, arr);\n        dfs(node->right, arr);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @param {number} k\n     * @return {number}\n     */\n    kthSmallest(root, k) {\n        const arr = [];\n        this.dfs(root, arr);\n        arr.sort((a, b) => a - b);\n        return arr[k - 1];\n    }\n\n    /**\n     * @param {TreeNode} node\n     * @param {number[]} arr\n     */\n    dfs(node, arr) {\n        if (!node) return;\n        arr.push(node.val);\n        this.dfs(node.left, arr);\n        this.dfs(node.right, arr);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int KthSmallest(TreeNode root, int k) {\n        List<int> arr = new List<int>();\n        Dfs(root, arr);\n        arr.Sort();\n        return arr[k - 1];\n    }\n\n    private void Dfs(TreeNode node, List<int> arr) {\n        if (node == null) return;\n        arr.Add(node.val);\n        Dfs(node.left, arr);\n        Dfs(node.right, arr);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc kthSmallest(root *TreeNode, k int) int {\n    var arr []int\n\n    var dfs func(node *TreeNode)\n    dfs = func(node *TreeNode) {\n        if node == nil {\n            return\n        }\n\n        dfs(node.Left)\n        arr = append(arr, node.Val)\n        dfs(node.Right)\n    }\n\n    dfs(root)\n    return arr[k-1]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    private val arr = mutableListOf<Int>()\n\n    fun kthSmallest(root: TreeNode?, k: Int): Int {\n        dfs(root)\n        return arr[k - 1]\n    }\n\n    private fun dfs(node: TreeNode?) {\n        if (node == null) {\n            return\n        }\n\n        dfs(node.left)\n        arr.add(node.`val`)\n        dfs(node.right)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func kthSmallest(_ root: TreeNode?, _ k: Int) -> Int {\n        var arr = [Int]()\n\n        func dfs(_ node: TreeNode?) {\n            guard let node = node else { return }\n            arr.append(node.val)\n            dfs(node.left)\n            dfs(node.right)\n        }\n\n        dfs(root)\n        arr.sort()\n        return arr[k - 1]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn kth_smallest(root: Option<Rc<RefCell<TreeNode>>>, k: i32) -> i32 {\n        let mut arr = Vec::new();\n        Self::dfs(&root, &mut arr);\n        arr.sort();\n        arr[(k - 1) as usize]\n    }\n\n    fn dfs(node: &Option<Rc<RefCell<TreeNode>>>, arr: &mut Vec<i32>) {\n        if let Some(n) = node {\n            let n = n.borrow();\n            arr.push(n.val);\n            Self::dfs(&n.left, arr);\n            Self::dfs(&n.right, arr);\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        arr = []\n\n        def dfs(node):\n            if not node:\n                return\n\n            dfs(node.left)\n            arr.append(node.val)\n            dfs(node.right)\n\n        dfs(root)\n        return arr[k - 1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        List<Integer> arr = new ArrayList<>();\n\n        dfs(root, arr);\n        return arr.get(k - 1);\n    }\n\n    private void dfs(TreeNode node, List<Integer> arr) {\n        if (node == null) {\n            return;\n        }\n\n        dfs(node.left, arr);\n        arr.add(node.val);\n        dfs(node.right, arr);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        vector<int> arr;\n        dfs(root, arr);\n        return arr[k - 1];\n    }\n\n    void dfs(TreeNode* node, vector<int>& arr) {\n        if (!node) return;\n        dfs(node->left, arr);\n        arr.push_back(node->val);\n        dfs(node->right, arr);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @param {number} k\n     * @return {number}\n     */\n    kthSmallest(root, k) {\n        const arr = [];\n        this.dfs(root, arr);\n        return arr[k - 1];\n    }\n\n    /**\n     * @param {TreeNode} node\n     * @param {number[]} arr\n     */\n    dfs(node, arr) {\n        if (!node) return;\n        this.dfs(node.left, arr);\n        arr.push(node.val);\n        this.dfs(node.right, arr);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int KthSmallest(TreeNode root, int k) {\n        List<int> arr = new List<int>();\n        Dfs(root, arr);\n        return arr[k - 1];\n    }\n\n    private void Dfs(TreeNode node, List<int> arr) {\n        if (node == null) return;\n        Dfs(node.left, arr);\n        arr.Add(node.val);\n        Dfs(node.right, arr);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc kthSmallest(root *TreeNode, k int) int {\n    var arr []int\n\n    var dfs func(node *TreeNode)\n    dfs = func(node *TreeNode) {\n        if node == nil {\n            return\n        }\n\n        dfs(node.Left)\n        arr = append(arr, node.Val)\n        dfs(node.Right)\n    }\n\n    dfs(root)\n    return arr[k-1]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    private val arr = mutableListOf<Int>()\n\n    fun kthSmallest(root: TreeNode?, k: Int): Int {\n        dfs(root)\n        return arr[k - 1]\n    }\n\n    private fun dfs(node: TreeNode?) {\n        if (node == null) {\n            return\n        }\n\n        dfs(node.left)\n        arr.add(node.`val`)\n        dfs(node.right)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func kthSmallest(_ root: TreeNode?, _ k: Int) -> Int {\n        var arr = [Int]()\n\n        func dfs(_ node: TreeNode?) {\n            guard let node = node else { return }\n            dfs(node.left)\n            arr.append(node.val)\n            dfs(node.right)\n        }\n\n        dfs(root)\n        return arr[k - 1]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn kth_smallest(root: Option<Rc<RefCell<TreeNode>>>, k: i32) -> i32 {\n        let mut arr = Vec::new();\n        Self::dfs(&root, &mut arr);\n        arr[(k - 1) as usize]\n    }\n\n    fn dfs(node: &Option<Rc<RefCell<TreeNode>>>, arr: &mut Vec<i32>) {\n        if let Some(n) = node {\n            let n = n.borrow();\n            Self::dfs(&n.left, arr);\n            arr.push(n.val);\n            Self::dfs(&n.right, arr);\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        cnt = k\n        res = root.val\n\n        def dfs(node):\n            nonlocal cnt, res\n            if not node:\n                return\n\n            dfs(node.left)\n            cnt -= 1\n            if cnt == 0:\n                res = node.val\n                return\n            dfs(node.right)\n\n        dfs(root)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        int[] tmp = new int[2];\n        tmp[0] = k;\n        dfs(root, tmp);\n        return tmp[1];\n    }\n\n    private void dfs(TreeNode node, int[] tmp) {\n        if (node == null) {\n            return;\n        }\n\n        dfs(node.left, tmp);\n        tmp[0] -= 1;\n        if (tmp[0] == 0) {\n            tmp[1] = node.val;\n            return;\n        }\n        dfs(node.right, tmp);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        vector<int> tmp(2);\n        tmp[0] = k;\n        dfs(root, tmp);\n        return tmp[1];\n    }\n\n    void dfs(TreeNode* node, vector<int>& tmp) {\n        if (!node) return;\n        dfs(node->left, tmp);\n        tmp[0]--;\n        if (tmp[0] == 0) {\n            tmp[1] = node->val;\n            return;\n        }\n        dfs(node->right, tmp);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @param {number} k\n     * @return {number}\n     */\n    kthSmallest(root, k) {\n        const tmp = new Int32Array(2);\n        tmp[0] = k;\n        this.dfs(root, tmp);\n        return tmp[1];\n    }\n\n    /**\n     * @param {TreeNode} node\n     * @param {number[]} tmp\n     */\n    dfs(node, tmp) {\n        if (!node) return;\n        this.dfs(node.left, tmp);\n        tmp[0]--;\n        if (tmp[0] === 0) {\n            tmp[1] = node.val;\n            return;\n        }\n        this.dfs(node.right, tmp);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int KthSmallest(TreeNode root, int k) {\n        int[] tmp = new int[2];\n        tmp[0] = k;\n        Dfs(root, tmp);\n        return tmp[1];\n    }\n\n    private void Dfs(TreeNode node, int[] tmp) {\n        if (node == null) return;\n        Dfs(node.left, tmp);\n        tmp[0]--;\n        if (tmp[0] == 0) {\n            tmp[1] = node.val;\n            return;\n        }\n        Dfs(node.right, tmp);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc kthSmallest(root *TreeNode, k int) int {\n    cnt, res := k, 0\n\n    var dfs func(node *TreeNode)\n    dfs = func(node *TreeNode) {\n        if node == nil {\n            return\n        }\n\n        dfs(node.Left)\n        cnt--\n        if cnt == 0 {\n            res = node.Val\n            return\n        }\n        dfs(node.Right)\n    }\n\n    dfs(root)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    private var cnt = 0\n    private var res = 0\n\n    fun kthSmallest(root: TreeNode?, k: Int): Int {\n        cnt = k\n        dfs(root)\n        return res\n    }\n\n    private fun dfs(node: TreeNode?) {\n        if (node == null) {\n            return\n        }\n\n        dfs(node.left)\n        cnt--\n        if (cnt == 0) {\n            res = node.`val`\n            return\n        }\n        dfs(node.right)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func kthSmallest(_ root: TreeNode?, _ k: Int) -> Int {\n        var cnt = k\n        var res = root!.val\n\n        func dfs(_ node: TreeNode?) {\n            guard let node = node else { return }\n\n            dfs(node.left)\n            cnt -= 1\n            if cnt == 0 {\n                res = node.val\n                return\n            }\n            dfs(node.right)\n        }\n\n        dfs(root)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn kth_smallest(root: Option<Rc<RefCell<TreeNode>>>, k: i32) -> i32 {\n        let mut tmp = [k, 0];\n        Self::dfs(&root, &mut tmp);\n        tmp[1]\n    }\n\n    fn dfs(node: &Option<Rc<RefCell<TreeNode>>>, tmp: &mut [i32; 2]) {\n        if let Some(n) = node {\n            let n = n.borrow();\n            Self::dfs(&n.left, tmp);\n            tmp[0] -= 1;\n            if tmp[0] == 0 {\n                tmp[1] = n.val;\n                return;\n            }\n            Self::dfs(&n.right, tmp);\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        stack = []\n        curr = root\n\n        while stack or curr:\n            while curr:\n                stack.append(curr)\n                curr = curr.left\n            curr = stack.pop()\n            k -= 1\n            if k == 0:\n                return curr.val\n            curr = curr.right"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        Stack<TreeNode> stack = new Stack<>();\n        TreeNode curr = root;\n\n        while (!stack.isEmpty() || curr != null) {\n            while (curr != null) {\n                stack.push(curr);\n                curr = curr.left;\n            }\n            curr = stack.pop();\n            k--;\n            if (k == 0) {\n                return curr.val;\n            }\n            curr = curr.right;\n        }\n\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        stack<TreeNode*> stack;\n        TreeNode* curr = root;\n\n        while (!stack.empty() || curr != nullptr) {\n            while (curr != nullptr) {\n                stack.push(curr);\n                curr = curr->left;\n            }\n            curr = stack.top();\n            stack.pop();\n            k--;\n            if (k == 0) {\n                return curr->val;\n            }\n            curr = curr->right;\n        }\n\n        return -1;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @param {number} k\n     * @return {number}\n     */\n    kthSmallest(root, k) {\n        let stack = [];\n        let curr = root;\n\n        while (stack.length > 0 || curr !== null) {\n            while (curr !== null) {\n                stack.push(curr);\n                curr = curr.left;\n            }\n            curr = stack.pop();\n            k--;\n            if (k === 0) {\n                return curr.val;\n            }\n            curr = curr.right;\n        }\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int KthSmallest(TreeNode root, int k) {\n        Stack<TreeNode> stack = new Stack<TreeNode>();\n        TreeNode curr = root;\n\n        while (stack.Count > 0 || curr != null) {\n            while (curr != null) {\n                stack.Push(curr);\n                curr = curr.left;\n            }\n            curr = stack.Pop();\n            k--;\n            if (k == 0) {\n                return curr.val;\n            }\n            curr = curr.right;\n        }\n\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc kthSmallest(root *TreeNode, k int) int {\n    stack := []*TreeNode{}\n    curr := root\n\n    for len(stack) > 0 || curr != nil {\n        for curr != nil {\n            stack = append(stack, curr)\n            curr = curr.Left\n        }\n\n        curr = stack[len(stack)-1]\n        stack = stack[:len(stack)-1]\n\n        k--\n        if k == 0 {\n            return curr.Val\n        }\n\n        curr = curr.Right\n    }\n\n    return 0\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun kthSmallest(root: TreeNode?, k: Int): Int {\n        val stack = mutableListOf<TreeNode>()\n        var curr: TreeNode? = root\n        var k = k\n\n        while (stack.isNotEmpty() || curr != null) {\n            while (curr != null) {\n                stack.add(curr)\n                curr = curr.left\n            }\n\n            curr = stack.removeLast()\n            k--\n            if (k == 0) {\n                return curr.`val`\n            }\n\n            curr = curr.right\n        }\n\n        return 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func kthSmallest(_ root: TreeNode?, _ k: Int) -> Int {\n        var stack = [TreeNode]()\n        var curr = root\n        var k = k\n\n        while !stack.isEmpty || curr != nil {\n            while curr != nil {\n                stack.append(curr!)\n                curr = curr?.left\n            }\n            curr = stack.removeLast()\n            k -= 1\n            if k == 0 {\n                return curr!.val\n            }\n            curr = curr?.right\n        }\n        return -1\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn kth_smallest(root: Option<Rc<RefCell<TreeNode>>>, k: i32) -> i32 {\n        let mut stack: Vec<Rc<RefCell<TreeNode>>> = Vec::new();\n        let mut curr = root;\n        let mut k = k;\n\n        loop {\n            while let Some(node) = curr {\n                curr = node.borrow().left.clone();\n                stack.push(node);\n            }\n            if let Some(node) = stack.pop() {\n                k -= 1;\n                if k == 0 {\n                    return node.borrow().val;\n                }\n                curr = node.borrow().right.clone();\n            } else {\n                break;\n            }\n        }\n\n        -1\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        curr = root\n\n        while curr:\n            if not curr.left:\n                k -= 1\n                if k == 0:\n                    return curr.val\n                curr = curr.right\n            else:\n                pred = curr.left\n                while pred.right and pred.right != curr:\n                    pred = pred.right\n\n                if not pred.right:\n                    pred.right = curr\n                    curr = curr.left\n                else:\n                    pred.right = None\n                    k -= 1\n                    if k == 0:\n                        return curr.val\n                    curr = curr.right\n\n        return -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        TreeNode curr = root;\n\n        while (curr != null) {\n            if (curr.left == null) {\n                k--;\n                if (k == 0) return curr.val;\n                curr = curr.right;\n            } else {\n                TreeNode pred = curr.left;\n                while (pred.right != null && pred.right != curr)\n                    pred = pred.right;\n\n                if (pred.right == null) {\n                    pred.right = curr;\n                    curr = curr.left;\n                } else {\n                    pred.right = null;\n                    k--;\n                    if (k == 0) return curr.val;\n                    curr = curr.right;\n                }\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        TreeNode* curr = root;\n\n        while (curr) {\n            if (!curr->left) {\n                k--;\n                if (k == 0) return curr->val;\n                curr = curr->right;\n            } else {\n                TreeNode* pred = curr->left;\n                while (pred->right && pred->right != curr)\n                    pred = pred->right;\n\n                if (!pred->right) {\n                    pred->right = curr;\n                    curr = curr->left;\n                } else {\n                    pred->right = nullptr;\n                    k--;\n                    if (k == 0) return curr->val;\n                    curr = curr->right;\n                }\n            }\n        }\n        return -1;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @param {number} k\n     * @return {number}\n     */\n    kthSmallest(root, k) {\n        let curr = root;\n\n        while (curr) {\n            if (!curr.left) {\n                k--;\n                if (k === 0) return curr.val;\n                curr = curr.right;\n            } else {\n                let pred = curr.left;\n                while (pred.right && pred.right !== curr) pred = pred.right;\n\n                if (!pred.right) {\n                    pred.right = curr;\n                    curr = curr.left;\n                } else {\n                    pred.right = null;\n                    k--;\n                    if (k === 0) return curr.val;\n                    curr = curr.right;\n                }\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int KthSmallest(TreeNode root, int k) {\n        TreeNode curr = root;\n\n        while (curr != null) {\n            if (curr.left == null) {\n                k--;\n                if (k == 0) return curr.val;\n                curr = curr.right;\n            } else {\n                TreeNode pred = curr.left;\n                while (pred.right != null && pred.right != curr)\n                    pred = pred.right;\n\n                if (pred.right == null) {\n                    pred.right = curr;\n                    curr = curr.left;\n                } else {\n                    pred.right = null;\n                    k--;\n                    if (k == 0) return curr.val;\n                    curr = curr.right;\n                }\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc kthSmallest(root *TreeNode, k int) int {\n    curr := root\n    for {\n        if curr.Left == nil {\n            k--\n            if k == 0 {\n                return curr.Val\n            }\n            curr = curr.Right\n        } else {\n            pred := curr.Left\n            for pred.Right != nil && pred.Right != curr {\n                pred = pred.Right\n            }\n            if pred.Right == nil {\n                pred.Right = curr\n                curr = curr.Left\n            } else {\n                pred.Right = nil\n                k--\n                if k == 0 {\n                    return curr.Val\n                }\n                curr = curr.Right\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun kthSmallest(root: TreeNode?, k: Int): Int {\n        var curr: TreeNode? = root\n        var k = k\n        while (true) {\n            if (curr?.left == null) {\n                k--\n                if (k == 0) {\n                    return curr!!.`val`\n                }\n                curr = curr?.right\n            } else {\n                var pred = curr.left\n                while (pred?.right != null && pred.right != curr) {\n                    pred = pred.right\n                }\n                if (pred?.right == null) {\n                    pred.right = curr\n                    curr = curr.left\n                } else {\n                    pred.right = null\n                    k--\n                    if (k == 0) {\n                        return curr!!.`val`\n                    }\n                    curr = curr.right\n                }\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func kthSmallest(_ root: TreeNode?, _ k: Int) -> Int {\n        var curr = root\n        var k = k\n\n        while curr != nil {\n            if curr?.left == nil {\n                k -= 1\n                if k == 0 {\n                    return curr!.val\n                }\n                curr = curr?.right\n            } else {\n                var pred = curr?.left\n                while pred?.right != nil && pred?.right !== curr {\n                    pred = pred?.right\n                }\n\n                if pred?.right == nil {\n                    pred?.right = curr\n                    curr = curr?.left\n                } else {\n                    pred?.right = nil\n                    k -= 1\n                    if k == 0 {\n                        return curr!.val\n                    }\n                    curr = curr?.right\n                }\n            }\n        }\n        return -1\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn kth_smallest(root: Option<Rc<RefCell<TreeNode>>>, k: i32) -> i32 {\n        let mut curr = root;\n        let mut k = k;\n\n        while let Some(curr_node) = curr.clone() {\n            if curr_node.borrow().left.is_none() {\n                k -= 1;\n                if k == 0 {\n                    return curr_node.borrow().val;\n                }\n                let right = curr_node.borrow().right.clone();\n                curr = right;\n            } else {\n                let mut pred = curr_node.borrow().left.clone();\n                loop {\n                    let next = {\n                        let pred_ref = pred.as_ref().unwrap().borrow();\n                        if pred_ref.right.is_some()\n                            && !Rc::ptr_eq(pred_ref.right.as_ref().unwrap(), &curr_node)\n                        {\n                            pred_ref.right.clone()\n                        } else {\n                            break;\n                        }\n                    };\n                    pred = next;\n                }\n                let pred_node = pred.unwrap();\n                if pred_node.borrow().right.is_none() {\n                    pred_node.borrow_mut().right = Some(curr_node.clone());\n                    let left = curr_node.borrow().left.clone();\n                    curr = left;\n                } else {\n                    pred_node.borrow_mut().right = None;\n                    k -= 1;\n                    if k == 0 {\n                        return curr_node.borrow().val;\n                    }\n                    let right = curr_node.borrow().right.clone();\n                    curr = right;\n                }\n            }\n        }\n        -1\n    }\n}"
+        }
+    ]
+}

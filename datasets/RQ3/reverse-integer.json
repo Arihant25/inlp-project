@@ -1,0 +1,172 @@
+{
+    "problem_name": "Reverse Integer",
+    "problem_slug": "reverse-integer",
+    "difficulty": "medium",
+    "topic_tags": [
+        "math"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def reverse(self, x: int) -> int:\n        org = x\n        x = abs(x)\n        res = int(str(x)[::-1])\n        if org < 0:\n            res *= -1\n        if res < -(1 << 31) or res > (1 << 31) - 1:\n            return 0\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int reverse(int x) {\n        int org = x;\n        x = Math.abs(x);\n        long res = Long.parseLong(new StringBuilder(\n                   String.valueOf(x)).reverse().toString()\n                );\n        if (org < 0) {\n            res *= -1;\n        }\n        if (res < -(1 << 31) || res > (1 << 31) - 1) {\n            return 0;\n        }\n        return (int)res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int reverse(int x) {\n        int org = x;\n        x = abs(x);\n        string strX = to_string(x);\n        std::reverse(strX.begin(), strX.end());\n        long long res = stoll(strX);\n        if (org < 0) {\n            res *= -1;\n        }\n        if (res < -(1LL << 31) || res > (1LL << 31) - 1) {\n            return 0;\n        }\n        return static_cast<int>(res);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number} x\n     * @return {number}\n     */\n    reverse(x) {\n        const org = x;\n        x = Math.abs(x);\n        let res = parseInt(x.toString().split('').reverse().join(''));\n        if (org < 0) {\n            res *= -1;\n        }\n        if (res < -(2 ** 31) || res > 2 ** 31 - 1) {\n            return 0;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int Reverse(int x) {\n        int org = x;\n        x = Math.Abs(x);\n        char[] arr = x.ToString().ToCharArray();\n        Array.Reverse(arr);\n\n        long res = long.Parse(new string(arr));\n        if (org < 0) {\n            res *= -1;\n        }\n\n        if (res < int.MinValue || res > int.MaxValue) {\n            return 0;\n        }\n        return (int)res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "func reverse(x int) int {\n    org := x\n    x = abs(x)\n    res := 0\n\n    for x > 0 {\n        res = res*10 + x%10\n        x /= 10\n    }\n\n    if org < 0 {\n        res = -res\n    }\n    if res < -(1 << 31) || res > (1<<31)-1 {\n        return 0\n    }\n    return res\n}\n\nfunc abs(x int) int {\n    if x < 0 {\n        return -x\n    }\n    return x\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun reverse(x: Int): Int {\n        val org = x\n        var num = Math.abs(x)\n        var res = 0\n\n        while (num > 0) {\n            if (res > (Int.MAX_VALUE - num % 10) / 10) {\n                return 0\n            }\n            res = res * 10 + num % 10\n            num /= 10\n        }\n\n        if (org < 0) {\n            res = -res\n        }\n        return if (res < Int.MIN_VALUE || res > Int.MAX_VALUE) 0 else res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func reverse(_ x: Int) -> Int {\n        let org = x\n        var x = abs(x)\n        var res = Int(String(String(x).reversed()))!\n\n        if org < 0 {\n            res *= -1\n        }\n        if res < Int32.min || res > Int32.max {\n            return 0\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn reverse(x: i32) -> i32 {\n        let org = x;\n        let x = (x as i64).abs();\n        let reversed: String = x.to_string().chars().rev().collect();\n        let mut res: i64 = reversed.parse().unwrap();\n        if org < 0 {\n            res *= -1;\n        }\n        if res < i32::MIN as i64 || res > i32::MAX as i64 {\n            return 0;\n        }\n        res as i32\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def reverse(self, x: int) -> int:\n        def rec(n: int, rev: int) -> int:\n            if n == 0:\n                return rev\n\n            rev = rev * 10 + n % 10\n            return rec(n // 10, rev)\n\n        sign = -1 if x < 0 else 1\n        x = abs(x)\n        reversed_num = rec(x, 0)\n        reversed_num *= sign\n        if reversed_num < -(1 << 31) or reversed_num > (1 << 31) - 1:\n            return 0\n\n        return reversed_num"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int reverse(int x) {\n        long res = rec(Math.abs(x), 0) * (x < 0 ? -1 : 1);\n        if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) {\n            return 0;\n        }\n        return (int) res;\n    }\n\n    private long rec(int n, long rev) {\n        if (n == 0) {\n            return rev;\n        }\n        rev = rev * 10 + n % 10;\n        return rec(n / 10, rev);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int reverse(int x) {\n        long res = rec(abs(x), 0) * (x < 0 ? -1 : 1);\n        if (res < INT_MIN || res > INT_MAX) {\n            return 0;\n        }\n        return (int)res;\n    }\n\nprivate:\n    long rec(int n, long rev) {\n        if (n == 0) {\n            return rev;\n        }\n        rev = rev * 10 + n % 10;\n        return rec(n / 10, rev);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number} x\n     * @return {number}\n     */\n    reverse(x) {\n        let res = this.rec(Math.abs(x), 0) * (x < 0 ? -1 : 1);\n        if (res < -(2 ** 31) || res > 2 ** 31 - 1) {\n            return 0;\n        }\n        return res;\n    }\n\n    /**\n     * @param {number} n\n     * @param {number} rev\n     * @return {number}\n     */\n    rec(n, rev) {\n        if (n === 0) {\n            return rev;\n        }\n        rev = rev * 10 + (n % 10);\n        return this.rec(Math.floor(n / 10), rev);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int Reverse(int x) {\n        long res = Rec(Math.Abs(x), 0) * (x < 0 ? -1 : 1);\n        if (res < int.MinValue || res > int.MaxValue) {\n            return 0;\n        }\n        return (int)res;\n    }\n\n    private long Rec(int n, long rev) {\n        if (n == 0) {\n            return rev;\n        }\n        rev = rev * 10 + n % 10;\n        return Rec(n / 10, rev);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "func reverse(x int) int {\n    var rec func(int, int) int\n    rec = func(n, rev int) int {\n        if n == 0 {\n            return rev\n        }\n        rev = rev*10 + n%10\n        return rec(n/10, rev)\n    }\n\n    sign := 1\n    if x < 0 {\n        sign = -1\n        x = -x\n    }\n\n    reversedNum := rec(x, 0) * sign\n    if reversedNum < -(1<<31) || reversedNum > (1<<31)-1 {\n        return 0\n    }\n    return reversedNum\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun reverse(x: Int): Int {\n        val res = rec(Math.abs(x), 0L) * if (x < 0) -1 else 1\n        return if (res < Int.MIN_VALUE || res > Int.MAX_VALUE) 0 else res.toInt()\n    }\n\n    private fun rec(n: Int, rev: Long): Long {\n        if (n == 0) return rev\n        return rec(n / 10, rev * 10 + n % 10)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func reverse(_ x: Int) -> Int {\n        func rec(_ n: Int, _ rev: Int) -> Int {\n            if n == 0 {\n                return rev\n            }\n            return rec(n / 10, rev * 10 + n % 10)\n        }\n\n        let sign = x < 0 ? -1 : 1\n        let reversedNum = rec(abs(x), 0) * sign\n\n        if reversedNum < Int32.min || reversedNum > Int32.max {\n            return 0\n        }\n\n        return reversedNum\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn reverse(x: i32) -> i32 {\n        fn rec(n: i64, rev: i64) -> i64 {\n            if n == 0 {\n                return rev;\n            }\n            rec(n / 10, rev * 10 + n % 10)\n        }\n\n        let sign: i64 = if x < 0 { -1 } else { 1 };\n        let reversed_num = rec((x as i64).abs(), 0) * sign;\n        if reversed_num < i32::MIN as i64 || reversed_num > i32::MAX as i64 {\n            return 0;\n        }\n        reversed_num as i32\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def reverse(self, x: int) -> int:\n        MIN = -2147483648  # -2^31,\n        MAX = 2147483647  #  2^31 - 1\n\n        res = 0\n        while x:\n            digit = int(math.fmod(x, 10))\n            x = int(x / 10)\n\n            if res > MAX // 10 or (res == MAX // 10 and digit > MAX % 10):\n                return 0\n            if res < MIN // 10 or (res == MIN // 10 and digit < MIN % 10):\n                return 0\n            res = (res * 10) + digit\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int reverse(int x) {\n        final int MIN = -2147483648; // -2^31\n        final int MAX = 2147483647;  // 2^31 - 1\n\n        int res = 0;\n        while (x != 0) {\n            int digit = x % 10;\n            x /= 10;\n\n            if (res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10))\n                return 0;\n            if (res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10))\n                return 0;\n            res = (res * 10) + digit;\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int reverse(int x) {\n        const int MIN = -2147483648; // -2^31\n        const int MAX = 2147483647;  // 2^31 - 1\n\n        int res = 0;\n        while (x != 0) {\n            int digit = x % 10;\n            x /= 10;\n\n            if (res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10))\n                return 0;\n            if (res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10))\n                return 0;\n            res = (res * 10) + digit;\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number} x\n     * @return {number}\n     */\n    reverse(x) {\n        const MIN = -2147483648; // -2^31\n        const MAX = 2147483647; // 2^31 - 1\n\n        let res = 0;\n        while (x !== 0) {\n            const digit = x % 10;\n            x = Math.trunc(x / 10);\n\n            if (res > MAX / 10 || (res === MAX / 10 && digit > MAX % 10))\n                return 0;\n            if (res < MIN / 10 || (res === MIN / 10 && digit < MIN % 10))\n                return 0;\n            res = res * 10 + digit;\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int Reverse(int x) {\n        const int MIN = -2147483648; // -2^31\n        const int MAX = 2147483647;  // 2^31 - 1\n\n        int res = 0;\n        while (x != 0) {\n            int digit = x % 10;\n            x /= 10;\n\n            if (res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10))\n                return 0;\n            if (res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10))\n                return 0;\n            res = (res * 10) + digit;\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "func reverse(x int) int {\n    MIN := -2147483648 // -2^31\n    MAX := 2147483647  // 2^31 - 1\n\n    res := 0\n    for x != 0 {\n        digit := int(math.Mod(float64(x), 10))\n        x = int(float64(x) / 10)\n\n        if res > MAX/10 || (res == MAX/10 && digit > MAX%10) {\n            return 0\n        }\n        if res < MIN/10 || (res == MIN/10 && digit < MIN%10) {\n            return 0\n        }\n        res = (res * 10) + digit\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun reverse(x: Int): Int {\n        val MIN = -2147483648 // -2^31\n        val MAX = 2147483647  // 2^31 - 1\n\n        var res = 0\n        var num = x\n        while (num != 0) {\n            val digit = (num % 10).toInt()\n            num /= 10\n\n            if (res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10)) {\n                return 0\n            }\n            if (res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10)) {\n                return 0\n            }\n            res = res * 10 + digit\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func reverse(_ x: Int) -> Int {\n        let MIN = Int32.min\n        let MAX = Int32.max\n\n        var res = 0\n        var num = x\n\n        while num != 0 {\n            let digit = num % 10\n            num /= 10\n\n            if res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10) {\n                return 0\n            }\n            if res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10) {\n                return 0\n            }\n            res = res * 10 + digit\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn reverse(x: i32) -> i32 {\n        let mut res: i32 = 0;\n        let mut num = x;\n\n        while num != 0 {\n            let digit = num % 10;\n            num /= 10;\n\n            if res > i32::MAX / 10 || (res == i32::MAX / 10 && digit > 7) {\n                return 0;\n            }\n            if res < i32::MIN / 10 || (res == i32::MIN / 10 && digit < -8) {\n                return 0;\n            }\n            res = res * 10 + digit;\n        }\n\n        res\n    }\n}"
+        }
+    ]
+}

@@ -1,0 +1,120 @@
+{
+    "problem_name": "Add Two Numbers",
+    "problem_slug": "add-two-numbers",
+    "difficulty": "medium",
+    "topic_tags": [
+        "linked list",
+        "math",
+        "recursion"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n\nclass Solution:\n    def add(self, l1: Optional[ListNode], l2: Optional[ListNode], carry: int) -> Optional[ListNode]:\n        if not l1 and not l2 and carry == 0:\n            return None\n\n        v1 = l1.val if l1 else 0\n        v2 = l2.val if l2 else 0\n\n        carry, val = divmod(v1 + v2 + carry, 10)\n\n        next_node = self.add(\n            l1.next if l1 else None,\n            l2.next if l2 else None,\n            carry\n        )\n        return ListNode(val, next_node)\n\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        return self.add(l1, l2, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\n\npublic class Solution {\n    public ListNode add(ListNode l1, ListNode l2, int carry) {\n        if (l1 == null && l2 == null && carry == 0) {\n            return null;\n        }\n\n        int v1 = 0;\n        int v2 = 0;\n        if (l1 != null) {\n            v1 = l1.val;\n        }\n        if (l2 != null) {\n            v2 = l2.val;\n        }\n\n        int sum = v1 + v2 + carry;\n        int newCarry = sum / 10;\n        int nodeValue = sum % 10;\n\n        ListNode nextNode = add(\n            (l1 != null) ? l1.next : null,\n            (l2 != null) ? l2.next : null,\n            newCarry\n        );\n\n        return new ListNode(nodeValue, nextNode);\n    }\n\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        return add(l1, l2, 0);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\n\nclass Solution {\npublic:\n    ListNode* add(ListNode* l1, ListNode* l2, int carry) {\n        if (!l1 && !l2 && carry == 0) {\n            return nullptr;\n        }\n\n        int v1 = 0;\n        int v2 = 0;\n        if (l1) {\n            v1 = l1->val;\n        }\n        if (l2) {\n            v2 = l2->val;\n        }\n\n        int sum = v1 + v2 + carry;\n        int newCarry = sum / 10;\n        int nodeValue = sum % 10;\n\n        ListNode* nextNode = add(\n            (l1 ? l1->next : nullptr),\n            (l2 ? l2->next : nullptr),\n            newCarry\n        );\n\n        return new ListNode(nodeValue, nextNode);\n    }\n\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        return add(l1, l2, 0);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "/**\n * Definition for singly-linked list.\n * class ListNode {\n *     constructor(val = 0, next = null) {\n *         this.val = val;\n *         this.next = next;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {ListNode} l1\n     * @param {ListNode} l2\n     * @param {number} carry\n     * @return {ListNode}\n     */\n    add(l1, l2, carry) {\n        if (!l1 && !l2 && carry === 0) {\n            return null;\n        }\n\n        let v1 = 0;\n        let v2 = 0;\n        if (l1) {\n            v1 = l1.val;\n        }\n        if (l2) {\n            v2 = l2.val;\n        }\n\n        let sum = v1 + v2 + carry;\n        let newCarry = Math.floor(sum / 10);\n        let nodeValue = sum % 10;\n\n        let nextNode = this.add(\n            l1 ? l1.next : null,\n            l2 ? l2.next : null,\n            newCarry,\n        );\n\n        return new ListNode(nodeValue, nextNode);\n    }\n\n    /**\n     * @param {ListNode} l1\n     * @param {ListNode} l2\n     * @return {ListNode}\n     */\n    addTwoNumbers(l1, l2) {\n        return this.add(l1, l2, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     public int val;\n *     public ListNode next;\n *     public ListNode(int val=0, ListNode next=null) {\n *         this.val = val;\n *         this.next = next;\n *     }\n * }\n */\n\npublic class Solution {\n    public ListNode Add(ListNode l1, ListNode l2, int carry) {\n        if (l1 == null && l2 == null && carry == 0) {\n            return null;\n        }\n\n        int v1 = 0;\n        int v2 = 0;\n        if (l1 != null) {\n            v1 = l1.val;\n        }\n        if (l2 != null) {\n            v2 = l2.val;\n        }\n\n        int sum = v1 + v2 + carry;\n        int newCarry = sum / 10;\n        int nodeValue = sum % 10;\n\n        ListNode nextNode = Add(\n            (l1 != null ? l1.next : null),\n            (l2 != null ? l2.next : null),\n            newCarry\n        );\n\n        return new ListNode(nodeValue) { next = nextNode };\n    }\n\n    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {\n        return Add(l1, l2, 0);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "/**\n * Definition for singly-linked list.\n * type ListNode struct {\n *     Val int\n *     Next *ListNode\n * }\n */\nfunc add(l1 *ListNode, l2 *ListNode, carry int) *ListNode {\n    if l1 == nil && l2 == nil && carry == 0 {\n        return nil\n    }\n\n    v1, v2 := 0, 0\n    if l1 != nil {\n        v1 = l1.Val\n    }\n    if l2 != nil {\n        v2 = l2.Val\n    }\n\n    sum := v1 + v2 + carry\n    carry, val := sum/10, sum%10\n\n    var nextNode *ListNode\n    nextL1 := l1\n    nextL2 := l2\n    if l1 != nil {\n        nextL1 = l1.Next\n    } else {\n        nextL1 = nil\n    }\n    if l2 != nil {\n        nextL2 = l2.Next\n    } else {\n        nextL2 = nil\n    }\n    nextNode = add(nextL1, nextL2, carry)\n\n    return &ListNode{Val: val, Next: nextNode}\n}\n\nfunc addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {\n    return add(l1, l2, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "/**\n * Example:\n * var li = ListNode(5)\n * var v = li.`val`\n * Definition for singly-linked list.\n * class ListNode(var `val`: Int) {\n *     var next: ListNode? = null\n * }\n */\nclass Solution {\n    private fun add(l1: ListNode?, l2: ListNode?, carry: Int): ListNode? {\n        if (l1 == null && l2 == null && carry == 0) return null\n\n        val v1 = l1?.`val` ?: 0\n        val v2 = l2?.`val` ?: 0\n        val sum = v1 + v2 + carry\n        val newCarry = sum / 10\n        val valNode = sum % 10\n\n        val nextNode = add(l1?.next, l2?.next, newCarry)\n        return ListNode(valNode).apply { next = nextNode }\n    }\n\n    fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {\n        return add(l1, l2, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     public var val: Int\n *     public var next: ListNode?\n *     public init() { self.val = 0; self.next = nil; }\n *     public init(_ val: Int) { self.val = val; self.next = nil; }\n *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }\n * }\n */\nclass Solution {\n    private func add(_ l1: ListNode?, _ l2: ListNode?, _ carry: Int) -> ListNode? {\n        if l1 == nil && l2 == nil && carry == 0 {\n            return nil\n        }\n\n        let v1 = l1?.val ?? 0\n        let v2 = l2?.val ?? 0\n\n        let sum = v1 + v2 + carry\n        let newCarry = sum / 10\n        let val = sum % 10\n\n        let nextNode = add(l1?.next, l2?.next, newCarry)\n        return ListNode(val, nextNode)\n    }\n\n    func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {\n        return add(l1, l2, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(m + n)",
+            "code": "// Definition for singly-linked list.\n// #[derive(PartialEq, Eq, Clone, Debug)]\n// pub struct ListNode {\n//   pub val: i32,\n//   pub next: Option<Box<ListNode>>\n// }\nimpl Solution {\n    fn add(\n        l1: Option<Box<ListNode>>,\n        l2: Option<Box<ListNode>>,\n        carry: i32,\n    ) -> Option<Box<ListNode>> {\n        if l1.is_none() && l2.is_none() && carry == 0 {\n            return None;\n        }\n\n        let v1 = l1.as_ref().map_or(0, |n| n.val);\n        let v2 = l2.as_ref().map_or(0, |n| n.val);\n\n        let sum = v1 + v2 + carry;\n        let new_carry = sum / 10;\n        let node_value = sum % 10;\n\n        let next_node = Self::add(\n            l1.and_then(|n| n.next),\n            l2.and_then(|n| n.next),\n            new_carry,\n        );\n\n        Some(Box::new(ListNode { val: node_value, next: next_node }))\n    }\n\n    pub fn add_two_numbers(\n        l1: Option<Box<ListNode>>,\n        l2: Option<Box<ListNode>>,\n    ) -> Option<Box<ListNode>> {\n        Self::add(l1, l2, 0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n\nclass Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        dummy = ListNode()\n        cur = dummy\n\n        carry = 0\n        while l1 or l2 or carry:\n            v1 = l1.val if l1 else 0\n            v2 = l2.val if l2 else 0\n\n            # new digit\n            val = v1 + v2 + carry\n            carry = val // 10\n            val = val % 10\n            cur.next = ListNode(val)\n\n            # update ptrs\n            cur = cur.next\n            l1 = l1.next if l1 else None\n            l2 = l2.next if l2 else None\n\n        return dummy.next"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\n\n class Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        ListNode dummy = new ListNode();\n        ListNode cur = dummy;\n\n        int carry = 0;\n        while (l1 != null || l2 != null || carry != 0) {\n            int v1 = (l1 != null) ? l1.val : 0;\n            int v2 = (l2 != null) ? l2.val : 0;\n\n            int val = v1 + v2 + carry;\n            carry = val / 10;\n            val = val % 10;\n            cur.next = new ListNode(val);\n\n            cur = cur.next;\n            l1 = (l1 != null) ? l1.next : null;\n            l2 = (l2 != null) ? l2.next : null;\n        }\n\n        return dummy.next;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\n\nclass Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        ListNode* dummy = new ListNode();\n        ListNode* cur = dummy;\n\n        int carry = 0;\n        while (l1 != nullptr || l2 != nullptr || carry != 0) {\n            int v1 = (l1 != nullptr) ? l1->val : 0;\n            int v2 = (l2 != nullptr) ? l2->val : 0;\n\n            int val = v1 + v2 + carry;\n            carry = val / 10;\n            val = val % 10;\n            cur->next = new ListNode(val);\n\n            cur = cur->next;\n            l1 = (l1 != nullptr) ? l1->next : nullptr;\n            l2 = (l2 != nullptr) ? l2->next : nullptr;\n        }\n        ListNode* res = dummy->next;\n        delete dummy;\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for singly-linked list.\n * class ListNode {\n *     constructor(val = 0, next = null) {\n *         this.val = val;\n *         this.next = next;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {ListNode} l1\n     * @param {ListNode} l2\n     * @return {ListNode}\n     */\n    addTwoNumbers(l1, l2) {\n        const dummy = new ListNode();\n        let cur = dummy;\n\n        let carry = 0;\n        while (l1 || l2 || carry) {\n            const v1 = l1 ? l1.val : 0;\n            const v2 = l2 ? l2.val : 0;\n\n            let val = v1 + v2 + carry;\n            carry = Math.floor(val / 10);\n            val = val % 10;\n            cur.next = new ListNode(val);\n\n            cur = cur.next;\n            l1 = l1 ? l1.next : null;\n            l2 = l2 ? l2.next : null;\n        }\n\n        return dummy.next;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     public int val;\n *     public ListNode next;\n *     public ListNode(int val=0, ListNode next=null) {\n *         this.val = val;\n *         this.next = next;\n *     }\n * }\n */\n\npublic class Solution {\n    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {\n        ListNode dummy = new ListNode();\n        ListNode cur = dummy;\n\n        int carry = 0;\n        while (l1 != null || l2 != null || carry != 0) {\n            int v1 = (l1 != null) ? l1.val : 0;\n            int v2 = (l2 != null) ? l2.val : 0;\n\n            int val = v1 + v2 + carry;\n            carry = val / 10;\n            val = val % 10;\n            cur.next = new ListNode(val);\n\n            cur = cur.next;\n            l1 = (l1 != null) ? l1.next : null;\n            l2 = (l2 != null) ? l2.next : null;\n        }\n\n        return dummy.next;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for singly-linked list.\n * type ListNode struct {\n *     Val int\n *     Next *ListNode\n * }\n */\nfunc addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {\n    dummy := &ListNode{}\n    cur := dummy\n    carry := 0\n\n    for l1 != nil || l2 != nil || carry != 0 {\n        v1 := 0\n        if l1 != nil {\n            v1 = l1.Val\n            l1 = l1.Next\n        }\n\n        v2 := 0\n        if l2 != nil {\n            v2 = l2.Val\n            l2 = l2.Next\n        }\n\n        val := v1 + v2 + carry\n        carry = val / 10\n        cur.Next = &ListNode{Val: val % 10}\n        cur = cur.Next\n    }\n\n    return dummy.Next\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Example:\n * var li = ListNode(5)\n * var v = li.`val`\n * Definition for singly-linked list.\n * class ListNode(var `val`: Int) {\n *     var next: ListNode? = null\n * }\n */\nclass Solution {\n    fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {\n        val dummy = ListNode(0)\n        var cur = dummy\n        var carry = 0\n\n        var p1 = l1\n        var p2 = l2\n\n        while (p1 != null || p2 != null || carry != 0) {\n            val v1 = p1?.`val` ?: 0\n            val v2 = p2?.`val` ?: 0\n\n            val sum = v1 + v2 + carry\n            carry = sum / 10\n            cur.next = ListNode(sum % 10)\n\n            cur = cur.next!!\n            p1 = p1?.next\n            p2 = p2?.next\n        }\n\n        return dummy.next\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     public var val: Int\n *     public var next: ListNode?\n *     public init() { self.val = 0; self.next = nil; }\n *     public init(_ val: Int) { self.val = val; self.next = nil; }\n *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }\n * }\n */\nclass Solution {\n    func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {\n        let dummy = ListNode(0)\n        var cur = dummy\n        var l1 = l1, l2 = l2\n        var carry = 0\n\n        while l1 != nil || l2 != nil || carry != 0 {\n            let v1 = l1?.val ?? 0\n            let v2 = l2?.val ?? 0\n\n            let sum = v1 + v2 + carry\n            carry = sum / 10\n            let val = sum % 10\n            cur.next = ListNode(val)\n\n            cur = cur.next!\n            l1 = l1?.next\n            l2 = l2?.next\n        }\n        return dummy.next\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m + n)",
+            "space_complexity": "O(1)",
+            "code": "// Definition for singly-linked list.\n// #[derive(PartialEq, Eq, Clone, Debug)]\n// pub struct ListNode {\n//   pub val: i32,\n//   pub next: Option<Box<ListNode>>\n// }\nimpl Solution {\n    pub fn add_two_numbers(\n        l1: Option<Box<ListNode>>,\n        l2: Option<Box<ListNode>>,\n    ) -> Option<Box<ListNode>> {\n        let mut dummy = Box::new(ListNode::new(0));\n        let mut cur = &mut dummy;\n        let mut l1 = l1;\n        let mut l2 = l2;\n        let mut carry = 0;\n\n        while l1.is_some() || l2.is_some() || carry != 0 {\n            let v1 = l1.as_ref().map_or(0, |n| n.val);\n            let v2 = l2.as_ref().map_or(0, |n| n.val);\n\n            let sum = v1 + v2 + carry;\n            carry = sum / 10;\n            cur.next = Some(Box::new(ListNode::new(sum % 10)));\n\n            cur = cur.next.as_mut().unwrap();\n            l1 = l1.and_then(|n| n.next);\n            l2 = l2.and_then(|n| n.next);\n        }\n\n        dummy.next\n    }\n}"
+        }
+    ]
+}

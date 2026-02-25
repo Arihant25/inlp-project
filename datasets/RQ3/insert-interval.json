@@ -1,0 +1,172 @@
+{
+    "problem_name": "Insert Interval",
+    "problem_slug": "insert-interval",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:\n        n = len(intervals)\n        i = 0\n        res = []\n\n        while i < n and intervals[i][1] < newInterval[0]:\n            res.append(intervals[i])\n            i += 1\n\n        while i < n and newInterval[1] >= intervals[i][0]:\n            newInterval[0] = min(newInterval[0], intervals[i][0])\n            newInterval[1] = max(newInterval[1], intervals[i][1])\n            i += 1\n        res.append(newInterval)\n\n        while i < n:\n            res.append(intervals[i])\n            i += 1\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] insert(int[][] intervals, int[] newInterval) {\n        int n = intervals.length, i = 0;\n        List<int[]> res = new ArrayList<>();\n\n        while (i < n && intervals[i][1] < newInterval[0]) {\n            res.add(intervals[i]);\n            i++;\n        }\n\n        while (i < n && newInterval[1] >= intervals[i][0]) {\n            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);\n            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);\n            i++;\n        }\n        res.add(newInterval);\n\n        while (i < n) {\n            res.add(intervals[i]);\n            i++;\n        }\n\n        return res.toArray(new int[res.size()][]);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {\n        int n = intervals.size(), i = 0;\n        vector<vector<int>> res;\n\n        while (i < n && intervals[i][1] < newInterval[0]) {\n            res.push_back(intervals[i]);\n            i++;\n        }\n\n        while (i < n && newInterval[1] >= intervals[i][0]) {\n            newInterval[0] = min(newInterval[0], intervals[i][0]);\n            newInterval[1] = max(newInterval[1], intervals[i][1]);\n            i++;\n        }\n        res.push_back(newInterval);\n\n        while (i < n) {\n            res.push_back(intervals[i]);\n            i++;\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @param {number[]} newInterval\n     * @return {number[][]}\n     */\n    insert(intervals, newInterval) {\n        let n = intervals.length,\n            i = 0,\n            res = [];\n\n        while (i < n && intervals[i][1] < newInterval[0]) {\n            res.push(intervals[i]);\n            i++;\n        }\n\n        while (i < n && newInterval[1] >= intervals[i][0]) {\n            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);\n            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);\n            i++;\n        }\n        res.push(newInterval);\n\n        while (i < n) {\n            res.push(intervals[i]);\n            i++;\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] Insert(int[][] intervals, int[] newInterval) {\n        var result = new List<int[]>();\n\n        for(var i = 0; i < intervals.Length; i++) {\n            if(newInterval[1] < intervals[i][0]) {\n                result.Add(newInterval);\n                result.AddRange(\n                    intervals.AsEnumerable().Skip(i).ToArray());\n\n                return result.ToArray();\n            }\n            else if(newInterval[0] > intervals[i][1]) {\n                result.Add(intervals[i]);\n            } else {\n                newInterval[0] = Math.Min(intervals[i][0], newInterval[0]);\n                newInterval[1] = Math.Max(intervals[i][1], newInterval[1]);\n            }\n        }\n\n        result.Add(newInterval);\n\n        return result.ToArray();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func insert(intervals [][]int, newInterval []int) [][]int {\n    n := len(intervals)\n    i := 0\n    var res [][]int\n\n    for i < n && intervals[i][1] < newInterval[0] {\n        res = append(res, intervals[i])\n        i++\n    }\n\n    for i < n && newInterval[1] >= intervals[i][0] {\n        newInterval[0] = min(newInterval[0], intervals[i][0])\n        newInterval[1] = max(newInterval[1], intervals[i][1])\n        i++\n    }\n    res = append(res, newInterval)\n\n    for i < n {\n        res = append(res, intervals[i])\n        i++\n    }\n\n    return res\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {\n        val res = mutableListOf<IntArray>()\n        var i = 0\n        val n = intervals.size\n\n        while (i < n && intervals[i][1] < newInterval[0]) {\n            res.add(intervals[i])\n            i++\n        }\n\n        var newStart = newInterval[0]\n        var newEnd = newInterval[1]\n        while (i < n && newEnd >= intervals[i][0]) {\n            newStart = minOf(newStart, intervals[i][0])\n            newEnd = maxOf(newEnd, intervals[i][1])\n            i++\n        }\n        res.add(intArrayOf(newStart, newEnd))\n\n        while (i < n) {\n            res.add(intervals[i])\n            i++\n        }\n\n        return res.toTypedArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {\n        var intervals = intervals\n        var newInterval = newInterval\n        var res: [[Int]] = []\n        var i = 0\n        let n = intervals.count\n\n        while i < n && intervals[i][1] < newInterval[0] {\n            res.append(intervals[i])\n            i += 1\n        }\n\n        while i < n && newInterval[1] >= intervals[i][0] {\n            newInterval[0] = min(newInterval[0], intervals[i][0])\n            newInterval[1] = max(newInterval[1], intervals[i][1])\n            i += 1\n        }\n        res.append(newInterval)\n\n        while i < n {\n            res.append(intervals[i])\n            i += 1\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn insert(intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<i32>> {\n        let n = intervals.len();\n        let mut i = 0;\n        let mut res = Vec::new();\n        let mut new_interval = new_interval;\n\n        while i < n && intervals[i][1] < new_interval[0] {\n            res.push(intervals[i].clone());\n            i += 1;\n        }\n\n        while i < n && new_interval[1] >= intervals[i][0] {\n            new_interval[0] = new_interval[0].min(intervals[i][0]);\n            new_interval[1] = new_interval[1].max(intervals[i][1]);\n            i += 1;\n        }\n        res.push(new_interval);\n\n        while i < n {\n            res.push(intervals[i].clone());\n            i += 1;\n        }\n\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:\n        if not intervals:\n            return [newInterval]\n\n        n = len(intervals)\n        target = newInterval[0]\n        left, right = 0, n - 1\n\n        while left <= right:\n            mid = (left + right) // 2\n            if intervals[mid][0] < target:\n                left = mid + 1\n            else:\n                right = mid - 1\n\n        intervals.insert(left, newInterval)\n\n        res = []\n        for interval in intervals:\n            if not res or res[-1][1] < interval[0]:\n                res.append(interval)\n            else:\n                res[-1][1] = max(res[-1][1], interval[1])\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] insert(int[][] intervals, int[] newInterval) {\n        if (intervals.length == 0) {\n            return new int[][] { newInterval };\n        }\n\n        int n = intervals.length;\n        int target = newInterval[0];\n        int left = 0, right = n - 1;\n\n        while (left <= right) {\n            int mid = (left + right) / 2;\n            if (intervals[mid][0] < target) {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        List<int[]> result = new ArrayList<>();\n        for (int i = 0; i < left; i++) {\n            result.add(intervals[i]);\n        }\n        result.add(newInterval);\n        for (int i = left; i < n; i++) {\n            result.add(intervals[i]);\n        }\n\n        List<int[]> merged = new ArrayList<>();\n        for (int[] interval : result) {\n            if (merged.isEmpty() ||\n                merged.get(merged.size() - 1)[1] < interval[0]) {\n                merged.add(interval);\n            } else {\n                merged.get(merged.size() - 1)[1] = Math.max(\n                    merged.get(merged.size() - 1)[1],\n                    interval[1]\n                );\n            }\n        }\n\n        return merged.toArray(new int[0][]);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {\n        if (intervals.empty()) {\n            return {newInterval};\n        }\n\n        int n = intervals.size();\n        int target = newInterval[0];\n        int left = 0, right = n - 1;\n\n        while (left <= right) {\n            int mid = (left + right) / 2;\n            if (intervals[mid][0] < target) {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        intervals.insert(intervals.begin() + left, newInterval);\n\n        vector<vector<int>> res;\n        for (const auto& interval : intervals) {\n            if (res.empty() || res.back()[1] < interval[0]) {\n                res.push_back(interval);\n            } else {\n                res.back()[1] = max(res.back()[1], interval[1]);\n            }\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @param {number[]} newInterval\n     * @return {number[][]}\n     */\n    insert(intervals, newInterval) {\n        if (intervals.length === 0) {\n            return [newInterval];\n        }\n\n        let n = intervals.length;\n        let target = newInterval[0];\n        let left = 0,\n            right = n - 1;\n\n        while (left <= right) {\n            let mid = Math.floor((left + right) / 2);\n            if (intervals[mid][0] < target) {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        intervals.splice(left, 0, newInterval);\n\n        let res = [];\n        for (let interval of intervals) {\n            if (res.length === 0 || res[res.length - 1][1] < interval[0]) {\n                res.push(interval);\n            } else {\n                res[res.length - 1][1] = Math.max(\n                    res[res.length - 1][1],\n                    interval[1],\n                );\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] Insert(int[][] intervals, int[] newInterval) {\n        if (intervals.Length == 0) {\n            return new int[][] { newInterval };\n        }\n\n        int n = intervals.Length;\n        int target = newInterval[0];\n        int left = 0, right = n - 1;\n\n        while (left <= right) {\n            int mid = (left + right) / 2;\n            if (intervals[mid][0] < target) {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        List<int[]> result = new List<int[]>();\n        for (int i = 0; i < left; i++) {\n            result.Add(intervals[i]);\n        }\n\n        result.Add(newInterval);\n        for (int i = left; i < n; i++) {\n            result.Add(intervals[i]);\n        }\n\n        List<int[]> merged = new List<int[]>();\n        foreach (int[] interval in result) {\n            if (merged.Count == 0 ||\n                merged[merged.Count - 1][1] < interval[0]) {\n                merged.Add(interval);\n            } else {\n                merged[merged.Count - 1][1] =\n                    Math.Max(merged[merged.Count - 1][1], interval[1]);\n            }\n        }\n\n        return merged.ToArray();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func insert(intervals [][]int, newInterval []int) [][]int {\n    if len(intervals) == 0 {\n        return [][]int{newInterval}\n    }\n\n    n := len(intervals)\n    target := newInterval[0]\n    left, right := 0, n-1\n\n    for left <= right {\n        mid := (left + right) / 2\n        if intervals[mid][0] < target {\n            left = mid + 1\n        } else {\n            right = mid - 1\n        }\n    }\n\n    intervals = append(intervals[:left], append(\n                [][]int{newInterval}, intervals[left:]...)...)\n\n    var res [][]int\n    for _, interval := range intervals {\n        if len(res) == 0 || res[len(res)-1][1] < interval[0] {\n            res = append(res, interval)\n        } else {\n            res[len(res)-1][1] = max(res[len(res)-1][1], interval[1])\n        }\n    }\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {\n        if (intervals.isEmpty()) {\n            return arrayOf(newInterval)\n        }\n\n        var left = 0\n        var right = intervals.size - 1\n        val target = newInterval[0]\n\n        while (left <= right) {\n            val mid = (left + right) / 2\n            if (intervals[mid][0] < target) {\n                left = mid + 1\n            } else {\n                right = mid - 1\n            }\n        }\n\n        val result = intervals.toMutableList()\n        result.add(left, newInterval)\n\n        val res = mutableListOf<IntArray>()\n        for (interval in result) {\n            if (res.isEmpty() || res.last()[1] < interval[0]) {\n                res.add(interval)\n            } else {\n                res[res.size - 1][1] = maxOf(res.last()[1], interval[1])\n            }\n        }\n        return res.toTypedArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {\n        if intervals.isEmpty {\n            return [newInterval]\n        }\n\n        var intervals = intervals\n        let target = newInterval[0]\n        var left = 0, right = intervals.count - 1\n\n        while left <= right {\n            let mid = (left + right) / 2\n            if intervals[mid][0] < target {\n                left = mid + 1\n            } else {\n                right = mid - 1\n            }\n        }\n\n        intervals.insert(newInterval, at: left)\n\n        var res: [[Int]] = []\n        for interval in intervals {\n            if res.isEmpty || res.last![1] < interval[0] {\n                res.append(interval)\n            } else {\n                res[res.count - 1][1] = max(res.last![1], interval[1])\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn insert(intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<i32>> {\n        if intervals.is_empty() {\n            return vec![new_interval];\n        }\n\n        let n = intervals.len();\n        let target = new_interval[0];\n        let (mut left, mut right) = (0i32, n as i32 - 1);\n\n        while left <= right {\n            let mid = (left + right) / 2;\n            if intervals[mid as usize][0] < target {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        let left = left as usize;\n        let mut result = Vec::new();\n        for i in 0..left {\n            result.push(intervals[i].clone());\n        }\n        result.push(new_interval);\n        for i in left..n {\n            result.push(intervals[i].clone());\n        }\n\n        let mut merged: Vec<Vec<i32>> = Vec::new();\n        for interval in result {\n            if merged.is_empty() || merged.last().unwrap()[1] < interval[0] {\n                merged.push(interval);\n            } else {\n                let last = merged.last_mut().unwrap();\n                last[1] = last[1].max(interval[1]);\n            }\n        }\n\n        merged\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:\n        res = []\n\n        for i in range(len(intervals)):\n            if newInterval[1] < intervals[i][0]:\n                res.append(newInterval)\n                return res + intervals[i:]\n            elif newInterval[0] > intervals[i][1]:\n                res.append(intervals[i])\n            else:\n                newInterval = [\n                    min(newInterval[0], intervals[i][0]),\n                    max(newInterval[1], intervals[i][1]),\n                ]\n        res.append(newInterval)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] insert(int[][] intervals, int[] newInterval) {\n        List<int[]> res = new ArrayList<>();\n        for (int[] interval : intervals) {\n            if (newInterval == null || interval[1] < newInterval[0]) {\n                res.add(interval);\n            } else if (interval[0] > newInterval[1]) {\n                res.add(newInterval);\n                res.add(interval);\n                newInterval = null;\n            } else {\n                newInterval[0] = Math.min(interval[0], newInterval[0]);\n                newInterval[1] = Math.max(interval[1], newInterval[1]);\n            }\n        }\n        if (newInterval != null) res.add(newInterval);\n        return res.toArray(new int[res.size()][]);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {\n        vector<vector<int>> res;\n        int newStart = newInterval[0];\n        int newEnd = newInterval[1];\n        int n = intervals.size();\n        for (int i = 0; i < n; i++) {\n            if (intervals[i][0] > newEnd) {\n                res.push_back(newInterval);\n                copy(intervals.begin() + i, intervals.end(), back_inserter(res));\n                return res;\n            } else if (intervals[i][1] < newStart) {\n                res.push_back(intervals[i]);\n            } else {\n                newInterval[0] = min(newInterval[0], intervals[i][0]);\n                newInterval[1] = max(newInterval[1], intervals[i][1]);\n            }\n        }\n        res.push_back(newInterval);\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @param {number[]} newInterval\n     * @return {number[][]}\n     */\n    insert(intervals, newInterval) {\n        const res = [];\n        for (const interval of intervals) {\n            if (newInterval === null || interval[1] < newInterval[0]) {\n                res.push(interval);\n            } else if (interval[0] > newInterval[1]) {\n                res.push(newInterval);\n                res.push(interval);\n                newInterval = null;\n            } else {\n                newInterval[0] = Math.min(interval[0], newInterval[0]);\n                newInterval[1] = Math.max(interval[1], newInterval[1]);\n            }\n        }\n        if (newInterval !== null) res.push(newInterval);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] Insert(int[][] intervals, int[] newInterval) {\n        var result = new List<int[]>();\n\n        for(var i = 0; i < intervals.Length; i++) {\n            if(newInterval[1] < intervals[i][0]) {\n                result.Add(newInterval);\n                result.AddRange(intervals.AsEnumerable().Skip(i).ToArray());\n                return result.ToArray();\n            } else if(newInterval[0] > intervals[i][1]) {\n                result.Add(intervals[i]);\n            } else {\n                newInterval[0] = Math.Min(intervals[i][0], newInterval[0]);\n                newInterval[1] = Math.Max(intervals[i][1], newInterval[1]);\n            }\n        }\n\n        result.Add(newInterval);\n        return result.ToArray();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func insert(intervals [][]int, newInterval []int) [][]int {\n    var res [][]int\n\n    for i := 0; i < len(intervals); i++ {\n        if newInterval[1] < intervals[i][0] {\n            res = append(res, newInterval)\n            return append(res, intervals[i:]...)\n        } else if newInterval[0] > intervals[i][1] {\n            res = append(res, intervals[i])\n        } else {\n            newInterval = []int{\n                min(newInterval[0], intervals[i][0]),\n                max(newInterval[1], intervals[i][1]),\n            }\n        }\n    }\n    res = append(res, newInterval)\n    return res\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {\n        val res = mutableListOf<IntArray>()\n\n        for (interval in intervals) {\n            if (newInterval[1] < interval[0]) {\n                res.add(newInterval)\n                return (res +\n                        intervals.sliceArray(\n                            intervals.indexOf(interval) until intervals.size\n                        )).toTypedArray()\n            } else if (newInterval[0] > interval[1]) {\n                res.add(interval)\n            } else {\n                newInterval[0] = minOf(newInterval[0], interval[0])\n                newInterval[1] = maxOf(newInterval[1], interval[1])\n            }\n        }\n        res.add(newInterval)\n        return res.toTypedArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {\n        var res = [[Int]]()\n        var newInterval = newInterval\n\n        for i in 0..<intervals.count {\n            if newInterval[1] < intervals[i][0] {\n                res.append(newInterval)\n                res.append(contentsOf: intervals[i...])\n                return res\n            } else if newInterval[0] > intervals[i][1] {\n                res.append(intervals[i])\n            } else {\n                newInterval[0] = min(newInterval[0], intervals[i][0])\n                newInterval[1] = max(newInterval[1], intervals[i][1])\n            }\n        }\n\n        res.append(newInterval)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn insert(intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res: Vec<Vec<i32>> = Vec::new();\n        let mut new_interval = Some(new_interval);\n\n        for interval in &intervals {\n            if let Some(ref ni) = new_interval {\n                if interval[1] < ni[0] {\n                    res.push(interval.clone());\n                } else if interval[0] > ni[1] {\n                    res.push(ni.clone());\n                    res.push(interval.clone());\n                    new_interval = None;\n                } else {\n                    new_interval = Some(vec![\n                        ni[0].min(interval[0]),\n                        ni[1].max(interval[1]),\n                    ]);\n                }\n            } else {\n                res.push(interval.clone());\n            }\n        }\n\n        if let Some(ni) = new_interval {\n            res.push(ni);\n        }\n\n        res\n    }\n}"
+        }
+    ]
+}

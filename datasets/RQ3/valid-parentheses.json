@@ -1,0 +1,119 @@
+{
+    "problem_name": "Valid Parentheses",
+    "problem_slug": "valid-parentheses",
+    "difficulty": "easy",
+    "topic_tags": [
+        "string",
+        "stack"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isValid(self, s: str) -> bool:\n        while '()' in s or '{}' in s or '[]' in s:\n            s = s.replace('()', '')\n            s = s.replace('{}', '')\n            s = s.replace('[]', '')\n        return s == ''"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isValid(String s) {\n        while (s.contains(\"()\") || s.contains(\"{}\") || s.contains(\"[]\")) {\n            s = s.replace(\"()\", \"\");\n            s = s.replace(\"{}\", \"\");\n            s = s.replace(\"[]\", \"\");\n        }\n        return s.isEmpty();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isValid(string s) {\n        while (true) {\n            size_t pos = string::npos;\n            if ((pos = s.find(\"()\")) != string::npos) {\n                s.erase(pos, 2);\n                continue;\n            }\n            if ((pos = s.find(\"{}\")) != string::npos) {\n                s.erase(pos, 2);\n                continue;\n            }\n            if ((pos = s.find(\"[]\")) != string::npos) {\n                s.erase(pos, 2);\n                continue;\n            }\n            break;\n        }\n        return s.empty();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    isValid(s) {\n        while (s.includes('()') || s.includes('{}') || s.includes('[]')) {\n            s = s.replace('()', '');\n            s = s.replace('{}', '');\n            s = s.replace('[]', '');\n        }\n        return s === '';\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsValid(string s) {\n        while (s.Contains(\"()\") || s.Contains(\"{}\") || s.Contains(\"[]\")) {\n            s = s.Replace(\"()\", \"\");\n            s = s.Replace(\"{}\", \"\");\n            s = s.Replace(\"[]\", \"\");\n        }\n        return s == \"\";\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func isValid(s string) bool {\n\tfor strings.Contains(s, \"()\") || strings.Contains(s, \"{}\") || strings.Contains(s, \"[]\") {\n\t\ts = strings.ReplaceAll(s, \"()\", \"\")\n\t\ts = strings.ReplaceAll(s, \"{}\", \"\")\n\t\ts = strings.ReplaceAll(s, \"[]\", \"\")\n\t}\n\treturn s == \"\"\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isValid(s: String): Boolean {\n        var str = s\n        while (str.contains(\"()\") || str.contains(\"{}\") || str.contains(\"[]\")) {\n            str = str.replace(\"()\", \"\")\n            str = str.replace(\"{}\", \"\")\n            str = str.replace(\"[]\", \"\")\n        }\n        return str.isEmpty()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isValid(_ s: String) -> Bool {\n        var str = s\n        while str.contains(\"()\") || str.contains(\"{}\") || str.contains(\"[]\") {\n            str = str.replacingOccurrences(of: \"()\", with: \"\")\n            str = str.replacingOccurrences(of: \"{}\", with: \"\")\n            str = str.replacingOccurrences(of: \"[]\", with: \"\")\n        }\n        return str.isEmpty\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_valid(s: String) -> bool {\n        let mut s = s;\n        loop {\n            let prev = s.len();\n            s = s.replace(\"()\", \"\");\n            s = s.replace(\"{}\", \"\");\n            s = s.replace(\"[]\", \"\");\n            if s.len() == prev {\n                break;\n            }\n        }\n        s.is_empty()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isValid(self, s: str) -> bool:\n        stack = []\n        closeToOpen = { \")\" : \"(\", \"]\" : \"[\", \"}\" : \"{\" }\n\n        for c in s:\n            if c in closeToOpen:\n                if stack and stack[-1] == closeToOpen[c]:\n                    stack.pop()\n                else:\n                    return False\n            else:\n                stack.append(c)\n\n        return True if not stack else False"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isValid(String s) {\n        Stack<Character> stack = new Stack<>();\n        Map<Character, Character> closeToOpen = new HashMap<>();\n        closeToOpen.put(')', '(');\n        closeToOpen.put(']', '[');\n        closeToOpen.put('}', '{');\n\n        for (char c : s.toCharArray()) {\n            if (closeToOpen.containsKey(c)) {\n                if (!stack.isEmpty() && stack.peek() == closeToOpen.get(c)) {\n                    stack.pop();\n                } else {\n                    return false;\n                }\n            } else {\n                stack.push(c);\n            }\n        }\n        return stack.isEmpty();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isValid(string s) {\n        std::stack<char> stack;\n        std::unordered_map<char, char> closeToOpen = {\n            {')', '('},\n            {']', '['},\n            {'}', '{'}\n        };\n\n        for (char c : s) {\n            if (closeToOpen.count(c)) {\n                if (!stack.empty() && stack.top() == closeToOpen[c]) {\n                    stack.pop();\n                } else {\n                    return false;\n                }\n            } else {\n                stack.push(c);\n            }\n        }\n        return stack.empty();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    isValid(s) {\n        const stack = [];\n        const closeToOpen = {\n            ')': '(',\n            ']': '[',\n            '}': '{',\n        };\n\n        for (let c of s) {\n            if (closeToOpen[c]) {\n                if (\n                    stack.length > 0 &&\n                    stack[stack.length - 1] === closeToOpen[c]\n                ) {\n                    stack.pop();\n                } else {\n                    return false;\n                }\n            } else {\n                stack.push(c);\n            }\n        }\n        return stack.length === 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsValid(string s) {\n        Stack<char> stack = new Stack<char>();\n        Dictionary<char, char> closeToOpen = new Dictionary<char, char> {\n            { ')', '(' },\n            { ']', '[' },\n            { '}', '{' }\n        };\n\n        foreach (char c in s) {\n            if (closeToOpen.ContainsKey(c)) {\n                if (stack.Count > 0 && stack.Peek() == closeToOpen[c]) {\n                    stack.Pop();\n                } else {\n                    return false;\n                }\n            } else {\n                stack.Push(c);\n            }\n        }\n        return stack.Count == 0;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func isValid(s string) bool {\n    stack := linkedliststack.New()\n    closeToOpen := map[rune]rune{')': '(', ']': '[', '}': '{'}\n\n    for _, c := range s {\n        if open, exists := closeToOpen[c]; exists {\n            if !stack.Empty() {\n                top, ok := stack.Pop()\n                if ok && top.(rune) != open {\n                    return false\n                }\n            } else {\n                return false\n            }\n        } else {\n            stack.Push(c)\n        }\n    }\n\n    return stack.Empty()\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isValid(s: String): Boolean {\n        val stack = ArrayDeque<Char>()\n        val closeToOpen = hashMapOf(')' to '(', ']' to '[', '}' to '{')\n\n        for (c in s) {\n            if (c in closeToOpen) {\n                if (stack.isNotEmpty() && stack.first() == closeToOpen[c]) {\n                    stack.removeFirst()\n                } else {\n                    return false\n                }\n            } else {\n                stack.addFirst(c)\n            }\n        }\n\n        return stack.isEmpty()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isValid(_ s: String) -> Bool {\n        var stack = [Character]()\n        let closeToOpen: [Character: Character] = [\")\": \"(\", \"]\": \"[\", \"}\": \"{\"]\n\n        for c in s {\n            if let open = closeToOpen[c] {\n                if !stack.isEmpty && stack.last! == open {\n                    stack.popLast()\n                } else {\n                    return false\n                }\n            } else {\n                stack.append(c)\n            }\n        }\n\n        return stack.isEmpty\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_valid(s: String) -> bool {\n        let mut stack = Vec::new();\n        let close_to_open: HashMap<char, char> =\n            [(')', '('), (']', '['), ('}', '{')].into();\n\n        for c in s.chars() {\n            if let Some(&open) = close_to_open.get(&c) {\n                if !stack.is_empty() && *stack.last().unwrap() == open {\n                    stack.pop();\n                } else {\n                    return false;\n                }\n            } else {\n                stack.push(c);\n            }\n        }\n        stack.is_empty()\n    }\n}"
+        }
+    ]
+}

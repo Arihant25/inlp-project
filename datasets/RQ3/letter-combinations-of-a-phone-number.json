@@ -1,0 +1,120 @@
+{
+    "problem_name": "Letter Combinations of a Phone Number",
+    "problem_slug": "letter-combinations-of-a-phone-number",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hash table",
+        "string",
+        "backtracking"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        res = []\n        digitToChar = {\n            \"2\": \"abc\",\n            \"3\": \"def\",\n            \"4\": \"ghi\",\n            \"5\": \"jkl\",\n            \"6\": \"mno\",\n            \"7\": \"qprs\",\n            \"8\": \"tuv\",\n            \"9\": \"wxyz\",\n        }\n\n        def backtrack(i, curStr):\n            if len(curStr) == len(digits):\n                res.append(curStr)\n                return\n            for c in digitToChar[digits[i]]:\n                backtrack(i + 1, curStr + c)\n\n        if digits:\n            backtrack(0, \"\")\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    private List<String> res = new ArrayList<>();\n    private String[] digitToChar = {\n        \"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"qprs\", \"tuv\", \"wxyz\"\n    };\n\n    public List<String> letterCombinations(String digits) {\n        if (digits.isEmpty()) return res;\n        backtrack(0, \"\", digits);\n        return res;\n    }\n\n    private void backtrack(int i, String curStr, String digits) {\n        if (curStr.length() == digits.length()) {\n            res.add(curStr);\n            return;\n        }\n        String chars = digitToChar[digits.charAt(i) - '0'];\n        for (char c : chars.toCharArray()) {\n            backtrack(i + 1, curStr + c, digits);\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<string> res;\n    vector<string> digitToChar = {\"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\",\n                                  \"mno\", \"qprs\", \"tuv\", \"wxyz\"};\n\n    vector<string> letterCombinations(string digits) {\n        if (digits.empty()) return res;\n        backtrack(0, \"\", digits);\n        return res;\n    }\n\n    void backtrack(int i, string curStr, string &digits) {\n        if (curStr.size() == digits.size()) {\n            res.push_back(curStr);\n            return;\n        }\n        string chars = digitToChar[digits[i] - '0'];\n        for (char c : chars) {\n            backtrack(i + 1, curStr + c, digits);\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} digits\n     * @return {string[]}\n     */\n    letterCombinations(digits) {\n        let res = [];\n        if (digits.length === 0) return res;\n        const digitToChar = {\n            2: 'abc',\n            3: 'def',\n            4: 'ghi',\n            5: 'jkl',\n            6: 'mno',\n            7: 'qprs',\n            8: 'tuv',\n            9: 'wxyz',\n        };\n\n        const backtrack = (i, curStr) => {\n            if (curStr.length === digits.length) {\n                res.push(curStr);\n                return;\n            }\n            for (const c of digitToChar[digits[i]]) {\n                backtrack(i + 1, curStr + c);\n            }\n        };\n        backtrack(0, '');\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    private List<string> res = new List<string>();\n    private Dictionary<char, string> digitToChar = new Dictionary<char, string> {\n        {'2', \"abc\"}, {'3', \"def\"}, {'4', \"ghi\"}, {'5', \"jkl\"},\n        {'6', \"mno\"}, {'7', \"qprs\"}, {'8', \"tuv\"}, {'9', \"wxyz\"}\n    };\n\n    public List<string> LetterCombinations(string digits) {\n        if (digits.Length == 0) return res;\n        Backtrack(0, \"\", digits);\n        return res;\n    }\n\n    private void Backtrack(int i, string curStr, string digits) {\n        if (curStr.Length == digits.Length) {\n            res.Add(curStr);\n            return;\n        }\n        foreach (char c in digitToChar[digits[i]]) {\n            Backtrack(i + 1, curStr + c, digits);\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "func letterCombinations(digits string) []string {\n    if len(digits) == 0 {\n        return []string{}\n    }\n\n    res := []string{}\n    digitToChar := map[byte]string{\n        '2': \"abc\",\n        '3': \"def\",\n        '4': \"ghi\",\n        '5': \"jkl\",\n        '6': \"mno\",\n        '7': \"pqrs\",\n        '8': \"tuv\",\n        '9': \"wxyz\",\n    }\n\n    var backtrack func(i int, curStr string)\n    backtrack = func(i int, curStr string) {\n        if len(curStr) == len(digits) {\n            res = append(res, curStr)\n            return\n        }\n        for _, c := range digitToChar[digits[i]] {\n            backtrack(i+1, curStr+string(c))\n        }\n    }\n\n    backtrack(0, \"\")\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun letterCombinations(digits: String): List<String> {\n        if (digits.isEmpty()) return emptyList()\n\n        val res = mutableListOf<String>()\n        val digitToChar = mapOf(\n            '2' to \"abc\",\n            '3' to \"def\",\n            '4' to \"ghi\",\n            '5' to \"jkl\",\n            '6' to \"mno\",\n            '7' to \"pqrs\",\n            '8' to \"tuv\",\n            '9' to \"wxyz\"\n        )\n\n        fun backtrack(i: Int, curStr: String) {\n            if (curStr.length == digits.length) {\n                res.add(curStr)\n                return\n            }\n            for (c in digitToChar[digits[i]]!!) {\n                backtrack(i + 1, curStr + c)\n            }\n        }\n\n        backtrack(0, \"\")\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func letterCombinations(_ digits: String) -> [String] {\n        guard !digits.isEmpty else { return [] }\n\n        let digitToChar: [Character: String] = [\n            \"2\": \"abc\", \"3\": \"def\", \"4\": \"ghi\", \"5\": \"jkl\",\n            \"6\": \"mno\", \"7\": \"pqrs\", \"8\": \"tuv\", \"9\": \"wxyz\"\n        ]\n\n        var res = [String]()\n        let digitsArray = Array(digits)\n\n        func backtrack(_ i: Int, _ curStr: String) {\n            if curStr.count == digits.count {\n                res.append(curStr)\n                return\n            }\n            if let letters = digitToChar[digitsArray[i]] {\n                for c in letters {\n                    backtrack(i + 1, curStr + String(c))\n                }\n            }\n        }\n\n        backtrack(0, \"\")\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn letter_combinations(digits: String) -> Vec<String> {\n        if digits.is_empty() { return vec![]; }\n\n        let digit_to_char: [&str; 10] = [\n            \"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\",\n            \"mno\", \"pqrs\", \"tuv\", \"wxyz\",\n        ];\n        let digits: Vec<usize> = digits.bytes().map(|b| (b - b'0') as usize).collect();\n        let mut res = Vec::new();\n\n        fn backtrack(\n            digits: &[usize], digit_to_char: &[&str; 10],\n            i: usize, cur: &mut String, res: &mut Vec<String>,\n        ) {\n            if cur.len() == digits.len() {\n                res.push(cur.clone());\n                return;\n            }\n            for c in digit_to_char[digits[i]].chars() {\n                cur.push(c);\n                backtrack(digits, digit_to_char, i + 1, cur, res);\n                cur.pop();\n            }\n        }\n\n        backtrack(&digits, &digit_to_char, 0, &mut String::new(), &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        if not digits:\n            return []\n\n        res = [\"\"]\n        digitToChar = {\n            \"2\": \"abc\",\n            \"3\": \"def\",\n            \"4\": \"ghi\",\n            \"5\": \"jkl\",\n            \"6\": \"mno\",\n            \"7\": \"qprs\",\n            \"8\": \"tuv\",\n            \"9\": \"wxyz\",\n        }\n\n        for digit in digits:\n            tmp = []\n            for curStr in res:\n                for c in digitToChar[digit]:\n                    tmp.append(curStr + c)\n            res = tmp\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    public List<String> letterCombinations(String digits) {\n        if (digits.isEmpty()) return new ArrayList<>();\n\n        List<String> res = new ArrayList<>();\n        res.add(\"\");\n        String[] digitToChar = {\n            \"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\",\n            \"mno\", \"qprs\", \"tuv\", \"wxyz\"\n        };\n\n        for (char digit : digits.toCharArray()) {\n            List<String> tmp = new ArrayList<>();\n            for (String curStr : res) {\n                for (char c : digitToChar[digit - '0'].toCharArray()) {\n                    tmp.add(curStr + c);\n                }\n            }\n            res = tmp;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        if (digits.empty()) return {};\n\n        vector<string> res = {\"\"};\n        vector<string> digitToChar = {\n            \"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\",\n            \"mno\", \"qprs\", \"tuv\", \"wxyz\"\n        };\n\n        for (char digit : digits) {\n            vector<string> tmp;\n            for (string &curStr : res) {\n                for (char c : digitToChar[digit - '0']) {\n                    tmp.push_back(curStr + c);\n                }\n            }\n            res = tmp;\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} digits\n     * @return {string[]}\n     */\n    letterCombinations(digits) {\n        if (digits.length === 0) return [];\n\n        let res = [''];\n        const digitToChar = {\n            2: 'abc',\n            3: 'def',\n            4: 'ghi',\n            5: 'jkl',\n            6: 'mno',\n            7: 'qprs',\n            8: 'tuv',\n            9: 'wxyz',\n        };\n\n        for (const digit of digits) {\n            const tmp = [];\n            for (const curStr of res) {\n                for (const c of digitToChar[digit]) {\n                    tmp.push(curStr + c);\n                }\n            }\n            res = tmp;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    public List<string> LetterCombinations(string digits) {\n        if (digits.Length == 0) return new List<string>();\n\n        List<string> res = new List<string> { \"\" };\n        Dictionary<char, string> digitToChar = new Dictionary<char, string> {\n            { '2', \"abc\" }, { '3', \"def\" }, { '4', \"ghi\" }, { '5', \"jkl\" },\n            { '6', \"mno\" }, { '7', \"qprs\" }, { '8', \"tuv\" }, { '9', \"wxyz\" }\n        };\n\n        foreach (char digit in digits) {\n            List<string> tmp = new List<string>();\n            foreach (string curStr in res) {\n                foreach (char c in digitToChar[digit]) {\n                    tmp.Add(curStr + c);\n                }\n            }\n            res = tmp;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "func letterCombinations(digits string) []string {\n    if len(digits) == 0 {\n        return []string{}\n    }\n\n    res := []string{\"\"}\n    digitToChar := map[byte]string{\n        '2': \"abc\",\n        '3': \"def\",\n        '4': \"ghi\",\n        '5': \"jkl\",\n        '6': \"mno\",\n        '7': \"pqrs\",\n        '8': \"tuv\",\n        '9': \"wxyz\",\n    }\n\n    for i := 0; i < len(digits); i++ {\n        digit := digits[i]\n        tmp := []string{}\n        for _, curStr := range res {\n            for _, c := range digitToChar[digit] {\n                tmp = append(tmp, curStr+string(c))\n            }\n        }\n        res = tmp\n    }\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun letterCombinations(digits: String): List<String> {\n        if (digits.isEmpty()) return emptyList()\n\n        var res = listOf(\"\")\n        val digitToChar = mapOf(\n            '2' to \"abc\",\n            '3' to \"def\",\n            '4' to \"ghi\",\n            '5' to \"jkl\",\n            '6' to \"mno\",\n            '7' to \"pqrs\",\n            '8' to \"tuv\",\n            '9' to \"wxyz\"\n        )\n\n        for (digit in digits) {\n            val tmp = mutableListOf<String>()\n            for (curStr in res) {\n                for (c in digitToChar[digit]!!) {\n                    tmp.add(curStr + c)\n                }\n            }\n            res = tmp\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func letterCombinations(_ digits: String) -> [String] {\n        guard !digits.isEmpty else { return [] }\n\n        let digitToChar: [Character: String] = [\n            \"2\": \"abc\", \"3\": \"def\", \"4\": \"ghi\", \"5\": \"jkl\",\n            \"6\": \"mno\", \"7\": \"pqrs\", \"8\": \"tuv\", \"9\": \"wxyz\"\n        ]\n\n        var res = [\"\"]\n\n        for digit in digits {\n            guard let letters = digitToChar[digit] else { continue }\n            var tmp = [String]()\n            for curStr in res {\n                for c in letters {\n                    tmp.append(curStr + String(c))\n                }\n            }\n            res = tmp\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn letter_combinations(digits: String) -> Vec<String> {\n        if digits.is_empty() { return vec![]; }\n\n        let digit_to_char: [&str; 10] = [\n            \"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\",\n            \"mno\", \"pqrs\", \"tuv\", \"wxyz\",\n        ];\n\n        let mut res = vec![String::new()];\n\n        for b in digits.bytes() {\n            let letters = digit_to_char[(b - b'0') as usize];\n            let mut tmp = Vec::new();\n            for cur_str in &res {\n                for c in letters.chars() {\n                    let mut s = cur_str.clone();\n                    s.push(c);\n                    tmp.push(s);\n                }\n            }\n            res = tmp;\n        }\n\n        res\n    }\n}"
+        }
+    ]
+}

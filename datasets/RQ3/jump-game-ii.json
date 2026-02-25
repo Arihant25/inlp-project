@@ -1,0 +1,228 @@
+{
+    "problem_name": "Jump Game II",
+    "problem_slug": "jump-game-ii",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming",
+        "greedy"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def jump(self, nums: List[int]) -> int:\n        def dfs(i):\n            if i == len(nums) - 1:\n                return 0\n            if nums[i] == 0:\n                return float('inf')\n\n            end = min(len(nums) - 1, i + nums[i])\n            res = float('inf')\n            for j in range(i + 1, end + 1):\n                res = min(res, 1 + dfs(j))\n            return res\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int jump(int[] nums) {\n        return dfs(nums, 0);\n    }\n\n    private int dfs(int[] nums, int i) {\n        if (i == nums.length - 1) {\n            return 0;\n        }\n        if (nums[i] == 0) {\n            return 1000000;\n        }\n        int res = 1000000;\n        int end = Math.min(nums.length - 1, i + nums[i]);\n        for (int j = i + 1; j <= end; j++) {\n            res = Math.min(res, 1 + dfs(nums, j));\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int jump(vector<int>& nums) {\n        return dfs(nums, 0);\n    }\n\nprivate:\n    int dfs(vector<int>& nums, int i) {\n        if (i == nums.size() - 1) {\n            return 0;\n        }\n        if (nums[i] == 0) {\n            return 1000000;\n        }\n\n        int res = 1000000;\n        int end = min((int)nums.size() - 1, i + nums[i]);\n        for (int j = i + 1; j <= end; ++j) {\n            res = min(res, 1 + dfs(nums, j));\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    jump(nums) {\n        const dfs = (i) => {\n            if (i === nums.length - 1) {\n                return 0;\n            }\n            if (nums[i] === 0) return 1000000;\n            let res = 1000000;\n            const end = Math.min(nums.length - 1, i + nums[i]);\n            for (let j = i + 1; j <= end; j++) {\n                res = Math.min(res, 1 + dfs(j));\n            }\n            return res;\n        };\n\n        return dfs(0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int Jump(int[] nums) {\n        return Dfs(nums, 0);\n    }\n\n    private int Dfs(int[] nums, int i) {\n        if (i == nums.Length - 1) {\n            return 0;\n        }\n        if (nums[i] == 0) return 1000000;\n        int res = 1000000;\n        int end = Math.Min(nums.Length - 1, i + nums[i]);\n        for (int j = i + 1; j <= end; j++) {\n            res = Math.Min(res, 1 + Dfs(nums, j));\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "func jump(nums []int) int {\n    var dfs func(int) int\n    dfs = func(i int) int {\n        if i == len(nums)-1 {\n            return 0\n        }\n        if nums[i] == 0 {\n            return math.MaxInt32\n        }\n        end := min(len(nums)-1, i+nums[i])\n        res := math.MaxInt32\n        for j := i + 1; j <= end; j++ {\n            res = min(res, 1+dfs(j))\n        }\n        return res\n    }\n    return dfs(0)\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun jump(nums: IntArray): Int {\n        fun dfs(i: Int): Int {\n            if (i == nums.size - 1) {\n                return 0\n            }\n            if (nums[i] == 0) {\n                return 1000000\n            }\n            val end = minOf(nums.size - 1, i + nums[i])\n            var minJumps = 1000000\n            for (j in i + 1..end) {\n                minJumps = minOf(minJumps, 1 + dfs(j))\n            }\n            return minJumps\n        }\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func jump(_ nums: [Int]) -> Int {\n        func dfs(_ i: Int) -> Int {\n            if i == nums.count - 1 {\n                return 0\n            }\n            if nums[i] == 0 {\n                return 1000000\n            }\n\n            let end = min(nums.count - 1, i + nums[i])\n            var res = 1000000\n            for j in i + 1..<(end + 1) {\n                res = min(res, 1 + dfs(j))\n            }\n\n            return res\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn jump(nums: Vec<i32>) -> i32 {\n        fn dfs(nums: &[i32], i: usize) -> i32 {\n            if i == nums.len() - 1 {\n                return 0;\n            }\n            if nums[i] == 0 {\n                return 1000000;\n            }\n            let end = (nums.len() - 1).min(i + nums[i] as usize);\n            let mut res = 1000000;\n            for j in i + 1..=end {\n                res = res.min(1 + dfs(nums, j));\n            }\n            res\n        }\n        dfs(&nums, 0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def jump(self, nums: List[int]) -> int:\n        memo = {}\n\n        def dfs(i):\n            if i in memo:\n                return memo[i]\n            if i == len(nums) - 1:\n                return 0\n            if nums[i] == 0:\n                return 1000000\n\n            res = 1000000\n            end = min(len(nums), i + nums[i] + 1)\n            for j in range(i + 1, end):\n                res = min(res, 1 + dfs(j))\n            memo[i] = res\n            return res\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int jump(int[] nums) {\n        Map<Integer, Integer> memo = new HashMap<>();\n        return dfs(nums, 0, memo);\n    }\n\n    private int dfs(int[] nums, int i, Map<Integer, Integer> memo) {\n        if (memo.containsKey(i)) {\n            return memo.get(i);\n        }\n        if (i == nums.length - 1) {\n            return 0;\n        }\n        if (nums[i] == 0) {\n            return 1000000;\n        }\n\n        int res = 1000000;\n        int end = Math.min(nums.length, i + nums[i] + 1);\n        for (int j = i + 1; j < end; j++) {\n            res = Math.min(res, 1 + dfs(nums, j, memo));\n        }\n        memo.put(i, res);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int jump(vector<int>& nums) {\n        unordered_map<int, int> memo;\n        return dfs(nums, 0, memo);\n    }\n\nprivate:\n    int dfs(vector<int>& nums, int i, unordered_map<int, int>& memo) {\n        if (memo.count(i)) {\n            return memo[i];\n        }\n        if (i == nums.size() - 1) {\n            return 0;\n        }\n        if (nums[i] == 0) {\n            return 1000000;\n        }\n\n        int res = 1000000;\n        int end = min((int)nums.size(), i + nums[i] + 1);\n        for (int j = i + 1; j < end; j++) {\n            res = min(res, 1 + dfs(nums, j, memo));\n        }\n        memo[i] = res;\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    jump(nums) {\n        const memo = new Map();\n        const dfs = (i) => {\n            if (memo.has(i)) {\n                return memo.get(i);\n            }\n            if (i == nums.length - 1) {\n                return 0;\n            }\n            if (nums[i] === 0) {\n                return 1000000;\n            }\n            let res = 1000000;\n            const end = Math.min(nums.length - 1, i + nums[i]);\n            for (let j = i + 1; j <= end; j++) {\n                res = Math.min(res, 1 + dfs(j));\n            }\n            memo.set(i, res);\n            return res;\n        };\n\n        return dfs(0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int Jump(int[] nums) {\n        var memo = new Dictionary<int, int>();\n        return Dfs(nums, 0, memo);\n    }\n\n    private int Dfs(int[] nums, int i, Dictionary<int, int> memo) {\n        if (memo.ContainsKey(i)) {\n            return memo[i];\n        }\n        if (i == nums.Length - 1) {\n            return 0;\n        }\n        if (nums[i] == 0) {\n            return 1000000;\n        }\n\n        int res = 1000000;\n        int end = Math.Min(nums.Length, i + nums[i] + 1);\n        for (int j = i + 1; j < end; j++) {\n            res = Math.Min(res, 1 + Dfs(nums, j, memo));\n        }\n        memo[i] = res;\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func jump(nums []int) int {\n    memo := make(map[int]int)\n\n    var dfs func(int) int\n    dfs = func(i int) int {\n        if val, ok := memo[i]; ok {\n            return val\n        }\n        if i == len(nums)-1 {\n            return 0\n        }\n        if nums[i] == 0 {\n            return 1000000\n        }\n        res := 1000000\n        end := min(len(nums), i+nums[i]+1)\n        for j := i + 1; j < end; j++ {\n            res = min(res, 1+dfs(j))\n        }\n        memo[i] = res\n        return res\n    }\n    return dfs(0)\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun jump(nums: IntArray): Int {\n        val memo = HashMap<Int, Int>()\n\n        fun dfs(i: Int): Int {\n            if (i in memo) {\n                return memo[i]!!\n            }\n            if (i == nums.size - 1) {\n                return 0\n            }\n            if (nums[i] == 0) {\n                return 1000000\n            }\n            var res = 1000000\n            val end = minOf(nums.size, i + nums[i] + 1)\n            for (j in i + 1 until end) {\n                res = minOf(res, 1 + dfs(j))\n            }\n            memo[i] = res\n            return res\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    var memo: [Int: Int] = [:]\n\n    func jump(_ nums: [Int]) -> Int {\n        return dfs(nums, 0)\n    }\n\n    private func dfs(_ nums: [Int], _ i: Int) -> Int {\n        if let cachedResult = memo[i] {\n            return cachedResult\n        }\n        if i == nums.count - 1 {\n            return 0\n        }\n        if nums[i] == 0 {\n            return 1000000\n        }\n\n        var res = 1000000\n        let end = min(nums.count, i + nums[i] + 1)\n        for j in i + 1..<end {\n            res = min(res, 1 + dfs(nums, j))\n        }\n\n        memo[i] = res\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn jump(nums: Vec<i32>) -> i32 {\n        let mut memo = HashMap::new();\n\n        fn dfs(nums: &[i32], i: usize, memo: &mut HashMap<usize, i32>) -> i32 {\n            if let Some(&val) = memo.get(&i) {\n                return val;\n            }\n            if i == nums.len() - 1 {\n                return 0;\n            }\n            if nums[i] == 0 {\n                return 1000000;\n            }\n            let mut res = 1000000;\n            let end = nums.len().min(i + nums[i] as usize + 1);\n            for j in i + 1..end {\n                res = res.min(1 + dfs(nums, j, memo));\n            }\n            memo.insert(i, res);\n            res\n        }\n\n        dfs(&nums, 0, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def jump(self, nums: List[int]) -> int:\n        n = len(nums)\n        dp = [1000000] * n\n        dp[-1] = 0\n\n        for i in range(n - 2, -1, -1):\n            end = min(n, i + nums[i] + 1)\n            for j in range(i + 1, end):\n                dp[i] = min(dp[i], 1 + dp[j])\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int jump(int[] nums) {\n        int n = nums.length;\n        int[] dp = new int[n];\n        Arrays.fill(dp, 1000000);\n        dp[n - 1] = 0;\n\n        for (int i = n - 2; i >= 0; i--) {\n            int end = Math.min(nums.length, i + nums[i] + 1);\n            for (int j = i + 1; j < end; j++) {\n                dp[i] = Math.min(dp[i], 1 + dp[j]);\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int jump(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> dp(n, 1000000);\n        dp[n - 1] = 0;\n\n        for (int i = n - 2; i >= 0; i--) {\n            int end = min((int)nums.size(), i + nums[i] + 1);\n            for (int j = i + 1; j < end; j++) {\n                dp[i] = min(dp[i], 1 + dp[j]);\n            }\n        }\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    jump(nums) {\n        const n = nums.length;\n        const dp = new Array(n).fill(1000000);\n        dp[n - 1] = 0;\n\n        for (let i = n - 2; i >= 0; i--) {\n            const end = Math.min(nums.length, i + nums[i] + 1);\n            for (let j = i + 1; j < end; j++) {\n                dp[i] = Math.min(dp[i], 1 + dp[j]);\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int Jump(int[] nums) {\n        int n = nums.Length;\n        int[] dp = new int[n];\n        Array.Fill(dp, 1000000);\n        dp[n - 1] = 0;\n\n        for (int i = n - 2; i >= 0; i--) {\n            int end = Math.Min(nums.Length, i + nums[i] + 1);\n            for (int j = i + 1; j < end; j++) {\n                dp[i] = Math.Min(dp[i], 1 + dp[j]);\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func jump(nums []int) int {\n    n := len(nums)\n    dp := make([]int, n)\n    for i := range dp {\n        dp[i] = 1000000\n    }\n    dp[n-1] = 0\n\n    for i := n - 2; i >= 0; i-- {\n        end := min(n, i+nums[i]+1)\n        for j := i + 1; j < end; j++ {\n            dp[i] = min(dp[i], 1+dp[j])\n        }\n    }\n    return dp[0]\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun jump(nums: IntArray): Int {\n        val n = nums.size\n        val dp = IntArray(n) { 1000000 }\n        dp[n - 1] = 0\n\n        for (i in n - 2 downTo 0) {\n            val end = minOf(n, i + nums[i] + 1)\n            for (j in i + 1 until end) {\n                dp[i] = minOf(dp[i], 1 + dp[j])\n            }\n        }\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func jump(_ nums: [Int]) -> Int {\n        let n = nums.count\n        var dp = Array(repeating: 1000000, count: n)\n        dp[n - 1] = 0\n\n        for i in stride(from: n - 2, through: 0, by: -1) {\n            let end = min(n, i + nums[i] + 1)\n            for j in i + 1..<end {\n                dp[i] = min(dp[i], 1 + dp[j])\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn jump(nums: Vec<i32>) -> i32 {\n        let n = nums.len();\n        let mut dp = vec![1000000; n];\n        dp[n - 1] = 0;\n\n        for i in (0..n - 1).rev() {\n            let end = n.min(i + nums[i] as usize + 1);\n            for j in i + 1..end {\n                dp[i] = dp[i].min(1 + dp[j]);\n            }\n        }\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def jump(self, nums: List[int]) -> int:\n        res = 0\n        l = r = 0\n\n        while r < len(nums) - 1:\n            farthest = 0\n            for i in range(l, r + 1):\n                farthest = max(farthest, i + nums[i])\n            l = r + 1\n            r = farthest\n            res += 1\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int jump(int[] nums) {\n        int res = 0, l = 0, r = 0;\n\n        while (r < nums.length - 1) {\n            int farthest = 0;\n            for (int i = l; i <= r; i++) {\n                farthest = Math.max(farthest, i + nums[i]);\n            }\n            l = r + 1;\n            r = farthest;\n            res++;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int jump(vector<int>& nums) {\n        int res = 0, l = 0, r = 0;\n\n        while (r < nums.size() - 1) {\n            int farthest = 0;\n            for (int i = l; i <= r; i++) {\n                farthest = max(farthest, i + nums[i]);\n            }\n            l = r + 1;\n            r = farthest;\n            res++;\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    jump(nums) {\n        let res = 0,\n            l = 0,\n            r = 0;\n\n        while (r < nums.length - 1) {\n            let farthest = 0;\n            for (let i = l; i <= r; i++) {\n                farthest = Math.max(farthest, i + nums[i]);\n            }\n            l = r + 1;\n            r = farthest;\n            res++;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int Jump(int[] nums) {\n        int res = 0, l = 0, r = 0;\n\n        while (r < nums.Length - 1) {\n            int farthest = 0;\n            for (int i = l; i <= r; i++) {\n                farthest = Math.Max(farthest, i + nums[i]);\n            }\n            l = r + 1;\n            r = farthest;\n            res++;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func jump(nums []int) int {\n    res := 0\n    l, r := 0, 0\n\n    for r < len(nums)-1 {\n        farthest := 0\n        for i := l; i <= r; i++ {\n            farthest = max(farthest, i+nums[i])\n        }\n        l = r + 1\n        r = farthest\n        res++\n    }\n\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun jump(nums: IntArray): Int {\n        var res = 0\n        var l = 0\n        var r = 0\n\n        while (r < nums.size - 1) {\n            var farthest = 0\n            for (i in l..r) {\n                farthest = maxOf(farthest, i + nums[i])\n            }\n            l = r + 1\n            r = farthest\n            res++\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func jump(_ nums: [Int]) -> Int {\n        var res = 0\n        var l = 0\n        var r = 0\n\n        while r < nums.count - 1 {\n            var farthest = 0\n            for i in l...r {\n                farthest = max(farthest, i + nums[i])\n            }\n            l = r + 1\n            r = farthest\n            res += 1\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn jump(nums: Vec<i32>) -> i32 {\n        let mut res = 0;\n        let mut l = 0usize;\n        let mut r = 0usize;\n\n        while r < nums.len() - 1 {\n            let mut farthest = 0usize;\n            for i in l..=r {\n                farthest = farthest.max(i + nums[i] as usize);\n            }\n            l = r + 1;\n            r = farthest;\n            res += 1;\n        }\n        res\n    }\n}"
+        }
+    ]
+}

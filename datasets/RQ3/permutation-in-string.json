@@ -1,0 +1,175 @@
+{
+    "problem_name": "Permutation In String",
+    "problem_slug": "permutation-in-string",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hash table",
+        "two pointers",
+        "string",
+        "sliding window"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def checkInclusion(self, s1: str, s2: str) -> bool:\n        s1 = sorted(s1)\n\n        for i in range(len(s2)):\n            for j in range(i, len(s2)):\n                subStr = s2[i : j + 1]\n                subStr = sorted(subStr)\n                if subStr == s1:\n                    return True\n        return False"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean checkInclusion(String s1, String s2) {\n        char[] s1Arr = s1.toCharArray();\n        Arrays.sort(s1Arr);\n        String sortedS1 = new String(s1Arr);\n\n        for (int i = 0; i < s2.length(); i++) {\n            for (int j = i; j < s2.length(); j++) {\n                char[] subStrArr = s2.substring(i, j + 1).toCharArray();\n                Arrays.sort(subStrArr);\n                String sortedSubStr = new String(subStrArr);\n\n                if (sortedSubStr.equals(sortedS1)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool checkInclusion(std::string s1, std::string s2) {\n        sort(s1.begin(), s1.end());\n\n        for (int i = 0; i < s2.length(); i++) {\n            for (int j = i; j < s2.length(); j++) {\n                string subStr = s2.substr(i, j - i + 1);\n                sort(subStr.begin(), subStr.end());\n\n                if (subStr == s1) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s1\n     * @param {string} s2\n     * @return {boolean}\n     */\n    checkInclusion(s1, s2) {\n        s1 = s1.split('').sort().join('');\n\n        for (let i = 0; i < s2.length; i++) {\n            for (let j = i; j < s2.length; j++) {\n                let subStr = s2\n                    .slice(i, j + 1)\n                    .split('')\n                    .sort()\n                    .join('');\n                if (subStr === s1) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool CheckInclusion(string s1, string s2) {\n        char[] s1Arr = s1.ToCharArray();\n        Array.Sort(s1Arr);\n        string sortedS1 = new string(s1Arr);\n\n        for (int i = 0; i < s2.Length; i++) {\n            for (int j = i; j < s2.Length; j++) {\n                char[] subStrArr = s2.Substring(i, j - i + 1).ToCharArray();\n                Array.Sort(subStrArr);\n                string sortedSubStr = new string(subStrArr);\n\n                if (sortedSubStr == sortedS1) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "func checkInclusion(s1 string, s2 string) bool {\n\ts1Sorted := []rune(s1)\n\tsort.Slice(s1Sorted, func(i, j int) bool {\n\t\treturn s1Sorted[i] < s1Sorted[j]\n\t})\n\ts1 = string(s1Sorted)\n\n\tfor i := 0; i < len(s2); i++ {\n\t\tfor j := i; j < len(s2); j++ {\n\t\t\tsubStr := s2[i : j+1]\n\t\t\tsubStrSorted := []rune(subStr)\n\t\t\tsort.Slice(subStrSorted, func(a, b int) bool {\n\t\t\t\treturn subStrSorted[a] < subStrSorted[b]\n\t\t\t})\n\t\t\tif string(subStrSorted) == s1 {\n\t\t\t\treturn true\n\t\t\t}\n\t\t}\n\t}\n\treturn false\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun checkInclusion(s1: String, s2: String): Boolean {\n        val sortedS1 = s1.toCharArray().apply { sort() }.concatToString()\n\n        for (i in s2.indices) {\n            for (j in i until s2.length) {\n                val subStr = s2.substring(i, j + 1)\n                val sortedSubStr = subStr.toCharArray().apply { sort() }.concatToString()\n                if (sortedSubStr == sortedS1) {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func checkInclusion(_ s1: String, _ s2: String) -> Bool {\n        let s1Sorted = s1.sorted()\n        let chars = Array(s2)\n\n        for i in 0..<chars.count {\n            for j in i..<chars.count {\n                let subStr = String(chars[i...j]).sorted()\n                if subStr == s1Sorted {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^3 log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn check_inclusion(s1: String, s2: String) -> bool {\n        let mut s1_sorted: Vec<u8> = s1.bytes().collect();\n        s1_sorted.sort();\n        let s2 = s2.as_bytes();\n        for i in 0..s2.len() {\n            for j in i..s2.len() {\n                let mut sub: Vec<u8> = s2[i..=j].to_vec();\n                sub.sort();\n                if sub == s1_sorted {\n                    return true;\n                }\n            }\n        }\n        false\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def checkInclusion(self, s1: str, s2: str) -> bool:\n        count1 = {}\n        for c in s1:\n            count1[c] = 1 + count1.get(c, 0)\n\n        need = len(count1)\n        for i in range(len(s2)):\n            count2, cur = {}, 0\n            for j in range(i, len(s2)):\n                count2[s2[j]] = 1 + count2.get(s2[j], 0)\n                if count1.get(s2[j], 0) < count2[s2[j]]:\n                    break\n                if count1.get(s2[j], 0) == count2[s2[j]]:\n                    cur += 1\n                if cur == need:\n                    return True\n        return False"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public boolean checkInclusion(String s1, String s2) {\n        Map<Character, Integer> count1 = new HashMap<>();\n        for (char c : s1.toCharArray()) {\n            count1.put(c, count1.getOrDefault(c, 0) + 1);\n        }\n\n        int need = count1.size();\n        for (int i = 0; i < s2.length(); i++) {\n            Map<Character, Integer> count2 = new HashMap<>();\n            int cur = 0;\n            for (int j = i; j < s2.length(); j++) {\n                char c = s2.charAt(j);\n                count2.put(c, count2.getOrDefault(c, 0) + 1);\n\n                if (count1.getOrDefault(c, 0) < count2.get(c)) {\n                    break;\n                }\n\n                if (count1.getOrDefault(c, 0) == count2.get(c)) {\n                    cur++;\n                }\n\n                if (cur == need) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    bool checkInclusion(string s1, string s2) {\n        unordered_map<char, int> count1;\n        for (char c : s1) {\n            count1[c]++;\n        }\n\n        int need = count1.size();\n        for (int i = 0; i < s2.length(); i++) {\n            unordered_map<char, int> count2;\n            int cur = 0;\n            for (int j = i; j < s2.length(); j++) {\n                char c = s2[j];\n                count2[c]++;\n\n                if (count1[c] < count2[c]) {\n                    break;\n                }\n\n                if (count1[c] == count2[c]) {\n                    cur++;\n                }\n\n                if (cur == need) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {string} s1\n     * @param {string} s2\n     * @return {boolean}\n     */\n    checkInclusion(s1, s2) {\n        let count1 = {};\n        for (let c of s1) {\n            count1[c] = (count1[c] || 0) + 1;\n        }\n\n        let need = Object.keys(count1).length;\n        for (let i = 0; i < s2.length; i++) {\n            let count2 = {};\n            let cur = 0;\n            for (let j = i; j < s2.length; j++) {\n                let c = s2[j];\n                count2[c] = (count2[c] || 0) + 1;\n\n                if ((count1[c] || 0) < count2[c]) {\n                    break;\n                }\n\n                if ((count1[c] || 0) === count2[c]) {\n                    cur++;\n                }\n\n                if (cur === need) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public bool CheckInclusion(string s1, string s2) {\n        Dictionary<char, int> count1 = new Dictionary<char, int>();\n        foreach (char c in s1) {\n            if (count1.ContainsKey(c)) {\n                count1[c]++;\n            } else {\n                count1[c] = 1;\n            }\n        }\n\n        int need = count1.Count;\n        for (int i = 0; i < s2.Length; i++) {\n            Dictionary<char, int> count2 = new Dictionary<char, int>();\n            int cur = 0;\n            for (int j = i; j < s2.Length; j++) {\n                char c = s2[j];\n                if (count2.ContainsKey(c)) {\n                    count2[c]++;\n                } else {\n                    count2[c] = 1;\n                }\n\n                if (!count1.ContainsKey(c) || count1[c] < count2[c]) {\n                    break;\n                }\n\n                if (count1[c] == count2[c]) {\n                    cur++;\n                }\n\n                if (cur == need) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "func checkInclusion(s1 string, s2 string) bool {\n\tcount1 := make(map[rune]int)\n\tfor _, c := range s1 {\n\t\tcount1[c]++\n\t}\n\n\tneed := len(count1)\n\tfor i := 0; i < len(s2); i++ {\n\t\tcount2 := make(map[rune]int)\n\t\tcur := 0\n\t\tfor j := i; j < len(s2); j++ {\n\t\t\tcount2[rune(s2[j])]++\n\t\t\tif count1[rune(s2[j])] < count2[rune(s2[j])] {\n\t\t\t\tbreak\n\t\t\t}\n\t\t\tif count1[rune(s2[j])] == count2[rune(s2[j])] {\n\t\t\t\tcur++\n\t\t\t}\n\t\t\tif cur == need {\n\t\t\t\treturn true\n\t\t\t}\n\t\t}\n\t}\n\treturn false\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun checkInclusion(s1: String, s2: String): Boolean {\n        val count1 = HashMap<Char, Int>()\n        for (c in s1) {\n            count1[c] = 1 + count1.getOrDefault(c, 0)\n        }\n\n        val need = count1.size\n        for (i in s2.indices) {\n            val count2 = mutableMapOf<Char, Int>()\n            var cur = 0\n            for (j in i until s2.length) {\n                count2[s2[j]] = 1 + count2.getOrDefault(s2[j], 0)\n                if (count1.getOrDefault(s2[j], 0) < count2[s2[j]]!!) {\n                    break\n                }\n                if (count1.getOrDefault(s2[j], 0) == count2[s2[j]]!!) {\n                    cur++\n                }\n                if (cur == need) {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func checkInclusion(_ s1: String, _ s2: String) -> Bool {\n        var count1 = [Character: Int]()\n        for c in s1 {\n            count1[c, default: 0] += 1\n        }\n\n        let need = count1.count\n        let chars = Array(s2)\n\n        for i in 0..<chars.count {\n            var count2 = [Character: Int]()\n            var cur = 0\n\n            for j in i..<chars.count {\n                count2[chars[j], default: 0] += 1\n                if count1[chars[j], default: 0] < count2[chars[j], default: 0] {\n                    break\n                }\n                if count1[chars[j], default: 0] == count2[chars[j], default: 0] {\n                    cur += 1\n                }\n                if cur == need {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn check_inclusion(s1: String, s2: String) -> bool {\n        let mut count1 = HashMap::new();\n        for c in s1.bytes() {\n            *count1.entry(c).or_insert(0) += 1;\n        }\n        let need = count1.len();\n        let s2 = s2.as_bytes();\n        for i in 0..s2.len() {\n            let mut count2 = HashMap::new();\n            let mut cur = 0;\n            for j in i..s2.len() {\n                let c = s2[j];\n                *count2.entry(c).or_insert(0) += 1;\n                let c1 = *count1.get(&c).unwrap_or(&0);\n                let c2 = *count2.get(&c).unwrap_or(&0);\n                if c1 < c2 {\n                    break;\n                }\n                if c1 == c2 {\n                    cur += 1;\n                }\n                if cur == need {\n                    return true;\n                }\n            }\n        }\n        false\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def checkInclusion(self, s1: str, s2: str) -> bool:\n        if len(s1) > len(s2):\n            return False\n\n        s1Count, s2Count = [0] * 26, [0] * 26\n        for i in range(len(s1)):\n            s1Count[ord(s1[i]) - ord('a')] += 1\n            s2Count[ord(s2[i]) - ord('a')] += 1\n\n        matches = 0\n        for i in range(26):\n            matches += (1 if s1Count[i] == s2Count[i] else 0)\n\n        l = 0\n        for r in range(len(s1), len(s2)):\n            if matches == 26:\n                return True\n\n            index = ord(s2[r]) - ord('a')\n            s2Count[index] += 1\n            if s1Count[index] == s2Count[index]:\n                matches += 1\n            elif s1Count[index] + 1 == s2Count[index]:\n                matches -= 1\n\n            index = ord(s2[l]) - ord('a')\n            s2Count[index] -= 1\n            if s1Count[index] == s2Count[index]:\n                matches += 1\n            elif s1Count[index] - 1 == s2Count[index]:\n                matches -= 1\n            l += 1\n        return matches == 26"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public boolean checkInclusion(String s1, String s2) {\n        if (s1.length() > s2.length()) {\n            return false;\n        }\n\n        int[] s1Count = new int[26];\n        int[] s2Count = new int[26];\n        for (int i = 0; i < s1.length(); i++) {\n            s1Count[s1.charAt(i) - 'a']++;\n            s2Count[s2.charAt(i) - 'a']++;\n        }\n\n        int matches = 0;\n        for (int i = 0; i < 26; i++) {\n            if (s1Count[i] == s2Count[i]) {\n                matches++;\n            }\n        }\n\n        int l = 0;\n        for (int r = s1.length(); r < s2.length(); r++) {\n            if (matches == 26) {\n                return true;\n            }\n\n            int index = s2.charAt(r) - 'a';\n            s2Count[index]++;\n            if (s1Count[index] == s2Count[index]) {\n                matches++;\n            } else if (s1Count[index] + 1 == s2Count[index]) {\n                matches--;\n            }\n\n            index = s2.charAt(l) - 'a';\n            s2Count[index]--;\n            if (s1Count[index] == s2Count[index]) {\n                matches++;\n            } else if (s1Count[index] - 1 == s2Count[index]) {\n                matches--;\n            }\n            l++;\n        }\n        return matches == 26;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    bool checkInclusion(string s1, string s2) {\n        if (s1.length() > s2.length()) {\n            return false;\n        }\n\n        vector<int> s1Count(26, 0);\n        vector<int> s2Count(26, 0);\n        for (int i = 0; i < s1.length(); i++) {\n            s1Count[s1[i] - 'a']++;\n            s2Count[s2[i] - 'a']++;\n        }\n\n        int matches = 0;\n        for (int i = 0; i < 26; i++) {\n            if (s1Count[i] == s2Count[i]) {\n                matches++;\n            }\n        }\n\n        int l = 0;\n        for (int r = s1.length(); r < s2.length(); r++) {\n            if (matches == 26) {\n                return true;\n            }\n\n            int index = s2[r] - 'a';\n            s2Count[index]++;\n            if (s1Count[index] == s2Count[index]) {\n                matches++;\n            } else if (s1Count[index] + 1 == s2Count[index]) {\n                matches--;\n            }\n\n            index = s2[l] - 'a';\n            s2Count[index]--;\n            if (s1Count[index] == s2Count[index]) {\n                matches++;\n            } else if (s1Count[index] - 1 == s2Count[index]) {\n                matches--;\n            }\n            l++;\n        }\n        return matches == 26;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {string} s1\n     * @param {string} s2\n     * @return {boolean}\n     */\n    checkInclusion(s1, s2) {\n        if (s1.length > s2.length) {\n            return false;\n        }\n\n        let s1Count = new Array(26).fill(0);\n        let s2Count = new Array(26).fill(0);\n        for (let i = 0; i < s1.length; i++) {\n            s1Count[s1.charCodeAt(i) - 97]++;\n            s2Count[s2.charCodeAt(i) - 97]++;\n        }\n\n        let matches = 0;\n        for (let i = 0; i < 26; i++) {\n            if (s1Count[i] === s2Count[i]) {\n                matches++;\n            }\n        }\n\n        let l = 0;\n        for (let r = s1.length; r < s2.length; r++) {\n            if (matches === 26) {\n                return true;\n            }\n\n            let index = s2.charCodeAt(r) - 97;\n            s2Count[index]++;\n            if (s1Count[index] === s2Count[index]) {\n                matches++;\n            } else if (s1Count[index] + 1 === s2Count[index]) {\n                matches--;\n            }\n\n            index = s2.charCodeAt(l) - 97;\n            s2Count[index]--;\n            if (s1Count[index] === s2Count[index]) {\n                matches++;\n            } else if (s1Count[index] - 1 === s2Count[index]) {\n                matches--;\n            }\n            l++;\n        }\n        return matches === 26;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public bool CheckInclusion(string s1, string s2) {\n        if (s1.Length > s2.Length) {\n            return false;\n        }\n\n        int[] s1Count = new int[26];\n        int[] s2Count = new int[26];\n        for (int i = 0; i < s1.Length; i++) {\n            s1Count[s1[i] - 'a']++;\n            s2Count[s2[i] - 'a']++;\n        }\n\n        int matches = 0;\n        for (int i = 0; i < 26; i++) {\n            if (s1Count[i] == s2Count[i]) {\n                matches++;\n            }\n        }\n\n        int l = 0;\n        for (int r = s1.Length; r < s2.Length; r++) {\n            if (matches == 26) {\n                return true;\n            }\n\n            int index = s2[r] - 'a';\n            s2Count[index]++;\n            if (s1Count[index] == s2Count[index]) {\n                matches++;\n            } else if (s1Count[index] + 1 == s2Count[index]) {\n                matches--;\n            }\n\n            index = s2[l] - 'a';\n            s2Count[index]--;\n            if (s1Count[index] == s2Count[index]) {\n                matches++;\n            } else if (s1Count[index] - 1 == s2Count[index]) {\n                matches--;\n            }\n            l++;\n        }\n\n        return matches == 26;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func checkInclusion(s1 string, s2 string) bool {\n\tif len(s1) > len(s2) {\n\t\treturn false\n\t}\n\n\ts1Count := make([]int, 26)\n\ts2Count := make([]int, 26)\n\tfor i := 0; i < len(s1); i++ {\n\t\ts1Count[s1[i]-'a']++\n\t\ts2Count[s2[i]-'a']++\n\t}\n\n\tmatches := 0\n\tfor i := 0; i < 26; i++ {\n\t\tif s1Count[i] == s2Count[i] {\n\t\t\tmatches++\n\t\t}\n\t}\n\n\tl := 0\n\tfor r := len(s1); r < len(s2); r++ {\n\t\tif matches == 26 {\n\t\t\treturn true\n\t\t}\n\n\t\tindex := s2[r] - 'a'\n\t\ts2Count[index]++\n\t\tif s1Count[index] == s2Count[index] {\n\t\t\tmatches++\n\t\t} else if s1Count[index]+1 == s2Count[index] {\n\t\t\tmatches--\n\t\t}\n\n\t\tindex = s2[l] - 'a'\n\t\ts2Count[index]--\n\t\tif s1Count[index] == s2Count[index] {\n\t\t\tmatches++\n\t\t} else if s1Count[index]-1 == s2Count[index] {\n\t\t\tmatches--\n\t\t}\n\t\tl++\n\t}\n\treturn matches == 26\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun checkInclusion(s1: String, s2: String): Boolean {\n        if (s1.length > s2.length) return false\n\n        val s1Count = IntArray(26)\n        val s2Count = IntArray(26)\n        for (i in s1.indices) {\n            s1Count[s1[i] - 'a']++\n            s2Count[s2[i] - 'a']++\n        }\n\n        var matches = 0\n        for (i in 0 until 26) {\n            if (s1Count[i] == s2Count[i]) matches++\n        }\n\n        var l = 0\n        for (r in s1.length until s2.length) {\n            if (matches == 26) return true\n\n            val index = s2[r] - 'a'\n            s2Count[index]++\n            if (s1Count[index] == s2Count[index]) {\n                matches++\n            } else if (s1Count[index] + 1 == s2Count[index]) {\n                matches--\n            }\n\n            val leftIndex = s2[l] - 'a'\n            s2Count[leftIndex]--\n            if (s1Count[leftIndex] == s2Count[leftIndex]) {\n                matches++\n            } else if (s1Count[leftIndex] - 1 == s2Count[leftIndex]) {\n                matches--\n            }\n            l++\n        }\n        return matches == 26\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func checkInclusion(_ s1: String, _ s2: String) -> Bool {\n        if s1.count > s2.count {\n            return false\n        }\n\n        var s1Count = [Int](repeating: 0, count: 26)\n        var s2Count = [Int](repeating: 0, count: 26)\n        let aAscii = Int(Character(\"a\").asciiValue!)\n\n        let s1Array = Array(s1)\n        let s2Array = Array(s2)\n\n        for i in 0..<s1.count {\n            s1Count[Int(s1Array[i].asciiValue!) - aAscii] += 1\n            s2Count[Int(s2Array[i].asciiValue!) - aAscii] += 1\n        }\n\n        var matches = 0\n        for i in 0..<26 {\n            if s1Count[i] == s2Count[i] {\n                matches += 1\n            }\n        }\n\n        var l = 0\n        for r in s1.count..<s2.count {\n            if matches == 26 {\n                return true\n            }\n\n            var index = Int(s2Array[r].asciiValue!) - aAscii\n            s2Count[index] += 1\n            if s1Count[index] == s2Count[index] {\n                matches += 1\n            } else if s1Count[index] + 1 == s2Count[index] {\n                matches -= 1\n            }\n\n            index = Int(s2Array[l].asciiValue!) - aAscii\n            s2Count[index] -= 1\n            if s1Count[index] == s2Count[index] {\n                matches += 1\n            } else if s1Count[index] - 1 == s2Count[index] {\n                matches -= 1\n            }\n            l += 1\n        }\n\n        return matches == 26\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn check_inclusion(s1: String, s2: String) -> bool {\n        let s1 = s1.as_bytes();\n        let s2 = s2.as_bytes();\n        if s1.len() > s2.len() {\n            return false;\n        }\n        let mut s1_count = [0i32; 26];\n        let mut s2_count = [0i32; 26];\n        for i in 0..s1.len() {\n            s1_count[(s1[i] - b'a') as usize] += 1;\n            s2_count[(s2[i] - b'a') as usize] += 1;\n        }\n        let mut matches = 0;\n        for i in 0..26 {\n            if s1_count[i] == s2_count[i] {\n                matches += 1;\n            }\n        }\n        let mut l = 0;\n        for r in s1.len()..s2.len() {\n            if matches == 26 {\n                return true;\n            }\n            let idx = (s2[r] - b'a') as usize;\n            s2_count[idx] += 1;\n            if s1_count[idx] == s2_count[idx] {\n                matches += 1;\n            } else if s1_count[idx] + 1 == s2_count[idx] {\n                matches -= 1;\n            }\n            let idx = (s2[l] - b'a') as usize;\n            s2_count[idx] -= 1;\n            if s1_count[idx] == s2_count[idx] {\n                matches += 1;\n            } else if s1_count[idx] - 1 == s2_count[idx] {\n                matches -= 1;\n            }\n            l += 1;\n        }\n        matches == 26\n    }\n}"
+        }
+    ]
+}

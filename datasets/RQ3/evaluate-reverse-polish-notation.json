@@ -1,0 +1,228 @@
+{
+    "problem_name": "Evaluate Reverse Polish Notation",
+    "problem_slug": "evaluate-reverse-polish-notation",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "math",
+        "stack"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def evalRPN(self, tokens: List[str]) -> int:\n        while len(tokens) > 1:\n            for i in range(len(tokens)):\n                if tokens[i] in \"+-*/\":\n                    a = int(tokens[i-2])\n                    b = int(tokens[i-1])\n                    if tokens[i] == '+':\n                        result = a + b\n                    elif tokens[i] == '-':\n                        result = a - b\n                    elif tokens[i] == '*':\n                        result = a * b\n                    elif tokens[i] == '/':\n                        result = int(a / b)\n                    tokens = tokens[:i-2] + [str(result)] + tokens[i+1:]\n                    break\n        return int(tokens[0])"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int evalRPN(String[] tokens) {\n        List<String> tokenList = new ArrayList<>(Arrays.asList(tokens));\n\n        while (tokenList.size() > 1) {\n            for (int i = 0; i < tokenList.size(); i++) {\n                String token = tokenList.get(i);\n\n                if (\"+-*/\".contains(token)) {\n                    int a = Integer.parseInt(tokenList.get(i - 2));\n                    int b = Integer.parseInt(tokenList.get(i - 1));\n                    int result = 0;\n\n                    if (token.equals(\"+\")) {\n                        result = a + b;\n                    } else if (token.equals(\"-\")) {\n                        result = a - b;\n                    } else if (token.equals(\"*\")) {\n                        result = a * b;\n                    } else if (token.equals(\"/\")) {\n                        result = a / b;\n                    }\n\n                    tokenList.set(i - 2, String.valueOf(result));\n                    tokenList.remove(i);\n                    tokenList.remove(i - 1);\n                    break;\n                }\n            }\n        }\n        return Integer.parseInt(tokenList.get(0));\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int evalRPN(vector<string>& tokens) {\n        while (tokens.size() > 1) {\n            for (int i = 0; i < tokens.size(); i++) {\n                if (tokens[i] == \"+\"\n                    || tokens[i] == \"-\"\n                    || tokens[i] == \"*\"\n                    || tokens[i] == \"/\")\n                {\n                    int a = stoi(tokens[i - 2]);\n                    int b = stoi(tokens[i - 1]);\n                    int result = 0;\n                    if (tokens[i] == \"+\") result = a + b;\n                    else if (tokens[i] == \"-\") result = a - b;\n                    else if (tokens[i] == \"*\") result = a * b;\n                    else if (tokens[i] == \"/\") result = a / b;\n\n                    tokens.erase(tokens.begin() + i - 2, tokens.begin() + i + 1);\n                    tokens.insert(tokens.begin() + i - 2, to_string(result));\n                    break;\n                }\n            }\n        }\n        return stoi(tokens[0]);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    evalRPN(tokens) {\n        while (tokens.length > 1) {\n            for (let i = 0; i < tokens.length; i++) {\n                if ('+-*/'.includes(tokens[i])) {\n                    const a = parseInt(tokens[i - 2]);\n                    const b = parseInt(tokens[i - 1]);\n                    let result;\n                    if (tokens[i] === '+') result = a + b;\n                    else if (tokens[i] === '-') result = a - b;\n                    else if (tokens[i] === '*') result = a * b;\n                    else if (tokens[i] === '/') result = Math.trunc(a / b);\n\n                    tokens.splice(i - 2, 3, result.toString());\n                    break;\n                }\n            }\n        }\n        return parseInt(tokens[0]);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int EvalRPN(string[] tokens) {\n        List<string> tokenList = new List<string>(tokens);\n\n        while (tokenList.Count > 1) {\n            for (int i = 0; i < tokenList.Count; i++) {\n                if (\"+-*/\".Contains(tokenList[i])) {\n                    int a = int.Parse(tokenList[i - 2]);\n                    int b = int.Parse(tokenList[i - 1]);\n                    int result = 0;\n                    switch (tokenList[i]) {\n                        case \"+\":\n                            result = a + b;\n                            break;\n                        case \"-\":\n                            result = a - b;\n                            break;\n                        case \"*\":\n                            result = a * b;\n                            break;\n                        case \"/\":\n                            result = a / b;\n                            break;\n                    }\n                    tokenList.RemoveRange(i - 2, 3);\n                    tokenList.Insert(i - 2, result.ToString());\n                    break;\n                }\n            }\n        }\n        return int.Parse(tokenList[0]);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func evalRPN(tokens []string) int {\n   for len(tokens) > 1 {\n       for i := 0; i < len(tokens); i++ {\n           if tokens[i] == \"+\" || tokens[i] == \"-\" || tokens[i] == \"*\" || tokens[i] == \"/\" {\n               a, _ := strconv.Atoi(tokens[i-2])\n               b, _ := strconv.Atoi(tokens[i-1])\n               var result int\n\n               switch tokens[i] {\n               case \"+\":\n                   result = a + b\n               case \"-\":\n                   result = a - b\n               case \"*\":\n                   result = a * b\n               case \"/\":\n                   result = a / b\n               }\n\n               temp := make([]string, 0)\n               temp = append(temp, tokens[:i-2]...)\n               temp = append(temp, strconv.Itoa(result))\n               temp = append(temp, tokens[i+1:]...)\n               tokens = temp\n               break\n           }\n       }\n   }\n\n   result, _ := strconv.Atoi(tokens[0])\n   return result\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n   fun evalRPN(tokens: Array<String>): Int {\n       val A = tokens.toMutableList()\n\n       while (A.size > 1) {\n           for (i in A.indices) {\n               if (A[i] in setOf(\"+\", \"-\", \"*\", \"/\")) {\n                   val a = A[i-2].toInt()\n                   val b = A[i-1].toInt()\n                   val result = when (A[i]) {\n                       \"+\" -> a + b\n                       \"-\" -> a - b\n                       \"*\" -> a * b\n                       else -> a / b\n                   }\n\n                   val temp = A.slice(0..i-3) +\n                             result.toString() +\n                             A.slice(i+1..A.lastIndex)\n                   A.clear()\n                   A.addAll(temp)\n                   break\n               }\n           }\n       }\n\n       return A[0].toInt()\n   }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func evalRPN(_ tokens: [String]) -> Int {\n        var tokens = tokens\n\n        while tokens.count > 1 {\n            for i in 0..<tokens.count {\n                if \"+-*/\".contains(tokens[i]) {\n                    let a = Int(tokens[i-2])!\n                    let b = Int(tokens[i-1])!\n                    var result = 0\n\n                    if tokens[i] == \"+\" {\n                        result = a + b\n                    } else if tokens[i] == \"-\" {\n                        result = a - b\n                    } else if tokens[i] == \"*\" {\n                        result = a * b\n                    } else if tokens[i] == \"/\" {\n                        result = Int(a / b)\n                    }\n\n                    tokens = Array(tokens[0..<(i-2)]) + [String(result)] + Array(tokens[(i+1)...])\n                    break\n                }\n            }\n        }\n\n        return Int(tokens[0])!\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn eval_rpn(tokens: Vec<String>) -> i32 {\n        let mut tokens = tokens;\n        while tokens.len() > 1 {\n            let mut found = false;\n            for i in 0..tokens.len() {\n                if matches!(tokens[i].as_str(), \"+\" | \"-\" | \"*\" | \"/\") {\n                    let a: i32 = tokens[i - 2].parse().unwrap();\n                    let b: i32 = tokens[i - 1].parse().unwrap();\n                    let result = match tokens[i].as_str() {\n                        \"+\" => a + b,\n                        \"-\" => a - b,\n                        \"*\" => a * b,\n                        \"/\" => a / b,\n                        _ => 0,\n                    };\n                    tokens.splice(i - 2..=i, std::iter::once(result.to_string()));\n                    found = true;\n                    break;\n                }\n            }\n            if !found { break; }\n        }\n        tokens[0].parse().unwrap()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class DoublyLinkedList:\n    def __init__(self, val, next=None, prev=None):\n        self.val = val\n        self.next = next\n        self.prev = prev\n\nclass Solution:\n    def evalRPN(self, tokens: List[str]) -> int:\n        head = DoublyLinkedList(tokens[0])\n        curr = head\n\n        for i in range(1, len(tokens)):\n            curr.next = DoublyLinkedList(tokens[i], prev=curr)\n            curr = curr.next\n\n        while head is not None:\n            if head.val in \"+-*/\":\n                l = int(head.prev.prev.val)\n                r = int(head.prev.val)\n                if head.val == '+':\n                    res = l + r\n                elif head.val == '-':\n                    res = l - r\n                elif head.val == '*':\n                    res = l * r\n                else:\n                    res = int(l / r)\n\n                head.val = str(res)\n                head.prev = head.prev.prev.prev\n                if head.prev is not None:\n                    head.prev.next = head\n\n            ans = int(head.val)\n            head = head.next\n\n        return ans"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class DoublyLinkedList {\n    String val;\n    DoublyLinkedList next;\n    DoublyLinkedList prev;\n\n    DoublyLinkedList(String val, DoublyLinkedList next, DoublyLinkedList prev) {\n        this.val = val;\n        this.next = next;\n        this.prev = prev;\n    }\n}\n\npublic class Solution {\n    public int evalRPN(String[] tokens) {\n        DoublyLinkedList head = new DoublyLinkedList(tokens[0], null, null);\n        DoublyLinkedList curr = head;\n\n        for (int i = 1; i < tokens.length; i++) {\n            curr.next = new DoublyLinkedList(tokens[i], null, curr);\n            curr = curr.next;\n        }\n\n        int ans = 0;\n        while (head != null) {\n            if (\"+-*/\".contains(head.val)) {\n                int l = Integer.parseInt(head.prev.prev.val);\n                int r = Integer.parseInt(head.prev.val);\n                int res = 0;\n                if (head.val.equals(\"+\")) {\n                    res = l + r;\n                } else if (head.val.equals(\"-\")) {\n                    res = l - r;\n                } else if (head.val.equals(\"*\")) {\n                    res = l * r;\n                } else {\n                    res = l / r;\n                }\n\n                head.val = String.valueOf(res);\n                head.prev = head.prev.prev.prev;\n                if (head.prev != null) {\n                    head.prev.next = head;\n                }\n            }\n\n            ans = Integer.parseInt(head.val);\n            head = head.next;\n        }\n\n        return ans;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class DoublyLinkedList {\npublic:\n    string val;\n    DoublyLinkedList* next;\n    DoublyLinkedList* prev;\n\n    DoublyLinkedList(string val, DoublyLinkedList* next = nullptr,\n                        DoublyLinkedList* prev = nullptr) {\n        this->val = val;\n        this->next = next;\n        this->prev = prev;\n    }\n};\n\nclass Solution {\npublic:\n    int evalRPN(vector<string>& tokens) {\n        DoublyLinkedList* head = new DoublyLinkedList(tokens[0]);\n        DoublyLinkedList* curr = head;\n\n        for (int i = 1; i < tokens.size(); i++) {\n            curr->next = new DoublyLinkedList(tokens[i], nullptr, curr);\n            curr = curr->next;\n        }\n\n        int ans = 0;\n        while (head != nullptr) {\n            if (head->val == \"+\" ||\n                 head->val == \"-\" ||\n                 head->val == \"*\" ||\n                 head->val == \"/\")\n            {\n                int l = stoi(head->prev->prev->val);\n                int r = stoi(head->prev->val);\n                int res = 0;\n                if (head->val == \"+\") {\n                    res = l + r;\n                } else if (head->val == \"-\") {\n                    res = l - r;\n                } else if (head->val == \"*\") {\n                    res = l * r;\n                } else {\n                    res = l / r;\n                }\n\n                head->val = to_string(res);\n                head->prev = head->prev->prev->prev;\n                if (head->prev != nullptr) {\n                    head->prev->next = head;\n                }\n            }\n\n            ans = stoi(head->val);\n            head = head->next;\n        }\n\n        return ans;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class DoublyLinkedList {\n    constructor(val, next = null, prev = null) {\n        this.val = val;\n        this.next = next;\n        this.prev = prev;\n    }\n}\n\nclass Solution {\n    /**\n     * @param {string[]} tokens\n     * @return {number}\n     */\n    evalRPN(tokens) {\n        let head = new DoublyLinkedList(tokens[0]);\n        let curr = head;\n\n        for (let i = 1; i < tokens.length; i++) {\n            curr.next = new DoublyLinkedList(tokens[i], null, curr);\n            curr = curr.next;\n        }\n\n        let ans = 0;\n        while (head !== null) {\n            if ('+-*/'.includes(head.val)) {\n                let l = parseInt(head.prev.prev.val);\n                let r = parseInt(head.prev.val);\n                let res = 0;\n                if (head.val === '+') {\n                    res = l + r;\n                } else if (head.val === '-') {\n                    res = l - r;\n                } else if (head.val === '*') {\n                    res = l * r;\n                } else {\n                    res = Math.trunc(l / r);\n                }\n\n                head.val = res.toString();\n                head.prev = head.prev.prev.prev;\n                if (head.prev !== null) {\n                    head.prev.next = head;\n                }\n            }\n\n            ans = parseInt(head.val);\n            head = head.next;\n        }\n\n        return ans;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class DoublyLinkedList {\n    public string val;\n    public DoublyLinkedList next;\n    public DoublyLinkedList prev;\n\n    public DoublyLinkedList(string val, DoublyLinkedList next = null,\n                            DoublyLinkedList prev = null) {\n        this.val = val;\n        this.next = next;\n        this.prev = prev;\n    }\n}\n\npublic class Solution {\n    public int EvalRPN(string[] tokens) {\n        DoublyLinkedList head = new DoublyLinkedList(tokens[0]);\n        DoublyLinkedList curr = head;\n\n        for (int i = 1; i < tokens.Length; i++) {\n            curr.next = new DoublyLinkedList(tokens[i], null, curr);\n            curr = curr.next;\n        }\n\n        int ans = 0;\n        while (head != null) {\n            if (\"+-*/\".Contains(head.val)) {\n                int l = int.Parse(head.prev.prev.val);\n                int r = int.Parse(head.prev.val);\n                int res = 0;\n                if (head.val == \"+\") {\n                    res = l + r;\n                } else if (head.val == \"-\") {\n                    res = l - r;\n                } else if (head.val == \"*\") {\n                    res = l * r;\n                } else {\n                    res = l / r;\n                }\n\n                head.val = res.ToString();\n                head.prev = head.prev.prev.prev;\n                if (head.prev != null) {\n                    head.prev.next = head;\n                }\n            }\n\n            ans = int.Parse(head.val);\n            head = head.next;\n        }\n\n        return ans;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "type DoublyLinkedList struct {\n    val  string\n    next *DoublyLinkedList\n    prev *DoublyLinkedList\n}\n\nfunc evalRPN(tokens []string) int {\n    head := &DoublyLinkedList{val: tokens[0]}\n    curr := head\n\n    for i := 1; i < len(tokens); i++ {\n        newNode := &DoublyLinkedList{val: tokens[i], prev: curr}\n        curr.next = newNode\n        curr = curr.next\n    }\n\n    for head != nil {\n        if head.val == \"+\" || head.val == \"-\" || head.val == \"*\" || head.val == \"/\" {\n            l, _ := strconv.Atoi(head.prev.prev.val)\n            r, _ := strconv.Atoi(head.prev.val)\n\n            var res int\n            switch head.val {\n            case \"+\":\n                res = l + r\n            case \"-\":\n                res = l - r\n            case \"*\":\n                res = l * r\n            case \"/\":\n                res = l / r\n            }\n\n            head.val = strconv.Itoa(res)\n            head.prev = head.prev.prev.prev\n            if head.prev != nil {\n                head.prev.next = head\n            }\n        }\n\n        head = head.next\n    }\n\n    ans, _ := strconv.Atoi(curr.val)\n    return ans\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class DoublyLinkedList(\n   var value: String,\n   var next: DoublyLinkedList? = null,\n   var prev: DoublyLinkedList? = null\n)\n\nclass Solution {\n   fun evalRPN(tokens: Array<String>): Int {\n       val head = DoublyLinkedList(tokens[0])\n       var curr = head\n\n       for (i in 1 until tokens.size) {\n           val newNode = DoublyLinkedList(tokens[i], prev = curr)\n           curr.next = newNode\n           curr = newNode\n       }\n\n       var ptr: DoublyLinkedList? = head\n       while (ptr != null) {\n           if (ptr.value in setOf(\"+\", \"-\", \"*\", \"/\")) {\n               val l = ptr.prev!!.prev!!.value.toInt()\n               val r = ptr.prev!!.value.toInt()\n\n               val res = when (ptr.value) {\n                   \"+\" -> l + r\n                   \"-\" -> l - r\n                   \"*\" -> l * r\n                   else -> l / r\n               }\n\n               ptr.value = res.toString()\n               ptr.prev = ptr.prev!!.prev!!.prev\n               ptr.prev?.next = ptr\n           }\n\n           ptr = ptr.next\n       }\n\n       return curr.value.toInt()\n   }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class DoublyLinkedList {\n    var val: String\n    var next: DoublyLinkedList?\n    var prev: DoublyLinkedList?\n\n    init(val: String, next: DoublyLinkedList? = nil, prev: DoublyLinkedList? = nil) {\n        self.val = val\n        self.next = next\n        self.prev = prev\n    }\n}\n\nclass Solution {\n    func evalRPN(_ tokens: [String]) -> Int {\n        var head: DoublyLinkedList? = DoublyLinkedList(val: tokens[0])\n        var curr = head\n\n        for i in 1..<tokens.count {\n            curr!.next = DoublyLinkedList(val: tokens[i], prev: curr)\n            curr = curr!.next\n        }\n\n        var ans = 0\n\n        while head != nil {\n            if \"+-*/\".contains(head!.val) {\n                let l = Int(head!.prev!.prev!.val)!\n                let r = Int(head!.prev!.val)!\n                var res: Int\n\n                if head!.val == \"+\" {\n                    res = l + r\n                } else if head!.val == \"-\" {\n                    res = l - r\n                } else if head!.val == \"*\" {\n                    res = l * r\n                } else {\n                    res = l / r\n                }\n\n                head!.val = String(res)\n                head!.prev = head!.prev!.prev!.prev\n\n                if head!.prev != nil {\n                    head!.prev!.next = head\n                }\n            }\n\n            ans = Int(head!.val)!\n            head = head!.next\n        }\n\n        return ans\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn eval_rpn(tokens: Vec<String>) -> i32 {\n        let mut vals: Vec<(String, Option<usize>, Option<usize>)> = Vec::new();\n        // Build doubly linked list using indices\n        for (i, t) in tokens.iter().enumerate() {\n            let prev = if i > 0 { Some(i - 1) } else { None };\n            let next = None;\n            vals.push((t.clone(), prev, next));\n            if i > 0 {\n                vals[i - 1].2 = Some(i);\n            }\n        }\n\n        let mut head = Some(0usize);\n        let mut ans = 0;\n        while let Some(h) = head {\n            let val = vals[h].0.clone();\n            if matches!(val.as_str(), \"+\" | \"-\" | \"*\" | \"/\") {\n                let prev1 = vals[h].1.unwrap();\n                let prev2 = vals[prev1].1.unwrap();\n                let l: i32 = vals[prev2].0.parse().unwrap();\n                let r: i32 = vals[prev1].0.parse().unwrap();\n                let res = match val.as_str() {\n                    \"+\" => l + r,\n                    \"-\" => l - r,\n                    \"*\" => l * r,\n                    \"/\" => l / r,\n                    _ => 0,\n                };\n                vals[h].0 = res.to_string();\n                vals[h].1 = vals[prev2].1;\n                if let Some(pp) = vals[prev2].1 {\n                    vals[pp].2 = Some(h);\n                }\n            }\n            ans = vals[h].0.parse().unwrap();\n            head = vals[h].2;\n        }\n        ans\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def evalRPN(self, tokens: List[str]) -> int:\n        def dfs():\n            token = tokens.pop()\n            if token not in \"+-*/\":\n                return int(token)\n\n            right = dfs()\n            left = dfs()\n\n            if token == '+':\n                return left + right\n            elif token == '-':\n                return left - right\n            elif token == '*':\n                return left * right\n            elif token == '/':\n                return int(left / right)\n\n        return dfs()"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int evalRPN(String[] tokens) {\n        List<String> tokenList = new ArrayList<>(Arrays.asList(tokens));\n        return dfs(tokenList);\n    }\n\n    private int dfs(List<String> tokens) {\n        String token = tokens.remove(tokens.size() - 1);\n\n        if (!\"+-*/\".contains(token)) {\n            return Integer.parseInt(token);\n        }\n\n        int right = dfs(tokens);\n        int left = dfs(tokens);\n\n        switch (token) {\n            case \"+\":\n                return left + right;\n            case \"-\":\n                return left - right;\n            case \"*\":\n                return left * right;\n            case \"/\":\n                return left / right;\n        }\n\n        return 0;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int dfs(vector<string>& tokens) {\n        string token = tokens.back();\n        tokens.pop_back();\n\n        if (token != \"+\" && token != \"-\" &&\n             token != \"*\" && token != \"/\")\n        {\n            return stoi(token);\n        }\n\n        int right = dfs(tokens);\n        int left = dfs(tokens);\n\n        if (token == \"+\") {\n            return left + right;\n        } else if (token == \"-\") {\n            return left - right;\n        } else if (token == \"*\") {\n            return left * right;\n        } else {\n            return left / right;\n        }\n    }\n\n    int evalRPN(vector<string>& tokens) {\n        return dfs(tokens);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string[]} tokens\n     * @return {number}\n     */\n    evalRPN(tokens) {\n        /**\n         * @return {number}\n         */\n        const dfs = () => {\n            const token = tokens.pop();\n            if (!'+-*/'.includes(token)) {\n                return parseInt(token);\n            }\n\n            const right = dfs();\n            const left = dfs();\n\n            if (token === '+') {\n                return left + right;\n            } else if (token === '-') {\n                return left - right;\n            } else if (token === '*') {\n                return left * right;\n            } else {\n                return Math.trunc(left / right);\n            }\n        };\n\n        return dfs();\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int EvalRPN(string[] tokens) {\n        List<string> tokenList = new List<string>(tokens);\n        return DFS(tokenList);\n    }\n\n    public int DFS(List<string> tokens) {\n        string token = tokens[tokens.Count - 1];\n        tokens.RemoveAt(tokens.Count - 1);\n\n        if (token != \"+\" && token != \"-\" &&\n         token != \"*\" && token != \"/\") {\n            return int.Parse(token);\n        }\n\n        int right = DFS(tokens);\n        int left = DFS(tokens);\n\n        if (token == \"+\") {\n            return left + right;\n        } else if (token == \"-\") {\n            return left - right;\n        } else if (token == \"*\") {\n            return left * right;\n        } else {\n            return left / right;\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func evalRPN(tokens []string) int {\n    index := len(tokens) - 1\n\n    var dfs func() int\n    dfs = func() int {\n        token := tokens[index]\n        index--\n\n        if token != \"+\" && token != \"-\" && token != \"*\" && token != \"/\" {\n            val, _ := strconv.Atoi(token)\n            return val\n        }\n\n        right := dfs()\n        left := dfs()\n\n        switch token {\n        case \"+\":\n            return left + right\n        case \"-\":\n            return left - right\n        case \"*\":\n            return left * right\n        default:\n            return left / right\n        }\n    }\n\n    return dfs()\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    private var index = 0\n\n    fun evalRPN(tokens: Array<String>): Int {\n        index = tokens.size - 1\n\n        fun dfs(): Int {\n            val token = tokens[index]\n            index--\n\n            if (token !in setOf(\"+\", \"-\", \"*\", \"/\")) {\n                return token.toInt()\n            }\n\n            val right = dfs()\n            val left = dfs()\n\n            return when (token) {\n                \"+\" -> left + right\n                \"-\" -> left - right\n                \"*\" -> left * right\n                else -> left / right\n            }\n        }\n\n        return dfs()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func evalRPN(_ tokens: [String]) -> Int {\n        var tokens = tokens\n\n        func dfs() -> Int {\n            let token = tokens.removeLast()\n            if let num = Int(token) {\n                return num\n            }\n\n            let right = dfs()\n            let left = dfs()\n\n            switch token {\n                case \"+\": return left + right\n                case \"-\": return left - right\n                case \"*\": return left * right\n                case \"/\": return left / right\n                default: return 0\n            }\n        }\n\n        return dfs()\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn eval_rpn(tokens: Vec<String>) -> i32 {\n        let mut idx = tokens.len() as i32 - 1;\n\n        fn dfs(tokens: &[String], idx: &mut i32) -> i32 {\n            let token = &tokens[*idx as usize];\n            *idx -= 1;\n            if !matches!(token.as_str(), \"+\" | \"-\" | \"*\" | \"/\") {\n                return token.parse().unwrap();\n            }\n            let right = dfs(tokens, idx);\n            let left = dfs(tokens, idx);\n            match token.as_str() {\n                \"+\" => left + right,\n                \"-\" => left - right,\n                \"*\" => left * right,\n                \"/\" => left / right,\n                _ => 0,\n            }\n        }\n\n        dfs(&tokens, &mut idx)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def evalRPN(self, tokens: List[str]) -> int:\n        stack = []\n        for c in tokens:\n            if c == \"+\":\n                stack.append(stack.pop() + stack.pop())\n            elif c == \"-\":\n                a, b = stack.pop(), stack.pop()\n                stack.append(b - a)\n            elif c == \"*\":\n                stack.append(stack.pop() * stack.pop())\n            elif c == \"/\":\n                a, b = stack.pop(), stack.pop()\n                stack.append(int(float(b) / a))\n            else:\n                stack.append(int(c))\n        return stack[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    public int evalRPN(String[] tokens) {\n        Stack<Integer> stack = new Stack<>();\n        for (String c : tokens) {\n            if (c.equals(\"+\")) {\n                stack.push(stack.pop() + stack.pop());\n            } else if (c.equals(\"-\")) {\n                int a = stack.pop();\n                int b = stack.pop();\n                stack.push(b - a);\n            } else if (c.equals(\"*\")) {\n                stack.push(stack.pop() * stack.pop());\n            } else if (c.equals(\"/\")) {\n                int a = stack.pop();\n                int b = stack.pop();\n                stack.push(b / a);\n            } else {\n                stack.push(Integer.parseInt(c));\n            }\n        }\n        return stack.pop();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int evalRPN(vector<string>& tokens) {\n        stack<int> stack;\n        for (const string& c : tokens) {\n            if (c == \"+\") {\n                int a = stack.top(); stack.pop();\n                int b = stack.top(); stack.pop();\n                stack.push(b + a);\n            } else if (c == \"-\") {\n                int a = stack.top(); stack.pop();\n                int b = stack.top(); stack.pop();\n                stack.push(b - a);\n            } else if (c == \"*\") {\n                int a = stack.top(); stack.pop();\n                int b = stack.top(); stack.pop();\n                stack.push(b * a);\n            } else if (c == \"/\") {\n                int a = stack.top(); stack.pop();\n                int b = stack.top(); stack.pop();\n                stack.push(b / a);\n            } else {\n                stack.push(stoi(c));\n            }\n        }\n        return stack.top();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string[]} tokens\n     * @return {number}\n     */\n    evalRPN(tokens) {\n        const stack = [];\n        for (const c of tokens) {\n            if (c === '+') {\n                stack.push(stack.pop() + stack.pop());\n            } else if (c === '-') {\n                const a = stack.pop();\n                const b = stack.pop();\n                stack.push(b - a);\n            } else if (c === '*') {\n                stack.push(stack.pop() * stack.pop());\n            } else if (c === '/') {\n                const a = stack.pop();\n                const b = stack.pop();\n                stack.push(Math.trunc(b / a));\n            } else {\n                stack.push(parseInt(c));\n            }\n        }\n        return stack.pop();\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int EvalRPN(string[] tokens) {\n        Stack<int> stack = new Stack<int>();\n        foreach (string c in tokens) {\n            if (c == \"+\") {\n                stack.Push(stack.Pop() + stack.Pop());\n            } else if (c == \"-\") {\n                int a = stack.Pop();\n                int b = stack.Pop();\n                stack.Push(b - a);\n            } else if (c == \"*\") {\n                stack.Push(stack.Pop() * stack.Pop());\n            } else if (c == \"/\") {\n                int a = stack.Pop();\n                int b = stack.Pop();\n                stack.Push((int) ((double) b / a));\n            } else {\n                stack.Push(int.Parse(c));\n            }\n        }\n        return stack.Pop();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func evalRPN(tokens []string) int {\n   stack := make([]int, 0)\n\n   for _, token := range tokens {\n       switch token {\n       case \"+\":\n           a := stack[len(stack)-1]\n           b := stack[len(stack)-2]\n           stack = stack[:len(stack)-2]\n           stack = append(stack, b+a)\n       case \"-\":\n           a := stack[len(stack)-1]\n           b := stack[len(stack)-2]\n           stack = stack[:len(stack)-2]\n           stack = append(stack, b-a)\n       case \"*\":\n           a := stack[len(stack)-1]\n           b := stack[len(stack)-2]\n           stack = stack[:len(stack)-2]\n           stack = append(stack, b*a)\n       case \"/\":\n           a := stack[len(stack)-1]\n           b := stack[len(stack)-2]\n           stack = stack[:len(stack)-2]\n           stack = append(stack, b/a)\n       default:\n           num, _ := strconv.Atoi(token)\n           stack = append(stack, num)\n       }\n   }\n\n   return stack[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun evalRPN(tokens: Array<String>): Int {\n        val stack = ArrayDeque<Int>()\n\n        for (token in tokens) {\n            when (token) {\n                \"+\" -> {\n                    val a = stack.removeLast()\n                    val b = stack.removeLast()\n                    stack.addLast(b + a)\n                }\n                \"-\" -> {\n                    val a = stack.removeLast()\n                    val b = stack.removeLast()\n                    stack.addLast(b - a)\n                }\n                \"*\" -> {\n                    val a = stack.removeLast()\n                    val b = stack.removeLast()\n                    stack.addLast(b * a)\n                }\n                \"/\" -> {\n                    val a = stack.removeLast()\n                    val b = stack.removeLast()\n                    stack.addLast(b / a)\n                }\n                else -> stack.addLast(token.toInt())\n            }\n        }\n\n        return stack.last()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func evalRPN(_ tokens: [String]) -> Int {\n        var stack = [Int]()\n\n        for c in tokens {\n            switch c {\n                case \"+\":\n                    stack.append(stack.removeLast() + stack.removeLast())\n                case \"-\":\n                    let a = stack.removeLast()\n                    let b = stack.removeLast()\n                    stack.append(b - a)\n                case \"*\":\n                    stack.append(stack.removeLast() * stack.removeLast())\n                case \"/\":\n                    let a = stack.removeLast()\n                    let b = stack.removeLast()\n                    stack.append(b / a)\n                default:\n                    stack.append(Int(c)!)\n            }\n        }\n        return stack[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn eval_rpn(tokens: Vec<String>) -> i32 {\n        let mut stack = Vec::new();\n        for c in &tokens {\n            match c.as_str() {\n                \"+\" => {\n                    let a = stack.pop().unwrap();\n                    let b = stack.pop().unwrap();\n                    stack.push(b + a);\n                }\n                \"-\" => {\n                    let a: i32 = stack.pop().unwrap();\n                    let b: i32 = stack.pop().unwrap();\n                    stack.push(b - a);\n                }\n                \"*\" => {\n                    let a = stack.pop().unwrap();\n                    let b = stack.pop().unwrap();\n                    stack.push(b * a);\n                }\n                \"/\" => {\n                    let a: i32 = stack.pop().unwrap();\n                    let b: i32 = stack.pop().unwrap();\n                    stack.push(b / a);\n                }\n                _ => {\n                    stack.push(c.parse::<i32>().unwrap());\n                }\n            }\n        }\n        stack[0]\n    }\n}"
+        }
+    ]
+}

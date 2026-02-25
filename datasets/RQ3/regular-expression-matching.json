@@ -1,0 +1,282 @@
+{
+    "problem_name": "Regular Expression Matching",
+    "problem_slug": "regular-expression-matching",
+    "difficulty": "hard",
+    "topic_tags": [
+        "string",
+        "dynamic programming",
+        "recursion"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        m, n = len(s), len(p)\n\n        def dfs(i, j):\n            if j == n:\n                return i == m\n\n            match = i < m and (s[i] == p[j] or p[j] == \".\")\n            if (j + 1) < n and p[j + 1] == \"*\":\n                return (dfs(i, j + 2) or          # don't use *\n                       (match and dfs(i + 1, j))) # use *\n            if match:\n                return dfs(i + 1, j + 1)\n            return False\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "public class Solution {\n    public boolean isMatch(String s, String p) {\n        int m = s.length(), n = p.length();\n        return dfs(0, 0, s, p, m, n);\n    }\n\n    private boolean dfs(int i, int j, String s, String p, int m, int n) {\n        if (j == n) return i == m;\n\n        boolean match = i < m && (s.charAt(i) == p.charAt(j) ||\n                        p.charAt(j) == '.');\n        if (j + 1 < n && p.charAt(j + 1) == '*') {\n            return dfs(i, j + 2, s, p, m, n) ||\n                   (match && dfs(i + 1, j, s, p, m, n));\n        }\n\n        if (match) {\n            return dfs(i + 1, j + 1, s, p, m, n);\n        }\n\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        int m = s.size(), n = p.size();\n        return dfs(0, 0, s, p, m, n);\n    }\n\n    bool dfs(int i, int j, const string& s, const string& p, int m, int n) {\n        if (j == n) return i == m;\n\n        bool match = (i < m && (s[i] == p[j] || p[j] == '.'));\n        if (j + 1 < n && p[j + 1] == '*') {\n            return dfs(i, j + 2, s, p, m, n) ||\n                   (match && dfs(i + 1, j, s, p, m, n));\n        }\n\n        if (match) {\n            return dfs(i + 1, j + 1, s, p, m, n);\n        }\n\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} p\n     * @return {boolean}\n     */\n    isMatch(s, p) {\n        let m = s.length,\n            n = p.length;\n\n        const dfs = (i, j) => {\n            if (j === n) {\n                return i === m;\n            }\n\n            let match = i < m && (s[i] === p[j] || p[j] === '.');\n            if (j + 1 < n && p[j + 1] === '*') {\n                return dfs(i, j + 2) || (match && dfs(i + 1, j));\n            }\n\n            if (match) {\n                return dfs(i + 1, j + 1);\n            }\n\n            return false;\n        };\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "public class Solution {\n    public bool IsMatch(string s, string p) {\n        int m = s.Length, n = p.Length;\n        return Dfs(0, 0, s, p, m, n);\n    }\n\n    private bool Dfs(int i, int j, string s, string p, int m, int n) {\n        if (j == n) {\n            return i == m;\n        }\n\n        bool match = i < m && (s[i] == p[j] || p[j] == '.');\n        if (j + 1 < n && p[j + 1] == '*') {\n            return Dfs(i, j + 2, s, p, m, n) ||\n                   (match && Dfs(i + 1, j, s, p, m, n));\n        }\n\n        if (match) {\n            return Dfs(i + 1, j + 1, s, p, m, n);\n        }\n\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "func isMatch(s string, p string) bool {\n    m, n := len(s), len(p)\n\n    var dfs func(i, j int) bool\n    dfs = func(i, j int) bool {\n        if j == n {\n            return i == m\n        }\n\n        match := i < m && (s[i] == p[j] || p[j] == '.')\n\n        if (j+1) < n && p[j+1] == '*' {\n            return dfs(i, j+2) || (match && dfs(i+1, j))\n        }\n\n        if match {\n            return dfs(i+1, j+1)\n        }\n\n        return false\n    }\n\n    return dfs(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    fun isMatch(s: String, p: String): Boolean {\n        val m = s.length\n        val n = p.length\n\n        fun dfs(i: Int, j: Int): Boolean {\n            if (j == n) return i == m\n\n            val match = i < m && (s[i] == p[j] || p[j] == '.')\n\n            if ((j + 1) < n && p[j + 1] == '*') {\n                return dfs(i, j + 2) || (match && dfs(i + 1, j))\n            }\n\n            return match && dfs(i + 1, j + 1)\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    func isMatch(_ s: String, _ p: String) -> Bool {\n        let sArr = Array(s), pArr = Array(p)\n        let m = sArr.count, n = pArr.count\n\n        func dfs(_ i: Int, _ j: Int) -> Bool {\n            if j == n {\n                return i == m\n            }\n\n            let match = i < m && (sArr[i] == pArr[j] || pArr[j] == \".\")\n\n            if j + 1 < n && pArr[j + 1] == \"*\" {\n                return dfs(i, j + 2) || (match && dfs(i + 1, j))\n            }\n\n            if match {\n                return dfs(i + 1, j + 1)\n            }\n\n            return false\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "impl Solution {\n    pub fn is_match(s: String, p: String) -> bool {\n        let s = s.as_bytes();\n        let p = p.as_bytes();\n        let (m, n) = (s.len(), p.len());\n\n        fn dfs(i: usize, j: usize, s: &[u8], p: &[u8], m: usize, n: usize) -> bool {\n            if j == n {\n                return i == m;\n            }\n            let matched = i < m && (s[i] == p[j] || p[j] == b'.');\n            if j + 1 < n && p[j + 1] == b'*' {\n                return dfs(i, j + 2, s, p, m, n)\n                    || (matched && dfs(i + 1, j, s, p, m, n));\n            }\n            matched && dfs(i + 1, j + 1, s, p, m, n)\n        }\n\n        dfs(0, 0, s, p, m, n)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        m, n = len(s), len(p)\n        cache = {}\n\n        def dfs(i, j):\n            if j == n:\n                return i == m\n            if (i, j) in cache:\n                return cache[(i, j)]\n\n            match = i < m and (s[i] == p[j] or p[j] == \".\")\n            if (j + 1) < n and p[j + 1] == \"*\":\n                cache[(i, j)] = (dfs(i, j + 2) or\n                                (match and dfs(i + 1, j)))\n                return cache[(i, j)]\n\n            if match:\n                cache[(i, j)] = dfs(i + 1, j + 1)\n                return cache[(i, j)]\n\n            cache[(i, j)] = False\n            return False\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    private Boolean[][] dp;\n\n    public boolean isMatch(String s, String p) {\n        int m = s.length(), n = p.length();\n        dp = new Boolean[m + 1][n + 1];\n        return dfs(0, 0, s, p, m, n);\n    }\n\n    private boolean dfs(int i, int j, String s, String p, int m, int n) {\n        if (j == n) {\n            return i == m;\n        }\n        if (dp[i][j] != null) {\n            return dp[i][j];\n        }\n\n        boolean match = i < m && (s.charAt(i) == p.charAt(j) ||\n                                  p.charAt(j) == '.');\n        if (j + 1 < n && p.charAt(j + 1) == '*') {\n            dp[i][j] = dfs(i, j + 2, s, p, m, n) ||\n                       (match && dfs(i + 1, j, s, p, m, n));\n        } else {\n            dp[i][j] = match && dfs(i + 1, j + 1, s, p, m, n);\n        }\n\n        return dp[i][j];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    vector<vector<int>> dp;\n\npublic:\n    bool isMatch(string s, string p) {\n        int m = s.length(), n = p.length();\n        dp.assign(m + 1, vector<int>(n + 1, -1));\n        return dfs(0, 0, s, p, m, n);\n    }\n\nprivate:\n    bool dfs(int i, int j, string& s, string& p, int m, int n) {\n        if (j == n) {\n            return i == m;\n        }\n        if (dp[i][j] != -1) {\n            return dp[i][j];\n        }\n        bool match = i < m && (s[i] == p[j] || p[j] == '.');\n        if (j + 1 < n && p[j + 1] == '*') {\n            dp[i][j] = dfs(i, j + 2, s, p, m, n) ||\n                       (match && dfs(i + 1, j, s, p, m, n));\n        } else {\n            dp[i][j] = match && dfs(i + 1, j + 1, s, p, m, n);\n        }\n        return dp[i][j];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} p\n     * @return {boolean}\n     */\n    isMatch(s, p) {\n        const m = s.length,\n            n = p.length;\n        let dp = Array(m + 1)\n            .fill()\n            .map(() => Array(n + 1).fill(null));\n\n        const dfs = (i, j) => {\n            if (j === n) {\n                return i === m;\n            }\n            if (dp[i][j] !== null) {\n                return dp[i][j];\n            }\n            const match = i < m && (s[i] === p[j] || p[j] === '.');\n            if (j + 1 < n && p[j + 1] === '*') {\n                dp[i][j] = dfs(i, j + 2) || (match && dfs(i + 1, j));\n            } else {\n                dp[i][j] = match && dfs(i + 1, j + 1);\n            }\n            return dp[i][j];\n        };\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    private bool?[,] dp;\n\n    public bool IsMatch(string s, string p) {\n        int m = s.Length, n = p.Length;\n        dp = new bool?[m + 1, n + 1];\n        return Dfs(0, 0, s, p, m, n);\n    }\n\n    private bool Dfs(int i, int j, string s, string p, int m, int n) {\n        if (j == n) {\n            return i == m;\n        }\n        if (dp[i, j].HasValue) {\n            return dp[i, j].Value;\n        }\n        bool match = i < m && (s[i] == p[j] || p[j] == '.');\n        if (j + 1 < n && p[j + 1] == '*') {\n            dp[i, j] = Dfs(i, j + 2, s, p, m, n) ||\n                       (match && Dfs(i + 1, j, s, p, m, n));\n        } else {\n            dp[i, j] = match && Dfs(i + 1, j + 1, s, p, m, n);\n        }\n        return dp[i, j].Value;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "func isMatch(s string, p string) bool {\n    m, n := len(s), len(p)\n    dp := make([][]int, m+1)\n    for i := range dp {\n        dp[i] = make([]int, n+1)\n        for j := range dp[i] {\n            dp[i][j] = -1\n        }\n    }\n\n    var dfs func(i, j int) bool\n    dfs = func(i, j int) bool {\n        if j == n {\n            return i == m\n        }\n        if dp[i][j] != -1 {\n            return dp[i][j] == 1\n        }\n\n        match := i < m && (s[i] == p[j] || p[j] == '.')\n\n        if (j+1) < n && p[j+1] == '*' {\n            dp[i][j] = boolToInt(dfs(i, j+2) || (match && dfs(i+1, j)))\n            return dp[i][j] == 1\n        }\n\n        if match {\n            dp[i][j] = boolToInt(dfs(i+1, j+1))\n            return dp[i][j] == 1\n        }\n\n        dp[i][j] = 0\n        return false\n    }\n\n    return dfs(0, 0)\n}\n\nfunc boolToInt(b bool) int {\n    if b {\n        return 1\n    }\n    return 0\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun isMatch(s: String, p: String): Boolean {\n        val m = s.length\n        val n = p.length\n        val dp = Array(m + 1) { IntArray(n + 1) { -1 } }\n\n        fun dfs(i: Int, j: Int): Boolean {\n            if (j == n) return i == m\n            if (dp[i][j] != -1) return dp[i][j] == 1\n\n            val match = i < m && (s[i] == p[j] || p[j] == '.')\n\n            if ((j + 1) < n && p[j + 1] == '*') {\n                dp[i][j] = if (dfs(i, j + 2) || (match && dfs(i + 1, j))) 1 else 0\n                return dp[i][j] == 1\n            }\n\n            if (match) {\n                dp[i][j] = if (dfs(i + 1, j + 1)) 1 else 0\n                return dp[i][j] == 1\n            }\n\n            dp[i][j] = 0\n            return false\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func isMatch(_ s: String, _ p: String) -> Bool {\n        let sArr = Array(s), pArr = Array(p)\n        let m = sArr.count, n = pArr.count\n        var cache = [[Bool?]](repeating: [Bool?](repeating: nil, count: n + 1), count: m + 1)\n\n        func dfs(_ i: Int, _ j: Int) -> Bool {\n            if j == n {\n                return i == m\n            }\n            if let cached = cache[i][j] {\n                return cached\n            }\n\n            let match = i < m && (sArr[i] == pArr[j] || pArr[j] == \".\")\n\n            if j + 1 < n && pArr[j + 1] == \"*\" {\n                cache[i][j] = dfs(i, j + 2) || (match && dfs(i + 1, j))\n                return cache[i][j]!\n            }\n\n            if match {\n                cache[i][j] = dfs(i + 1, j + 1)\n                return cache[i][j]!\n            }\n\n            cache[i][j] = false\n            return false\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn is_match(s: String, p: String) -> bool {\n        let s = s.as_bytes();\n        let p = p.as_bytes();\n        let (m, n) = (s.len(), p.len());\n        let mut dp = vec![vec![-1i8; n + 1]; m + 1];\n\n        fn dfs(i: usize, j: usize, s: &[u8], p: &[u8],\n               m: usize, n: usize, dp: &mut Vec<Vec<i8>>) -> bool {\n            if j == n {\n                return i == m;\n            }\n            if dp[i][j] != -1 {\n                return dp[i][j] == 1;\n            }\n            let matched = i < m && (s[i] == p[j] || p[j] == b'.');\n            let res = if j + 1 < n && p[j + 1] == b'*' {\n                dfs(i, j + 2, s, p, m, n, dp)\n                    || (matched && dfs(i + 1, j, s, p, m, n, dp))\n            } else {\n                matched && dfs(i + 1, j + 1, s, p, m, n, dp)\n            };\n            dp[i][j] = res as i8;\n            res\n        }\n\n        dfs(0, 0, s, p, m, n, &mut dp)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        dp = [[False] * (len(p) + 1) for i in range(len(s) + 1)]\n        dp[len(s)][len(p)] = True\n\n        for i in range(len(s), -1, -1):\n            for j in range(len(p) - 1, -1, -1):\n                match = i < len(s) and (s[i] == p[j] or p[j] == \".\")\n\n                if (j + 1) < len(p) and p[j + 1] == \"*\":\n                    dp[i][j] = dp[i][j + 2]\n                    if match:\n                        dp[i][j] = dp[i + 1][j] or dp[i][j]\n                elif match:\n                    dp[i][j] = dp[i + 1][j + 1]\n\n        return dp[0][0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    public boolean isMatch(String s, String p) {\n        int m = s.length(), n = p.length();\n        boolean[][] dp = new boolean[m + 1][n + 1];\n        dp[m][n] = true;\n\n        for (int i = m; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                boolean match = i < m && (s.charAt(i) == p.charAt(j) ||\n                                          p.charAt(j) == '.');\n\n                if ((j + 1) < n && p.charAt(j + 1) == '*') {\n                    dp[i][j] = dp[i][j + 2];\n                    if (match) {\n                        dp[i][j] = dp[i + 1][j] || dp[i][j];\n                    }\n                } else if (match) {\n                    dp[i][j] = dp[i + 1][j + 1];\n                }\n            }\n        }\n\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        int m = s.length(), n = p.length();\n        vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));\n        dp[m][n] = true;\n\n        for (int i = m; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                bool match = i < m && (s[i] == p[j] || p[j] == '.');\n\n                if ((j + 1) < n && p[j + 1] == '*') {\n                    dp[i][j] = dp[i][j + 2];\n                    if (match) {\n                        dp[i][j] = dp[i + 1][j] || dp[i][j];\n                    }\n                } else if (match) {\n                    dp[i][j] = dp[i + 1][j + 1];\n                }\n            }\n        }\n\n        return dp[0][0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} p\n     * @return {boolean}\n     */\n    isMatch(s, p) {\n        const dp = new Array(s.length + 1)\n            .fill(false)\n            .map(() => new Array(p.length + 1).fill(false));\n        dp[s.length][p.length] = true;\n\n        for (let i = s.length; i >= 0; i--) {\n            for (let j = p.length - 1; j >= 0; j--) {\n                const match = i < s.length && (s[i] === p[j] || p[j] === '.');\n\n                if (j + 1 < p.length && p[j + 1] === '*') {\n                    dp[i][j] = dp[i][j + 2];\n                    if (match) {\n                        dp[i][j] = dp[i + 1][j] || dp[i][j];\n                    }\n                } else if (match) {\n                    dp[i][j] = dp[i + 1][j + 1];\n                }\n            }\n        }\n\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public bool IsMatch(string s, string p) {\n        bool[,] dp = new bool[s.Length + 1, p.Length + 1];\n        dp[s.Length, p.Length] = true;\n\n        for (int i = s.Length; i >= 0; i--) {\n            for (int j = p.Length - 1; j >= 0; j--) {\n                bool match = i < s.Length &&\n                             (s[i] == p[j] || p[j] == '.');\n\n                if ((j + 1) < p.Length && p[j + 1] == '*') {\n                    dp[i, j] = dp[i, j + 2];\n                    if (match) {\n                        dp[i, j] = dp[i + 1, j] || dp[i, j];\n                    }\n                } else if (match) {\n                    dp[i, j] = dp[i + 1, j + 1];\n                }\n            }\n        }\n\n        return dp[0, 0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "func isMatch(s, p string) bool {\n    m, n := len(s), len(p)\n    dp := make([][]bool, m+1)\n    for i := range dp {\n        dp[i] = make([]bool, n+1)\n    }\n    dp[m][n] = true\n\n    for i := m; i >= 0; i-- {\n        for j := n - 1; j >= 0; j-- {\n            match := i < m && (s[i] == p[j] || p[j] == '.')\n\n            if j+1 < n && p[j+1] == '*' {\n                dp[i][j] = dp[i][j+2]\n                if match {\n                    dp[i][j] = dp[i][j] || dp[i+1][j]\n                }\n            } else if match {\n                dp[i][j] = dp[i+1][j+1]\n            }\n        }\n    }\n    return dp[0][0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun isMatch(s: String, p: String): Boolean {\n        val m = s.length\n        val n = p.length\n        val dp = Array(m + 1) { BooleanArray(n + 1) }\n        dp[m][n] = true\n\n        for (i in m downTo 0) {\n            for (j in n - 1 downTo 0) {\n                val match = i < m && (s[i] == p[j] || p[j] == '.')\n\n                if (j + 1 < n && p[j + 1] == '*') {\n                    dp[i][j] = dp[i][j + 2] || (match && dp[i + 1][j])\n                } else if (match) {\n                    dp[i][j] = dp[i + 1][j + 1]\n                }\n            }\n        }\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func isMatch(_ s: String, _ p: String) -> Bool {\n        let sArr = Array(s), pArr = Array(p)\n        let m = sArr.count, n = pArr.count\n        var dp = Array(repeating: Array(repeating: false, count: n + 1), count: m + 1)\n        dp[m][n] = true\n\n        for i in stride(from: m, through: 0, by: -1) {\n            for j in stride(from: n - 1, through: 0, by: -1) {\n                let match = i < m && (sArr[i] == pArr[j] || pArr[j] == \".\")\n\n                if j + 1 < n && pArr[j + 1] == \"*\" {\n                    dp[i][j] = dp[i][j + 2]\n                    if match {\n                        dp[i][j] = dp[i][j] || dp[i + 1][j]\n                    }\n                } else if match {\n                    dp[i][j] = dp[i + 1][j + 1]\n                }\n            }\n        }\n\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn is_match(s: String, p: String) -> bool {\n        let s = s.as_bytes();\n        let p = p.as_bytes();\n        let (m, n) = (s.len(), p.len());\n        let mut dp = vec![vec![false; n + 1]; m + 1];\n        dp[m][n] = true;\n\n        for i in (0..=m).rev() {\n            for j in (0..n).rev() {\n                let matched = i < m && (s[i] == p[j] || p[j] == b'.');\n                if j + 1 < n && p[j + 1] == b'*' {\n                    dp[i][j] = dp[i][j + 2];\n                    if matched {\n                        dp[i][j] = dp[i][j] || dp[i + 1][j];\n                    }\n                } else if matched {\n                    dp[i][j] = dp[i + 1][j + 1];\n                }\n            }\n        }\n\n        dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        dp = [False] * (len(p) + 1)\n        dp[len(p)] = True\n\n        for i in range(len(s), -1, -1):\n            nextDp = [False] * (len(p) + 1)\n            nextDp[len(p)] = (i == len(s))\n\n            for j in range(len(p) - 1, -1, -1):\n                match = i < len(s) and (s[i] == p[j] or p[j] == \".\")\n\n                if (j + 1) < len(p) and p[j + 1] == \"*\":\n                    nextDp[j] = nextDp[j + 2]\n                    if match:\n                        nextDp[j] |= dp[j]\n                elif match:\n                    nextDp[j] = dp[j + 1]\n\n            dp = nextDp\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isMatch(String s, String p) {\n        boolean[] dp = new boolean[p.length() + 1];\n        dp[p.length()] = true;\n\n        for (int i = s.length(); i >= 0; i--) {\n            boolean[] nextDp = new boolean[p.length() + 1];\n            nextDp[p.length()] = (i == s.length());\n\n            for (int j = p.length() - 1; j >= 0; j--) {\n                boolean match = i < s.length() &&\n                                (s.charAt(i) == p.charAt(j) ||\n                                 p.charAt(j) == '.');\n\n                if (j + 1 < p.length() && p.charAt(j + 1) == '*') {\n                    nextDp[j] = nextDp[j + 2];\n                    if (match) {\n                        nextDp[j] |= dp[j];\n                    }\n                } else if (match) {\n                    nextDp[j] = dp[j + 1];\n                }\n            }\n\n            dp = nextDp;\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        vector<bool> dp(p.length() + 1, false);\n        dp[p.length()] = true;\n\n        for (int i = s.length(); i >= 0; i--) {\n            vector<bool> nextDp(p.length() + 1, false);\n            nextDp[p.length()] = (i == s.length());\n\n            for (int j = p.length() - 1; j >= 0; j--) {\n                bool match = i < s.length() &&\n                             (s[i] == p[j] || p[j] == '.');\n\n                if (j + 1 < p.length() && p[j + 1] == '*') {\n                    nextDp[j] = nextDp[j + 2];\n                    if (match) {\n                        nextDp[j] = nextDp[j] || dp[j];\n                    }\n                } else if (match) {\n                    nextDp[j] = dp[j + 1];\n                }\n            }\n\n            dp = nextDp;\n        }\n\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} p\n     * @return {boolean}\n     */\n    isMatch(s, p) {\n        let dp = new Array(p.length + 1).fill(false);\n        dp[p.length] = true;\n\n        for (let i = s.length; i >= 0; i--) {\n            let nextDp = new Array(p.length + 1).fill(false);\n            nextDp[p.length] = i === s.length;\n\n            for (let j = p.length - 1; j >= 0; j--) {\n                const match = i < s.length && (s[i] === p[j] || p[j] === '.');\n\n                if (j + 1 < p.length && p[j + 1] === '*') {\n                    nextDp[j] = nextDp[j + 2];\n                    if (match) {\n                        nextDp[j] = nextDp[j] || dp[j];\n                    }\n                } else if (match) {\n                    nextDp[j] = dp[j + 1];\n                }\n            }\n\n            dp = nextDp;\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsMatch(string s, string p) {\n        bool[] dp = new bool[p.Length + 1];\n        dp[p.Length] = true;\n\n        for (int i = s.Length; i >= 0; i--) {\n            bool[] nextDp = new bool[p.Length + 1];\n            nextDp[p.Length] = (i == s.Length);\n\n            for (int j = p.Length - 1; j >= 0; j--) {\n                bool match = i < s.Length && (s[i] == p[j] || p[j] == '.');\n\n                if (j + 1 < p.Length && p[j + 1] == '*') {\n                    nextDp[j] = nextDp[j + 2];\n                    if (match) {\n                        nextDp[j] |= dp[j];\n                    }\n                } else if (match) {\n                    nextDp[j] = dp[j + 1];\n                }\n            }\n\n            dp = nextDp;\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "func isMatch(s, p string) bool {\n    m, n := len(s), len(p)\n    dp := make([]bool, n+1)\n    dp[n] = true\n\n    for i := m; i >= 0; i-- {\n        nextDp := make([]bool, n+1)\n        nextDp[n] = i == m\n\n        for j := n - 1; j >= 0; j-- {\n            match := i < m && (s[i] == p[j] || p[j] == '.')\n\n            if j+1 < n && p[j+1] == '*' {\n                nextDp[j] = nextDp[j+2] || (match && dp[j])\n            } else if match {\n                nextDp[j] = dp[j+1]\n            }\n        }\n        dp = nextDp\n    }\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isMatch(s: String, p: String): Boolean {\n        val m = s.length\n        val n = p.length\n        var dp = BooleanArray(n + 1)\n        dp[n] = true\n\n        for (i in m downTo 0) {\n            val nextDp = BooleanArray(n + 1)\n            nextDp[n] = (i == m)\n\n            for (j in n - 1 downTo 0) {\n                val match = i < m && (s[i] == p[j] || p[j] == '.')\n\n                if (j + 1 < n && p[j + 1] == '*') {\n                    nextDp[j] = nextDp[j + 2] || (match && dp[j])\n                } else if (match) {\n                    nextDp[j] = dp[j + 1]\n                }\n            }\n            dp = nextDp\n        }\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isMatch(_ s: String, _ p: String) -> Bool {\n        let sArr = Array(s), pArr = Array(p)\n        var dp = Array(repeating: false, count: pArr.count + 1)\n        dp[pArr.count] = true\n\n        for i in stride(from: sArr.count, through: 0, by: -1) {\n            var nextDp = Array(repeating: false, count: pArr.count + 1)\n            nextDp[pArr.count] = (i == sArr.count)\n\n            for j in stride(from: pArr.count - 1, through: 0, by: -1) {\n                let match = i < sArr.count && (sArr[i] == pArr[j] || pArr[j] == \".\")\n\n                if j + 1 < pArr.count && pArr[j + 1] == \"*\" {\n                    nextDp[j] = nextDp[j + 2]\n                    if match {\n                        nextDp[j] = nextDp[j] || dp[j]\n                    }\n                } else if match {\n                    nextDp[j] = dp[j + 1]\n                }\n            }\n\n            dp = nextDp\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_match(s: String, p: String) -> bool {\n        let s = s.as_bytes();\n        let p = p.as_bytes();\n        let (m, n) = (s.len(), p.len());\n        let mut dp = vec![false; n + 1];\n        dp[n] = true;\n\n        for i in (0..=m).rev() {\n            let mut next_dp = vec![false; n + 1];\n            next_dp[n] = i == m;\n\n            for j in (0..n).rev() {\n                let matched = i < m && (s[i] == p[j] || p[j] == b'.');\n                if j + 1 < n && p[j + 1] == b'*' {\n                    next_dp[j] = next_dp[j + 2];\n                    if matched {\n                        next_dp[j] = next_dp[j] || dp[j];\n                    }\n                } else if matched {\n                    next_dp[j] = dp[j + 1];\n                }\n            }\n\n            dp = next_dp;\n        }\n\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        dp = [False] * (len(p) + 1)\n        dp[len(p)] = True\n\n        for i in range(len(s), -1, -1):\n            dp1 = dp[len(p)]\n            dp[len(p)] = (i == len(s))\n\n            for j in range(len(p) - 1, -1, -1):\n                match = i < len(s) and (s[i] == p[j] or p[j] == \".\")\n                res = False\n                if (j + 1) < len(p) and p[j + 1] == \"*\":\n                    res = dp[j + 2]\n                    if match:\n                        res |= dp[j]\n                elif match:\n                    res = dp1\n                dp[j], dp1 = res, dp[j]\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isMatch(String s, String p) {\n        boolean[] dp = new boolean[p.length() + 1];\n        dp[p.length()] = true;\n\n        for (int i = s.length(); i >= 0; i--) {\n            boolean dp1 = dp[p.length()];\n            dp[p.length()] = (i == s.length());\n\n            for (int j = p.length() - 1; j >= 0; j--) {\n                boolean match = i < s.length() &&\n                                (s.charAt(i) == p.charAt(j) ||\n                                 p.charAt(j) == '.');\n                boolean res = false;\n                if (j + 1 < p.length() && p.charAt(j + 1) == '*') {\n                    res = dp[j + 2];\n                    if (match) {\n                        res |= dp[j];\n                    }\n                } else if (match) {\n                    res = dp1;\n                }\n                dp1 = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        vector<bool> dp(p.length() + 1, false);\n        dp[p.length()] = true;\n\n        for (int i = s.length(); i >= 0; i--) {\n            bool dp1 = dp[p.length()];\n            dp[p.length()] = (i == s.length());\n\n            for (int j = p.length() - 1; j >= 0; j--) {\n                bool match = i < s.length() &&\n                             (s[i] == p[j] || p[j] == '.');\n                bool res = false;\n                if (j + 1 < p.length() && p[j + 1] == '*') {\n                    res = dp[j + 2];\n                    if (match) {\n                        res = res || dp[j];\n                    }\n                } else if (match) {\n                    res = dp1;\n                }\n                dp1 = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} p\n     * @return {boolean}\n     */\n    isMatch(s, p) {\n        let dp = new Array(p.length + 1).fill(false);\n        dp[p.length] = true;\n\n        for (let i = s.length; i >= 0; i--) {\n            let dp1 = dp[p.length];\n            dp[p.length] = i == s.length;\n\n            for (let j = p.length - 1; j >= 0; j--) {\n                const match = i < s.length && (s[i] === p[j] || p[j] === '.');\n                let res = false;\n                if (j + 1 < p.length && p[j + 1] === '*') {\n                    res = dp[j + 2];\n                    if (match) {\n                        res = res || dp[j];\n                    }\n                } else if (match) {\n                    res = dp1;\n                }\n                dp1 = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsMatch(string s, string p) {\n        bool[] dp = new bool[p.Length + 1];\n        dp[p.Length] = true;\n\n        for (int i = s.Length; i >= 0; i--) {\n            bool dp1 = dp[p.Length];\n            dp[p.Length] = (i == s.Length);\n\n            for (int j = p.Length - 1; j >= 0; j--) {\n                bool match = i < s.Length && (s[i] == p[j] || p[j] == '.');\n                bool res = false;\n                if (j + 1 < p.Length && p[j + 1] == '*') {\n                    res = dp[j + 2];\n                    if (match) {\n                        res |= dp[j];\n                    }\n                } else if (match) {\n                    res = dp1;\n                }\n                dp1 = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "func isMatch(s, p string) bool {\n    m, n := len(s), len(p)\n    dp := make([]bool, n+1)\n    dp[n] = true\n\n    for i := m; i >= 0; i-- {\n        dp1 := dp[n]\n        dp[n] = (i == m)\n\n        for j := n - 1; j >= 0; j-- {\n            match := i < m && (s[i] == p[j] || p[j] == '.')\n            res := false\n            if j+1 < n && p[j+1] == '*' {\n                res = dp[j+2]\n                if match {\n                    res = res || dp[j]\n                }\n            } else if match {\n                res = dp1\n            }\n            dp[j], dp1 = res, dp[j]\n        }\n    }\n\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isMatch(s: String, p: String): Boolean {\n        val m = s.length\n        val n = p.length\n        var dp = BooleanArray(n + 1)\n        dp[n] = true\n\n        for (i in m downTo 0) {\n            var dp1 = dp[n]\n            dp[n] = (i == m)\n\n            for (j in n - 1 downTo 0) {\n                val match = i < m && (s[i] == p[j] || p[j] == '.')\n                var res = false\n                if (j + 1 < n && p[j + 1] == '*') {\n                    res = dp[j + 2]\n                    if (match) {\n                        res = res || dp[j]\n                    }\n                } else if (match) {\n                    res = dp1\n                }\n                dp1 = dp[j]\n                dp[j] = res\n            }\n        }\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isMatch(_ s: String, _ p: String) -> Bool {\n        let sArr = Array(s)\n        let pArr = Array(p)\n        var dp = [Bool](repeating: false, count: pArr.count + 1)\n        dp[pArr.count] = true\n\n        for i in stride(from: sArr.count, through: 0, by: -1) {\n            var dp1 = dp[pArr.count]\n            dp[pArr.count] = (i == sArr.count)\n\n            for j in stride(from: pArr.count - 1, through: 0, by: -1) {\n                let match = i < sArr.count && (sArr[i] == pArr[j] || pArr[j] == \".\")\n                var res = false\n                if j + 1 < pArr.count && pArr[j + 1] == \"*\" {\n                    res = dp[j + 2]\n                    if match {\n                        res = res || dp[j]\n                    }\n                } else if match {\n                    res = dp1\n                }\n                dp1 = dp[j]\n                dp[j] = res\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_match(s: String, p: String) -> bool {\n        let s = s.as_bytes();\n        let p = p.as_bytes();\n        let (m, n) = (s.len(), p.len());\n        let mut dp = vec![false; n + 1];\n        dp[n] = true;\n\n        for i in (0..=m).rev() {\n            let mut dp1 = dp[n];\n            dp[n] = i == m;\n\n            for j in (0..n).rev() {\n                let matched = i < m && (s[i] == p[j] || p[j] == b'.');\n                let mut res = false;\n                if j + 1 < n && p[j + 1] == b'*' {\n                    res = dp[j + 2];\n                    if matched {\n                        res = res || dp[j];\n                    }\n                } else if matched {\n                    res = dp1;\n                }\n                dp1 = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        dp[0]\n    }\n}"
+        }
+    ]
+}

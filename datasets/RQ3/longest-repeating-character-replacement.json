@@ -1,0 +1,174 @@
+{
+    "problem_name": "Longest Repeating Character Replacement",
+    "problem_slug": "longest-repeating-character-replacement",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hash table",
+        "string",
+        "sliding window"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        res = 0\n        for i in range(len(s)):\n            count, maxf = {}, 0\n            for j in range(i, len(s)):\n                count[s[j]] = 1 + count.get(s[j], 0)\n                maxf = max(maxf, count[s[j]])\n                if (j - i + 1) - maxf <= k:\n                    res = max(res, j - i + 1)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int characterReplacement(String s, int k) {\n        int res = 0;\n        for (int i = 0; i < s.length(); i++) {\n            HashMap<Character, Integer> count = new HashMap<>();\n            int maxf = 0;\n            for (int j = i; j < s.length(); j++) {\n                count.put(s.charAt(j), count.getOrDefault(s.charAt(j), 0) + 1);\n                maxf = Math.max(maxf, count.get(s.charAt(j)));\n                if ((j - i + 1) - maxf <= k) {\n                    res = Math.max(res, j - i + 1);\n                }\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    int characterReplacement(string s, int k) {\n        int res = 0;\n        for (int i = 0; i < s.size(); i++) {\n            unordered_map<char, int> count;\n            int maxf = 0;\n            for (int j = i; j < s.size(); j++) {\n                count[s[j]]++;\n                maxf = max(maxf, count[s[j]]);\n                if ((j - i + 1) - maxf <= k) {\n                    res = max(res, j - i + 1);\n                }\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {number} k\n     * @return {number}\n     */\n    characterReplacement(s, k) {\n        let res = 0;\n        for (let i = 0; i < s.length; i++) {\n            let count = new Map();\n            let maxf = 0;\n            for (let j = i; j < s.length; j++) {\n                count.set(s[j], (count.get(s[j]) || 0) + 1);\n                maxf = Math.max(maxf, count.get(s[j]));\n                if (j - i + 1 - maxf <= k) {\n                    res = Math.max(res, j - i + 1);\n                }\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int CharacterReplacement(string s, int k) {\n        int res = 0;\n        for (int i = 0; i < s.Length; i++) {\n            Dictionary<char, int> count = new Dictionary<char, int>();\n            int maxf = 0;\n            for (int j = i; j < s.Length; j++) {\n                if (count.ContainsKey(s[j])) {\n                    count[s[j]]++;\n                } else {\n                    count[s[j]] = 1;\n                }\n                maxf = Math.Max(maxf, count[s[j]]);\n                if ((j - i + 1) - maxf <= k) {\n                    res = Math.Max(res, j - i + 1);\n                }\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "func characterReplacement(s string, k int) int {\n    res := 0\n    for i := 0; i < len(s); i++ {\n        count := make(map[byte]int)\n        maxf := 0\n        for j := i; j < len(s); j++ {\n            count[s[j]]++\n            maxf = max(maxf, count[s[j]])\n            if (j - i + 1) - maxf <= k {\n                res = max(res, j - i + 1)\n            }\n        }\n    }\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun characterReplacement(s: String, k: Int): Int {\n        var res = 0\n        for (i in s.indices) {\n            val count = HashMap<Char, Int>()\n            var maxf = 0\n            for (j in i until s.length) {\n                count[s[j]] = count.getOrDefault(s[j], 0) + 1\n                maxf = maxOf(maxf, count[s[j]]!!)\n                if ((j - i + 1) - maxf <= k) {\n                    res = maxOf(res, j - i + 1)\n                }\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func characterReplacement(_ s: String, _ k: Int) -> Int {\n        var res = 0\n        let chars = Array(s)\n\n        for i in 0..<chars.count {\n            var count = [Character: Int]()\n            var maxf = 0\n\n            for j in i..<chars.count {\n                count[chars[j], default: 0] += 1\n                maxf = max(maxf, count[chars[j]]!)\n\n                if (j - i + 1) - maxf <= k {\n                    res = max(res, j - i + 1)\n                }\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn character_replacement(s: String, k: i32) -> i32 {\n        let s = s.as_bytes();\n        let k = k as usize;\n        let mut res = 0;\n\n        for i in 0..s.len() {\n            let mut count = HashMap::new();\n            let mut maxf = 0;\n            for j in i..s.len() {\n                let e = count.entry(s[j]).or_insert(0);\n                *e += 1;\n                maxf = maxf.max(*e);\n                if (j - i + 1) - maxf <= k {\n                    res = res.max(j - i + 1);\n                }\n            }\n        }\n\n        res as i32\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        res = 0\n        charSet = set(s)\n\n        for c in charSet:\n            count = l = 0\n            for r in range(len(s)):\n                if s[r] == c:\n                    count += 1\n\n                while (r - l + 1) - count > k:\n                    if s[l] == c:\n                        count -= 1\n                    l += 1\n\n                res = max(res, r - l + 1)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int characterReplacement(String s, int k) {\n        int res = 0;\n        HashSet<Character> charSet = new HashSet<>();\n        for (char c : s.toCharArray()) {\n            charSet.add(c);\n        }\n\n        for (char c : charSet) {\n            int count = 0, l = 0;\n            for (int r = 0; r < s.length(); r++) {\n                if (s.charAt(r) == c) {\n                    count++;\n                }\n\n                while ((r - l + 1) - count > k) {\n                    if (s.charAt(l) == c) {\n                        count--;\n                    }\n                    l++;\n                }\n\n                res = Math.max(res, r - l + 1);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    int characterReplacement(std::string s, int k) {\n        int res = 0;\n        unordered_set<char> charSet(s.begin(), s.end());\n\n        for (char c : charSet) {\n            int count = 0, l = 0;\n            for (int r = 0; r < s.size(); r++) {\n                if (s[r] == c) {\n                    count++;\n                }\n\n                while ((r - l + 1) - count > k) {\n                    if (s[l] == c) {\n                        count--;\n                    }\n                    l++;\n                }\n\n                res = std::max(res, r - l + 1);\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {number} k\n     * @return {number}\n     */\n    characterReplacement(s, k) {\n        let res = 0;\n        let charSet = new Set(s);\n\n        for (let c of charSet) {\n            let count = 0,\n                l = 0;\n            for (let r = 0; r < s.length; r++) {\n                if (s[r] === c) {\n                    count++;\n                }\n\n                while (r - l + 1 - count > k) {\n                    if (s[l] === c) {\n                        count--;\n                    }\n                    l++;\n                }\n\n                res = Math.max(res, r - l + 1);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int CharacterReplacement(string s, int k) {\n        int res = 0;\n        HashSet<char> charSet = new HashSet<char>(s);\n\n        foreach (char c in charSet) {\n            int count = 0, l = 0;\n            for (int r = 0; r < s.Length; r++) {\n                if (s[r] == c) {\n                    count++;\n                }\n\n                while ((r - l + 1) - count > k) {\n                    if (s[l] == c) {\n                        count--;\n                    }\n                    l++;\n                }\n\n                res = Math.Max(res, r - l + 1);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "func characterReplacement(s string, k int) int {\n    res := 0\n    charSet := make(map[byte]bool)\n\n    for i := 0; i < len(s); i++ {\n        charSet[s[i]] = true\n    }\n\n    for c := range charSet {\n        count, l := 0, 0\n        for r := 0; r < len(s); r++ {\n            if s[r] == c {\n                count++\n            }\n\n            for (r - l + 1) - count > k {\n                if s[l] == c {\n                    count--\n                }\n                l++\n            }\n\n            res = max(res, r - l + 1)\n        }\n    }\n\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun characterReplacement(s: String, k: Int): Int {\n        var res = 0\n        val charSet = s.toSet()\n\n        for (c in charSet) {\n            var count = 0\n            var l = 0\n            for (r in s.indices) {\n                if (s[r] == c) {\n                    count++\n                }\n\n                while ((r - l + 1) - count > k) {\n                    if (s[l] == c) {\n                        count--\n                    }\n                    l++\n                }\n\n                res = maxOf(res, r - l + 1)\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func characterReplacement(_ s: String, _ k: Int) -> Int {\n        var res = 0\n        let charSet = Set(s)\n        let chars = Array(s)\n\n        for c in charSet {\n            var count = 0, l = 0\n\n            for r in 0..<chars.count {\n                if chars[r] == c {\n                    count += 1\n                }\n\n                while (r - l + 1) - count > k {\n                    if chars[l] == c {\n                        count -= 1\n                    }\n                    l += 1\n                }\n\n                res = max(res, r - l + 1)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn character_replacement(s: String, k: i32) -> i32 {\n        let s = s.as_bytes();\n        let k = k as usize;\n        let mut res = 0;\n        let char_set: HashSet<u8> = s.iter().copied().collect();\n\n        for &c in &char_set {\n            let (mut count, mut l) = (0, 0);\n            for r in 0..s.len() {\n                if s[r] == c {\n                    count += 1;\n                }\n                while (r - l + 1) - count > k {\n                    if s[l] == c {\n                        count -= 1;\n                    }\n                    l += 1;\n                }\n                res = res.max(r - l + 1);\n            }\n        }\n\n        res as i32\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        count = {}\n        res = 0\n\n        l = 0\n        maxf = 0\n        for r in range(len(s)):\n            count[s[r]] = 1 + count.get(s[r], 0)\n            maxf = max(maxf, count[s[r]])\n\n            while (r - l + 1) - maxf > k:\n                count[s[l]] -= 1\n                l += 1\n            res = max(res, r - l + 1)\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int characterReplacement(String s, int k) {\n        HashMap<Character, Integer> count = new HashMap<>();\n        int res = 0;\n\n        int l = 0, maxf = 0;\n        for (int r = 0; r < s.length(); r++) {\n            count.put(s.charAt(r), count.getOrDefault(s.charAt(r), 0) + 1);\n            maxf = Math.max(maxf, count.get(s.charAt(r)));\n\n            while ((r - l + 1) - maxf > k) {\n                count.put(s.charAt(l), count.get(s.charAt(l)) - 1);\n                l++;\n            }\n            res = Math.max(res, r - l + 1);\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    int characterReplacement(std::string s, int k) {\n        unordered_map<char, int> count;\n        int res = 0;\n\n        int l = 0, maxf = 0;\n        for (int r = 0; r < s.size(); r++) {\n            count[s[r]]++;\n            maxf = max(maxf, count[s[r]]);\n\n            while ((r - l + 1) - maxf > k) {\n                count[s[l]]--;\n                l++;\n            }\n            res = max(res, r - l + 1);\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {number} k\n     * @return {number}\n     */\n    characterReplacement(s, k) {\n        let count = new Map();\n        let res = 0;\n\n        let l = 0,\n            maxf = 0;\n        for (let r = 0; r < s.length; r++) {\n            count.set(s[r], (count.get(s[r]) || 0) + 1);\n            maxf = Math.max(maxf, count.get(s[r]));\n\n            while (r - l + 1 - maxf > k) {\n                count.set(s[l], count.get(s[l]) - 1);\n                l++;\n            }\n            res = Math.max(res, r - l + 1);\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int CharacterReplacement(string s, int k) {\n        Dictionary<char, int> count = new Dictionary<char, int>();\n        int res = 0;\n\n        int l = 0, maxf = 0;\n        for (int r = 0; r < s.Length; r++) {\n            if (count.ContainsKey(s[r])) {\n                count[s[r]]++;\n            } else {\n                count[s[r]] = 1;\n            }\n            maxf = Math.Max(maxf, count[s[r]]);\n\n            while ((r - l + 1) - maxf > k) {\n                count[s[l]]--;\n                l++;\n            }\n            res = Math.Max(res, r - l + 1);\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "func characterReplacement(s string, k int) int {\n    count := make(map[byte]int)\n    res, l, maxf := 0, 0, 0\n\n    for r := 0; r < len(s); r++ {\n        count[s[r]]++\n        if count[s[r]] > maxf {\n            maxf = count[s[r]]\n        }\n\n        for (r - l + 1) - maxf > k {\n            count[s[l]]--\n            l++\n        }\n\n        if r - l + 1 > res {\n            res = r - l + 1\n        }\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun characterReplacement(s: String, k: Int): Int {\n        val count = mutableMapOf<Char, Int>()\n        var res = 0\n        var l = 0\n        var maxf = 0\n\n        for (r in s.indices) {\n            count[s[r]] = count.getOrDefault(s[r], 0) + 1\n            maxf = maxOf(maxf, count[s[r]]!!)\n\n            while (r - l + 1 - maxf > k) {\n                count[s[l]] = count[s[l]]!! - 1\n                l++\n            }\n\n            res = maxOf(res, r - l + 1)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func characterReplacement(_ s: String, _ k: Int) -> Int {\n        var count = [Character: Int]()\n        var res = 0\n        var l = 0, maxf = 0\n        let chars = Array(s)\n\n        for r in 0..<chars.count {\n            count[chars[r], default: 0] += 1\n            maxf = max(maxf, count[chars[r]]!)\n\n            while (r - l + 1) - maxf > k {\n                count[chars[l], default: 0] -= 1\n                l += 1\n            }\n            res = max(res, r - l + 1)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn character_replacement(s: String, k: i32) -> i32 {\n        let s = s.as_bytes();\n        let k = k as usize;\n        let mut count = HashMap::new();\n        let mut res = 0;\n        let mut l = 0;\n        let mut maxf = 0;\n\n        for r in 0..s.len() {\n            let e = count.entry(s[r]).or_insert(0usize);\n            *e += 1;\n            maxf = maxf.max(*e);\n\n            while (r - l + 1) - maxf > k {\n                let e = count.get_mut(&s[l]).unwrap();\n                *e -= 1;\n                l += 1;\n            }\n            res = res.max(r - l + 1);\n        }\n\n        res as i32\n    }\n}"
+        }
+    ]
+}

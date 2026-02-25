@@ -1,0 +1,231 @@
+{
+    "problem_name": "Task Scheduler",
+    "problem_slug": "task-scheduler",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "hash table",
+        "greedy",
+        "sorting",
+        "heap (priority queue)",
+        "counting"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "class Solution:\n    def leastInterval(self, tasks: List[str], n: int) -> int:\n        count = [0] * 26\n        for task in tasks:\n            count[ord(task) - ord('A')] += 1\n\n        arr = []\n        for i in range(26):\n            if count[i] > 0:\n                arr.append([count[i], i])\n\n        time = 0\n        processed = []\n        while arr:\n            maxi = -1\n            for i in range(len(arr)):\n                if all(processed[j] != arr[i][1] for j in range(max(0, time - n), time)):\n                    if maxi == -1 or arr[maxi][0] < arr[i][0]:\n                        maxi = i\n\n            time += 1\n            cur = -1\n            if maxi != -1:\n                cur = arr[maxi][1]\n                arr[maxi][0] -= 1\n                if arr[maxi][0] == 0:\n                    arr.pop(maxi)\n            processed.append(cur)\n        return time"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    public int leastInterval(char[] tasks, int n) {\n        int[] count = new int[26];\n        for (char task : tasks) {\n            count[task - 'A']++;\n        }\n\n        List<int[]> arr = new ArrayList<>();\n        for (int i = 0; i < 26; i++) {\n            if (count[i] > 0) {\n                arr.add(new int[]{count[i], i});\n            }\n        }\n\n        int time = 0;\n        List<Integer> processed = new ArrayList<>();\n        while (!arr.isEmpty()) {\n            int maxi = -1;\n            for (int i = 0; i < arr.size(); i++) {\n                boolean ok = true;\n                for (int j = Math.max(0, time - n); j < time; j++) {\n                    if (j < processed.size() && processed.get(j) == arr.get(i)[1]) {\n                        ok = false;\n                        break;\n                    }\n                }\n                if (!ok) continue;\n                if (maxi == -1 || arr.get(maxi)[0] < arr.get(i)[0]) {\n                    maxi = i;\n                }\n            }\n\n            time++;\n            int cur = -1;\n            if (maxi != -1) {\n                cur = arr.get(maxi)[1];\n                arr.get(maxi)[0]--;\n                if (arr.get(maxi)[0] == 0) {\n                    arr.remove(maxi);\n                }\n            }\n            processed.add(cur);\n        }\n        return time;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\npublic:\n    int leastInterval(vector<char>& tasks, int n) {\n        vector<int> count(26, 0);\n        for (char task : tasks) {\n            count[task - 'A']++;\n        }\n\n        vector<pair<int, int>> arr;\n        for (int i = 0; i < 26; i++) {\n            if (count[i] > 0) {\n                arr.emplace_back(count[i], i);\n            }\n        }\n\n        int time = 0;\n        vector<int> processed;\n        while (!arr.empty()) {\n            int maxi = -1;\n            for (int i = 0; i < arr.size(); i++) {\n                bool ok = true;\n                for (int j = max(0, time - n); j < time; j++) {\n                    if (j < processed.size() && processed[j] == arr[i].second) {\n                        ok = false;\n                        break;\n                    }\n                }\n                if (!ok) continue;\n                if (maxi == -1 || arr[maxi].first < arr[i].first) {\n                    maxi = i;\n                }\n            }\n\n            time++;\n            int cur = -1;\n            if (maxi != -1) {\n                cur = arr[maxi].second;\n                arr[maxi].first--;\n                if (arr[maxi].first == 0) {\n                    arr.erase(arr.begin() + maxi);\n                }\n            }\n            processed.push_back(cur);\n        }\n        return time;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    /**\n     * @param {character[]} tasks\n     * @param {number} n\n     * @return {number}\n     */\n    leastInterval(tasks, n) {\n        const count = new Array(26).fill(0);\n        for (const task of tasks) {\n            count[task.charCodeAt(0) - 'A'.charCodeAt(0)]++;\n        }\n\n        const arr = [];\n        for (let i = 0; i < 26; i++) {\n            if (count[i] > 0) {\n                arr.push([count[i], i]);\n            }\n        }\n\n        let time = 0;\n        const processed = [];\n        while (arr.length > 0) {\n            let maxi = -1;\n            for (let i = 0; i < arr.length; i++) {\n                let ok = true;\n                for (let j = Math.max(0, time - n); j < time; j++) {\n                    if (j < processed.length && processed[j] === arr[i][1]) {\n                        ok = false;\n                        break;\n                    }\n                }\n                if (!ok) continue;\n                if (maxi === -1 || arr[maxi][0] < arr[i][0]) {\n                    maxi = i;\n                }\n            }\n\n            time++;\n            let cur = -1;\n            if (maxi !== -1) {\n                cur = arr[maxi][1];\n                arr[maxi][0]--;\n                if (arr[maxi][0] === 0) {\n                    arr.splice(maxi, 1);\n                }\n            }\n            processed.push(cur);\n        }\n        return time;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    public int LeastInterval(char[] tasks, int n) {\n        int[] count = new int[26];\n        foreach (char task in tasks) {\n            count[task - 'A']++;\n        }\n\n        List<int[]> arr = new List<int[]>();\n        for (int i = 0; i < 26; i++) {\n            if (count[i] > 0) {\n                arr.Add(new int[] { count[i], i });\n            }\n        }\n\n        int time = 0;\n        List<int> processed = new List<int>();\n        while (arr.Count > 0) {\n            int maxi = -1;\n            for (int i = 0; i < arr.Count; i++) {\n                bool ok = true;\n                for (int j = Math.Max(0, time - n); j < time; j++) {\n                    if (j < processed.Count && processed[j] == arr[i][1]) {\n                        ok = false;\n                        break;\n                    }\n                }\n                if (!ok) continue;\n                if (maxi == -1 || arr[maxi][0] < arr[i][0]) {\n                    maxi = i;\n                }\n            }\n\n            time++;\n            int cur = -1;\n            if (maxi != -1) {\n                cur = arr[maxi][1];\n                arr[maxi][0]--;\n                if (arr[maxi][0] == 0) {\n                    arr.RemoveAt(maxi);\n                }\n            }\n            processed.Add(cur);\n        }\n        return time;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "func leastInterval(tasks []byte, n int) int {\n\tcount := make([]int, 26)\n\tfor _, task := range tasks {\n\t\tcount[task-'A']++\n\t}\n\n\tarr := [][]int{}\n\tfor i := 0; i < 26; i++ {\n\t\tif count[i] > 0 {\n\t\t\tarr = append(arr, []int{count[i], i})\n\t\t}\n\t}\n\n\ttime := 0\n\tprocessed := []int{}\n\tfor len(arr) > 0 {\n\t\tmaxi := -1\n\t\tfor i := 0; i < len(arr); i++ {\n\t\t\tcanProcess := true\n\t\t\tfor j := max(0, time-n); j < time && canProcess; j++ {\n\t\t\t\tif processed[j] == arr[i][1] {\n\t\t\t\t\tcanProcess = false\n\t\t\t\t}\n\t\t\t}\n\t\t\tif canProcess && (maxi == -1 || arr[maxi][0] < arr[i][0]) {\n\t\t\t\tmaxi = i\n\t\t\t}\n\t\t}\n\n\t\ttime++\n\t\tcur := -1\n\t\tif maxi != -1 {\n\t\t\tcur = arr[maxi][1]\n\t\t\tarr[maxi][0]--\n\t\t\tif arr[maxi][0] == 0 {\n\t\t\t\tarr = append(arr[:maxi], arr[maxi+1:]...)\n\t\t\t}\n\t\t}\n\t\tprocessed = append(processed, cur)\n\t}\n\treturn time\n}\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    fun leastInterval(tasks: CharArray, n: Int): Int {\n        val count = IntArray(26)\n        for (task in tasks) {\n            count[task - 'A']++\n        }\n\n        val arr = mutableListOf<Pair<Int, Int>>()\n        for (i in 0..25) {\n            if (count[i] > 0) {\n                arr.add(Pair(count[i], i))\n            }\n        }\n\n        var time = 0\n        val processed = mutableListOf<Int>()\n        while (arr.isNotEmpty()) {\n            var maxi = -1\n            for (i in arr.indices) {\n                val canProcess = (maxOf(0, time - n) until time).all { processed[it] != arr[i].second }\n                if (canProcess && (maxi == -1 || arr[maxi].first < arr[i].first)) {\n                    maxi = i\n                }\n            }\n\n            time++\n            var cur = -1\n            if (maxi != -1) {\n                cur = arr[maxi].second\n                arr[maxi] = Pair(arr[maxi].first - 1, arr[maxi].second)\n                if (arr[maxi].first == 0) {\n                    arr.removeAt(maxi)\n                }\n            }\n            processed.add(cur)\n        }\n        return time\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    func leastInterval(_ tasks: [Character], _ n: Int) -> Int {\n        var count = [Int](repeating: 0, count: 26)\n        for task in tasks {\n            count[Int(task.asciiValue! - Character(\"A\").asciiValue!)] += 1\n        }\n\n        var arr = [(Int, Int)]()\n        for i in 0..<26 {\n            if count[i] > 0 {\n                arr.append((count[i], i))\n            }\n        }\n\n        var time = 0\n        var processed = [Int]()\n\n        while !arr.isEmpty {\n            var maxi = -1\n            for i in 0..<arr.count {\n                if processed[max(0, time - n)..<time].allSatisfy({ $0 != arr[i].1 }) {\n                    if maxi == -1 || arr[maxi].0 < arr[i].0 {\n                        maxi = i\n                    }\n                }\n            }\n\n            time += 1\n            var cur = -1\n            if maxi != -1 {\n                cur = arr[maxi].1\n                arr[maxi].0 -= 1\n                if arr[maxi].0 == 0 {\n                    arr.remove(at: maxi)\n                }\n            }\n            processed.append(cur)\n        }\n        return time\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(t * n)",
+            "space_complexity": "O(t)",
+            "code": "impl Solution {\n    pub fn least_interval(tasks: Vec<char>, n: i32) -> i32 {\n        let mut count = [0i32; 26];\n        for &task in &tasks {\n            count[(task as u8 - b'A') as usize] += 1;\n        }\n\n        let mut arr: Vec<[i32; 2]> = Vec::new();\n        for i in 0..26 {\n            if count[i] > 0 {\n                arr.push([count[i], i as i32]);\n            }\n        }\n\n        let mut time: i32 = 0;\n        let mut processed: Vec<i32> = Vec::new();\n        while !arr.is_empty() {\n            let mut maxi: i32 = -1;\n            for i in 0..arr.len() {\n                let start = 0.max(time - n) as usize;\n                let end = time as usize;\n                let ok = (start..end).all(|j| {\n                    j >= processed.len() || processed[j] != arr[i][1]\n                });\n                if !ok {\n                    continue;\n                }\n                if maxi == -1 || arr[maxi as usize][0] < arr[i][0] {\n                    maxi = i as i32;\n                }\n            }\n\n            time += 1;\n            let mut cur = -1;\n            if maxi != -1 {\n                let mi = maxi as usize;\n                cur = arr[mi][1];\n                arr[mi][0] -= 1;\n                if arr[mi][0] == 0 {\n                    arr.remove(mi);\n                }\n            }\n            processed.push(cur);\n        }\n        time\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def leastInterval(self, tasks: List[str], n: int) -> int:\n        count = Counter(tasks)\n        maxHeap = [-cnt for cnt in count.values()]\n        heapq.heapify(maxHeap)\n\n        time = 0\n        q = deque()  # pairs of [-cnt, idleTime]\n        while maxHeap or q:\n            time += 1\n\n            if not maxHeap:\n                time = q[0][1]\n            else:\n                cnt = 1 + heapq.heappop(maxHeap)\n                if cnt:\n                    q.append([cnt, time + n])\n            if q and q[0][1] == time:\n                heapq.heappush(maxHeap, q.popleft()[0])\n        return time"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int leastInterval(char[] tasks, int n) {\n        int[] count = new int[26];\n        for (char task : tasks) {\n            count[task - 'A']++;\n        }\n\n        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n        for (int cnt : count) {\n            if (cnt > 0) {\n                maxHeap.add(cnt);\n            }\n        }\n\n        int time = 0;\n        Queue<int[]> q = new LinkedList<>();\n        while (!maxHeap.isEmpty() || !q.isEmpty()) {\n            time++;\n\n            if (maxHeap.isEmpty()) {\n                time = q.peek()[1];\n            } else {\n                int cnt = maxHeap.poll() - 1;\n                if (cnt > 0) {\n                    q.add(new int[]{cnt, time + n});\n                }\n            }\n\n            if (!q.isEmpty() && q.peek()[1] == time) {\n                maxHeap.add(q.poll()[0]);\n            }\n        }\n\n        return time;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int leastInterval(vector<char>& tasks, int n) {\n        vector<int> count(26, 0);\n        for (char task : tasks) {\n            count[task - 'A']++;\n        }\n\n        priority_queue<int> maxHeap;\n        for (int cnt : count) {\n            if (cnt > 0) {\n                maxHeap.push(cnt);\n            }\n        }\n\n        int time = 0;\n        queue<pair<int, int>> q;\n        while (!maxHeap.empty() || !q.empty()) {\n            time++;\n\n            if (maxHeap.empty()) {\n                time = q.front().second;\n            } else {\n                int cnt = maxHeap.top() - 1;\n                maxHeap.pop();\n                if (cnt > 0) {\n                    q.push({cnt, time + n});\n                }\n            }\n\n            if (!q.empty() && q.front().second == time) {\n                maxHeap.push(q.front().first);\n                q.pop();\n            }\n        }\n\n        return time;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {character[]} tasks\n     * @param {number} n\n     * @return {number}\n     */\n    leastInterval(tasks, n) {\n        let count = new Array(26).fill(0);\n        for (let task of tasks) {\n            count[task.charCodeAt(0) - 'A'.charCodeAt(0)]++;\n        }\n\n        let maxHeap = new MaxPriorityQueue();\n        for (let i = 0; i < 26; i++) {\n            if (count[i] > 0) maxHeap.push(count[i]);\n        }\n\n        let time = 0;\n        let q = new Queue();\n\n        while (maxHeap.size() > 0 || q.size() > 0) {\n            time++;\n\n            if (maxHeap.size() > 0) {\n                let cnt = maxHeap.pop() - 1;\n                if (cnt !== 0) {\n                    q.push([cnt, time + n]);\n                }\n            }\n\n            if (q.size() > 0 && q.front()[1] === time) {\n                maxHeap.push(q.pop()[0]);\n            }\n        }\n\n        return time;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int LeastInterval(char[] tasks, int n) {\n        int[] count = new int[26];\n        foreach (var task in tasks) {\n            count[task - 'A']++;\n        }\n\n        var maxHeap = new PriorityQueue<int, int>();\n        for (int i = 0; i < 26; i++) {\n            if (count[i] > 0) {\n                maxHeap.Enqueue(count[i], -count[i]);\n            }\n        }\n\n        int time = 0;\n        Queue<int[]> queue = new Queue<int[]>();\n        while (maxHeap.Count > 0 || queue.Count > 0) {\n            if (queue.Count > 0 && time >= queue.Peek()[1]) {\n                int[] temp = queue.Dequeue();\n                maxHeap.Enqueue(temp[0], -temp[0]);\n            }\n            if (maxHeap.Count > 0) {\n                int cnt = maxHeap.Dequeue() - 1;\n                if (cnt > 0) {\n                    queue.Enqueue(new int[] { cnt, time + n + 1 });\n                }\n            }\n            time++;\n        }\n        return time;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "func leastInterval(tasks []byte, n int) int {\n    count := make(map[byte]int)\n    for _, task := range tasks {\n        count[task]++\n    }\n\n    maxHeap := priorityqueue.NewWith(func(a, b interface{}) int {\n        return b.(int) - a.(int)\n    })\n    for _, cnt := range count {\n        maxHeap.Enqueue(cnt)\n    }\n\n    time := 0\n    q := make([][2]int, 0)\n\n    for maxHeap.Size() > 0 || len(q) > 0 {\n        time++\n\n        if maxHeap.Size() == 0 {\n            time = q[0][1]\n        } else {\n            cnt, _ := maxHeap.Dequeue()\n            cnt = cnt.(int) - 1\n            if cnt.(int) > 0 {\n                q = append(q, [2]int{cnt.(int), time + n})\n            }\n        }\n\n        if len(q) > 0 && q[0][1] == time {\n            maxHeap.Enqueue(q[0][0])\n            q = q[1:]\n        }\n    }\n\n    return time\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun leastInterval(tasks: CharArray, n: Int): Int {\n        val count = IntArray(26)\n        for (task in tasks) {\n            count[task - 'A']++\n        }\n\n        val maxHeap = PriorityQueue<Int>(compareBy { it * -1 })\n        for (cnt in count) {\n            if (cnt > 0) {\n                maxHeap.offer(cnt)\n            }\n        }\n\n        var time = 0\n        val q = ArrayDeque<Pair<Int, Int>>()\n\n        while (maxHeap.isNotEmpty() || q.isNotEmpty()) {\n            time++\n\n            if (maxHeap.isEmpty()) {\n                time = q.first().second\n            } else {\n                val cnt = 1 + maxHeap.poll() * -1\n                if (cnt != 0) {\n                    q.addLast(Pair(cnt * -1, time + n))\n                }\n            }\n\n            if (q.isNotEmpty() && q.first().second == time) {\n                maxHeap.offer(q.removeFirst().first)\n            }\n        }\n        return time\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func leastInterval(_ tasks: [Character], _ n: Int) -> Int {\n        var count = [Character: Int]()\n        for task in tasks {\n            count[task, default: 0] += 1\n        }\n\n        var maxHeap = Heap<Int>(Array(count.values))\n        var time = 0\n        var queue = Deque<(Int, Int)>()\n\n        while !maxHeap.isEmpty || !queue.isEmpty {\n            time += 1\n            if maxHeap.isEmpty {\n                time = queue.first!.1\n            } else {\n                let cnt = maxHeap.popMax()! - 1\n                if cnt > 0 {\n                    queue.append((cnt, time + n))\n                }\n            }\n            if let front = queue.first, front.1 == time {\n                maxHeap.insert(front.0)\n                queue.removeFirst()\n            }\n        }\n\n        return time\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn least_interval(tasks: Vec<char>, n: i32) -> i32 {\n        let mut count = [0i32; 26];\n        for &task in &tasks {\n            count[(task as u8 - b'A') as usize] += 1;\n        }\n\n        let mut max_heap = BinaryHeap::new();\n        for &cnt in &count {\n            if cnt > 0 {\n                max_heap.push(cnt);\n            }\n        }\n\n        let mut time = 0;\n        let mut q: VecDeque<(i32, i32)> = VecDeque::new();\n        while !max_heap.is_empty() || !q.is_empty() {\n            time += 1;\n\n            if max_heap.is_empty() {\n                time = q.front().unwrap().1;\n            } else {\n                let cnt = max_heap.pop().unwrap() - 1;\n                if cnt > 0 {\n                    q.push_back((cnt, time + n));\n                }\n            }\n\n            if let Some(&(c, t)) = q.front() {\n                if t == time {\n                    q.pop_front();\n                    max_heap.push(c);\n                }\n            }\n        }\n\n        time\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def leastInterval(self, tasks: List[str], n: int) -> int:\n        count = [0] * 26\n        for task in tasks:\n            count[ord(task) - ord('A')] += 1\n\n        count.sort()\n        maxf = count[25]\n        idle = (maxf - 1) * n\n\n        for i in range(24, -1, -1):\n            idle -= min(maxf - 1, count[i])\n        return max(0, idle) + len(tasks)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int leastInterval(char[] tasks, int n) {\n        int[] count = new int[26];\n        for (char task : tasks) {\n            count[task - 'A']++;\n        }\n\n        Arrays.sort(count);\n        int maxf = count[25];\n        int idle = (maxf - 1) * n;\n\n        for (int i = 24; i >= 0; i--) {\n            idle -= Math.min(maxf - 1, count[i]);\n        }\n        return Math.max(0, idle) + tasks.length;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int leastInterval(vector<char>& tasks, int n) {\n        vector<int> count(26, 0);\n        for (char task : tasks) {\n            count[task - 'A']++;\n        }\n\n        sort(count.begin(), count.end());\n        int maxf = count[25];\n        int idle = (maxf - 1) * n;\n\n        for (int i = 24; i >= 0; i--) {\n            idle -= min(maxf - 1, count[i]);\n        }\n        return max(0, idle) + tasks.size();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {character[]} tasks\n     * @param {number} n\n     * @return {number}\n     */\n    leastInterval(tasks, n) {\n        const count = new Array(26).fill(0);\n        for (const task of tasks) {\n            count[task.charCodeAt(0) - 'A'.charCodeAt(0)]++;\n        }\n\n        count.sort((a, b) => a - b);\n        const maxf = count[25];\n        let idle = (maxf - 1) * n;\n\n        for (let i = 24; i >= 0; i--) {\n            idle -= Math.min(maxf - 1, count[i]);\n        }\n        return Math.max(0, idle) + tasks.length;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int LeastInterval(char[] tasks, int n) {\n        int[] count = new int[26];\n        foreach (char task in tasks) {\n            count[task - 'A']++;\n        }\n\n        Array.Sort(count);\n        int maxf = count[25];\n        int idle = (maxf - 1) * n;\n\n        for (int i = 24; i >= 0; i--) {\n            idle -= Math.Min(maxf - 1, count[i]);\n        }\n        return Math.Max(0, idle) + tasks.Length;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "func leastInterval(tasks []byte, n int) int {\n    count := make([]int, 26)\n    for _, task := range tasks {\n        count[task-'A']++\n    }\n\n    sort.Ints(count)\n    maxf := count[25]\n    idle := (maxf - 1) * n\n\n    for i := 24; i >= 0; i-- {\n        idle -= min(maxf-1, count[i])\n    }\n\n    return max(0, idle) + len(tasks)\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun leastInterval(tasks: CharArray, n: Int): Int {\n        val count = IntArray(26)\n        for (task in tasks) {\n            count[task - 'A']++\n        }\n\n        count.sort()\n        val maxf = count[25]\n        var idle = (maxf - 1) * n\n\n        for (i in 24 downTo 0) {\n            idle -= min(maxf - 1, count[i])\n        }\n\n        return max(0, idle) + tasks.size\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func leastInterval(_ tasks: [Character], _ n: Int) -> Int {\n        var count = [Int](repeating: 0, count: 26)\n        for task in tasks {\n            count[Int(task.asciiValue! - Character(\"A\").asciiValue!)] += 1\n        }\n\n        count.sort()\n        let maxf = count[25]\n        var idle = (maxf - 1) * n\n\n        for i in stride(from: 24, through: 0, by: -1) {\n            idle -= min(maxf - 1, count[i])\n        }\n\n        return max(0, idle) + tasks.count\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn least_interval(tasks: Vec<char>, n: i32) -> i32 {\n        let mut count = [0i32; 26];\n        for &task in &tasks {\n            count[(task as u8 - b'A') as usize] += 1;\n        }\n\n        count.sort();\n        let maxf = count[25];\n        let mut idle = (maxf - 1) * n;\n\n        for i in (0..25).rev() {\n            idle -= (maxf - 1).min(count[i]);\n        }\n        0.max(idle) + tasks.len() as i32\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def leastInterval(self, tasks: List[str], n: int) -> int:\n        count = [0] * 26\n        for task in tasks:\n            count[ord(task) - ord('A')] += 1\n\n        maxf = max(count)\n        maxCount = 0\n        for i in count:\n            maxCount += 1 if i == maxf else 0\n\n        time = (maxf - 1) * (n + 1) + maxCount\n        return max(len(tasks), time)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int leastInterval(char[] tasks, int n) {\n        int[] count = new int[26];\n        for (char task : tasks) {\n            count[task - 'A']++;\n        }\n\n        int maxf = Arrays.stream(count).max().getAsInt();\n        int maxCount = 0;\n        for (int i : count) {\n            if (i == maxf) {\n                maxCount++;\n            }\n        }\n\n        int time = (maxf - 1) * (n + 1) + maxCount;\n        return Math.max(tasks.length, time);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int leastInterval(vector<char>& tasks, int n) {\n        vector<int> count(26, 0);\n        for (char task : tasks) {\n            count[task - 'A']++;\n        }\n\n        int maxf = *max_element(count.begin(), count.end());\n        int maxCount = 0;\n        for (int i : count) {\n            if (i == maxf) {\n                maxCount++;\n            }\n        }\n\n        int time = (maxf - 1) * (n + 1) + maxCount;\n        return max((int)tasks.size(), time);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {character[]} tasks\n     * @param {number} n\n     * @return {number}\n     */\n    leastInterval(tasks, n) {\n        const count = new Array(26).fill(0);\n        for (const task of tasks) {\n            count[task.charCodeAt(0) - 'A'.charCodeAt(0)]++;\n        }\n\n        const maxf = Math.max(...count);\n        let maxCount = 0;\n        for (const i of count) {\n            if (i === maxf) {\n                maxCount++;\n            }\n        }\n\n        const time = (maxf - 1) * (n + 1) + maxCount;\n        return Math.max(tasks.length, time);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int LeastInterval(char[] tasks, int n) {\n        int[] count = new int[26];\n        foreach (char task in tasks) {\n            count[task - 'A']++;\n        }\n\n        int maxf = count.Max();\n        int maxCount = 0;\n        foreach (int i in count) {\n            if (i == maxf) {\n                maxCount++;\n            }\n        }\n\n        int time = (maxf - 1) * (n + 1) + maxCount;\n        return Math.Max(tasks.Length, time);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "func leastInterval(tasks []byte, n int) int {\n    count := make([]int, 26)\n    for _, task := range tasks {\n        count[task-'A']++\n    }\n\n    maxf := 0\n    for _, cnt := range count {\n        if cnt > maxf {\n            maxf = cnt\n        }\n    }\n\n    maxCount := 0\n    for _, cnt := range count {\n        if cnt == maxf {\n            maxCount++\n        }\n    }\n\n    time := (maxf - 1) * (n + 1) + maxCount\n    if len(tasks) > time {\n        return len(tasks)\n    }\n    return time\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun leastInterval(tasks: CharArray, n: Int): Int {\n        val count = IntArray(26)\n        for (task in tasks) {\n            count[task - 'A']++\n        }\n\n        val maxf = count.maxOrNull() ?: 0\n        var maxCount = 0\n        for (cnt in count) {\n            if (cnt == maxf) {\n                maxCount++\n            }\n        }\n\n        val time = (maxf - 1) * (n + 1) + maxCount\n        return max(tasks.size, time)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func leastInterval(_ tasks: [Character], _ n: Int) -> Int {\n        var count = [Int](repeating: 0, count: 26)\n        for task in tasks {\n            count[Int(task.asciiValue! - Character(\"A\").asciiValue!)] += 1\n        }\n\n        let maxf = count.max()!\n        var maxCount = 0\n        for i in count {\n            if i == maxf {\n                maxCount += 1\n            }\n        }\n\n        let time = (maxf - 1) * (n + 1) + maxCount\n        return max(tasks.count, time)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn least_interval(tasks: Vec<char>, n: i32) -> i32 {\n        let mut count = [0i32; 26];\n        for &task in &tasks {\n            count[(task as u8 - b'A') as usize] += 1;\n        }\n\n        let maxf = *count.iter().max().unwrap();\n        let max_count = count.iter().filter(|&&c| c == maxf).count() as i32;\n\n        let time = (maxf - 1) * (n + 1) + max_count;\n        time.max(tasks.len() as i32)\n    }\n}"
+        }
+    ]
+}

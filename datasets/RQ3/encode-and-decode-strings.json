@@ -1,0 +1,120 @@
+{
+    "problem_name": "Encode and Decode Strings",
+    "problem_slug": "encode-and-decode-strings",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "string",
+        "design"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution:\n    def encode(self, strs: List[str]) -> str:\n        if not strs:\n            return \"\"\n        sizes, res = [], \"\"\n        for s in strs:\n            sizes.append(len(s))\n        for sz in sizes:\n            res += str(sz)\n            res += ','\n        res += '#'\n        for s in strs:\n            res += s\n        return res\n\n    def decode(self, s: str) -> List[str]:\n        if not s:\n            return []\n        sizes, res, i = [], [], 0\n        while s[i] != '#':\n            cur = \"\"\n            while s[i] != ',':\n                cur += s[i]\n                i += 1\n            sizes.append(int(cur))\n            i += 1\n        i += 1\n        for sz in sizes:\n            res.append(s[i:i + sz])\n            i += sz\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "public class Solution {\n\n    public String encode(List<String> strs) {\n        if (strs.isEmpty()) return \"\";\n        StringBuilder res = new StringBuilder();\n        List<Integer> sizes = new ArrayList<>();\n        for (String str : strs) {\n            sizes.add(str.length());\n        }\n        for (int size : sizes) {\n            res.append(size).append(',');\n        }\n        res.append('#');\n        for (String str : strs) {\n            res.append(str);\n        }\n        return res.toString();\n    }\n\n    public List<String> decode(String str) {\n        if (str.length() == 0) {\n            return new ArrayList<>();\n        }\n        List<String> res = new ArrayList<>();\n        List<Integer> sizes = new ArrayList<>();\n        int i = 0;\n        while (str.charAt(i) != '#') {\n            StringBuilder cur = new StringBuilder();\n            while (str.charAt(i) != ',') {\n                cur.append(str.charAt(i));\n                i++;\n            }\n            sizes.add(Integer.parseInt(cur.toString()));\n            i++;\n        }\n        i++;\n        for (int sz : sizes) {\n            res.add(str.substring(i, i + sz));\n            i += sz;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution {\npublic:\n    string encode(vector<string>& strs) {\n        if (strs.empty()) return \"\";\n        vector<int> sizes;\n        string res = \"\";\n        for (string& s : strs) {\n            sizes.push_back(s.size());\n        }\n        for (int sz : sizes) {\n            res += to_string(sz) + ',';\n        }\n        res += '#';\n        for (string& s : strs) {\n            res += s;\n        }\n        return res;\n    }\n\n    vector<string> decode(string s) {\n        if (s.empty()) return {};\n        vector<int> sizes;\n        vector<string> res;\n        int i = 0;\n        while (s[i] != '#') {\n            string cur = \"\";\n            while (s[i] != ',') {\n                cur += s[i];\n                i++;\n            }\n            sizes.push_back(stoi(cur));\n            i++;\n        }\n        i++;\n        for (int sz : sizes) {\n            res.push_back(s.substr(i, sz));\n            i += sz;\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution {\n    /**\n     * @param {string[]} strs\n     * @returns {string}\n     */\n    encode(strs) {\n        if (strs.length === 0) return '';\n        let sizes = [],\n            res = '';\n        for (let s of strs) {\n            sizes.push(s.length);\n        }\n        for (let sz of sizes) {\n            res += sz + ',';\n        }\n        res += '#';\n        for (let s of strs) {\n            res += s;\n        }\n        return res;\n    }\n\n    /**\n     * @param {string} str\n     * @returns {string[]}\n     */\n    decode(str) {\n        if (str.length === 0) return [];\n        let sizes = [],\n            res = [],\n            i = 0;\n        while (str[i] !== '#') {\n            let cur = '';\n            while (str[i] !== ',') {\n                cur += str[i];\n                i++;\n            }\n            sizes.push(parseInt(cur));\n            i++;\n        }\n        i++;\n        for (let sz of sizes) {\n            res.push(str.substr(i, sz));\n            i += sz;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "public class Solution {\n\n    public string Encode(IList<string> strs) {\n        if (strs.Count == 0) return \"\";\n        List<int> sizes = new List<int>();\n        string res = \"\";\n        foreach (string s in strs) {\n            sizes.Add(s.Length);\n        }\n        foreach (int sz in sizes) {\n            res += sz.ToString() + ',';\n        }\n        res += '#';\n        foreach (string s in strs) {\n            res += s;\n        }\n        return res;\n    }\n\n    public List<string> Decode(string s) {\n        if (s.Length == 0) {\n            return new List<string>();\n        }\n        List<int> sizes = new List<int>();\n        List<string> res = new List<string>();\n        int i = 0;\n        while (s[i] != '#') {\n            string cur = \"\";\n            while (s[i] != ',') {\n                cur += s[i];\n                i++;\n            }\n            sizes.Add(int.Parse(cur));\n            i++;\n        }\n        i++;\n        foreach (int sz in sizes) {\n            res.Add(s.Substring(i, sz));\n            i += sz;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "type Solution struct{}\n\nfunc (s *Solution) Encode(strs []string) string {\n\tif len(strs) == 0 {\n\t\treturn \"\"\n\t}\n\tvar sizes []string\n\tfor _, str := range strs {\n\t\tsizes = append(sizes, strconv.Itoa(len(str)))\n\t}\n\treturn strings.Join(sizes, \",\") + \"#\" + strings.Join(strs, \"\")\n}\n\nfunc (s *Solution) Decode(encoded string) []string {\n\tif encoded == \"\" {\n\t\treturn []string{}\n\t}\n\tparts := strings.SplitN(encoded, \"#\", 2)\n\tsizes := strings.Split(parts[0], \",\")\n\tvar res []string\n\ti := 0\n\tfor _, sz := range sizes {\n\t\tif sz == \"\" {\n\t\t\tcontinue\n\t\t}\n\t\tlength, _ := strconv.Atoi(sz)\n\t\tres = append(res, parts[1][i:i+length])\n\t\ti += length\n\t}\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution {\n    fun encode(strs: List<String>): String {\n        if (strs.isEmpty()) return \"\"\n        val sizes = mutableListOf<String>()\n        for (str in strs) {\n            sizes.add(str.length.toString())\n        }\n        return sizes.joinToString(\",\") + \"#\" + strs.joinToString(\"\")\n    }\n\n    fun decode(encoded: String): List<String> {\n        if (encoded.isEmpty()) return emptyList()\n        val parts = encoded.split(\"#\", limit = 2)\n        val sizes = parts[0].split(\",\")\n        val res = mutableListOf<String>()\n        var i = 0\n        for (sz in sizes) {\n            if (sz.isEmpty()) continue\n            val length = sz.toInt()\n            res.add(parts[1].substring(i, i + length))\n            i += length\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution {\n    func encode(_ strs: [String]) -> String {\n        if strs.isEmpty { return \"\" }\n\n        var sizes: [Int] = []\n        var res = \"\"\n        for s in strs {\n            sizes.append(s.count)\n        }\n        for sz in sizes {\n            res += String(sz)\n            res += \",\"\n        }\n\n        res += \"#\"\n        for s in strs {\n            res += s\n        }\n        return res\n    }\n\n    func decode(_ s: String) -> [String] {\n        if s.isEmpty { return [] }\n        let sArr = Array(s)\n        var sizes: [Int] = []\n        var res: [String] = []\n        var i = 0\n\n        while sArr[i] != \"#\" {\n            var cur = \"\"\n            while sArr[i] != \",\" {\n                cur.append(sArr[i])\n                i += 1\n            }\n            sizes.append(Int(cur)!)\n            i += 1\n        }\n\n        i += 1\n        for sz in sizes {\n            let substring = String(sArr[i..<i+sz])\n            res.append(substring)\n            i += sz\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "impl Solution {\n    pub fn encode(strs: Vec<String>) -> String {\n        if strs.is_empty() {\n            return String::new();\n        }\n        let mut res = String::new();\n        let sizes: Vec<usize> = strs.iter().map(|s| s.len()).collect();\n        for sz in &sizes {\n            res.push_str(&sz.to_string());\n            res.push(',');\n        }\n        res.push('#');\n        for s in &strs {\n            res.push_str(s);\n        }\n        res\n    }\n\n    pub fn decode(s: String) -> Vec<String> {\n        if s.is_empty() {\n            return vec![];\n        }\n        let bytes = s.as_bytes();\n        let mut sizes = vec![];\n        let mut res = vec![];\n        let mut i = 0;\n        while bytes[i] != b'#' {\n            let mut cur = String::new();\n            while bytes[i] != b',' {\n                cur.push(bytes[i] as char);\n                i += 1;\n            }\n            sizes.push(cur.parse::<usize>().unwrap());\n            i += 1;\n        }\n        i += 1;\n        for sz in sizes {\n            res.push(s[i..i + sz].to_string());\n            i += sz;\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution:\n\n    def encode(self, strs: List[str]) -> str:\n        res = \"\"\n        for s in strs:\n            res += str(len(s)) + \"#\" + s\n        return res\n\n    def decode(self, s: str) -> List[str]:\n        res = []\n        i = 0\n\n        while i < len(s):\n            j = i\n            while s[j] != '#':\n                j += 1\n            length = int(s[i:j])\n            i = j + 1\n            j = i + length\n            res.append(s[i:j])\n            i = j\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "public class Solution {\n\n    public String encode(List<String> strs) {\n        StringBuilder res = new StringBuilder();\n        for (String s : strs) {\n            res.append(s.length()).append('#').append(s);\n        }\n        return res.toString();\n    }\n\n    public List<String> decode(String str) {\n        List<String> res = new ArrayList<>();\n        int i = 0;\n        while (i < str.length()) {\n            int j = i;\n            while (str.charAt(j) != '#') {\n                j++;\n            }\n            int length = Integer.parseInt(str.substring(i, j));\n            i = j + 1;\n            j = i + length;\n            res.add(str.substring(i, j));\n            i = j;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution {\npublic:\n    string encode(vector<string>& strs) {\n        string res;\n        for (const string& s : strs) {\n            res += to_string(s.size()) + \"#\" + s;\n        }\n        return res;\n    }\n\n    vector<string> decode(string s) {\n        vector<string> res;\n        int i = 0;\n        while (i < s.size()) {\n            int j = i;\n            while (s[j] != '#') {\n                j++;\n            }\n            int length = stoi(s.substr(i, j - i));\n            i = j + 1;\n            j = i + length;\n            res.push_back(s.substr(i, length));\n            i = j;\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution {\n    /**\n     * @param {string[]} strs\n     * @returns {string}\n     */\n    encode(strs) {\n        let res = '';\n        for (let s of strs) {\n            res += s.length + '#' + s;\n        }\n        return res;\n    }\n\n    /**\n     * @param {string} str\n     * @returns {string[]}\n     */\n    decode(str) {\n        let res = [];\n        let i = 0;\n        while (i < str.length) {\n            let j = i;\n            while (str[j] !== '#') {\n                j++;\n            }\n            let length = parseInt(str.substring(i, j));\n            i = j + 1;\n            j = i + length;\n            res.push(str.substring(i, j));\n            i = j;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "public class Solution {\n    public string Encode(IList<string> strs) {\n        string res = \"\";\n        foreach (string s in strs) {\n            res += s.Length + \"#\" + s;\n        }\n        return res;\n    }\n\n    public List<string> Decode(string s) {\n        List<string> res = new List<string>();\n        int i = 0;\n        while (i < s.Length) {\n            int j = i;\n            while (s[j] != '#') {\n                j++;\n            }\n            int length = int.Parse(s.Substring(i, j - i));\n            i = j + 1;\n            j = i + length;\n            res.Add(s.Substring(i, length));\n            i = j;\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "type Solution struct{}\n\nfunc (s *Solution) Encode(strs []string) string {\n\tres := \"\"\n\tfor _, str := range strs {\n\t\tres += strconv.Itoa(len(str)) + \"#\" + str\n\t}\n\treturn res\n}\n\nfunc (s *Solution) Decode(encoded string) []string {\n\tres := []string{}\n\ti := 0\n\tfor i < len(encoded) {\n\t\tj := i\n\t\tfor encoded[j] != '#' {\n\t\t\tj++\n\t\t}\n\t\tlength, _ := strconv.Atoi(encoded[i:j])\n\t\ti = j + 1\n\t\tres = append(res, encoded[i:i+length])\n\t\ti += length\n\t}\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution {\n\n    fun encode(strs: List<String>): String {\n        val res = StringBuilder()\n        for (str in strs) {\n            res.append(str.length).append('#').append(str)\n        }\n        return res.toString()\n    }\n\n    fun decode(encoded: String): List<String> {\n        val res = mutableListOf<String>()\n        var i = 0\n        while (i < encoded.length) {\n            var j = i\n            while (encoded[j] != '#') {\n                j++\n            }\n            val length = encoded.substring(i, j).toInt()\n            i = j + 1\n            res.add(encoded.substring(i, i + length))\n            i += length\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "class Solution {\n    func encode(_ strs: [String]) -> String {\n        var res = \"\"\n        for s in strs {\n            res += \"\\(s.count)#\\(s)\"\n        }\n        return res\n    }\n\n    func decode(_ s: String) -> [String] {\n        var res = [String]()\n        let sArr = Array(s)\n        var i = 0\n\n        while i < sArr.count {\n            var j = i\n            while sArr[j] != \"#\" {\n                j += 1\n            }\n            let lengthStr = String(sArr[i..<j])\n            let length = Int(lengthStr)!\n\n            i = j + 1\n            let end = i + length\n            let substring = String(sArr[i..<end])\n            res.append(substring)\n            i = end\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m)",
+            "space_complexity": "encode()",
+            "code": "impl Solution {\n    pub fn encode(strs: Vec<String>) -> String {\n        let mut res = String::new();\n        for s in &strs {\n            res.push_str(&s.len().to_string());\n            res.push('#');\n            res.push_str(s);\n        }\n        res\n    }\n\n    pub fn decode(s: String) -> Vec<String> {\n        let mut res = vec![];\n        let bytes = s.as_bytes();\n        let mut i = 0;\n        while i < bytes.len() {\n            let mut j = i;\n            while bytes[j] != b'#' {\n                j += 1;\n            }\n            let length: usize = s[i..j].parse().unwrap();\n            i = j + 1;\n            j = i + length;\n            res.push(s[i..j].to_string());\n            i = j;\n        }\n        res\n    }\n}"
+        }
+    ]
+}

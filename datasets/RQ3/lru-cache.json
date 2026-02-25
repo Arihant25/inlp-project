@@ -1,0 +1,175 @@
+{
+    "problem_name": "LRU Cache",
+    "problem_slug": "lru-cache",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hash table",
+        "linked list",
+        "design",
+        "doubly-linked list"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "class LRUCache:\n\n    def __init__(self, capacity: int):\n        self.cache = []\n        self.capacity = capacity\n\n    def get(self, key: int) -> int:\n        for i in range(len(self.cache)):\n            if self.cache[i][0] == key:\n                tmp = self.cache.pop(i)\n                self.cache.append(tmp)\n                return tmp[1]\n        return -1\n\n    def put(self, key: int, value: int) -> None:\n        for i in range(len(self.cache)):\n            if self.cache[i][0] == key:\n                tmp = self.cache.pop(i)\n                tmp[1] = value\n                self.cache.append(tmp)\n                return\n\n        if self.capacity == len(self.cache):\n            self.cache.pop(0)\n\n        self.cache.append([key, value])"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "public class LRUCache {\n\n    private ArrayList<int[]> cache;\n    private int capacity;\n\n    public LRUCache(int capacity) {\n        this.cache = new ArrayList<>();\n        this.capacity = capacity;\n    }\n\n    public int get(int key) {\n        for (int i = 0; i < cache.size(); i++) {\n            if (cache.get(i)[0] == key) {\n                int[] tmp = cache.remove(i);\n                cache.add(tmp);\n                return tmp[1];\n            }\n        }\n        return -1;\n    }\n\n    public void put(int key, int value) {\n        for (int i = 0; i < cache.size(); i++) {\n            if (cache.get(i)[0] == key) {\n                int[] tmp = cache.remove(i);\n                tmp[1] = value;\n                cache.add(tmp);\n                return;\n            }\n        }\n\n        if (capacity == cache.size()) {\n            cache.remove(0);\n        }\n\n        cache.add(new int[]{key, value});\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "class LRUCache {\nprivate:\n    vector<pair<int, int>> cache;\n    int capacity;\n\npublic:\n    LRUCache(int capacity) {\n        this->capacity = capacity;\n    }\n\n    int get(int key) {\n        for (int i = 0; i < cache.size(); i++) {\n            if (cache[i].first == key) {\n                pair<int, int> tmp = cache[i];\n                cache.erase(cache.begin() + i);\n                cache.push_back(tmp);\n                return tmp.second;\n            }\n        }\n        return -1;\n    }\n\n    void put(int key, int value) {\n        for (int i = 0; i < cache.size(); i++) {\n            if (cache[i].first == key) {\n                cache.erase(cache.begin() + i);\n                cache.push_back({key, value});\n                return;\n            }\n        }\n\n        if (cache.size() == capacity) {\n            cache.erase(cache.begin());\n        }\n\n        cache.push_back({key, value});\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "class LRUCache {\n    /**\n     * @param {number} capacity\n     */\n    constructor(capacity) {\n        this.cache = [];\n        this.capacity = capacity;\n    }\n\n    /**\n     * @param {number} key\n     * @return {number}\n     */\n    get(key) {\n        for (let i = 0; i < this.cache.length; i++) {\n            if (this.cache[i][0] === key) {\n                let tmp = this.cache.splice(i, 1)[0];\n                this.cache.push(tmp);\n                return tmp[1];\n            }\n        }\n        return -1;\n    }\n\n    /**\n     * @param {number} key\n     * @param {number} value\n     * @return {void}\n     */\n    put(key, value) {\n        for (let i = 0; i < this.cache.length; i++) {\n            if (this.cache[i][0] === key) {\n                this.cache.splice(i, 1);\n                this.cache.push([key, value]);\n                return;\n            }\n        }\n\n        if (this.cache.length === this.capacity) {\n            this.cache.shift();\n        }\n\n        this.cache.push([key, value]);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "public class LRUCache {\n    private List<KeyValuePair<int, int>> cache;\n    private int capacity;\n\n    public LRUCache(int capacity) {\n        this.cache = new List<KeyValuePair<int, int>>();\n        this.capacity = capacity;\n    }\n\n    public int Get(int key) {\n        for (int i = 0; i < cache.Count; i++) {\n            if (cache[i].Key == key) {\n                var tmp = cache[i];\n                cache.RemoveAt(i);\n                cache.Add(tmp);\n                return tmp.Value;\n            }\n        }\n        return -1;\n    }\n\n    public void Put(int key, int value) {\n        for (int i = 0; i < cache.Count; i++) {\n            if (cache[i].Key == key) {\n                cache.RemoveAt(i);\n                cache.Add(new KeyValuePair<int, int>(key, value));\n                return;\n            }\n        }\n\n        if (cache.Count == capacity) {\n            cache.RemoveAt(0);\n        }\n\n        cache.Add(new KeyValuePair<int, int>(key, value));\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "type LRUCache struct {\n    cache    [][2]int\n    capacity int\n}\n\nfunc Constructor(capacity int) LRUCache {\n    return LRUCache{\n        cache:    make([][2]int, 0),\n        capacity: capacity,\n    }\n}\n\nfunc (this *LRUCache) Get(key int) int {\n    for i := range this.cache {\n        if this.cache[i][0] == key {\n            tmp := this.cache[i]\n            this.cache = append(this.cache[:i], this.cache[i+1:]...)\n            this.cache = append(this.cache, tmp)\n            return tmp[1]\n        }\n    }\n    return -1\n}\n\nfunc (this *LRUCache) Put(key int, value int) {\n    for i := range this.cache {\n        if this.cache[i][0] == key {\n            tmp := this.cache[i]\n            this.cache = append(this.cache[:i], this.cache[i+1:]...)\n            tmp[1] = value\n            this.cache = append(this.cache, tmp)\n            return\n        }\n    }\n\n    if len(this.cache) == this.capacity {\n        this.cache = this.cache[1:]\n    }\n\n    this.cache = append(this.cache, [2]int{key, value})\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "class LRUCache(capacity: Int) {\n    private val capacity = capacity\n    private val cache = mutableListOf<Pair<Int, Int>>()\n\n    fun get(key: Int): Int {\n        for (i in cache.indices) {\n            if (cache[i].first == key) {\n                val tmp = cache.removeAt(i)\n                cache.add(tmp)\n                return tmp.second\n            }\n        }\n        return -1\n    }\n\n    fun put(key: Int, value: Int) {\n        for (i in cache.indices) {\n            if (cache[i].first == key) {\n                cache.removeAt(i)\n                cache.add(Pair(key, value))\n                return\n            }\n        }\n\n        if (cache.size == capacity) {\n            cache.removeAt(0)\n        }\n\n        cache.add(Pair(key, value))\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "class LRUCache {\n    private var cache: [(Int, Int)]\n    private let capacity: Int\n\n    init(_ capacity: Int) {\n        self.cache = []\n        self.capacity = capacity\n    }\n\n    func get(_ key: Int) -> Int {\n        for i in 0..<cache.count {\n            if cache[i].0 == key {\n                let tmp = cache.remove(at: i)\n                cache.append(tmp)\n                return tmp.1\n            }\n        }\n        return -1\n    }\n\n    func put(_ key: Int, _ value: Int) {\n        for i in 0..<cache.count {\n            if cache[i].0 == key {\n                var tmp = cache.remove(at: i)\n                tmp.1 = value\n                cache.append(tmp)\n                return\n            }\n        }\n\n        if cache.count == capacity {\n            cache.removeFirst()\n        }\n\n        cache.append((key, value))\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "put()",
+            "code": "struct LRUCache {\n    cache: Vec<[i32; 2]>,\n    capacity: usize,\n}\n\nimpl LRUCache {\n    fn new(capacity: i32) -> Self {\n        Self {\n            cache: Vec::new(),\n            capacity: capacity as usize,\n        }\n    }\n\n    fn get(&mut self, key: i32) -> i32 {\n        for i in 0..self.cache.len() {\n            if self.cache[i][0] == key {\n                let tmp = self.cache.remove(i);\n                self.cache.push(tmp);\n                return tmp[1];\n            }\n        }\n        -1\n    }\n\n    fn put(&mut self, key: i32, value: i32) {\n        for i in 0..self.cache.len() {\n            if self.cache[i][0] == key {\n                self.cache.remove(i);\n                self.cache.push([key, value]);\n                return;\n            }\n        }\n        if self.cache.len() == self.capacity {\n            self.cache.remove(0);\n        }\n        self.cache.push([key, value]);\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class Node:\n    def __init__(self, key, val):\n        self.key, self.val = key, val\n        self.prev = self.next = None\n\nclass LRUCache:\n    def __init__(self, capacity: int):\n        self.cap = capacity\n        self.cache = {}  # map key to node\n\n        self.left, self.right = Node(0, 0), Node(0, 0)\n        self.left.next, self.right.prev = self.right, self.left\n\n    def remove(self, node):\n        prev, nxt = node.prev, node.next\n        prev.next, nxt.prev = nxt, prev\n\n    def insert(self, node):\n        prev, nxt = self.right.prev, self.right\n        prev.next = nxt.prev = node\n        node.next, node.prev = nxt, prev\n\n    def get(self, key: int) -> int:\n        if key in self.cache:\n            self.remove(self.cache[key])\n            self.insert(self.cache[key])\n            return self.cache[key].val\n        return -1\n\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            self.remove(self.cache[key])\n        self.cache[key] = Node(key, value)\n        self.insert(self.cache[key])\n\n        if len(self.cache) > self.cap:\n            lru = self.left.next\n            self.remove(lru)\n            del self.cache[lru.key]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "public class Node {\n    int key;\n    int val;\n    Node prev;\n    Node next;\n\n    public Node(int key, int val) {\n        this.key = key;\n        this.val = val;\n        this.prev = null;\n        this.next = null;\n    }\n}\n\npublic class LRUCache {\n\n    private int cap;\n    private HashMap<Integer, Node> cache;\n    private Node left;\n    private Node right;\n\n    public LRUCache(int capacity) {\n        this.cap = capacity;\n        this.cache = new HashMap<>();\n        this.left = new Node(0, 0);\n        this.right = new Node(0, 0);\n        this.left.next = this.right;\n        this.right.prev = this.left;\n    }\n\n    private void remove(Node node) {\n        Node prev = node.prev;\n        Node nxt = node.next;\n        prev.next = nxt;\n        nxt.prev = prev;\n    }\n\n    private void insert(Node node) {\n        Node prev = this.right.prev;\n        prev.next = node;\n        node.prev = prev;\n        node.next = this.right;\n        this.right.prev = node;\n    }\n\n    public int get(int key) {\n        if (cache.containsKey(key)) {\n            Node node = cache.get(key);\n            remove(node);\n            insert(node);\n            return node.val;\n        }\n        return -1;\n    }\n\n    public void put(int key, int value) {\n        if (cache.containsKey(key)) {\n            remove(cache.get(key));\n        }\n        Node newNode = new Node(key, value);\n        cache.put(key, newNode);\n        insert(newNode);\n\n        if (cache.size() > cap) {\n            Node lru = this.left.next;\n            remove(lru);\n            cache.remove(lru.key);\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class Node {\npublic:\n    int key;\n    int val;\n    Node* prev;\n    Node* next;\n\n    Node(int k, int v) : key(k), val(v), prev(nullptr), next(nullptr) {}\n};\n\nclass LRUCache {\nprivate:\n    int cap;\n    unordered_map<int, Node*> cache;\n    Node* left;\n    Node* right;\n\n    void remove(Node* node) {\n        Node* prev = node->prev;\n        Node* nxt = node->next;\n        prev->next = nxt;\n        nxt->prev = prev;\n    }\n\n    void insert(Node* node) {\n        Node* prev = right->prev;\n        prev->next = node;\n        node->prev = prev;\n        node->next = right;\n        right->prev = node;\n    }\n\npublic:\n    LRUCache(int capacity) {\n        cap = capacity;\n        cache.clear();\n        left = new Node(0, 0);\n        right = new Node(0, 0);\n        left->next = right;\n        right->prev = left;\n    }\n\n    int get(int key) {\n        if (cache.find(key) != cache.end()) {\n            Node* node = cache[key];\n            remove(node);\n            insert(node);\n            return node->val;\n        }\n        return -1;\n    }\n\n    void put(int key, int value) {\n        if (cache.find(key) != cache.end()) {\n            remove(cache[key]);\n        }\n        Node* newNode = new Node(key, value);\n        cache[key] = newNode;\n        insert(newNode);\n\n        if (cache.size() > cap) {\n            Node* lru = left->next;\n            remove(lru);\n            cache.erase(lru->key);\n            delete lru;\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class Node {\n    /**\n     * @param {number} key\n     * @param {number} val\n     */\n    constructor(key, val) {\n        this.key = key;\n        this.val = val;\n        this.prev = null;\n        this.next = null;\n    }\n}\n\nclass LRUCache {\n    /**\n     * @param {number} capacity\n     */\n    constructor(capacity) {\n        this.cap = capacity;\n        this.cache = new Map();\n        this.left = new Node(0, 0);\n        this.right = new Node(0, 0);\n        this.left.next = this.right;\n        this.right.prev = this.left;\n    }\n\n    /**\n     * @param {Node} node\n     */\n    remove(node) {\n        const prev = node.prev;\n        const nxt = node.next;\n        prev.next = nxt;\n        nxt.prev = prev;\n    }\n\n    /**\n     * @param {Node} node\n     */\n    insert(node) {\n        const prev = this.right.prev;\n        prev.next = node;\n        node.prev = prev;\n        node.next = this.right;\n        this.right.prev = node;\n    }\n\n    /**\n     * @param {number} key\n     * @return {number}\n     */\n    get(key) {\n        if (this.cache.has(key)) {\n            const node = this.cache.get(key);\n            this.remove(node);\n            this.insert(node);\n            return node.val;\n        }\n        return -1;\n    }\n\n    /**\n     * @param {number} key\n     * @param {number} value\n     * @return {void}\n     */\n    put(key, value) {\n        if (this.cache.has(key)) {\n            this.remove(this.cache.get(key));\n        }\n        const newNode = new Node(key, value);\n        this.cache.set(key, newNode);\n        this.insert(newNode);\n\n        if (this.cache.size > this.cap) {\n            const lru = this.left.next;\n            this.remove(lru);\n            this.cache.delete(lru.key);\n        }\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "public class Node {\n    public int Key { get; set; }\n    public int Val { get; set; }\n    public Node Prev { get; set; }\n    public Node Next { get; set; }\n\n    public Node(int key, int val) {\n        Key = key;\n        Val = val;\n        Prev = null;\n        Next = null;\n    }\n}\n\npublic class LRUCache {\n\n    private int cap;\n    private Dictionary<int, Node> cache;\n    private Node left;\n    private Node right;\n\n    public LRUCache(int capacity) {\n        cap = capacity;\n        cache = new Dictionary<int, Node>();\n        left = new Node(0, 0);\n        right = new Node(0, 0);\n        left.Next = right;\n        right.Prev = left;\n    }\n\n    private void Remove(Node node) {\n        Node prev = node.Prev;\n        Node nxt = node.Next;\n        prev.Next = nxt;\n        nxt.Prev = prev;\n    }\n\n    private void Insert(Node node) {\n        Node prev = right.Prev;\n        prev.Next = node;\n        node.Prev = prev;\n        node.Next = right;\n        right.Prev = node;\n    }\n\n    public int Get(int key) {\n        if (cache.ContainsKey(key)) {\n            Node node = cache[key];\n            Remove(node);\n            Insert(node);\n            return node.Val;\n        }\n        return -1;\n    }\n\n    public void Put(int key, int value) {\n        if (cache.ContainsKey(key)) {\n            Remove(cache[key]);\n        }\n        Node newNode = new Node(key, value);\n        cache[key] = newNode;\n        Insert(newNode);\n\n        if (cache.Count > cap) {\n            Node lru = left.Next;\n            Remove(lru);\n            cache.Remove(lru.Key);\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "type Node struct {\n    key, val   int\n    prev, next *Node\n}\n\ntype LRUCache struct {\n    cap        int\n    cache      map[int]*Node\n    left,right *Node\n}\n\nfunc Constructor(capacity int) LRUCache {\n    lru := LRUCache{\n        cap:   capacity,\n        cache: make(map[int]*Node),\n        left:  &Node{},\n        right: &Node{},\n    }\n    lru.left.next = lru.right\n    lru.right.prev = lru.left\n    return lru\n}\n\nfunc (this *LRUCache) remove(node *Node) {\n    prev, next := node.prev, node.next\n    prev.next = next\n    next.prev = prev\n}\n\nfunc (this *LRUCache) insert(node *Node) {\n    prev, next := this.right.prev, this.right\n    prev.next = node\n    next.prev = node\n    node.next = next\n    node.prev = prev\n}\n\nfunc (this *LRUCache) Get(key int) int {\n    if node, ok := this.cache[key]; ok {\n        this.remove(node)\n        this.insert(node)\n        return node.val\n    }\n    return -1\n}\n\nfunc (this *LRUCache) Put(key int, value int) {\n    if node, ok := this.cache[key]; ok {\n        this.remove(node)\n        delete(this.cache, key)\n    }\n\n    node := &Node{key: key, val: value}\n    this.cache[key] = node\n    this.insert(node)\n\n    if len(this.cache) > this.cap {\n        lru := this.left.next\n        this.remove(lru)\n        delete(this.cache, lru.key)\n    }\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class LRUCache(capacity: Int) {\n    private val capacity = capacity\n    private class Node(\n        val key: Int,\n        var value: Int,\n        var prev: Node? = null,\n        var next: Node? = null\n    )\n\n    private val cache = mutableMapOf<Int, Node>()\n    private val left = Node(0, 0)\n    private val right = Node(0, 0)\n\n    init {\n        left.next = right\n        right.prev = left\n    }\n\n    private fun remove(node: Node) {\n        val prev = node.prev\n        val next = node.next\n        prev?.next = next\n        next?.prev = prev\n    }\n\n    private fun insert(node: Node) {\n        val prev = right.prev\n        val next = right\n        prev?.next = node\n        next.prev = node\n        node.next = next\n        node.prev = prev\n    }\n\n    fun get(key: Int): Int {\n        return cache[key]?.let { node ->\n            remove(node)\n            insert(node)\n            node.value\n        } ?: -1\n    }\n\n    fun put(key: Int, value: Int) {\n        cache[key]?.let { node ->\n            remove(node)\n            cache.remove(key)\n        }\n\n        val node = Node(key, value)\n        cache[key] = node\n        insert(node)\n\n        if (cache.size > capacity) {\n            left.next?.let { lru ->\n                remove(lru)\n                cache.remove(lru.key)\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class Node {\n    var key: Int\n    var val: Int\n    var prev: Node?\n    var next: Node?\n\n    init(_ key: Int, _ val: Int) {\n        self.key = key\n        self.val = val\n    }\n}\n\nclass LRUCache {\n    private var cap: Int\n    private var cache: [Int: Node] = [:]\n    private var left: Node\n    private var right: Node\n\n    init(_ capacity: Int) {\n        self.cap = capacity\n        self.left = Node(0, 0)\n        self.right = Node(0, 0)\n        self.left.next = self.right\n        self.right.prev = self.left\n    }\n\n    private func remove(_ node: Node?) {\n        let prev = node?.prev\n        let next = node?.next\n        prev?.next = next\n        next?.prev = prev\n    }\n\n    private func insert(_ node: Node?) {\n        let prev = right.prev\n        let next = right\n        prev?.next = node\n        next.prev = node\n        node?.prev = prev\n        node?.next = next\n    }\n\n    func get(_ key: Int) -> Int {\n        if let node = cache[key] {\n            remove(node)\n            insert(node)\n            return node.val\n        }\n        return -1\n    }\n\n    func put(_ key: Int, _ value: Int) {\n        if let node = cache[key] {\n            remove(node)\n        }\n        let newNode = Node(key, value)\n        cache[key] = newNode\n        insert(newNode)\n\n        if cache.count > cap {\n            if let lru = left.next {\n                remove(lru)\n                cache.removeValue(forKey: lru.key)\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "struct LRUCache {\n    cap: usize,\n    map: HashMap<i32, usize>,\n    entries: Vec<(i32, i32)>,   // (key, val)\n    prev: Vec<usize>,\n    next: Vec<usize>,\n    head: usize,                // dummy head (LRU side)\n    tail: usize,                // dummy tail (MRU side)\n}\n\nimpl LRUCache {\n    fn new(capacity: i32) -> Self {\n        // index 0 = dummy head, index 1 = dummy tail\n        let entries = vec![(0, 0), (0, 0)];\n        let prev = vec![0, 0]; // head.prev=0, tail.prev=head(0)\n        let next = vec![1, 1]; // head.next=tail(1), tail.next=1\n        Self {\n            cap: capacity as usize,\n            map: HashMap::new(),\n            entries,\n            prev,\n            next,\n            head: 0,\n            tail: 1,\n        }\n    }\n\n    fn detach(&mut self, idx: usize) {\n        let p = self.prev[idx];\n        let n = self.next[idx];\n        self.next[p] = n;\n        self.prev[n] = p;\n    }\n\n    fn attach_before_tail(&mut self, idx: usize) {\n        let p = self.prev[self.tail];\n        self.next[p] = idx;\n        self.prev[idx] = p;\n        self.next[idx] = self.tail;\n        self.prev[self.tail] = idx;\n    }\n\n    fn get(&mut self, key: i32) -> i32 {\n        if let Some(&idx) = self.map.get(&key) {\n            self.detach(idx);\n            self.attach_before_tail(idx);\n            return self.entries[idx].1;\n        }\n        -1\n    }\n\n    fn put(&mut self, key: i32, value: i32) {\n        if let Some(&idx) = self.map.get(&key) {\n            self.entries[idx].1 = value;\n            self.detach(idx);\n            self.attach_before_tail(idx);\n        } else {\n            let idx = self.entries.len();\n            self.entries.push((key, value));\n            self.prev.push(0);\n            self.next.push(0);\n            self.map.insert(key, idx);\n            self.attach_before_tail(idx);\n\n            if self.map.len() > self.cap {\n                let lru = self.next[self.head];\n                self.detach(lru);\n                self.map.remove(&self.entries[lru].0);\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class LRUCache:\n\n    def __init__(self, capacity: int):\n        self.cache = OrderedDict()\n        self.cap = capacity\n\n    def get(self, key: int) -> int:\n        if key not in self.cache:\n            return -1\n        self.cache.move_to_end(key)\n        return self.cache[key]\n\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            self.cache.move_to_end(key)\n        self.cache[key] = value\n\n        if len(self.cache) > self.cap:\n            self.cache.popitem(last=False)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "public class LRUCache {\n    private final Map<Integer, Integer> cache;\n    private final int capacity;\n\n    public LRUCache(int capacity) {\n        this.capacity = capacity;\n        this.cache = new LinkedHashMap<>(capacity, 0.75f, true) {\n            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {\n                return size() > LRUCache.this.capacity;\n            }\n        };\n    }\n\n    public int get(int key) {\n        return cache.getOrDefault(key, -1);\n    }\n\n    public void put(int key, int value) {\n        cache.put(key, value);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class LRUCache {\nprivate:\n    unordered_map<int, pair<int, list<int>::iterator>> cache;\n    list<int> order;\n    int capacity;\n\npublic:\n    LRUCache(int capacity) {\n        this->capacity = capacity;\n    }\n\n    int get(int key) {\n        if (cache.find(key) == cache.end()) return -1;\n        order.erase(cache[key].second);\n        order.push_back(key);\n        cache[key].second = --order.end();\n        return cache[key].first;\n    }\n\n    void put(int key, int value) {\n        if (cache.find(key) != cache.end()) {\n            order.erase(cache[key].second);\n        } else if (cache.size() == capacity) {\n            int lru = order.front();\n            order.pop_front();\n            cache.erase(lru);\n        }\n        order.push_back(key);\n        cache[key] = {value, --order.end()};\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class LRUCache {\n    /**\n     * @param {number} capacity\n     */\n    constructor(capacity) {\n        this.cache = new Map();\n        this.capacity = capacity;\n    }\n\n    /**\n     * @param {number} key\n     * @return {number}\n     */\n    get(key) {\n        if (!this.cache.has(key)) return -1;\n        const value = this.cache.get(key);\n        this.cache.delete(key);\n        this.cache.set(key, value);\n        return value;\n    }\n\n    /**\n     * @param {number} key\n     * @param {number} value\n     * @return {void}\n     */\n    put(key, value) {\n        if (this.cache.has(key)) {\n            this.cache.delete(key);\n        } else if (this.cache.size === this.capacity) {\n            const firstKey = this.cache.keys().next().value;\n            this.cache.delete(firstKey);\n        }\n        this.cache.set(key, value);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "public class LRUCache {\n    private Dictionary<int, LinkedListNode<(int key, int value)>> cache;\n    private LinkedList<(int key, int value)> order;\n    private int capacity;\n\n    public LRUCache(int capacity) {\n        this.capacity = capacity;\n        this.cache = new Dictionary<int, LinkedListNode<(int key, int value)>>();\n        this.order = new LinkedList<(int key, int value)>();\n    }\n\n    public int Get(int key) {\n        if (!cache.ContainsKey(key)) return -1;\n        var node = cache[key];\n        order.Remove(node);\n        order.AddLast(node);\n        return node.Value.value;\n    }\n\n    public void Put(int key, int value) {\n        if (cache.ContainsKey(key)) {\n            var node = cache[key];\n            order.Remove(node);\n            node.Value = (key, value);\n            order.AddLast(node);\n        } else {\n            if (cache.Count == capacity) {\n                var lru = order.First.Value;\n                order.RemoveFirst();\n                cache.Remove(lru.key);\n            }\n            var newNode = new LinkedListNode<(int key, int value)>((key, value));\n            order.AddLast(newNode);\n            cache[key] = newNode;\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "type LRUCache struct {\n\tcapacity int\n\tcache    map[int]*list.Element\n\tlist     *list.List\n}\n\ntype entry struct {\n\tkey, value int\n}\n\nfunc Constructor(capacity int) LRUCache {\n\treturn LRUCache{\n\t\tcapacity: capacity,\n\t\tcache:    make(map[int]*list.Element),\n\t\tlist:     list.New(),\n\t}\n}\n\nfunc (this *LRUCache) Get(key int) int {\n\tif node, exists := this.cache[key]; exists {\n\t\tthis.list.MoveToFront(node)\n\t\treturn node.Value.(entry).value\n\t}\n\treturn -1\n}\n\nfunc (this *LRUCache) Put(key int, value int) {\n\tif node, exists := this.cache[key]; exists {\n\t\tthis.list.MoveToFront(node)\n\t\tnode.Value = entry{key, value}\n\t\treturn\n\t}\n\n\tif this.list.Len() == this.capacity {\n\t\tback := this.list.Back()\n\t\tthis.list.Remove(back)\n\t\tdelete(this.cache, back.Value.(entry).key)\n\t}\n\n\tnode := this.list.PushFront(entry{key, value})\n\tthis.cache[key] = node\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class LRUCache(capacity: Int) {\n    private val capacity = capacity\n    private val cache = object : LinkedHashMap<Int, Int>(capacity, 0.75f, true) {\n        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<Int, Int>): Boolean {\n            return size > capacity\n        }\n    }\n\n    fun get(key: Int): Int {\n        return cache.getOrDefault(key, -1)\n    }\n\n    fun put(key: Int, value: Int) {\n        cache[key] = value\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "class LRUCache {\n    private var capacity: Int\n    private var cache: [Int: Int] = [:]\n    private var keyOrder: [Int] = []\n\n    init(_ capacity: Int) {\n        self.capacity = capacity\n    }\n\n    func get(_ key: Int) -> Int {\n        if let value = cache[key] {\n            if let index = keyOrder.firstIndex(of: key) {\n                keyOrder.remove(at: index)\n            }\n            keyOrder.append(key)\n            return value\n        }\n        return -1\n    }\n\n    func put(_ key: Int, _ value: Int) {\n        if cache[key] != nil {\n            if let index = keyOrder.firstIndex(of: key) {\n                keyOrder.remove(at: index)\n            }\n        } else if cache.count >= capacity {\n            if let lruKey = keyOrder.first {\n                cache.removeValue(forKey: lruKey)\n                keyOrder.removeFirst()\n            }\n        }\n\n        cache[key] = value\n        keyOrder.append(key)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "put()",
+            "code": "struct LRUCache {\n    cap: usize,\n    map: HashMap<i32, usize>,\n    order: Vec<i32>,\n}\n\nimpl LRUCache {\n    fn new(capacity: i32) -> Self {\n        Self {\n            cap: capacity as usize,\n            map: HashMap::new(),\n            order: Vec::new(),\n        }\n    }\n\n    fn touch(&mut self, key: i32) {\n        if let Some(pos) = self.order.iter().position(|&k| k == key) {\n            self.order.remove(pos);\n        }\n        self.order.push(key);\n    }\n\n    fn get(&mut self, key: i32) -> i32 {\n        if let Some(&val) = self.map.get(&key) {\n            self.touch(key);\n            return val as i32;\n        }\n        -1\n    }\n\n    fn put(&mut self, key: i32, value: i32) {\n        if self.map.contains_key(&key) {\n            self.touch(key);\n        } else {\n            if self.map.len() == self.cap {\n                let lru = self.order.remove(0);\n                self.map.remove(&lru);\n            }\n            self.order.push(key);\n        }\n        self.map.insert(key, value as usize);\n    }\n}"
+        }
+    ]
+}

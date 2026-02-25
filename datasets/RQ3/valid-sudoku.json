@@ -1,42 +1,174 @@
 {
     "problem_name": "Valid Sudoku",
-    "problem_slug": "valid-sudoko",
+    "problem_slug": "valid-sudoku",
     "difficulty": "medium",
     "topic_tags": [
         "array",
-        "hashing",
+        "hash table",
         "matrix"
     ],
     "solutions": [
         {
-            "language": "cpp",
-            "time_complexity": "O(n^2)",
-            "space_complexity": "O(n)",
-            "code": "class Solution {\n  public:\n      bool isValidSudoku(vector<vector<char>>& board) {\n          for (int row = 0; row < 9; row++) {\n              unordered_set<char> seen;\n              for (int i = 0; i < 9; i++) {\n                  if (board[row][i] == '.') continue;\n                  if (seen.count(board[row][i])) return false;\n                  seen.insert(board[row][i]);\n              }\n          }\n\n          for (int col = 0; col < 9; col++) {\n              unordered_set<char> seen;\n              for (int i = 0; i < 9; i++) {\n                  if (board[i][col] == '.') continue;\n                  if (seen.count(board[i][col])) return false;\n                  seen.insert(board[i][col]);\n              }\n          }\n\n          for (int square = 0; square < 9; square++) {\n              unordered_set<char> seen;\n              for (int i = 0; i < 3; i++) {\n                  for (int j = 0; j < 3; j++) {\n                      int row = (square / 3) * 3 + i;\n                      int col = (square % 3) * 3 + j;\n                      if (board[row][col] == '.') continue;\n                      if (seen.count(board[row][col])) return false;\n                      seen.insert(board[row][col]);\n                  }\n              }\n          }\n\n          return true;\n      }\n  };\n"
-        },
-        {
             "language": "python",
             "time_complexity": "O(n^2)",
             "space_complexity": "O(n)",
-            "code": "class Solution:\n  def isValidSudoku(self, board: List[List[str]]) -> bool:\n      for row in range(9):\n          seen = set()\n          for i in range(9):\n              if board[row][i] == \".\":\n                  continue\n              if board[row][i] in seen:\n                  return False\n              seen.add(board[row][i])\n\n      for col in range(9):\n          seen = set()\n          for i in range(9):\n              if board[i][col] == \".\":\n                  continue\n              if board[i][col] in seen:\n                  return False\n              seen.add(board[i][col])\n\n      for square in range(9):\n          seen = set()\n          for i in range(3):\n              for j in range(3):\n                  row = (square//3) * 3 + i\n                  col = (square % 3) * 3 + j\n                  if board[row][col] == \".\":\n                      continue\n                  if board[row][col] in seen:\n                      return False\n                  seen.add(board[row][col])\n      return True\n"
+            "code": "class Solution:\n    def isValidSudoku(self, board: List[List[str]]) -> bool:\n        for row in range(9):\n            seen = set()\n            for i in range(9):\n                if board[row][i] == \".\":\n                    continue\n                if board[row][i] in seen:\n                    return False\n                seen.add(board[row][i])\n\n        for col in range(9):\n            seen = set()\n            for i in range(9):\n                if board[i][col] == \".\":\n                    continue\n                if board[i][col] in seen:\n                    return False\n                seen.add(board[i][col])\n\n        for square in range(9):\n            seen = set()\n            for i in range(3):\n                for j in range(3):\n                    row = (square//3) * 3 + i\n                    col = (square % 3) * 3 + j\n                    if board[row][col] == \".\":\n                        continue\n                    if board[row][col] in seen:\n                        return False\n                    seen.add(board[row][col])\n        return True"
         },
         {
             "language": "java",
             "time_complexity": "O(n^2)",
             "space_complexity": "O(n)",
-            "code": "public class Solution {\n    public boolean isValidSudoku(char[][] board) {\n        for (int row = 0; row < 9; row++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 9; i++) {\n                if (board[row][i] == '.') continue;\n                if (seen.contains(board[row][i])) return false;\n                seen.add(board[row][i]);\n            }\n        }\n\n        for (int col = 0; col < 9; col++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 9; i++) {\n                if (board[i][col] == '.') continue;\n                if (seen.contains(board[i][col])) return false;\n                seen.add(board[i][col]);\n            }\n        }\n\n        for (int square = 0; square < 9; square++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 3; i++) {\n                for (int j = 0; j < 3; j++) {\n                    int row = (square / 3) * 3 + i;\n                    int col = (square % 3) * 3 + j;\n                    if (board[row][col] == '.') continue;\n                    if (seen.contains(board[row][col])) return false;\n                    seen.add(board[row][col]);\n                }\n            }\n        }\n\n        return true;\n    }\n}\n"
+            "code": "public class Solution {\n    public boolean isValidSudoku(char[][] board) {\n        for (int row = 0; row < 9; row++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 9; i++) {\n                if (board[row][i] == '.') continue;\n                if (seen.contains(board[row][i])) return false;\n                seen.add(board[row][i]);\n            }\n        }\n\n        for (int col = 0; col < 9; col++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 9; i++) {\n                if (board[i][col] == '.') continue;\n                if (seen.contains(board[i][col])) return false;\n                seen.add(board[i][col]);\n            }\n        }\n\n        for (int square = 0; square < 9; square++) {\n            Set<Character> seen = new HashSet<>();\n            for (int i = 0; i < 3; i++) {\n                for (int j = 0; j < 3; j++) {\n                    int row = (square / 3) * 3 + i;\n                    int col = (square % 3) * 3 + j;\n                    if (board[row][col] == '.') continue;\n                    if (seen.contains(board[row][col])) return false;\n                    seen.add(board[row][col]);\n                }\n            }\n        }\n\n        return true;\n    }\n}"
         },
         {
-            "language": "swift",
+            "language": "cpp",
             "time_complexity": "O(n^2)",
             "space_complexity": "O(n)",
-            "code": "class Solution {\n  func isValidSudoku(_ board: [[Character]]) -> Bool {\n      for row in 0..<9 {\n          var seen = Set<Character>()\n          for i in 0..<9 {\n              if board[row][i] == \".\" { continue }\n              if seen.contains(board[row][i]) { return false }\n              seen.insert(board[row][i])\n          }\n      }\n\n      for col in 0..<9 {\n          var seen = Set<Character>()\n          for i in 0..<9 {\n              if board[i][col] == \".\" { continue }\n              if seen.contains(board[i][col]) { return false }\n              seen.insert(board[i][col])\n          }\n      }\n\n      for square in 0..<9 {\n          var seen = Set<Character>()\n          for i in 0..<3 {\n              for j in 0..<3 {\n                  let row = (square / 3) * 3 + i\n                  let col = (square % 3) * 3 + j\n                  if board[row][col] == \".\" { continue }\n                  if seen.contains(board[row][col]) { return false }\n                  seen.insert(board[row][col])\n              }\n          }\n      }\n\n      return true\n  }\n}\n"
+            "code": "class Solution {\npublic:\n    bool isValidSudoku(vector<vector<char>>& board) {\n        for (int row = 0; row < 9; row++) {\n            unordered_set<char> seen;\n            for (int i = 0; i < 9; i++) {\n                if (board[row][i] == '.') continue;\n                if (seen.count(board[row][i])) return false;\n                seen.insert(board[row][i]);\n            }\n        }\n\n        for (int col = 0; col < 9; col++) {\n            unordered_set<char> seen;\n            for (int i = 0; i < 9; i++) {\n                if (board[i][col] == '.') continue;\n                if (seen.count(board[i][col])) return false;\n                seen.insert(board[i][col]);\n            }\n        }\n\n        for (int square = 0; square < 9; square++) {\n            unordered_set<char> seen;\n            for (int i = 0; i < 3; i++) {\n                for (int j = 0; j < 3; j++) {\n                    int row = (square / 3) * 3 + i;\n                    int col = (square % 3) * 3 + j;\n                    if (board[row][col] == '.') continue;\n                    if (seen.count(board[row][col])) return false;\n                    seen.insert(board[row][col]);\n                }\n            }\n        }\n\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {character[][]} board\n     * @return {boolean}\n     */\n    isValidSudoku(board) {\n        for (let row = 0; row < 9; row++) {\n            let seen = new Set();\n            for (let i = 0; i < 9; i++) {\n                if (board[row][i] === '.') continue;\n                if (seen.has(board[row][i])) return false;\n                seen.add(board[row][i]);\n            }\n        }\n\n        for (let col = 0; col < 9; col++) {\n            let seen = new Set();\n            for (let i = 0; i < 9; i++) {\n                if (board[i][col] === '.') continue;\n                if (seen.has(board[i][col])) return false;\n                seen.add(board[i][col]);\n            }\n        }\n\n        for (let square = 0; square < 9; square++) {\n            let seen = new Set();\n            for (let i = 0; i < 3; i++) {\n                for (let j = 0; j < 3; j++) {\n                    let row = Math.floor(square / 3) * 3 + i;\n                    let col = (square % 3) * 3 + j;\n                    if (board[row][col] === '.') continue;\n                    if (seen.has(board[row][col])) return false;\n                    seen.add(board[row][col]);\n                }\n            }\n        }\n\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsValidSudoku(char[][] board) {\n        for (int row = 0; row < 9; row++) {\n            HashSet<char> seen = new HashSet<char>();\n            for (int i = 0; i < 9; i++) {\n                if (board[row][i] == '.') continue;\n                if (seen.Contains(board[row][i])) return false;\n                seen.Add(board[row][i]);\n            }\n        }\n\n        for (int col = 0; col < 9; col++) {\n            HashSet<char> seen = new HashSet<char>();\n            for (int i = 0; i < 9; i++) {\n                if (board[i][col] == '.') continue;\n                if (seen.Contains(board[i][col])) return false;\n                seen.Add(board[i][col]);\n            }\n        }\n\n        for (int square = 0; square < 9; square++) {\n            HashSet<char> seen = new HashSet<char>();\n            for (int i = 0; i < 3; i++) {\n                for (int j = 0; j < 3; j++) {\n                    int row = (square / 3) * 3 + i;\n                    int col = (square % 3) * 3 + j;\n                    if (board[row][col] == '.') continue;\n                    if (seen.Contains(board[row][col])) return false;\n                    seen.Add(board[row][col]);\n                }\n            }\n        }\n\n        return true;\n    }\n}"
         },
         {
             "language": "go",
             "time_complexity": "O(n^2)",
             "space_complexity": "O(n)",
-            "code": "func isValidSudoku(board [][]byte) bool {\n  for row := 0; row < 9; row++ {\n      seen := make(map[byte]bool)\n      for i := 0; i < 9; i++ {\n          if board[row][i] == '.' {\n              continue\n          }\n          if seen[board[row][i]] {\n              return false\n          }\n          seen[board[row][i]] = true\n      }\n  }\n\n  for col := 0; col < 9; col++ {\n      seen := make(map[byte]bool)\n      for i := 0; i < 9; i++ {\n          if board[i][col] == '.' {\n              continue\n          }\n          if seen[board[i][col]] {\n              return false\n          }\n          seen[board[i][col]] = true\n      }\n  }\n\n  for square := 0; square < 9; square++ {\n      seen := make(map[byte]bool)\n      for i := 0; i < 3; i++ {\n          for j := 0; j < 3; j++ {\n              row := (square / 3) * 3 + i\n              col := (square % 3) * 3 + j\n              if board[row][col] == '.' {\n                  continue\n              }\n              if seen[board[row][col]] {\n                  return false\n              }\n              seen[board[row][col]] = true\n          }\n      }\n  }\n  return true\n}\n"
+            "code": "func isValidSudoku(board [][]byte) bool {\n    for row := 0; row < 9; row++ {\n        seen := make(map[byte]bool)\n        for i := 0; i < 9; i++ {\n            if board[row][i] == '.' {\n                continue\n            }\n            if seen[board[row][i]] {\n                return false\n            }\n            seen[board[row][i]] = true\n        }\n    }\n\n    for col := 0; col < 9; col++ {\n        seen := make(map[byte]bool)\n        for i := 0; i < 9; i++ {\n            if board[i][col] == '.' {\n                continue\n            }\n            if seen[board[i][col]] {\n                return false\n            }\n            seen[board[i][col]] = true\n        }\n    }\n\n    for square := 0; square < 9; square++ {\n        seen := make(map[byte]bool)\n        for i := 0; i < 3; i++ {\n            for j := 0; j < 3; j++ {\n                row := (square / 3) * 3 + i\n                col := (square % 3) * 3 + j\n                if board[row][col] == '.' {\n                    continue\n                }\n                if seen[board[row][col]] {\n                    return false\n                }\n                seen[board[row][col]] = true\n            }\n        }\n    }\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isValidSudoku(board: Array<CharArray>): Boolean {\n        for (row in 0 until 9) {\n            val seen = mutableSetOf<Char>()\n            for (i in 0 until 9) {\n                if (board[row][i] == '.') continue\n                if (board[row][i] in seen) return false\n                seen.add(board[row][i])\n            }\n        }\n\n        for (col in 0 until 9) {\n            val seen = mutableSetOf<Char>()\n            for (i in 0 until 9) {\n                if (board[i][col] == '.') continue\n                if (board[i][col] in seen) return false\n                seen.add(board[i][col])\n            }\n        }\n\n        for (square in 0 until 9) {\n            val seen = mutableSetOf<Char>()\n            for (i in 0 until 3) {\n                for (j in 0 until 3) {\n                    val row = (square / 3) * 3 + i\n                    val col = (square % 3) * 3 + j\n                    if (board[row][col] == '.') continue\n                    if (board[row][col] in seen) return false\n                    seen.add(board[row][col])\n                }\n            }\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isValidSudoku(_ board: [[Character]]) -> Bool {\n        for row in 0..<9 {\n            var seen = Set<Character>()\n            for i in 0..<9 {\n                if board[row][i] == \".\" { continue }\n                if seen.contains(board[row][i]) { return false }\n                seen.insert(board[row][i])\n            }\n        }\n\n        for col in 0..<9 {\n            var seen = Set<Character>()\n            for i in 0..<9 {\n                if board[i][col] == \".\" { continue }\n                if seen.contains(board[i][col]) { return false }\n                seen.insert(board[i][col])\n            }\n        }\n\n        for square in 0..<9 {\n            var seen = Set<Character>()\n            for i in 0..<3 {\n                for j in 0..<3 {\n                    let row = (square / 3) * 3 + i\n                    let col = (square % 3) * 3 + j\n                    if board[row][col] == \".\" { continue }\n                    if seen.contains(board[row][col]) { return false }\n                    seen.insert(board[row][col])\n                }\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_valid_sudoku(board: Vec<Vec<char>>) -> bool {\n        for row in 0..9 {\n            let mut seen = HashSet::new();\n            for i in 0..9 {\n                if board[row][i] == '.' { continue; }\n                if !seen.insert(board[row][i]) { return false; }\n            }\n        }\n\n        for col in 0..9 {\n            let mut seen = HashSet::new();\n            for i in 0..9 {\n                if board[i][col] == '.' { continue; }\n                if !seen.insert(board[i][col]) { return false; }\n            }\n        }\n\n        for square in 0..9 {\n            let mut seen = HashSet::new();\n            for i in 0..3 {\n                for j in 0..3 {\n                    let row = (square / 3) * 3 + i;\n                    let col = (square % 3) * 3 + j;\n                    if board[row][col] == '.' { continue; }\n                    if !seen.insert(board[row][col]) { return false; }\n                }\n            }\n        }\n\n        true\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n    def isValidSudoku(self, board: List[List[str]]) -> bool:\n        cols = defaultdict(set)\n        rows = defaultdict(set)\n        squares = defaultdict(set)\n\n        for r in range(9):\n            for c in range(9):\n                if board[r][c] == \".\":\n                    continue\n                if ( board[r][c] in rows[r]\n                    or board[r][c] in cols[c]\n                    or board[r][c] in squares[(r // 3, c // 3)]):\n                    return False\n\n                cols[c].add(board[r][c])\n                rows[r].add(board[r][c])\n                squares[(r // 3, c // 3)].add(board[r][c])\n\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public boolean isValidSudoku(char[][] board) {\n        Map<Integer, Set<Character>> cols = new HashMap<>();\n        Map<Integer, Set<Character>> rows = new HashMap<>();\n        Map<String, Set<Character>> squares = new HashMap<>();\n\n        for (int r = 0; r < 9; r++) {\n            for (int c = 0; c < 9; c++) {\n                if (board[r][c] == '.') continue;\n\n                String squareKey = (r / 3) + \",\" + (c / 3);\n\n                if (rows.computeIfAbsent(r, k -> new HashSet<>()).contains(board[r][c]) ||\n                    cols.computeIfAbsent(c, k -> new HashSet<>()).contains(board[r][c]) ||\n                    squares.computeIfAbsent(squareKey, k -> new HashSet<>()).contains(board[r][c])) {\n                    return false;\n                }\n\n                rows.get(r).add(board[r][c]);\n                cols.get(c).add(board[r][c]);\n                squares.get(squareKey).add(board[r][c]);\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\npublic:\n    bool isValidSudoku(vector<vector<char>>& board) {\n        unordered_map<int, unordered_set<char>> rows, cols;\n        map<pair<int, int>, unordered_set<char>> squares;\n\n        for (int r = 0; r < 9; r++) {\n            for (int c = 0; c < 9; c++) {\n                if (board[r][c] == '.') continue;\n\n                pair<int, int> squareKey = {r / 3, c / 3};\n\n                if (rows[r].count(board[r][c]) || cols[c].count(board[r][c]) || squares[squareKey].count(board[r][c])) {\n                    return false;\n                }\n\n                rows[r].insert(board[r][c]);\n                cols[c].insert(board[r][c]);\n                squares[squareKey].insert(board[r][c]);\n            }\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {character[][]} board\n     * @return {boolean}\n     */\n    isValidSudoku(board) {\n        const cols = new Map();\n        const rows = new Map();\n        const squares = new Map();\n\n        for (let r = 0; r < 9; r++) {\n            for (let c = 0; c < 9; c++) {\n                if (board[r][c] === '.') continue;\n\n                const squareKey = `${Math.floor(r / 3)},${Math.floor(c / 3)}`;\n\n                if (\n                    (rows.get(r) && rows.get(r).has(board[r][c])) ||\n                    (cols.get(c) && cols.get(c).has(board[r][c])) ||\n                    (squares.get(squareKey) &&\n                        squares.get(squareKey).has(board[r][c]))\n                ) {\n                    return false;\n                }\n\n                if (!rows.has(r)) rows.set(r, new Set());\n                if (!cols.has(c)) cols.set(c, new Set());\n                if (!squares.has(squareKey)) squares.set(squareKey, new Set());\n\n                rows.get(r).add(board[r][c]);\n                cols.get(c).add(board[r][c]);\n                squares.get(squareKey).add(board[r][c]);\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public bool IsValidSudoku(char[][] board) {\n        Dictionary<int, HashSet<char>> cols = new Dictionary<int, HashSet<char>>();\n        Dictionary<int, HashSet<char>> rows = new Dictionary<int, HashSet<char>>();\n        Dictionary<string, HashSet<char>> squares = new Dictionary<string, HashSet<char>>();\n\n        for (int r = 0; r < 9; r++) {\n            for (int c = 0; c < 9; c++) {\n                if (board[r][c] == '.') continue;\n\n                string squareKey = (r / 3) + \",\" + (c / 3);\n\n                if ((rows.ContainsKey(r) && rows[r].Contains(board[r][c])) ||\n                    (cols.ContainsKey(c) && cols[c].Contains(board[r][c])) ||\n                    (squares.ContainsKey(squareKey) && squares[squareKey].Contains(board[r][c]))) {\n                    return false;\n                }\n\n                if (!rows.ContainsKey(r)) rows[r] = new HashSet<char>();\n                if (!cols.ContainsKey(c)) cols[c] = new HashSet<char>();\n                if (!squares.ContainsKey(squareKey)) squares[squareKey] = new HashSet<char>();\n\n                rows[r].Add(board[r][c]);\n                cols[c].Add(board[r][c]);\n                squares[squareKey].Add(board[r][c]);\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "func isValidSudoku(board [][]byte) bool {\n    rows := make([]map[byte]bool, 9)\n    cols := make([]map[byte]bool, 9)\n    squares := make([]map[byte]bool, 9)\n\n    for i := 0; i < 9; i++ {\n        rows[i] = make(map[byte]bool)\n        cols[i] = make(map[byte]bool)\n        squares[i] = make(map[byte]bool)\n    }\n\n    for r := 0; r < 9; r++ {\n        for c := 0; c < 9; c++ {\n            if board[r][c] == '.' {\n                continue\n            }\n            val := board[r][c]\n            squareIdx := (r/3)*3 + c/3\n\n            if rows[r][val] || cols[c][val] ||\n               squares[squareIdx][val] {\n                return false\n            }\n\n            rows[r][val] = true\n            cols[c][val] = true\n            squares[squareIdx][val] = true\n        }\n    }\n\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    fun isValidSudoku(board: Array<CharArray>): Boolean {\n        val rows = Array(9) { HashSet<Char>() }\n        val cols = Array(9) { HashSet<Char>() }\n        val squares = Array(9) { HashSet<Char>() }\n\n        for (r in 0 until 9) {\n            for (c in 0 until 9) {\n                val value = board[r][c]\n                if (value == '.') continue\n\n                val squareIdx = (r / 3) * 3 + (c / 3)\n                if (value in rows[r] || value in cols[c] ||\n                    value in squares[squareIdx]) {\n                    return false\n                }\n\n                rows[r].add(value)\n                cols[c].add(value)\n                squares[squareIdx].add(value)\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func isValidSudoku(_ board: [[Character]]) -> Bool {\n        var cols = [Int: Set<Character>]()\n        var rows = [Int: Set<Character>]()\n        var squares = [String: Set<Character>]()\n\n        for r in 0..<9 {\n            for c in 0..<9 {\n                if board[r][c] == \".\" { continue }\n\n                let squareKey = \"\\(r / 3),\\(c / 3)\"\n\n                if rows[r]?.contains(board[r][c]) == true ||\n                   cols[c]?.contains(board[r][c]) == true ||\n                   squares[squareKey]?.contains(board[r][c]) == true {\n                    return false\n                }\n\n                rows[r, default: []].insert(board[r][c])\n                cols[c, default: []].insert(board[r][c])\n                squares[squareKey, default: []].insert(board[r][c])\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn is_valid_sudoku(board: Vec<Vec<char>>) -> bool {\n        let mut rows: Vec<HashSet<char>> = vec![HashSet::new(); 9];\n        let mut cols: Vec<HashSet<char>> = vec![HashSet::new(); 9];\n        let mut squares: Vec<HashSet<char>> = vec![HashSet::new(); 9];\n\n        for r in 0..9 {\n            for c in 0..9 {\n                if board[r][c] == '.' { continue; }\n                let val = board[r][c];\n                let square_idx = (r / 3) * 3 + c / 3;\n\n                if !rows[r].insert(val)\n                    || !cols[c].insert(val)\n                    || !squares[square_idx].insert(val)\n                {\n                    return false;\n                }\n            }\n        }\n\n        true\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isValidSudoku(self, board: List[List[str]]) -> bool:\n        rows = [0] * 9\n        cols = [0] * 9\n        squares = [0] * 9\n\n        for r in range(9):\n            for c in range(9):\n                if board[r][c] == \".\":\n                    continue\n\n                val = int(board[r][c]) - 1\n                if (1 << val) & rows[r]:\n                    return False\n                if (1 << val) & cols[c]:\n                    return False\n                if (1 << val) & squares[(r // 3) * 3 + (c // 3)]:\n                    return False\n\n                rows[r] |= (1 << val)\n                cols[c] |= (1 << val)\n                squares[(r // 3) * 3 + (c // 3)] |= (1 << val)\n\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isValidSudoku(char[][] board) {\n        int[] rows = new int[9];\n        int[] cols = new int[9];\n        int[] squares = new int[9];\n\n        for (int r = 0; r < 9; r++) {\n            for (int c = 0; c < 9; c++) {\n                if (board[r][c] == '.') continue;\n\n                int val = board[r][c] - '1';\n\n                if ((rows[r] & (1 << val)) > 0 || (cols[c] & (1 << val)) > 0 ||\n                    (squares[(r / 3) * 3 + (c / 3)] & (1 << val)) > 0) {\n                    return false;\n                }\n\n                rows[r] |= (1 << val);\n                cols[c] |= (1 << val);\n                squares[(r / 3) * 3 + (c / 3)] |= (1 << val);\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isValidSudoku(vector<vector<char>>& board) {\n        int rows[9] = {0};\n        int cols[9] = {0};\n        int squares[9] = {0};\n\n        for (int r = 0; r < 9; ++r) {\n            for (int c = 0; c < 9; ++c) {\n                if (board[r][c] == '.') continue;\n\n                int val = board[r][c] - '1';\n\n                if ((rows[r] & (1 << val)) || (cols[c] & (1 << val)) ||\n                    (squares[(r / 3) * 3 + (c / 3)] & (1 << val))) {\n                    return false;\n                }\n\n                rows[r] |= (1 << val);\n                cols[c] |= (1 << val);\n                squares[(r / 3) * 3 + (c / 3)] |= (1 << val);\n            }\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    isValidSudoku(board) {\n        let rows = new Array(9).fill(0);\n        let cols = new Array(9).fill(0);\n        let squares = new Array(9).fill(0);\n\n        for (let r = 0; r < 9; r++) {\n            for (let c = 0; c < 9; c++) {\n                if (board[r][c] === '.') continue;\n\n                let val = board[r][c] - '1';\n\n                if (\n                    rows[r] & (1 << val) ||\n                    cols[c] & (1 << val) ||\n                    squares[Math.floor(r / 3) * 3 + Math.floor(c / 3)] &\n                        (1 << val)\n                ) {\n                    return false;\n                }\n\n                rows[r] |= 1 << val;\n                cols[c] |= 1 << val;\n                squares[Math.floor(r / 3) * 3 + Math.floor(c / 3)] |= 1 << val;\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsValidSudoku(char[][] board) {\n        int[] rows = new int[9];\n        int[] cols = new int[9];\n        int[] squares = new int[9];\n\n        for (int r = 0; r < 9; r++) {\n            for (int c = 0; c < 9; c++) {\n                if (board[r][c] == '.') continue;\n\n                int val = board[r][c] - '1';\n\n                if ((rows[r] & (1 << val)) > 0 || (cols[c] & (1 << val)) > 0 ||\n                    (squares[(r / 3) * 3 + (c / 3)] & (1 << val)) > 0) {\n                    return false;\n                }\n\n                rows[r] |= (1 << val);\n                cols[c] |= (1 << val);\n                squares[(r / 3) * 3 + (c / 3)] |= (1 << val);\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func isValidSudoku(board [][]byte) bool {\n    rows := make([]int, 9)\n    cols := make([]int, 9)\n    squares := make([]int, 9)\n\n    for r := 0; r < 9; r++ {\n        for c := 0; c < 9; c++ {\n            if board[r][c] == '.' {\n                continue\n            }\n\n            val := board[r][c] - '1'\n            bit := 1 << val\n            squareIdx := (r/3)*3 + c/3\n\n            if rows[r]&bit != 0 || cols[c]&bit != 0 ||\n               squares[squareIdx]&bit != 0 {\n                return false\n            }\n\n            rows[r] |= bit\n            cols[c] |= bit\n            squares[squareIdx] |= bit\n        }\n    }\n\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isValidSudoku(board: Array<CharArray>): Boolean {\n        val rows = IntArray(9)\n        val cols = IntArray(9)\n        val squares = IntArray(9)\n\n        for (r in 0 until 9) {\n            for (c in 0 until 9) {\n                if (board[r][c] == '.') continue\n\n                val value = board[r][c] - '1'\n                val bit = 1 shl value\n                val squareIdx = (r / 3) * 3 + (c / 3)\n\n                if ((rows[r] and bit) != 0 || (cols[c] and bit) != 0 ||\n                    (squares[squareIdx] and bit) != 0) {\n                    return false\n                }\n\n                rows[r] = rows[r] or bit\n                cols[c] = cols[c] or bit\n                squares[squareIdx] = squares[squareIdx] or bit\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isValidSudoku(_ board: [[Character]]) -> Bool {\n        var rows = [Int](repeating: 0, count: 9)\n        var cols = [Int](repeating: 0, count: 9)\n        var squares = [Int](repeating: 0, count: 9)\n\n        for r in 0..<9 {\n            for c in 0..<9 {\n                if board[r][c] == \".\" { continue }\n\n                let val = Int(board[r][c].asciiValue! - Character(\"0\").asciiValue!)\n                let bitmask = 1 << (val - 1)\n\n                if (rows[r] & bitmask) != 0 { return false }\n                if (cols[c] & bitmask) != 0 { return false }\n                if (squares[(r / 3) * 3 + (c / 3)] & bitmask) != 0 { return false }\n\n                rows[r] |= bitmask\n                cols[c] |= bitmask\n                squares[(r / 3) * 3 + (c / 3)] |= bitmask\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_valid_sudoku(board: Vec<Vec<char>>) -> bool {\n        let mut rows = [0i32; 9];\n        let mut cols = [0i32; 9];\n        let mut squares = [0i32; 9];\n\n        for r in 0..9 {\n            for c in 0..9 {\n                if board[r][c] == '.' { continue; }\n\n                let val = board[r][c] as i32 - '1' as i32;\n                let bit = 1 << val;\n                let square_idx = (r / 3) * 3 + c / 3;\n\n                if (rows[r] & bit) != 0\n                    || (cols[c] & bit) != 0\n                    || (squares[square_idx] & bit) != 0\n                {\n                    return false;\n                }\n\n                rows[r] |= bit;\n                cols[c] |= bit;\n                squares[square_idx] |= bit;\n            }\n        }\n\n        true\n    }\n}"
         }
     ]
 }

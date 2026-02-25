@@ -1,0 +1,121 @@
+{
+    "problem_name": "Course Schedule",
+    "problem_slug": "course-schedule",
+    "difficulty": "medium",
+    "topic_tags": [
+        "depth-first search",
+        "breadth-first search",
+        "graph theory",
+        "topological sort"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        # Map each course to its prerequisites\n        preMap = {i: [] for i in range(numCourses)}\n        for crs, pre in prerequisites:\n            preMap[crs].append(pre)\n\n        # Store all courses along the current DFS path\n        visiting = set()\n\n        def dfs(crs):\n            if crs in visiting:\n                # Cycle detected\n                return False\n            if preMap[crs] == []:\n                return True\n\n            visiting.add(crs)\n            for pre in preMap[crs]:\n                if not dfs(pre):\n                    return False\n            visiting.remove(crs)\n            preMap[crs] = []\n            return True\n\n        for c in range(numCourses):\n            if not dfs(c):\n                return False\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    // Map each course to its prerequisites\n    private Map<Integer, List<Integer>> preMap = new HashMap<>();\n    // Store all courses along the current DFS path\n    private Set<Integer> visiting = new HashSet<>();\n\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        for (int i = 0; i < numCourses; i++) {\n            preMap.put(i, new ArrayList<>());\n        }\n        for (int[] prereq : prerequisites) {\n            preMap.get(prereq[0]).add(prereq[1]);\n        }\n\n        for (int c = 0; c < numCourses; c++) {\n            if (!dfs(c)) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    private boolean dfs(int crs) {\n        if (visiting.contains(crs)) {\n            // Cycle detected\n            return false;\n        }\n        if (preMap.get(crs).isEmpty()) {\n            return true;\n        }\n\n        visiting.add(crs);\n        for (int pre : preMap.get(crs)) {\n            if (!dfs(pre)) {\n                return false;\n            }\n        }\n        visiting.remove(crs);\n        preMap.put(crs, new ArrayList<>());\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    // Map each course to its prerequisites\n    unordered_map<int, vector<int>> preMap;\n    // Store all courses along the current DFS path\n    unordered_set<int> visiting;\n\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        for (int i = 0; i < numCourses; i++) {\n            preMap[i] = {};\n        }\n        for (const auto& prereq : prerequisites) {\n            preMap[prereq[0]].push_back(prereq[1]);\n        }\n\n        for (int c = 0; c < numCourses; c++) {\n            if (!dfs(c)) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    bool dfs(int crs) {\n        if (visiting.count(crs)) {\n            // Cycle detected\n            return false;\n        }\n        if (preMap[crs].empty()) {\n            return true;\n        }\n\n        visiting.insert(crs);\n        for (int pre : preMap[crs]) {\n            if (!dfs(pre)) {\n                return false;\n            }\n        }\n        visiting.erase(crs);\n        preMap[crs].clear();\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    /**\n     * @param {number} numCourses\n     * @param {number[][]} prerequisites\n     * @return {boolean}\n     */\n    canFinish(numCourses, prerequisites) {\n        const preMap = new Map();\n        for (let i = 0; i < numCourses; i++) {\n            preMap.set(i, []);\n        }\n        for (let [crs, pre] of prerequisites) {\n            preMap.get(crs).push(pre);\n        }\n\n        // Store all courses along the current DFS path\n        const visiting = new Set();\n\n        const dfs = (crs) => {\n            if (visiting.has(crs)) {\n                // Cycle detected\n                return false;\n            }\n            if (preMap.get(crs).length === 0) {\n                return true;\n            }\n\n            visiting.add(crs);\n            for (let pre of preMap.get(crs)) {\n                if (!dfs(pre)) {\n                    return false;\n                }\n            }\n            visiting.delete(crs);\n            preMap.set(crs, []);\n            return true;\n        };\n\n        for (let c = 0; c < numCourses; c++) {\n            if (!dfs(c)) {\n                return false;\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    // Map each course to its prerequisites\n    private Dictionary<int, List<int>> preMap = new Dictionary<int, List<int>>();\n    // Store all courses along the current DFS path\n    private HashSet<int> visiting = new HashSet<int>();\n\n    public bool CanFinish(int numCourses, int[][] prerequisites) {\n        for (int i = 0; i < numCourses; i++) {\n            preMap[i] = new List<int>();\n        }\n        foreach (var prereq in prerequisites) {\n            preMap[prereq[0]].Add(prereq[1]);\n        }\n\n        for (int c = 0; c < numCourses; c++) {\n            if (!Dfs(c)) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    private bool Dfs(int crs) {\n        if (visiting.Contains(crs)) {\n            // Cycle detected\n            return false;\n        }\n        if (preMap[crs].Count == 0) {\n            return true;\n        }\n\n        visiting.Add(crs);\n        foreach (int pre in preMap[crs]) {\n            if (!Dfs(pre)) {\n                return false;\n            }\n        }\n        visiting.Remove(crs);\n        preMap[crs].Clear();\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "func canFinish(numCourses int, prerequisites [][]int) bool {\n    // Map each course to its prerequisites\n    preMap := make(map[int][]int)\n    for i := 0; i < numCourses; i++ {\n        preMap[i] = []int{}\n    }\n    for _, prereq := range prerequisites {\n        crs, pre := prereq[0], prereq[1]\n        preMap[crs] = append(preMap[crs], pre)\n    }\n\n    // Store all courses along the current DFS path\n    visiting := make(map[int]bool)\n\n    var dfs func(int) bool\n    dfs = func(crs int) bool {\n        if visiting[crs] {\n            // Cycle detected\n            return false\n        }\n        if len(preMap[crs]) == 0 {\n            return true\n        }\n\n        visiting[crs] = true\n        for _, pre := range preMap[crs] {\n            if !dfs(pre) {\n                return false\n            }\n        }\n        visiting[crs] = false\n        preMap[crs] = []int{}\n        return true\n    }\n\n    for c := 0; c < numCourses; c++ {\n        if !dfs(c) {\n            return false\n        }\n    }\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun canFinish(numCourses: Int, prerequisites: Array<IntArray>): Boolean {\n        // Map each course to its prerequisites\n        val preMap = HashMap<Int, MutableList<Int>>()\n        for (i in 0 until numCourses) {\n            preMap[i] = mutableListOf()\n        }\n        for (prereq in prerequisites) {\n            val (crs, pre) = prereq\n            preMap[crs]!!.add(pre)\n        }\n\n        // Store all courses along the current DFS path\n        val visiting = HashSet<Int>()\n\n        fun dfs(crs: Int): Boolean {\n            if (crs in visiting) {\n                // Cycle detected\n                return false\n            }\n            if (preMap[crs]!!.isEmpty()) {\n                return true\n            }\n\n            visiting.add(crs)\n            for (pre in preMap[crs]!!) {\n                if (!dfs(pre)) {\n                    return false\n                }\n            }\n            visiting.remove(crs)\n            preMap[crs] = mutableListOf()\n            return true\n        }\n\n        for (c in 0 until numCourses) {\n            if (!dfs(c)) {\n                return false\n            }\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {\n        // Map each course to its prerequisites\n        var preMap = [Int: [Int]]()\n        for i in 0..<numCourses {\n            preMap[i] = []\n        }\n        for pair in prerequisites {\n            preMap[pair[0]]!.append(pair[1])\n        }\n\n        // Store all courses along the current DFS path\n        var visiting = Set<Int>()\n\n        func dfs(_ crs: Int) -> Bool {\n            if visiting.contains(crs) {\n                // Cycle detected\n                return false\n            }\n            if preMap[crs]!.isEmpty {\n                return true\n            }\n\n            visiting.insert(crs)\n            for pre in preMap[crs]! {\n                if !dfs(pre) {\n                    return false\n                }\n            }\n            visiting.remove(crs)\n            preMap[crs] = []\n            return true\n        }\n\n        for c in 0..<numCourses {\n            if !dfs(c) {\n                return false\n            }\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn can_finish(num_courses: i32, prerequisites: Vec<Vec<i32>>) -> bool {\n        let n = num_courses as usize;\n        let mut pre_map = vec![vec![]; n];\n        for pair in &prerequisites {\n            pre_map[pair[0] as usize].push(pair[1] as usize);\n        }\n\n        let mut visiting = vec![false; n];\n\n        fn dfs(crs: usize, pre_map: &mut Vec<Vec<usize>>, visiting: &mut Vec<bool>) -> bool {\n            if visiting[crs] {\n                return false;\n            }\n            if pre_map[crs].is_empty() {\n                return true;\n            }\n\n            visiting[crs] = true;\n            let prereqs: Vec<usize> = pre_map[crs].clone();\n            for pre in prereqs {\n                if !dfs(pre, pre_map, visiting) {\n                    return false;\n                }\n            }\n            visiting[crs] = false;\n            pre_map[crs].clear();\n            true\n        }\n\n        for c in 0..n {\n            if !dfs(c, &mut pre_map, &mut visiting) {\n                return false;\n            }\n        }\n        true\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        indegree = [0] * numCourses\n        adj = [[] for i in range(numCourses)]\n        for src, dst in prerequisites:\n            indegree[dst] += 1\n            adj[src].append(dst)\n\n        q = deque()\n        for n in range(numCourses):\n            if indegree[n] == 0:\n                q.append(n)\n\n        finish = 0\n        while q:\n            node = q.popleft()\n            finish += 1\n            for nei in adj[node]:\n                indegree[nei] -= 1\n                if indegree[nei] == 0:\n                    q.append(nei)\n\n        return finish == numCourses"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        int[] indegree = new int[numCourses];\n        List<List<Integer>> adj = new ArrayList<>();\n        for (int i = 0; i < numCourses; i++) {\n            adj.add(new ArrayList<>());\n        }\n        for (int[] pre : prerequisites) {\n            indegree[pre[1]]++;\n            adj.get(pre[0]).add(pre[1]);\n        }\n\n        Queue<Integer> q = new LinkedList<>();\n        for (int i = 0; i < numCourses; i++) {\n            if (indegree[i] == 0) {\n                q.add(i);\n            }\n        }\n\n        int finish = 0;\n        while (!q.isEmpty()) {\n            int node = q.poll();\n            finish++;\n            for (int nei : adj.get(node)) {\n                indegree[nei]--;\n                if (indegree[nei] == 0) {\n                    q.add(nei);\n                }\n            }\n        }\n\n        return finish == numCourses;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        vector<int> indegree(numCourses, 0);\n        vector<vector<int>> adj(numCourses);\n\n        for (auto& pre : prerequisites) {\n            indegree[pre[1]]++;\n            adj[pre[0]].push_back(pre[1]);\n        }\n\n        queue<int> q;\n        for (int i = 0; i < numCourses; ++i) {\n            if (indegree[i] == 0) {\n                q.push(i);\n            }\n        }\n\n        int finish = 0;\n        while (!q.empty()) {\n            int node = q.front();\n            q.pop();\n            finish++;\n            for (int nei : adj[node]) {\n                indegree[nei]--;\n                if (indegree[nei] == 0) {\n                    q.push(nei);\n                }\n            }\n        }\n\n        return finish == numCourses;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    /**\n     * @param {number} numCourses\n     * @param {number[][]} prerequisites\n     * @return {boolean}\n     */\n    canFinish(numCourses, prerequisites) {\n        let indegree = Array(numCourses).fill(0);\n        let adj = Array.from({ length: numCourses }, () => []);\n        for (let [src, dst] of prerequisites) {\n            indegree[dst]++;\n            adj[src].push(dst);\n        }\n\n        let q = new Queue();\n        for (let i = 0; i < numCourses; i++) {\n            if (indegree[i] === 0) {\n                q.push(i);\n            }\n        }\n\n        let finish = 0;\n        while (!q.isEmpty()) {\n            let node = q.pop();\n            finish++;\n            for (let nei of adj[node]) {\n                indegree[nei]--;\n                if (indegree[nei] === 0) {\n                    q.push(nei);\n                }\n            }\n        }\n\n        return finish === numCourses;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public bool CanFinish(int numCourses, int[][] prerequisites) {\n        int[] indegree = new int[numCourses];\n        List<List<int>> adj = new List<List<int>>();\n        for (int i = 0; i < numCourses; i++) {\n            adj.Add(new List<int>());\n        }\n        foreach (var pre in prerequisites) {\n            indegree[pre[1]]++;\n            adj[pre[0]].Add(pre[1]);\n        }\n\n        Queue<int> q = new Queue<int>();\n        for (int i = 0; i < numCourses; i++) {\n            if (indegree[i] == 0) {\n                q.Enqueue(i);\n            }\n        }\n\n        int finish = 0;\n        while (q.Count > 0) {\n            int node = q.Dequeue();\n            finish++;\n            foreach (var nei in adj[node]) {\n                indegree[nei]--;\n                if (indegree[nei] == 0) {\n                    q.Enqueue(nei);\n                }\n            }\n        }\n\n        return finish == numCourses;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "func canFinish(numCourses int, prerequisites [][]int) bool {\n    indegree := make([]int, numCourses)\n    adj := make([][]int, numCourses)\n    for i := 0; i < numCourses; i++ {\n        adj[i] = []int{}\n    }\n\n    for _, prereq := range prerequisites {\n        src, dst := prereq[0], prereq[1]\n        indegree[dst]++\n        adj[src] = append(adj[src], dst)\n    }\n\n    q := []int{}\n    for n := 0; n < numCourses; n++ {\n        if indegree[n] == 0 {\n            q = append(q, n)\n        }\n    }\n\n    finish := 0\n    for len(q) > 0 {\n        node := q[0]\n        q = q[1:]\n        finish++\n        for _, nei := range adj[node] {\n            indegree[nei]--\n            if indegree[nei] == 0 {\n                q = append(q, nei)\n            }\n        }\n    }\n\n    return finish == numCourses\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun canFinish(numCourses: Int, prerequisites: Array<IntArray>): Boolean {\n        val indegree = IntArray(numCourses) { 0 }\n        val adj = Array(numCourses) { mutableListOf<Int>() }\n\n        for (prereq in prerequisites) {\n            val (src, dst) = prereq\n            indegree[dst]++\n            adj[src].add(dst)\n        }\n\n        val q: Queue<Int> = LinkedList()\n        for (n in 0 until numCourses) {\n            if (indegree[n] == 0) {\n                q.add(n)\n            }\n        }\n\n        var finish = 0\n        while (q.isNotEmpty()) {\n            val node = q.poll()\n            finish++\n            for (nei in adj[node]) {\n                indegree[nei]--\n                if (indegree[nei] == 0) {\n                    q.add(nei)\n                }\n            }\n        }\n\n        return finish == numCourses\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {\n        var indegree = Array(repeating: 0, count: numCourses)\n        var adj = Array(repeating: [Int](), count: numCourses)\n\n        for pair in prerequisites {\n            let src = pair[0]\n            let dst = pair[1]\n            indegree[dst] += 1\n            adj[src].append(dst)\n        }\n\n        var queue = Deque<Int>()\n        for n in 0..<numCourses {\n            if indegree[n] == 0 {\n                queue.append(n)\n            }\n        }\n\n        var finish = 0\n        while !queue.isEmpty {\n            let node = queue.popFirst()!\n            finish += 1\n            for nei in adj[node] {\n                indegree[nei] -= 1\n                if indegree[nei] == 0 {\n                    queue.append(nei)\n                }\n            }\n        }\n\n        return finish == numCourses\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn can_finish(num_courses: i32, prerequisites: Vec<Vec<i32>>) -> bool {\n        let n = num_courses as usize;\n        let mut indegree = vec![0i32; n];\n        let mut adj = vec![vec![]; n];\n\n        for pre in &prerequisites {\n            let (src, dst) = (pre[0] as usize, pre[1] as usize);\n            indegree[dst] += 1;\n            adj[src].push(dst);\n        }\n\n        let mut queue = VecDeque::new();\n        for i in 0..n {\n            if indegree[i] == 0 {\n                queue.push_back(i);\n            }\n        }\n\n        let mut finish = 0;\n        while let Some(node) = queue.pop_front() {\n            finish += 1;\n            for &nei in &adj[node] {\n                indegree[nei] -= 1;\n                if indegree[nei] == 0 {\n                    queue.push_back(nei);\n                }\n            }\n        }\n\n        finish == n\n    }\n}"
+        }
+    ]
+}

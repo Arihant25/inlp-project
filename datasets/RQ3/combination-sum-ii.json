@@ -1,0 +1,227 @@
+{
+    "problem_name": "Combination Sum II",
+    "problem_slug": "combination-sum-ii",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "backtracking"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "class Solution:\n    def combinationSum2(self, candidates, target):\n        res = set()\n        candidates.sort()\n\n        def generate_subsets(i, cur, total):\n            if total == target:\n                res.add(tuple(cur))\n                return\n            if total > target or i == len(candidates):\n                return\n\n            cur.append(candidates[i])\n            generate_subsets(i + 1, cur, total + candidates[i])\n            cur.pop()\n\n            generate_subsets(i + 1, cur, total)\n\n        generate_subsets(0, [], 0)\n        return [list(combination) for combination in res]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "public class Solution {\n    private Set<List<Integer>> res;\n\n    public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n        res = new HashSet<>();\n        Arrays.sort(candidates);\n        generateSubsets(candidates, target, 0, new ArrayList<>(), 0);\n        return new ArrayList<>(res);\n    }\n\n    private void generateSubsets(int[] candidates, int target, int i, List<Integer> cur, int total) {\n        if (total == target) {\n            res.add(new ArrayList<>(cur));\n            return;\n        }\n        if (total > target || i == candidates.length) {\n            return;\n        }\n\n        cur.add(candidates[i]);\n        generateSubsets(candidates, target, i + 1, cur, total + candidates[i]);\n        cur.remove(cur.size() - 1);\n\n        generateSubsets(candidates, target, i + 1, cur, total);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "class Solution {\npublic:\n    set<vector<int>> res;\n\n    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {\n        res.clear();\n        sort(candidates.begin(), candidates.end());\n        vector<int> cur;\n        generateSubsets(candidates, target, 0, cur, 0);\n        return vector<vector<int>>(res.begin(), res.end());\n    }\n\nprivate:\n    void generateSubsets(vector<int>& candidates, int target, int i, vector<int>& cur, int total) {\n        if (total == target) {\n            res.insert(cur);\n            return;\n        }\n        if (total > target || i == candidates.size()) {\n            return;\n        }\n\n        cur.push_back(candidates[i]);\n        generateSubsets(candidates, target, i + 1, cur, total + candidates[i]);\n        cur.pop_back();\n\n        generateSubsets(candidates, target, i + 1, cur, total);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "class Solution {\n    constructor() {\n        this.res = new Set();\n    }\n\n    /**\n     * @param {number[]} candidates\n     * @param {number} target\n     * @return {number[][]}\n     */\n    combinationSum2(candidates, target) {\n        this.res.clear();\n        candidates.sort((a, b) => a - b);\n        this.generateSubsets(candidates, target, 0, [], 0);\n        return Array.from(this.res, (subset) => JSON.parse(subset));\n    }\n\n    /**\n     * @param {number[]} candidates\n     * @param {number} target\n     * @param {number} i\n     * @param {number[]} cur\n     * @param {number} total\n     * @return {void}\n     */\n    generateSubsets(candidates, target, i, cur, total) {\n        if (total === target) {\n            this.res.add(JSON.stringify([...cur]));\n            return;\n        }\n        if (total > target || i === candidates.length) {\n            return;\n        }\n\n        cur.push(candidates[i]);\n        this.generateSubsets(\n            candidates,\n            target,\n            i + 1,\n            cur,\n            total + candidates[i],\n        );\n        cur.pop();\n\n        this.generateSubsets(candidates, target, i + 1, cur, total);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "public class Solution {\n    private HashSet<string> res;\n\n    public List<List<int>> CombinationSum2(int[] candidates, int target) {\n        res = new HashSet<string>();\n        Array.Sort(candidates);\n        GenerateSubsets(candidates, target, 0, new List<int>(), 0);\n        return res.Select(s => s.Split(',').Select(int.Parse).ToList()).ToList();\n    }\n\n    private void GenerateSubsets(int[] candidates, int target, int i, List<int> cur, int total) {\n        if (total == target) {\n            res.Add(string.Join(\",\", cur));\n            return;\n        }\n        if (total > target || i == candidates.Length) {\n            return;\n        }\n\n        cur.Add(candidates[i]);\n        GenerateSubsets(candidates, target, i + 1, cur, total + candidates[i]);\n        cur.RemoveAt(cur.Count - 1);\n\n        GenerateSubsets(candidates, target, i + 1, cur, total);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "func combinationSum2(candidates []int, target int) [][]int {\n    res := make(map[string][]int)\n    var results [][]int\n    sort.Ints(candidates)\n\n    var generateSubsets func(int, []int, int)\n    generateSubsets = func(i int, cur []int, total int) {\n        if total == target {\n            key := fmt.Sprint(cur)\n            if _, found := res[key]; !found {\n                res[key] = append([]int{}, cur...)\n                results = append(results, res[key])\n            }\n            return\n        }\n        if total > target || i == len(candidates) {\n            return\n        }\n\n        generateSubsets(i+1, append(cur, candidates[i]), total+candidates[i])\n        generateSubsets(i+1, cur, total)\n    }\n\n    generateSubsets(0, []int{}, 0)\n    return results\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "class Solution {\n    fun combinationSum2(candidates: IntArray, target: Int): List<List<Int>> {\n        val res = HashSet<List<Int>>()\n        candidates.sort()\n\n        fun generateSubsets(i: Int, cur: MutableList<Int>, total: Int) {\n            if (total == target) {\n                res.add(ArrayList(cur))\n                return\n            }\n            if (total > target || i == candidates.size) {\n                return\n            }\n\n            cur.add(candidates[i])\n            generateSubsets(i + 1, cur, total + candidates[i])\n            cur.removeAt(cur.size - 1)\n\n            generateSubsets(i + 1, cur, total)\n        }\n\n        generateSubsets(0, mutableListOf(), 0)\n        return res.toList()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "class Solution {\n    func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {\n        var res = Set<[Int]>()\n        let sortedCandidates = candidates.sorted()\n\n        func generateSubsets(_ i: Int, _ cur: inout [Int], _ total: Int) {\n            if total == target {\n                res.insert(cur)\n                return\n            }\n            if total > target || i == sortedCandidates.count {\n                return\n            }\n\n            cur.append(sortedCandidates[i])\n            generateSubsets(i + 1, &cur, total + sortedCandidates[i])\n            cur.removeLast()\n\n            generateSubsets(i + 1, &cur, total)\n        }\n\n        var cur: [Int] = []\n        generateSubsets(0, &cur, 0)\n        return Array(res)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n * 2^n)",
+            "code": "impl Solution {\n    pub fn combination_sum2(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut res = HashSet::new();\n        let mut candidates = candidates;\n        candidates.sort();\n\n        fn generate_subsets(\n            candidates: &[i32], target: i32, i: usize,\n            cur: &mut Vec<i32>, total: i32, res: &mut HashSet<Vec<i32>>,\n        ) {\n            if total == target {\n                res.insert(cur.clone());\n                return;\n            }\n            if total > target || i == candidates.len() {\n                return;\n            }\n            cur.push(candidates[i]);\n            generate_subsets(candidates, target, i + 1, cur, total + candidates[i], res);\n            cur.pop();\n            generate_subsets(candidates, target, i + 1, cur, total, res);\n        }\n\n        generate_subsets(&candidates, target, 0, &mut vec![], 0, &mut res);\n        res.into_iter().collect()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:\n        res = []\n        candidates.sort()\n\n        def dfs(i, cur, total):\n            if total == target:\n                res.append(cur.copy())\n                return\n            if total > target or i == len(candidates):\n                return\n\n            cur.append(candidates[i])\n            dfs(i + 1, cur, total + candidates[i])\n            cur.pop()\n\n\n            while i + 1 < len(candidates) and candidates[i] == candidates[i+1]:\n                i += 1\n            dfs(i + 1, cur, total)\n\n        dfs(0, [], 0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private List<List<Integer>> res;\n\n    public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n        res = new ArrayList<>();\n        Arrays.sort(candidates);\n        dfs(candidates, target, 0, new ArrayList<>(), 0);\n        return res;\n    }\n\n    private void dfs(int[] candidates, int target, int i, List<Integer> cur, int total) {\n        if (total == target) {\n            res.add(new ArrayList<>(cur));\n            return;\n        }\n        if (total > target || i == candidates.length) {\n            return;\n        }\n\n        cur.add(candidates[i]);\n        dfs(candidates, target, i + 1, cur, total + candidates[i]);\n        cur.remove(cur.size() - 1);\n\n        while (i + 1 < candidates.length && candidates[i] == candidates[i + 1]) {\n            i++;\n        }\n        dfs(candidates, target, i + 1, cur, total);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> res;\n    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {\n        res.clear();\n        sort(candidates.begin(), candidates.end());\n        vector<int> cur;\n        dfs(candidates, target, 0, cur, 0);\n        return res;\n    }\n\nprivate:\n    void dfs(vector<int>& candidates, int target, int i, vector<int>& cur, int total) {\n        if (total == target) {\n            res.push_back(cur);\n            return;\n        }\n        if (total > target || i == candidates.size()) {\n            return;\n        }\n\n        cur.push_back(candidates[i]);\n        dfs(candidates, target, i + 1, cur, total + candidates[i]);\n        cur.pop_back();\n\n        while (i + 1 < candidates.size() && candidates[i] == candidates[i + 1]) {\n            i++;\n        }\n        dfs(candidates, target, i + 1, cur, total);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    constructor() {\n        this.res = [];\n    }\n\n    /**\n     * @param {number[]} candidates\n     * @param {number} target\n     * @return {number[][]}\n     */\n    combinationSum2(candidates, target) {\n        this.res = [];\n        candidates.sort((a, b) => a - b);\n        this.dfs(candidates, target, 0, [], 0);\n        return this.res;\n    }\n\n    /**\n     * @param {number[]} candidates\n     * @param {number} target\n     * @param {number} i\n     * @param {number[]} cur\n     * @param {number} total\n     * @return {void}\n     */\n    dfs(candidates, target, i, cur, total) {\n        if (total === target) {\n            this.res.push([...cur]);\n            return;\n        }\n        if (total > target || i === candidates.length) {\n            return;\n        }\n\n        cur.push(candidates[i]);\n        this.dfs(candidates, target, i + 1, cur, total + candidates[i]);\n        cur.pop();\n\n        while (\n            i + 1 < candidates.length &&\n            candidates[i] === candidates[i + 1]\n        ) {\n            i++;\n        }\n        this.dfs(candidates, target, i + 1, cur, total);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private List<List<int>> res;\n\n    public List<List<int>> CombinationSum2(int[] candidates, int target) {\n        res = new List<List<int>>();\n        Array.Sort(candidates);\n        Dfs(candidates, target, 0, new List<int>(), 0);\n        return res;\n    }\n\n    private void Dfs(int[] candidates, int target, int i, List<int> cur, int total) {\n        if (total == target) {\n            res.Add(new List<int>(cur));\n            return;\n        }\n        if (total > target || i == candidates.Length) {\n            return;\n        }\n\n        cur.Add(candidates[i]);\n        Dfs(candidates, target, i + 1, cur, total + candidates[i]);\n        cur.RemoveAt(cur.Count - 1);\n\n        while (i + 1 < candidates.Length && candidates[i] == candidates[i + 1]) {\n            i++;\n        }\n        Dfs(candidates, target, i + 1, cur, total);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func combinationSum2(candidates []int, target int) [][]int {\n    res := [][]int{}\n    sort.Ints(candidates)\n\n    var dfs func(int, []int, int)\n    dfs = func(i int, cur []int, total int) {\n        if total == target {\n            temp := make([]int, len(cur))\n            copy(temp, cur)\n            res = append(res, temp)\n            return\n        }\n        if total > target || i == len(candidates) {\n            return\n        }\n\n        cur = append(cur, candidates[i])\n        dfs(i+1, cur, total+candidates[i])\n        cur = cur[:len(cur)-1]\n\n        for i+1 < len(candidates) && candidates[i] == candidates[i+1] {\n            i++\n        }\n        dfs(i+1, cur, total)\n    }\n\n    dfs(0, []int{}, 0)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun combinationSum2(candidates: IntArray, target: Int): List<List<Int>> {\n        val res = mutableListOf<List<Int>>()\n        candidates.sort()\n\n        fun dfs(i: Int, cur: MutableList<Int>, total: Int) {\n            if (total == target) {\n                res.add(ArrayList(cur))\n                return\n            }\n            if (total > target || i == candidates.size) {\n                return\n            }\n\n            cur.add(candidates[i])\n            dfs(i + 1, cur, total + candidates[i])\n            cur.removeAt(cur.size - 1)\n\n            var next = i + 1\n            while (next < candidates.size && candidates[next] == candidates[i]) {\n                next++\n            }\n            dfs(next, cur, total)\n        }\n\n        dfs(0, mutableListOf(), 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {\n        var res = [[Int]]()\n        let sortedCandidates = candidates.sorted()\n\n        func dfs(_ i: Int, _ cur: inout [Int], _ total: Int) {\n            if total == target {\n                res.append(cur)\n                return\n            }\n            if total > target || i == sortedCandidates.count {\n                return\n            }\n\n            cur.append(sortedCandidates[i])\n            dfs(i + 1, &cur, total + sortedCandidates[i])\n            cur.removeLast()\n\n            var j = i\n            while j + 1 < sortedCandidates.count && sortedCandidates[j] == sortedCandidates[j + 1] {\n                j += 1\n            }\n            dfs(j + 1, &cur, total)\n        }\n\n        var cur: [Int] = []\n        dfs(0, &cur, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn combination_sum2(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut candidates = candidates;\n        candidates.sort();\n\n        fn dfs(\n            candidates: &[i32], target: i32, i: usize,\n            cur: &mut Vec<i32>, total: i32, res: &mut Vec<Vec<i32>>,\n        ) {\n            if total == target {\n                res.push(cur.clone());\n                return;\n            }\n            if total > target || i == candidates.len() {\n                return;\n            }\n\n            cur.push(candidates[i]);\n            dfs(candidates, target, i + 1, cur, total + candidates[i], res);\n            cur.pop();\n\n            let mut j = i;\n            while j + 1 < candidates.len() && candidates[j] == candidates[j + 1] {\n                j += 1;\n            }\n            dfs(candidates, target, j + 1, cur, total, res);\n        }\n\n        dfs(&candidates, target, 0, &mut vec![], 0, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def combinationSum2(self, nums, target):\n        self.res = []\n        self.count = defaultdict(int)\n        cur = []\n        A = []\n\n        for num in nums:\n            if self.count[num] == 0:\n                A.append(num)\n            self.count[num] += 1\n        self.backtrack(A, target, cur, 0)\n        return self.res\n\n    def backtrack(self, nums, target, cur, i):\n        if target == 0:\n            self.res.append(cur.copy())\n            return\n        if target < 0 or i >= len(nums):\n            return\n\n        if self.count[nums[i]] > 0:\n            cur.append(nums[i])\n            self.count[nums[i]] -= 1\n            self.backtrack(nums, target - nums[i], cur, i)\n            self.count[nums[i]] += 1\n            cur.pop()\n\n        self.backtrack(nums, target, cur, i + 1)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    List<List<Integer>> res = new ArrayList<>();\n    Map<Integer, Integer> count = new HashMap<>();\n\n    public List<List<Integer>> combinationSum2(int[] nums, int target) {\n        List<Integer> cur = new ArrayList<>();\n        List<Integer> A = new ArrayList<>();\n\n        for (int num : nums) {\n            if (!count.containsKey(num)) {\n                A.add(num);\n            }\n            count.put(num, count.getOrDefault(num, 0) + 1);\n        }\n        backtrack(A, target, cur, 0);\n        return res;\n    }\n\n    private void backtrack(List<Integer> nums, int target, List<Integer> cur, int i) {\n        if (target == 0) {\n            res.add(new ArrayList<>(cur));\n            return;\n        }\n        if (target < 0 || i >= nums.size()) {\n            return;\n        }\n\n        if (count.get(nums.get(i)) > 0) {\n            cur.add(nums.get(i));\n            count.put(nums.get(i), count.get(nums.get(i)) - 1);\n            backtrack(nums, target - nums.get(i), cur, i);\n            count.put(nums.get(i), count.get(nums.get(i)) + 1);\n            cur.remove(cur.size() - 1);\n        }\n\n        backtrack(nums, target, cur, i + 1);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> res;\n    unordered_map<int, int> count;\n    vector<vector<int>> combinationSum2(vector<int>& nums, int target) {\n        vector<int> cur;\n        vector<int> A;\n        for (int num : nums) {\n            if (!count[num]) {\n                A.push_back(num);\n            }\n            count[num]++;\n        }\n        backtrack(A, target, cur, 0);\n        return res;\n    }\n\n    void backtrack(vector<int>& nums, int target, vector<int>& cur, int i) {\n        if (target == 0) {\n            res.push_back(cur);\n            return;\n        }\n        if (target < 0 || i >= nums.size()) {\n            return;\n        }\n\n        if (count[nums[i]]) {\n            cur.push_back(nums[i]);\n            count[nums[i]]--;\n            backtrack(nums, target - nums[i], cur, i);\n            count[nums[i]]++;\n            cur.pop_back();\n        }\n\n        backtrack(nums, target, cur, i + 1);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    constructor() {\n        this.res = [];\n        this.count = new Map();\n    }\n\n    /**\n     * @param {number[]} candidates\n     * @param {number} target\n     * @return {number[][]}\n     */\n    combinationSum2(nums, target) {\n        const cur = [];\n        const A = [];\n\n        for (const num of nums) {\n            if (!this.count.has(num)) {\n                A.push(num);\n            }\n            this.count.set(num, (this.count.get(num) || 0) + 1);\n        }\n        this.backtrack(A, target, cur, 0);\n        return this.res;\n    }\n\n    /**\n     * @param {number[]} nums\n     * @param {number} target\n     * @param {number[]} cur\n     * @param {number} i\n     * @return {void}\n     */\n    backtrack(nums, target, cur, i) {\n        if (target === 0) {\n            this.res.push([...cur]);\n            return;\n        }\n        if (target < 0 || i >= nums.length) {\n            return;\n        }\n\n        if (this.count.get(nums[i]) > 0) {\n            cur.push(nums[i]);\n            this.count.set(nums[i], this.count.get(nums[i]) - 1);\n            this.backtrack(nums, target - nums[i], cur, i);\n            this.count.set(nums[i], this.count.get(nums[i]) + 1);\n            cur.pop();\n        }\n\n        this.backtrack(nums, target, cur, i + 1);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public List<List<int>> res = new List<List<int>>();\n    public Dictionary<int, int> count = new Dictionary<int, int>();\n\n    public List<List<int>> CombinationSum2(int[] nums, int target) {\n        List<int> cur = new List<int>();\n        List<int> A = new List<int>();\n\n        foreach (int num in nums) {\n            if (!count.ContainsKey(num)) {\n                A.Add(num);\n            }\n            if (count.ContainsKey(num)) {\n                count[num]++;\n            } else {\n                count[num] = 1;\n            }\n        }\n        Backtrack(A, target, cur, 0);\n        return res;\n    }\n\n    private void Backtrack(List<int> nums, int target, List<int> cur, int i) {\n        if (target == 0) {\n            res.Add(new List<int>(cur));\n            return;\n        }\n        if (target < 0 || i >= nums.Count) {\n            return;\n        }\n\n        if (count[nums[i]] > 0) {\n            cur.Add(nums[i]);\n            count[nums[i]]--;\n            Backtrack(nums, target - nums[i], cur, i);\n            count[nums[i]]++;\n            cur.RemoveAt(cur.Count - 1);\n        }\n\n        Backtrack(nums, target, cur, i + 1);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func combinationSum2(nums []int, target int) [][]int {\n    res := [][]int{}\n    count := map[int]int{}\n    uniqueNums := []int{}\n    for _, num := range nums {\n        if count[num] == 0 {\n            uniqueNums = append(uniqueNums, num)\n        }\n        count[num]++\n    }\n    sort.Ints(uniqueNums)\n\n    var backtrack func(int, int, []int)\n    backtrack = func(target int, i int, cur []int) {\n        if target == 0 {\n            temp := make([]int, len(cur))\n            copy(temp, cur)\n            res = append(res, temp)\n            return\n        }\n        if target < 0 || i >= len(uniqueNums) {\n            return\n        }\n\n        if count[uniqueNums[i]] > 0 {\n            cur = append(cur, uniqueNums[i])\n            count[uniqueNums[i]]--\n            backtrack(target-uniqueNums[i], i, cur)\n            count[uniqueNums[i]]++\n            cur = cur[:len(cur)-1]\n        }\n\n        backtrack(target, i+1, cur)\n    }\n\n    backtrack(target, 0, []int{})\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    private val res = mutableListOf<List<Int>>()\n    private val count = HashMap<Int, Int>()\n\n    fun combinationSum2(nums: IntArray, target: Int): List<List<Int>> {\n        val uniqueNums = mutableListOf<Int>()\n        for (num in nums) {\n            count[num] = count.getOrDefault(num, 0) + 1\n            if (count[num] == 1) {\n                uniqueNums.add(num)\n            }\n        }\n        uniqueNums.sort()\n\n        backtrack(uniqueNums, target, mutableListOf(), 0)\n        return res\n    }\n\n    fun backtrack(nums: List<Int>, target: Int, cur: MutableList<Int>, i: Int) {\n        if (target == 0) {\n            res.add(ArrayList(cur))\n            return\n        }\n        if (target < 0 || i >= nums.size) {\n            return\n        }\n\n        if (count[nums[i]] ?: 0 > 0) {\n            cur.add(nums[i])\n            count[nums[i]] = count[nums[i]]!! - 1\n            backtrack(nums, target - nums[i], cur, i)\n            count[nums[i]] = count[nums[i]]!! + 1\n            cur.removeAt(cur.size - 1)\n        }\n\n        backtrack(nums, target, cur, i + 1)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func combinationSum2(_ nums: [Int], _ target: Int) -> [[Int]] {\n        var res = [[Int]]()\n        var count = [Int: Int]()\n        var uniqueNums = [Int]()\n\n        for num in nums {\n            if count[num] == nil {\n                uniqueNums.append(num)\n            }\n            count[num, default: 0] += 1\n        }\n\n        func backtrack(_ nums: [Int], _ target: Int, _ cur: inout [Int], _ i: Int) {\n            if target == 0 {\n                res.append(cur)\n                return\n            }\n            if target < 0 || i >= nums.count {\n                return\n            }\n\n            if count[nums[i], default: 0] > 0 {\n                cur.append(nums[i])\n                count[nums[i], default: 0] -= 1\n                backtrack(nums, target - nums[i], &cur, i)\n                count[nums[i], default: 0] += 1\n                cur.removeLast()\n            }\n\n            backtrack(nums, target, &cur, i + 1)\n        }\n\n        var cur: [Int] = []\n        backtrack(uniqueNums, target, &cur, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn combination_sum2(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut count = HashMap::new();\n        let mut unique_nums = Vec::new();\n\n        for &num in &candidates {\n            let e = count.entry(num).or_insert(0);\n            if *e == 0 {\n                unique_nums.push(num);\n            }\n            *e += 1;\n        }\n\n        fn backtrack(\n            nums: &[i32], target: i32, cur: &mut Vec<i32>,\n            i: usize, count: &mut HashMap<i32, i32>, res: &mut Vec<Vec<i32>>,\n        ) {\n            if target == 0 {\n                res.push(cur.clone());\n                return;\n            }\n            if target < 0 || i >= nums.len() {\n                return;\n            }\n            if *count.get(&nums[i]).unwrap_or(&0) > 0 {\n                cur.push(nums[i]);\n                *count.get_mut(&nums[i]).unwrap() -= 1;\n                backtrack(nums, target - nums[i], cur, i, count, res);\n                *count.get_mut(&nums[i]).unwrap() += 1;\n                cur.pop();\n            }\n            backtrack(nums, target, cur, i + 1, count, res);\n        }\n\n        backtrack(&unique_nums, target, &mut vec![], 0, &mut count, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:\n        res = []\n        candidates.sort()\n\n        def dfs(idx, path, cur):\n            if cur == target:\n                res.append(path.copy())\n                return\n            for i in range(idx, len(candidates)):\n                if i > idx and candidates[i] == candidates[i - 1]:\n                    continue\n                if cur + candidates[i] > target:\n                    break\n\n                path.append(candidates[i])\n                dfs(i + 1, path, cur + candidates[i])\n                path.pop()\n\n        dfs(0, [], 0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private static List<List<Integer>> res = new ArrayList<>();\n\n    public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n        res.clear();\n        Arrays.sort(candidates);\n        dfs(0, new ArrayList<>(), 0, candidates, target);\n        return res;\n    }\n\n    private static void dfs(int idx, List<Integer> path, int cur, int[] candidates, int target) {\n        if (cur == target) {\n            res.add(new ArrayList<>(path));\n            return;\n        }\n        for (int i = idx; i < candidates.length; i++) {\n            if (i > idx && candidates[i] == candidates[i - 1]) {\n                continue;\n            }\n            if (cur + candidates[i] > target) {\n                break;\n            }\n\n            path.add(candidates[i]);\n            dfs(i + 1, path, cur + candidates[i], candidates, target);\n            path.remove(path.size() - 1);\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> res;\n    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {\n        res.clear();\n        sort(candidates.begin(), candidates.end());\n        dfs(0, {}, 0, candidates, target);\n        return res;\n    }\n\nprivate:\n    void dfs(int idx, vector<int> path, int cur, vector<int>& candidates, int target) {\n        if (cur == target) {\n            res.push_back(path);\n            return;\n        }\n        for (int i = idx; i < candidates.size(); i++) {\n            if (i > idx && candidates[i] == candidates[i - 1]) {\n                continue;\n            }\n            if (cur + candidates[i] > target) {\n                break;\n            }\n\n            path.push_back(candidates[i]);\n            dfs(i + 1, path, cur + candidates[i], candidates, target);\n            path.pop_back();\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    constructor() {\n        this.res = [];\n    }\n\n    /**\n     * @param {number[]} candidates\n     * @param {number} target\n     * @return {number[][]}\n     */\n    combinationSum2(candidates, target) {\n        this.res = [];\n        candidates.sort((a, b) => a - b);\n\n        const dfs = (idx, path, cur) => {\n            if (cur === target) {\n                this.res.push([...path]);\n                return;\n            }\n            for (let i = idx; i < candidates.length; i++) {\n                if (i > idx && candidates[i] === candidates[i - 1]) {\n                    continue;\n                }\n                if (cur + candidates[i] > target) {\n                    break;\n                }\n\n                path.push(candidates[i]);\n                dfs(i + 1, path, cur + candidates[i]);\n                path.pop();\n            }\n        };\n\n        dfs(0, [], 0);\n        return this.res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private static List<List<int>> res = new List<List<int>>();\n\n    public List<List<int>> CombinationSum2(int[] candidates, int target) {\n        res.Clear();\n        Array.Sort(candidates);\n\n        dfs(0, new List<int>(), 0, candidates, target);\n        return res;\n    }\n\n    private void dfs(int idx, List<int> path, int cur, int[] candidates, int target) {\n        if (cur == target) {\n            res.Add(new List<int>(path));\n            return;\n        }\n        for (int i = idx; i < candidates.Length; i++) {\n            if (i > idx && candidates[i] == candidates[i - 1]) {\n                continue;\n            }\n            if (cur + candidates[i] > target) {\n                break;\n            }\n\n            path.Add(candidates[i]);\n            dfs(i + 1, path, cur + candidates[i], candidates, target);\n            path.RemoveAt(path.Count - 1);\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func combinationSum2(candidates []int, target int) [][]int {\n    var res [][]int\n    sort.Ints(candidates)\n\n    var dfs func(int, []int, int)\n    dfs = func(idx int, path []int, cur int) {\n        if cur == target {\n            temp := make([]int, len(path))\n            copy(temp, path)\n            res = append(res, temp)\n            return\n        }\n\n        for i := idx; i < len(candidates); i++ {\n            if i > idx && candidates[i] == candidates[i-1] {\n                continue\n            }\n            if cur + candidates[i] > target {\n                break\n            }\n\n            path = append(path, candidates[i])\n            dfs(i+1, path, cur + candidates[i])\n            path = path[:len(path)-1]\n        }\n    }\n\n    dfs(0, []int{}, 0)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun combinationSum2(candidates: IntArray, target: Int): List<List<Int>> {\n        val res = mutableListOf<List<Int>>()\n        candidates.sort()\n\n        fun dfs(idx: Int, path: MutableList<Int>, cur: Int) {\n            if (cur == target) {\n                res.add(ArrayList(path))\n                return\n            }\n\n            for (i in idx until candidates.size) {\n                if (i > idx && candidates[i] == candidates[i - 1]) continue\n                if (cur + candidates[i] > target) break\n\n                path.add(candidates[i])\n                dfs(i + 1, path, cur + candidates[i])\n                path.removeAt(path.size - 1)\n            }\n        }\n\n        dfs(0, mutableListOf(), 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {\n        var res = [[Int]]()\n        let sortedCandidates = candidates.sorted()\n\n        func dfs(_ idx: Int, _ path: inout [Int], _ cur: Int) {\n            if cur == target {\n                res.append(path)\n                return\n            }\n\n            for i in idx..<sortedCandidates.count {\n                if i > idx && sortedCandidates[i] == sortedCandidates[i - 1] {\n                    continue\n                }\n                if cur + sortedCandidates[i] > target {\n                    break\n                }\n\n                path.append(sortedCandidates[i])\n                dfs(i + 1, &path, cur + sortedCandidates[i])\n                path.removeLast()\n            }\n        }\n\n        var path: [Int] = []\n        dfs(0, &path, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn combination_sum2(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut candidates = candidates;\n        candidates.sort();\n\n        fn dfs(\n            candidates: &[i32], target: i32, idx: usize,\n            path: &mut Vec<i32>, cur: i32, res: &mut Vec<Vec<i32>>,\n        ) {\n            if cur == target {\n                res.push(path.clone());\n                return;\n            }\n            for i in idx..candidates.len() {\n                if i > idx && candidates[i] == candidates[i - 1] {\n                    continue;\n                }\n                if cur + candidates[i] > target {\n                    break;\n                }\n                path.push(candidates[i]);\n                dfs(candidates, target, i + 1, path, cur + candidates[i], res);\n                path.pop();\n            }\n        }\n\n        dfs(&candidates, target, 0, &mut vec![], 0, &mut res);\n        res\n    }\n}"
+        }
+    ]
+}

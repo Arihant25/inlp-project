@@ -1,0 +1,175 @@
+{
+    "problem_name": "Time Based Key Value Store",
+    "problem_slug": "time-based-key-value-store",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hash table",
+        "string",
+        "binary search",
+        "design"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap:\n\n    def __init__(self):\n        self.keyStore = {}\n\n    def set(self, key: str, value: str, timestamp: int) -> None:\n        if key not in self.keyStore:\n            self.keyStore[key] = {}\n        if timestamp not in self.keyStore[key]:\n            self.keyStore[key][timestamp] = []\n        self.keyStore[key][timestamp].append(value)\n\n    def get(self, key: str, timestamp: int) -> str:\n        if key not in self.keyStore:\n            return \"\"\n        seen = 0\n\n        for time in self.keyStore[key]:\n            if time <= timestamp:\n                seen = max(seen, time)\n        return \"\" if seen == 0 else self.keyStore[key][seen][-1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "public class TimeMap {\n    private Map<String, Map<Integer, List<String>>> keyStore;\n\n    public TimeMap() {\n        keyStore = new HashMap<>();\n    }\n\n    public void set(String key, String value, int timestamp) {\n        if (!keyStore.containsKey(key)) {\n            keyStore.put(key, new HashMap<>());\n        }\n        if (!keyStore.get(key).containsKey(timestamp)) {\n            keyStore.get(key).put(timestamp, new ArrayList<>());\n        }\n        keyStore.get(key).get(timestamp).add(value);\n    }\n\n    public String get(String key, int timestamp) {\n        if (!keyStore.containsKey(key)) {\n            return \"\";\n        }\n        int seen = 0;\n\n        for (int time : keyStore.get(key).keySet()) {\n            if (time <= timestamp) {\n                seen = Math.max(seen, time);\n            }\n        }\n        if (seen == 0) return \"\";\n        int back = keyStore.get(key).get(seen).size() - 1;\n        return keyStore.get(key).get(seen).get(back);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap {\npublic:\n    unordered_map<string, unordered_map<int, vector<string>>> keyStore;\n    TimeMap() {}\n\n    void set(string key, string value, int timestamp) {\n        keyStore[key][timestamp].push_back(value);\n    }\n\n    string get(string key, int timestamp) {\n        if (keyStore.find(key) == keyStore.end()) {\n            return \"\";\n        }\n        int seen = 0;\n        for (const auto& [time, _] : keyStore[key]) {\n            if (time <= timestamp) {\n                seen = max(seen, time);\n            }\n        }\n        return seen == 0 ? \"\" : keyStore[key][seen].back();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap {\n    constructor() {\n        this.keyStore = new Map();\n    }\n\n    /**\n     * @param {string} key\n     * @param {string} value\n     * @param {number} timestamp\n     * @return {void}\n     */\n    set(key, value, timestamp) {\n        if (!this.keyStore.has(key)) {\n            this.keyStore.set(key, new Map());\n        }\n        if (!this.keyStore.get(key).has(timestamp)) {\n            this.keyStore.get(key).set(timestamp, []);\n        }\n        this.keyStore.get(key).get(timestamp).push(value);\n    }\n\n    /**\n     * @param {string} key\n     * @param {number} timestamp\n     * @return {string}\n     */\n    get(key, timestamp) {\n        if (!this.keyStore.has(key)) {\n            return '';\n        }\n        let seen = 0;\n\n        for (let time of this.keyStore.get(key).keys()) {\n            if (time <= timestamp) {\n                seen = Math.max(seen, time);\n            }\n        }\n        return seen === 0 ? '' : this.keyStore.get(key).get(seen).at(-1);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "public class TimeMap {\n    private Dictionary<string, Dictionary<int, List<string>>> keyStore;\n\n    public TimeMap() {\n        keyStore = new Dictionary<string, Dictionary<int, List<string>>>();\n    }\n\n    public void Set(string key, string value, int timestamp) {\n        if (!keyStore.ContainsKey(key)) {\n            keyStore[key] = new Dictionary<int, List<string>>();\n        }\n        if (!keyStore[key].ContainsKey(timestamp)) {\n            keyStore[key][timestamp] = new List<string>();\n        }\n        keyStore[key][timestamp].Add(value);\n    }\n\n    public string Get(string key, int timestamp) {\n        if (!keyStore.ContainsKey(key)) {\n            return \"\";\n        }\n        var timestamps = keyStore[key];\n        int seen = 0;\n\n        foreach (var time in timestamps.Keys) {\n            if (time <= timestamp) {\n                seen = time;\n            }\n        }\n        return seen == 0 ? \"\" : timestamps[seen][^1];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "type TimeMap struct {\n   keyStore map[string]map[int][]string\n}\n\nfunc Constructor() TimeMap {\n   return TimeMap{\n       keyStore: make(map[string]map[int][]string),\n   }\n}\n\nfunc (this *TimeMap) Set(key string, value string, timestamp int) {\n   if _, exists := this.keyStore[key]; !exists {\n       this.keyStore[key] = make(map[int][]string)\n   }\n   this.keyStore[key][timestamp] = append(this.keyStore[key][timestamp], value)\n}\n\nfunc (this *TimeMap) Get(key string, timestamp int) string {\n   if _, exists := this.keyStore[key]; !exists {\n       return \"\"\n   }\n\n   seen := 0\n   for time := range this.keyStore[key] {\n       if time <= timestamp {\n           seen = max(seen, time)\n       }\n   }\n\n   if seen == 0 {\n       return \"\"\n   }\n   values := this.keyStore[key][seen]\n   return values[len(values)-1]\n}\n\nfunc max(a, b int) int {\n   if a > b {\n       return a\n   }\n   return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap() {\n    private val keyStore = HashMap<String, HashMap<Int, MutableList<String>>>()\n\n    fun set(key: String, value: String, timestamp: Int) {\n        if (!keyStore.containsKey(key)) {\n            keyStore[key] = HashMap()\n        }\n        if (!keyStore[key]!!.containsKey(timestamp)) {\n            keyStore[key]!![timestamp] = mutableListOf()\n        }\n        keyStore[key]!![timestamp]!!.add(value)\n    }\n\n    fun get(key: String, timestamp: Int): String {\n        if (!keyStore.containsKey(key)) {\n            return \"\"\n        }\n\n        var seen = 0\n        for (time in keyStore[key]!!.keys) {\n            if (time <= timestamp) {\n                seen = maxOf(seen, time)\n            }\n        }\n\n        if (seen == 0) {\n            return \"\"\n        }\n        return keyStore[key]!![seen]!!.last()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap {\n    private var keyStore: [String: [Int: [String]]]\n\n    init() {\n        self.keyStore = [:]\n    }\n\n    func set(_ key: String, _ value: String, _ timestamp: Int) {\n        if keyStore[key] == nil {\n            keyStore[key] = [:]\n        }\n        if keyStore[key]![timestamp] == nil {\n            keyStore[key]![timestamp] = []\n        }\n        keyStore[key]![timestamp]!.append(value)\n    }\n\n    func get(_ key: String, _ timestamp: Int) -> String {\n        guard let timeMap = keyStore[key] else {\n            return \"\"\n        }\n\n        var seen = 0\n        for time in timeMap.keys {\n            if time <= timestamp {\n                seen = max(seen, time)\n            }\n        }\n        return seen == 0 ? \"\" : timeMap[seen]!.last!\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "struct TimeMap {\n    key_store: HashMap<String, HashMap<i32, Vec<String>>>,\n}\n\nimpl TimeMap {\n    fn new() -> Self {\n        TimeMap {\n            key_store: HashMap::new(),\n        }\n    }\n\n    fn set(&mut self, key: String, value: String, timestamp: i32) {\n        self.key_store\n            .entry(key)\n            .or_default()\n            .entry(timestamp)\n            .or_default()\n            .push(value);\n    }\n\n    fn get(&self, key: String, timestamp: i32) -> String {\n        let Some(time_map) = self.key_store.get(&key) else {\n            return String::new();\n        };\n        let mut seen = 0;\n        for &time in time_map.keys() {\n            if time <= timestamp && time > seen {\n                seen = time;\n            }\n        }\n        if seen == 0 {\n            String::new()\n        } else {\n            time_map[&seen].last().unwrap().clone()\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "from sortedcontainers import SortedDict\n\nclass TimeMap:\n    def __init__(self):\n        self.m = defaultdict(SortedDict)\n\n    def set(self, key: str, value: str, timestamp: int) -> None:\n        self.m[key][timestamp] = value\n\n    def get(self, key: str, timestamp: int) -> str:\n        if key not in self.m:\n            return \"\"\n\n        timestamps = self.m[key]\n        idx = timestamps.bisect_right(timestamp) - 1\n\n        if idx >= 0:\n            closest_time = timestamps.iloc[idx]\n            return timestamps[closest_time]\n        return \"\""
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "public class TimeMap {\n    private Map<String, TreeMap<Integer, String>> m;\n\n    public TimeMap() {\n        m = new HashMap<>();\n    }\n\n    public void set(String key, String value, int timestamp) {\n        m.computeIfAbsent(key, k -> new TreeMap<>()).put(timestamp, value);\n    }\n\n    public String get(String key, int timestamp) {\n        if (!m.containsKey(key)) return \"\";\n        TreeMap<Integer, String> timestamps = m.get(key);\n        Map.Entry<Integer, String> entry = timestamps.floorEntry(timestamp);\n        return entry == null ? \"\" : entry.getValue();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "class TimeMap {\npublic:\n    unordered_map<string, map<int, string>> m;\n\n    TimeMap() {}\n\n    void set(string key, string value, int timestamp) {\n        m[key].insert({timestamp, value});\n    }\n\n    string get(string key, int timestamp) {\n        auto it = m[key].upper_bound(timestamp);\n        return it == m[key].begin() ? \"\" : prev(it)->second;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "class TimeMap {\n    constructor() {\n        this.keyStore = new Map();\n    }\n\n    /**\n     * @param {string} key\n     * @param {string} value\n     * @param {number} timestamp\n     * @return {void}\n     */\n    set(key, value, timestamp) {\n        if (!this.keyStore.has(key)) {\n            this.keyStore.set(key, []);\n        }\n        this.keyStore.get(key).push([timestamp, value]);\n    }\n\n    /**\n     * @param {string} key\n     * @param {number} timestamp\n     * @return {string}\n     */\n    get(key, timestamp) {\n        const values = this.keyStore.get(key) || [];\n        let left = 0;\n        let right = values.length - 1;\n        let result = '';\n\n        while (left <= right) {\n            const mid = Math.floor((left + right) / 2);\n            if (values[mid][0] <= timestamp) {\n                result = values[mid][1];\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        return result;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "public class TimeMap {\n    private Dictionary<string, SortedList<int, string>> m;\n\n    public TimeMap() {\n        m = new Dictionary<string, SortedList<int, string>>();\n    }\n\n    public void Set(string key, string value, int timestamp) {\n        if (!m.ContainsKey(key)) {\n            m[key] = new SortedList<int, string>();\n        }\n        m[key][timestamp] = value;\n    }\n\n    public string Get(string key, int timestamp) {\n        if (!m.ContainsKey(key)) return \"\";\n        var timestamps = m[key];\n        int left = 0;\n        int right = timestamps.Count - 1;\n\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (timestamps.Keys[mid] == timestamp) {\n                return timestamps.Values[mid];\n            } else if (timestamps.Keys[mid] < timestamp) {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        if (right >= 0) {\n            return timestamps.Values[right];\n        }\n        return \"\";\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "type TimeMap struct {\n   m map[string][]pair\n}\n\ntype pair struct {\n   timestamp int\n   value string\n}\n\nfunc Constructor() TimeMap {\n   return TimeMap{\n       m: make(map[string][]pair),\n   }\n}\n\nfunc (this *TimeMap) Set(key string, value string, timestamp int)  {\n   this.m[key] = append(this.m[key], pair{timestamp, value})\n}\n\nfunc (this *TimeMap) Get(key string, timestamp int) string {\n   if _, exists := this.m[key]; !exists {\n       return \"\"\n   }\n\n   pairs := this.m[key]\n   idx := sort.Search(len(pairs), func(i int) bool {\n       return pairs[i].timestamp > timestamp\n   })\n\n   if idx == 0 {\n       return \"\"\n   }\n   return pairs[idx-1].value\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "class TimeMap() {\n    private val m = HashMap<String, TreeMap<Int, String>>()\n\n    fun set(key: String, value: String, timestamp: Int) {\n        m.computeIfAbsent(key) { TreeMap() }[timestamp] = value\n    }\n\n    fun get(key: String, timestamp: Int): String {\n        if (!m.containsKey(key)) return \"\"\n        return m[key]!!.floorEntry(timestamp)?.value ?: \"\"\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "class TimeMap {\n    private var m: [String: [(Int, String)]]\n\n    init() {\n        self.m = [:]\n    }\n\n    func set(_ key: String, _ value: String, _ timestamp: Int) {\n        if m[key] == nil {\n            m[key] = []\n        }\n        m[key]!.append((timestamp, value))\n    }\n\n    func get(_ key: String, _ timestamp: Int) -> String {\n        guard let timestamps = m[key] else {\n            return \"\"\n        }\n\n        var l = 0, r = timestamps.count - 1\n        var res = \"\"\n\n        while l <= r {\n            let mid = (l + r) / 2\n            if timestamps[mid].0 <= timestamp {\n                res = timestamps[mid].1\n                l = mid + 1\n            } else {\n                r = mid - 1\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(log n)",
+            "code": "struct TimeMap {\n    m: HashMap<String, Vec<(i32, String)>>,\n}\n\nimpl TimeMap {\n    fn new() -> Self {\n        TimeMap { m: HashMap::new() }\n    }\n\n    fn set(&mut self, key: String, value: String, timestamp: i32) {\n        self.m.entry(key).or_default().push((timestamp, value));\n    }\n\n    fn get(&self, key: String, timestamp: i32) -> String {\n        let Some(pairs) = self.m.get(&key) else {\n            return String::new();\n        };\n        let idx = pairs.partition_point(|p| p.0 <= timestamp);\n        if idx == 0 {\n            String::new()\n        } else {\n            pairs[idx - 1].1.clone()\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap:\n\n    def __init__(self):\n        self.keyStore = {}  # key : list of [val, timestamp]\n\n    def set(self, key: str, value: str, timestamp: int) -> None:\n        if key not in self.keyStore:\n            self.keyStore[key] = []\n        self.keyStore[key].append([value, timestamp])\n\n    def get(self, key: str, timestamp: int) -> str:\n        res, values = \"\", self.keyStore.get(key, [])\n        l, r = 0, len(values) - 1\n        while l <= r:\n            m = (l + r) // 2\n            if values[m][1] <= timestamp:\n                res = values[m][0]\n                l = m + 1\n            else:\n                r = m - 1\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "public class TimeMap {\n\n    private Map<String, List<Pair<Integer, String>>> keyStore;\n\n    public TimeMap() {\n        keyStore = new HashMap<>();\n    }\n\n    public void set(String key, String value, int timestamp) {\n        keyStore.computeIfAbsent(key, k -> new ArrayList<>()).add(new Pair<>(timestamp, value));\n    }\n\n    public String get(String key, int timestamp) {\n        List<Pair<Integer, String>> values = keyStore.getOrDefault(key, new ArrayList<>());\n        int left = 0, right = values.size() - 1;\n        String result = \"\";\n\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (values.get(mid).getKey() <= timestamp) {\n                result = values.get(mid).getValue();\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        return result;\n    }\n\n    private static class Pair<K, V> {\n        private final K key;\n        private final V value;\n\n        public Pair(K key, V value) {\n            this.key = key;\n            this.value = value;\n        }\n\n        public K getKey() {\n            return key;\n        }\n\n        public V getValue() {\n            return value;\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap {\nprivate:\n    unordered_map<string, vector<pair<int, string>>> keyStore;\n\npublic:\n    TimeMap() {}\n\n    void set(string key, string value, int timestamp) {\n        keyStore[key].emplace_back(timestamp, value);\n    }\n\n    string get(string key, int timestamp) {\n        auto& values = keyStore[key];\n        int left = 0, right = values.size() - 1;\n        string result = \"\";\n\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (values[mid].first <= timestamp) {\n                result = values[mid].second;\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        return result;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap {\n    constructor() {\n        this.keyStore = new Map();\n    }\n\n    /**\n     * @param {string} key\n     * @param {string} value\n     * @param {number} timestamp\n     * @return {void}\n     */\n    set(key, value, timestamp) {\n        if (!this.keyStore.has(key)) {\n            this.keyStore.set(key, []);\n        }\n        this.keyStore.get(key).push([timestamp, value]);\n    }\n\n    /**\n     * @param {string} key\n     * @param {number} timestamp\n     * @return {string}\n     */\n    get(key, timestamp) {\n        const values = this.keyStore.get(key) || [];\n        let left = 0;\n        let right = values.length - 1;\n        let result = '';\n\n        while (left <= right) {\n            const mid = Math.floor((left + right) / 2);\n            if (values[mid][0] <= timestamp) {\n                result = values[mid][1];\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        return result;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "public class TimeMap {\n\n    private Dictionary<string, List<Tuple<int, string>>> keyStore;\n\n    public TimeMap() {\n        keyStore = new Dictionary<string, List<Tuple<int, string>>>();\n    }\n\n    public void Set(string key, string value, int timestamp) {\n        if (!keyStore.ContainsKey(key)) {\n            keyStore[key] = new List<Tuple<int, string>>();\n        }\n        keyStore[key].Add(Tuple.Create(timestamp, value));\n    }\n\n    public string Get(string key, int timestamp) {\n        if (!keyStore.ContainsKey(key)) {\n            return \"\";\n        }\n\n        var values = keyStore[key];\n        int left = 0, right = values.Count - 1;\n        string result = \"\";\n\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (values[mid].Item1 <= timestamp) {\n                result = values[mid].Item2;\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n\n        return result;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "type TimeMap struct {\n   m map[string][]pair\n}\n\ntype pair struct {\n   timestamp int\n   value     string\n}\n\nfunc Constructor() TimeMap {\n   return TimeMap{\n       m: make(map[string][]pair),\n   }\n}\n\nfunc (this *TimeMap) Set(key string, value string, timestamp int) {\n   this.m[key] = append(this.m[key], pair{timestamp, value})\n}\n\nfunc (this *TimeMap) Get(key string, timestamp int) string {\n   if _, exists := this.m[key]; !exists {\n       return \"\"\n   }\n\n   pairs := this.m[key]\n   l, r := 0, len(pairs)-1\n\n   for l <= r {\n       mid := (l + r) / 2\n       if pairs[mid].timestamp <= timestamp {\n           if mid == len(pairs)-1 || pairs[mid+1].timestamp > timestamp {\n               return pairs[mid].value\n           }\n           l = mid + 1\n       } else {\n           r = mid - 1\n       }\n   }\n   return \"\"\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap() {\n    private val keyStore = HashMap<String, MutableList<Pair<String, Int>>>()\n\n    fun set(key: String, value: String, timestamp: Int) {\n        if (!keyStore.containsKey(key)) {\n            keyStore[key] = mutableListOf()\n        }\n        keyStore[key]!!.add(Pair(value, timestamp))\n    }\n\n    fun get(key: String, timestamp: Int): String {\n        var res = \"\"\n        val values = keyStore[key] ?: return res\n        var l = 0\n        var r = values.size - 1\n\n        while (l <= r) {\n            val m = (l + r) / 2\n            if (values[m].second <= timestamp) {\n                res = values[m].first\n                l = m + 1\n            } else {\n                r = m - 1\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "class TimeMap {\n    private var keyStore: [String: [(String, Int)]]\n\n    init() {\n        self.keyStore = [:]\n    }\n\n    func set(_ key: String, _ value: String, _ timestamp: Int) {\n        if keyStore[key] == nil {\n            keyStore[key] = []\n        }\n        keyStore[key]!.append((value, timestamp))\n    }\n\n    func get(_ key: String, _ timestamp: Int) -> String {\n        guard let values = keyStore[key] else {\n            return \"\"\n        }\n\n        var res = \"\"\n        var l = 0, r = values.count - 1\n\n        while l <= r {\n            let m = (l + r) / 2\n            if values[m].1 <= timestamp {\n                res = values[m].0\n                l = m + 1\n            } else {\n                r = m - 1\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "set()",
+            "code": "struct TimeMap {\n    key_store: HashMap<String, Vec<(String, i32)>>,\n}\n\nimpl TimeMap {\n    fn new() -> Self {\n        TimeMap {\n            key_store: HashMap::new(),\n        }\n    }\n\n    fn set(&mut self, key: String, value: String, timestamp: i32) {\n        self.key_store.entry(key).or_default().push((value, timestamp));\n    }\n\n    fn get(&self, key: String, timestamp: i32) -> String {\n        let Some(values) = self.key_store.get(&key) else {\n            return String::new();\n        };\n        let mut res = String::new();\n        let (mut l, mut r) = (0i32, values.len() as i32 - 1);\n        while l <= r {\n            let m = (l + r) / 2;\n            if values[m as usize].1 <= timestamp {\n                res = values[m as usize].0.clone();\n                l = m + 1;\n            } else {\n                r = m - 1;\n            }\n        }\n        res\n    }\n}"
+        }
+    ]
+}

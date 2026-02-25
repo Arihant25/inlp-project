@@ -1,0 +1,281 @@
+{
+    "problem_name": "Edit Distance",
+    "problem_slug": "edit-distance",
+    "difficulty": "medium",
+    "topic_tags": [
+        "string",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        m, n = len(word1), len(word2)\n\n        def dfs(i, j):\n            if i == m:\n                return n - j\n            if j == n:\n                return m - i\n            if word1[i] == word2[j]:\n                return dfs(i + 1, j + 1)\n            res = min(dfs(i + 1, j), dfs(i, j + 1))\n            res = min(res, dfs(i + 1, j + 1))\n            return res + 1\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "public class Solution {\n    public int minDistance(String word1, String word2) {\n        int m = word1.length(), n = word2.length();\n\n        return dfs(0, 0, word1, word2, m, n);\n    }\n\n    private int dfs(int i, int j, String word1, String word2, int m, int n) {\n        if (i == m) return n - j;\n        if (j == n) return m - i;\n\n        if (word1.charAt(i) == word2.charAt(j)) {\n            return dfs(i + 1, j + 1, word1, word2, m, n);\n        }\n\n        int res = Math.min(dfs(i + 1, j, word1, word2, m, n),\n                           dfs(i, j + 1, word1, word2, m, n));\n        res = Math.min(res, dfs(i + 1, j + 1, word1, word2, m, n));\n        return res + 1;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        int m = word1.size(), n = word2.size();\n        return dfs(0, 0, word1, word2, m, n);\n    }\n\n    int dfs(int i, int j, string& word1, string& word2, int m, int n) {\n        if (i == m) return n - j;\n        if (j == n) return m - i;\n        if (word1[i] == word2[j]){\n            return dfs(i + 1, j + 1, word1, word2, m, n);\n        }\n\n        int res = min(dfs(i + 1, j, word1, word2, m, n),\n                      dfs(i, j + 1, word1, word2, m, n));\n        res = min(res, dfs(i + 1, j + 1, word1, word2, m, n));\n        return res + 1;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    /**\n     * @param {string} word1\n     * @param {string} word2\n     * @return {number}\n     */\n    minDistance(word1, word2) {\n        const m = word1.length,\n            n = word2.length;\n\n        const dfs = (i, j) => {\n            if (i === m) return n - j;\n            if (j === n) return m - i;\n            if (word1[i] === word2[j]) {\n                return dfs(i + 1, j + 1);\n            }\n            let res = Math.min(dfs(i + 1, j), dfs(i, j + 1));\n            res = Math.min(res, dfs(i + 1, j + 1));\n            return res + 1;\n        };\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "public class Solution {\n    public int MinDistance(string word1, string word2) {\n        int m = word1.Length, n = word2.Length;\n        return Dfs(0, 0, word1, word2, m, n);\n    }\n\n    private int Dfs(int i, int j, string word1, string word2, int m, int n) {\n        if (i == m) return n - j;\n        if (j == n) return m - i;\n\n        if (word1[i] == word2[j]) {\n            return Dfs(i + 1, j + 1, word1, word2, m, n);\n        }\n\n        int res = Math.Min(Dfs(i + 1, j, word1, word2, m, n),\n                           Dfs(i, j + 1, word1, word2, m, n));\n        res = Math.Min(res, Dfs(i + 1, j + 1, word1, word2, m, n));\n        return res + 1;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "func minDistance(word1 string, word2 string) int {\n    m, n := len(word1), len(word2)\n\n    var dfs func(i, j int) int\n    dfs = func(i, j int) int {\n        if i == m {\n            return n - j\n        }\n        if j == n {\n            return m - i\n        }\n        if word1[i] == word2[j] {\n            return dfs(i+1, j+1)\n        }\n        res := min(dfs(i+1, j), dfs(i, j+1))\n        res = min(res, dfs(i+1, j+1))\n        return res + 1\n    }\n\n    return dfs(0, 0)\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    fun minDistance(word1: String, word2: String): Int {\n        val m = word1.length\n        val n = word2.length\n\n        fun dfs(i: Int, j: Int): Int {\n            if (i == m) return n - j\n            if (j == n) return m - i\n            if (word1[i] == word2[j]) return dfs(i + 1, j + 1)\n\n            var res = minOf(dfs(i + 1, j), dfs(i, j + 1))\n            res = minOf(res, dfs(i + 1, j + 1))\n            return res + 1\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    func minDistance(_ word1: String, _ word2: String) -> Int {\n        let m = word1.count, n = word2.count\n        let word1Array = Array(word1), word2Array = Array(word2)\n\n        func dfs(_ i: Int, _ j: Int) -> Int {\n            if i == m { return n - j }\n            if j == n { return m - i }\n            if word1Array[i] == word2Array[j] {\n                return dfs(i + 1, j + 1)\n            }\n            let res = min(dfs(i + 1, j), dfs(i, j + 1))\n            return min(res, dfs(i + 1, j + 1)) + 1\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(3^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "impl Solution {\n    pub fn min_distance(word1: String, word2: String) -> i32 {\n        let w1: Vec<u8> = word1.into_bytes();\n        let w2: Vec<u8> = word2.into_bytes();\n        let m = w1.len();\n        let n = w2.len();\n\n        fn dfs(i: usize, j: usize, w1: &[u8], w2: &[u8], m: usize, n: usize) -> i32 {\n            if i == m { return (n - j) as i32; }\n            if j == n { return (m - i) as i32; }\n            if w1[i] == w2[j] {\n                return dfs(i + 1, j + 1, w1, w2, m, n);\n            }\n            let res = dfs(i + 1, j, w1, w2, m, n)\n                .min(dfs(i, j + 1, w1, w2, m, n));\n            res.min(dfs(i + 1, j + 1, w1, w2, m, n)) + 1\n        }\n\n        dfs(0, 0, &w1, &w2, m, n)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        m, n = len(word1), len(word2)\n\n        dp = {}\n        def dfs(i, j):\n            if i == m:\n                return n - j\n            if j == n:\n                return m - i\n            if (i, j) in dp:\n                return dp[(i, j)]\n\n            if word1[i] == word2[j]:\n                dp[(i, j)] = dfs(i + 1, j + 1)\n            else:\n                res = min(dfs(i + 1, j), dfs(i, j + 1))\n                res = min(res, dfs(i + 1, j + 1))\n                dp[(i, j)] = res + 1\n            return dp[(i, j)]\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    private int[][] dp;\n    public int minDistance(String word1, String word2) {\n        int m = word1.length(), n = word2.length();\n        dp = new int[m][n];\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                dp[i][j] = -1;\n            }\n        }\n        return dfs(0, 0, word1, word2, m, n);\n    }\n\n    private int dfs(int i, int j, String word1, String word2, int m, int n) {\n        if (i == m) return n - j;\n        if (j == n) return m - i;\n        if (dp[i][j] != -1) return dp[i][j];\n\n        if (word1.charAt(i) == word2.charAt(j)) {\n            dp[i][j] = dfs(i + 1, j + 1, word1, word2, m, n);\n        } else {\n            int res = Math.min(dfs(i + 1, j, word1, word2, m, n),\n                            dfs(i, j + 1, word1, word2, m, n));\n            res = Math.min(res, dfs(i + 1, j + 1, word1, word2, m, n));\n            dp[i][j] = res + 1;\n        }\n        return dp[i][j];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    vector<vector<int>> dp;\npublic:\n    int minDistance(string word1, string word2) {\n        int m = word1.size(), n = word2.size();\n        dp = vector<vector<int>>(m, vector<int>(n, -1));\n        return dfs(0, 0, word1, word2, m, n);\n    }\n\n    int dfs(int i, int j, string& word1, string& word2, int m, int n) {\n        if (i == m) return n - j;\n        if (j == n) return m - i;\n        if (dp[i][j] != -1) return dp[i][j];\n        if (word1[i] == word2[j]){\n            dp[i][j] = dfs(i + 1, j + 1, word1, word2, m, n);\n        } else {\n            int res = min(dfs(i + 1, j, word1, word2, m, n),\n                        dfs(i, j + 1, word1, word2, m, n));\n            res = min(res, dfs(i + 1, j + 1, word1, word2, m, n));\n            dp[i][j] = res + 1;\n        }\n        return dp[i][j];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {string} word1\n     * @param {string} word2\n     * @return {number}\n     */\n    minDistance(word1, word2) {\n        const m = word1.length,\n            n = word2.length;\n        let dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(-1));\n        const dfs = (i, j) => {\n            if (i === m) return n - j;\n            if (j === n) return m - i;\n            if (dp[i][j] != -1) return dp[i][j];\n\n            if (word1[i] === word2[j]) {\n                dp[i][j] = dfs(i + 1, j + 1);\n            } else {\n                let res = Math.min(dfs(i + 1, j), dfs(i, j + 1));\n                res = Math.min(res, dfs(i + 1, j + 1));\n                dp[i][j] = res + 1;\n            }\n            return dp[i][j];\n        };\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    private int?[,] dp;\n    public int MinDistance(string word1, string word2) {\n        int m = word1.Length, n = word2.Length;\n        dp = new int?[m + 1, n + 1];\n        return Dfs(0, 0, word1, word2, m, n);\n    }\n\n    private int Dfs(int i, int j, string word1, string word2, int m, int n) {\n        if (i == m) return n - j;\n        if (j == n) return m - i;\n\n        if (dp[i, j].HasValue) {\n            return dp[i, j].Value;\n        }\n\n        if (word1[i] == word2[j]) {\n            dp[i, j] = Dfs(i + 1, j + 1, word1, word2, m, n);\n        } else {\n            int res = Math.Min(Dfs(i + 1, j, word1, word2, m, n),\n                               Dfs(i, j + 1, word1, word2, m, n));\n            res = Math.Min(res, Dfs(i + 1, j + 1, word1, word2, m, n));\n            dp[i, j] = res + 1;\n        }\n\n        return dp[i, j].Value;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "func minDistance(word1 string, word2 string) int {\n    m, n := len(word1), len(word2)\n    dp := make([][]int, m+1)\n    for i := range dp {\n        dp[i] = make([]int, n+1)\n        for j := range dp[i] {\n            dp[i][j] = -1\n        }\n    }\n\n    var dfs func(i, j int) int\n    dfs = func(i, j int) int {\n        if i == m {\n            return n - j\n        }\n        if j == n {\n            return m - i\n        }\n        if dp[i][j] != -1 {\n            return dp[i][j]\n        }\n\n        if word1[i] == word2[j] {\n            dp[i][j] = dfs(i+1, j+1)\n        } else {\n            insert := dfs(i, j+1)\n            delete := dfs(i+1, j)\n            replace := dfs(i+1, j+1)\n            dp[i][j] = 1 + min(insert, min(delete, replace))\n        }\n        return dp[i][j]\n    }\n\n    return dfs(0, 0)\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun minDistance(word1: String, word2: String): Int {\n        val m = word1.length\n        val n = word2.length\n        val dp = Array(m + 1) { IntArray(n + 1) { -1 } }\n\n        fun dfs(i: Int, j: Int): Int {\n            if (i == m) return n - j\n            if (j == n) return m - i\n            if (dp[i][j] != -1) return dp[i][j]\n\n            dp[i][j] = if (word1[i] == word2[j]) {\n                dfs(i + 1, j + 1)\n            } else {\n                val insert = dfs(i, j + 1)\n                val delete = dfs(i + 1, j)\n                val replace = dfs(i + 1, j + 1)\n                1 + minOf(insert, delete, replace)\n            }\n            return dp[i][j]\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func minDistance(_ word1: String, _ word2: String) -> Int {\n        let m = word1.count, n = word2.count\n        let word1Array = Array(word1), word2Array = Array(word2)\n        var dp = [[Int?]](repeating: [Int?](repeating: nil, count: n + 1), count: m + 1)\n\n        func dfs(_ i: Int, _ j: Int) -> Int {\n            if i == m { return n - j }\n            if j == n { return m - i }\n            if let val = dp[i][j] { return val }\n\n            if word1Array[i] == word2Array[j] {\n                dp[i][j] = dfs(i + 1, j + 1)\n            } else {\n                let res = min(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1)) + 1\n                dp[i][j] = res\n            }\n            return dp[i][j]!\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn min_distance(word1: String, word2: String) -> i32 {\n        let w1: Vec<u8> = word1.into_bytes();\n        let w2: Vec<u8> = word2.into_bytes();\n        let m = w1.len();\n        let n = w2.len();\n        let mut dp = vec![vec![-1i32; n]; m];\n\n        fn dfs(i: usize, j: usize, w1: &[u8], w2: &[u8],\n               m: usize, n: usize, dp: &mut Vec<Vec<i32>>) -> i32 {\n            if i == m { return (n - j) as i32; }\n            if j == n { return (m - i) as i32; }\n            if dp[i][j] != -1 { return dp[i][j]; }\n\n            if w1[i] == w2[j] {\n                dp[i][j] = dfs(i + 1, j + 1, w1, w2, m, n, dp);\n            } else {\n                let res = dfs(i + 1, j, w1, w2, m, n, dp)\n                    .min(dfs(i, j + 1, w1, w2, m, n, dp))\n                    .min(dfs(i + 1, j + 1, w1, w2, m, n, dp));\n                dp[i][j] = res + 1;\n            }\n            dp[i][j]\n        }\n\n        dfs(0, 0, &w1, &w2, m, n, &mut dp)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        dp = [[float(\"inf\")] * (len(word2) + 1) for i in range(len(word1) + 1)]\n\n        for j in range(len(word2) + 1):\n            dp[len(word1)][j] = len(word2) - j\n        for i in range(len(word1) + 1):\n            dp[i][len(word2)] = len(word1) - i\n\n        for i in range(len(word1) - 1, -1, -1):\n            for j in range(len(word2) - 1, -1, -1):\n                if word1[i] == word2[j]:\n                    dp[i][j] = dp[i + 1][j + 1]\n                else:\n                    dp[i][j] = 1 + min(dp[i + 1][j], dp[i][j + 1], dp[i + 1][j + 1])\n        return dp[0][0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public int minDistance(String word1, String word2) {\n        int[][] dp = new int[word1.length() + 1][word2.length() + 1];\n\n        for (int j = 0; j <= word2.length(); j++) {\n            dp[word1.length()][j] = word2.length() - j;\n        }\n        for (int i = 0; i <= word1.length(); i++) {\n            dp[i][word2.length()] = word1.length() - i;\n        }\n\n        for (int i = word1.length() - 1; i >= 0; i--) {\n            for (int j = word2.length() - 1; j >= 0; j--) {\n                if (word1.charAt(i) == word2.charAt(j)) {\n                    dp[i][j] = dp[i + 1][j + 1];\n                } else {\n                    dp[i][j] = 1 + Math.min(dp[i + 1][j],\n                                   Math.min(dp[i][j + 1], dp[i + 1][j + 1]));\n                }\n            }\n        }\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        vector<vector<int>> dp(word1.length() + 1,\n                               vector<int>(word2.length() + 1, 0));\n\n        for (int j = 0; j <= word2.length(); j++) {\n            dp[word1.length()][j] = word2.length() - j;\n        }\n        for (int i = 0; i <= word1.length(); i++) {\n            dp[i][word2.length()] = word1.length() - i;\n        }\n\n        for (int i = word1.length() - 1; i >= 0; i--) {\n            for (int j = word2.length() - 1; j >= 0; j--) {\n                if (word1[i] == word2[j]) {\n                    dp[i][j] = dp[i + 1][j + 1];\n                } else {\n                    dp[i][j] = 1 + min(dp[i + 1][j],\n                                   min(dp[i][j + 1], dp[i + 1][j + 1]));\n                }\n            }\n        }\n        return dp[0][0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {string} word1\n     * @param {string} word2\n     * @return {number}\n     */\n    minDistance(word1, word2) {\n        const dp = new Array(word1.length + 1)\n            .fill(0)\n            .map(() => new Array(word2.length + 1).fill(0));\n\n        for (let j = 0; j <= word2.length; j++) {\n            dp[word1.length][j] = word2.length - j;\n        }\n        for (let i = 0; i <= word1.length; i++) {\n            dp[i][word2.length] = word1.length - i;\n        }\n\n        for (let i = word1.length - 1; i >= 0; i--) {\n            for (let j = word2.length - 1; j >= 0; j--) {\n                if (word1[i] === word2[j]) {\n                    dp[i][j] = dp[i + 1][j + 1];\n                } else {\n                    dp[i][j] =\n                        1 +\n                        Math.min(\n                            dp[i + 1][j],\n                            Math.min(dp[i][j + 1], dp[i + 1][j + 1]),\n                        );\n                }\n            }\n        }\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public int MinDistance(string word1, string word2) {\n        int[,] dp = new int[word1.Length + 1, word2.Length + 1];\n\n        for (int j = 0; j <= word2.Length; j++) {\n            dp[word1.Length, j] = word2.Length - j;\n        }\n        for (int i = 0; i <= word1.Length; i++) {\n            dp[i, word2.Length] = word1.Length - i;\n        }\n\n        for (int i = word1.Length - 1; i >= 0; i--) {\n            for (int j = word2.Length - 1; j >= 0; j--) {\n                if (word1[i] == word2[j]) {\n                    dp[i, j] = dp[i + 1, j + 1];\n                } else {\n                    dp[i, j] = 1 + Math.Min(dp[i + 1, j],\n                                   Math.Min(dp[i, j + 1], dp[i + 1, j + 1]));\n                }\n            }\n        }\n        return dp[0, 0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "func minDistance(word1, word2 string) int {\n    m, n := len(word1), len(word2)\n    dp := make([][]int, m+1)\n    for i := range dp {\n        dp[i] = make([]int, n+1)\n    }\n\n    for j := 0; j <= n; j++ {\n        dp[m][j] = n - j\n    }\n    for i := 0; i <= m; i++ {\n        dp[i][n] = m - i\n    }\n\n    for i := m - 1; i >= 0; i-- {\n        for j := n - 1; j >= 0; j-- {\n            if word1[i] == word2[j] {\n                dp[i][j] = dp[i+1][j+1]\n            } else {\n                dp[i][j] = 1 + min(dp[i+1][j],\n                                   min(dp[i][j+1], dp[i+1][j+1]))\n            }\n        }\n    }\n\n    return dp[0][0]\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun minDistance(word1: String, word2: String): Int {\n        val m = word1.length\n        val n = word2.length\n        val dp = Array(m + 1) { IntArray(n + 1) }\n\n        for (j in 0..n) {\n            dp[m][j] = n - j\n        }\n        for (i in 0..m) {\n            dp[i][n] = m - i\n        }\n\n        for (i in m - 1 downTo 0) {\n            for (j in n - 1 downTo 0) {\n                if (word1[i] == word2[j]) {\n                    dp[i][j] = dp[i + 1][j + 1]\n                } else {\n                    dp[i][j] = 1 + minOf(dp[i + 1][j],\n                                         minOf(dp[i][j + 1], dp[i + 1][j + 1]))\n                }\n            }\n        }\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func minDistance(_ word1: String, _ word2: String) -> Int {\n        let m = word1.count, n = word2.count\n        let word1Array = Array(word1), word2Array = Array(word2)\n        var dp = [[Int]](repeating: [Int](repeating: Int.max, count: n + 1), count: m + 1)\n\n        for j in 0...n {\n            dp[m][j] = n - j\n        }\n        for i in 0...m {\n            dp[i][n] = m - i\n        }\n\n        for i in stride(from: m - 1, through: 0, by: -1) {\n            for j in stride(from: n - 1, through: 0, by: -1) {\n                if word1Array[i] == word2Array[j] {\n                    dp[i][j] = dp[i + 1][j + 1]\n                } else {\n                    dp[i][j] = 1 + min(dp[i + 1][j], dp[i][j + 1], dp[i + 1][j + 1])\n                }\n            }\n        }\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn min_distance(word1: String, word2: String) -> i32 {\n        let w1: Vec<u8> = word1.into_bytes();\n        let w2: Vec<u8> = word2.into_bytes();\n        let m = w1.len();\n        let n = w2.len();\n        let mut dp = vec![vec![0i32; n + 1]; m + 1];\n\n        for j in 0..=n {\n            dp[m][j] = (n - j) as i32;\n        }\n        for i in 0..=m {\n            dp[i][n] = (m - i) as i32;\n        }\n\n        for i in (0..m).rev() {\n            for j in (0..n).rev() {\n                if w1[i] == w2[j] {\n                    dp[i][j] = dp[i + 1][j + 1];\n                } else {\n                    dp[i][j] = 1 + dp[i + 1][j]\n                        .min(dp[i][j + 1])\n                        .min(dp[i + 1][j + 1]);\n                }\n            }\n        }\n        dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        m, n = len(word1), len(word2)\n        if m < n:\n            m, n = n, m\n            word1, word2 = word2, word1\n\n        dp = [0] * (n + 1)\n        nextDp = [0] * (n + 1)\n\n        for j in range(n + 1):\n            dp[j] = n - j\n\n        for i in range(m - 1, -1, -1):\n            nextDp[n] = m - i\n            for j in range(n - 1, -1, -1):\n                if word1[i] == word2[j]:\n                    nextDp[j] = dp[j + 1]\n                else:\n                    nextDp[j] = 1 + min(dp[j], nextDp[j + 1], dp[j + 1])\n            dp = nextDp[:]\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    public int minDistance(String word1, String word2) {\n        int m = word1.length(), n = word2.length();\n        if (m < n) {\n            int temp = m;\n            m = n;\n            n = temp;\n            String t = word1;\n            word1 = word2;\n            word2 = t;\n        }\n\n        int[] dp = new int[n + 1];\n        int[] nextDp = new int[n + 1];\n\n        for (int j = 0; j <= n; j++) {\n            dp[j] = n - j;\n        }\n\n        for (int i = m - 1; i >= 0; i--) {\n            nextDp[n] = m - i;\n            for (int j = n - 1; j >= 0; j--) {\n                if (word1.charAt(i) == word2.charAt(j)) {\n                    nextDp[j] = dp[j + 1];\n                } else {\n                    nextDp[j] = 1 + Math.min(dp[j],\n                                Math.min(nextDp[j + 1], dp[j + 1]));\n                }\n            }\n            System.arraycopy(nextDp, 0, dp, 0, n + 1);\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        int m = word1.size(), n = word2.size();\n        if (m < n) {\n            swap(m, n);\n            swap(word1, word2);\n        }\n\n        vector<int> dp(n + 1), nextDp(n + 1);\n\n        for (int j = 0; j <= n; ++j) {\n            dp[j] = n - j;\n        }\n\n        for (int i = m - 1; i >= 0; --i) {\n            nextDp[n] = m - i;\n            for (int j = n - 1; j >= 0; --j) {\n                if (word1[i] == word2[j]) {\n                    nextDp[j] = dp[j + 1];\n                } else {\n                    nextDp[j] = 1 + min({dp[j], nextDp[j + 1], dp[j + 1]});\n                }\n            }\n            dp = nextDp;\n        }\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    /**\n     * @param {string} word1\n     * @param {string} word2\n     * @return {number}\n     */\n    minDistance(word1, word2) {\n        let m = word1.length,\n            n = word2.length;\n        if (m < n) {\n            [m, n] = [n, m];\n            [word1, word2] = [word2, word1];\n        }\n\n        let dp = new Array(n + 1).fill(0);\n        let nextDp = new Array(n + 1).fill(0);\n\n        for (let j = 0; j <= n; j++) {\n            dp[j] = n - j;\n        }\n\n        for (let i = m - 1; i >= 0; i--) {\n            nextDp[n] = m - i;\n            for (let j = n - 1; j >= 0; j--) {\n                if (word1[i] === word2[j]) {\n                    nextDp[j] = dp[j + 1];\n                } else {\n                    nextDp[j] =\n                        1 + Math.min(dp[j], Math.min(nextDp[j + 1], dp[j + 1]));\n                }\n            }\n            dp = [...nextDp];\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "public class Solution {\n    public int MinDistance(string word1, string word2) {\n        int m = word1.Length, n = word2.Length;\n        if (m < n) {\n            var temp = m;\n            m = n;\n            n = temp;\n            var t = word1;\n            word1 = word2;\n            word2 = t;\n        }\n\n        int[] dp = new int[n + 1];\n        int[] nextDp = new int[n + 1];\n\n        for (int j = 0; j <= n; j++) {\n            dp[j] = n - j;\n        }\n\n        for (int i = m - 1; i >= 0; i--) {\n            nextDp[n] = m - i;\n            for (int j = n - 1; j >= 0; j--) {\n                if (word1[i] == word2[j]) {\n                    nextDp[j] = dp[j + 1];\n                } else {\n                    nextDp[j] = 1 + Math.Min(dp[j],\n                                Math.Min(nextDp[j + 1], dp[j + 1]));\n                }\n            }\n            Array.Copy(nextDp, dp, n + 1);\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "func minDistance(word1, word2 string) int {\n    m, n := len(word1), len(word2)\n    if m < n {\n        word1, word2 = word2, word1\n        m, n = n, m\n    }\n\n    dp := make([]int, n+1)\n    nextDp := make([]int, n+1)\n\n    for j := 0; j <= n; j++ {\n        dp[j] = n - j\n    }\n\n    for i := m - 1; i >= 0; i-- {\n        nextDp[n] = m - i\n        for j := n - 1; j >= 0; j-- {\n            if word1[i] == word2[j] {\n                nextDp[j] = dp[j+1]\n            } else {\n                nextDp[j] = 1 + min(dp[j],\n                                    min(nextDp[j+1], dp[j+1]))\n            }\n        }\n        dp, nextDp = nextDp, dp\n    }\n\n    return dp[0]\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    fun minDistance(word1: String, word2: String): Int {\n        var m = word1.length\n        var n = word2.length\n        var word1Mod = word1\n        var word2Mod = word2\n\n        if (m < n) {\n            word1Mod = word2\n            word2Mod = word1\n            m = word1Mod.length\n            n = word2Mod.length\n        }\n\n        val dp = IntArray(n + 1)\n        val nextDp = IntArray(n + 1)\n\n        for (j in 0..n) {\n            dp[j] = n - j\n        }\n\n        for (i in m - 1 downTo 0) {\n            nextDp[n] = m - i\n            for (j in n - 1 downTo 0) {\n                if (word1Mod[i] == word2Mod[j]) {\n                    nextDp[j] = dp[j + 1]\n                } else {\n                    nextDp[j] = 1 + minOf(dp[j], nextDp[j + 1], dp[j + 1])\n                }\n            }\n            dp.indices.forEach { dp[it] = nextDp[it] }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    func minDistance(_ word1: String, _ word2: String) -> Int {\n        var m = word1.count, n = word2.count\n        var word1Array = Array(word1), word2Array = Array(word2)\n\n        if m < n {\n            swap(&m, &n)\n            swap(&word1Array, &word2Array)\n        }\n\n        var dp = [Int](repeating: 0, count: n + 1)\n        var nextDp = [Int](repeating: 0, count: n + 1)\n\n        for j in 0...n {\n            dp[j] = n - j\n        }\n\n        for i in stride(from: m - 1, through: 0, by: -1) {\n            nextDp[n] = m - i\n            for j in stride(from: n - 1, through: 0, by: -1) {\n                if word1Array[i] == word2Array[j] {\n                    nextDp[j] = dp[j + 1]\n                } else {\n                    nextDp[j] = 1 + min(dp[j], nextDp[j + 1], dp[j + 1])\n                }\n            }\n            dp = nextDp\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "impl Solution {\n    pub fn min_distance(word1: String, word2: String) -> i32 {\n        let mut w1: Vec<u8> = word1.into_bytes();\n        let mut w2: Vec<u8> = word2.into_bytes();\n        let mut m = w1.len();\n        let mut n = w2.len();\n\n        if m < n {\n            std::mem::swap(&mut w1, &mut w2);\n            std::mem::swap(&mut m, &mut n);\n        }\n\n        let mut dp = vec![0i32; n + 1];\n        let mut next_dp = vec![0i32; n + 1];\n\n        for j in 0..=n {\n            dp[j] = (n - j) as i32;\n        }\n\n        for i in (0..m).rev() {\n            next_dp[n] = (m - i) as i32;\n            for j in (0..n).rev() {\n                if w1[i] == w2[j] {\n                    next_dp[j] = dp[j + 1];\n                } else {\n                    next_dp[j] = 1 + dp[j].min(next_dp[j + 1]).min(dp[j + 1]);\n                }\n            }\n            dp.copy_from_slice(&next_dp);\n        }\n\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution:\n    def minDistance(self, word1: str, word2: str) -> int:\n        m, n = len(word1), len(word2)\n        if m < n:\n            m, n = n, m\n            word1, word2 = word2, word1\n\n        dp = [n - i for i in range(n + 1)]\n\n        for i in range(m - 1, -1, -1):\n            nextDp = dp[n]\n            dp[n] = m - i\n            for j in range(n - 1, -1, -1):\n                temp = dp[j]\n                if word1[i] == word2[j]:\n                    dp[j] = nextDp\n                else:\n                    dp[j] = 1 + min(dp[j], dp[j + 1], nextDp)\n                nextDp = temp\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "public class Solution {\n    public int minDistance(String word1, String word2) {\n        int m = word1.length(), n = word2.length();\n        if (m < n) {\n            String temp = word1; word1 = word2; word2 = temp;\n            m = word1.length(); n = word2.length();\n        }\n\n        int[] dp = new int[n + 1];\n        for (int i = 0; i <= n; i++) dp[i] = n - i;\n\n        for (int i = m - 1; i >= 0; i--) {\n            int nextDp = dp[n];\n            dp[n] = m - i;\n            for (int j = n - 1; j >= 0; j--) {\n                int temp = dp[j];\n                if (word1.charAt(i) == word2.charAt(j)) {\n                    dp[j] = nextDp;\n                } else {\n                    dp[j] = 1 + Math.min(dp[j],\n                                Math.min(dp[j + 1], nextDp));\n                }\n                nextDp = temp;\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        int m = word1.size(), n = word2.size();\n        if (m < n) {\n            swap(m, n);\n            swap(word1, word2);\n        }\n\n        vector<int> dp(n + 1);\n        for (int i = 0; i <= n; i++) dp[i] = n - i;\n\n        for (int i = m - 1; i >= 0; i--) {\n            int nextDp = dp[n];\n            dp[n] = m - i;\n            for (int j = n - 1; j >= 0; j--) {\n                int temp = dp[j];\n                if (word1[i] == word2[j]) {\n                    dp[j] = nextDp;\n                } else {\n                    dp[j] = 1 + min({dp[j], dp[j + 1], nextDp});\n                }\n                nextDp = temp;\n            }\n        }\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    /**\n     * @param {string} word1\n     * @param {string} word2\n     * @return {number}\n     */\n    minDistance(word1, word2) {\n        let m = word1.length,\n            n = word2.length;\n        if (m < n) {\n            [m, n] = [n, m];\n            [word1, word2] = [word2, word1];\n        }\n\n        let dp = new Array(n + 1).fill(0);\n        for (let j = 0; j <= n; j++) {\n            dp[j] = n - j;\n        }\n\n        for (let i = m - 1; i >= 0; i--) {\n            let nextDp = dp[n];\n            dp[n] = m - i;\n            for (let j = n - 1; j >= 0; j--) {\n                let temp = dp[j];\n                if (word1[i] === word2[j]) {\n                    dp[j] = nextDp;\n                } else {\n                    dp[j] = 1 + Math.min(dp[j], dp[j + 1], nextDp);\n                }\n                nextDp = temp;\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "public class Solution {\n    public int MinDistance(string word1, string word2) {\n        int m = word1.Length, n = word2.Length;\n        if (m < n) {\n            string temp = word1; word1 = word2; word2 = temp;\n            m = word1.Length; n = word2.Length;\n        }\n\n        int[] dp = new int[n + 1];\n        for (int i = 0; i <= n; i++) dp[i] = n - i;\n\n        for (int i = m - 1; i >= 0; i--) {\n            int nextDp = dp[n];\n            dp[n] = m - i;\n            for (int j = n - 1; j >= 0; j--) {\n                int temp = dp[j];\n                if (word1[i] == word2[j]) {\n                    dp[j] = nextDp;\n                } else {\n                    dp[j] = 1 + Math.Min(dp[j],\n                            Math.Min(dp[j + 1], nextDp));\n                }\n                nextDp = temp;\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "func minDistance(word1, word2 string) int {\n    m, n := len(word1), len(word2)\n    if m < n {\n        word1, word2 = word2, word1\n        m, n = n, m\n    }\n\n    dp := make([]int, n+1)\n    for j := 0; j <= n; j++ {\n        dp[j] = n - j\n    }\n\n    for i := m - 1; i >= 0; i-- {\n        nextDp := dp[n]\n        dp[n] = m - i\n        for j := n - 1; j >= 0; j-- {\n            temp := dp[j]\n            if word1[i] == word2[j] {\n                dp[j] = nextDp\n            } else {\n                dp[j] = 1 + min(dp[j],\n                                min(dp[j+1], nextDp))\n            }\n            nextDp = temp\n        }\n    }\n\n    return dp[0]\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    fun minDistance(word1: String, word2: String): Int {\n        var m = word1.length\n        var n = word2.length\n        var word1Mod = word1\n        var word2Mod = word2\n\n        if (m < n) {\n            word1Mod = word2\n            word2Mod = word1\n            m = word1Mod.length\n            n = word2Mod.length\n        }\n\n        val dp = IntArray(n + 1) { n - it }\n\n        for (i in m - 1 downTo 0) {\n            var nextDp = dp[n]\n            dp[n] = m - i\n            for (j in n - 1 downTo 0) {\n                val temp = dp[j]\n                if (word1Mod[i] == word2Mod[j]) {\n                    dp[j] = nextDp\n                } else {\n                    dp[j] = 1 + minOf(dp[j], dp[j + 1], nextDp)\n                }\n                nextDp = temp\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "class Solution {\n    func minDistance(_ word1: String, _ word2: String) -> Int {\n        var m = word1.count, n = word2.count\n        var word1Array = Array(word1), word2Array = Array(word2)\n\n        if m < n {\n            swap(&m, &n)\n            swap(&word1Array, &word2Array)\n        }\n\n        var dp = (0...n).map { n - $0 }\n\n        for i in stride(from: m - 1, through: 0, by: -1) {\n            var nextDp = dp[n]\n            dp[n] = m - i\n            for j in stride(from: n - 1, through: 0, by: -1) {\n                let temp = dp[j]\n                if word1Array[i] == word2Array[j] {\n                    dp[j] = nextDp\n                } else {\n                    dp[j] = 1 + min(dp[j], dp[j + 1], nextDp)\n                }\n                nextDp = temp\n            }\n        }\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(min(m, n))",
+            "code": "impl Solution {\n    pub fn min_distance(word1: String, word2: String) -> i32 {\n        let mut w1: Vec<u8> = word1.into_bytes();\n        let mut w2: Vec<u8> = word2.into_bytes();\n        let mut m = w1.len();\n        let mut n = w2.len();\n\n        if m < n {\n            std::mem::swap(&mut w1, &mut w2);\n            std::mem::swap(&mut m, &mut n);\n        }\n\n        let mut dp: Vec<i32> = (0..=n).map(|j| (n - j) as i32).collect();\n\n        for i in (0..m).rev() {\n            let mut next_dp = dp[n];\n            dp[n] = (m - i) as i32;\n            for j in (0..n).rev() {\n                let temp = dp[j];\n                if w1[i] == w2[j] {\n                    dp[j] = next_dp;\n                } else {\n                    dp[j] = 1 + dp[j].min(dp[j + 1]).min(next_dp);\n                }\n                next_dp = temp;\n            }\n        }\n        dp[0]\n    }\n}"
+        }
+    ]
+}

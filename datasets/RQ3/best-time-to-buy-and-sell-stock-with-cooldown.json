@@ -1,0 +1,227 @@
+{
+    "problem_name": "Best Time to Buy And Sell Stock With Cooldown",
+    "problem_slug": "best-time-to-buy-and-sell-stock-with-cooldown",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n\n        def dfs(i, buying):\n            if i >= len(prices):\n                return 0\n\n            cooldown = dfs(i + 1, buying)\n            if buying:\n                buy = dfs(i + 1, not buying) - prices[i]\n                return max(buy, cooldown)\n            else:\n                sell = dfs(i + 2, not buying) + prices[i]\n                return max(sell, cooldown)\n\n        return dfs(0, True)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int maxProfit(int[] prices) {\n\n        return dfs(0, true, prices);\n    }\n\n    private int dfs(int i, boolean buying, int[] prices) {\n        if (i >= prices.length) {\n            return 0;\n        }\n\n        int cooldown = dfs(i + 1, buying, prices);\n        if (buying) {\n            int buy = dfs(i + 1, false, prices) - prices[i];\n            return Math.max(buy, cooldown);\n        } else {\n            int sell = dfs(i + 2, true, prices) + prices[i];\n            return Math.max(sell, cooldown);\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        return dfs(0, true, prices);\n    }\n\nprivate:\n    int dfs(int i, bool buying, vector<int>& prices) {\n        if (i >= prices.size()) {\n            return 0;\n        }\n\n        int cooldown = dfs(i + 1, buying, prices);\n        if (buying) {\n            int buy = dfs(i + 1, false, prices) - prices[i];\n            return max(buy, cooldown);\n        } else {\n            int sell = dfs(i + 2, true, prices) + prices[i];\n            return max(sell, cooldown);\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} prices\n     * @return {number}\n     */\n    maxProfit(prices) {\n        const dfs = (i, buying) => {\n            if (i >= prices.length) {\n                return 0;\n            }\n\n            let cooldown = dfs(i + 1, buying);\n            if (buying) {\n                let buy = dfs(i + 1, false) - prices[i];\n                return Math.max(buy, cooldown);\n            } else {\n                let sell = dfs(i + 2, true) + prices[i];\n                return Math.max(sell, cooldown);\n            }\n        };\n\n        return dfs(0, true);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int MaxProfit(int[] prices) {\n        return Dfs(0, true, prices);\n    }\n\n    private int Dfs(int i, bool buying, int[] prices) {\n        if (i >= prices.Length) {\n            return 0;\n        }\n\n        int cooldown = Dfs(i + 1, buying, prices);\n        if (buying) {\n            int buy = Dfs(i + 1, false, prices) - prices[i];\n            return Math.Max(buy, cooldown);\n        } else {\n            int sell = Dfs(i + 2, true, prices) + prices[i];\n            return Math.Max(sell, cooldown);\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "func maxProfit(prices []int) int {\n    var dfs func(i int, buying bool) int\n    dfs = func(i int, buying bool) int {\n        if i >= len(prices) {\n            return 0\n        }\n\n        cooldown := dfs(i + 1, buying)\n        if buying {\n            buy := dfs(i + 1, false) - prices[i]\n            return max(buy, cooldown)\n        } else {\n            sell := dfs(i + 2, true) + prices[i]\n            return max(sell, cooldown)\n        }\n    }\n\n    return dfs(0, true)\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun maxProfit(prices: IntArray): Int {\n        fun dfs(i: Int, buying: Boolean): Int {\n            if (i >= prices.size) return 0\n\n            val cooldown = dfs(i + 1, buying)\n            return if (buying) {\n                val buy = dfs(i + 1, false) - prices[i]\n                maxOf(buy, cooldown)\n            } else {\n                val sell = dfs(i + 2, true) + prices[i]\n                maxOf(sell, cooldown)\n            }\n        }\n\n        return dfs(0, true)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func maxProfit(_ prices: [Int]) -> Int {\n        let n = prices.count\n\n        func dfs(_ i: Int, _ buying: Bool) -> Int {\n            if i >= n {\n                return 0\n            }\n\n            let cooldown = dfs(i + 1, buying)\n            if buying {\n                let buy = dfs(i + 1, false) - prices[i]\n                return max(buy, cooldown)\n            } else {\n                let sell = dfs(i + 2, true) + prices[i]\n                return max(sell, cooldown)\n            }\n        }\n\n        return dfs(0, true)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        fn dfs(i: usize, buying: bool, prices: &[i32]) -> i32 {\n            if i >= prices.len() {\n                return 0;\n            }\n\n            let cooldown = dfs(i + 1, buying, prices);\n            if buying {\n                let buy = dfs(i + 1, false, prices) - prices[i];\n                buy.max(cooldown)\n            } else {\n                let sell = dfs(i + 2, true, prices) + prices[i];\n                sell.max(cooldown)\n            }\n        }\n\n        dfs(0, true, &prices)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        dp = {}  # key=(i, buying) val=max_profit\n\n        def dfs(i, buying):\n            if i >= len(prices):\n                return 0\n            if (i, buying) in dp:\n                return dp[(i, buying)]\n\n            cooldown = dfs(i + 1, buying)\n            if buying:\n                buy = dfs(i + 1, not buying) - prices[i]\n                dp[(i, buying)] = max(buy, cooldown)\n            else:\n                sell = dfs(i + 2, not buying) + prices[i]\n                dp[(i, buying)] = max(sell, cooldown)\n            return dp[(i, buying)]\n\n        return dfs(0, True)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private Map<String, Integer> dp = new HashMap<>();\n\n    public int maxProfit(int[] prices) {\n        return dfs(0, true, prices);\n    }\n\n    private int dfs(int i, boolean buying, int[] prices) {\n        if (i >= prices.length) {\n            return 0;\n        }\n\n        String key = i + \"-\" + buying;\n        if (dp.containsKey(key)) {\n            return dp.get(key);\n        }\n\n        int cooldown = dfs(i + 1, buying, prices);\n        if (buying) {\n            int buy = dfs(i + 1, false, prices) - prices[i];\n            dp.put(key, Math.max(buy, cooldown));\n        } else {\n            int sell = dfs(i + 2, true, prices) + prices[i];\n            dp.put(key, Math.max(sell, cooldown));\n        }\n\n        return dp.get(key);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    unordered_map<string, int> dp;\n\n    int maxProfit(vector<int>& prices) {\n        return dfs(0, true, prices);\n    }\n\nprivate:\n    int dfs(int i, bool buying, vector<int>& prices) {\n        if (i >= prices.size()) {\n            return 0;\n        }\n\n        string key = to_string(i) + \"-\" + to_string(buying);\n        if (dp.find(key) != dp.end()) {\n            return dp[key];\n        }\n\n        int cooldown = dfs(i + 1, buying, prices);\n        if (buying) {\n            int buy = dfs(i + 1, false, prices) - prices[i];\n            dp[key] = max(buy, cooldown);\n        } else {\n            int sell = dfs(i + 2, true, prices) + prices[i];\n            dp[key] = max(sell, cooldown);\n        }\n\n        return dp[key];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} prices\n     * @return {number}\n     */\n    maxProfit(prices) {\n        const dp = {};\n        const dfs = (i, buying) => {\n            if (i >= prices.length) {\n                return 0;\n            }\n            let key = `${i}-${buying}`;\n            if (key in dp) {\n                return dp[key];\n            }\n\n            let cooldown = dfs(i + 1, buying);\n            if (buying) {\n                let buy = dfs(i + 1, false) - prices[i];\n                dp[key] = Math.max(buy, cooldown);\n            } else {\n                let sell = dfs(i + 2, true) + prices[i];\n                dp[key] = Math.max(sell, cooldown);\n            }\n            return dp[key];\n        };\n\n        return dfs(0, true);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private Dictionary<(int, bool), int> dp =\n                    new Dictionary<(int, bool), int>();\n\n    public int MaxProfit(int[] prices) {\n        return Dfs(0, true, prices);\n    }\n\n    private int Dfs(int i, bool buying, int[] prices) {\n        if (i >= prices.Length) {\n            return 0;\n        }\n\n        var key = (i, buying);\n        if (dp.ContainsKey(key)) {\n            return dp[key];\n        }\n\n        int cooldown = Dfs(i + 1, buying, prices);\n        if (buying) {\n            int buy = Dfs(i + 1, false, prices) - prices[i];\n            dp[key] = Math.Max(buy, cooldown);\n        } else {\n            int sell = Dfs(i + 2, true, prices) + prices[i];\n            dp[key] = Math.Max(sell, cooldown);\n        }\n\n        return dp[key];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func maxProfit(prices []int) int {\n    dp := make(map[[2]int]int) // key is [i, buying], value is max profit\n\n    var dfs func(i int, buying bool) int\n    dfs = func(i int, buying bool) int {\n        if i >= len(prices) {\n            return 0\n        }\n\n        key := [2]int{i, boolToInt(buying)}\n        if val, found := dp[key]; found {\n            return val\n        }\n\n        cooldown := dfs(i + 1, buying)\n        if buying {\n            buy := dfs(i + 1, false) - prices[i]\n            dp[key] = max(buy, cooldown)\n        } else {\n            sell := dfs(i + 2, true) + prices[i]\n            dp[key] = max(sell, cooldown)\n        }\n\n        return dp[key]\n    }\n\n    return dfs(0, true)\n}\n\nfunc boolToInt(b bool) int {\n    if b {\n        return 1\n    }\n    return 0\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun maxProfit(prices: IntArray): Int {\n        val dp = HashMap<Pair<Int, Boolean>, Int>() // key is Pair(i, buying)\n\n        fun dfs(i: Int, buying: Boolean): Int {\n            if (i >= prices.size) return 0\n\n            val key = Pair(i, buying)\n            if (key in dp) return dp[key]!!\n\n            val cooldown = dfs(i + 1, buying)\n            dp[key] = if (buying) {\n                val buy = dfs(i + 1, false) - prices[i]\n                maxOf(buy, cooldown)\n            } else {\n                val sell = dfs(i + 2, true) + prices[i]\n                maxOf(sell, cooldown)\n            }\n\n            return dp[key]!!\n        }\n\n        return dfs(0, true)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func maxProfit(_ prices: [Int]) -> Int {\n        let n = prices.count\n        var dp = [[Int?]](repeating: [Int?](repeating: nil, count: 2), count: n)\n\n        func dfs(_ i: Int, _ buying: Int) -> Int {\n            if i >= n {\n                return 0\n            }\n            if let cached = dp[i][buying] {\n                return cached\n            }\n\n            let cooldown = dfs(i + 1, buying)\n            if buying == 1 {\n                let buy = dfs(i + 1, 0) - prices[i]\n                dp[i][buying] = max(buy, cooldown)\n            } else {\n                let sell = dfs(i + 2, 1) + prices[i]\n                dp[i][buying] = max(sell, cooldown)\n            }\n            return dp[i][buying]!\n        }\n\n        return dfs(0, 1)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        let n = prices.len();\n        let mut dp = vec![vec![-1i32; 2]; n];\n\n        fn dfs(i: usize, buying: usize, prices: &[i32], dp: &mut Vec<Vec<i32>>) -> i32 {\n            if i >= prices.len() {\n                return 0;\n            }\n            if dp[i][buying] != -1 {\n                return dp[i][buying];\n            }\n\n            let cooldown = dfs(i + 1, buying, prices, dp);\n            dp[i][buying] = if buying == 1 {\n                let buy = dfs(i + 1, 0, prices, dp) - prices[i];\n                buy.max(cooldown)\n            } else {\n                let sell = dfs(i + 2, 1, prices, dp) + prices[i];\n                sell.max(cooldown)\n            };\n            dp[i][buying]\n        }\n\n        dfs(0, 1, &prices, &mut dp)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        n = len(prices)\n        dp = [[0] * 2 for _ in range(n + 1)]\n\n        for i in range(n - 1, -1, -1):\n            for buying in [True, False]:\n                if buying:\n                    buy = dp[i + 1][False] - prices[i] if i + 1 < n else -prices[i]\n                    cooldown = dp[i + 1][True] if i + 1 < n else 0\n                    dp[i][1] = max(buy, cooldown)\n                else:\n                    sell = dp[i + 2][True] + prices[i] if i + 2 < n else prices[i]\n                    cooldown = dp[i + 1][False] if i + 1 < n else 0\n                    dp[i][0] = max(sell, cooldown)\n\n        return dp[0][1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int maxProfit(int[] prices) {\n        int n = prices.length;\n        int[][] dp = new int[n + 1][2];\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int buying = 1; buying >= 0; buying--) {\n                if (buying == 1) {\n                    int buy = dp[i + 1][0] - prices[i];\n                    int cooldown = dp[i + 1][1];\n                    dp[i][1] = Math.max(buy, cooldown);\n                } else {\n                    int sell = (i + 2 < n) ? dp[i + 2][1] + prices[i] : prices[i];\n                    int cooldown = dp[i + 1][0];\n                    dp[i][0] = Math.max(sell, cooldown);\n                }\n            }\n        }\n\n        return dp[0][1];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int n = prices.size();\n        vector<vector<int>> dp(n + 1, vector<int>(2, 0));\n\n        for (int i = n - 1; i >= 0; --i) {\n            for (int buying = 1; buying >= 0; --buying) {\n                if (buying == 1) {\n                    int buy = dp[i + 1][0] - prices[i];\n                    int cooldown = dp[i + 1][1];\n                    dp[i][1] = max(buy, cooldown);\n                } else {\n                    int sell = (i + 2 < n) ? dp[i + 2][1] + prices[i] : prices[i];\n                    int cooldown = dp[i + 1][0];\n                    dp[i][0] = max(sell, cooldown);\n                }\n            }\n        }\n\n        return dp[0][1];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} prices\n     * @return {number}\n     */\n    maxProfit(prices) {\n        const n = prices.length;\n        const dp = Array.from({ length: n + 1 }, () => [0, 0]);\n\n        for (let i = n - 1; i >= 0; i--) {\n            for (let buying = 1; buying >= 0; buying--) {\n                if (buying === 1) {\n                    let buy = dp[i + 1][0] - prices[i];\n                    let cooldown = dp[i + 1][1];\n                    dp[i][1] = Math.max(buy, cooldown);\n                } else {\n                    let sell = i + 2 < n ? dp[i + 2][1] + prices[i] : prices[i];\n                    let cooldown = dp[i + 1][0];\n                    dp[i][0] = Math.max(sell, cooldown);\n                }\n            }\n        }\n\n        return dp[0][1];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int MaxProfit(int[] prices) {\n        int n = prices.Length;\n        int[,] dp = new int[n + 1, 2];\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int buying = 1; buying >= 0; buying--) {\n                if (buying == 1) {\n                    int buy = dp[i + 1, 0] - prices[i];\n                    int cooldown = dp[i + 1, 1];\n                    dp[i, 1] = Math.Max(buy, cooldown);\n                } else {\n                    int sell = (i + 2 < n) ? dp[i + 2, 1] + prices[i] : prices[i];\n                    int cooldown = dp[i + 1, 0];\n                    dp[i, 0] = Math.Max(sell, cooldown);\n                }\n            }\n        }\n\n        return dp[0, 1];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func maxProfit(prices []int) int {\n    n := len(prices)\n    dp := make([][]int, n+1)\n    for i := range dp {\n        dp[i] = make([]int, 2)\n    }\n\n    for i := n - 1; i >= 0; i-- {\n        for buying := 1; buying >= 0; buying-- {\n            if buying == 1 {\n                buy := dp[i+1][0] - prices[i]\n                cooldown := dp[i+1][1]\n                dp[i][1] = max(buy, cooldown)\n            } else {\n                sell := prices[i]\n                if i+2 < n {\n                    sell += dp[i+2][1]\n                }\n                cooldown := dp[i+1][0]\n                dp[i][0] = max(sell, cooldown)\n            }\n        }\n    }\n\n    return dp[0][1]\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun maxProfit(prices: IntArray): Int {\n        val n = prices.size\n        val dp = Array(n + 1) { IntArray(2) }\n\n        for (i in n - 1 downTo 0) {\n            for (buying in 1 downTo 0) {\n                dp[i][buying] = if (buying == 1) {\n                    val buy = dp[i + 1][0] - prices[i]\n                    val cooldown = dp[i + 1][1]\n                    maxOf(buy, cooldown)\n                } else {\n                    val sell = if (i + 2 < n) dp[i + 2][1] + prices[i] else prices[i]\n                    val cooldown = dp[i + 1][0]\n                    maxOf(sell, cooldown)\n                }\n            }\n        }\n\n        return dp[0][1]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func maxProfit(_ prices: [Int]) -> Int {\n        let n = prices.count\n        var dp = Array(repeating: [0, 0], count: n + 1)\n\n        for i in stride(from: n - 1, through: 0, by: -1) {\n            for buying in 0...1 {\n                if buying == 1 {\n                    let buy = (i + 1 < n ? dp[i + 1][0] - prices[i] : -prices[i])\n                    let cooldown = (i + 1 < n ? dp[i + 1][1] : 0)\n                    dp[i][1] = max(buy, cooldown)\n                } else {\n                    let sell = (i + 2 < n ? dp[i + 2][1] + prices[i] : prices[i])\n                    let cooldown = (i + 1 < n ? dp[i + 1][0] : 0)\n                    dp[i][0] = max(sell, cooldown)\n                }\n            }\n        }\n\n        return dp[0][1]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        let n = prices.len();\n        let mut dp = vec![[0i32; 2]; n + 1];\n\n        for i in (0..n).rev() {\n            for buying in (0..=1).rev() {\n                if buying == 1 {\n                    let buy = dp[i + 1][0] - prices[i];\n                    let cooldown = dp[i + 1][1];\n                    dp[i][1] = buy.max(cooldown);\n                } else {\n                    let sell = if i + 2 < n {\n                        dp[i + 2][1] + prices[i]\n                    } else {\n                        prices[i]\n                    };\n                    let cooldown = dp[i + 1][0];\n                    dp[i][0] = sell.max(cooldown);\n                }\n            }\n        }\n\n        dp[0][1]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        n = len(prices)\n        dp1_buy, dp1_sell = 0, 0\n        dp2_buy = 0\n\n        for i in range(n - 1, -1, -1):\n            dp_buy = max(dp1_sell - prices[i], dp1_buy)\n            dp_sell = max(dp2_buy + prices[i], dp1_sell)\n            dp2_buy = dp1_buy\n            dp1_buy, dp1_sell = dp_buy, dp_sell\n\n        return dp1_buy"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int maxProfit(int[] prices) {\n        int n = prices.length;\n        int dp1_buy = 0, dp1_sell = 0;\n        int dp2_buy = 0;\n\n        for (int i = n - 1; i >= 0; i--) {\n            int dp_buy = Math.max(dp1_sell - prices[i], dp1_buy);\n            int dp_sell = Math.max(dp2_buy + prices[i], dp1_sell);\n            dp2_buy = dp1_buy;\n            dp1_buy = dp_buy;\n            dp1_sell = dp_sell;\n        }\n\n        return dp1_buy;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int n = prices.size();\n        int dp1_buy = 0, dp1_sell = 0;\n        int dp2_buy = 0;\n\n        for (int i = n - 1; i >= 0; --i) {\n            int dp_buy = max(dp1_sell - prices[i], dp1_buy);\n            int dp_sell = max(dp2_buy + prices[i], dp1_sell);\n            dp2_buy = dp1_buy;\n            dp1_buy = dp_buy;\n            dp1_sell = dp_sell;\n        }\n\n        return dp1_buy;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} prices\n     * @return {number}\n     */\n    maxProfit(prices) {\n        const n = prices.length;\n        let dp1_buy = 0,\n            dp1_sell = 0;\n        let dp2_buy = 0;\n\n        for (let i = n - 1; i >= 0; i--) {\n            let dp_buy = Math.max(dp1_sell - prices[i], dp1_buy);\n            let dp_sell = Math.max(dp2_buy + prices[i], dp1_sell);\n            dp2_buy = dp1_buy;\n            dp1_buy = dp_buy;\n            dp1_sell = dp_sell;\n        }\n\n        return dp1_buy;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int MaxProfit(int[] prices) {\n        int n = prices.Length;\n        int dp1_buy = 0, dp1_sell = 0;\n        int dp2_buy = 0;\n\n        for (int i = n - 1; i >= 0; i--) {\n            int dp_buy = Math.Max(dp1_sell - prices[i], dp1_buy);\n            int dp_sell = Math.Max(dp2_buy + prices[i], dp1_sell);\n            dp2_buy = dp1_buy;\n            dp1_buy = dp_buy;\n            dp1_sell = dp_sell;\n        }\n\n        return dp1_buy;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func maxProfit(prices []int) int {\n    n := len(prices)\n    dp1_buy, dp1_sell := 0, 0\n    dp2_buy := 0\n\n    for i := n - 1; i >= 0; i-- {\n        dp_buy := max(dp1_sell - prices[i], dp1_buy)\n        dp_sell := max(dp2_buy + prices[i], dp1_sell)\n        dp2_buy, dp1_sell = dp1_buy, dp_sell\n        dp1_buy = dp_buy\n    }\n\n    return dp1_buy\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun maxProfit(prices: IntArray): Int {\n        var dp1_buy = 0\n        var dp1_sell = 0\n        var dp2_buy = 0\n\n        for (i in prices.size - 1 downTo 0) {\n            val dp_buy = maxOf(dp1_sell - prices[i], dp1_buy)\n            val dp_sell = maxOf(dp2_buy + prices[i], dp1_sell)\n            dp2_buy = dp1_buy\n            dp1_buy = dp_buy\n            dp1_sell = dp_sell\n        }\n\n        return dp1_buy\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func maxProfit(_ prices: [Int]) -> Int {\n        let n = prices.count\n        var dp1Buy = 0, dp1Sell = 0\n        var dp2Buy = 0\n\n        for i in stride(from: n - 1, through: 0, by: -1) {\n            let dpBuy = max(dp1Sell - prices[i], dp1Buy)\n            let dpSell = max(dp2Buy + prices[i], dp1Sell)\n            dp2Buy = dp1Buy\n            dp1Buy = dpBuy\n            dp1Sell = dpSell\n        }\n\n        return dp1Buy\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        let n = prices.len();\n        let (mut dp1_buy, mut dp1_sell) = (0, 0);\n        let mut dp2_buy = 0;\n\n        for i in (0..n).rev() {\n            let dp_buy = (dp1_sell - prices[i]).max(dp1_buy);\n            let dp_sell = (dp2_buy + prices[i]).max(dp1_sell);\n            dp2_buy = dp1_buy;\n            dp1_buy = dp_buy;\n            dp1_sell = dp_sell;\n        }\n\n        dp1_buy\n    }\n}"
+        }
+    ]
+}

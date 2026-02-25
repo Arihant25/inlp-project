@@ -1,0 +1,173 @@
+{
+    "problem_name": "Merge Intervals",
+    "problem_slug": "merge-intervals",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "sorting"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def merge(self, intervals: List[List[int]]) -> List[List[int]]:\n        intervals.sort(key=lambda pair: pair[0])\n        output = [intervals[0]]\n\n        for start, end in intervals:\n            lastEnd = output[-1][1]\n\n            if start <= lastEnd:\n                output[-1][1] = max(lastEnd, end)\n            else:\n                output.append([start, end])\n        return output"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] merge(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));\n        List<int[]> output = new ArrayList<>();\n        output.add(intervals[0]);\n\n        for (int[] interval : intervals) {\n            int start = interval[0];\n            int end = interval[1];\n            int lastEnd = output.get(output.size() - 1)[1];\n\n            if (start <= lastEnd) {\n                output.get(output.size() - 1)[1] = Math.max(lastEnd, end);\n            } else {\n                output.add(new int[]{start, end});\n            }\n        }\n        return output.toArray(new int[output.size()][]);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end());\n        vector<vector<int>> output;\n        output.push_back(intervals[0]);\n\n        for (auto& interval : intervals) {\n            int start = interval[0];\n            int end = interval[1];\n            int lastEnd = output.back()[1];\n\n            if (start <= lastEnd) {\n                output.back()[1] = max(lastEnd, end);\n            } else {\n                output.push_back({start, end});\n            }\n        }\n        return output;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number[][]}\n     */\n    merge(intervals) {\n        intervals.sort((a, b) => a[0] - b[0]);\n        const output = [];\n        output.push(intervals[0]);\n\n        for (const interval of intervals) {\n            const start = interval[0];\n            const end = interval[1];\n            const lastEnd = output[output.length - 1][1];\n\n            if (start <= lastEnd) {\n                output[output.length - 1][1] = Math.max(lastEnd, end);\n            } else {\n                output.push([start, end]);\n            }\n        }\n        return output;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] Merge(int[][] intervals) {\n        Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));\n        List<int[]> output = new List<int[]>();\n        output.Add(intervals[0]);\n\n        foreach (int[] interval in intervals) {\n            int start = interval[0];\n            int end = interval[1];\n            int lastEnd = output[output.Count - 1][1];\n\n            if (start <= lastEnd) {\n                output[output.Count - 1][1] = Math.Max(lastEnd, end);\n            } else {\n                output.Add(new int[]{start, end});\n            }\n        }\n        return output.ToArray();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "func merge(intervals [][]int) [][]int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][0] < intervals[j][0]\n    })\n    output := [][]int{intervals[0]}\n\n    for _, interval := range intervals[1:] {\n        start, end := interval[0], interval[1]\n        lastEnd := output[len(output)-1][1]\n\n        if start <= lastEnd {\n            output[len(output)-1][1] = max(lastEnd, end)\n        } else {\n            output = append(output, []int{start, end})\n        }\n    }\n    return output\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun merge(intervals: Array<IntArray>): Array<IntArray> {\n        intervals.sortBy { it[0] }\n        val output = mutableListOf(intervals[0])\n\n        for (interval in intervals.slice(1 until intervals.size)) {\n            val (start, end) = interval\n            val lastEnd = output.last()[1]\n\n            if (start <= lastEnd) {\n                output[output.size - 1][1] = maxOf(lastEnd, end)\n            } else {\n                output.add(interval)\n            }\n        }\n        return output.toTypedArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func merge(_ intervals: [[Int]]) -> [[Int]] {\n        let intervals = intervals.sorted { $0[0] < $1[0] }\n        var output: [[Int]] = [intervals[0]]\n\n        for interval in intervals {\n            let start = interval[0]\n            let end = interval[1]\n            var lastEnd = output.last![1]\n\n            if start <= lastEnd {\n                output[output.count - 1][1] = max(lastEnd, end)\n            } else {\n                output.append([start, end])\n            }\n        }\n        return output\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let mut intervals = intervals;\n        intervals.sort_by_key(|v| v[0]);\n        let mut output: Vec<Vec<i32>> = vec![intervals[0].clone()];\n\n        for interval in &intervals {\n            let start = interval[0];\n            let end = interval[1];\n            let last_end = output.last().unwrap()[1];\n\n            if start <= last_end {\n                output.last_mut().unwrap()[1] = last_end.max(end);\n            } else {\n                output.push(vec![start, end]);\n            }\n        }\n        output\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def merge(self, intervals: List[List[int]]) -> List[List[int]]:\n        mp = defaultdict(int)\n        for start, end in intervals:\n            mp[start] += 1\n            mp[end] -= 1\n\n        res = []\n        interval = []\n        have = 0\n        for i in sorted(mp):\n            if not interval:\n                interval.append(i)\n            have += mp[i]\n            if have == 0:\n                interval.append(i)\n                res.append(interval)\n                interval = []\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[][] merge(int[][] intervals) {\n        TreeMap<Integer, Integer> map = new TreeMap<>();\n\n        for (int[] interval : intervals) {\n            map.put(interval[0], map.getOrDefault(interval[0], 0) + 1);\n            map.put(interval[1], map.getOrDefault(interval[1], 0) - 1);\n        }\n\n        List<int[]> res = new ArrayList<>();\n        int have = 0;\n        int[] interval = new int[2];\n\n        for (int point : map.keySet()) {\n            if (have == 0) interval[0] = point;\n            have += map.get(point);\n            if (have == 0) {\n                interval[1] = point;\n                res.add(new int[] {interval[0], interval[1]});\n            }\n        }\n\n        return res.toArray(new int[res.size()][]);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        map<int, int> mp;\n        for (const auto& interval : intervals) {\n            mp[interval[0]]++;\n            mp[interval[1]]--;\n        }\n\n        vector<vector<int>> res;\n        vector<int> interval;\n        int have = 0;\n        for (const auto& [i, count] : mp) {\n            if (interval.empty()) {\n                interval.push_back(i);\n            }\n            have += count;\n            if (have == 0) {\n                interval.push_back(i);\n                res.push_back(interval);\n                interval.clear();\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number[][]}\n     */\n    merge(intervals) {\n        const mp = new Map();\n        for (const [start, end] of intervals) {\n            mp.set(start, (mp.get(start) || 0) + 1);\n            mp.set(end, (mp.get(end) || 0) - 1);\n        }\n\n        const sortedKeys = Array.from(mp.keys()).sort((a, b) => a - b);\n        const res = [];\n        let interval = [];\n        let have = 0;\n\n        for (const i of sortedKeys) {\n            if (interval.length === 0) {\n                interval.push(i);\n            }\n            have += mp.get(i);\n            if (have === 0) {\n                interval.push(i);\n                res.push(interval);\n                interval = [];\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[][] Merge(int[][] intervals) {\n        var mp = new SortedDictionary<int, int>();\n        foreach (var point in intervals) {\n            if (!mp.ContainsKey(point[0])) mp[point[0]] = 0;\n            if (!mp.ContainsKey(point[1])) mp[point[1]] = 0;\n            mp[point[0]]++;\n            mp[point[1]]--;\n        }\n\n        var res = new List<int[]>();\n        var interval = new int[2];\n        int have = 0;\n        foreach (var kvp in mp) {\n            if (have == 0) interval[0] = kvp.Key;\n            have += kvp.Value;\n            if (have == 0) {\n                interval[1] = kvp.Key;\n                res.Add(new int[] { interval[0], interval[1] });\n            }\n        }\n        return res.ToArray();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func merge(intervals [][]int) [][]int {\n    mp := make(map[int]int)\n    for _, interval := range intervals {\n        start, end := interval[0], interval[1]\n        mp[start]++\n        mp[end]--\n    }\n\n    res := [][]int{}\n    interval := []int{}\n    have := 0\n    keys := make([]int, 0, len(mp))\n    for key := range mp {\n        keys = append(keys, key)\n    }\n    sort.Ints(keys)\n\n    for _, i := range keys {\n        if len(interval) == 0 {\n            interval = append(interval, i)\n        }\n        have += mp[i]\n        if have == 0 {\n            interval = append(interval, i)\n            res = append(res, append([]int{}, interval...))\n            interval = []int{}\n        }\n    }\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun merge(intervals: Array<IntArray>): Array<IntArray> {\n        val mp = TreeMap<Int, Int>()\n        for (interval in intervals) {\n            val (start, end) = interval\n            mp[start] = mp.getOrDefault(start, 0) + 1\n            mp[end] = mp.getOrDefault(end, 0) - 1\n        }\n\n        val res = mutableListOf<IntArray>()\n        var interval = mutableListOf<Int>()\n        var have = 0\n\n        for (i in mp.keys) {\n            if (interval.isEmpty()) {\n                interval.add(i)\n            }\n            have += mp[i]!!\n            if (have == 0) {\n                interval.add(i)\n                res.add(interval.toIntArray())\n                interval = mutableListOf()\n            }\n        }\n        return res.toTypedArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func merge(_ intervals: [[Int]]) -> [[Int]] {\n        var mp = [Int: Int]()\n\n        for interval in intervals {\n            let start = interval[0]\n            let end = interval[1]\n            mp[start, default: 0] += 1\n            mp[end, default: 0] -= 1\n        }\n\n        var res = [[Int]]()\n        var interval = [Int]()\n        var have = 0\n\n        for i in mp.keys.sorted() {\n            if interval.isEmpty {\n                interval.append(i)\n            }\n            have += mp[i, default: 0]\n            if have == 0 {\n                interval.append(i)\n                res.append(interval)\n                interval = []\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let mut mp = BTreeMap::new();\n        for interval in &intervals {\n            *mp.entry(interval[0]).or_insert(0) += 1;\n            *mp.entry(interval[1]).or_insert(0) -= 1;\n        }\n\n        let mut res: Vec<Vec<i32>> = Vec::new();\n        let mut interval: Vec<i32> = Vec::new();\n        let mut have = 0;\n\n        for (&key, &val) in &mp {\n            if interval.is_empty() {\n                interval.push(key);\n            }\n            have += val;\n            if have == 0 {\n                interval.push(key);\n                res.push(interval.clone());\n                interval.clear();\n            }\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def merge(self, intervals: List[List[int]]) -> List[List[int]]:\n        max_val = max(interval[0] for interval in intervals)\n\n        mp = [0] * (max_val + 1)\n        for start, end in intervals:\n            mp[start] = max(end + 1, mp[start])\n\n        res = []\n        have = -1\n        interval_start = -1\n        for i in range(len(mp)):\n            if mp[i] != 0:\n                if interval_start == -1:\n                    interval_start = i\n                have = max(mp[i] - 1, have)\n            if have == i:\n                res.append([interval_start, have])\n                have = -1\n                interval_start = -1\n\n        if interval_start != -1:\n            res.append([interval_start, have])\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[][] merge(int[][] intervals) {\n        int max = 0;\n        for (int i = 0; i < intervals.length; i++) {\n            max = Math.max(intervals[i][0], max);\n        }\n\n        int[] mp = new int[max + 1];\n        for (int i = 0; i < intervals.length; i++) {\n            int start = intervals[i][0];\n            int end = intervals[i][1];\n            mp[start] = Math.max(end + 1, mp[start]);\n        }\n\n        int r = 0;\n        int have = -1;\n        int intervalStart = -1;\n        for (int i = 0; i < mp.length; i++) {\n            if (mp[i] != 0) {\n                if (intervalStart == -1) intervalStart = i;\n                have = Math.max(mp[i] - 1, have);\n            }\n            if (have == i) {\n                intervals[r++] = new int[] { intervalStart, have };\n                have = -1;\n                intervalStart = -1;\n            }\n        }\n\n        if (intervalStart != -1) {\n            intervals[r++] = new int[] { intervalStart, have };\n        }\n        if (intervals.length == r) {\n            return intervals;\n        }\n\n        int[][] res = new int[r][];\n        for (int i = 0; i < r; i++) {\n            res[i] = intervals[i];\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        int max_val = 0;\n        for (const auto& interval : intervals) {\n            max_val = max(interval[0], max_val);\n        }\n\n        vector<int> mp(max_val + 1, 0);\n        for (const auto& interval : intervals) {\n            int start = interval[0];\n            int end = interval[1];\n            mp[start] = max(end + 1, mp[start]);\n        }\n\n        vector<vector<int>> res;\n        int have = -1;\n        int intervalStart = -1;\n        for (int i = 0; i < mp.size(); i++) {\n            if (mp[i] != 0) {\n                if (intervalStart == -1) intervalStart = i;\n                have = max(mp[i] - 1, have);\n            }\n            if (have == i) {\n                res.push_back({intervalStart, have});\n                have = -1;\n                intervalStart = -1;\n            }\n        }\n\n        if (intervalStart != -1) {\n            res.push_back({intervalStart, have});\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number[][]}\n     */\n    merge(intervals) {\n        let max = 0;\n        for (let i = 0; i < intervals.length; i++) {\n            max = Math.max(intervals[i][0], max);\n        }\n\n        let mp = new Array(max + 1).fill(0);\n        for (let i = 0; i < intervals.length; i++) {\n            let start = intervals[i][0];\n            let end = intervals[i][1];\n            mp[start] = Math.max(end + 1, mp[start]);\n        }\n\n        let res = [];\n        let have = -1;\n        let intervalStart = -1;\n        for (let i = 0; i < mp.length; i++) {\n            if (mp[i] !== 0) {\n                if (intervalStart === -1) intervalStart = i;\n                have = Math.max(mp[i] - 1, have);\n            }\n            if (have === i) {\n                res.push([intervalStart, have]);\n                have = -1;\n                intervalStart = -1;\n            }\n        }\n\n        if (intervalStart !== -1) {\n            res.push([intervalStart, have]);\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[][] Merge(int[][] intervals) {\n        int max = 0;\n        for (int i = 0; i < intervals.Length; i++) {\n            max = Math.Max(intervals[i][0], max);\n        }\n\n        int[] mp = new int[max + 1];\n        for (int i = 0; i < intervals.Length; i++) {\n            int start = intervals[i][0];\n            int end = intervals[i][1];\n            mp[start] = Math.Max(end + 1, mp[start]);\n        }\n\n        var res = new List<int[]>();\n        int have = -1;\n        int intervalStart = -1;\n        for (int i = 0; i < mp.Length; i++) {\n            if (mp[i] != 0) {\n                if (intervalStart == -1) intervalStart = i;\n                have = Math.Max(mp[i] - 1, have);\n            }\n            if (have == i) {\n                res.Add(new int[] { intervalStart, have });\n                have = -1;\n                intervalStart = -1;\n            }\n        }\n\n        if (intervalStart != -1) {\n            res.Add(new int[] { intervalStart, have });\n        }\n\n        return res.ToArray();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "func merge(intervals [][]int) [][]int {\n    maxVal := math.MinInt\n    for _, interval := range intervals {\n        maxVal = max(maxVal, interval[0])\n    }\n\n    mp := make([]int, maxVal+1)\n    for _, interval := range intervals {\n        start, end := interval[0], interval[1]\n        mp[start] = max(mp[start], end+1)\n    }\n\n    res := [][]int{}\n    have := -1\n    intervalStart := -1\n    for i := 0; i < len(mp); i++ {\n        if mp[i] != 0 {\n            if intervalStart == -1 {\n                intervalStart = i\n            }\n            have = max(mp[i]-1, have)\n        }\n        if have == i {\n            res = append(res, []int{intervalStart, have})\n            have = -1\n            intervalStart = -1\n        }\n    }\n\n    if intervalStart != -1 {\n        res = append(res, []int{intervalStart, have})\n    }\n\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun merge(intervals: Array<IntArray>): Array<IntArray> {\n        var maxVal = Int.MIN_VALUE\n        for (interval in intervals) {\n            maxVal = maxOf(maxVal, interval[0])\n        }\n\n        val mp = IntArray(maxVal + 1)\n        for (interval in intervals) {\n            val (start, end) = interval\n            mp[start] = maxOf(mp[start], end + 1)\n        }\n\n        val res = mutableListOf<IntArray>()\n        var have = -1\n        var intervalStart = -1\n        for (i in mp.indices) {\n            if (mp[i] != 0) {\n                if (intervalStart == -1) {\n                    intervalStart = i\n                }\n                have = maxOf(mp[i] - 1, have)\n            }\n            if (have == i) {\n                res.add(intArrayOf(intervalStart, have))\n                have = -1\n                intervalStart = -1\n            }\n        }\n\n        if (intervalStart != -1) {\n            res.add(intArrayOf(intervalStart, have))\n        }\n\n        return res.toTypedArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func merge(_ intervals: [[Int]]) -> [[Int]] {\n        let maxVal = intervals.map { $0[0] }.max() ?? 0\n        var mp = [Int](repeating: 0, count: maxVal + 1)\n        for interval in intervals {\n            let start = interval[0]\n            let end = interval[1]\n            mp[start] = max(end + 1, mp[start])\n        }\n\n        var res = [[Int]]()\n        var have = -1\n        var intervalStart = -1\n\n        for i in 0..<mp.count {\n            if mp[i] != 0 {\n                if intervalStart == -1 {\n                    intervalStart = i\n                }\n                have = max(mp[i] - 1, have)\n            }\n            if have == i {\n                res.append([intervalStart, have])\n                have = -1\n                intervalStart = -1\n            }\n        }\n\n        if intervalStart != -1 {\n            res.append([intervalStart, have])\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let max_val = intervals.iter().map(|v| v[0]).max().unwrap() as usize;\n\n        let mut mp = vec![0i32; max_val + 1];\n        for interval in &intervals {\n            let start = interval[0] as usize;\n            let end = interval[1];\n            mp[start] = mp[start].max(end + 1);\n        }\n\n        let mut res: Vec<Vec<i32>> = Vec::new();\n        let mut have: i32 = -1;\n        let mut interval_start: i32 = -1;\n\n        for i in 0..mp.len() {\n            if mp[i] != 0 {\n                if interval_start == -1 {\n                    interval_start = i as i32;\n                }\n                have = have.max(mp[i] - 1);\n            }\n            if have == i as i32 {\n                res.push(vec![interval_start, have]);\n                have = -1;\n                interval_start = -1;\n            }\n        }\n\n        if interval_start != -1 {\n            res.push(vec![interval_start, have]);\n        }\n\n        res\n    }\n}"
+        }
+    ]
+}

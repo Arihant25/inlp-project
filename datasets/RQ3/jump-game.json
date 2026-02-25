@@ -1,0 +1,228 @@
+{
+    "problem_name": "Jump Game",
+    "problem_slug": "jump-game",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming",
+        "greedy"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        def dfs(i):\n            if i == len(nums) - 1:\n                return True\n            end = min(len(nums) - 1, i + nums[i])\n            for j in range(i + 1, end + 1):\n                if dfs(j):\n                    return True\n            return False\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean canJump(int[] nums) {\n        return dfs(nums, 0);\n    }\n\n    private boolean dfs(int[] nums, int i) {\n        if (i == nums.length - 1) {\n            return true;\n        }\n        int end = Math.min(nums.length - 1, i + nums[i]);\n        for (int j = i + 1; j <= end; j++) {\n            if (dfs(nums, j)) {\n                return true;\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        return dfs(nums, 0);\n    }\n\nprivate:\n    bool dfs(vector<int>& nums, int i) {\n        if (i == nums.size() - 1) {\n            return true;\n        }\n        int end = min((int)nums.size() - 1, i + nums[i]);\n        for (int j = i + 1; j <= end; ++j) {\n            if (dfs(nums, j)) {\n                return true;\n            }\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canJump(nums) {\n        const dfs = (i) => {\n            if (i === nums.length - 1) {\n                return true;\n            }\n            const end = Math.min(nums.length - 1, i + nums[i]);\n            for (let j = i + 1; j <= end; j++) {\n                if (dfs(j)) {\n                    return true;\n                }\n            }\n            return false;\n        };\n\n        return dfs(0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool CanJump(int[] nums) {\n        return Dfs(nums, 0);\n    }\n\n    private bool Dfs(int[] nums, int i) {\n        if (i == nums.Length - 1) {\n            return true;\n        }\n        int end = Math.Min(nums.Length - 1, i + nums[i]);\n        for (int j = i + 1; j <= end; j++) {\n            if (Dfs(nums, j)) {\n                return true;\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "func canJump(nums []int) bool {\n    var dfs func(i int) bool\n    dfs = func(i int) bool {\n        if i == len(nums)-1 {\n            return true\n        }\n\n        end := min(len(nums)-1, i+nums[i])\n        for j := i + 1; j <= end; j++ {\n            if dfs(j) {\n                return true\n            }\n        }\n        return false\n    }\n\n    return dfs(0)\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun canJump(nums: IntArray): Boolean {\n        fun dfs(i: Int): Boolean {\n            if (i == nums.size - 1) {\n                return true\n            }\n\n            val end = minOf(nums.size - 1, i + nums[i])\n            for (j in (i + 1)..end) {\n                if (dfs(j)) {\n                    return true\n                }\n            }\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func canJump(_ nums: [Int]) -> Bool {\n\n        func dfs(_ i: Int) -> Bool {\n            if i == nums.count - 1 {\n                return true\n            }\n\n            let end = min(nums.count - 1, i + nums[i])\n            for j in i + 1..<(end + 1) {\n                if dfs(j) {\n                    return true\n                }\n            }\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n!)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn can_jump(nums: Vec<i32>) -> bool {\n        fn dfs(nums: &[i32], i: usize) -> bool {\n            if i == nums.len() - 1 {\n                return true;\n            }\n            let end = (nums.len() - 1).min(i + nums[i] as usize);\n            for j in (i + 1)..=end {\n                if dfs(nums, j) {\n                    return true;\n                }\n            }\n            false\n        }\n        dfs(&nums, 0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        memo = {}\n\n        def dfs(i):\n            if i in memo:\n                return memo[i]\n            if i == len(nums) - 1:\n                return True\n            if nums[i] == 0:\n                return False\n\n            end = min(len(nums), i + nums[i] + 1)\n            for j in range(i + 1, end):\n                if dfs(j):\n                    memo[i] = True\n                    return True\n            memo[i] = False\n            return False\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean canJump(int[] nums) {\n        Map<Integer, Boolean> memo = new HashMap<>();\n        return dfs(nums, 0, memo);\n    }\n\n    private boolean dfs(int[] nums, int i, Map<Integer, Boolean> memo) {\n        if (memo.containsKey(i)) {\n            return memo.get(i);\n        }\n        if (i == nums.length - 1) {\n            return true;\n        }\n        if (nums[i] == 0) {\n            return false;\n        }\n\n        int end = Math.min(nums.length, i + nums[i] + 1);\n        for (int j = i + 1; j < end; j++) {\n            if (dfs(nums, j, memo)) {\n                memo.put(i, true);\n                return true;\n            }\n        }\n        memo.put(i, false);\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        unordered_map<int, bool> memo;\n        return dfs(nums, 0, memo);\n    }\n\nprivate:\n    bool dfs(vector<int>& nums, int i, unordered_map<int, bool>& memo) {\n        if (memo.count(i)) {\n            return memo[i];\n        }\n        if (i == nums.size() - 1) {\n            return true;\n        }\n        if (nums[i] == 0) {\n            return false;\n        }\n\n        int end = min((int)nums.size(), i + nums[i] + 1);\n        for (int j = i + 1; j < end; j++) {\n            if (dfs(nums, j, memo)) {\n                memo[i] = true;\n                return true;\n            }\n        }\n        memo[i] = false;\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canJump(nums) {\n        const memo = new Map();\n        const dfs = (i) => {\n            if (memo.has(i)) {\n                return memo.get(i);\n            }\n            if (i == nums.length - 1) {\n                return true;\n            }\n            if (nums[i] === 0) {\n                return false;\n            }\n            const end = Math.min(nums.length - 1, i + nums[i]);\n            for (let j = i + 1; j <= end; j++) {\n                if (dfs(j)) {\n                    memo.set(i, true);\n                    return true;\n                }\n            }\n            memo.set(i, false);\n            return false;\n        };\n\n        return dfs(0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool CanJump(int[] nums) {\n        var memo = new Dictionary<int, bool>();\n        return Dfs(nums, 0, memo);\n    }\n\n    private bool Dfs(int[] nums, int i, Dictionary<int, bool> memo) {\n        if (memo.ContainsKey(i)) {\n            return memo[i];\n        }\n        if (i >= nums.Length - 1) {\n            return true;\n        }\n        if (nums[i] == 0) {\n            return false;\n        }\n\n        int end = Math.Min(nums.Length, i + nums[i] + 1);\n        for (int j = i + 1; j < end; j++) {\n            if (Dfs(nums, j, memo)) {\n                memo[i] = true;\n                return true;\n            }\n        }\n        memo[i] = false;\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func canJump(nums []int) bool {\n    memo := make(map[int]bool)\n\n    var dfs func(i int) bool\n    dfs = func(i int) bool {\n        if result, exists := memo[i]; exists {\n            return result\n        }\n\n        if i == len(nums)-1 {\n            return true\n        }\n        if nums[i] == 0 {\n            memo[i] = false\n            return false\n        }\n\n        end := min(len(nums), i+nums[i]+1)\n        for j := i + 1; j < end; j++ {\n            if dfs(j) {\n                memo[i] = true\n                return true\n            }\n        }\n\n        memo[i] = false\n        return false\n    }\n\n    return dfs(0)\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun canJump(nums: IntArray): Boolean {\n        val memo = HashMap<Int, Boolean>()\n\n        fun dfs(i: Int): Boolean {\n            memo[i]?.let { return it }\n\n            if (i == nums.size - 1) {\n                return true\n            }\n            if (nums[i] == 0) {\n                memo[i] = false\n                return false\n            }\n\n            val end = minOf(nums.size, i + nums[i] + 1)\n            for (j in (i + 1) until end) {\n                if (dfs(j)) {\n                    memo[i] = true\n                    return true\n                }\n            }\n\n            memo[i] = false\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func canJump(_ nums: [Int]) -> Bool {\n        var memo: [Int: Bool] = [:]\n\n        func dfs(_ i: Int) -> Bool {\n            if let cachedResult = memo[i] {\n                return cachedResult\n            }\n            if i == nums.count - 1 {\n                return true\n            }\n            if nums[i] == 0 {\n                return false\n            }\n\n            let end = min(nums.count, i + nums[i] + 1)\n            for j in i + 1..<end {\n                if dfs(j) {\n                    memo[i] = true\n                    return true\n                }\n            }\n\n            memo[i] = false\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn can_jump(nums: Vec<i32>) -> bool {\n        let mut memo = HashMap::new();\n        fn dfs(nums: &[i32], i: usize, memo: &mut HashMap<usize, bool>) -> bool {\n            if let Some(&v) = memo.get(&i) {\n                return v;\n            }\n            if i == nums.len() - 1 {\n                return true;\n            }\n            if nums[i] == 0 {\n                return false;\n            }\n            let end = nums.len().min(i + nums[i] as usize + 1);\n            for j in (i + 1)..end {\n                if dfs(nums, j, memo) {\n                    memo.insert(i, true);\n                    return true;\n                }\n            }\n            memo.insert(i, false);\n            false\n        }\n        dfs(&nums, 0, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        n = len(nums)\n        dp = [False] * n\n        dp[-1] = True\n\n        for i in range(n - 2, -1, -1):\n            end = min(n, i + nums[i] + 1)\n            for j in range(i + 1, end):\n                if dp[j]:\n                    dp[i] = True\n                    break\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean canJump(int[] nums) {\n        int n = nums.length;\n        boolean[] dp = new boolean[n];\n        dp[n - 1] = true;\n\n        for (int i = n - 2; i >= 0; i--) {\n            int end = Math.min(nums.length, i + nums[i] + 1);\n            for (int j = i + 1; j < end; j++) {\n                if (dp[j]) {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        int n = nums.size();\n        vector<bool> dp(n, false);\n        dp[n - 1] = true;\n\n        for (int i = n - 2; i >= 0; i--) {\n            int end = min((int)nums.size(), i + nums[i] + 1);\n            for (int j = i + 1; j < end; j++) {\n                if (dp[j]) {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canJump(nums) {\n        const n = nums.length;\n        const dp = new Array(n).fill(false);\n        dp[n - 1] = true;\n\n        for (let i = n - 2; i >= 0; i--) {\n            const end = Math.min(nums.length, i + nums[i] + 1);\n            for (let j = i + 1; j < end; j++) {\n                if (dp[j]) {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool CanJump(int[] nums) {\n        int n = nums.Length;\n        bool[] dp = new bool[n];\n        dp[n - 1] = true;\n\n        for (int i = n - 2; i >= 0; i--) {\n            int end = Math.Min(nums.Length, i + nums[i] + 1);\n            for (int j = i + 1; j < end; j++) {\n                if (dp[j]) {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func canJump(nums []int) bool {\n    n := len(nums)\n    dp := make([]bool, n)\n    dp[n-1] = true\n\n    for i := n - 2; i >= 0; i-- {\n        end := min(n, i + nums[i] + 1)\n        for j := i + 1; j < end; j++ {\n            if dp[j] {\n                dp[i] = true\n                break\n            }\n        }\n    }\n    return dp[0]\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun canJump(nums: IntArray): Boolean {\n        val n = nums.size\n        val dp = BooleanArray(n)\n        dp[n - 1] = true\n\n        for (i in n - 2 downTo 0) {\n            val end = minOf(n, i + nums[i] + 1)\n            for (j in i + 1 until end) {\n                if (dp[j]) {\n                    dp[i] = true\n                    break\n                }\n            }\n        }\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func canJump(_ nums: [Int]) -> Bool {\n        let n = nums.count\n        var dp = [Bool](repeating: false, count: n)\n        dp[n - 1] = true\n\n        for i in (0..<n - 1).reversed() {\n            let end = min(n, i + nums[i] + 1)\n            for j in (i + 1..<end) {\n                if dp[j] {\n                    dp[i] = true\n                    break\n                }\n            }\n        }\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn can_jump(nums: Vec<i32>) -> bool {\n        let n = nums.len();\n        let mut dp = vec![false; n];\n        dp[n - 1] = true;\n        for i in (0..n - 1).rev() {\n            let end = n.min(i + nums[i] as usize + 1);\n            for j in (i + 1)..end {\n                if dp[j] {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        goal = len(nums) - 1\n\n        for i in range(len(nums) - 2, -1, -1):\n            if i + nums[i] >= goal:\n                goal = i\n        return goal == 0"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public boolean canJump(int[] nums) {\n        int goal = nums.length - 1;\n\n        for (int i = nums.length - 2; i >= 0; i--) {\n            if (i + nums[i] >= goal) {\n                goal = i;\n            }\n        }\n\n        return goal == 0;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        int goal = nums.size() - 1;\n\n        for (int i = nums.size() - 2; i >= 0; i--) {\n            if (i + nums[i] >= goal) {\n                goal = i;\n            }\n        }\n\n        return goal == 0;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canJump(nums) {\n        let goal = nums.length - 1;\n\n        for (let i = nums.length - 2; i >= 0; i--) {\n            if (i + nums[i] >= goal) {\n                goal = i;\n            }\n        }\n\n        return goal === 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public bool CanJump(int[] nums) {\n        int goal = nums.Length - 1;\n\n        for (int i = nums.Length - 2; i >= 0; i--) {\n            if (i + nums[i] >= goal) {\n                goal = i;\n            }\n        }\n\n        return goal == 0;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func canJump(nums []int) bool {\n    goal := len(nums) - 1\n\n    for i := len(nums) - 2; i >= 0; i-- {\n        if i + nums[i] >= goal {\n            goal = i\n        }\n    }\n    return goal == 0\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun canJump(nums: IntArray): Boolean {\n        var goal = nums.size - 1\n\n        for (i in nums.size - 2 downTo 0) {\n            if (i + nums[i] >= goal) {\n                goal = i\n            }\n        }\n        return goal == 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func canJump(_ nums: [Int]) -> Bool {\n        var goal = nums.count - 1\n\n        for i in stride(from: nums.count - 2, through: 0, by: -1) {\n            if i + nums[i] >= goal {\n                goal = i\n            }\n        }\n\n        return goal == 0\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn can_jump(nums: Vec<i32>) -> bool {\n        let mut goal = nums.len() as i32 - 1;\n        for i in (0..nums.len() as i32 - 1).rev() {\n            if i + nums[i as usize] >= goal {\n                goal = i;\n            }\n        }\n        goal == 0\n    }\n}"
+        }
+    ]
+}

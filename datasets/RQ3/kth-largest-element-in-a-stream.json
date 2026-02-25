@@ -1,0 +1,123 @@
+{
+    "problem_name": "Kth Largest Element In a Stream",
+    "problem_slug": "kth-largest-element-in-a-stream",
+    "difficulty": "easy",
+    "topic_tags": [
+        "tree",
+        "design",
+        "binary search tree",
+        "heap (priority queue)",
+        "binary tree",
+        "data stream"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "class KthLargest:\n\n    def __init__(self, k: int, nums: List[int]):\n        self.k = k\n        self.arr = nums\n\n    def add(self, val: int) -> int:\n        self.arr.append(val)\n        self.arr.sort()\n        return self.arr[len(self.arr) - self.k]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "class KthLargest {\n    List<Integer> arr;\n    int K;\n    public KthLargest(int k, int[] nums) {\n        K = k;\n        arr = new ArrayList();\n        for (int i = 0; i < nums.length; i++) {\n            arr.add(nums[i]);\n        }\n    }\n\n    public int add(int val) {\n        arr.add(val);\n        Collections.sort(arr);\n        return arr.get(arr.size() - K);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "class KthLargest {\npublic:\n    vector<int> arr;\n    int k;\n    KthLargest(int k, vector<int>& nums) {\n        this->arr = nums;\n        this->k = k;\n    }\n\n    int add(int val) {\n        arr.push_back(val);\n        sort(arr.begin(), arr.end());\n        return arr[arr.size() - k];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "class KthLargest {\n    /**\n     * @param {number} k\n     * @param {number[]} nums\n     */\n    constructor(k, nums) {\n        this.arr = nums;\n        this.k = k;\n    }\n\n    /**\n     * @param {number} val\n     * @return {number}\n     */\n    add(val) {\n        this.arr.push(val);\n        this.arr.sort((a, b) => a - b);\n        return this.arr[this.arr.length - this.k];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "public class KthLargest {\n    private List<int> arr;\n    private int K;\n\n    public KthLargest(int k, int[] nums) {\n        arr = new List<int>(nums);\n        K = k;\n    }\n\n    public int Add(int val) {\n        arr.Add(val);\n        arr.Sort();\n        return arr[arr.Count - K];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "type KthLargest struct {\n    k   int\n    arr []int\n}\n\nfunc Constructor(k int, nums []int) KthLargest {\n    return KthLargest{k: k, arr: nums}\n}\n\nfunc (this *KthLargest) Add(val int) int {\n    this.arr = append(this.arr, val)\n    sort.Ints(this.arr)\n    return this.arr[len(this.arr)-this.k]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "class KthLargest(k: Int, nums: IntArray) {\n    private val k = k\n    private val arr = nums.toMutableList()\n\n    fun add(`val`: Int): Int {\n        arr.add(`val`)\n        arr.sort()\n        return arr[arr.size - k]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "class KthLargest {\n    private var k: Int\n    private var arr: [Int]\n\n    init(_ k: Int, _ nums: [Int]) {\n        self.k = k\n        self.arr = nums\n    }\n\n    func add(_ val: Int) -> Int {\n        arr.append(val)\n        arr.sort()\n        return arr[arr.count - k]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * nlog n)",
+            "space_complexity": "O(m)",
+            "code": "struct KthLargest {\n    k: usize,\n    arr: Vec<i32>,\n}\n\nimpl KthLargest {\n    fn new(k: i32, nums: Vec<i32>) -> Self {\n        KthLargest { k: k as usize, arr: nums }\n    }\n\n    fn add(&mut self, val: i32) -> i32 {\n        self.arr.push(val);\n        self.arr.sort();\n        self.arr[self.arr.len() - self.k]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "class KthLargest:\n\n    def __init__(self, k: int, nums: List[int]):\n        self.minHeap, self.k = nums, k\n        heapq.heapify(self.minHeap)\n        while len(self.minHeap) > k:\n            heapq.heappop(self.minHeap)\n\n    def add(self, val: int) -> int:\n        heapq.heappush(self.minHeap, val)\n        if len(self.minHeap) > self.k:\n            heapq.heappop(self.minHeap)\n        return self.minHeap[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "class KthLargest {\n\n    private PriorityQueue<Integer> minHeap;\n    private int k;\n\n    public KthLargest(int k, int[] nums) {\n        this.k = k;\n        this.minHeap = new PriorityQueue<>();\n        for (int num : nums) {\n            minHeap.offer(num);\n            if (minHeap.size() > k) {\n                minHeap.poll();\n            }\n        }\n    }\n\n    public int add(int val) {\n        minHeap.offer(val);\n        if (minHeap.size() > k) {\n            minHeap.poll();\n        }\n        return minHeap.peek();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "class KthLargest {\nprivate:\n    priority_queue<int, vector<int>, greater<int>> minHeap;\n    int k;\n\npublic:\n    KthLargest(int k, vector<int>& nums) {\n        this->k = k;\n        for (int num : nums) {\n            minHeap.push(num);\n            if (minHeap.size() > k) {\n                minHeap.pop();\n            }\n        }\n    }\n\n    int add(int val) {\n        minHeap.push(val);\n        if (minHeap.size() > k) {\n            minHeap.pop();\n        }\n        return minHeap.top();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "/**\n * const { MinPriorityQueue } = require('@datastructures-js/priority-queue');\n */\n\nclass KthLargest {\n    /**\n     * @param {number} k\n     * @param {number[]} nums\n     */\n    constructor(k, nums) {\n        this.minHeap = new MinPriorityQueue();\n        this.k = k;\n\n        for (const num of nums) {\n            this.minHeap.enqueue(num);\n        }\n\n        while (this.minHeap.size() > k) {\n            this.minHeap.dequeue();\n        }\n    }\n\n    /**\n     * @param {number} val\n     * @return {number}\n     */\n    add(val) {\n        this.minHeap.enqueue(val);\n        if (this.minHeap.size() > this.k) {\n            this.minHeap.dequeue();\n        }\n        return this.minHeap.front();\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "public class KthLargest {\n\n    private PriorityQueue<int, int> minHeap;\n    private int k;\n\n    public KthLargest(int k, int[] nums) {\n        this.k = k;\n        this.minHeap = new PriorityQueue<int, int>();\n        foreach (int num in nums) {\n            minHeap.Enqueue(num, num);\n            if (minHeap.Count > k) {\n                minHeap.Dequeue();\n            }\n        }\n    }\n\n    public int Add(int val) {\n        minHeap.Enqueue(val, val);\n        if (minHeap.Count > k) {\n            minHeap.Dequeue();\n        }\n        return minHeap.Peek();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "type KthLargest struct {\n    minHeap *priorityqueue.Queue\n    k       int\n}\n\nfunc Constructor(k int, nums []int) KthLargest {\n    minHeap := priorityqueue.NewWith(utils.IntComparator)\n    for _, num := range nums {\n        minHeap.Enqueue(num)\n    }\n    for minHeap.Size() > k {\n        minHeap.Dequeue()\n    }\n    return KthLargest{minHeap: minHeap, k: k}\n}\n\nfunc (this *KthLargest) Add(val int) int {\n    this.minHeap.Enqueue(val)\n    if this.minHeap.Size() > this.k {\n        this.minHeap.Dequeue()\n    }\n    top, _ := this.minHeap.Peek()\n    return top.(int)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "class KthLargest(k: Int, nums: IntArray) {\n    private val k = k\n    private val minHeap = PriorityQueue<Int>()\n\n    init {\n        for (num in nums) {\n            minHeap.offer(num)\n        }\n        while (minHeap.size > k) {\n            minHeap.poll()\n        }\n    }\n\n    fun add(`val`: Int): Int {\n        minHeap.offer(`val`)\n        if (minHeap.size > k) {\n            minHeap.poll()\n        }\n        return minHeap.peek()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "class KthLargest {\n    private var minHeap: Heap<Int>\n    private let k: Int\n\n    init(_ k: Int, _ nums: [Int]) {\n        self.k = k\n        self.minHeap = Heap<Int>()\n        for num in nums {\n            minHeap.insert(num)\n            if minHeap.count > k {\n                minHeap.popMin()\n            }\n        }\n    }\n\n    func add(_ val: Int) -> Int {\n        minHeap.insert(val)\n        if minHeap.count > k {\n            minHeap.popMin()\n        }\n        return minHeap.min!\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * log k)",
+            "space_complexity": "O(k)",
+            "code": "struct KthLargest {\n    min_heap: BinaryHeap<Reverse<i32>>,\n    k: usize,\n}\n\nimpl KthLargest {\n    fn new(k: i32, nums: Vec<i32>) -> Self {\n        let k = k as usize;\n        let mut min_heap = BinaryHeap::new();\n        for num in nums {\n            min_heap.push(Reverse(num));\n            if min_heap.len() > k {\n                min_heap.pop();\n            }\n        }\n        KthLargest { min_heap, k }\n    }\n\n    fn add(&mut self, val: i32) -> i32 {\n        self.min_heap.push(Reverse(val));\n        if self.min_heap.len() > self.k {\n            self.min_heap.pop();\n        }\n        self.min_heap.peek().unwrap().0\n    }\n}"
+        }
+    ]
+}

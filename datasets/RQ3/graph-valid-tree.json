@@ -1,0 +1,175 @@
+{
+    "problem_name": "Graph Valid Tree",
+    "problem_slug": "graph-valid-tree",
+    "difficulty": "medium",
+    "topic_tags": [
+        "depth-first search",
+        "breadth-first search",
+        "union find",
+        "graph"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def validTree(self, n: int, edges: List[List[int]]) -> bool:\n        if len(edges) > (n - 1):\n            return False\n\n        adj = [[] for _ in range(n)]\n        for u, v in edges:\n            adj[u].append(v)\n            adj[v].append(u)\n\n        visit = set()\n        def dfs(node, par):\n            if node in visit:\n                return False\n\n            visit.add(node)\n            for nei in adj[node]:\n                if nei == par:\n                    continue\n                if not dfs(nei, node):\n                    return False\n            return True\n\n        return dfs(0, -1) and len(visit) == n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public boolean validTree(int n, int[][] edges) {\n        if (edges.length > n - 1) {\n            return false;\n        }\n\n        List<List<Integer>> adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            adj.add(new ArrayList<>());\n        }\n\n        for (int[] edge : edges) {\n            adj.get(edge[0]).add(edge[1]);\n            adj.get(edge[1]).add(edge[0]);\n        }\n\n        Set<Integer> visit = new HashSet<>();\n        if (!dfs(0, -1, visit, adj)) {\n            return false;\n        }\n\n        return visit.size() == n;\n    }\n\n    private boolean dfs(int node, int parent, Set<Integer> visit,\n                        List<List<Integer>> adj) {\n        if (visit.contains(node)) {\n            return false;\n        }\n\n        visit.add(node);\n        for (int nei : adj.get(node)) {\n            if (nei == parent) {\n                continue;\n            }\n            if (!dfs(nei, node, visit, adj)) {\n                return false;\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\npublic:\n    bool validTree(int n, vector<vector<int>>& edges) {\n        if (edges.size() > n - 1) {\n            return false;\n        }\n\n        vector<vector<int>> adj(n);\n        for (const auto& edge : edges) {\n            adj[edge[0]].push_back(edge[1]);\n            adj[edge[1]].push_back(edge[0]);\n        }\n\n        unordered_set<int> visit;\n        if (!dfs(0, -1, visit, adj)) {\n            return false;\n        }\n\n        return visit.size() == n;\n    }\n\nprivate:\n    bool dfs(int node, int parent, unordered_set<int>& visit,\n             vector<vector<int>>& adj) {\n        if (visit.count(node)) {\n            return false;\n        }\n\n        visit.insert(node);\n        for (int nei : adj[node]) {\n            if (nei == parent) {\n                continue;\n            }\n            if (!dfs(nei, node, visit, adj)) {\n                return false;\n            }\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    /**\n     * @param {number} n\n     * @param {number[][]} edges\n     * @returns {boolean}\n     */\n    validTree(n, edges) {\n        if (edges.length > n - 1) {\n            return false;\n        }\n\n        const adj = Array.from({ length: n }, () => []);\n        for (const [u, v] of edges) {\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n\n        const visit = new Set();\n        const dfs = (node, parent) => {\n            if (visit.has(node)) {\n                return false;\n            }\n\n            visit.add(node);\n            for (const nei of adj[node]) {\n                if (nei === parent) {\n                    continue;\n                }\n                if (!dfs(nei, node)) {\n                    return false;\n                }\n            }\n            return true;\n        };\n\n        return dfs(0, -1) && visit.size === n;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public bool ValidTree(int n, int[][] edges) {\n        if (edges.Length > n - 1) {\n            return false;\n        }\n\n        List<List<int>> adj = new List<List<int>>();\n        for (int i = 0; i < n; i++) {\n            adj.Add(new List<int>());\n        }\n\n        foreach (var edge in edges) {\n            adj[edge[0]].Add(edge[1]);\n            adj[edge[1]].Add(edge[0]);\n        }\n\n        HashSet<int> visit = new HashSet<int>();\n        if (!Dfs(0, -1, visit, adj)) {\n            return false;\n        }\n\n        return visit.Count == n;\n    }\n\n    private bool Dfs(int node, int parent, HashSet<int> visit,\n                     List<List<int>> adj) {\n        if (visit.Contains(node)) {\n            return false;\n        }\n\n        visit.Add(node);\n        foreach (var nei in adj[node]) {\n            if (nei == parent) {\n                continue;\n            }\n            if (!Dfs(nei, node, visit, adj)) {\n                return false;\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "func validTree(n int, edges [][]int) bool {\n    if len(edges) > n-1 {\n\t\treturn false\n\t}\n\n\tadj := make([][]int, n)\n\tfor _, edge := range edges {\n\t\tu, v := edge[0], edge[1]\n\t\tadj[u] = append(adj[u], v)\n\t\tadj[v] = append(adj[v], u)\n\t}\n\n\tvisit := make(map[int]bool)\n\tvar dfs func(node, parent int) bool\n\tdfs = func(node, parent int) bool {\n\t\tif visit[node] {\n\t\t\treturn false\n\t\t}\n\t\tvisit[node] = true\n\t\tfor _, nei := range adj[node] {\n\t\t\tif nei == parent {\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tif !dfs(nei, node) {\n\t\t\t\treturn false\n\t\t\t}\n\t\t}\n\t\treturn true\n\t}\n\n\treturn dfs(0, -1) && len(visit) == n\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun validTree(n: Int, edges: Array<IntArray>): Boolean {\n        if (edges.size > n - 1) return false\n\n        val adj = Array(n) { mutableListOf<Int>() }\n        for ((u, v) in edges) {\n            adj[u].add(v)\n            adj[v].add(u)\n        }\n\n        val visit = HashSet<Int>()\n\n        fun dfs(node: Int, parent: Int): Boolean {\n            if (node in visit) return false\n            visit.add(node)\n            for (nei in adj[node]) {\n                if (nei == parent) continue\n                if (!dfs(nei, node)) return false\n            }\n            return true\n        }\n\n        return dfs(0, -1) && visit.size == n\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {\n        if edges.count > (n - 1) {\n            return false\n        }\n\n        var adj = Array(repeating: [Int](), count: n)\n        for edge in edges {\n            let u = edge[0]\n            let v = edge[1]\n            adj[u].append(v)\n            adj[v].append(u)\n        }\n\n        var visited = Set<Int>()\n\n        func dfs(_ node: Int, _ parent: Int) -> Bool {\n            if visited.contains(node) {\n                return false\n            }\n            visited.insert(node)\n            for nei in adj[node] {\n                if nei == parent {\n                    continue\n                }\n                if !dfs(nei, node) {\n                    return false\n                }\n            }\n            return true\n        }\n\n        return dfs(0, -1) && visited.count == n\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn valid_tree(n: i32, edges: Vec<Vec<i32>>) -> bool {\n        let n = n as usize;\n        if edges.len() > n - 1 {\n            return false;\n        }\n\n        let mut adj = vec![vec![]; n];\n        for edge in &edges {\n            let (u, v) = (edge[0] as usize, edge[1] as usize);\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n\n        let mut visit = HashSet::new();\n\n        fn dfs(\n            node: usize, parent: i32,\n            visit: &mut HashSet<usize>,\n            adj: &Vec<Vec<usize>>,\n        ) -> bool {\n            if !visit.insert(node) {\n                return false;\n            }\n            for &nei in &adj[node] {\n                if nei as i32 == parent {\n                    continue;\n                }\n                if !dfs(nei, node as i32, visit, adj) {\n                    return false;\n                }\n            }\n            true\n        }\n\n        dfs(0, -1, &mut visit, &adj) && visit.len() == n\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def validTree(self, n: int, edges: List[List[int]]) -> bool:\n        if len(edges) > n - 1:\n            return False\n\n        adj = [[] for _ in range(n)]\n        for u, v in edges:\n            adj[u].append(v)\n            adj[v].append(u)\n\n        visit = set()\n        q = deque([(0, -1)])  # (current node, parent node)\n        visit.add(0)\n\n        while q:\n            node, parent = q.popleft()\n            for nei in adj[node]:\n                if nei == parent:\n                    continue\n                if nei in visit:\n                    return False\n                visit.add(nei)\n                q.append((nei, node))\n\n        return len(visit) == n"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public boolean validTree(int n, int[][] edges) {\n        if (edges.length > n - 1) {\n            return false;\n        }\n\n        List<List<Integer>> adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            adj.add(new ArrayList<>());\n        }\n\n        for (int[] edge : edges) {\n            adj.get(edge[0]).add(edge[1]);\n            adj.get(edge[1]).add(edge[0]);\n        }\n\n        Set<Integer> visit = new HashSet<>();\n        Queue<int[]> q = new LinkedList<>();\n        q.offer(new int[]{0, -1});  // {current node, parent node}\n        visit.add(0);\n\n        while (!q.isEmpty()) {\n            int[] pair = q.poll();\n            int node = pair[0], parent = pair[1];\n            for (int nei : adj.get(node)) {\n                if (nei == parent) {\n                    continue;\n                }\n                if (visit.contains(nei)) {\n                    return false;\n                }\n                visit.add(nei);\n                q.offer(new int[]{nei, node});\n            }\n        }\n\n        return visit.size() == n;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\npublic:\n    bool validTree(int n, vector<vector<int>>& edges) {\n        if (edges.size() > n - 1) {\n            return false;\n        }\n\n        vector<vector<int>> adj(n);\n        for (const auto& edge : edges) {\n            adj[edge[0]].push_back(edge[1]);\n            adj[edge[1]].push_back(edge[0]);\n        }\n\n        unordered_set<int> visit;\n        queue<pair<int, int>> q;\n        q.push({0, -1});  // {current node, parent node}\n        visit.insert(0);\n\n        while (!q.empty()) {\n            auto [node, parent] = q.front();\n            q.pop();\n            for (int nei : adj[node]) {\n                if (nei == parent) {\n                    continue;\n                }\n                if (visit.count(nei)) {\n                    return false;\n                }\n                visit.insert(nei);\n                q.push({nei, node});\n            }\n        }\n\n        return visit.size() == n;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    /**\n     * @param {number} n\n     * @param {number[][]} edges\n     * @returns {boolean}\n     */\n    validTree(n, edges) {\n        if (edges.length > n - 1) {\n            return false;\n        }\n\n        const adj = Array.from({ length: n }, () => []);\n        for (const [u, v] of edges) {\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n\n        const visit = new Set();\n        const q = new Queue([[0, -1]]); // [current node, parent node]\n        visit.add(0);\n\n        while (!q.isEmpty()) {\n            const [node, parent] = q.pop();\n            for (const nei of adj[node]) {\n                if (nei === parent) continue;\n                if (visit.has(nei)) return false;\n                visit.add(nei);\n                q.push([nei, node]);\n            }\n        }\n\n        return visit.size === n;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public bool ValidTree(int n, int[][] edges) {\n        if (edges.Length > n - 1) {\n            return false;\n        }\n\n        List<List<int>> adj = new List<List<int>>();\n        for (int i = 0; i < n; i++) {\n            adj.Add(new List<int>());\n        }\n\n        foreach (var edge in edges) {\n            adj[edge[0]].Add(edge[1]);\n            adj[edge[1]].Add(edge[0]);\n        }\n\n        HashSet<int> visit = new HashSet<int>();\n        Queue<(int, int)> q = new Queue<(int, int)>();\n        q.Enqueue((0, -1));  // (current node, parent node)\n        visit.Add(0);\n\n        while (q.Count > 0) {\n            var (node, parent) = q.Dequeue();\n            foreach (var nei in adj[node]) {\n                if (nei == parent) {\n                    continue;\n                }\n                if (visit.Contains(nei)) {\n                    return false;\n                }\n                visit.Add(nei);\n                q.Enqueue((nei, node));\n            }\n        }\n\n        return visit.Count == n;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "func validTree(n int, edges [][]int) bool {\n    if len(edges) > n-1 {\n\t\treturn false\n\t}\n\n\tadj := make([][]int, n)\n\tfor _, edge := range edges {\n\t\tu, v := edge[0], edge[1]\n\t\tadj[u] = append(adj[u], v)\n\t\tadj[v] = append(adj[v], u)\n\t}\n\n\tvisit := make(map[int]bool)\n\tq := [][2]int{{0, -1}} // (current node, parent node)\n\tvisit[0] = true\n\n\tfor len(q) > 0 {\n\t\tnode, parent := q[0][0], q[0][1]\n\t\tq = q[1:]\n\n\t\tfor _, nei := range adj[node] {\n\t\t\tif nei == parent {\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tif visit[nei] {\n\t\t\t\treturn false\n\t\t\t}\n\t\t\tvisit[nei] = true\n\t\t\tq = append(q, [2]int{nei, node})\n\t\t}\n\t}\n\n\treturn len(visit) == n\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun validTree(n: Int, edges: Array<IntArray>): Boolean {\n        if (edges.size > n - 1) return false\n\n        val adj = Array(n) { mutableListOf<Int>() }\n        for ((u, v) in edges) {\n            adj[u].add(v)\n            adj[v].add(u)\n        }\n\n        val visit = mutableSetOf<Int>()\n        val q: Queue<Pair<Int, Int>> = LinkedList()  // Queue of (node, parent)\n        q.offer(0 to -1)\n        visit.add(0)\n\n        while (q.isNotEmpty()) {\n            val (node, parent) = q.poll()\n\n            for (nei in adj[node]) {\n                if (nei == parent) continue\n                if (nei in visit) return false\n                visit.add(nei)\n                q.offer(nei to node)\n            }\n        }\n\n        return visit.size == n\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {\n        if edges.count > n - 1 {\n            return false\n        }\n\n        var adj = [[Int]](repeating: [], count: n)\n        for edge in edges {\n            let u = edge[0]\n            let v = edge[1]\n            adj[u].append(v)\n            adj[v].append(u)\n        }\n\n        var visit = Set<Int>()\n        var q = Deque<(Int, Int)>()  // (current node, parent node)\n        q.append((0, -1))\n        visit.insert(0)\n\n        while !q.isEmpty {\n            let (node, parent) = q.removeFirst()\n            for nei in adj[node] {\n                if nei == parent {\n                    continue\n                }\n                if visit.contains(nei) {\n                    return false\n                }\n                visit.insert(nei)\n                q.append((nei, node))\n            }\n        }\n\n        return visit.count == n\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn valid_tree(n: i32, edges: Vec<Vec<i32>>) -> bool {\n        let n = n as usize;\n        if edges.len() > n - 1 {\n            return false;\n        }\n\n        let mut adj = vec![vec![]; n];\n        for edge in &edges {\n            let (u, v) = (edge[0] as usize, edge[1] as usize);\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n\n        let mut visit = HashSet::new();\n        let mut q = VecDeque::new();\n        q.push_back((0usize, -1i32));\n        visit.insert(0usize);\n\n        while let Some((node, parent)) = q.pop_front() {\n            for &nei in &adj[node] {\n                if nei as i32 == parent {\n                    continue;\n                }\n                if !visit.insert(nei) {\n                    return false;\n                }\n                q.push_back((nei, node as i32));\n            }\n        }\n\n        visit.len() == n\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class DSU:\n    def __init__(self, n):\n        self.comps = n\n        self.Parent = list(range(n + 1))\n        self.Size = [1] * (n + 1)\n\n    def find(self, node):\n        if self.Parent[node] != node:\n            self.Parent[node] = self.find(self.Parent[node])\n        return self.Parent[node]\n\n    def union(self, u, v):\n        pu = self.find(u)\n        pv = self.find(v)\n        if pu == pv:\n            return False\n\n        self.comps -= 1\n        if self.Size[pu] < self.Size[pv]:\n            pu, pv = pv, pu\n        self.Size[pu] += self.Size[pv]\n        self.Parent[pv] = pu\n        return True\n\n    def components(self):\n        return self.comps\n\nclass Solution:\n    def validTree(self, n: int, edges: List[List[int]]) -> bool:\n        if len(edges) > n - 1:\n            return False\n\n        dsu = DSU(n)\n        for u, v in edges:\n            if not dsu.union(u, v):\n                return False\n        return dsu.components() == 1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class DSU {\n    int[] Parent, Size;\n    int comps;\n\n    public DSU(int n) {\n        comps = n;\n        Parent = new int[n + 1];\n        Size = new int[n + 1];\n        for (int i = 0; i <= n; i++) {\n            Parent[i] = i;\n            Size[i] = 1;\n        }\n    }\n\n    public int find(int node) {\n        if (Parent[node] != node) {\n            Parent[node] = find(Parent[node]);\n        }\n        return Parent[node];\n    }\n\n    public boolean union(int u, int v) {\n        int pu = find(u), pv = find(v);\n        if (pu == pv) return false;\n        if (Size[pu] < Size[pv]) {\n            int temp = pu;\n            pu = pv;\n            pv = temp;\n        }\n        comps--;\n        Size[pu] += Size[pv];\n        Parent[pv] = pu;\n        return true;\n    }\n\n    public int components() {\n        return comps;\n    }\n}\n\npublic class Solution {\n    public boolean validTree(int n, int[][] edges) {\n        if (edges.length > n - 1) {\n            return false;\n        }\n\n        DSU dsu = new DSU(n);\n        for (int[] edge : edges) {\n            if (!dsu.union(edge[0], edge[1])) {\n                return false;\n            }\n        }\n        return dsu.components() == 1;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class DSU {\n    vector<int> Parent, Size;\n    int comps;\npublic:\n    DSU(int n) {\n        comps = n;\n        Parent.resize(n + 1);\n        Size.resize(n + 1);\n        for (int i = 0; i <= n; i++) {\n            Parent[i] = i;\n            Size[i] = 1;\n        }\n    }\n\n    int find(int node) {\n        if (Parent[node] != node) {\n            Parent[node] = find(Parent[node]);\n        }\n        return Parent[node];\n    }\n\n    bool unionNodes(int u, int v) {\n        int pu = find(u), pv = find(v);\n        if (pu == pv) return false;\n        if (Size[pu] < Size[pv]) {\n            swap(pu, pv);\n        }\n        comps--;\n        Size[pu] += Size[pv];\n        Parent[pv] = pu;\n        return true;\n    }\n\n    int components() {\n        return comps;\n    }\n};\n\nclass Solution {\npublic:\n    bool validTree(int n, vector<vector<int>>& edges) {\n        if (edges.size() > n - 1) {\n            return false;\n        }\n\n        DSU dsu(n);\n        for (auto& edge : edges) {\n            if (!dsu.unionNodes(edge[0], edge[1])) {\n                return false;\n            }\n        }\n        return dsu.components() == 1;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class DSU {\n    constructor(n) {\n        this.comps = n;\n        this.Parent = Array.from({ length: n + 1 }, (_, i) => i);\n        this.Size = Array(n + 1).fill(1);\n    }\n\n    /**\n     * @param {number} node\n     * @return {number}\n     */\n    find(node) {\n        if (this.Parent[node] !== node) {\n            this.Parent[node] = this.find(this.Parent[node]);\n        }\n        return this.Parent[node];\n    }\n\n    /**\n     * @param {number} u\n     * @param {number} v\n     * @return {boolean}\n     */\n    union(u, v) {\n        let pu = this.find(u);\n        let pv = this.find(v);\n        if (pu === pv) return false;\n        if (this.Size[pu] < this.Size[pv]) {\n            [pu, pv] = [pv, pu];\n        }\n        this.comps--;\n        this.Size[pu] += this.Size[pv];\n        this.Parent[pv] = pu;\n        return true;\n    }\n\n    /**\n     * @return {number}\n     */\n    components() {\n        return this.comps;\n    }\n}\n\nclass Solution {\n    /**\n     * @param {number} n\n     * @param {number[][]} edges\n     * @returns {boolean}\n     */\n    validTree(n, edges) {\n        if (edges.length > n - 1) {\n            return false;\n        }\n\n        const dsu = new DSU(n);\n        for (const [u, v] of edges) {\n            if (!dsu.union(u, v)) {\n                return false;\n            }\n        }\n        return dsu.components() === 1;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "public class DSU {\n    private int[] Parent, Size;\n    private int comps;\n\n    public DSU(int n) {\n        comps = n;\n        Parent = new int[n + 1];\n        Size = new int[n + 1];\n        for (int i = 0; i <= n; i++) {\n            Parent[i] = i;\n            Size[i] = 1;\n        }\n    }\n\n    public int Find(int node) {\n        if (Parent[node] != node) {\n            Parent[node] = Find(Parent[node]);\n        }\n        return Parent[node];\n    }\n\n    public bool Union(int u, int v) {\n        int pu = Find(u), pv = Find(v);\n        if (pu == pv) return false;\n        if (Size[pu] < Size[pv]) {\n            int temp = pu;\n            pu = pv;\n            pv = temp;\n        }\n        comps--;\n        Size[pu] += Size[pv];\n        Parent[pv] = pu;\n        return true;\n    }\n\n    public int Components() {\n        return comps;\n    }\n}\n\npublic class Solution {\n    public bool ValidTree(int n, int[][] edges) {\n        if (edges.Length > n - 1) {\n            return false;\n        }\n\n        DSU dsu = new DSU(n);\n        foreach (var edge in edges) {\n            if (!dsu.Union(edge[0], edge[1])) {\n                return false;\n            }\n        }\n        return dsu.Components() == 1;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "type DSU struct {\n\tParent []int\n\tSize   []int\n\tComps  int\n}\n\nfunc NewDSU(n int) *DSU {\n\tparent := make([]int, n+1)\n\tsize := make([]int, n+1)\n\tfor i := 0; i <= n; i++ {\n\t\tparent[i] = i\n\t\tsize[i] = 1\n\t}\n\treturn &DSU{Parent: parent, Size: size, Comps: n}\n}\n\nfunc (dsu *DSU) Find(node int) int {\n\tif dsu.Parent[node] != node {\n\t\tdsu.Parent[node] = dsu.Find(dsu.Parent[node])\n\t}\n\treturn dsu.Parent[node]\n}\n\nfunc (dsu *DSU) Union(u, v int) bool {\n\tpu, pv := dsu.Find(u), dsu.Find(v)\n\tif pu == pv {\n\t\treturn false\n\t}\n\tdsu.Comps--\n\tif dsu.Size[pu] < dsu.Size[pv] {\n\t\tpu, pv = pv, pu\n\t}\n\tdsu.Size[pu] += dsu.Size[pv]\n\tdsu.Parent[pv] = pu\n\treturn true\n}\n\nfunc (dsu *DSU) Components() int {\n\treturn dsu.Comps\n}\n\nfunc validTree(n int, edges [][]int) bool {\n    if len(edges) > n-1 {\n\t\treturn false\n\t}\n\tdsu := NewDSU(n)\n\tfor _, edge := range edges {\n\t\tif !dsu.Union(edge[0], edge[1]) {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn dsu.Components() == 1\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class DSU(n: Int) {\n    private val parent = IntArray(n + 1) { it }\n    private val size = IntArray(n + 1) { 1 }\n    var comps = n\n        private set\n\n    fun find(node: Int): Int {\n        if (parent[node] != node) {\n            parent[node] = find(parent[node])\n        }\n        return parent[node]\n    }\n\n    fun union(u: Int, v: Int): Boolean {\n        val pu = find(u)\n        val pv = find(v)\n        if (pu == pv) return false\n\n        comps--\n        if (size[pu] < size[pv]) {\n            parent[pu] = pv\n            size[pv] += size[pu]\n        } else {\n            parent[pv] = pu\n            size[pu] += size[pv]\n        }\n        return true\n    }\n}\n\nclass Solution {\n    fun validTree(n: Int, edges: Array<IntArray>): Boolean {\n        if (edges.size > n - 1) return false\n\n        val dsu = DSU(n)\n        for ((u, v) in edges) {\n            if (!dsu.union(u, v)) return false\n        }\n        return dsu.comps == 1\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class DSU {\n    var comps: Int\n    var parent: [Int]\n    var size: [Int]\n\n    init(_ n: Int) {\n        comps = n\n        parent = Array(0..<n)\n        size = Array(repeating: 1, count: n)\n    }\n\n    func find(_ node: Int) -> Int {\n        if parent[node] != node {\n            parent[node] = find(parent[node])\n        }\n        return parent[node]\n    }\n\n    func union(_ u: Int, _ v: Int) -> Bool {\n        let pu = find(u)\n        let pv = find(v)\n        if pu == pv {\n            return false\n        }\n        comps -= 1\n        if size[pu] < size[pv] {\n            parent[pu] = pv\n            size[pv] += size[pu]\n        } else {\n            parent[pv] = pu\n            size[pu] += size[pv]\n        }\n        return true\n    }\n\n    func components() -> Int {\n        return comps\n    }\n}\n\nclass Solution {\n    func validTree(_ n: Int, _ edges: [[Int]]) -> Bool {\n        if edges.count > n - 1 {\n            return false\n        }\n\n        let dsu = DSU(n)\n        for edge in edges {\n            let u = edge[0], v = edge[1]\n            if !dsu.union(u, v) {\n                return false\n            }\n        }\n        return dsu.components() == 1\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "struct DSU {\n    parent: Vec<usize>,\n    size: Vec<usize>,\n    comps: usize,\n}\n\nimpl DSU {\n    fn new(n: usize) -> Self {\n        Self {\n            parent: (0..n).collect(),\n            size: vec![1; n],\n            comps: n,\n        }\n    }\n\n    fn find(&mut self, node: usize) -> usize {\n        if self.parent[node] != node {\n            self.parent[node] = self.find(self.parent[node]);\n        }\n        self.parent[node]\n    }\n\n    fn union(&mut self, u: usize, v: usize) -> bool {\n        let (mut pu, mut pv) = (self.find(u), self.find(v));\n        if pu == pv {\n            return false;\n        }\n        if self.size[pu] < self.size[pv] {\n            std::mem::swap(&mut pu, &mut pv);\n        }\n        self.comps -= 1;\n        self.size[pu] += self.size[pv];\n        self.parent[pv] = pu;\n        true\n    }\n}\n\nimpl Solution {\n    pub fn valid_tree(n: i32, edges: Vec<Vec<i32>>) -> bool {\n        let n = n as usize;\n        if edges.len() > n - 1 {\n            return false;\n        }\n\n        let mut dsu = DSU::new(n);\n        for edge in &edges {\n            if !dsu.union(edge[0] as usize, edge[1] as usize) {\n                return false;\n            }\n        }\n        dsu.comps == 1\n    }\n}"
+        }
+    ]
+}

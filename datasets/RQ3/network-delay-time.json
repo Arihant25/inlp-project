@@ -1,0 +1,284 @@
+{
+    "problem_name": "Network Delay Time",
+    "problem_slug": "network-delay-time",
+    "difficulty": "medium",
+    "topic_tags": [
+        "depth-first search",
+        "breadth-first search",
+        "graph",
+        "heap (priority queue)",
+        "shortest path"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:\n        adj = defaultdict(list)\n        for u, v, w in times:\n            adj[u].append((v, w))\n\n        dist = {node: float(\"inf\") for node in range(1, n + 1)}\n\n        def dfs(node, time):\n            if time >= dist[node]:\n                return\n\n            dist[node] = time\n            for nei, w in adj[node]:\n                dfs(nei, time + w)\n\n        dfs(k, 0)\n        res = max(dist.values())\n        return res if res < float('inf') else -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int networkDelayTime(int[][] times, int n, int k) {\n        Map<Integer, List<int[]>> adj = new HashMap<>();\n        for (int[] time : times) {\n            adj.computeIfAbsent(time[0],\n            x -> new ArrayList<>()).add(new int[]{time[1], time[2]});\n        }\n\n        Map<Integer, Integer> dist = new HashMap<>();\n        for (int i = 1; i <= n; i++) dist.put(i, Integer.MAX_VALUE);\n\n        dfs(k, 0, adj, dist);\n        int res = Collections.max(dist.values());\n        return res == Integer.MAX_VALUE ? -1 : res;\n    }\n\n    private void dfs(int node, int time,\n                     Map<Integer, List<int[]>> adj,\n                     Map<Integer, Integer> dist) {\n        if (time >= dist.get(node)) return;\n        dist.put(node, time);\n        if (!adj.containsKey(node)) return;\n        for (int[] edge : adj.get(node)) {\n            dfs(edge[0], time + edge[1], adj, dist);\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\npublic:\n    int networkDelayTime(vector<vector<int>>& times, int n, int k) {\n        unordered_map<int, vector<pair<int, int>>> adj;\n        for (auto& time : times) {\n            adj[time[0]].emplace_back(time[1], time[2]);\n        }\n\n        vector<int> dist(n + 1, INT_MAX);\n        dfs(k, 0, adj, dist);\n\n        int res = *max_element(dist.begin() + 1, dist.end());\n        return res == INT_MAX ? -1 : res;\n    }\n\nprivate:\n    void dfs(int node, int time,\n             unordered_map<int, vector<pair<int, int>>>& adj,\n             vector<int>& dist) {\n        if (time >= dist[node]) return;\n        dist[node] = time;\n        for (auto& [nei, w] : adj[node]) {\n            dfs(nei, time + w, adj, dist);\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} times\n     * @param {number} n\n     * @param {number} k\n     * @return {number}\n     */\n    networkDelayTime(times, n, k) {\n        const adj = {};\n        for (const [u, v, w] of times) {\n            if (!adj[u]) adj[u] = [];\n            adj[u].push([v, w]);\n        }\n\n        const dist = Array(n + 1).fill(Infinity);\n        const dfs = (node, time) => {\n            if (time >= dist[node]) return;\n            dist[node] = time;\n            if (!adj[node]) return;\n            for (const [nei, w] of adj[node]) {\n                dfs(nei, time + w);\n            }\n        };\n\n        dfs(k, 0);\n        const res = Math.max(...dist.slice(1));\n        return res === Infinity ? -1 : res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int NetworkDelayTime(int[][] times, int n, int k) {\n        var adj = new Dictionary<int, List<int[]>>();\n        foreach (var time in times) {\n            if (!adj.ContainsKey(time[0])) {\n                adj[time[0]] = new List<int[]>();\n            }\n            adj[time[0]].Add(new int[] { time[1], time[2] });\n        }\n\n        var dist = new Dictionary<int, int>();\n        for (int i = 1; i <= n; i++) dist[i] = int.MaxValue;\n\n        Dfs(k, 0, adj, dist);\n        int res = dist.Values.Max();\n        return res == int.MaxValue ? -1 : res;\n    }\n\n    private void Dfs(int node, int time,\n                     Dictionary<int, List<int[]>> adj,\n                     Dictionary<int, int> dist) {\n        if (time >= dist[node]) return;\n        dist[node] = time;\n        if (!adj.ContainsKey(node)) return;\n        foreach (var edge in adj[node]) {\n            Dfs(edge[0], time + edge[1], adj, dist);\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "func networkDelayTime(times [][]int, n int, k int) int {\n\tadj := make(map[int][][]int)\n\tfor _, time := range times {\n\t\tu, v, w := time[0], time[1], time[2]\n\t\tadj[u] = append(adj[u], []int{v, w})\n\t}\n\n\tdist := make(map[int]int)\n\tfor i := 1; i <= n; i++ {\n\t\tdist[i] = math.MaxInt32\n\t}\n\n\tvar dfs func(int, int)\n\tdfs = func(node int, time int) {\n\t\tif time >= dist[node] {\n\t\t\treturn\n\t\t}\n\t\tdist[node] = time\n\t\tfor _, edge := range adj[node] {\n\t\t\tnei, w := edge[0], edge[1]\n\t\t\tdfs(nei, time+w)\n\t\t}\n\t}\n\n\tdfs(k, 0)\n\tres := 0\n\tfor _, time := range dist {\n\t\tif time == math.MaxInt32 {\n\t\t\treturn -1\n\t\t}\n\t\tif time > res {\n\t\t\tres = time\n\t\t}\n\t}\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun networkDelayTime(times: Array<IntArray>, n: Int, k: Int): Int {\n        val adj = HashMap<Int, MutableList<Pair<Int, Int>>>()\n        for (time in times) {\n            val (u, v, w) = time\n            adj.computeIfAbsent(u) { mutableListOf() }.add(v to w)\n        }\n\n        val dist = HashMap<Int, Int>().apply {\n            for (node in 1..n) {\n                this[node] = Int.MAX_VALUE\n            }\n        }\n\n        fun dfs(node: Int, time: Int) {\n            if (time >= dist[node]!!) return\n            dist[node] = time\n            for ((nei, w) in adj[node] ?: emptyList()) {\n                dfs(nei, time + w)\n            }\n        }\n\n        dfs(k, 0)\n        val res = dist.values.maxOrNull() ?: Int.MAX_VALUE\n        return if (res == Int.MAX_VALUE) -1 else res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    func networkDelayTime(_ times: [[Int]], _ n: Int, _ k: Int) -> Int {\n        var adj = [Int: [(Int, Int)]]()\n        for time in times {\n            let u = time[0], v = time[1], w = time[2]\n            adj[u, default: []].append((v, w))\n        }\n\n        var dist = [Int: Int]()\n        for node in 1...n {\n            dist[node] = Int.max\n        }\n\n        func dfs(_ node: Int, _ time: Int) {\n            if time >= dist[node]! {\n                return\n            }\n\n            dist[node] = time\n            if let neighbors = adj[node] {\n                for (nei, w) in neighbors {\n                    dfs(nei, time + w)\n                }\n            }\n        }\n\n        dfs(k, 0)\n        let res = dist.values.max()!\n        return res == Int.max ? -1 : res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn network_delay_time(times: Vec<Vec<i32>>, n: i32, k: i32) -> i32 {\n        let n = n as usize;\n        let k = k as usize;\n        let mut adj: HashMap<usize, Vec<(usize, i32)>> = HashMap::new();\n        for time in &times {\n            adj.entry(time[0] as usize).or_default().push((time[1] as usize, time[2]));\n        }\n        let mut dist = vec![i32::MAX; n + 1];\n\n        fn dfs(node: usize, time: i32, adj: &HashMap<usize, Vec<(usize, i32)>>, dist: &mut Vec<i32>) {\n            if time >= dist[node] {\n                return;\n            }\n            dist[node] = time;\n            if let Some(neighbors) = adj.get(&node) {\n                for &(nei, w) in neighbors {\n                    dfs(nei, time + w, adj, dist);\n                }\n            }\n        }\n\n        dfs(k, 0, &adj, &mut dist);\n        let res = *dist[1..=n].iter().max().unwrap();\n        if res == i32::MAX { -1 } else { res }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "class Solution:\n    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:\n        inf = float('inf')\n        dist = [[inf] * n for _ in range(n)]\n\n        for u, v, w in times:\n            dist[u-1][v-1] = w\n        for i in range(n):\n            dist[i][i] = 0\n\n        for mid in range(n):\n            for i in range(n):\n                for j in range(n):\n                    dist[i][j] = min(dist[i][j], dist[i][mid] + dist[mid][j])\n\n        res = max(dist[k-1])\n        return res if res < inf else -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "public class Solution {\n    public int networkDelayTime(int[][] times, int n, int k) {\n        int inf = Integer.MAX_VALUE / 2;\n        int[][] dist = new int[n][n];\n\n        for (int i = 0; i < n; i++) {\n            Arrays.fill(dist[i], inf);\n            dist[i][i] = 0;\n        }\n\n        for (int[] time : times) {\n            int u = time[0] - 1, v = time[1] - 1, w = time[2];\n            dist[u][v] = w;\n        }\n\n        for (int mid = 0; mid < n; mid++)\n            for (int i = 0; i < n; i++)\n                for (int j = 0; j < n; j++)\n                    dist[i][j] = Math.min(dist[i][j],\n                                          dist[i][mid] + dist[mid][j]);\n\n        int res = Arrays.stream(dist[k-1]).max().getAsInt();\n        return res == inf ? -1 : res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "class Solution {\npublic:\n    int networkDelayTime(vector<vector<int>>& times, int n, int k) {\n        int inf = INT_MAX / 2;\n        vector<vector<int>> dist(n, vector<int>(n, inf));\n\n        for (int i = 0; i < n; i++)\n            dist[i][i] = 0;\n\n        for (auto& time : times) {\n            int u = time[0] - 1, v = time[1] - 1, w = time[2];\n            dist[u][v] = w;\n        }\n\n        for (int mid = 0; mid < n; mid++)\n            for (int i = 0; i < n; i++)\n                for (int j = 0; j < n; j++)\n                    dist[i][j] = min(dist[i][j],\n                                     dist[i][mid] + dist[mid][j]);\n\n        int res = *max_element(dist[k-1].begin(), dist[k-1].end());\n        return res == inf ? -1 : res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} times\n     * @param {number} n\n     * @param {number} k\n     * @return {number}\n     */\n    networkDelayTime(times, n, k) {\n        const inf = Infinity;\n        const dist = Array.from({ length: n }, () => Array(n).fill(inf));\n\n        for (let i = 0; i < n; i++) {\n            dist[i][i] = 0;\n        }\n\n        for (const [u, v, w] of times) {\n            dist[u - 1][v - 1] = w;\n        }\n\n        for (let mid = 0; mid < n; mid++)\n            for (let i = 0; i < n; i++)\n                for (let j = 0; j < n; j++)\n                    dist[i][j] = Math.min(\n                        dist[i][j],\n                        dist[i][mid] + dist[mid][j],\n                    );\n\n        const res = Math.max(...dist[k - 1]);\n        return res === inf ? -1 : res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "public class Solution {\n    public int NetworkDelayTime(int[][] times, int n, int k) {\n        int inf = int.MaxValue / 2;\n        int[,] dist = new int[n, n];\n\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                dist[i, j] = i == j ? 0 : inf;\n            }\n        }\n\n        foreach (var time in times) {\n            int u = time[0] - 1, v = time[1] - 1, w = time[2];\n            dist[u, v] = w;\n        }\n\n        for (int mid = 0; mid < n; mid++)\n            for (int i = 0; i < n; i++)\n                for (int j = 0; j < n; j++)\n                    dist[i, j] = Math.Min(dist[i, j],\n                                          dist[i, mid] + dist[mid, j]);\n\n        int res = Enumerable.Range(0, n).Select(i => dist[k-1, i]).Max();\n        return res == inf ? -1 : res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "func networkDelayTime(times [][]int, n int, k int) int {\n\tinf := math.MaxInt32\n\tdist := make([][]int, n)\n\tfor i := range dist {\n\t\tdist[i] = make([]int, n)\n\t\tfor j := range dist[i] {\n\t\t\tdist[i][j] = inf\n\t\t}\n\t}\n\n\tfor _, time := range times {\n\t\tu, v, w := time[0]-1, time[1]-1, time[2]\n\t\tdist[u][v] = w\n\t}\n\tfor i := 0; i < n; i++ {\n\t\tdist[i][i] = 0\n\t}\n\n\tfor mid := 0; mid < n; mid++ {\n\t\tfor i := 0; i < n; i++ {\n\t\t\tfor j := 0; j < n; j++ {\n\t\t\t\tdist[i][j] = min(dist[i][j], dist[i][mid]+dist[mid][j])\n\t\t\t}\n\t\t}\n\t}\n\n\tres := 0\n\tfor i := 0; i < n; i++ {\n\t\tif dist[k-1][i] == inf {\n\t\t\treturn -1\n\t\t}\n\t\tres = max(res, dist[k-1][i])\n\t}\n\treturn res\n}\n\nfunc min(a, b int) int {\n\tif a < b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "class Solution {\n    fun networkDelayTime(times: Array<IntArray>, n: Int, k: Int): Int {\n        val inf = (Int.MAX_VALUE / 2).toInt()\n        val dist = Array(n) { IntArray(n) { inf } }\n\n        for (i in 0 until n) {\n            dist[i].fill(inf)\n            dist[i][i] = 0\n        }\n\n        for (time in times) {\n            val (u, v, w) = time\n            dist[u - 1][v - 1] = w\n        }\n\n        for (mid in 0 until n) {\n            for (i in 0 until n) {\n                for (j in 0 until n) {\n                    dist[i][j] = minOf(dist[i][j], dist[i][mid] + dist[mid][j])\n                }\n            }\n        }\n\n        val maxDelay = dist[k - 1].maxOrNull()\n        return if (maxDelay == inf) -1 else maxDelay!!\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "class Solution {\n    func networkDelayTime(_ times: [[Int]], _ n: Int, _ k: Int) -> Int {\n        let inf = Int.max / 2\n        var dist = Array(repeating: Array(repeating: inf, count: n), count: n)\n\n        for time in times {\n            let u = time[0] - 1, v = time[1] - 1, w = time[2]\n            dist[u][v] = w\n        }\n        for i in 0..<n {\n            dist[i][i] = 0\n        }\n\n        for mid in 0..<n {\n            for i in 0..<n {\n                for j in 0..<n {\n                    dist[i][j] = min(dist[i][j], dist[i][mid] + dist[mid][j])\n                }\n            }\n        }\n\n        let res = dist[k - 1].max()!\n        return res >= inf ? -1 : res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V^3)",
+            "space_complexity": "O(V^2)",
+            "code": "impl Solution {\n    pub fn network_delay_time(times: Vec<Vec<i32>>, n: i32, k: i32) -> i32 {\n        let n = n as usize;\n        let inf = i32::MAX / 2;\n        let mut dist = vec![vec![inf; n]; n];\n\n        for i in 0..n {\n            dist[i][i] = 0;\n        }\n        for time in &times {\n            let (u, v, w) = (time[0] as usize - 1, time[1] as usize - 1, time[2]);\n            dist[u][v] = w;\n        }\n\n        for mid in 0..n {\n            for i in 0..n {\n                for j in 0..n {\n                    dist[i][j] = dist[i][j].min(dist[i][mid] + dist[mid][j]);\n                }\n            }\n        }\n\n        let res = *dist[k as usize - 1].iter().max().unwrap();\n        if res == inf { -1 } else { res }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "class Solution:\n    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:\n        dist = [float('inf')] * n\n        dist[k - 1] = 0\n        for _ in range(n - 1):\n            for u, v, w in times:\n                if dist[u - 1] + w < dist[v - 1]:\n                    dist[v - 1] = dist[u - 1] + w\n        max_dist = max(dist)\n        return max_dist if max_dist < float('inf') else -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "public class Solution {\n    public int networkDelayTime(int[][] times, int n, int k) {\n        int[] dist = new int[n];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        dist[k - 1] = 0;\n\n        for (int i = 0; i < n - 1; i++) {\n            for (int[] time : times) {\n                int u = time[0] - 1, v = time[1] - 1, w = time[2];\n                if (dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {\n                    dist[v] = dist[u] + w;\n                }\n            }\n        }\n\n        int maxDist = Arrays.stream(dist).max().getAsInt();\n        return maxDist == Integer.MAX_VALUE ? -1 : maxDist;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "class Solution {\npublic:\n    int networkDelayTime(vector<vector<int>>& times, int n, int k) {\n        vector<int> dist(n, INT_MAX);\n        dist[k - 1] = 0;\n\n        for (int i = 0; i < n - 1; ++i) {\n            for (const auto& time : times) {\n                int u = time[0] - 1, v = time[1] - 1, w = time[2];\n                if (dist[u] != INT_MAX && dist[u] + w < dist[v]) {\n                    dist[v] = dist[u] + w;\n                }\n            }\n        }\n\n        int maxDist = *max_element(dist.begin(), dist.end());\n        return maxDist == INT_MAX ? -1 : maxDist;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} times\n     * @param {number} n\n     * @param {number} k\n     * @return {number}\n     */\n    networkDelayTime(times, n, k) {\n        let dist = new Array(n).fill(Infinity);\n        dist[k - 1] = 0;\n\n        for (let i = 0; i < n - 1; i++) {\n            for (const [u, v, w] of times) {\n                if (dist[u - 1] + w < dist[v - 1]) {\n                    dist[v - 1] = dist[u - 1] + w;\n                }\n            }\n        }\n\n        const maxDist = Math.max(...dist);\n        return maxDist === Infinity ? -1 : maxDist;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "public class Solution {\n    public int NetworkDelayTime(int[][] times, int n, int k) {\n        int[] dist = Enumerable.Repeat(int.MaxValue, n).ToArray();\n        dist[k - 1] = 0;\n\n        for (int i = 0; i < n - 1; i++) {\n            foreach (var time in times) {\n                int u = time[0] - 1, v = time[1] - 1, w = time[2];\n                if (dist[u] != int.MaxValue && dist[u] + w < dist[v]) {\n                    dist[v] = dist[u] + w;\n                }\n            }\n        }\n\n        int maxDist = dist.Max();\n        return maxDist == int.MaxValue ? -1 : maxDist;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "func networkDelayTime(times [][]int, n int, k int) int {\n    dist := make([]int, n)\n    for i := range dist {\n        dist[i] = 1 << 31 - 1\n    }\n    dist[k-1] = 0\n\n    for _ = range n - 1 {\n        for _, time := range times {\n            u, v, w := time[0]-1, time[1]-1, time[2]\n            if dist[u] + w < dist[v] {\n                dist[v] = dist[u] + w\n            }\n        }\n    }\n\n    maxDist := 0\n    for _, d := range dist {\n        if d == 1<<31-1 {\n            return -1\n        }\n        if d > maxDist {\n            maxDist = d\n        }\n    }\n\n    return maxDist\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "class Solution {\n    fun networkDelayTime(times: Array<IntArray>, n: Int, k: Int): Int {\n        val dist = IntArray(n) { Int.MAX_VALUE }\n        dist[k - 1] = 0\n\n        for (i in 0 until n - 1) {\n            for (time in times) {\n                val (u, v, w) = time\n                if (dist[u - 1] != Int.MAX_VALUE && dist[u - 1] + w < dist[v - 1]) {\n                    dist[v - 1] = dist[u - 1] + w\n                }\n            }\n        }\n\n        val maxDist = dist.maxOrNull()\n        return if (maxDist == Int.MAX_VALUE) -1 else maxDist!!\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "class Solution {\n    func networkDelayTime(_ times: [[Int]], _ n: Int, _ k: Int) -> Int {\n        var dist = Array(repeating: Int.max, count: n)\n        dist[k - 1] = 0\n\n        for _ in 0..<n - 1 {\n            var updated = false\n            for time in times {\n                let u = time[0] - 1, v = time[1] - 1, w = time[2]\n                if dist[u] != Int.max && dist[u] + w < dist[v] {\n                    dist[v] = dist[u] + w\n                    updated = true\n                }\n            }\n            if !updated {\n                break\n            }\n        }\n\n        let maxDist = dist.max()!\n        return maxDist == Int.max ? -1 : maxDist\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V * E)",
+            "space_complexity": "O(V)",
+            "code": "impl Solution {\n    pub fn network_delay_time(times: Vec<Vec<i32>>, n: i32, k: i32) -> i32 {\n        let n = n as usize;\n        let mut dist = vec![i32::MAX; n];\n        dist[k as usize - 1] = 0;\n\n        for _ in 0..n - 1 {\n            for time in &times {\n                let (u, v, w) = (time[0] as usize - 1, time[1] as usize - 1, time[2]);\n                if dist[u] != i32::MAX && dist[u] + w < dist[v] {\n                    dist[v] = dist[u] + w;\n                }\n            }\n        }\n\n        let max_dist = *dist.iter().max().unwrap();\n        if max_dist == i32::MAX { -1 } else { max_dist }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "class Solution:\n    def networkDelayTime(self, times, n, k):\n        adj = defaultdict(list)\n        for u, v, w in times:\n            adj[u].append((v, w))\n\n        dist = {node: float(\"inf\") for node in range(1, n + 1)}\n        q = deque([(k, 0)])\n        dist[k] = 0\n\n        while q:\n            node, time = q.popleft()\n            if dist[node] < time:\n                continue\n            for nei, w in adj[node]:\n                if time + w < dist[nei]:\n                    dist[nei] = time + w\n                    q.append((nei, time + w))\n\n        res = max(dist.values())\n        return res if res < float('inf') else -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "public class Solution {\n    public int networkDelayTime(int[][] times, int n, int k) {\n        Map<Integer, List<int[]>> adj = new HashMap<>();\n        for (int i = 1; i <= n; i++) adj.put(i, new ArrayList<>());\n        for (int[] time : times) {\n            adj.get(time[0]).add(new int[] {time[1], time[2]});\n        }\n        Map<Integer, Integer> dist = new HashMap<>();\n        for (int i = 1; i <= n; i++) dist.put(i, Integer.MAX_VALUE);\n        dist.put(k, 0);\n\n        Queue<int[]> q = new LinkedList<>();\n        q.offer(new int[] {k, 0});\n\n        while (!q.isEmpty()) {\n            int[] curr = q.poll();\n            int node = curr[0], time = curr[1];\n            if (dist.get(node) < time) {\n                continue;\n            }\n            for (int[] nei : adj.get(node)) {\n                int nextNode = nei[0], weight = nei[1];\n                if (time + weight < dist.get(nextNode)) {\n                    dist.put(nextNode, time + weight);\n                    q.offer(new int[] {nextNode, time + weight});\n                }\n            }\n        }\n\n        int res = Collections.max(dist.values());\n        return res == Integer.MAX_VALUE ? -1 : res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "class Solution {\npublic:\n    int networkDelayTime(vector<vector<int>>& times, int n, int k) {\n        unordered_map<int, vector<pair<int, int>>> adj;\n        for (const auto& time : times) {\n            adj[time[0]].emplace_back(time[1], time[2]);\n        }\n\n        unordered_map<int, int> dist;\n        for (int i = 1; i <= n; ++i) dist[i] = INT_MAX;\n        dist[k] = 0;\n\n        queue<pair<int, int>> q;\n        q.emplace(k, 0);\n\n        while (!q.empty()) {\n            auto [node, time] = q.front();\n            q.pop();\n            if (dist[node] < time) continue;\n            for (const auto& [nei, w] : adj[node]) {\n                if (time + w < dist[nei]) {\n                    dist[nei] = time + w;\n                    q.emplace(nei, time + w);\n                }\n            }\n        }\n\n        int res = 0;\n        for (const auto& [node, time] : dist) {\n            res = max(res, time);\n        }\n        return res == INT_MAX ? -1 : res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} times\n     * @param {number} n\n     * @param {number} k\n     * @return {number}\n     */\n    networkDelayTime(times, n, k) {\n        const adj = {};\n        for (let i = 1; i <= n; i++) adj[i] = [];\n        for (const [u, v, w] of times) {\n            adj[u].push([v, w]);\n        }\n\n        const dist = {};\n        for (let i = 1; i <= n; i++) dist[i] = Infinity;\n        dist[k] = 0;\n\n        const q = new Queue([[k, 0]]);\n\n        while (!q.isEmpty()) {\n            const [node, time] = q.pop();\n            if (dist[node] < time) continue;\n            for (const [nei, w] of adj[node]) {\n                if (time + w < dist[nei]) {\n                    dist[nei] = time + w;\n                    q.push([nei, time + w]);\n                }\n            }\n        }\n\n        let res = Math.max(...Object.values(dist));\n        return res === Infinity ? -1 : res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "public class Solution {\n    public int NetworkDelayTime(int[][] times, int n, int k) {\n        var adj = new Dictionary<int, List<int[]>>();\n        for (int i = 1; i <= n; i++) adj[i] = new List<int[]>();\n        foreach (var time in times) {\n            adj[time[0]].Add(new int[] {time[1], time[2]});\n        }\n\n        var dist = new Dictionary<int, int>();\n        for (int i = 1; i <= n; i++) dist[i] = int.MaxValue;\n        dist[k] = 0;\n\n        var q = new Queue<int[]>();\n        q.Enqueue(new int[] {k, 0});\n\n        while (q.Count > 0) {\n            var curr = q.Dequeue();\n            int node = curr[0], time = curr[1];\n            if (dist[node] < time) continue;\n            foreach (var nei in adj[node]) {\n                int nextNode = nei[0], weight = nei[1];\n                if (time + weight < dist[nextNode]) {\n                    dist[nextNode] = time + weight;\n                    q.Enqueue(new int[] {nextNode, time + weight});\n                }\n            }\n        }\n\n        int res = 0;\n        foreach (var time in dist.Values) {\n            res = Math.Max(res, time);\n        }\n        return res == int.MaxValue ? -1 : res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "func networkDelayTime(times [][]int, n int, k int) int {\n\tadj := make(map[int][][]int)\n\tfor _, edge := range times {\n\t\tu, v, w := edge[0], edge[1], edge[2]\n\t\tadj[u] = append(adj[u], []int{v, w})\n\t}\n\n\tdist := make(map[int]int)\n\tfor i := 1; i <= n; i++ {\n\t\tdist[i] = math.MaxInt\n\t}\n\tdist[k] = 0\n\n\tq := [][]int{{k, 0}}\n\n\tfor len(q) > 0 {\n\t\tnode, time := q[0][0], q[0][1]\n\t\tq = q[1:]\n\n\t\tif time > dist[node] {\n\t\t\tcontinue\n\t\t}\n\t\tfor _, nei := range adj[node] {\n\t\t\tv, w := nei[0], nei[1]\n\t\t\tif time+w < dist[v] {\n\t\t\t\tdist[v] = time + w\n\t\t\t\tq = append(q, []int{v, time + w})\n\t\t\t}\n\t\t}\n\t}\n\n\tres := -1\n\tfor _, d := range dist {\n\t\tif d == math.MaxInt {\n\t\t\treturn -1\n\t\t}\n\t\tif d > res {\n\t\t\tres = d\n\t\t}\n\t}\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "class Solution {\n    fun networkDelayTime(times: Array<IntArray>, n: Int, k: Int): Int {\n        val adj = HashMap<Int, MutableList<IntArray>>()\n        for (i in 1..n) adj[i] = mutableListOf()\n        for (time in times) {\n            adj[time[0]]?.add(intArrayOf(time[1], time[2]))\n        }\n        val dist = HashMap<Int, Int>()\n        for (i in 1..n) dist[i] = Int.MAX_VALUE\n        dist[k] = 0\n\n        val q: Queue<IntArray> = LinkedList()\n        q.offer(intArrayOf(k, 0))\n\n        while (q.isNotEmpty()) {\n            val (node, time) = q.poll()\n            if (dist[node]!! < time) continue\n            adj[node]?.forEach { (nextNode, weight) ->\n                if (time + weight < dist[nextNode]!!) {\n                    dist[nextNode] = time + weight\n                    q.offer(intArrayOf(nextNode, time + weight))\n                }\n            }\n        }\n\n        val res = dist.values.maxOrNull() ?: Int.MAX_VALUE\n        return if (res == Int.MAX_VALUE) -1 else res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "class Solution {\n    func networkDelayTime(_ times: [[Int]], _ n: Int, _ k: Int) -> Int {\n        var adj = [Int: [(Int, Int)]]()\n        for time in times {\n            let u = time[0], v = time[1], w = time[2]\n            adj[u, default: []].append((v, w))\n        }\n\n        var dist = [Int: Int]()\n        for node in 1...n {\n            dist[node] = Int.max\n        }\n        dist[k] = 0\n\n        var queue = Deque<(Int, Int)>()\n        queue.append((k, 0))\n\n        while !queue.isEmpty {\n            let (node, time) = queue.popFirst()!\n            if dist[node]! < time {\n                continue\n            }\n            if let neighbors = adj[node] {\n                for (nei, w) in neighbors {\n                    if time + w < dist[nei]! {\n                        dist[nei] = time + w\n                        queue.append((nei, time + w))\n                    }\n                }\n            }\n        }\n\n        let res = dist.values.max()!\n        return res == Int.max ? -1 : res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V * E)",
+            "code": "impl Solution {\n    pub fn network_delay_time(times: Vec<Vec<i32>>, n: i32, k: i32) -> i32 {\n        let n = n as usize;\n        let mut adj: Vec<Vec<(usize, i32)>> = vec![vec![]; n + 1];\n        for time in &times {\n            adj[time[0] as usize].push((time[1] as usize, time[2]));\n        }\n\n        let mut dist = vec![i32::MAX; n + 1];\n        dist[k as usize] = 0;\n        let mut q = VecDeque::new();\n        q.push_back((k as usize, 0));\n\n        while let Some((node, time)) = q.pop_front() {\n            if dist[node] < time {\n                continue;\n            }\n            for &(nei, w) in &adj[node] {\n                if time + w < dist[nei] {\n                    dist[nei] = time + w;\n                    q.push_back((nei, time + w));\n                }\n            }\n        }\n\n        let res = *dist[1..=n].iter().max().unwrap();\n        if res == i32::MAX { -1 } else { res }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:\n        edges = collections.defaultdict(list)\n        for u, v, w in times:\n            edges[u].append((v, w))\n\n        minHeap = [(0, k)]\n        visit = set()\n        t = 0\n        while minHeap:\n            w1, n1 = heapq.heappop(minHeap)\n            if n1 in visit:\n                continue\n            visit.add(n1)\n            t = w1\n\n            for n2, w2 in edges[n1]:\n                if n2 not in visit:\n                    heapq.heappush(minHeap, (w1 + w2, n2))\n        return t if len(visit) == n else -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int networkDelayTime(int[][] times, int n, int k) {\n        Map<Integer, List<int[]>> edges = new HashMap<>();\n        for (int[] time : times) {\n            edges.computeIfAbsent(time[0],\n            key -> new ArrayList<>()).add(new int[]{time[1], time[2]});\n        }\n\n        PriorityQueue<int[]> minHeap = new PriorityQueue<>(\n                                       Comparator.comparingInt(a -> a[0]));\n        minHeap.offer(new int[]{0, k});\n\n        Set<Integer> visited = new HashSet<>();\n        int t = 0;\n        while (!minHeap.isEmpty()) {\n            int[] curr = minHeap.poll();\n            int w1 = curr[0], n1 = curr[1];\n            if (visited.contains(n1)) {\n                continue;\n            }\n            visited.add(n1);\n            t = w1;\n\n            if (edges.containsKey(n1)) {\n                for (int[] next : edges.get(n1)) {\n                    int n2 = next[0], w2 = next[1];\n                    if (!visited.contains(n2)) {\n                        minHeap.offer(new int[]{w1 + w2, n2});\n                    }\n                }\n            }\n        }\n\n        return visited.size() == n ? t : -1;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\npublic:\n    int networkDelayTime(vector<vector<int>>& times, int n, int k) {\n        unordered_map<int, vector<pair<int, int>>> edges;\n        for (const auto& time : times) {\n            edges[time[0]].emplace_back(time[1], time[2]);\n        }\n\n        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;\n        minHeap.push({0, k});\n\n        set<int> visited;\n        int t = 0;\n        while (!minHeap.empty()) {\n            auto curr = minHeap.top();\n            minHeap.pop();\n            int w1 = curr.first, n1 = curr.second;\n            if (visited.count(n1)) {\n                continue;\n            }\n            visited.insert(n1);\n            t = w1;\n\n            if (edges.count(n1)) {\n                for (const auto& next : edges[n1]) {\n                    int n2 = next.first, w2 = next.second;\n                    if (!visited.count(n2)) {\n                        minHeap.push({w1 + w2, n2});\n                    }\n                }\n            }\n        }\n\n        return visited.size() == n ? t : -1;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "/**\n * const { MinPriorityQueue } = require('@datastructures-js/priority-queue');\n */\n\nclass Solution {\n    /**\n     * @param {number[][]} times\n     * @param {number} n\n     * @param {number} k\n     * @return {number}\n     */\n    networkDelayTime(times, n, k) {\n        const edges = new Map();\n        for (let i = 1; i <= n; i++) {\n            edges.set(i, []);\n        }\n        for (const [u, v, w] of times) {\n            edges.get(u).push([v, w]);\n        }\n\n        const minHeap = new MinPriorityQueue((entry) => entry[0]);\n        minHeap.enqueue([0, k]);\n\n        const visit = new Set();\n        let t = 0;\n\n        while (!minHeap.isEmpty()) {\n            const [w1, n1] = minHeap.dequeue();\n            if (visit.has(n1)) continue;\n            visit.add(n1);\n            t = w1;\n\n            for (const [n2, w2] of edges.get(n1)) {\n                if (!visit.has(n2)) {\n                    minHeap.enqueue([w1 + w2, n2]);\n                }\n            }\n        }\n\n        return visit.size === n ? t : -1;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int NetworkDelayTime(int[][] times, int n, int k) {\n        var edges = new Dictionary<int, List<int[]>>();\n        foreach (var time in times) {\n            if (!edges.ContainsKey(time[0])) {\n                edges[time[0]] = new List<int[]>();\n            }\n            edges[time[0]].Add(new int[] { time[1], time[2] });\n        }\n\n        var pq = new PriorityQueue<int, int>();\n        pq.Enqueue(k, 0);\n\n        var dist = new Dictionary<int, int>();\n        for (int i = 1; i <= n; i++) {\n            dist[i] = int.MaxValue;\n        }\n        dist[k] = 0;\n\n        while (pq.Count > 0) {\n            // Correctly using TryDequeue to get node and its distance\n            if (pq.TryDequeue(out int node, out int minDist)) {\n                if (minDist > dist[node]) {\n                    continue;\n                }\n\n                if (edges.ContainsKey(node)) {\n                    foreach (var edge in edges[node]) {\n                        var next = edge[0];\n                        var weight = edge[1];\n                        var newDist = minDist + weight;\n                        if (newDist < dist[next]) {\n                            dist[next] = newDist;\n                            pq.Enqueue(next, newDist);\n                        }\n                    }\n                }\n            }\n        }\n\n        int result = 0;\n        for (int i = 1; i <= n; i++) {\n            if (dist[i] == int.MaxValue) return -1;\n            result = Math.Max(result, dist[i]);\n        }\n\n        return result;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "type Edge struct {\n    node, weight int\n}\n\nfunc networkDelayTime(times [][]int, n int, k int) int {\n    edges := make(map[int][]Edge)\n    for _, time := range times {\n        u, v, w := time[0], time[1], time[2]\n        edges[u] = append(edges[u], Edge{node: v, weight: w})\n    }\n\n    pq := priorityqueue.NewWith(func(a, b interface{}) int {\n        return utils.IntComparator(a.(Edge).weight, b.(Edge).weight)\n    })\n    pq.Enqueue(Edge{node: k, weight: 0})\n\n    visited := make(map[int]bool)\n    t := 0\n\n    for !pq.Empty() {\n        item, _ := pq.Dequeue()\n        edge := item.(Edge)\n        node, time := edge.node, edge.weight\n\n        if visited[node] {\n            continue\n        }\n        visited[node] = true\n        t = time\n\n        for _, next := range edges[node] {\n            if !visited[next.node] {\n                pq.Enqueue(Edge{node: next.node, weight: time + next.weight})\n            }\n        }\n    }\n\n    if len(visited) == n {\n        return t\n    }\n    return -1\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun networkDelayTime(times: Array<IntArray>, n: Int, k: Int): Int {\n        val edges = HashMap<Int, MutableList<Pair<Int, Int>>>()\n        for ((u, v, w) in times) {\n            edges.computeIfAbsent(u) { mutableListOf() }.add(Pair(v, w))\n        }\n\n        val minHeap = PriorityQueue<Pair<Int, Int>>(compareBy { it.first })\n        minHeap.offer(Pair(0, k))\n        val visited = HashSet<Int>()\n        var t = 0\n\n        while (minHeap.isNotEmpty()) {\n            val (time, node) = minHeap.poll()\n            if (node in visited) continue\n            visited.add(node)\n            t = time\n\n            edges[node]?.forEach { (nextNode, weight) ->\n                if (nextNode !in visited) {\n                    minHeap.offer(Pair(time + weight, nextNode))\n                }\n            }\n        }\n\n        return if (visited.size == n) t else -1\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "struct Item: Comparable {\n    let weight: Int\n    let node: Int\n\n    static func < (lhs: Item, rhs: Item) -> Bool {\n        return lhs.weight < rhs.weight\n    }\n}\n\nclass Solution {\n    func networkDelayTime(_ times: [[Int]], _ n: Int, _ k: Int) -> Int {\n        var edges = [Int: [(Int, Int)]]()\n        for time in times {\n            let u = time[0], v = time[1], w = time[2]\n            edges[u, default: []].append((v, w))\n        }\n\n        var minHeap = Heap<Item>()\n        minHeap.insert(Item(weight: 0, node: k))\n        var visit = Set<Int>()\n        var t = 0\n\n        while !minHeap.isEmpty {\n            let item = minHeap.removeMin()\n            let w1 = item.weight\n            let n1 = item.node\n\n            if visit.contains(n1) {\n                continue\n            }\n            visit.insert(n1)\n            t = w1\n\n            if let neighbors = edges[n1] {\n                for (n2, w2) in neighbors {\n                    if !visit.contains(n2) {\n                        minHeap.insert(Item(weight: w1 + w2, node: n2))\n                    }\n                }\n            }\n        }\n        return visit.count == n ? t : -1\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(E log V)",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn network_delay_time(times: Vec<Vec<i32>>, n: i32, k: i32) -> i32 {\n        let n = n as usize;\n        let mut edges: HashMap<usize, Vec<(usize, i32)>> = HashMap::new();\n        for time in &times {\n            edges.entry(time[0] as usize).or_default().push((time[1] as usize, time[2]));\n        }\n\n        let mut min_heap = BinaryHeap::new();\n        min_heap.push(Reverse((0i32, k as usize)));\n        let mut visited = HashSet::new();\n        let mut t = 0;\n\n        while let Some(Reverse((w1, n1))) = min_heap.pop() {\n            if !visited.insert(n1) {\n                continue;\n            }\n            t = w1;\n            if let Some(neighbors) = edges.get(&n1) {\n                for &(n2, w2) in neighbors {\n                    if !visited.contains(&n2) {\n                        min_heap.push(Reverse((w1 + w2, n2)));\n                    }\n                }\n            }\n        }\n\n        if visited.len() == n { t } else { -1 }\n    }\n}"
+        }
+    ]
+}

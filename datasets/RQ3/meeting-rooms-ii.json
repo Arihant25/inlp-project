@@ -1,0 +1,231 @@
+{
+    "problem_name": "Meeting Rooms II",
+    "problem_slug": "meeting-rooms-ii",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "two pointers",
+        "greedy",
+        "sorting",
+        "heap (priority queue)",
+        "prefix sum"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "\"\"\"\nDefinition of Interval:\nclass Interval(object):\n    def __init__(self, start, end):\n        self.start = start\n        self.end = end\n\"\"\"\n\nclass Solution:\n    def minMeetingRooms(self, intervals: List[Interval]) -> int:\n        intervals.sort(key=lambda x: x.start)\n        min_heap = []\n\n        for interval in intervals:\n            if min_heap and min_heap[0] <= interval.start:\n                heapq.heappop(min_heap)\n            heapq.heappush(min_heap, interval.end)\n\n        return len(min_heap)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * public class Interval {\n *     public int start, end;\n *     public Interval(int start, int end) {\n *         this.start = start;\n *         this.end = end;\n *     }\n * }\n */\n\npublic class Solution {\n    public int minMeetingRooms(List<Interval> intervals) {\n        intervals.sort((a, b) -> a.start - b.start);\n        PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n        for (Interval interval : intervals) {\n            if (!minHeap.isEmpty() && minHeap.peek() <= interval.start) {\n                minHeap.poll();\n            }\n            minHeap.offer(interval.end);\n        }\n        return minHeap.size();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n * public:\n *     int start, end;\n *     Interval(int start, int end) {\n *         this->start = start;\n *         this->end = end;\n *     }\n * }\n */\n\nclass Solution {\npublic:\n    int minMeetingRooms(vector<Interval>& intervals) {\n        sort(intervals.begin(), intervals.end(), [](auto& a, auto& b) {\n            return a.start < b.start;\n        });\n        priority_queue<int, vector<int>, greater<int>> minHeap;\n        for (const auto& interval : intervals) {\n            if (!minHeap.empty() && minHeap.top() <= interval.start) {\n                minHeap.pop();\n            }\n            minHeap.push(interval.end);\n        }\n        return minHeap.size();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n *   constructor(start, end) {\n *     this.start = start;\n *     this.end = end;\n *   }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {Interval[]} intervals\n     * @returns {number}\n     */\n    minMeetingRooms(intervals) {\n        intervals.sort((a, b) => a.start - b.start);\n        const minHeap = new MinPriorityQueue();\n        for (const interval of intervals) {\n            if (!minHeap.isEmpty() && minHeap.front() <= interval.start) {\n                minHeap.pop();\n            }\n            minHeap.push(interval.end);\n        }\n        return minHeap.size();\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * public class Interval {\n *     public int start, end;\n *     public Interval(int start, int end) {\n *         this.start = start;\n *         this.end = end;\n *     }\n * }\n */\n\npublic class Solution {\n    public int MinMeetingRooms(List<Interval> intervals) {\n        intervals.Sort((a, b) => a.start.CompareTo(b.start));\n        var minHeap = new PriorityQueue<int, int>();\n\n        foreach (var interval in intervals) {\n            if (minHeap.Count > 0 && minHeap.Peek() <= interval.start) {\n                minHeap.Dequeue();\n            }\n            minHeap.Enqueue(interval.end, interval.end);\n        }\n\n        return minHeap.Count;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * type Interval struct {\n *    start int\n *    end   int\n * }\n */\n\nfunc minMeetingRooms(intervals []Interval) int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i].start < intervals[j].start\n    })\n\n    pq := priorityqueue.NewWith(utils.IntComparator)\n\n    for _, interval := range intervals {\n        if pq.Size() > 0 {\n            if top, _ := pq.Peek(); top.(int) <= interval.start {\n                pq.Dequeue()\n            }\n        }\n        pq.Enqueue(interval.end)\n    }\n\n    return pq.Size()\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval(var start: Int, var end: Int) {}\n */\n\nclass Solution {\n    fun minMeetingRooms(intervals: List<Interval>): Int {\n        intervals.sortBy { it.start }\n\n        val minHeap = PriorityQueue<Int>()\n        for (interval in intervals) {\n            if (minHeap.isNotEmpty() && minHeap.peek() <= interval.start) {\n                minHeap.poll()\n            }\n            minHeap.add(interval.end)\n        }\n\n        return minHeap.size\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n *     var start: Int\n *     var end: Int\n *     init(start: Int, end: Int) {\n *         self.start = start\n *         self.end = end\n *     }\n * }\n */\n\nclass Solution {\n    func minMeetingRooms(_ intervals: [Interval]) -> Int {\n        let sortedIntervals = intervals.sorted { $0.start < $1.start }\n        var minHeap = Heap<Int>()\n        for interval in sortedIntervals {\n            if !minHeap.isEmpty, let earliest = minHeap.min!, earliest <= interval.start {\n                minHeap.removeMin()\n            }\n            minHeap.insert(interval.end)\n        }\n        return minHeap.count\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn min_meeting_rooms(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut intervals = intervals;\n        intervals.sort_by_key(|v| v[0]);\n        let mut min_heap = BinaryHeap::new();\n\n        for interval in &intervals {\n            if let Some(&Reverse(top)) = min_heap.peek() {\n                if top <= interval[0] {\n                    min_heap.pop();\n                }\n            }\n            min_heap.push(Reverse(interval[1]));\n        }\n\n        min_heap.len() as i32\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "\"\"\"\nDefinition of Interval:\nclass Interval(object):\n    def __init__(self, start, end):\n        self.start = start\n        self.end = end\n\"\"\"\n\nclass Solution:\n    def minMeetingRooms(self, intervals: List[Interval]) -> int:\n        mp = defaultdict(int)\n        for i in intervals:\n            mp[i.start] += 1\n            mp[i.end] -= 1\n        prev = 0\n        res = 0\n        for i in sorted(mp.keys()):\n            prev += mp[i]\n            res = max(res, prev)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * public class Interval {\n *     public int start, end;\n *     public Interval(int start, int end) {\n *         this.start = start;\n *         this.end = end;\n *     }\n * }\n */\n\npublic class Solution {\n    public int minMeetingRooms(List<Interval> intervals) {\n        TreeMap<Integer, Integer> mp = new TreeMap<>();\n        for (Interval i : intervals) {\n            mp.put(i.start, mp.getOrDefault(i.start, 0) + 1);\n            mp.put(i.end, mp.getOrDefault(i.end, 0) - 1);\n        }\n        int prev = 0;\n        int res = 0;\n        for (int key : mp.keySet()) {\n            prev += mp.get(key);\n            res = Math.max(res, prev);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n * public:\n *     int start, end;\n *     Interval(int start, int end) {\n *         this->start = start;\n *         this->end = end;\n *     }\n * }\n */\n\nclass Solution {\npublic:\n    int minMeetingRooms(vector<Interval>& intervals) {\n        map<int, int> mp;\n        for (auto& i : intervals) {\n            mp[i.start]++;\n            mp[i.end]--;\n        }\n        int prev = 0, res = 0;\n        for (auto& [key, value] : mp) {\n            prev += value;\n            res = max(res, prev);\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n *   constructor(start, end) {\n *     this.start = start;\n *     this.end = end;\n *   }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {Interval[]} intervals\n     * @returns {number}\n     */\n    minMeetingRooms(intervals) {\n        const mp = new Map();\n        for (const i of intervals) {\n            mp.set(i.start, (mp.get(i.start) || 0) + 1);\n            mp.set(i.end, (mp.get(i.end) || 0) - 1);\n        }\n        const sortedKeys = Array.from(mp.keys()).sort((a, b) => a - b);\n        let prev = 0,\n            res = 0;\n        for (const key of sortedKeys) {\n            prev += mp.get(key);\n            res = Math.max(res, prev);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * public class Interval {\n *     public int start, end;\n *     public Interval(int start, int end) {\n *         this.start = start;\n *         this.end = end;\n *     }\n * }\n */\n\npublic class Solution {\n    public int MinMeetingRooms(List<Interval> intervals) {\n        var mp = new SortedDictionary<int, int>();\n        foreach (var i in intervals) {\n            if (!mp.ContainsKey(i.start)) mp[i.start] = 0;\n            if (!mp.ContainsKey(i.end)) mp[i.end] = 0;\n            mp[i.start]++;\n            mp[i.end]--;\n        }\n        int prev = 0, res = 0;\n        foreach (var kvp in mp) {\n            prev += kvp.Value;\n            res = Math.Max(res, prev);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * type Interval struct {\n *    start int\n *    end   int\n * }\n */\n\nfunc minMeetingRooms(intervals []Interval) int {\n    mp := make(map[int]int)\n    for _, i := range intervals {\n        mp[i.start]++\n        mp[i.end]--\n    }\n\n    keys := make([]int, 0, len(mp))\n    for k := range mp {\n        keys = append(keys, k)\n    }\n    sort.Ints(keys)\n\n    prev := 0\n    res := 0\n    for _, k := range keys {\n        prev += mp[k]\n        if prev > res {\n            res = prev\n        }\n    }\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval(var start: Int, var end: Int) {}\n */\n\nclass Solution {\n    fun minMeetingRooms(intervals: List<Interval>): Int {\n        val mp = HashMap<Int, Int>()\n        for (i in intervals) {\n            mp[i.start] = mp.getOrDefault(i.start, 0) + 1\n            mp[i.end] = mp.getOrDefault(i.end, 0) - 1\n        }\n\n        val keys = mp.keys.sorted()\n        var prev = 0\n        var res = 0\n        for (k in keys) {\n            prev += mp[k]!!\n            res = maxOf(res, prev)\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n *     var start: Int\n *     var end: Int\n *     init(start: Int, end: Int) {\n *         self.start = start\n *         self.end = end\n *     }\n * }\n */\n\nclass Solution {\n    func minMeetingRooms(_ intervals: [Interval]) -> Int {\n        var mp = [Int: Int]()\n        for interval in intervals {\n            mp[interval.start, default: 0] += 1\n            mp[interval.end, default: 0] -= 1\n        }\n        var prev = 0\n        var res = 0\n        for key in mp.keys.sorted() {\n            prev += mp[key]!\n            res = max(res, prev)\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn min_meeting_rooms(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut mp = BTreeMap::new();\n        for i in &intervals {\n            *mp.entry(i[0]).or_insert(0) += 1;\n            *mp.entry(i[1]).or_insert(0) -= 1;\n        }\n        let mut prev = 0;\n        let mut res = 0;\n        for &val in mp.values() {\n            prev += val;\n            res = res.max(prev);\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "\"\"\"\nDefinition of Interval:\nclass Interval(object):\n    def __init__(self, start, end):\n        self.start = start\n        self.end = end\n\"\"\"\n\nclass Solution:\n    def minMeetingRooms(self, intervals: List[Interval]) -> int:\n        start = sorted([i.start for i in intervals])\n        end = sorted([i.end for i in intervals])\n\n        res = count = 0\n        s = e = 0\n        while s < len(intervals):\n            if start[s] < end[e]:\n                s += 1\n                count += 1\n            else:\n                e += 1\n                count -= 1\n            res = max(res, count)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * public class Interval {\n *     public int start, end;\n *     public Interval(int start, int end) {\n *         this.start = start;\n *         this.end = end;\n *     }\n * }\n */\n\npublic class Solution {\n    public int minMeetingRooms(List<Interval> intervals) {\n        int n = intervals.size();\n        int[] start = new int[n];\n        int[] end = new int[n];\n\n        for (int i = 0; i < n; i++) {\n            start[i] = intervals.get(i).start;\n            end[i] = intervals.get(i).end;\n        }\n\n        Arrays.sort(start);\n        Arrays.sort(end);\n\n        int res = 0, count = 0, s = 0, e = 0;\n        while (s < n) {\n            if (start[s] < end[e]) {\n                s++;\n                count++;\n            } else {\n                e++;\n                count--;\n            }\n            res = Math.max(res, count);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n * public:\n *     int start, end;\n *     Interval(int start, int end) {\n *         this->start = start;\n *         this->end = end;\n *     }\n * }\n */\n\nclass Solution {\npublic:\n    int minMeetingRooms(vector<Interval>& intervals) {\n        vector<int> start, end;\n\n        for (const auto& i : intervals) {\n            start.push_back(i.start);\n            end.push_back(i.end);\n        }\n\n        sort(start.begin(), start.end());\n        sort(end.begin(), end.end());\n\n        int res = 0, count = 0, s = 0, e = 0;\n        while (s < intervals.size()) {\n            if (start[s] < end[e]) {\n                s++;\n                count++;\n            } else {\n                e++;\n                count--;\n            }\n            res = max(res, count);\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n *   constructor(start, end) {\n *     this.start = start;\n *     this.end = end;\n *   }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {Interval[]} intervals\n     * @returns {number}\n     */\n    minMeetingRooms(intervals) {\n        const start = intervals.map((i) => i.start).sort((a, b) => a - b);\n        const end = intervals.map((i) => i.end).sort((a, b) => a - b);\n\n        let res = 0,\n            count = 0,\n            s = 0,\n            e = 0;\n        while (s < intervals.length) {\n            if (start[s] < end[e]) {\n                s++;\n                count++;\n            } else {\n                e++;\n                count--;\n            }\n            res = Math.max(res, count);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * public class Interval {\n *     public int start, end;\n *     public Interval(int start, int end) {\n *         this.start = start;\n *         this.end = end;\n *     }\n * }\n */\n\npublic class Solution {\n    public int MinMeetingRooms(List<Interval> intervals) {\n        int n = intervals.Count;\n        int[] start = new int[n];\n        int[] end = new int[n];\n\n        for (int i = 0; i < n; i++) {\n            start[i] = intervals[i].start;\n            end[i] = intervals[i].end;\n        }\n\n        Array.Sort(start);\n        Array.Sort(end);\n\n        int res = 0, count = 0, s = 0, e = 0;\n        while (s < n) {\n            if (start[s] < end[e]) {\n                s++;\n                count++;\n            } else {\n                e++;\n                count--;\n            }\n            res = Math.Max(res, count);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * type Interval struct {\n *    start int\n *    end   int\n * }\n */\n\nfunc minMeetingRooms(intervals []Interval) int {\n    start := make([]int, len(intervals))\n    end := make([]int, len(intervals))\n\n    for i, interval := range intervals {\n        start[i] = interval.start\n        end[i] = interval.end\n    }\n\n    sort.Ints(start)\n    sort.Ints(end)\n\n    res, count := 0, 0\n    s, e := 0, 0\n\n    for s < len(intervals) {\n        if start[s] < end[e] {\n            s++\n            count++\n        } else {\n            e++\n            count--\n        }\n        if count > res {\n            res = count\n        }\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval(var start: Int, var end: Int) {}\n */\n\nclass Solution {\n    fun minMeetingRooms(intervals: List<Interval>): Int {\n        val start = intervals.map { it.start }.sorted()\n        val end = intervals.map { it.end }.sorted()\n\n        var res = 0\n        var count = 0\n        var s = 0\n        var e = 0\n\n        while (s < intervals.size) {\n            if (start[s] < end[e]) {\n                s++\n                count++\n            } else {\n                e++\n                count--\n            }\n            res = maxOf(res, count)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n *     var start: Int\n *     var end: Int\n *     init(start: Int, end: Int) {\n *         self.start = start\n *         self.end = end\n *     }\n * }\n */\n\nclass Solution {\n    func minMeetingRooms(_ intervals: [Interval]) -> Int {\n        let starts = intervals.map { $0.start }.sorted()\n        let ends = intervals.map { $0.end }.sorted()\n\n        var res = 0, count = 0, s = 0, e = 0\n        while s < intervals.count {\n            if starts[s] < ends[e] {\n                count += 1\n                s += 1\n            } else {\n                count -= 1\n                e += 1\n            }\n            res = max(res, count)\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn min_meeting_rooms(intervals: Vec<Vec<i32>>) -> i32 {\n        let n = intervals.len();\n        let mut starts: Vec<i32> = intervals.iter().map(|v| v[0]).collect();\n        let mut ends: Vec<i32> = intervals.iter().map(|v| v[1]).collect();\n        starts.sort();\n        ends.sort();\n\n        let mut res = 0;\n        let mut count = 0;\n        let (mut s, mut e) = (0, 0);\n        while s < n {\n            if starts[s] < ends[e] {\n                s += 1;\n                count += 1;\n            } else {\n                e += 1;\n                count -= 1;\n            }\n            res = res.max(count);\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "\"\"\"\nDefinition of Interval:\nclass Interval(object):\n    def __init__(self, start, end):\n        self.start = start\n        self.end = end\n\"\"\"\n\nclass Solution:\n    def minMeetingRooms(self, intervals: List[Interval]) -> int:\n        time = []\n        for i in intervals:\n            time.append((i.start, 1))\n            time.append((i.end, -1))\n\n        time.sort(key=lambda x: (x[0], x[1]))\n\n        res = count = 0\n        for t in time:\n            count += t[1]\n            res = max(res, count)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * public class Interval {\n *     public int start, end;\n *     public Interval(int start, int end) {\n *         this.start = start;\n *         this.end = end;\n *     }\n * }\n */\n\npublic class Solution {\n    public int minMeetingRooms(List<Interval> intervals) {\n        List<int[]> time = new ArrayList<>();\n        for (Interval i : intervals) {\n            time.add(new int[] { i.start, 1 });\n            time.add(new int[] { i.end, -1 });\n        }\n\n        time.sort((a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);\n\n        int res = 0, count = 0;\n        for (int[] t : time) {\n            count += t[1];\n            res = Math.max(res, count);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n * public:\n *     int start, end;\n *     Interval(int start, int end) {\n *         this->start = start;\n *         this->end = end;\n *     }\n * }\n */\n\nclass Solution {\npublic:\n    int minMeetingRooms(vector<Interval>& intervals) {\n        vector<pair<int, int>> time;\n        for (const auto& i : intervals) {\n            time.push_back({i.start, 1});\n            time.push_back({i.end, -1});\n        }\n\n        sort(time.begin(), time.end(), [](auto& a, auto& b) {\n            return a.first == b.first ? a.second < b.second : a.first < b.first;\n        });\n\n        int res = 0, count = 0;\n        for (const auto& t : time) {\n            count += t.second;\n            res = max(res, count);\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n *   constructor(start, end) {\n *     this.start = start;\n *     this.end = end;\n *   }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {Interval[]} intervals\n     * @returns {number}\n     */\n    minMeetingRooms(intervals) {\n        const time = [];\n        for (const i of intervals) {\n            time.push([i.start, 1]);\n            time.push([i.end, -1]);\n        }\n\n        time.sort((a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]));\n\n        let res = 0,\n            count = 0;\n        for (const t of time) {\n            count += t[1];\n            res = Math.max(res, count);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * public class Interval {\n *     public int start, end;\n *     public Interval(int start, int end) {\n *         this.start = start;\n *         this.end = end;\n *     }\n * }\n */\n\npublic class Solution {\n    public int MinMeetingRooms(List<Interval> intervals) {\n        List<int[]> time = new List<int[]>();\n        foreach (var i in intervals) {\n            time.Add(new int[] { i.start, 1 });\n            time.Add(new int[] { i.end, -1 });\n        }\n\n        time.Sort((a, b) => a[0] == b[0] ?\n            a[1].CompareTo(b[1]) : a[0].CompareTo(b[0]\n        ));\n\n        int res = 0, count = 0;\n        foreach (var t in time) {\n            count += t[1];\n            res = Math.Max(res, count);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * type Interval struct {\n *    start int\n *    end   int\n * }\n */\n\nfunc minMeetingRooms(intervals []Interval) int {\n\tvar time [][]int\n\tfor _, i := range intervals {\n\t\ttime = append(time, []int{i.start, 1})\n\t\ttime = append(time, []int{i.end, -1})\n\t}\n\n\tsort.Slice(time, func(i, j int) bool {\n\t\tif time[i][0] == time[j][0] {\n\t\t\treturn time[i][1] < time[j][1]\n\t\t}\n\t\treturn time[i][0] < time[j][0]\n\t})\n\n\tres, count := 0, 0\n\tfor _, t := range time {\n\t\tcount += t[1]\n\t\tif count > res {\n\t\t\tres = count\n\t\t}\n\t}\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval(var start: Int, var end: Int) {}\n */\n\nclass Solution {\n    fun minMeetingRooms(intervals: Array<IntArray>): Int {\n        val time = mutableListOf<Pair<Int, Int>>()\n\n        for (i in intervals) {\n            time.add(Pair(i.start, 1))\n            time.add(Pair(i.end, -1))\n        }\n\n        time.sortWith(compareBy<Pair<Int, Int>> { it.first }\n            .thenBy { it.second })\n\n        var res = 0\n        var count = 0\n\n        for (t in time) {\n            count += t.second\n            res = maxOf(res, count)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition of Interval:\n * class Interval {\n *     var start: Int\n *     var end: Int\n *     init(start: Int, end: Int) {\n *         self.start = start\n *         self.end = end\n *     }\n * }\n */\n\nclass Solution {\n    func minMeetingRooms(_ intervals: [Interval]) -> Int {\n        var times = [(Int, Int)]()\n        for interval in intervals {\n            times.append((interval.start, 1))\n            times.append((interval.end, -1))\n        }\n\n        times.sort {\n            if $0.0 != $1.0 {\n                return $0.0 < $1.0\n            } else {\n                return $0.1 < $1.1\n            }\n        }\n\n        var count = 0\n        var res = 0\n        for t in times {\n            count += t.1\n            res = max(res, count)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn min_meeting_rooms(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut time: Vec<(i32, i32)> = Vec::new();\n        for i in &intervals {\n            time.push((i[0], 1));\n            time.push((i[1], -1));\n        }\n\n        time.sort();\n\n        let mut res = 0;\n        let mut count = 0;\n        for &(_, delta) in &time {\n            count += delta;\n            res = res.max(count);\n        }\n        res\n    }\n}"
+        }
+    ]
+}

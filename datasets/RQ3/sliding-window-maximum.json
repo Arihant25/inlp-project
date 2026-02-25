@@ -1,0 +1,284 @@
+{
+    "problem_name": "Sliding Window Maximum",
+    "problem_slug": "sliding-window-maximum",
+    "difficulty": "hard",
+    "topic_tags": [
+        "array",
+        "queue",
+        "sliding window",
+        "heap (priority queue)",
+        "monotonic queue"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        output = []\n\n        for i in range(len(nums) - k + 1):\n            maxi = nums[i]\n            for j in range(i, i + k):\n                maxi = max(maxi, nums[j])\n            output.append(maxi)\n\n        return output"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        int n = nums.length;\n        int[] output = new int[n - k + 1];\n\n        for (int i = 0; i <= n - k; i++) {\n            int maxi = nums[i];\n            for (int j = i; j < i + k; j++) {\n                maxi = Math.max(maxi, nums[j]);\n            }\n            output[i] = maxi;\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n        vector<int> output;\n        int n = nums.size();\n\n        for (int i = 0; i <= n - k; i++) {\n            int maxi = nums[i];\n            for (int j = i; j < i + k; j++) {\n                maxi = max(maxi, nums[j]);\n            }\n            output.push_back(maxi);\n        }\n\n        return output;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} k\n     * @return {number[]}\n     */\n    maxSlidingWindow(nums, k) {\n        let output = [];\n\n        for (let i = 0; i <= nums.length - k; i++) {\n            let maxi = nums[i];\n            for (let j = i; j < i + k; j++) {\n                maxi = Math.max(maxi, nums[j]);\n            }\n            output.push(maxi);\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[] MaxSlidingWindow(int[] nums, int k) {\n        int n = nums.Length;\n        int[] output = new int[n - k + 1];\n\n        for (int i = 0; i <= n - k; i++) {\n            int maxi = nums[i];\n            for (int j = i; j < i + k; j++) {\n                maxi = Math.Max(maxi, nums[j]);\n            }\n            output[i] = maxi;\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "func maxSlidingWindow(nums []int, k int) []int {\n    output := make([]int, 0, len(nums)-k+1)\n\n    for i := 0; i <= len(nums)-k; i++ {\n        maxi := nums[i]\n        for j := i; j < i+k; j++ {\n            if nums[j] > maxi {\n                maxi = nums[j]\n            }\n        }\n        output = append(output, maxi)\n    }\n\n    return output\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun maxSlidingWindow(nums: IntArray, k: Int): IntArray {\n        val output = mutableListOf<Int>()\n\n        for (i in 0..nums.size - k) {\n            var maxi = nums[i]\n            for (j in i until i + k) {\n                maxi = maxOf(maxi, nums[j])\n            }\n            output.add(maxi)\n        }\n\n        return output.toIntArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {\n        var output = [Int]()\n\n        for i in 0...(nums.count - k) {\n            var maxi = nums[i]\n            for j in i..<(i + k) {\n                maxi = max(maxi, nums[j])\n            }\n            output.append(maxi)\n        }\n\n        return output\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {\n        let k = k as usize;\n        let n = nums.len();\n        let mut output = Vec::with_capacity(n - k + 1);\n\n        for i in 0..=n - k {\n            let mut maxi = nums[i];\n            for j in i..i + k {\n                maxi = maxi.max(nums[j]);\n            }\n            output.push(maxi);\n        }\n\n        output\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree:\n    def __init__(self, N, A):\n        self.n = N\n        while (self.n & (self.n - 1)) != 0:\n            self.n += 1\n        self.build(N, A)\n\n    def build(self, N, A):\n        self.tree = [float('-inf')] * (2 * self.n)\n        for i in range(N):\n            self.tree[self.n + i] = A[i]\n        for i in range(self.n - 1, 0, -1):\n            self.tree[i] = max(self.tree[i << 1], self.tree[i << 1 | 1])\n\n    def query(self, l, r):\n        res = float('-inf')\n        l += self.n\n        r += self.n + 1\n        while l < r:\n            if l & 1:\n                res = max(res, self.tree[l])\n                l += 1\n            if r & 1:\n                r -= 1\n                res = max(res, self.tree[r])\n            l >>= 1\n            r >>= 1\n        return res\n\n\nclass Solution:\n    def maxSlidingWindow(self, nums, k):\n        n = len(nums)\n        segTree = SegmentTree(n, nums)\n        output = []\n        for i in range(n - k + 1):\n            output.append(segTree.query(i, i + k - 1))\n        return output"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree {\n    int n;\n    int[] tree;\n\n    SegmentTree(int N, int[] A) {\n        this.n = N;\n        while (Integer.bitCount(n) != 1) {\n            n++;\n        }\n        build(N, A);\n    }\n\n    void build(int N, int[] A) {\n        tree = new int[2 * n];\n        Arrays.fill(tree, Integer.MIN_VALUE);\n        for (int i = 0; i < N; i++) {\n            tree[n + i] = A[i];\n        }\n        for (int i = n - 1; i > 0; --i) {\n            tree[i] = Math.max(tree[i << 1], tree[i << 1 | 1]);\n        }\n    }\n\n    int query(int l, int r) {\n        int res = Integer.MIN_VALUE;\n        for (l += n, r += n + 1; l < r; l >>= 1, r >>= 1) {\n            if ((l & 1) == 1) res = Math.max(res, tree[l++]);\n            if ((r & 1) == 1) res = Math.max(res, tree[--r]);\n        }\n        return res;\n    }\n}\n\npublic class Solution {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        int n = nums.length;\n        SegmentTree segTree = new SegmentTree(n, nums);\n        int[] output = new int[n - k + 1];\n        for (int i = 0; i <= n - k; i++) {\n            output[i] = segTree.query(i, i + k - 1);\n        }\n        return output;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree {\npublic:\n    int n;\n    vector<int> tree;\n\n    SegmentTree(int N, vector<int>& A) {\n        this->n = N;\n        while (__builtin_popcount(n) != 1) {\n            n++;\n        }\n        build(N, A);\n    }\n\n    void build(int N, vector<int>& A) {\n        tree.resize(2 * n, INT_MIN);\n        for (int i = 0; i < N; i++) {\n            tree[n + i] = A[i];\n        }\n        for (int i = n - 1; i > 0; --i) {\n            tree[i] = max(tree[i << 1], tree[i << 1 | 1]);\n        }\n    }\n\n    int query(int l, int r) {\n        int res = INT_MIN;\n        for (l += n, r += n + 1; l < r; l >>= 1, r >>= 1) {\n            if (l & 1) res = max(res, tree[l++]);\n            if (r & 1) res = max(res, tree[--r]);\n        }\n        return res;\n    }\n};\n\nclass Solution {\npublic:\n    vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n        int n = nums.size();\n        SegmentTree segTree(n, nums);\n        vector<int> output;\n        for (int i = 0; i <= n - k; i++) {\n            output.push_back(segTree.query(i, i + k - 1));\n        }\n        return output;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree {\n    /**\n     * @constructor\n     * @param {number} N\n     * @param {number[]} A\n     */\n    constructor(N, A) {\n        this.n = N;\n        while ((this.n & (this.n - 1)) !== 0) {\n            this.n++;\n        }\n        this.build(N, A);\n    }\n\n    /**\n     * @param {number} N\n     * @param {number[]} A\n     * @return {void}\n     */\n    build(N, A) {\n        this.tree = new Array(2 * this.n).fill(-Infinity);\n        for (let i = 0; i < N; i++) {\n            this.tree[this.n + i] = A[i];\n        }\n        for (let i = this.n - 1; i > 0; i--) {\n            this.tree[i] = Math.max(this.tree[i << 1], this.tree[(i << 1) | 1]);\n        }\n    }\n\n    /**\n     * @param {number} l\n     * @param {number} r\n     * @return {number}\n     */\n    query(l, r) {\n        let res = -Infinity;\n        l += this.n;\n        r += this.n + 1;\n\n        while (l < r) {\n            if (l & 1) res = Math.max(res, this.tree[l++]);\n            if (r & 1) res = Math.max(res, this.tree[--r]);\n            l >>= 1;\n            r >>= 1;\n        }\n\n        return res;\n    }\n}\n\nclass Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} k\n     * @return {number[]}\n     */\n    maxSlidingWindow(nums, k) {\n        let n = nums.length;\n        let segTree = new SegmentTree(n, nums);\n        let output = [];\n\n        for (let i = 0; i <= n - k; i++) {\n            output.push(segTree.query(i, i + k - 1));\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class SegmentTree {\n    public int n;\n    public int[] tree;\n\n    public SegmentTree(int N, int[] A) {\n        this.n = N;\n        while (System.Numerics.BitOperations.PopCount((uint)n) != 1) {\n            n++;\n        }\n        Build(N, A);\n    }\n\n    public void Build(int N, int[] A) {\n        tree = new int[2 * n];\n        Array.Fill(tree, int.MinValue);\n        for (int i = 0; i < N; i++) {\n            tree[n + i] = A[i];\n        }\n        for (int i = n - 1; i > 0; --i) {\n            tree[i] = Math.Max(tree[i << 1], tree[i << 1 | 1]);\n        }\n    }\n\n    public int Query(int l, int r) {\n        int res = int.MinValue;\n        l += n;\n        r += n + 1;\n        while (l < r) {\n            if ((l & 1) == 1) res = Math.Max(res, tree[l++]);\n            if ((r & 1) == 1) res = Math.Max(res, tree[--r]);\n            l >>= 1;\n            r >>= 1;\n        }\n        return res;\n    }\n}\n\npublic class Solution {\n    public int[] MaxSlidingWindow(int[] nums, int k) {\n        int n = nums.Length;\n        SegmentTree segTree = new SegmentTree(n, nums);\n        int[] output = new int[n - k + 1];\n        for (int i = 0; i <= n - k; i++) {\n            output[i] = segTree.Query(i, i + k - 1);\n        }\n        return output;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "type SegmentTree struct {\n    n    int\n    tree []int\n}\n\nfunc NewSegmentTree(N int, A []int) *SegmentTree {\n    n := N\n    for bits.OnesCount(uint(n)) != 1 {\n        n++\n    }\n\n    st := &SegmentTree{\n        n: n,\n    }\n    st.build(N, A)\n    return st\n}\n\nfunc (st *SegmentTree) build(N int, A []int) {\n    st.tree = make([]int, 2*st.n)\n    for i := range st.tree {\n        st.tree[i] = math.MinInt\n    }\n    for i := 0; i < N; i++ {\n        st.tree[st.n+i] = A[i]\n    }\n    for i := st.n - 1; i > 0; i-- {\n        st.tree[i] = max(st.tree[i<<1], st.tree[i<<1|1])\n    }\n}\n\nfunc (st *SegmentTree) Query(l, r int) int {\n    res := math.MinInt\n    l += st.n\n    r += st.n + 1\n\n    for l < r {\n        if l&1 == 1 {\n            res = max(res, st.tree[l])\n            l++\n        }\n        if r&1 == 1 {\n            r--\n            res = max(res, st.tree[r])\n        }\n        l >>= 1\n        r >>= 1\n    }\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n\nfunc maxSlidingWindow(nums []int, k int) []int {\n    n := len(nums)\n    segTree := NewSegmentTree(n, nums)\n    output := make([]int, n-k+1)\n\n    for i := 0; i <= n-k; i++ {\n        output[i] = segTree.Query(i, i+k-1)\n    }\n\n    return output\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree(N: Int, A: IntArray) {\n    private var n: Int = N\n    private var tree: IntArray = IntArray(0)\n\n    init {\n        var size = N\n        while (Integer.bitCount(size) != 1) {\n            size++\n        }\n        n = size\n        build(N, A)\n    }\n\n    private fun build(N: Int, A: IntArray) {\n        tree = IntArray(2 * n)\n        tree.fill(Int.MIN_VALUE)\n        for (i in 0 until N) {\n            tree[n + i] = A[i]\n        }\n        for (i in n - 1 downTo 1) {\n            tree[i] = maxOf(tree[i * 2], tree[i * 2 + 1])\n        }\n    }\n\n    fun query(l: Int, r: Int): Int {\n        var res = Int.MIN_VALUE\n        var left = l + n\n        var right = r + n + 1\n\n        while (left < right) {\n            if (left % 2 == 1) {\n                res = maxOf(res, tree[left])\n                left++\n            }\n            if (right % 2 == 1) {\n                right--\n                res = maxOf(res, tree[right])\n            }\n            left /= 2\n            right /= 2\n        }\n        return res\n    }\n}\n\nclass Solution {\n    fun maxSlidingWindow(nums: IntArray, k: Int): IntArray {\n        val n = nums.size\n        val segTree = SegmentTree(n, nums)\n        val result = IntArray(n - k + 1)\n        for (i in 0..n - k) {\n            result[i] = segTree.query(i, i + k - 1)\n        }\n        return result\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class SegmentTree {\n    private var n: Int\n    private var tree: [Int]\n\n    init(_ N: Int, _ A: [Int]) {\n        self.n = N\n        while (self.n & (self.n - 1)) != 0 {\n            self.n += 1\n        }\n        self.tree = [Int](repeating: Int.min, count: 2 * self.n)\n        build(N, A)\n    }\n\n    private func build(_ N: Int, _ A: [Int]) {\n        for i in 0..<N {\n            tree[n + i] = A[i]\n        }\n        for i in stride(from: n - 1, through: 1, by: -1) {\n            tree[i] = max(tree[i << 1], tree[i << 1 | 1])\n        }\n    }\n\n    func query(_ l: Int, _ r: Int) -> Int {\n        var res = Int.min\n        var l = l + n\n        var r = r + n + 1\n        while l < r {\n            if l & 1 != 0 {\n                res = max(res, tree[l])\n                l += 1\n            }\n            if r & 1 != 0 {\n                r -= 1\n                res = max(res, tree[r])\n            }\n            l >>= 1\n            r >>= 1\n        }\n        return res\n    }\n}\n\nclass Solution {\n    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {\n        let n = nums.count\n        let segTree = SegmentTree(n, nums)\n        var output = [Int]()\n\n        for i in 0...(n - k) {\n            output.append(segTree.query(i, i + k - 1))\n        }\n\n        return output\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "struct SegmentTree {\n    n: usize,\n    tree: Vec<i32>,\n}\n\nimpl SegmentTree {\n    fn new(size: usize, a: &[i32]) -> Self {\n        let mut n = size;\n        while n & (n - 1) != 0 {\n            n += 1;\n        }\n        let mut tree = vec![i32::MIN; 2 * n];\n        for i in 0..size {\n            tree[n + i] = a[i];\n        }\n        for i in (1..n).rev() {\n            tree[i] = tree[i << 1].max(tree[i << 1 | 1]);\n        }\n        Self { n, tree }\n    }\n\n    fn query(&self, l: usize, r: usize) -> i32 {\n        let mut res = i32::MIN;\n        let mut l = l + self.n;\n        let mut r = r + self.n + 1;\n        while l < r {\n            if l & 1 == 1 {\n                res = res.max(self.tree[l]);\n                l += 1;\n            }\n            if r & 1 == 1 {\n                r -= 1;\n                res = res.max(self.tree[r]);\n            }\n            l >>= 1;\n            r >>= 1;\n        }\n        res\n    }\n}\n\nimpl Solution {\n    pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {\n        let k = k as usize;\n        let n = nums.len();\n        let seg_tree = SegmentTree::new(n, &nums);\n        let mut output = Vec::with_capacity(n - k + 1);\n        for i in 0..=n - k {\n            output.push(seg_tree.query(i, i + k - 1));\n        }\n        output\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        heap = []\n        output = []\n        for i in range(len(nums)):\n            heapq.heappush(heap, (-nums[i], i))\n            if i >= k - 1:\n                while heap[0][1] <= i - k:\n                    heapq.heappop(heap)\n                output.append(-heap[0][0])\n        return output"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> b[0] - a[0]);\n        int[] output = new int[nums.length - k + 1];\n        int idx = 0;\n        for (int i = 0; i < nums.length; i++) {\n            heap.offer(new int[]{nums[i], i});\n            if (i >= k - 1) {\n                while (heap.peek()[1] <= i - k) {\n                    heap.poll();\n                }\n                output[idx++] = heap.peek()[0];\n            }\n        }\n        return output;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n        priority_queue<pair<int, int>> heap;\n        vector<int> output;\n        for (int i = 0; i < nums.size(); i++) {\n            heap.push({nums[i], i});\n            if (i >= k - 1) {\n                while (heap.top().second <= i - k) {\n                    heap.pop();\n                }\n                output.push_back(heap.top().first);\n            }\n        }\n        return output;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} k\n     * @return {number[]}\n     */\n    maxSlidingWindow(nums, k) {\n        const heap = new MaxPriorityQueue((x) => x[0]);\n        const output = [];\n        const length = nums.length;\n\n        for (let i = 0; i < length; i++) {\n            heap.enqueue([nums[i], i]);\n\n            if (i >= k - 1) {\n                while (heap.front()[1] <= i - k) {\n                    heap.dequeue();\n                }\n                output.push(heap.front()[0]);\n            }\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[] MaxSlidingWindow(int[] nums, int k) {\n        PriorityQueue<(int val, int idx), int> pq = new PriorityQueue<(int val, int idx), int>(\n            Comparer<int>.Create((a, b) => b.CompareTo(a))\n        );\n\n        int[] output = new int[nums.Length - k + 1];\n        int idx = 0;\n\n        for (int i = 0; i < nums.Length; i++) {\n            pq.Enqueue((nums[i], i), nums[i]);\n\n            if (i >= k - 1) {\n                while (pq.Peek().idx <= i - k) {\n                    pq.Dequeue();\n                }\n                output[idx++] = pq.Peek().val;\n            }\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func maxSlidingWindow(nums []int, k int) []int {\n   heap := priorityqueue.NewWith(func(a, b interface{}) int {\n       return b.([2]int)[0] - a.([2]int)[0]\n   })\n\n   output := []int{}\n   for i := 0; i < len(nums); i++ {\n       heap.Enqueue([2]int{nums[i], i})\n       if i >= k - 1 {\n           peek, _ := heap.Peek()\n           for peek.([2]int)[1] <= i - k {\n               heap.Dequeue()\n               peek, _ = heap.Peek()\n           }\n           val, _ := heap.Peek()\n           output = append(output, val.([2]int)[0])\n       }\n   }\n   return output\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun maxSlidingWindow(nums: IntArray, k: Int): IntArray {\n        val output = mutableListOf<Int>()\n        val heap = PriorityQueue<Pair<Int, Int>>(compareByDescending { it.first })\n\n        for (i in nums.indices) {\n            heap.add(Pair(nums[i], i))\n            if (i >= k - 1) {\n                while (heap.peek().second <= i - k) {\n                    heap.poll()\n                }\n                output.add(heap.peek().first)\n            }\n        }\n        return output.toIntArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {\n        var heap = Heap<Item>()\n        var output = [Int]()\n\n        for i in 0..<nums.count {\n            heap.insert(Item(num: nums[i], index: i))\n\n            if i >= k - 1 {\n                while heap.max!.index <= i - k {\n                    heap.removeMax()\n                }\n                output.append(heap.max!.num)\n            }\n        }\n        return output\n    }\n}\n\nstruct Item: Comparable {\n    let num: Int\n    let index: Int\n\n    static func < (lhs: Item, rhs: Item) -> Bool {\n        return lhs.num < rhs.num\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {\n        let k = k as usize;\n        let mut heap = BinaryHeap::new();\n        let mut output = Vec::with_capacity(nums.len() - k + 1);\n\n        for i in 0..nums.len() {\n            heap.push((nums[i], i));\n            if i >= k - 1 {\n                while heap.peek().unwrap().1 + k <= i {\n                    heap.pop();\n                }\n                output.push(heap.peek().unwrap().0);\n            }\n        }\n\n        output\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        n = len(nums)\n        leftMax = [0] * n\n        rightMax = [0] * n\n\n        leftMax[0] = nums[0]\n        rightMax[n - 1] = nums[n - 1]\n\n        for i in range(1, n):\n            if i % k == 0:\n                leftMax[i] = nums[i]\n            else:\n                leftMax[i] = max(leftMax[i - 1], nums[i])\n\n            if (n - 1 - i) % k == 0:\n                rightMax[n - 1 - i] = nums[n - 1 - i]\n            else:\n                rightMax[n - 1 - i] = max(rightMax[n - i], nums[n - 1 - i])\n\n        output = [0] * (n - k + 1)\n\n        for i in range(n - k + 1):\n            output[i] = max(leftMax[i + k - 1], rightMax[i])\n\n        return output"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        int n = nums.length;\n        int[] leftMax = new int[n];\n        int[] rightMax = new int[n];\n\n        leftMax[0] = nums[0];\n        rightMax[n - 1] = nums[n - 1];\n\n        for (int i = 1; i < n; i++) {\n            if (i % k == 0) {\n                leftMax[i] = nums[i];\n            } else {\n                leftMax[i] = Math.max(leftMax[i - 1], nums[i]);\n            }\n\n            if ((n - 1 - i) % k == 0) {\n                rightMax[n - 1 - i] = nums[n - 1 - i];\n            } else {\n                rightMax[n - 1 - i] = Math.max(rightMax[n - i], nums[n - 1 - i]);\n            }\n        }\n\n        int[] output = new int[n - k + 1];\n\n        for (int i = 0; i < n - k + 1; i++) {\n            output[i] = Math.max(leftMax[i + k - 1], rightMax[i]);\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n        int n = nums.size();\n        vector<int> leftMax(n);\n        vector<int> rightMax(n);\n\n        leftMax[0] = nums[0];\n        rightMax[n - 1] = nums[n - 1];\n\n        for (int i = 1; i < n; i++) {\n            if (i % k == 0) {\n                leftMax[i] = nums[i];\n            } else {\n                leftMax[i] = max(leftMax[i - 1], nums[i]);\n            }\n\n            if ((n - 1 - i) % k == 0) {\n                rightMax[n - 1 - i] = nums[n - 1 - i];\n            } else {\n                rightMax[n - 1 - i] = max(rightMax[n - i], nums[n - 1 - i]);\n            }\n        }\n\n        vector<int> output(n - k + 1);\n\n        for (int i = 0; i < n - k + 1; i++) {\n            output[i] = max(leftMax[i + k - 1], rightMax[i]);\n        }\n\n        return output;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} k\n     * @return {number[]}\n     */\n    maxSlidingWindow(nums, k) {\n        const n = nums.length;\n        const leftMax = new Array(n);\n        const rightMax = new Array(n);\n\n        leftMax[0] = nums[0];\n        rightMax[n - 1] = nums[n - 1];\n\n        for (let i = 1; i < n; i++) {\n            if (i % k === 0) {\n                leftMax[i] = nums[i];\n            } else {\n                leftMax[i] = Math.max(leftMax[i - 1], nums[i]);\n            }\n\n            if ((n - 1 - i) % k === 0) {\n                rightMax[n - 1 - i] = nums[n - 1 - i];\n            } else {\n                rightMax[n - 1 - i] = Math.max(\n                    rightMax[n - i],\n                    nums[n - 1 - i],\n                );\n            }\n        }\n\n        const output = new Array(n - k + 1);\n\n        for (let i = 0; i < n - k + 1; i++) {\n            output[i] = Math.max(leftMax[i + k - 1], rightMax[i]);\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[] MaxSlidingWindow(int[] nums, int k) {\n        int n = nums.Length;\n        int[] leftMax = new int[n];\n        int[] rightMax = new int[n];\n\n        leftMax[0] = nums[0];\n        rightMax[n - 1] = nums[n - 1];\n\n        for (int i = 1; i < n; i++) {\n            if (i % k == 0) {\n                leftMax[i] = nums[i];\n            } else {\n                leftMax[i] = Math.Max(leftMax[i - 1], nums[i]);\n            }\n\n            if ((n - 1 - i) % k == 0) {\n                rightMax[n - 1 - i] = nums[n - 1 - i];\n            } else {\n                rightMax[n - 1 - i] = Math.Max(rightMax[n - i], nums[n - 1 - i]);\n            }\n        }\n\n        int[] output = new int[n - k + 1];\n\n        for (int i = 0; i < n - k + 1; i++) {\n            output[i] = Math.Max(leftMax[i + k - 1], rightMax[i]);\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func maxSlidingWindow(nums []int, k int) []int {\n\tn := len(nums)\n\tleftMax := make([]int, n)\n\trightMax := make([]int, n)\n\n\tleftMax[0] = nums[0]\n\trightMax[n-1] = nums[n-1]\n\n\tfor i := 1; i < n; i++ {\n\t\tif i%k == 0 {\n\t\t\tleftMax[i] = nums[i]\n\t\t} else {\n\t\t\tleftMax[i] = max(leftMax[i-1], nums[i])\n\t\t}\n\t}\n\n\tfor i := 1; i < n; i++ {\n\t\tif (n-1-i)%k == 0 {\n\t\t\trightMax[n-1-i] = nums[n-1-i]\n\t\t} else {\n\t\t\trightMax[n-1-i] = max(rightMax[n-i], nums[n-1-i])\n\t\t}\n\t}\n\n\toutput := make([]int, n-k+1)\n\n\tfor i := 0; i < n-k+1; i++ {\n\t\toutput[i] = max(leftMax[i+k-1], rightMax[i])\n\t}\n\treturn output\n}\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun maxSlidingWindow(nums: IntArray, k: Int): IntArray {\n        val n = nums.size\n        val leftMax = IntArray(n)\n        val rightMax = IntArray(n)\n\n        leftMax[0] = nums[0]\n        rightMax[n - 1] = nums[n - 1]\n\n        for (i in 1 until n) {\n            if (i % k == 0) {\n                leftMax[i] = nums[i]\n            } else {\n                leftMax[i] = maxOf(leftMax[i - 1], nums[i])\n            }\n\n            if ((n - 1 - i) % k == 0) {\n                rightMax[n - 1 - i] = nums[n - 1 - i]\n            } else {\n                rightMax[n - 1 - i] = maxOf(rightMax[n - i], nums[n - 1 - i])\n            }\n        }\n\n        val output = IntArray(n - k + 1)\n        for (i in 0..n - k) {\n            output[i] = maxOf(leftMax[i + k - 1], rightMax[i])\n        }\n\n        return output\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {\n        let n = nums.count\n        var leftMax = [Int](repeating: 0, count: n)\n        var rightMax = [Int](repeating: 0, count: n)\n\n        leftMax[0] = nums[0]\n        rightMax[n - 1] = nums[n - 1]\n\n        for i in 1..<n {\n            if i % k == 0 {\n                leftMax[i] = nums[i]\n            } else {\n                leftMax[i] = max(leftMax[i - 1], nums[i])\n            }\n\n            if (n - 1 - i) % k == 0 {\n                rightMax[n - 1 - i] = nums[n - 1 - i]\n            } else {\n                rightMax[n - 1 - i] = max(rightMax[n - i], nums[n - 1 - i])\n            }\n        }\n\n        var output = [Int](repeating: 0, count: n - k + 1)\n\n        for i in 0..<(n - k + 1) {\n            output[i] = max(leftMax[i + k - 1], rightMax[i])\n        }\n\n        return output\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {\n        let k = k as usize;\n        let n = nums.len();\n        let mut left_max = vec![0; n];\n        let mut right_max = vec![0; n];\n\n        left_max[0] = nums[0];\n        right_max[n - 1] = nums[n - 1];\n\n        for i in 1..n {\n            left_max[i] = if i % k == 0 {\n                nums[i]\n            } else {\n                left_max[i - 1].max(nums[i])\n            };\n\n            let j = n - 1 - i;\n            right_max[j] = if j % k == 0 {\n                nums[j]\n            } else {\n                right_max[j + 1].max(nums[j])\n            };\n        }\n\n        let mut output = vec![0; n - k + 1];\n        for i in 0..n - k + 1 {\n            output[i] = left_max[i + k - 1].max(right_max[i]);\n        }\n\n        output\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        output = []\n        q = deque()  # index\n        l = r = 0\n\n        while r < len(nums):\n            while q and nums[q[-1]] < nums[r]:\n                q.pop()\n            q.append(r)\n\n            if l > q[0]:\n                q.popleft()\n\n            if (r + 1) >= k:\n                output.append(nums[q[0]])\n                l += 1\n            r += 1\n\n        return output"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        int n = nums.length;\n        int[] output = new int[n - k + 1];\n        Deque<Integer> q = new LinkedList<>();\n        int l = 0, r = 0;\n\n        while (r < n) {\n            while (!q.isEmpty() && nums[q.getLast()] < nums[r]) {\n                q.removeLast();\n            }\n            q.addLast(r);\n\n            if (l > q.getFirst()) {\n                q.removeFirst();\n            }\n\n            if ((r + 1) >= k) {\n                output[l] = nums[q.getFirst()];\n                l++;\n            }\n            r++;\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n        int n = nums.size();\n        vector<int> output(n - k + 1);\n        deque<int> q;\n        int l = 0, r = 0;\n\n        while (r < n) {\n            while (!q.empty() && nums[q.back()] < nums[r]) {\n                q.pop_back();\n            }\n            q.push_back(r);\n\n            if (l > q.front()) {\n                q.pop_front();\n            }\n\n            if ((r + 1) >= k) {\n                output[l] = nums[q.front()];\n                l++;\n            }\n            r++;\n        }\n\n        return output;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} k\n     * @return {number[]}\n     */\n    maxSlidingWindow(nums, k) {\n        const n = nums.length;\n        const output = new Array(n - k + 1);\n        const q = new Deque();\n        let l = 0,\n            r = 0;\n\n        while (r < n) {\n            while (q.size() && nums[q.back()] < nums[r]) {\n                q.popBack();\n            }\n            q.pushBack(r);\n\n            if (l > q.front()) {\n                q.popFront();\n            }\n\n            if (r + 1 >= k) {\n                output[l] = nums[q.front()];\n                l++;\n            }\n            r++;\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[] MaxSlidingWindow(int[] nums, int k) {\n        int n = nums.Length;\n        int[] output = new int[n - k + 1];\n        var q = new LinkedList<int>();\n        int l = 0, r = 0;\n\n        while (r < n) {\n            while (q.Count > 0 && nums[q.Last.Value] < nums[r]) {\n                q.RemoveLast();\n            }\n            q.AddLast(r);\n\n            if (l > q.First.Value) {\n                q.RemoveFirst();\n            }\n\n            if ((r + 1) >= k) {\n                output[l] = nums[q.First.Value];\n                l++;\n            }\n            r++;\n        }\n\n        return output;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func maxSlidingWindow(nums []int, k int) []int {\n   output := []int{}\n   q := []int{}\n   l, r := 0, 0\n\n   for r < len(nums) {\n       for len(q) > 0 && nums[q[len(q)-1]] < nums[r] {\n           q = q[:len(q)-1]\n       }\n       q = append(q, r)\n\n       if l > q[0] {\n           q = q[1:]\n       }\n\n       if (r + 1) >= k {\n           output = append(output, nums[q[0]])\n           l += 1\n       }\n       r += 1\n   }\n\n   return output\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun maxSlidingWindow(nums: IntArray, k: Int): IntArray {\n        val output = mutableListOf<Int>()\n        val q = ArrayDeque<Int>()\n        var l = 0\n        var r = 0\n\n        while (r < nums.size) {\n            while (q.isNotEmpty() && nums[q.last()] < nums[r]) {\n                q.removeLast()\n            }\n            q.addLast(r)\n\n            if (l > q.first()) {\n                q.removeFirst()\n            }\n\n            if ((r + 1) >= k) {\n                output.add(nums[q.first()])\n                l += 1\n            }\n            r += 1\n        }\n\n        return output.toIntArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {\n        var output = [Int]()\n        var deque = [Int]() // Index\n        var l = 0, r = 0\n\n        while r < nums.count {\n            while !deque.isEmpty && nums[deque.last!] < nums[r] {\n                deque.removeLast()\n            }\n            deque.append(r)\n\n            if l > deque.first! {\n                deque.removeFirst()\n            }\n\n            if (r + 1) >= k {\n                output.append(nums[deque.first!])\n                l += 1\n            }\n            r += 1\n        }\n\n        return output\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {\n        let k = k as usize;\n        let n = nums.len();\n        let mut output = Vec::with_capacity(n - k + 1);\n        let mut q = VecDeque::new();\n        let mut l = 0;\n\n        for r in 0..n {\n            while let Some(&back) = q.back() {\n                if nums[back] < nums[r] {\n                    q.pop_back();\n                } else {\n                    break;\n                }\n            }\n            q.push_back(r);\n\n            if l > *q.front().unwrap() {\n                q.pop_front();\n            }\n\n            if r + 1 >= k {\n                output.push(nums[*q.front().unwrap()]);\n                l += 1;\n            }\n        }\n\n        output\n    }\n}"
+        }
+    ]
+}

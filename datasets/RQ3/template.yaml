@@ -1,286 +1,624 @@
-problem_name: Longest Substring Without Repeating Characters
-problem_slug: longest-substring-without-repeating-characters
+problem_name: Reverse Integer
+problem_slug: reverse-integer
 difficulty: medium
 topic_tags:
-  - hashing
-  - string
-  - sliding-window
-
+- math
 solutions:
-
-  # ---------------- first ----------------
-
-  - language: cpp
-    time_complexity: O(n*m)
-    space_complexity: O(m)
-    code: |
-      class Solution {
-        public:
-            int lengthOfLongestSubstring(string s) {
-                int res = 0;
-                for (int i = 0; i < s.size(); i++) {
-                    unordered_set<char> charSet;
-                    for (int j = i; j < s.size(); j++) {
-                        if (charSet.find(s[j]) != charSet.end()) {
-                            break;
-                        }
-                        charSet.insert(s[j]);
-                    }
-                    res = max(res, (int)charSet.size());
-                }
-                return res;
-            }
-        };
-
-  - language: python
-    time_complexity: O(n*m)
-    space_complexity: O(m)
-    code: |
-      class Solution:
-        def lengthOfLongestSubstring(self, s: str) -> int:
-            res = 0
-            for i in range(len(s)):
-                charSet = set()
-                for j in range(i, len(s)):
-                    if s[j] in charSet:
-                        break
-                    charSet.add(s[j])
-                res = max(res, len(charSet))
+- language: python
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution:
+        def reverse(self, x: int) -> int:
+            org = x
+            x = abs(x)
+            res = int(str(x)[::-1])
+            if org < 0:
+                res *= -1
+            if res < -(1 << 31) or res > (1 << 31) - 1:
+                return 0
             return res
-
-  - language: java
-    time_complexity: O(n*m)
-    space_complexity: O(m)
-    code: |
-      public class Solution {
-        public int lengthOfLongestSubstring(String s) {
-            int res = 0;
-            for (int i = 0; i < s.length(); i++) {
-                Set<Character> charSet = new HashSet<>();
-                for (int j = i; j < s.length(); j++) {
-                    if (charSet.contains(s.charAt(j))) {
-                        break;
-                    }
-                    charSet.add(s.charAt(j));
-                }
-                res = Math.max(res, charSet.size());
+- language: java
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    public class Solution {
+        public int reverse(int x) {
+            int org = x;
+            x = Math.abs(x);
+            long res = Long.parseLong(new StringBuilder(
+                       String.valueOf(x)).reverse().toString()
+                    );
+            if (org < 0) {
+                res *= -1;
+            }
+            if (res < -(1 << 31) || res > (1 << 31) - 1) {
+                return 0;
+            }
+            return (int)res;
+        }
+    }
+- language: cpp
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+    public:
+        int reverse(int x) {
+            int org = x;
+            x = abs(x);
+            string strX = to_string(x);
+            std::reverse(strX.begin(), strX.end());
+            long long res = stoll(strX);
+            if (org < 0) {
+                res *= -1;
+            }
+            if (res < -(1LL << 31) || res > (1LL << 31) - 1) {
+                return 0;
+            }
+            return static_cast<int>(res);
+        }
+    };
+- language: javascript
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        /**
+         * @param {number} x
+         * @return {number}
+         */
+        reverse(x) {
+            const org = x;
+            x = Math.abs(x);
+            let res = parseInt(x.toString().split('').reverse().join(''));
+            if (org < 0) {
+                res *= -1;
+            }
+            if (res < -(2 ** 31) || res > 2 ** 31 - 1) {
+                return 0;
             }
             return res;
         }
-      }
+    }
+- language: csharp
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    public class Solution {
+        public int Reverse(int x) {
+            int org = x;
+            x = Math.Abs(x);
+            char[] arr = x.ToString().ToCharArray();
+            Array.Reverse(arr);
 
-  #- language: swift
-  #  time_complexity: O(n*m)
-  #  space_complexity: O(m)
-  #  code: |
-      
+            long res = long.Parse(new string(arr));
+            if (org < 0) {
+                res *= -1;
+            }
 
-  - language: go
-    time_complexity: O(n*m)
-    space_complexity: O(m)
-    code: |
-      func lengthOfLongestSubstring(s string) int {
+            if (res < int.MinValue || res > int.MaxValue) {
+                return 0;
+            }
+            return (int)res;
+        }
+    }
+- language: go
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    func reverse(x int) int {
+        org := x
+        x = abs(x)
         res := 0
 
-        for i := 0; i < len(s); i++ {
-            charSet := make(map[byte]bool)
-            for j := i; j < len(s); j++ {
-                if charSet[s[j]] {
-                    break
-                }
-                charSet[s[j]] = true
-            }
-            if len(charSet) > res {
-                res = len(charSet)
-            }
+        for x > 0 {
+            res = res*10 + x%10
+            x /= 10
+        }
+
+        if org < 0 {
+            res = -res
+        }
+        if res < -(1 << 31) || res > (1<<31)-1 {
+            return 0
         }
         return res
-      }
+    }
 
-  # ---------------- second ----------------
+    func abs(x int) int {
+        if x < 0 {
+            return -x
+        }
+        return x
+    }
+- language: kotlin
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        fun reverse(x: Int): Int {
+            val org = x
+            var num = Math.abs(x)
+            var res = 0
 
-  - language: cpp
-    time_complexity: O(n)
-    space_complexity: O(m)
-    code: |
-      class Solution {
-        public:
-            int lengthOfLongestSubstring(string s) {
-                unordered_map<char, int> mp;
-                int l = 0, res = 0;
-
-                for (int r = 0; r < s.size(); r++) {
-                    if (mp.find(s[r]) != mp.end()) {
-                        l = max(mp[s[r]] + 1, l);
-                    }
-                    mp[s[r]] = r;
-                    res = max(res, r - l + 1);
+            while (num > 0) {
+                if (res > (Int.MAX_VALUE - num % 10) / 10) {
+                    return 0
                 }
-                return res;
+                res = res * 10 + num % 10
+                num /= 10
             }
-        };
 
-  - language: python
-    time_complexity: O(n)
-    space_complexity: O(m)
-    code: |
-      class Solution:
-        def lengthOfLongestSubstring(self, s: str) -> int:
-            mp = {}
-            l = 0
-            res = 0
+            if (org < 0) {
+                res = -res
+            }
+            return if (res < Int.MIN_VALUE || res > Int.MAX_VALUE) 0 else res
+        }
+    }
+- language: swift
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        func reverse(_ x: Int) -> Int {
+            let org = x
+            var x = abs(x)
+            var res = Int(String(String(x).reversed()))!
 
-            for r in range(len(s)):
-                if s[r] in mp:
-                    l = max(mp[s[r]] + 1, l)
-                mp[s[r]] = r
-                res = max(res, r - l + 1)
+            if org < 0 {
+                res *= -1
+            }
+            if res < Int32.min || res > Int32.max {
+                return 0
+            }
+
             return res
+        }
+    }
+- language: rust
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    impl Solution {
+        pub fn reverse(x: i32) -> i32 {
+            let org = x;
+            let x = (x as i64).abs();
+            let reversed: String = x.to_string().chars().rev().collect();
+            let mut res: i64 = reversed.parse().unwrap();
+            if org < 0 {
+                res *= -1;
+            }
+            if res < i32::MIN as i64 || res > i32::MAX as i64 {
+                return 0;
+            }
+            res as i32
+        }
+    }
+- language: python
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution:
+        def reverse(self, x: int) -> int:
+            def rec(n: int, rev: int) -> int:
+                if n == 0:
+                    return rev
 
-  - language: java
-    time_complexity: O(n)
-    space_complexity: O(m)
-    code: |
-      public class Solution {
-        public int lengthOfLongestSubstring(String s) {
-            HashMap<Character, Integer> mp = new HashMap<>();
-            int l = 0, res = 0;
+                rev = rev * 10 + n % 10
+                return rec(n // 10, rev)
 
-            for (int r = 0; r < s.length(); r++) {
-                if (mp.containsKey(s.charAt(r))) {
-                    l = Math.max(mp.get(s.charAt(r)) + 1, l);
-                }
-                mp.put(s.charAt(r), r);
-                res = Math.max(res, r - l + 1);
+            sign = -1 if x < 0 else 1
+            x = abs(x)
+            reversed_num = rec(x, 0)
+            reversed_num *= sign
+            if reversed_num < -(1 << 31) or reversed_num > (1 << 31) - 1:
+                return 0
+
+            return reversed_num
+- language: java
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    public class Solution {
+        public int reverse(int x) {
+            long res = rec(Math.abs(x), 0) * (x < 0 ? -1 : 1);
+            if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) {
+                return 0;
+            }
+            return (int) res;
+        }
+
+        private long rec(int n, long rev) {
+            if (n == 0) {
+                return rev;
+            }
+            rev = rev * 10 + n % 10;
+            return rec(n / 10, rev);
+        }
+    }
+- language: cpp
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+    public:
+        int reverse(int x) {
+            long res = rec(abs(x), 0) * (x < 0 ? -1 : 1);
+            if (res < INT_MIN || res > INT_MAX) {
+                return 0;
+            }
+            return (int)res;
+        }
+
+    private:
+        long rec(int n, long rev) {
+            if (n == 0) {
+                return rev;
+            }
+            rev = rev * 10 + n % 10;
+            return rec(n / 10, rev);
+        }
+    };
+- language: javascript
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        /**
+         * @param {number} x
+         * @return {number}
+         */
+        reverse(x) {
+            let res = this.rec(Math.abs(x), 0) * (x < 0 ? -1 : 1);
+            if (res < -(2 ** 31) || res > 2 ** 31 - 1) {
+                return 0;
             }
             return res;
         }
-      }      
 
-  - language: swift
-    time_complexity: O(n)
-    space_complexity: O(m)
-    code: |
-      class Solution {
-        func lengthOfLongestSubstring(_ s: String) -> Int {
-            var mp = [Character: Int]()
-            var l = 0, res = 0
-            let chars = Array(s)
-
-            for r in 0..<chars.count {
-                if let index = mp[chars[r]] {
-                    l = max(index + 1, l)
-                }
-                mp[chars[r]] = r
-                res = max(res, r - l + 1)
+        /**
+         * @param {number} n
+         * @param {number} rev
+         * @return {number}
+         */
+        rec(n, rev) {
+            if (n === 0) {
+                return rev;
             }
+            rev = rev * 10 + (n % 10);
+            return this.rec(Math.floor(n / 10), rev);
+        }
+    }
+- language: csharp
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    public class Solution {
+        public int Reverse(int x) {
+            long res = Rec(Math.Abs(x), 0) * (x < 0 ? -1 : 1);
+            if (res < int.MinValue || res > int.MaxValue) {
+                return 0;
+            }
+            return (int)res;
+        }
+
+        private long Rec(int n, long rev) {
+            if (n == 0) {
+                return rev;
+            }
+            rev = rev * 10 + n % 10;
+            return Rec(n / 10, rev);
+        }
+    }
+- language: go
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    func reverse(x int) int {
+        var rec func(int, int) int
+        rec = func(n, rev int) int {
+            if n == 0 {
+                return rev
+            }
+            rev = rev*10 + n%10
+            return rec(n/10, rev)
+        }
+
+        sign := 1
+        if x < 0 {
+            sign = -1
+            x = -x
+        }
+
+        reversedNum := rec(x, 0) * sign
+        if reversedNum < -(1<<31) || reversedNum > (1<<31)-1 {
+            return 0
+        }
+        return reversedNum
+    }
+- language: kotlin
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        fun reverse(x: Int): Int {
+            val res = rec(Math.abs(x), 0L) * if (x < 0) -1 else 1
+            return if (res < Int.MIN_VALUE || res > Int.MAX_VALUE) 0 else res.toInt()
+        }
+
+        private fun rec(n: Int, rev: Long): Long {
+            if (n == 0) return rev
+            return rec(n / 10, rev * 10 + n % 10)
+        }
+    }
+- language: swift
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        func reverse(_ x: Int) -> Int {
+            func rec(_ n: Int, _ rev: Int) -> Int {
+                if n == 0 {
+                    return rev
+                }
+                return rec(n / 10, rev * 10 + n % 10)
+            }
+
+            let sign = x < 0 ? -1 : 1
+            let reversedNum = rec(abs(x), 0) * sign
+
+            if reversedNum < Int32.min || reversedNum > Int32.max {
+                return 0
+            }
+
+            return reversedNum
+        }
+    }
+- language: rust
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    impl Solution {
+        pub fn reverse(x: i32) -> i32 {
+            fn rec(n: i64, rev: i64) -> i64 {
+                if n == 0 {
+                    return rev;
+                }
+                rec(n / 10, rev * 10 + n % 10)
+            }
+
+            let sign: i64 = if x < 0 { -1 } else { 1 };
+            let reversed_num = rec((x as i64).abs(), 0) * sign;
+            if reversed_num < i32::MIN as i64 || reversed_num > i32::MAX as i64 {
+                return 0;
+            }
+            reversed_num as i32
+        }
+    }
+- language: python
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution:
+        def reverse(self, x: int) -> int:
+            MIN = -2147483648  # -2^31,
+            MAX = 2147483647  #  2^31 - 1
+
+            res = 0
+            while x:
+                digit = int(math.fmod(x, 10))
+                x = int(x / 10)
+
+                if res > MAX // 10 or (res == MAX // 10 and digit > MAX % 10):
+                    return 0
+                if res < MIN // 10 or (res == MIN // 10 and digit < MIN % 10):
+                    return 0
+                res = (res * 10) + digit
+
+            return res
+- language: java
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    public class Solution {
+        public int reverse(int x) {
+            final int MIN = -2147483648; // -2^31
+            final int MAX = 2147483647;  // 2^31 - 1
+
+            int res = 0;
+            while (x != 0) {
+                int digit = x % 10;
+                x /= 10;
+
+                if (res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10))
+                    return 0;
+                if (res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10))
+                    return 0;
+                res = (res * 10) + digit;
+            }
+
+            return res;
+        }
+    }
+- language: cpp
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+    public:
+        int reverse(int x) {
+            const int MIN = -2147483648; // -2^31
+            const int MAX = 2147483647;  // 2^31 - 1
+
+            int res = 0;
+            while (x != 0) {
+                int digit = x % 10;
+                x /= 10;
+
+                if (res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10))
+                    return 0;
+                if (res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10))
+                    return 0;
+                res = (res * 10) + digit;
+            }
+
+            return res;
+        }
+    };
+- language: javascript
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        /**
+         * @param {number} x
+         * @return {number}
+         */
+        reverse(x) {
+            const MIN = -2147483648; // -2^31
+            const MAX = 2147483647; // 2^31 - 1
+
+            let res = 0;
+            while (x !== 0) {
+                const digit = x % 10;
+                x = Math.trunc(x / 10);
+
+                if (res > MAX / 10 || (res === MAX / 10 && digit > MAX % 10))
+                    return 0;
+                if (res < MIN / 10 || (res === MIN / 10 && digit < MIN % 10))
+                    return 0;
+                res = res * 10 + digit;
+            }
+
+            return res;
+        }
+    }
+- language: csharp
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    public class Solution {
+        public int Reverse(int x) {
+            const int MIN = -2147483648; // -2^31
+            const int MAX = 2147483647;  // 2^31 - 1
+
+            int res = 0;
+            while (x != 0) {
+                int digit = x % 10;
+                x /= 10;
+
+                if (res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10))
+                    return 0;
+                if (res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10))
+                    return 0;
+                res = (res * 10) + digit;
+            }
+
+            return res;
+        }
+    }
+- language: go
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    func reverse(x int) int {
+        MIN := -2147483648 // -2^31
+        MAX := 2147483647  // 2^31 - 1
+
+        res := 0
+        for x != 0 {
+            digit := int(math.Mod(float64(x), 10))
+            x = int(float64(x) / 10)
+
+            if res > MAX/10 || (res == MAX/10 && digit > MAX%10) {
+                return 0
+            }
+            if res < MIN/10 || (res == MIN/10 && digit < MIN%10) {
+                return 0
+            }
+            res = (res * 10) + digit
+        }
+
+        return res
+    }
+- language: kotlin
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        fun reverse(x: Int): Int {
+            val MIN = -2147483648 // -2^31
+            val MAX = 2147483647  // 2^31 - 1
+
+            var res = 0
+            var num = x
+            while (num != 0) {
+                val digit = (num % 10).toInt()
+                num /= 10
+
+                if (res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10)) {
+                    return 0
+                }
+                if (res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10)) {
+                    return 0
+                }
+                res = res * 10 + digit
+            }
+
             return res
         }
-      }
+    }
+- language: swift
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    class Solution {
+        func reverse(_ x: Int) -> Int {
+            let MIN = Int32.min
+            let MAX = Int32.max
 
-  - language: go
-    time_complexity: O(n)
-    space_complexity: O(m)
-    code: |
-      func lengthOfLongestSubstring(s string) int {
-        mp := make(map[byte]int)
-        l, res := 0, 0
+            var res = 0
+            var num = x
 
-        for r := 0; r < len(s); r++ {
-            if idx, found := mp[s[r]]; found {
-                l = max(idx+1, l)
-            }
-            mp[s[r]] = r
-            if r - l + 1 > res {
-                res = r - l + 1
-            }
-        }
-        return res
-      }
+            while num != 0 {
+                let digit = num % 10
+                num /= 10
 
-  # ---------------- third ----------------
-
-  - language: cpp
-    time_complexity: O(n)
-    space_complexity: O(1)
-    code: |
-      class Solution {
-        public:
-            int maxProfit(vector<int>& prices) {
-                int maxP = 0;
-                int minBuy = prices[0];
-
-                for (int& sell : prices) {
-                    maxP = max(maxP, sell - minBuy);
-                    minBuy = min(minBuy, sell);
+                if res > MAX / 10 || (res == MAX / 10 && digit > MAX % 10) {
+                    return 0
                 }
-                return maxP;
+                if res < MIN / 10 || (res == MIN / 10 && digit < MIN % 10) {
+                    return 0
+                }
+                res = res * 10 + digit
             }
-        };
 
-  - language: python
-    time_complexity: O(n)
-    space_complexity: O(1)
-    code: |
-      class Solution:
-        def maxProfit(self, prices: List[int]) -> int:
-            maxP = 0
-            minBuy = prices[0]
-
-            for sell in prices:
-                maxP = max(maxP, sell - minBuy)
-                minBuy = min(minBuy, sell)
-            return maxP
-
-  - language: java
-    time_complexity: O(n)
-    space_complexity: O(1)
-    code: |
-      public class Solution {
-        public int maxProfit(int[] prices) {
-            int maxP = 0;
-            int minBuy = prices[0];
-
-            for (int sell : prices) {
-                maxP = Math.max(maxP, sell - minBuy);
-                minBuy = Math.min(minBuy, sell);
-            }
-            return maxP;
+            return res
         }
-      }
+    }
+- language: rust
+  time_complexity: O(1)
+  space_complexity: O(1)
+  code: |-
+    impl Solution {
+        pub fn reverse(x: i32) -> i32 {
+            let mut res: i32 = 0;
+            let mut num = x;
 
-  - language: swift
-    time_complexity: O(n)
-    space_complexity: O(1)
-    code: |
-      class Solution {
-        func maxProfit(_ prices: [Int]) -> Int {
-            var maxP = 0
-            var minBuy = prices[0]
+            while num != 0 {
+                let digit = num % 10;
+                num /= 10;
 
-            for sell in prices {
-                maxP = max(maxP, sell - minBuy)
-                minBuy = min(minBuy, sell)
+                if res > i32::MAX / 10 || (res == i32::MAX / 10 && digit > 7) {
+                    return 0;
+                }
+                if res < i32::MIN / 10 || (res == i32::MIN / 10 && digit < -8) {
+                    return 0;
+                }
+                res = res * 10 + digit;
             }
-            return maxP
+
+            res
         }
-      }
-
-  - language: go
-    time_complexity: O(n)
-    space_complexity: O(1)
-    code: |
-      func maxProfit(prices []int) int {
-        maxP := 0
-        minBuy := math.MaxInt32
-
-        for _, sell := range prices {
-            if sell - minBuy > maxP {
-                maxP = sell - minBuy
-            }
-            if sell < minBuy {
-                minBuy = sell
-            }
-        }
-        return maxP
-      }
+    }

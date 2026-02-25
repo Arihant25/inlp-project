@@ -1,0 +1,120 @@
+{
+    "problem_name": "Minimum Window Substring",
+    "problem_slug": "minimum-window-substring",
+    "difficulty": "hard",
+    "topic_tags": [
+        "hash table",
+        "string",
+        "sliding window"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def minWindow(self, s: str, t: str) -> str:\n        if t == \"\":\n            return \"\"\n\n        countT = {}\n        for c in t:\n            countT[c] = 1 + countT.get(c, 0)\n\n        res, resLen = [-1, -1], float(\"infinity\")\n        for i in range(len(s)):\n            countS = {}\n            for j in range(i, len(s)):\n                countS[s[j]] = 1 + countS.get(s[j], 0)\n\n                flag = True\n                for c in countT:\n                    if countT[c] > countS.get(c, 0):\n                        flag = False\n                        break\n\n                if flag and (j - i + 1) < resLen:\n                    resLen = j - i + 1\n                    res = [i, j]\n\n        l, r = res\n        return s[l : r + 1] if resLen != float(\"infinity\") else \"\""
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public String minWindow(String s, String t) {\n        if (t.isEmpty()) return \"\";\n\n        Map<Character, Integer> countT = new HashMap<>();\n        for (char c : t.toCharArray()) {\n            countT.put(c, countT.getOrDefault(c, 0) + 1);\n        }\n\n        int[] res = {-1, -1};\n        int resLen = Integer.MAX_VALUE;\n\n        for (int i = 0; i < s.length(); i++) {\n            Map<Character, Integer> countS = new HashMap<>();\n            for (int j = i; j < s.length(); j++) {\n                countS.put(s.charAt(j), countS.getOrDefault(s.charAt(j), 0) + 1);\n\n                boolean flag = true;\n                for (char c : countT.keySet()) {\n                    if (countS.getOrDefault(c, 0) < countT.get(c)) {\n                        flag = false;\n                        break;\n                    }\n                }\n\n                if (flag && (j - i + 1) < resLen) {\n                    resLen = j - i + 1;\n                    res[0] = i;\n                    res[1] = j;\n                }\n            }\n        }\n\n        return resLen == Integer.MAX_VALUE ? \"\" : s.substring(res[0], res[1] + 1);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    string minWindow(string s, string t) {\n        if (t.empty()) return \"\";\n\n        unordered_map<char, int> countT;\n        for (char c : t) {\n            countT[c]++;\n        }\n\n        pair<int, int> res = {-1, -1};\n        int resLen = INT_MAX;\n\n        for (int i = 0; i < s.length(); i++) {\n            unordered_map<char, int> countS;\n            for (int j = i; j < s.length(); j++) {\n                countS[s[j]]++;\n\n                bool flag = true;\n                for (auto &[c, cnt] : countT) {\n                    if (countS[c] < cnt) {\n                        flag = false;\n                        break;\n                    }\n                }\n\n                if (flag && (j - i + 1) < resLen) {\n                    resLen = j - i + 1;\n                    res = {i, j};\n                }\n            }\n        }\n\n        return resLen == INT_MAX ? \"\" : s.substr(res.first, resLen);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} t\n     * @return {string}\n     */\n    minWindow(s, t) {\n        if (t === '') return '';\n\n        let countT = {};\n        for (let c of t) {\n            countT[c] = (countT[c] || 0) + 1;\n        }\n\n        let res = [-1, -1];\n        let resLen = Infinity;\n\n        for (let i = 0; i < s.length; i++) {\n            let countS = {};\n            for (let j = i; j < s.length; j++) {\n                countS[s[j]] = (countS[s[j]] || 0) + 1;\n\n                let flag = true;\n                for (let c in countT) {\n                    if ((countS[c] || 0) < countT[c]) {\n                        flag = false;\n                        break;\n                    }\n                }\n\n                if (flag && j - i + 1 < resLen) {\n                    resLen = j - i + 1;\n                    res = [i, j];\n                }\n            }\n        }\n\n        return resLen === Infinity ? '' : s.slice(res[0], res[1] + 1);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public string MinWindow(string s, string t) {\n        if (t == \"\") return \"\";\n\n        Dictionary<char, int> countT = new Dictionary<char, int>();\n        foreach (char c in t) {\n            if (countT.ContainsKey(c)) {\n                countT[c]++;\n            } else {\n                countT[c] = 1;\n            }\n        }\n\n        int[] res = { -1, -1 };\n        int resLen = int.MaxValue;\n\n        for (int i = 0; i < s.Length; i++) {\n            Dictionary<char, int> countS = new Dictionary<char, int>();\n            for (int j = i; j < s.Length; j++) {\n                if (countS.ContainsKey(s[j])) {\n                    countS[s[j]]++;\n                } else {\n                    countS[s[j]] = 1;\n                }\n\n                bool flag = true;\n                foreach (var c in countT.Keys) {\n                    if (!countS.ContainsKey(c) || countS[c] < countT[c]) {\n                        flag = false;\n                        break;\n                    }\n                }\n\n                if (flag && (j - i + 1) < resLen) {\n                    resLen = j - i + 1;\n                    res[0] = i;\n                    res[1] = j;\n                }\n            }\n        }\n\n        return resLen == int.MaxValue ? \"\" : s.Substring(res[0], resLen);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "func minWindow(s string, t string) string {\n\tif t == \"\" {\n\t\treturn \"\"\n\t}\n\n\tcountT := make(map[rune]int)\n\tfor _, c := range t {\n\t\tcountT[c]++\n\t}\n\n\tres := []int{-1, -1}\n\tresLen := int(^uint(0) >> 1)\n\tfor i := 0; i < len(s); i++ {\n\t\tcountS := make(map[rune]int)\n\t\tfor j := i; j < len(s); j++ {\n\t\t\tcountS[rune(s[j])]++\n\n\t\t\tflag := true\n\t\t\tfor c, cnt := range countT {\n\t\t\t\tif cnt > countS[c] {\n\t\t\t\t\tflag = false\n\t\t\t\t\tbreak\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tif flag && (j-i+1) < resLen {\n\t\t\t\tresLen = j - i + 1\n\t\t\t\tres = []int{i, j}\n\t\t\t}\n\t\t}\n\t}\n\n\tif res[0] == -1 {\n\t\treturn \"\"\n\t}\n\treturn s[res[0]:res[1]+1]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun minWindow(s: String, t: String): String {\n        if (t.isEmpty()) return \"\"\n\n        val countT = HashMap<Char, Int>()\n        for (c in t) {\n            countT[c] = countT.getOrDefault(c, 0) + 1\n        }\n\n        var res = IntArray(2) {-1}\n        var resLen = Int.MAX_VALUE\n\n        for (i in s.indices) {\n            val countS = HashMap<Char, Int>()\n            for (j in i until s.length) {\n                countS[s[j]] = countS.getOrDefault(s[j], 0) + 1\n\n                var flag = true\n                for (c in countT.keys) {\n                    if (countT[c]!! > countS.getOrDefault(c, 0)) {\n                        flag = false\n                        break\n                    }\n                }\n\n                if (flag && (j - i + 1) < resLen) {\n                    resLen = j - i + 1\n                    res[0] = i\n                    res[1] = j\n                }\n            }\n        }\n\n        return if (res[0] == -1) \"\" else s.substring(res[0], res[1] + 1)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func minWindow(_ s: String, _ t: String) -> String {\n        if t.isEmpty {\n            return \"\"\n        }\n\n        var countT = [Character: Int]()\n        for c in t {\n            countT[c, default: 0] += 1\n        }\n\n        var res = [-1, -1]\n        var resLen = Int.max\n        let chars = Array(s)\n\n        for i in 0..<chars.count {\n            var countS = [Character: Int]()\n            for j in i..<chars.count {\n                countS[chars[j], default: 0] += 1\n\n                var flag = true\n                for (c, count) in countT {\n                    if count > countS[c, default: 0] {\n                        flag = false\n                        break\n                    }\n                }\n\n                if flag && (j - i + 1) < resLen {\n                    resLen = j - i + 1\n                    res = [i, j]\n                }\n            }\n        }\n\n        let (l, r) = (res[0], res[1])\n        return resLen != Int.max ? String(chars[l...r]) : \"\"\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2 * m)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn min_window(s: String, t: String) -> String {\n        if t.is_empty() {\n            return String::new();\n        }\n\n        let s = s.as_bytes();\n        let mut count_t: HashMap<u8, i32> = HashMap::new();\n        for &c in t.as_bytes() {\n            *count_t.entry(c).or_insert(0) += 1;\n        }\n\n        let mut res = (0usize, 0usize);\n        let mut res_len = usize::MAX;\n\n        for i in 0..s.len() {\n            let mut count_s: HashMap<u8, i32> = HashMap::new();\n            for j in i..s.len() {\n                *count_s.entry(s[j]).or_insert(0) += 1;\n\n                let flag = count_t.iter().all(|(&c, &cnt)| {\n                    *count_s.get(&c).unwrap_or(&0) >= cnt\n                });\n\n                if flag && (j - i + 1) < res_len {\n                    res_len = j - i + 1;\n                    res = (i, j);\n                }\n            }\n        }\n\n        if res_len == usize::MAX {\n            String::new()\n        } else {\n            String::from_utf8(s[res.0..=res.1].to_vec()).unwrap()\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def minWindow(self, s: str, t: str) -> str:\n        if t == \"\":\n            return \"\"\n\n        countT, window = {}, {}\n        for c in t:\n            countT[c] = 1 + countT.get(c, 0)\n\n        have, need = 0, len(countT)\n        res, resLen = [-1, -1], float(\"infinity\")\n        l = 0\n        for r in range(len(s)):\n            c = s[r]\n            window[c] = 1 + window.get(c, 0)\n\n            if c in countT and window[c] == countT[c]:\n                have += 1\n\n            while have == need:\n                if (r - l + 1) < resLen:\n                    res = [l, r]\n                    resLen = r - l + 1\n\n                window[s[l]] -= 1\n                if s[l] in countT and window[s[l]] < countT[s[l]]:\n                    have -= 1\n                l += 1\n        l, r = res\n        return s[l : r + 1] if resLen != float(\"infinity\") else \"\""
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public String minWindow(String s, String t) {\n        if (t.isEmpty()) return \"\";\n\n        Map<Character, Integer> countT = new HashMap<>();\n        Map<Character, Integer> window = new HashMap<>();\n        for (char c : t.toCharArray()) {\n            countT.put(c, countT.getOrDefault(c, 0) + 1);\n        }\n\n        int have = 0, need = countT.size();\n        int[] res = {-1, -1};\n        int resLen = Integer.MAX_VALUE;\n        int l = 0;\n\n        for (int r = 0; r < s.length(); r++) {\n            char c = s.charAt(r);\n            window.put(c, window.getOrDefault(c, 0) + 1);\n\n            if (countT.containsKey(c) && window.get(c).equals(countT.get(c))) {\n                have++;\n            }\n\n            while (have == need) {\n                if ((r - l + 1) < resLen) {\n                    resLen = r - l + 1;\n                    res[0] = l;\n                    res[1] = r;\n                }\n\n                char leftChar = s.charAt(l);\n                window.put(leftChar, window.get(leftChar) - 1);\n                if (countT.containsKey(leftChar) && window.get(leftChar) < countT.get(leftChar)) {\n                    have--;\n                }\n                l++;\n            }\n        }\n\n        return resLen == Integer.MAX_VALUE ? \"\" : s.substring(res[0], res[1] + 1);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    string minWindow(string s, string t) {\n        if (t.empty()) return \"\";\n\n        unordered_map<char, int> countT, window;\n        for (char c : t) {\n            countT[c]++;\n        }\n\n        int have = 0, need = countT.size();\n        pair<int, int> res = {-1, -1};\n        int resLen = INT_MAX;\n        int l = 0;\n\n        for (int r = 0; r < s.length(); r++) {\n            char c = s[r];\n            window[c]++;\n\n            if (countT.count(c) && window[c] == countT[c]) {\n                have++;\n            }\n\n            while (have == need) {\n                if ((r - l + 1) < resLen) {\n                    resLen = r - l + 1;\n                    res = {l, r};\n                }\n\n                window[s[l]]--;\n                if (countT.count(s[l]) && window[s[l]] < countT[s[l]]) {\n                    have--;\n                }\n                l++;\n            }\n        }\n\n        return resLen == INT_MAX ? \"\" : s.substr(res.first, resLen);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} t\n     * @return {string}\n     */\n    minWindow(s, t) {\n        if (t === '') return '';\n\n        let countT = {};\n        let window = {};\n        for (let c of t) {\n            countT[c] = (countT[c] || 0) + 1;\n        }\n\n        let have = 0,\n            need = Object.keys(countT).length;\n        let res = [-1, -1];\n        let resLen = Infinity;\n        let l = 0;\n\n        for (let r = 0; r < s.length; r++) {\n            let c = s[r];\n            window[c] = (window[c] || 0) + 1;\n\n            if (countT[c] && window[c] === countT[c]) {\n                have++;\n            }\n\n            while (have === need) {\n                if (r - l + 1 < resLen) {\n                    resLen = r - l + 1;\n                    res = [l, r];\n                }\n\n                window[s[l]]--;\n                if (countT[s[l]] && window[s[l]] < countT[s[l]]) {\n                    have--;\n                }\n                l++;\n            }\n        }\n\n        return resLen === Infinity ? '' : s.slice(res[0], res[1] + 1);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public string MinWindow(string s, string t) {\n        if (t == \"\") return \"\";\n\n        Dictionary<char, int> countT = new Dictionary<char, int>();\n        Dictionary<char, int> window = new Dictionary<char, int>();\n\n        foreach (char c in t) {\n            if (countT.ContainsKey(c)) {\n                countT[c]++;\n            } else {\n                countT[c] = 1;\n            }\n        }\n\n        int have = 0, need = countT.Count;\n        int[] res = { -1, -1 };\n        int resLen = int.MaxValue;\n        int l = 0;\n\n        for (int r = 0; r < s.Length; r++) {\n            char c = s[r];\n            if (window.ContainsKey(c)) {\n                window[c]++;\n            } else {\n                window[c] = 1;\n            }\n\n            if (countT.ContainsKey(c) && window[c] == countT[c]) {\n                have++;\n            }\n\n            while (have == need) {\n                if ((r - l + 1) < resLen) {\n                    resLen = r - l + 1;\n                    res[0] = l;\n                    res[1] = r;\n                }\n\n                char leftChar = s[l];\n                window[leftChar]--;\n                if (countT.ContainsKey(leftChar) && window[leftChar] < countT[leftChar]) {\n                    have--;\n                }\n                l++;\n            }\n        }\n\n        return resLen == int.MaxValue ? \"\" : s.Substring(res[0], resLen);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "func minWindow(s string, t string) string {\n\tif t == \"\" {\n\t\treturn \"\"\n\t}\n\n\tcountT := make(map[rune]int)\n\tfor _, c := range t {\n\t\tcountT[c]++\n\t}\n\n\thave, need := 0, len(countT)\n\tres := []int{-1, -1}\n\tresLen := math.MaxInt32\n\tl := 0\n\twindow := make(map[rune]int)\n\n\tfor r := 0; r < len(s); r++ {\n\t\tc := rune(s[r])\n\t\twindow[c]++\n\n\t\tif countT[c] > 0 && window[c] == countT[c] {\n\t\t\thave++\n\t\t}\n\n\t\tfor have == need {\n\t\t\tif (r - l + 1) < resLen {\n\t\t\t\tres = []int{l, r}\n\t\t\t\tresLen = r - l + 1\n\t\t\t}\n\n\t\t\twindow[rune(s[l])]--\n\t\t\tif countT[rune(s[l])] > 0 && window[rune(s[l])] < countT[rune(s[l])] {\n\t\t\t\thave--\n\t\t\t}\n\t\t\tl++\n\t\t}\n\t}\n\n\tif res[0] == -1 {\n\t\treturn \"\"\n\t}\n\treturn s[res[0]:res[1]+1]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun minWindow(s: String, t: String): String {\n        if (t.isEmpty()) return \"\"\n\n        val countT = HashMap<Char, Int>()\n        for (c in t) {\n            countT[c] = countT.getOrDefault(c, 0) + 1\n        }\n\n        var have = 0\n        val need = countT.size\n        val res = IntArray(2) {-1}\n        var resLen = Int.MAX_VALUE\n        var l = 0\n        val window = HashMap<Char, Int>()\n\n        for (r in s.indices) {\n            val c = s[r]\n            window[c] = window.getOrDefault(c, 0) + 1\n\n            if (countT.containsKey(c) && window[c] == countT[c]) {\n                have++\n            }\n\n            while (have == need) {\n                if ((r - l + 1) < resLen) {\n                    res[0] = l\n                    res[1] = r\n                    resLen = r - l + 1\n                }\n\n                window[s[l]] = window.getOrDefault(s[l], 0) - 1\n                if (countT.containsKey(s[l]) && (window[s[l]] ?: 0) < countT[s[l]]!!) {\n                    have--\n                }\n                l++\n            }\n        }\n\n        return if (res[0] == -1) \"\" else s.substring(res[0], res[1] + 1)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func minWindow(_ s: String, _ t: String) -> String {\n        if t.isEmpty {\n            return \"\"\n        }\n\n        var countT = [Character: Int]()\n        var window = [Character: Int]()\n        for c in t {\n            countT[c, default: 0] += 1\n        }\n\n        var have = 0, need = countT.count\n        var res = [-1, -1], resLen = Int.max\n        let chars = Array(s)\n        var l = 0\n\n        for r in 0..<chars.count {\n            let c = chars[r]\n            window[c, default: 0] += 1\n\n            if let count = countT[c], window[c] == count {\n                have += 1\n            }\n\n            while have == need {\n                if (r - l + 1) < resLen {\n                    res = [l, r]\n                    resLen = r - l + 1\n                }\n\n                let leftChar = chars[l]\n                window[leftChar, default: 0] -= 1\n                if let count = countT[leftChar], window[leftChar]! < count {\n                    have -= 1\n                }\n                l += 1\n            }\n        }\n\n        let (left, right) = (res[0], res[1])\n        return resLen != Int.max ? String(chars[left...right]) : \"\"\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n + m)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn min_window(s: String, t: String) -> String {\n        if t.is_empty() {\n            return String::new();\n        }\n\n        let s = s.as_bytes();\n        let mut count_t: HashMap<u8, i32> = HashMap::new();\n        for &c in t.as_bytes() {\n            *count_t.entry(c).or_insert(0) += 1;\n        }\n\n        let mut window: HashMap<u8, i32> = HashMap::new();\n        let mut have = 0;\n        let need = count_t.len();\n        let mut res = (0usize, 0usize);\n        let mut res_len = usize::MAX;\n        let mut l = 0;\n\n        for r in 0..s.len() {\n            let c = s[r];\n            *window.entry(c).or_insert(0) += 1;\n\n            if let Some(&required) = count_t.get(&c) {\n                if window[&c] == required {\n                    have += 1;\n                }\n            }\n\n            while have == need {\n                if (r - l + 1) < res_len {\n                    res = (l, r);\n                    res_len = r - l + 1;\n                }\n\n                let left_char = s[l];\n                *window.get_mut(&left_char).unwrap() -= 1;\n                if let Some(&required) = count_t.get(&left_char) {\n                    if window[&left_char] < required {\n                        have -= 1;\n                    }\n                }\n                l += 1;\n            }\n        }\n\n        if res_len == usize::MAX {\n            String::new()\n        } else {\n            String::from_utf8(s[res.0..=res.1].to_vec()).unwrap()\n        }\n    }\n}"
+        }
+    ]
+}

@@ -1,0 +1,175 @@
+{
+    "problem_name": "Validate Binary Search Tree",
+    "problem_slug": "validate-binary-search-tree",
+    "difficulty": "medium",
+    "topic_tags": [
+        "tree",
+        "depth-first search",
+        "binary search tree",
+        "binary tree"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    left_check = staticmethod(lambda val, limit: val < limit)\n    right_check = staticmethod(lambda val, limit: val > limit)\n\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        if not root:\n            return True\n\n        if (not self.isValid(root.left, root.val, self.left_check) or\n            not self.isValid(root.right, root.val, self.right_check)):\n            return False\n\n        return self.isValidBST(root.left) and self.isValidBST(root.right)\n\n    def isValid(self, root: Optional[TreeNode], limit: int, check) -> bool:\n        if not root:\n            return True\n        if not check(root.val, limit):\n            return False\n        return (self.isValid(root.left, limit, check) and\n                self.isValid(root.right, limit, check))"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    static boolean left_check(int val, int limit) {\n        return val < limit;\n    }\n\n    static boolean right_check(int val, int limit) {\n        return val > limit;\n    }\n\n    public boolean isValidBST(TreeNode root) {\n        if (root == null) {\n            return true;\n        }\n\n        if (!isValid(root.left, root.val, Solution::left_check) ||\n            !isValid(root.right, root.val, Solution::right_check)) {\n            return false;\n        }\n\n        return isValidBST(root.left) && isValidBST(root.right);\n    }\n\n    public boolean isValid(TreeNode root, int limit, CheckFunction check) {\n        if (root == null) {\n            return true;\n        }\n        if (!check.apply(root.val, limit)) {\n            return false;\n        }\n        return isValid(root.left, limit, check) &&\n               isValid(root.right, limit, check);\n    }\n\n    interface CheckFunction {\n        boolean apply(int val, int limit);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    static bool left_check(int val, int limit) {\n        return val < limit;\n    }\n\n    static bool right_check(int val, int limit) {\n        return val > limit;\n    }\n\n    bool isValidBST(TreeNode* root) {\n        if (!root) {\n            return true;\n        }\n\n        if (!isValid(root->left, root->val, left_check) ||\n            !isValid(root->right, root->val, right_check)) {\n            return false;\n        }\n\n        return isValidBST(root->left) && isValidBST(root->right);\n    }\n\n    bool isValid(TreeNode* root, int limit, bool (*check)(int, int)) {\n        if (!root) {\n            return true;\n        }\n        if (!check(root->val, limit)) {\n            return false;\n        }\n        return isValid(root->left, limit, check) &&\n               isValid(root->right, limit, check);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {number} val\n     * @param {number} limit\n     * @returns {boolean}\n     */\n    left_check(val, limit) {\n        return val < limit;\n    }\n\n    /**\n     * @param {number} val\n     * @param {number} limit\n     * @returns {boolean}\n     */\n    right_check(val, limit) {\n        return val > limit;\n    }\n\n    /**\n     * @param {TreeNode} root\n     * @returns {boolean}\n     */\n    isValidBST(root) {\n        if (!root) {\n            return true;\n        }\n\n        if (\n            !this.isValid(root.left, root.val, this.left_check) ||\n            !this.isValid(root.right, root.val, this.right_check)\n        ) {\n            return false;\n        }\n\n        return this.isValidBST(root.left) && this.isValidBST(root.right);\n    }\n\n    /**\n     * @param {TreeNode} root\n     * @param {number} limit\n     * @param {function} check\n     * @returns {boolean}\n     */\n    isValid(root, limit, check) {\n        if (!root) {\n            return true;\n        }\n        if (!check.call(this, root.val, limit)) {\n            return false;\n        }\n        return (\n            this.isValid(root.left, limit, check) &&\n            this.isValid(root.right, limit, check)\n        );\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    static bool LeftCheck(int val, int limit) {\n        return val < limit;\n    }\n\n    static bool RightCheck(int val, int limit) {\n        return val > limit;\n    }\n\n    public bool IsValidBST(TreeNode root) {\n        if (root == null) {\n            return true;\n        }\n\n        if (!IsValid(root.left, root.val, LeftCheck) ||\n            !IsValid(root.right, root.val, RightCheck)) {\n            return false;\n        }\n\n        return IsValidBST(root.left) && IsValidBST(root.right);\n    }\n\n    public bool IsValid(TreeNode root, int limit, Func<int, int, bool> check) {\n        if (root == null) {\n            return true;\n        }\n        if (!check(root.val, limit)) {\n            return false;\n        }\n        return IsValid(root.left, limit, check) &&\n               IsValid(root.right, limit, check);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc isValidBST(root *TreeNode) bool {\n    if root == nil {\n        return true\n    }\n    return isValid(root.Left, root.Val, func(val, limit int) bool { return val < limit }) &&\n           isValid(root.Right, root.Val, func(val, limit int) bool { return val > limit }) &&\n           isValidBST(root.Left) &&\n           isValidBST(root.Right)\n}\n\nfunc isValid(root *TreeNode, limit int, check func(int, int) bool) bool {\n    if root == nil {\n        return true\n    }\n    if !check(root.Val, limit) {\n        return false\n    }\n    return isValid(root.Left, limit, check) && isValid(root.Right, limit, check)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    private val leftCheck: (Int, Int) -> Boolean = { value, limit -> value < limit }\n    private val rightCheck: (Int, Int) -> Boolean = { value, limit -> value > limit }\n\n    fun isValidBST(root: TreeNode?): Boolean {\n        if (root == null) return true\n        if (!isValid(root.left, root.`val`, leftCheck) || !isValid(root.right, root.`val`, rightCheck)) {\n            return false\n        }\n        return isValidBST(root.left) && isValidBST(root.right)\n    }\n\n    private fun isValid(root: TreeNode?, limit: Int, check: (Int, Int) -> Boolean): Boolean {\n        if (root == null) return true\n        if (!check(root.`val`, limit)) return false\n        return isValid(root.left, limit, check) && isValid(root.right, limit, check)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isValidBST(_ root: TreeNode?) -> Bool {\n        guard let root = root else { return true }\n        if !isValid(root.left, root.val, { $0 < $1 }) ||\n           !isValid(root.right, root.val, { $0 > $1 }) {\n            return false\n        }\n\n        return isValidBST(root.left) && isValidBST(root.right)\n    }\n\n    private func isValid(_ root: TreeNode?, _ limit: Int, _ check: (Int, Int) -> Bool) -> Bool {\n        guard let root = root else { return true }\n        if !check(root.val, limit) {\n            return false\n        }\n\n        return isValid(root.left, limit, check) && isValid(root.right, limit, check)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_valid_bst(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n        fn is_valid(\n            node: &Option<Rc<RefCell<TreeNode>>>,\n            limit: i32,\n            check: fn(i32, i32) -> bool,\n        ) -> bool {\n            match node {\n                None => true,\n                Some(n) => {\n                    let n = n.borrow();\n                    if !check(n.val, limit) {\n                        return false;\n                    }\n                    is_valid(&n.left, limit, check)\n                        && is_valid(&n.right, limit, check)\n                }\n            }\n        }\n\n        fn validate(node: &Option<Rc<RefCell<TreeNode>>>) -> bool {\n            match node {\n                None => true,\n                Some(n) => {\n                    let n = n.borrow();\n                    is_valid(&n.left, n.val, |v, l| v < l)\n                        && is_valid(&n.right, n.val, |v, l| v > l)\n                        && validate(&n.left)\n                        && validate(&n.right)\n                }\n            }\n        }\n\n        validate(&root)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        def valid(node, left, right):\n            if not node:\n                return True\n            if not (left < node.val < right):\n                return False\n\n            return valid(node.left, left, node.val) and valid(\n                node.right, node.val, right\n            )\n\n        return valid(root, float(\"-inf\"), float(\"inf\"))"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public boolean isValidBST(TreeNode root) {\n        return valid(root, Long.MIN_VALUE, Long.MAX_VALUE);\n    }\n\n    public boolean valid(TreeNode node, long left, long right) {\n        if (node == null) {\n            return true;\n        }\n        if (!(left < node.val && node.val < right)) {\n            return false;\n        }\n        return valid(node.left, left, node.val) &&\n               valid(node.right, node.val, right);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        return valid(root, LONG_MIN, LONG_MAX);\n    }\n\n    bool valid(TreeNode* node, long left, long right) {\n        if (!node) {\n            return true;\n        }\n        if (!(left < node->val && node->val < right)) {\n            return false;\n        }\n        return valid(node->left, left, node->val) &&\n               valid(node->right, node->val, right);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {boolean}\n     */\n    isValidBST(root) {\n        return this.valid(root, -Infinity, Infinity);\n    }\n\n    /**\n     * @param {TreeNode} node\n     * @param {number} left\n     * @param {number} right\n     */\n    valid(node, left, right) {\n        if (node === null) {\n            return true;\n        }\n        if (!(left < node.val && node.val < right)) {\n            return false;\n        }\n        return (\n            this.valid(node.left, left, node.val) &&\n            this.valid(node.right, node.val, right)\n        );\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public bool IsValidBST(TreeNode root) {\n        return valid(root, long.MinValue, long.MaxValue);\n    }\n\n    public bool valid(TreeNode node, long left, long right) {\n        if (node == null) {\n            return true;\n        }\n        if (!(left < node.val && node.val < right)) {\n            return false;\n        }\n        return valid(node.left, left, node.val) &&\n               valid(node.right, node.val, right);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc isValidBST(root *TreeNode) bool {\n    return valid(root, math.MinInt64, math.MaxInt64)\n}\n\nfunc valid(node *TreeNode, left, right int64) bool {\n    if node == nil {\n        return true\n    }\n\n    val := int64(node.Val)\n    if val <= left || val >= right {\n        return false\n    }\n\n    return valid(node.Left, left, val) && valid(node.Right, val, right)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun isValidBST(root: TreeNode?): Boolean {\n        return valid(root, Long.MIN_VALUE, Long.MAX_VALUE)\n    }\n\n    private fun valid(node: TreeNode?, left: Long, right: Long): Boolean {\n        if (node == null) {\n            return true\n        }\n\n        val value = node.`val`.toLong()\n        if (value <= left || value >= right) {\n            return false\n        }\n\n        return valid(node.left, left, value) &&\n               valid(node.right, value, right)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func isValidBST(_ root: TreeNode?) -> Bool {\n        return valid(root, Int.min, Int.max)\n    }\n\n    private func valid(_ node: TreeNode?, _ left: Int, _ right: Int) -> Bool {\n        guard let node = node else { return true }\n        if !(left < node.val && node.val < right) {\n            return false\n        }\n        return valid(node.left, left, node.val) && valid(node.right, node.val, right)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_valid_bst(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n        fn valid(node: &Option<Rc<RefCell<TreeNode>>>, left: i64, right: i64) -> bool {\n            match node {\n                None => true,\n                Some(n) => {\n                    let n = n.borrow();\n                    let val = n.val as i64;\n                    if val <= left || val >= right {\n                        return false;\n                    }\n                    valid(&n.left, left, val) && valid(&n.right, val, right)\n                }\n            }\n        }\n\n        valid(&root, i64::MIN, i64::MAX)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        if not root:\n            return True\n\n        q = deque([(root, float(\"-inf\"), float(\"inf\"))])\n\n        while q:\n            node, left, right = q.popleft()\n            if not (left < node.val < right):\n                return False\n            if node.left:\n                q.append((node.left, left, node.val))\n            if node.right:\n                q.append((node.right, node.val, right))\n\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public boolean isValidBST(TreeNode root) {\n        if (root == null) {\n            return true;\n        }\n\n        Queue<Object[]> queue = new LinkedList<>();\n        queue.offer(new Object[]{root, Long.MIN_VALUE, Long.MAX_VALUE});\n\n        while (!queue.isEmpty()) {\n            Object[] current = queue.poll();\n            TreeNode node = (TreeNode) current[0];\n            long left = (long) current[1];\n            long right = (long) current[2];\n\n            if (!(left < node.val && node.val < right)) {\n                return false;\n            }\n\n            if (node.left != null) {\n                queue.offer(new Object[]{node.left, left, (long) node.val});\n            }\n            if (node.right != null) {\n                queue.offer(new Object[]{node.right, (long) node.val, right});\n            }\n        }\n\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        if (!root) {\n            return true;\n        }\n\n        queue<tuple<TreeNode*, long, long>> queue;\n        queue.push(make_tuple(root, LONG_MIN, LONG_MAX));\n\n        while (!queue.empty()) {\n            auto [node, left, right] = queue.front();\n            queue.pop();\n\n            if (!(left < node->val && node->val < right)) {\n                return false;\n            }\n            if (node->left) {\n                queue.push(make_tuple(node->left, left, node->val));\n            }\n            if (node->right) {\n                queue.push(make_tuple(node->right, node->val, right));\n            }\n        }\n\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {boolean}\n     */\n    isValidBST(root) {\n        if (root === null) {\n            return true;\n        }\n\n        const queue = new Queue([[root, -Infinity, Infinity]]);\n\n        while (queue.size() > 0) {\n            const [node, left, right] = queue.pop();\n\n            if (!(left < node.val && node.val < right)) {\n                return false;\n            }\n            if (node.left) {\n                queue.push([node.left, left, node.val]);\n            }\n            if (node.right) {\n                queue.push([node.right, node.val, right]);\n            }\n        }\n\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public bool IsValidBST(TreeNode root) {\n        if (root == null) {\n            return true;\n        }\n\n        Queue<(TreeNode node, long left, long right)> queue = new Queue<(TreeNode, long, long)>();\n        queue.Enqueue((root, long.MinValue, long.MaxValue));\n\n        while (queue.Count > 0) {\n            var (node, left, right) = queue.Dequeue();\n\n            if (!(left < node.val && node.val < right)) {\n                return false;\n            }\n            if (node.left != null) {\n                queue.Enqueue((node.left, left, node.val));\n            }\n            if (node.right != null) {\n                queue.Enqueue((node.right, node.val, right));\n            }\n        }\n\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\ntype QueueItem struct {\n    node *TreeNode\n    left int64\n    right int64\n}\n\nfunc isValidBST(root *TreeNode) bool {\n    if root == nil {\n        return true\n    }\n\n    queue := []QueueItem{{root, math.MinInt64, math.MaxInt64}}\n\n    for len(queue) > 0 {\n        item := queue[0]\n        queue = queue[1:]\n\n        val := int64(item.node.Val)\n        if val <= item.left || val >= item.right {\n            return false\n        }\n\n        if item.node.Left != nil {\n            queue = append(queue, QueueItem{item.node.Left, item.left, val})\n        }\n        if item.node.Right != nil {\n            queue = append(queue, QueueItem{item.node.Right, val, item.right})\n        }\n    }\n\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    private data class QueueItem(\n        val node: TreeNode,\n        val left: Long,\n        val right: Long\n    )\n\n    fun isValidBST(root: TreeNode?): Boolean {\n        if (root == null) {\n            return true\n        }\n\n        val queue = ArrayDeque<QueueItem>()\n        queue.addLast(QueueItem(root, Long.MIN_VALUE, Long.MAX_VALUE))\n\n        while (queue.isNotEmpty()) {\n            val (node, left, right) = queue.removeFirst()\n\n            val value = node.`val`.toLong()\n            if (value <= left || value >= right) {\n                return false\n            }\n\n            node.left?.let {\n                queue.addLast(QueueItem(it, left, value))\n            }\n            node.right?.let {\n                queue.addLast(QueueItem(it, value, right))\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func isValidBST(_ root: TreeNode?) -> Bool {\n        guard let root = root else { return true }\n\n        var q = Deque<(TreeNode, Int, Int)>()\n        q.append((root, Int.min, Int.max))\n\n        while !q.isEmpty {\n            let (node, left, right) = q.popFirst()!\n\n            if !(left < node.val && node.val < right) {\n                return false\n            }\n\n            if let leftNode = node.left {\n                q.append((leftNode, left, node.val))\n            }\n            if let rightNode = node.right {\n                q.append((rightNode, node.val, right))\n            }\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_valid_bst(root: Option<Rc<RefCell<TreeNode>>>) -> bool {\n        if root.is_none() {\n            return true;\n        }\n\n        let mut queue = VecDeque::new();\n        queue.push_back((root.clone().unwrap(), i64::MIN, i64::MAX));\n\n        while let Some((node, left, right)) = queue.pop_front() {\n            let node = node.borrow();\n            let val = node.val as i64;\n            if val <= left || val >= right {\n                return false;\n            }\n            if let Some(ref l) = node.left {\n                queue.push_back((Rc::clone(l), left, val));\n            }\n            if let Some(ref r) = node.right {\n                queue.push_back((Rc::clone(r), val, right));\n            }\n        }\n\n        true\n    }\n}"
+        }
+    ]
+}

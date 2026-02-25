@@ -1,0 +1,175 @@
+{
+    "problem_name": "Invert Binary Tree",
+    "problem_slug": "invert-binary-tree",
+    "difficulty": "easy",
+    "topic_tags": [
+        "tree",
+        "depth-first search",
+        "breadth-first search",
+        "binary tree"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        if not root:\n            return None\n        queue = deque([root])\n        while queue:\n            node = queue.popleft()\n            node.left, node.right = node.right, node.left\n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        return root"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public TreeNode invertTree(TreeNode root) {\n        if (root == null) {\n            return null;\n        }\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            TreeNode node = queue.poll();\n            TreeNode temp = node.left;\n            node.left = node.right;\n            node.right = temp;\n            if (node.left != null) {\n                queue.offer(node.left);\n            }\n            if (node.right != null) {\n                queue.offer(node.right);\n            }\n        }\n        return root;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        if (!root) return nullptr;\n        queue<TreeNode*> queue;\n        queue.push(root);\n        while (!queue.empty()) {\n            TreeNode* node = queue.front();\n            queue.pop();\n            swap(node->left, node->right);\n            if (node->left) queue.push(node->left);\n            if (node->right) queue.push(node->right);\n        }\n        return root;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {TreeNode}\n     */\n    invertTree(root) {\n        if (root == null) return null;\n        const queue = new Queue([root]);\n        while (!queue.isEmpty()) {\n            let node = queue.pop();\n            [node.left, node.right] = [node.right, node.left];\n            if (node.left != null) queue.push(node.left);\n            if (node.right != null) queue.push(node.right);\n        }\n        return root;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public TreeNode InvertTree(TreeNode root) {\n        if (root == null) return null;\n        Queue<TreeNode> queue = new Queue<TreeNode>();\n        queue.Enqueue(root);\n        while (queue.Count > 0) {\n            TreeNode node = queue.Dequeue();\n            TreeNode temp = node.left;\n            node.left = node.right;\n            node.right = temp;\n            if (node.left != null) queue.Enqueue(node.left);\n            if (node.right != null) queue.Enqueue(node.right);\n        }\n        return root;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc invertTree(root *TreeNode) *TreeNode {\n    if root == nil {\n        return nil\n    }\n    queue := arrayqueue.New()\n    queue.Enqueue(root)\n\n    for queue.Size() > 0 {\n        node, _ := queue.Dequeue()\n        current := node.(*TreeNode)\n        current.Left, current.Right = current.Right, current.Left\n\n        if current.Left != nil {\n            queue.Enqueue(current.Left)\n        }\n        if current.Right != nil {\n            queue.Enqueue(current.Right)\n        }\n    }\n    return root\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun invertTree(root: TreeNode?): TreeNode? {\n        if (root == null) {\n            return null\n        }\n        val queue: ArrayDeque<TreeNode?> = ArrayDeque()\n        queue.add(root)\n\n        while (queue.isNotEmpty()) {\n            val node = queue.removeFirst()\n            node?.let {\n                val temp = it.left\n                it.left = it.right\n                it.right = temp\n                queue.add(it.left)\n                queue.add(it.right)\n            }\n        }\n        return root\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func invertTree(_ root: TreeNode?) -> TreeNode? {\n        guard let root = root else { return nil }\n        var queue = Deque<TreeNode>()\n        queue.append(root)\n\n        while !queue.isEmpty {\n            let node = queue.removeFirst()\n            (node.left, node.right) = (node.right, node.left)\n\n            if let left = node.left {\n                queue.append(left)\n            }\n            if let right = node.right {\n                queue.append(right)\n            }\n        }\n        return root\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {\n        if root.is_none() {\n            return None;\n        }\n        let mut queue = VecDeque::new();\n        queue.push_back(root.clone().unwrap());\n        while let Some(node) = queue.pop_front() {\n            let mut node_ref = node.borrow_mut();\n            let left = node_ref.left.take();\n            let right = node_ref.right.take();\n            node_ref.left = right;\n            node_ref.right = left;\n            if let Some(ref l) = node_ref.left {\n                queue.push_back(l.clone());\n            }\n            if let Some(ref r) = node_ref.right {\n                queue.push_back(r.clone());\n            }\n        }\n        root\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        if not root: return None\n\n        root.left, root.right = root.right, root.left\n\n        self.invertTree(root.left)\n        self.invertTree(root.right)\n\n        return root"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public TreeNode invertTree(TreeNode root) {\n        if (root == null) return null;\n\n        TreeNode temp = root.left;\n        root.left = root.right;\n        root.right = temp;\n\n        invertTree(root.left);\n        invertTree(root.right);\n\n        return root;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        if (!root) return nullptr;\n\n        swap(root->left, root->right);\n        invertTree(root->left);\n        invertTree(root->right);\n\n        return root;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {TreeNode}\n     */\n    invertTree(root) {\n        if (!root) return null;\n\n        [root.left, root.right] = [root.right, root.left];\n        this.invertTree(root.left);\n        this.invertTree(root.right);\n\n        return root;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public TreeNode InvertTree(TreeNode root) {\n        if (root == null) return null;\n\n        TreeNode temp = root.left;\n        root.left = root.right;\n        root.right = temp;\n\n        InvertTree(root.left);\n        InvertTree(root.right);\n\n        return root;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\n\nfunc invertTree(root *TreeNode) *TreeNode {\n    if root == nil {\n        return nil\n    }\n\n    root.Left, root.Right = root.Right, root.Left\n    invertTree(root.Left)\n    invertTree(root.Right)\n\n    return root\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\n\nclass Solution {\n    fun invertTree(root: TreeNode?): TreeNode? {\n        if (root == null) return null\n\n        val temp = root.left\n        root.left = root.right\n        root.right = temp\n\n        invertTree(root.left)\n        invertTree(root.right)\n\n        return root\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func invertTree(_ root: TreeNode?) -> TreeNode? {\n        guard let root = root else { return nil }\n\n        (root.left, root.right) = (root.right, root.left)\n\n        invertTree(root.left)\n        invertTree(root.right)\n\n        return root\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {\n        if let Some(node) = root.as_ref() {\n            let mut node_ref = node.borrow_mut();\n            let left = node_ref.left.take();\n            let right = node_ref.right.take();\n            node_ref.left = right;\n            node_ref.right = left;\n            Self::invert_tree(node_ref.left.clone());\n            Self::invert_tree(node_ref.right.clone());\n        }\n        root\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        if not root:\n            return None\n        stack = [root]\n        while stack:\n            node = stack.pop()\n            node.left, node.right = node.right, node.left\n            if node.left:\n                stack.append(node.left)\n            if node.right:\n                stack.append(node.right)\n        return root"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public TreeNode invertTree(TreeNode root) {\n        if (root == null) return null;\n        Stack<TreeNode> stack = new Stack<>();\n        stack.push(root);\n        while (!stack.isEmpty()) {\n            TreeNode node = stack.pop();\n            TreeNode temp = node.left;\n            node.left = node.right;\n            node.right = temp;\n            if (node.left != null) stack.push(node.left);\n            if (node.right != null) stack.push(node.right);\n        }\n        return root;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        if (!root) return nullptr;\n        stack<TreeNode*> stack;\n        stack.push(root);\n        while (!stack.empty()) {\n            TreeNode* node = stack.top();\n            stack.pop();\n            swap(node->left, node->right);\n            if (node->left) stack.push(node->left);\n            if (node->right) stack.push(node->right);\n        }\n        return root;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {TreeNode}\n     */\n    invertTree(root) {\n        if (!root) return null;\n        const stack = [root];\n        while (stack.length) {\n            const node = stack.pop();\n            [node.left, node.right] = [node.right, node.left];\n            if (node.left) stack.push(node.left);\n            if (node.right) stack.push(node.right);\n        }\n        return root;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public TreeNode InvertTree(TreeNode root) {\n        if (root == null) return null;\n        Stack<TreeNode> stack = new Stack<TreeNode>();\n        stack.Push(root);\n        while (stack.Count > 0) {\n            TreeNode node = stack.Pop();\n            TreeNode temp = node.left;\n            node.left = node.right;\n            node.right = temp;\n            if (node.left != null) stack.Push(node.left);\n            if (node.right != null) stack.Push(node.right);\n        }\n        return root;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc invertTree(root *TreeNode) *TreeNode {\n    if root == nil {\n        return nil\n    }\n\n    root.Left, root.Right = root.Right, root.Left\n\n    invertTree(root.Left)\n    invertTree(root.Right)\n\n    return root\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun invertTree(root: TreeNode?): TreeNode? {\n        if (root == null) return null\n\n        root.left = root.right.also { root.right = root.left }\n\n        invertTree(root.left)\n        invertTree(root.right)\n\n        return root\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func invertTree(_ root: TreeNode?) -> TreeNode? {\n        guard let root = root else { return nil }\n        var stack: [TreeNode] = [root]\n\n        while !stack.isEmpty {\n            let node = stack.removeLast()\n            (node.left, node.right) = (node.right, node.left)\n\n            if let left = node.left {\n                stack.append(left)\n            }\n            if let right = node.right {\n                stack.append(right)\n            }\n        }\n        return root\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {\n        if root.is_none() {\n            return None;\n        }\n        let mut stack = vec![root.clone().unwrap()];\n        while let Some(node) = stack.pop() {\n            let mut node_ref = node.borrow_mut();\n            let left = node_ref.left.take();\n            let right = node_ref.right.take();\n            node_ref.left = right;\n            node_ref.right = left;\n            if let Some(ref l) = node_ref.left {\n                stack.push(l.clone());\n            }\n            if let Some(ref r) = node_ref.right {\n                stack.push(r.clone());\n            }\n        }\n        root\n    }\n}"
+        }
+    ]
+}

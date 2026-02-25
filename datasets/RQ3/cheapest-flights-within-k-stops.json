@@ -1,0 +1,177 @@
+{
+    "problem_name": "Cheapest Flights Within K Stops",
+    "problem_slug": "cheapest-flights-within-k-stops",
+    "difficulty": "medium",
+    "topic_tags": [
+        "dynamic programming",
+        "depth-first search",
+        "breadth-first search",
+        "graph theory",
+        "heap (priority queue)",
+        "shortest path"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "class Solution:\n    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:\n        INF = float(\"inf\")\n        adj = [[] for _ in range(n)]\n        dist = [[INF] * (k + 5) for _ in range(n)]\n        for u, v, cst in flights:\n            adj[u].append([v, cst])\n\n        dist[src][0] = 0\n        minHeap = [(0, src, -1)] # cost, node, stops\n        while len(minHeap):\n            cst, node, stops = heapq.heappop(minHeap)\n            if dst == node: return cst\n            if stops == k or dist[node][stops + 1] < cst:\n                continue\n            for nei, w in adj[node]:\n                nextCst = cst + w\n                nextStops = 1 + stops\n                if dist[nei][nextStops + 1] > nextCst:\n                    dist[nei][nextStops + 1] = nextCst\n                    heapq.heappush(minHeap, (nextCst, nei, nextStops))\n\n        return -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "public class Solution {\n    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        int INF = Integer.MAX_VALUE;\n        List<int[]>[] adj = new ArrayList[n];\n        int[][] dist = new int[n][k + 5];\n        for (int i = 0; i < n; i++) Arrays.fill(dist[i], INF);\n\n        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();\n        for (int[] flight : flights) {\n            adj[flight[0]].add(new int[]{flight[1], flight[2]});\n        }\n\n        dist[src][0] = 0;\n        PriorityQueue<int[]> minHeap = new PriorityQueue<>(\n            Comparator.comparingInt(a -> a[0])\n        );\n        minHeap.offer(new int[]{0, src, -1});\n\n        while (!minHeap.isEmpty()) {\n            int[] top = minHeap.poll();\n            int cst = top[0], node = top[1], stops = top[2];\n            if (node == dst) return cst;\n            if (stops == k || dist[node][stops + 1] < cst) continue;\n            for (int[] neighbor : adj[node]) {\n                int nei = neighbor[0], w = neighbor[1];\n                int nextCst = cst + w;\n                int nextStops = stops + 1;\n                if (dist[nei][nextStops + 1] > nextCst) {\n                    dist[nei][nextStops + 1] = nextCst;\n                    minHeap.offer(new int[]{nextCst, nei, nextStops});\n                }\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "class Solution {\npublic:\n    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {\n        int INF = 1e9;\n        vector<vector<pair<int, int>>> adj(n);\n        vector<vector<int>> dist(n, vector<int>(k + 5, INF));\n\n        for (auto& flight : flights) {\n            adj[flight[0]].emplace_back(flight[1], flight[2]);\n        }\n\n        dist[src][0] = 0;\n        priority_queue<tuple<int, int, int>,\n                       vector<tuple<int, int, int>>, greater<>> minHeap;\n        minHeap.emplace(0, src, -1);\n\n        while (!minHeap.empty()) {\n            auto [cst, node, stops] = minHeap.top();\n            minHeap.pop();\n            if (node == dst) return cst;\n            if (stops == k || dist[node][stops + 1] < cst) continue;\n            for (auto& [nei, w] : adj[node]) {\n                int nextCst = cst + w;\n                int nextStops = stops + 1;\n                if (dist[nei][nextStops + 1] > nextCst) {\n                    dist[nei][nextStops + 1] = nextCst;\n                    minHeap.emplace(nextCst, nei, nextStops);\n                }\n            }\n        }\n        return -1;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "class Solution {\n    /**\n     * @param {number} n\n     * @param {number[][]} flights\n     * @param {number} src\n     * @param {number} dst\n     * @param {number} k\n     * @return {number}\n     */\n    findCheapestPrice(n, flights, src, dst, k) {\n        const INF = Infinity;\n        const adj = Array.from({ length: n }, () => []);\n        const dist = Array.from({ length: n }, () => Array(k + 5).fill(INF));\n\n        for (let [u, v, cst] of flights) {\n            adj[u].push([v, cst]);\n        }\n\n        dist[src][0] = 0;\n        const minHeap = new MinPriorityQueue((entry) => entry[0]);\n        minHeap.push([0, src, -1]); // cost, node, stops\n        while (!minHeap.isEmpty()) {\n            const [cst, node, stops] = minHeap.pop();\n            if (node === dst) return cst;\n            if (stops === k || dist[node][stops + 1] < cst) continue;\n            for (let [nei, w] of adj[node]) {\n                const nextCst = cst + w;\n                const nextStops = stops + 1;\n                if (dist[nei][nextStops + 1] > nextCst) {\n                    dist[nei][nextStops + 1] = nextCst;\n                    minHeap.push([nextCst, nei, nextStops]);\n                }\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "public class Solution {\n    public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        int INF = int.MaxValue;\n        List<int[]>[] adj = new List<int[]>[n];\n        int[][] dist = new int[n][];\n\n        for (int i = 0; i < n; i++) {\n            adj[i] = new List<int[]>();\n            dist[i] = new int[k + 2];\n            Array.Fill(dist[i], INF);\n        }\n\n        foreach (var flight in flights) {\n            adj[flight[0]].Add(new int[] { flight[1], flight[2] });\n        }\n\n        dist[src][0] = 0;\n        var minHeap = new PriorityQueue<(int cst, int node, int stops), int>();\n        minHeap.Enqueue((0, src, 0), 0);\n\n        while (minHeap.Count > 0) {\n            var (cst, node, stops) = minHeap.Dequeue();\n            if (node == dst) return cst;\n            if (stops > k) continue;\n\n            foreach (var neighbor in adj[node]) {\n                int nei = neighbor[0], w = neighbor[1];\n                int nextCst = cst + w;\n                int nextStops = stops + 1;\n\n                if (dist[nei][nextStops] > nextCst) {\n                    dist[nei][nextStops] = nextCst;\n                    minHeap.Enqueue((nextCst, nei, nextStops), nextCst);\n                }\n            }\n        }\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "func findCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {\n    INF := 1000000000\n    adj := make([][]struct{ to, cost int }, n)\n    dist := make([][]int, n)\n    for i := range dist {\n        dist[i] = make([]int, k+5)\n        for j := range dist[i] {\n            dist[i][j] = INF\n        }\n    }\n    for _, flight := range flights {\n        from, to, cost := flight[0], flight[1], flight[2]\n        adj[from] = append(adj[from], struct{ to, cost int }{to, cost})\n    }\n    dist[src][0] = 0\n    minHeap := priorityqueue.NewWith(func(a, b interface{}) int {\n        return utils.IntComparator(a.([3]int)[0], b.([3]int)[0])\n    })\n    minHeap.Enqueue([3]int{0, src, -1})\n    for !minHeap.Empty() {\n        value, _ := minHeap.Dequeue()\n        cst, node, stops := value.([3]int)[0], value.([3]int)[1], value.([3]int)[2]\n        if node == dst {\n            return cst\n        }\n        if stops == k || dist[node][stops+1] < cst {\n            continue\n        }\n        for _, nei := range adj[node] {\n            nextCst := cst + nei.cost\n            nextStops := stops + 1\n            if dist[nei.to][nextStops+1] > nextCst {\n                dist[nei.to][nextStops+1] = nextCst\n                minHeap.Enqueue([3]int{nextCst, nei.to, nextStops})\n            }\n        }\n    }\n    return -1\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "class Solution {\n    fun findCheapestPrice(n: Int, flights: Array<IntArray>, src: Int, dst: Int, k: Int): Int {\n        val INF = 1_000_000_000\n        val adj = Array(n) { mutableListOf<Pair<Int, Int>>() }\n        val dist = Array(n) { IntArray(k + 5) { INF } }\n        for (flight in flights) {\n            adj[flight[0]].add(Pair(flight[1], flight[2]))\n        }\n        dist[src][0] = 0\n        val minHeap = PriorityQueue(compareBy<Triple<Int, Int, Int>> { it.first })\n        minHeap.add(Triple(0, src, -1))\n        while (minHeap.isNotEmpty()) {\n            val (cst, node, stops) = minHeap.poll()\n            if (node == dst) return cst\n            if (stops == k || dist[node][stops + 1] < cst) continue\n            for ((nei, w) in adj[node]) {\n                val nextCst = cst + w\n                val nextStops = stops + 1\n                if (dist[nei][nextStops + 1] > nextCst) {\n                    dist[nei][nextStops + 1] = nextCst\n                    minHeap.add(Triple(nextCst, nei, nextStops))\n                }\n            }\n        }\n        return -1\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "struct Item: Comparable {\n    let cost: Int\n    let node: Int\n    let stops: Int\n\n    static func < (lhs: Item, rhs: Item) -> Bool {\n        return lhs.cost < rhs.cost\n    }\n}\n\nclass Solution {\n    func findCheapestPrice(_ n: Int, _ flights: [[Int]], _ src: Int, _ dst: Int, _ k: Int) -> Int {\n        let INF = Int.max\n        var adj = Array(repeating: [(Int, Int)](), count: n)\n        var dist = Array(repeating: Array(repeating: INF, count: k + 5), count: n)\n\n        for flight in flights {\n            let u = flight[0], v = flight[1], cst = flight[2]\n            adj[u].append((v, cst))\n        }\n\n        var minHeap = Heap<Item>()\n        minHeap.insert(Item(cost: 0, node: src, stops: -1))\n        dist[src][0] = 0\n\n        while !minHeap.isEmpty {\n            let item = minHeap.removeMin()\n            let cst = item.cost, node = item.node, stops = item.stops\n            if node == dst { return cst }\n            if stops == k || dist[node][stops + 1] < cst { continue }\n\n            for (nei, w) in adj[node] {\n                let nextCst = cst + w\n                let nextStops = stops + 1\n                if dist[nei][nextStops + 1] > nextCst {\n                    dist[nei][nextStops + 1] = nextCst\n                    minHeap.insert(Item(cost: nextCst, node: nei, stops: nextStops))\n                }\n            }\n        }\n\n        return -1\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O((n + m) * k)",
+            "space_complexity": "O(n * k)",
+            "code": "impl Solution {\n    pub fn find_cheapest_price(n: i32, flights: Vec<Vec<i32>>, src: i32, dst: i32, k: i32) -> i32 {\n        let n = n as usize;\n        let src = src as usize;\n        let dst = dst as usize;\n        let inf = i32::MAX;\n        let mut adj = vec![vec![]; n];\n        let mut dist = vec![vec![inf; (k + 5) as usize]; n];\n\n        for flight in &flights {\n            adj[flight[0] as usize].push((flight[1] as usize, flight[2]));\n        }\n\n        dist[src][0] = 0;\n        let mut min_heap = BinaryHeap::new();\n        min_heap.push(Reverse((0, src, -1i32)));\n\n        while let Some(Reverse((cst, node, stops))) = min_heap.pop() {\n            if node == dst { return cst; }\n            if stops == k || dist[node][(stops + 1) as usize] < cst { continue; }\n            for &(nei, w) in &adj[node] {\n                let next_cst = cst + w;\n                let next_stops = stops + 1;\n                if dist[nei][(next_stops + 1) as usize] > next_cst {\n                    dist[nei][(next_stops + 1) as usize] = next_cst;\n                    min_heap.push(Reverse((next_cst, nei, next_stops)));\n                }\n            }\n        }\n\n        -1\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:\n        prices = [float(\"inf\")] * n\n        prices[src] = 0\n\n        for i in range(k + 1):\n            tmpPrices = prices.copy()\n\n            for s, d, p in flights:  # s=source, d=dest, p=price\n                if prices[s] == float(\"inf\"):\n                    continue\n                if prices[s] + p < tmpPrices[d]:\n                    tmpPrices[d] = prices[s] + p\n            prices = tmpPrices\n        return -1 if prices[dst] == float(\"inf\") else prices[dst]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        int[] prices = new int[n];\n        Arrays.fill(prices, Integer.MAX_VALUE);\n        prices[src] = 0;\n\n        for (int i = 0; i <= k; i++) {\n            int[] tmpPrices = Arrays.copyOf(prices, n);\n\n            for (int[] flight : flights) {\n                int s = flight[0];\n                int d = flight[1];\n                int p = flight[2];\n\n                if (prices[s] == Integer.MAX_VALUE) {\n                    continue;\n                }\n\n                if (prices[s] + p < tmpPrices[d]) {\n                    tmpPrices[d] = prices[s] + p;\n                }\n            }\n\n            prices = tmpPrices;\n        }\n\n        return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {\n        vector<int> prices(n, INT_MAX);\n        prices[src] = 0;\n\n        for (int i = 0; i <= k; i++) {\n            vector<int> tmpPrices = prices;\n\n            for (const auto& flight : flights) {\n                int s = flight[0];\n                int d = flight[1];\n                int p = flight[2];\n\n                if (prices[s] == INT_MAX)\n                    continue;\n\n                if (prices[s] + p < tmpPrices[d])\n                    tmpPrices[d] = prices[s] + p;\n            }\n\n            prices = tmpPrices;\n        }\n\n        return prices[dst] == INT_MAX ? -1 : prices[dst];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number} n\n     * @param {number[][]} flights\n     * @param {number} src\n     * @param {number} dst\n     * @param {number} k\n     * @return {number}\n     */\n    findCheapestPrice(n, flights, src, dst, k) {\n        let prices = new Array(n).fill(Number.MAX_SAFE_INTEGER);\n        prices[src] = 0;\n\n        for (let i = 0; i <= k; i++) {\n            const tmpPrices = [...prices];\n\n            for (const flight of flights) {\n                const s = flight[0];\n                const d = flight[1];\n                const p = flight[2];\n\n                if (prices[s] === Number.MAX_SAFE_INTEGER) continue;\n\n                if (prices[s] + p < tmpPrices[d]) tmpPrices[d] = prices[s] + p;\n            }\n\n            prices = tmpPrices;\n        }\n\n        return prices[dst] === Number.MAX_SAFE_INTEGER ? -1 : prices[dst];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        int[] prices = new int[n];\n        Array.Fill(prices, int.MaxValue);\n        prices[src] = 0;\n\n        for (int i = 0; i <= k; i++) {\n            int[] tmpPrices = (int[])prices.Clone();\n\n            foreach (var flight in flights) {\n                int s = flight[0];\n                int d = flight[1];\n                int p = flight[2];\n\n                if (prices[s] == int.MaxValue)\n                    continue;\n\n                if (prices[s] + p < tmpPrices[d])\n                    tmpPrices[d] = prices[s] + p;\n            }\n\n            prices = tmpPrices;\n        }\n\n        return prices[dst] == int.MaxValue ? -1 : prices[dst];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "func findCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {\n    prices := make([]int, n)\n    for i := range prices {\n        prices[i] = math.MaxInt32\n    }\n    prices[src] = 0\n\n    for i := 0; i <= k; i++ {\n        tmpPrices := make([]int, n)\n        copy(tmpPrices, prices)\n\n        for _, flight := range flights {\n            s, d, p := flight[0], flight[1], flight[2]\n            if prices[s] == math.MaxInt32 {\n                continue\n            }\n            if prices[s] + p < tmpPrices[d] {\n                tmpPrices[d] = prices[s] + p\n            }\n        }\n        prices = tmpPrices\n    }\n\n    if prices[dst] == math.MaxInt32 {\n        return -1\n    }\n    return prices[dst]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun findCheapestPrice(n: Int, flights: Array<IntArray>, src: Int, dst: Int, k: Int): Int {\n        val prices = IntArray(n) { Int.MAX_VALUE }\n        prices[src] = 0\n\n        repeat(k + 1) {\n            val tmpPrices = prices.copyOf()\n            for ((s, d, p) in flights) {\n                if (prices[s] == Int.MAX_VALUE) continue\n                if (prices[s] + p < tmpPrices[d]) {\n                    tmpPrices[d] = prices[s] + p\n                }\n            }\n            tmpPrices.copyInto(prices)\n        }\n\n        return if (prices[dst] == Int.MAX_VALUE) -1 else prices[dst]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func findCheapestPrice(_ n: Int, _ flights: [[Int]], _ src: Int, _ dst: Int, _ k: Int) -> Int {\n        var prices = Array(repeating: Int.max, count: n)\n        prices[src] = 0\n\n        for _ in 0...k {\n            var tmpPrices = prices\n\n            for flight in flights {\n                let s = flight[0], d = flight[1], p = flight[2]\n                if prices[s] == Int.max {\n                    continue\n                }\n                if prices[s] + p < tmpPrices[d] {\n                    tmpPrices[d] = prices[s] + p\n                }\n            }\n            prices = tmpPrices\n        }\n        return prices[dst] == Int.max ? -1 : prices[dst]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n + (m * k))",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn find_cheapest_price(n: i32, flights: Vec<Vec<i32>>, src: i32, dst: i32, k: i32) -> i32 {\n        let n = n as usize;\n        let mut prices = vec![i32::MAX; n];\n        prices[src as usize] = 0;\n\n        for _ in 0..=k {\n            let mut tmp_prices = prices.clone();\n            for flight in &flights {\n                let (s, d, p) = (flight[0] as usize, flight[1] as usize, flight[2]);\n                if prices[s] == i32::MAX {\n                    continue;\n                }\n                if prices[s] + p < tmp_prices[d] {\n                    tmp_prices[d] = prices[s] + p;\n                }\n            }\n            prices = tmp_prices;\n        }\n\n        if prices[dst as usize] == i32::MAX { -1 } else { prices[dst as usize] }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "class Solution:\n    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:\n        prices = [float(\"inf\")] * n\n        prices[src] = 0\n        adj = [[] for _ in range(n)]\n        for u, v, cst in flights:\n            adj[u].append([v, cst])\n\n        q = deque([(0, src, 0)])\n        while q:\n            cst, node, stops = q.popleft()\n            if stops > k:\n                continue\n\n            for nei, w in adj[node]:\n                nextCost = cst + w\n                if nextCost < prices[nei]:\n                    prices[nei] = nextCost\n                    q.append((nextCost, nei, stops + 1))\n\n        return prices[dst] if prices[dst] != float(\"inf\") else -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "public class Solution {\n    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        int[] prices = new int[n];\n        Arrays.fill(prices, Integer.MAX_VALUE);\n        prices[src] = 0;\n        List<int[]>[] adj = new ArrayList[n];\n        for (int i = 0; i < n; i++) {\n            adj[i] = new ArrayList<>();\n        }\n        for (var flight : flights) {\n            adj[flight[0]].add(new int[] { flight[1], flight[2] });\n        }\n\n        Queue<int[]> q = new LinkedList<>();\n        q.offer(new int[] { 0, src, 0 });\n\n        while (!q.isEmpty()) {\n            var curr = q.poll();\n            int cst = curr[0], node = curr[1], stops = curr[2];\n            if (stops > k) continue;\n\n            for (var neighbor : adj[node]) {\n                int nei = neighbor[0], w = neighbor[1];\n                int nextCost = cst + w;\n                if (nextCost < prices[nei]) {\n                    prices[nei] = nextCost;\n                    q.offer(new int[] { nextCost, nei, stops + 1 });\n                }\n            }\n        }\n        return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "class Solution {\npublic:\n    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {\n        vector<int> prices(n, INT_MAX);\n        prices[src] = 0;\n        vector<vector<pair<int, int>>> adj(n);\n        for (const auto& flight : flights) {\n            adj[flight[0]].emplace_back(flight[1], flight[2]);\n        }\n\n        queue<tuple<int, int, int>> q;\n        q.push({0, src, 0});\n\n        while (!q.empty()) {\n            auto [cst, node, stops] = q.front();\n            q.pop();\n            if (stops > k) continue;\n\n            for (const auto& neighbor : adj[node]) {\n                int nei = neighbor.first, w = neighbor.second;\n                int nextCost = cst + w;\n                if (nextCost < prices[nei]) {\n                    prices[nei] = nextCost;\n                    q.push({nextCost, nei, stops + 1});\n                }\n            }\n        }\n        return prices[dst] == INT_MAX ? -1 : prices[dst];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "class Solution {\n    /**\n     * @param {number} n\n     * @param {number[][]} flights\n     * @param {number} src\n     * @param {number} dst\n     * @param {number} k\n     * @return {number}\n     */\n    findCheapestPrice(n, flights, src, dst, k) {\n        const prices = Array(n).fill(Infinity);\n        prices[src] = 0;\n        const adj = Array.from({ length: n }, () => []);\n\n        for (const [u, v, cst] of flights) {\n            adj[u].push([v, cst]);\n        }\n\n        const q = new Queue([[0, src, 0]]); // [cost, node, stops]\n\n        while (!q.isEmpty()) {\n            const [cst, node, stops] = q.pop();\n            if (stops > k) continue;\n\n            for (const [nei, w] of adj[node]) {\n                const nextCost = cst + w;\n                if (nextCost < prices[nei]) {\n                    prices[nei] = nextCost;\n                    q.push([nextCost, nei, stops + 1]);\n                }\n            }\n        }\n        return prices[dst] === Infinity ? -1 : prices[dst];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "public class Solution {\n    public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        int[] prices = new int[n];\n        Array.Fill(prices, int.MaxValue);\n        prices[src] = 0;\n        List<int[]>[] adj = new List<int[]>[n];\n        for (int i = 0; i < n; i++) {\n            adj[i] = new List<int[]>();\n        }\n        foreach (var flight in flights) {\n            adj[flight[0]].Add(new int[] { flight[1], flight[2] });\n        }\n\n        var q = new Queue<(int cst, int node, int stops)>();\n        q.Enqueue((0, src, 0));\n\n        while (q.Count > 0) {\n            var (cst, node, stops) = q.Dequeue();\n            if (stops > k) continue;\n\n            foreach (var neighbor in adj[node]) {\n                int nei = neighbor[0], w = neighbor[1];\n                int nextCost = cst + w;\n                if (nextCost < prices[nei]) {\n                    prices[nei] = nextCost;\n                    q.Enqueue((nextCost, nei, stops + 1));\n                }\n            }\n        }\n        return prices[dst] == int.MaxValue ? -1 : prices[dst];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "func findCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {\n    prices := make([]int, n)\n    for i := range prices {\n        prices[i] = math.MaxInt32\n    }\n    prices[src] = 0\n\n    adj := make([][][2]int, n)\n    for _, flight := range flights {\n        from, to, cost := flight[0], flight[1], flight[2]\n        adj[from] = append(adj[from], [2]int{to, cost})\n    }\n\n    q := [][3]int{{0, src, 0}}\n\n    for len(q) > 0 {\n        curr := q[0]\n        q = q[1:]\n        cst, node, stops := curr[0], curr[1], curr[2]\n\n        if stops > k {\n            continue\n        }\n\n        for _, neighbor := range adj[node] {\n            nei, w := neighbor[0], neighbor[1]\n            nextCost := cst + w\n            if nextCost < prices[nei] {\n                prices[nei] = nextCost\n                q = append(q, [3]int{nextCost, nei, stops + 1})\n            }\n        }\n    }\n\n    if prices[dst] == math.MaxInt32 {\n        return -1\n    }\n    return prices[dst]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "class Solution {\n    fun findCheapestPrice(n: Int, flights: Array<IntArray>, src: Int, dst: Int, k: Int): Int {\n        val prices = IntArray(n) { Int.MAX_VALUE }\n        prices[src] = 0\n\n        val adj = Array(n) { mutableListOf<Pair<Int, Int>>() }\n        for (flight in flights) {\n            val (from, to, cost) = flight\n            adj[from].add(Pair(to, cost))\n        }\n\n        val q: Queue<Triple<Int, Int, Int>> = LinkedList()\n        q.offer(Triple(0, src, 0))\n\n        while (q.isNotEmpty()) {\n            val (cst, node, stops) = q.poll()\n            if (stops > k) continue\n\n            for ((nei, w) in adj[node]) {\n                val nextCost = cst + w\n                if (nextCost < prices[nei]) {\n                    prices[nei] = nextCost\n                    q.offer(Triple(nextCost, nei, stops + 1))\n                }\n            }\n        }\n\n        return if (prices[dst] == Int.MAX_VALUE) -1 else prices[dst]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "class Solution {\n    func findCheapestPrice(_ n: Int, _ flights: [[Int]], _ src: Int, _ dst: Int, _ k: Int) -> Int {\n        var prices = Array(repeating: Int.max, count: n)\n        prices[src] = 0\n        var adj = Array(repeating: [(Int, Int)](), count: n)\n\n        for flight in flights {\n            let u = flight[0], v = flight[1], cst = flight[2]\n            adj[u].append((v, cst))\n        }\n\n        var queue = Deque<(Int, Int, Int)>()\n        queue.append((0, src, 0))\n\n        while !queue.isEmpty {\n            let (cst, node, stops) = queue.popFirst()!\n            if stops > k {\n                continue\n            }\n\n            for (nei, w) in adj[node] {\n                let nextCost = cst + w\n                if nextCost < prices[nei] {\n                    prices[nei] = nextCost\n                    queue.append((nextCost, nei, stops + 1))\n                }\n            }\n        }\n\n        return prices[dst] == Int.max ? -1 : prices[dst]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * k)",
+            "space_complexity": "O(n + m)",
+            "code": "impl Solution {\n    pub fn find_cheapest_price(n: i32, flights: Vec<Vec<i32>>, src: i32, dst: i32, k: i32) -> i32 {\n        let n = n as usize;\n        let mut prices = vec![i32::MAX; n];\n        prices[src as usize] = 0;\n        let mut adj = vec![vec![]; n];\n        for flight in &flights {\n            adj[flight[0] as usize].push((flight[1] as usize, flight[2]));\n        }\n\n        let mut q = VecDeque::new();\n        q.push_back((0i32, src as usize, 0i32));\n\n        while let Some((cst, node, stops)) = q.pop_front() {\n            if stops > k {\n                continue;\n            }\n            for &(nei, w) in &adj[node] {\n                let next_cost = cst + w;\n                if next_cost < prices[nei] {\n                    prices[nei] = next_cost;\n                    q.push_back((next_cost, nei, stops + 1));\n                }\n            }\n        }\n\n        if prices[dst as usize] == i32::MAX { -1 } else { prices[dst as usize] }\n    }\n}"
+        }
+    ]
+}

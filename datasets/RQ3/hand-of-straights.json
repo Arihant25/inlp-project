@@ -1,0 +1,229 @@
+{
+    "problem_name": "Hand of Straights",
+    "problem_slug": "hand-of-straights",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "hash table",
+        "greedy",
+        "sorting"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isNStraightHand(self, hand, groupSize):\n        if len(hand) % groupSize:\n            return False\n\n        count = Counter(hand)\n        hand.sort()\n        for num in hand:\n            if count[num]:\n                for i in range(num, num + groupSize):\n                    if not count[i]:\n                        return False\n                    count[i] -= 1\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isNStraightHand(int[] hand, int groupSize) {\n        if (hand.length % groupSize != 0) return false;\n\n        Map<Integer, Integer> count = new HashMap<>();\n        for (int num : hand) {\n            count.put(num, count.getOrDefault(num, 0) + 1);\n        }\n\n        Arrays.sort(hand);\n        for (int num : hand) {\n            if (count.get(num) > 0) {\n                for (int i = num; i < num + groupSize; i++) {\n                    if (count.getOrDefault(i, 0) == 0) return false;\n                    count.put(i, count.get(i) - 1);\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isNStraightHand(vector<int>& hand, int groupSize) {\n        if (hand.size() % groupSize != 0) return false;\n\n        unordered_map<int, int> count;\n        for (int num : hand) count[num]++;\n\n        sort(hand.begin(), hand.end());\n        for (int num : hand) {\n            if (count[num] > 0) {\n                for (int i = num; i < num + groupSize; i++) {\n                    if (count[i] == 0) return false;\n                    count[i]--;\n                }\n            }\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} hand\n     * @param {number} groupSize\n     * @return {boolean}\n     */\n    isNStraightHand(hand, groupSize) {\n        if (hand.length % groupSize !== 0) {\n            return false;\n        }\n\n        const count = {};\n        for (const num of hand) {\n            count[num] = (count[num] || 0) + 1;\n        }\n\n        hand.sort((a, b) => a - b);\n        for (const num of hand) {\n            if (count[num] > 0) {\n                for (let i = num; i < num + groupSize; i++) {\n                    if (!count[i]) return false;\n                    count[i] -= 1;\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsNStraightHand(int[] hand, int groupSize) {\n        if (hand.Length % groupSize != 0) return false;\n\n        var count = new Dictionary<int, int>();\n        foreach (var num in hand) {\n            count[num] = count.GetValueOrDefault(num, 0) + 1;\n        }\n\n        Array.Sort(hand);\n        foreach (var num in hand) {\n            if (count[num] > 0) {\n                for (int i = num; i < num + groupSize; i++) {\n                    if (!count.ContainsKey(i) || count[i] == 0) {\n                        return false;\n                    }\n                    count[i]--;\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func isNStraightHand(hand []int, groupSize int) bool {\n    if len(hand)%groupSize != 0 {\n        return false\n    }\n\n    count := map[int]int{}\n    for _, num := range hand {\n        count[num]++\n    }\n\n    sort.Ints(hand)\n    for _, num := range hand {\n        if count[num] > 0 {\n            for i := num; i < num+groupSize; i++ {\n                if count[i] == 0 {\n                    return false\n                }\n                count[i]--\n            }\n        }\n    }\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isNStraightHand(hand: IntArray, groupSize: Int): Boolean {\n        if (hand.size % groupSize != 0) return false\n\n        val count = HashMap<Int, Int>()\n        hand.forEach { count[it] = count.getOrDefault(it, 0) + 1 }\n        hand.sort()\n\n        for (num in hand) {\n            if (count[num]!! > 0) {\n                for (i in num until num + groupSize) {\n                    if (count.getOrDefault(i, 0) == 0) {\n                        return false\n                    }\n                    count[i] = count[i]!! - 1\n                }\n            }\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isNStraightHand(_ hand: [Int], _ groupSize: Int) -> Bool {\n        if hand.count % groupSize != 0 {\n            return false\n        }\n\n        var count = [Int: Int]()\n        for num in hand {\n            count[num, default: 0] += 1\n        }\n\n        let sortedHand = hand.sorted()\n        for num in sortedHand {\n            if let freq = count[num], freq > 0 {\n                for i in num..<(num + groupSize) {\n                    if let f = count[i], f > 0 {\n                        count[i] = f - 1\n                    } else {\n                        return false\n                    }\n                }\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_n_straight_hand(hand: Vec<i32>, group_size: i32) -> bool {\n        if hand.len() % group_size as usize != 0 {\n            return false;\n        }\n\n        let mut count: HashMap<i32, i32> = HashMap::new();\n        for &num in &hand {\n            *count.entry(num).or_insert(0) += 1;\n        }\n\n        let mut sorted_hand = hand.clone();\n        sorted_hand.sort();\n        for &num in &sorted_hand {\n            if *count.get(&num).unwrap_or(&0) > 0 {\n                for i in num..(num + group_size) {\n                    if *count.get(&i).unwrap_or(&0) == 0 {\n                        return false;\n                    }\n                    *count.get_mut(&i).unwrap() -= 1;\n                }\n            }\n        }\n        true\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:\n        if len(hand) % groupSize:\n            return False\n\n        count = {}\n        for n in hand:\n            count[n] = 1 + count.get(n, 0)\n\n        minH = list(count.keys())\n        heapq.heapify(minH)\n        while minH:\n            first = minH[0]\n            for i in range(first, first + groupSize):\n                if i not in count:\n                    return False\n                count[i] -= 1\n                if count[i] == 0:\n                    if i != minH[0]:\n                        return False\n                    heapq.heappop(minH)\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isNStraightHand(int[] hand, int groupSize) {\n        if (hand.length % groupSize != 0)\n            return false;\n\n        Map<Integer, Integer> count = new HashMap<>();\n        for (int n : hand)\n            count.put(n, 1 + count.getOrDefault(n, 0));\n\n        PriorityQueue<Integer> minH = new PriorityQueue<>(count.keySet());\n        while (!minH.isEmpty()) {\n            int first = minH.peek();\n            for (int i = first; i < first + groupSize; i++) {\n                if (!count.containsKey(i))\n                    return false;\n                count.put(i, count.get(i) - 1);\n                if (count.get(i) == 0) {\n                    if (i != minH.peek())\n                        return false;\n                    minH.poll();\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isNStraightHand(vector<int>& hand, int groupSize) {\n        if (hand.size() % groupSize != 0)\n            return false;\n\n        unordered_map<int, int> count;\n        for (int n : hand)\n            count[n] = 1 + count[n];\n\n        priority_queue<int, vector<int>, greater<int>> minH;\n        for (auto& pair : count)\n            minH.push(pair.first);\n\n        while (!minH.empty()) {\n            int first = minH.top();\n            for (int i = first; i < first + groupSize; i++) {\n                if (count.find(i) == count.end())\n                    return false;\n                count[i] -= 1;\n                if (count[i] == 0) {\n                    if (i != minH.top())\n                        return false;\n                    minH.pop();\n                }\n            }\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * const { MinPriorityQueue } = require('@datastructures-js/priority-queue');\n */\n\nclass Solution {\n    /**\n     * @param {number[]} hand\n     * @param {number} groupSize\n     * @return {boolean}\n     */\n    isNStraightHand(hand, groupSize) {\n        if (hand.length % groupSize !== 0) {\n            return false;\n        }\n\n        const count = {};\n        for (const n of hand) {\n            count[n] = (count[n] || 0) + 1;\n        }\n\n        const minPQ = new MinPriorityQueue();\n        for (const key in count) {\n            minPQ.push(Number(key));\n        }\n\n        while (!minPQ.isEmpty()) {\n            const first = minPQ.front();\n            for (let i = first; i < first + groupSize; i++) {\n                if (!(i in count) || count[i] === 0) {\n                    return false;\n                }\n                count[i] -= 1;\n                if (count[i] === 0) {\n                    if (i !== minPQ.front()) {\n                        return false;\n                    }\n                    minPQ.pop();\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsNStraightHand(int[] hand, int groupSize) {\n        if (hand.Length % groupSize != 0)\n            return false;\n\n        var count = new Dictionary<int, int>();\n        foreach (int num in hand) {\n            if (count.ContainsKey(num))\n                count[num]++;\n            else\n                count[num] = 1;\n        }\n\n        var minH = new PriorityQueue<int, int>();\n        foreach (var num in count.Keys)\n            minH.Enqueue(num, num);\n\n        while (minH.Count > 0) {\n            int first = minH.Peek();\n            for (int i = first; i < first + groupSize; i++) {\n                if (!count.ContainsKey(i) || count[i] == 0)\n                    return false;\n\n                count[i]--;\n                if (count[i] == 0) {\n                    if (i != minH.Peek())\n                        return false;\n                    minH.Dequeue();\n                }\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func isNStraightHand(hand []int, groupSize int) bool {\n    if len(hand)%groupSize != 0 {\n        return false\n    }\n\n    count := map[int]int{}\n    for _, n := range hand {\n        count[n]++\n    }\n\n    minH := priorityqueue.NewWith(utils.IntComparator)\n    for k := range count {\n        minH.Enqueue(k)\n    }\n\n    for !minH.Empty() {\n        first, _ := minH.Peek()\n        firstKey := first.(int)\n        for i := firstKey; i < firstKey+groupSize; i++ {\n            if count[i] == 0 {\n                return false\n            }\n            count[i]--\n            if count[i] == 0 {\n                if val, _ := minH.Peek(); val.(int) != i {\n                    return false\n                }\n                minH.Dequeue()\n            }\n        }\n    }\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isNStraightHand(hand: IntArray, groupSize: Int): Boolean {\n        if (hand.size % groupSize != 0) return false\n\n        val count = mutableMapOf<Int, Int>()\n        for (n in hand) {\n            count[n] = count.getOrDefault(n, 0) + 1\n        }\n\n        val minH = PriorityQueue(count.keys)\n        while (minH.isNotEmpty()) {\n            val first = minH.peek()\n            for (i in first until first + groupSize) {\n                if (count.getOrDefault(i, 0) == 0) return false\n                count[i] = count[i]!! - 1\n                if (count[i] == 0) {\n                    if (i != minH.peek()) return false\n                    minH.poll()\n                }\n            }\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isNStraightHand(_ hand: [Int], _ groupSize: Int) -> Bool {\n        if hand.count % groupSize != 0 {\n            return false\n        }\n\n        var count = [Int: Int]()\n        for n in hand {\n            count[n, default: 0] += 1\n        }\n\n        var minH = Heap<Int>(Array(count.keys))\n\n        while !minH.isEmpty {\n            guard let first = minH.min else { return false }\n\n            for i in first..<(first + groupSize) {\n                guard let freq = count[i] else { return false }\n                count[i] = freq - 1\n                if count[i] == 0 {\n                    if i != minH.min {\n                        return false\n                    }\n                    minH.removeMin()\n                }\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_n_straight_hand(hand: Vec<i32>, group_size: i32) -> bool {\n        if hand.len() % group_size as usize != 0 {\n            return false;\n        }\n\n        let mut count: HashMap<i32, i32> = HashMap::new();\n        for &n in &hand {\n            *count.entry(n).or_insert(0) += 1;\n        }\n\n        let mut min_h: BinaryHeap<Reverse<i32>> = count.keys()\n            .map(|&k| Reverse(k))\n            .collect();\n\n        while let Some(&Reverse(first)) = min_h.peek() {\n            for i in first..(first + group_size) {\n                match count.get(&i) {\n                    Some(&c) if c > 0 => {}\n                    _ => return false,\n                }\n                *count.get_mut(&i).unwrap() -= 1;\n                if count[&i] == 0 {\n                    if i != min_h.peek().unwrap().0 {\n                        return false;\n                    }\n                    min_h.pop();\n                }\n            }\n        }\n        true\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isNStraightHand(self, hand, groupSize):\n        if len(hand) % groupSize != 0:\n            return False\n\n        count = Counter(hand)\n        q = deque()\n        last_num, open_groups = -1, 0\n\n        for num in sorted(count):\n            if ((open_groups > 0 and num > last_num + 1) or\n                open_groups > count[num]\n            ):\n                return False\n\n            q.append(count[num] - open_groups)\n            last_num = num\n            open_groups = count[num]\n\n            if len(q) == groupSize:\n                open_groups -= q.popleft()\n\n        return open_groups == 0"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isNStraightHand(int[] hand, int groupSize) {\n        if (hand.length % groupSize != 0) return false;\n\n        Map<Integer, Integer> count = new TreeMap<>();\n        for (int num : hand) {\n            count.put(num, count.getOrDefault(num, 0) + 1);\n        }\n\n        Queue<Integer> q = new LinkedList<>();\n        int lastNum = -1, openGroups = 0;\n\n        for (int num : count.keySet()) {\n            if ((openGroups > 0 && num > lastNum + 1) ||\n                 openGroups > count.get(num)) {\n                return false;\n            }\n\n            q.add(count.get(num) - openGroups);\n            lastNum = num;\n            openGroups = count.get(num);\n\n            if (q.size() == groupSize) {\n                openGroups -= q.poll();\n            }\n        }\n        return openGroups == 0;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isNStraightHand(vector<int>& hand, int groupSize) {\n        if (hand.size() % groupSize != 0) return false;\n\n        map<int, int> count;\n        for (int num : hand) count[num]++;\n\n        queue<int> q;\n        int lastNum = -1, openGroups = 0;\n\n        for (auto& entry : count) {\n            int num = entry.first;\n            if ((openGroups > 0 && num > lastNum + 1) ||\n                 openGroups > count[num]) {\n                return false;\n            }\n\n            q.push(count[num] - openGroups);\n            lastNum = num;\n            openGroups = count[num];\n\n            if (q.size() == groupSize) {\n                openGroups -= q.front();\n                q.pop();\n            }\n        }\n        return openGroups == 0;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} hand\n     * @param {number} groupSize\n     * @return {boolean}\n     */\n    isNStraightHand(hand, groupSize) {\n        if (hand.length % groupSize !== 0) return false;\n\n        let count = new Map();\n        hand.forEach((num) => count.set(num, (count.get(num) || 0) + 1));\n\n        let q = new Queue();\n        let lastNum = -1,\n            openGroups = 0;\n\n        Array.from(count.keys())\n            .sort((a, b) => a - b)\n            .forEach((num) => {\n                if (\n                    (openGroups > 0 && num > lastNum + 1) ||\n                    openGroups > count.get(num)\n                ) {\n                    return false;\n                }\n\n                q.push(count.get(num) - openGroups);\n                lastNum = num;\n                openGroups = count.get(num);\n\n                if (q.size() === groupSize) {\n                    openGroups -= q.pop();\n                }\n            });\n\n        return openGroups === 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsNStraightHand(int[] hand, int groupSize) {\n        if (hand.Length % groupSize != 0) return false;\n\n        var count = new SortedDictionary<int, int>();\n        foreach (int num in hand) {\n            if (!count.ContainsKey(num)) count[num] = 0;\n            count[num]++;\n        }\n\n        var q = new Queue<int>();\n        int lastNum = -1, openGroups = 0;\n\n        foreach (int num in count.Keys) {\n            if ((openGroups > 0 && num > lastNum + 1) ||\n                 openGroups > count[num]) {\n                return false;\n            }\n\n            q.Enqueue(count[num] - openGroups);\n            lastNum = num;\n            openGroups = count[num];\n\n            if (q.Count == groupSize) {\n                openGroups -= q.Dequeue();\n            }\n        }\n        return openGroups == 0;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func isNStraightHand(hand []int, groupSize int) bool {\n    if len(hand)%groupSize != 0 {\n        return false\n    }\n\n    count := make(map[int]int)\n    for _, num := range hand {\n        count[num]++\n    }\n\n    keys := make([]int, 0, len(count))\n    for k := range count {\n        keys = append(keys, k)\n    }\n    sort.Ints(keys)\n\n    q := []int{}\n    lastNum, openGroups := -1, 0\n\n    for _, num := range keys {\n        if (openGroups > 0 && num > lastNum+1) ||\n            openGroups > count[num] {\n            return false\n        }\n\n        q = append(q, count[num]-openGroups)\n        lastNum = num\n        openGroups = count[num]\n\n        if len(q) == groupSize {\n            openGroups -= q[0]\n            q = q[1:]\n        }\n    }\n    return openGroups == 0\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isNStraightHand(hand: IntArray, groupSize: Int): Boolean {\n        if (hand.size % groupSize != 0) return false\n\n        val count = TreeMap<Int, Int>()\n        for (num in hand) {\n            count[num] = count.getOrDefault(num, 0) + 1\n        }\n\n        val q: Queue<Int> = LinkedList()\n        var lastNum = -1\n        var openGroups = 0\n\n        for (num in count.keys) {\n            if ((openGroups > 0 && num > lastNum + 1) ||\n                 openGroups > count[num]!!) {\n                return false\n            }\n\n            q.add(count[num]!! - openGroups)\n            lastNum = num\n            openGroups = count[num]!!\n\n            if (q.size == groupSize) {\n                openGroups -= q.poll()\n            }\n        }\n        return openGroups == 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isNStraightHand(_ hand: [Int], _ groupSize: Int) -> Bool {\n        if hand.count % groupSize != 0 {\n            return false\n        }\n\n        var count = [Int: Int]()\n        for num in hand {\n            count[num, default: 0] += 1\n        }\n\n        var queue = Deque<Int>()\n        var lastNum = -1\n        var openGroups = 0\n\n        for (num, numCount) in count.sorted(by: { $0.key < $1.key }) {\n            if (openGroups > 0 && num > lastNum + 1) || openGroups > numCount {\n                return false\n            }\n\n            queue.append(numCount - openGroups)\n            lastNum = num\n            openGroups = numCount\n\n            if queue.count == groupSize {\n                openGroups -= queue.removeFirst()\n            }\n        }\n        return openGroups == 0\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_n_straight_hand(hand: Vec<i32>, group_size: i32) -> bool {\n        if hand.len() % group_size as usize != 0 {\n            return false;\n        }\n\n        let mut count: BTreeMap<i32, i32> = BTreeMap::new();\n        for &num in &hand {\n            *count.entry(num).or_insert(0) += 1;\n        }\n\n        let mut q: VecDeque<i32> = VecDeque::new();\n        let mut last_num = -1;\n        let mut open_groups = 0;\n\n        for (&num, &num_count) in &count {\n            if (open_groups > 0 && num > last_num + 1) || open_groups > num_count {\n                return false;\n            }\n\n            q.push_back(num_count - open_groups);\n            last_num = num;\n            open_groups = num_count;\n\n            if q.len() == group_size as usize {\n                open_groups -= q.pop_front().unwrap();\n            }\n        }\n        open_groups == 0\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:\n        if len(hand) % groupSize != 0:\n            return False\n\n        count = Counter(hand)\n        for num in hand:\n            start = num\n            while count[start - 1]:\n                start -= 1\n            while start <= num:\n                while count[start]:\n                    for i in range(start, start + groupSize):\n                        if not count[i]:\n                            return False\n                        count[i] -= 1\n                start += 1\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean isNStraightHand(int[] hand, int groupSize) {\n        if (hand.length % groupSize != 0) return false;\n\n        Map<Integer, Integer> count = new HashMap<>();\n        for (int num : hand) {\n            count.put(num, count.getOrDefault(num, 0) + 1);\n        }\n\n        for (int num : hand) {\n            int start = num;\n            while (count.getOrDefault(start - 1, 0) > 0) start--;\n            while (start <= num) {\n                while (count.getOrDefault(start, 0) > 0) {\n                    for (int i = start; i < start + groupSize; i++) {\n                        if (count.getOrDefault(i, 0) == 0) return false;\n                        count.put(i, count.get(i) - 1);\n                    }\n                }\n                start++;\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool isNStraightHand(vector<int>& hand, int groupSize) {\n        if (hand.size() % groupSize != 0) return false;\n\n        unordered_map<int, int> count;\n        for (int num : hand) count[num]++;\n\n        for (int num : hand) {\n            int start = num;\n            while (count[start - 1] > 0) start--;\n            while (start <= num) {\n                while (count[start] > 0) {\n                    for (int i = start; i < start + groupSize; i++) {\n                        if (count[i] == 0) return false;\n                        count[i]--;\n                    }\n                }\n                start++;\n            }\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} hand\n     * @param {number} groupSize\n     * @return {boolean}\n     */\n    isNStraightHand(hand, groupSize) {\n        if (hand.length % groupSize !== 0) return false;\n\n        const count = new Map();\n        hand.forEach((num) => count.set(num, (count.get(num) || 0) + 1));\n\n        for (const num of hand) {\n            let start = num;\n            while (count.get(start - 1) > 0) start--;\n            while (start <= num) {\n                while (count.get(start) > 0) {\n                    for (let i = start; i < start + groupSize; i++) {\n                        if (!count.get(i)) return false;\n                        count.set(i, count.get(i) - 1);\n                    }\n                }\n                start++;\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool IsNStraightHand(int[] hand, int groupSize) {\n        if (hand.Length % groupSize != 0) return false;\n\n        Dictionary<int, int> count = new Dictionary<int, int>();\n        foreach (int num in hand) {\n            if (!count.ContainsKey(num)) count[num] = 0;\n            count[num]++;\n        }\n\n        foreach (int num in hand) {\n            int start = num;\n            while (count.ContainsKey(start - 1) && count[start - 1] > 0) {\n                start--;\n            }\n            while (start <= num) {\n                while (count.ContainsKey(start) && count[start] > 0) {\n                    for (int i = start; i < start + groupSize; i++) {\n                        if (!count.ContainsKey(i) || count[i] == 0) {\n                            return false;\n                        }\n                        count[i]--;\n                    }\n                }\n                start++;\n            }\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func isNStraightHand(hand []int, groupSize int) bool {\n    if len(hand)%groupSize != 0 {\n        return false\n    }\n\n    count := map[int]int{}\n    for _, num := range hand {\n        count[num]++\n    }\n\n    for _, num := range hand {\n        start := num\n        for count[start-1] > 0 {\n            start--\n        }\n\n        for start <= num {\n            for count[start] > 0 {\n                for i := start; i < start+groupSize; i++ {\n                    if count[i] == 0 {\n                        return false\n                    }\n                    count[i]--\n                }\n            }\n            start++\n        }\n    }\n    return true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun isNStraightHand(hand: IntArray, groupSize: Int): Boolean {\n        if (hand.size % groupSize != 0) return false\n\n        val count = HashMap<Int, Int>()\n        hand.forEach { count[it] = count.getOrDefault(it, 0) + 1 }\n\n        for (num in hand) {\n            var start = num\n            while (count.getOrDefault(start - 1, 0) > 0) {\n                start--\n            }\n\n            while (start <= num) {\n                while (count.getOrDefault(start, 0) > 0) {\n                    for (i in start until start + groupSize) {\n                        if (count.getOrDefault(i, 0) == 0) {\n                            return false\n                        }\n                        count[i] = count[i]!! - 1\n                    }\n                }\n                start++\n            }\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func isNStraightHand(_ hand: [Int], _ groupSize: Int) -> Bool {\n        if hand.count % groupSize != 0 {\n            return false\n        }\n\n        var count = [Int: Int]()\n        for num in hand {\n            count[num, default: 0] += 1\n        }\n\n        for num in hand {\n            var start = num\n            while (count[start - 1] ?? 0) > 0 {\n                start -= 1\n            }\n            while start <= num {\n                while (count[start] ?? 0) > 0 {\n                    for i in start..<(start + groupSize) {\n                        if (count[i] ?? 0) == 0 {\n                            return false\n                        }\n                        count[i]! -= 1\n                    }\n                }\n                start += 1\n            }\n        }\n\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn is_n_straight_hand(hand: Vec<i32>, group_size: i32) -> bool {\n        if hand.len() % group_size as usize != 0 {\n            return false;\n        }\n\n        let mut count: HashMap<i32, i32> = HashMap::new();\n        for &num in &hand {\n            *count.entry(num).or_insert(0) += 1;\n        }\n\n        for &num in &hand {\n            let mut start = num;\n            while *count.get(&(start - 1)).unwrap_or(&0) > 0 {\n                start -= 1;\n            }\n            while start <= num {\n                while *count.get(&start).unwrap_or(&0) > 0 {\n                    for i in start..(start + group_size) {\n                        if *count.get(&i).unwrap_or(&0) == 0 {\n                            return false;\n                        }\n                        *count.get_mut(&i).unwrap() -= 1;\n                    }\n                }\n                start += 1;\n            }\n        }\n        true\n    }\n}"
+        }
+    ]
+}

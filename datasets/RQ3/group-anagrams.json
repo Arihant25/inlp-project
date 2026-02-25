@@ -1,0 +1,121 @@
+{
+    "problem_name": "Group Anagrams",
+    "problem_slug": "group-anagrams",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "hash table",
+        "string",
+        "sorting"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        res = defaultdict(list)\n        for s in strs:\n            sortedS = ''.join(sorted(s))\n            res[sortedS].append(s)\n        return list(res.values())"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        Map<String, List<String>> res = new HashMap<>();\n        for (String s : strs) {\n            char[] charArray = s.toCharArray();\n            Arrays.sort(charArray);\n            String sortedS = new String(charArray);\n            res.putIfAbsent(sortedS, new ArrayList<>());\n            res.get(sortedS).add(s);\n        }\n        return new ArrayList<>(res.values());\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        unordered_map<string, vector<string>> res;\n        for (const auto& s : strs) {\n            string sortedS = s;\n            sort(sortedS.begin(), sortedS.end());\n            res[sortedS].push_back(s);\n        }\n        vector<vector<string>> result;\n        for (auto& pair : res) {\n            result.push_back(pair.second);\n        }\n        return result;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {string[]} strs\n     * @return {string[][]}\n     */\n    groupAnagrams(strs) {\n        const res = {};\n        for (let s of strs) {\n            const sortedS = s.split('').sort().join('');\n            if (!res[sortedS]) {\n                res[sortedS] = [];\n            }\n            res[sortedS].push(s);\n        }\n        return Object.values(res);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public List<List<string>> GroupAnagrams(string[] strs) {\n        var res = new Dictionary<string, List<string>>();\n        foreach (var s in strs) {\n            char[] charArray = s.ToCharArray();\n            Array.Sort(charArray);\n            string sortedS = new string(charArray);\n            if (!res.ContainsKey(sortedS)) {\n                res[sortedS] = new List<string>();\n            }\n            res[sortedS].Add(s);\n        }\n        return res.Values.ToList<List<string>>();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "func groupAnagrams(strs []string) [][]string {\n    res := make(map[string][]string)\n\n    for _, s := range strs {\n        sortedS := sortString(s)\n        res[sortedS] = append(res[sortedS], s)\n    }\n\n    var result [][]string\n    for _, group := range res {\n        result = append(result, group)\n    }\n    return result\n}\n\nfunc sortString(s string) string {\n\tcharacters := []rune(s)\n\tsort.Slice(characters, func(i, j int) bool {\n\t\treturn characters[i] < characters[j]\n\t})\n\treturn string(characters)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun groupAnagrams(strs: Array<String>): List<List<String>> {\n        val res = mutableMapOf<String, MutableList<String>>()\n\n        for (s in strs) {\n            val sortedS = s.toCharArray().sorted().joinToString(\"\")\n            res.getOrPut(sortedS) { mutableListOf() }.add(s)\n        }\n\n        return res.values.toList()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func groupAnagrams(_ strs: [String]) -> [[String]] {\n        var res = [String: [String]]()\n\n        for s in strs {\n            let sortedS = String(s.sorted())\n            res[sortedS, default: []].append(s)\n        }\n\n        return Array(res.values)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n log n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {\n        let mut res: HashMap<String, Vec<String>> = HashMap::new();\n        for s in &strs {\n            let mut chars: Vec<char> = s.chars().collect();\n            chars.sort();\n            let sorted_s: String = chars.into_iter().collect();\n            res.entry(sorted_s).or_default().push(s.clone());\n        }\n        res.into_values().collect()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        res = defaultdict(list)\n        for s in strs:\n            count = [0] * 26\n            for c in s:\n                count[ord(c) - ord('a')] += 1\n            res[tuple(count)].append(s)\n        return list(res.values())"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        Map<String, List<String>> res = new HashMap<>();\n        for (String s : strs) {\n            int[] count = new int[26];\n            for (char c : s.toCharArray()) {\n                count[c - 'a']++;\n            }\n            String key = Arrays.toString(count);\n            res.putIfAbsent(key, new ArrayList<>());\n            res.get(key).add(s);\n        }\n        return new ArrayList<>(res.values());\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        unordered_map<string, vector<string>> res;\n        for (const auto& s : strs) {\n            vector<int> count(26, 0);\n            for (char c : s) {\n                count[c - 'a']++;\n            }\n            string key = to_string(count[0]);\n            for (int i = 1; i < 26; ++i) {\n                key += ',' + to_string(count[i]);\n            }\n            res[key].push_back(s);\n        }\n        vector<vector<string>> result;\n        for (const auto& pair : res) {\n            result.push_back(pair.second);\n        }\n        return result;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {string[]} strs\n     * @return {string[][]}\n     */\n    groupAnagrams(strs) {\n        const res = {};\n        for (let s of strs) {\n            const count = new Array(26).fill(0);\n            for (let c of s) {\n                count[c.charCodeAt(0) - 'a'.charCodeAt(0)] += 1;\n            }\n            const key = count.join(',');\n            if (!res[key]) {\n                res[key] = [];\n            }\n            res[key].push(s);\n        }\n        return Object.values(res);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public List<List<string>> GroupAnagrams(string[] strs) {\n        var res = new Dictionary<string, List<string>>();\n        foreach (var s in strs) {\n            int[] count = new int[26];\n            foreach (char c in s) {\n                count[c - 'a']++;\n            }\n            string key = string.Join(\",\", count);\n            if (!res.ContainsKey(key)) {\n                res[key] = new List<string>();\n            }\n            res[key].Add(s);\n        }\n        return res.Values.ToList<List<string>>();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "func groupAnagrams(strs []string) [][]string {\n    res := make(map[[26]int][]string)\n\n    for _, s := range strs {\n        var count [26]int\n        for _, c := range s {\n            count[c-'a']++\n        }\n        res[count] = append(res[count], s)\n    }\n\n    var result [][]string\n    for _, group := range res {\n        result = append(result, group)\n    }\n    return result\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun groupAnagrams(strs: Array<String>): List<List<String>> {\n        val res = HashMap<List<Int>, MutableList<String>>()\n\n        for (s in strs) {\n            val count = MutableList(26) { 0 }\n            for (c in s) {\n                count[c - 'a']++\n            }\n            res.getOrPut(count) { mutableListOf() }.add(s)\n        }\n\n        return res.values.toList()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func groupAnagrams(_ strs: [String]) -> [[String]] {\n        var res = [Array<Int>: [String]]()\n\n        for s in strs {\n            var count = [Int](repeating: 0, count: 26)\n            for c in s {\n                count[Int(c.asciiValue!) - 97] += 1\n            }\n            res[count, default: []].append(s)\n        }\n\n        return Array(res.values)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {\n        let mut res: HashMap<[u8; 26], Vec<String>> = HashMap::new();\n        for s in &strs {\n            let mut count = [0u8; 26];\n            for c in s.bytes() {\n                count[(c - b'a') as usize] += 1;\n            }\n            res.entry(count).or_default().push(s.clone());\n        }\n        res.into_values().collect()\n    }\n}"
+        }
+    ]
+}

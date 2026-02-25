@@ -1,0 +1,119 @@
+{
+    "problem_name": "Combination Sum",
+    "problem_slug": "combination-sum",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "backtracking"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution:\n    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:\n        res = []\n\n        def dfs(i, cur, total):\n            if total == target:\n                res.append(cur.copy())\n                return\n            if i >= len(nums) or total > target:\n                return\n\n            cur.append(nums[i])\n            dfs(i, cur, total + nums[i])\n            cur.pop()\n            dfs(i + 1, cur, total)\n\n        dfs(0, [], 0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "public class Solution {\n    List<List<Integer>> res;\n    public List<List<Integer>> combinationSum(int[] nums, int target) {\n        res = new ArrayList<List<Integer>>();\n        List<Integer> cur = new ArrayList();\n        backtrack(nums, target, cur, 0);\n        return res;\n    }\n\n    public void backtrack(int[] nums, int target, List<Integer> cur, int i) {\n        if (target == 0) {\n            res.add(new ArrayList(cur));\n            return;\n        }\n        if (target < 0 || i >= nums.length) {\n            return;\n        }\n\n        cur.add(nums[i]);\n        backtrack(nums, target - nums[i], cur, i);\n        cur.remove(cur.size() - 1);\n        backtrack(nums, target, cur, i + 1);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> res;\n    vector<vector<int>> combinationSum(vector<int>& nums, int target) {\n        vector<int> cur;\n        backtrack(nums, target, cur, 0);\n        return res;\n    }\n\n    void backtrack(vector<int>& nums, int target, vector<int>& cur, int i) {\n        if (target == 0) {\n            res.push_back(cur);\n            return;\n        }\n        if (target < 0 || i >= nums.size()) {\n            return;\n        }\n\n        cur.push_back(nums[i]);\n        backtrack(nums, target - nums[i], cur, i);\n        cur.pop_back();\n        backtrack(nums, target, cur, i + 1);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} target\n     * @returns {number[][]}\n     */\n    combinationSum(nums, target) {\n        let ans = [];\n        let cur = [];\n        this.backtrack(nums, target, ans, cur, 0);\n        return ans;\n    }\n\n    /**\n     * @param {number[]} nums\n     * @param {number} target\n     * @param {number[][]} ans\n     * @param {number[]} cur\n     * @param {number} index\n     */\n    backtrack(nums, target, ans, cur, index) {\n        if (target === 0) {\n            ans.push([...cur]);\n        } else if (target < 0 || index >= nums.length) {\n            return;\n        } else {\n            cur.push(nums[index]);\n            this.backtrack(nums, target - nums[index], ans, cur, index);\n\n            cur.pop();\n            this.backtrack(nums, target, ans, cur, index + 1);\n        }\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "public class Solution {\n\n    List<List<int>> res = new List<List<int>>();\n\n    public void backtrack(int i, List<int> cur, int total, int[] nums, int target) {\n        if(total == target) {\n            res.Add(cur.ToList());\n            return;\n        }\n\n        if(total > target || i >= nums.Length) return;\n\n        cur.Add(nums[i]);\n        backtrack(i, cur, total + nums[i], nums, target);\n        cur.Remove(cur.Last());\n\n        backtrack(i + 1, cur, total, nums, target);\n\n    }\n    public List<List<int>> CombinationSum(int[] nums, int target) {\n        backtrack(0, new List<int>(), 0, nums, target);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "func combinationSum(nums []int, target int) [][]int {\n    res := [][]int{}\n\n    var dfs func(int, []int, int)\n    dfs = func(i int, cur []int, total int) {\n        if total == target {\n            temp := make([]int, len(cur))\n            copy(temp, cur)\n            res = append(res, temp)\n            return\n        }\n        if i >= len(nums) || total > target {\n            return\n        }\n\n        cur = append(cur, nums[i])\n        dfs(i, cur, total + nums[i])\n        cur = cur[:len(cur)-1]\n        dfs(i+1, cur, total)\n    }\n\n    dfs(0, []int{}, 0)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution {\n    fun combinationSum(nums: IntArray, target: Int): List<List<Int>> {\n        val res = mutableListOf<List<Int>>()\n\n        fun dfs(i: Int, cur: MutableList<Int>, total: Int) {\n            if (total == target) {\n                res.add(ArrayList(cur))\n                return\n            }\n            if (i >= nums.size || total > target) {\n                return\n            }\n\n            cur.add(nums[i])\n            dfs(i, cur, total + nums[i])\n            cur.removeAt(cur.size - 1)\n            dfs(i + 1, cur, total)\n        }\n\n        dfs(0, mutableListOf(), 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution {\n    func combinationSum(_ nums: [Int], _ target: Int) -> [[Int]] {\n        var res: [[Int]] = []\n\n        func dfs(_ i: Int, _ cur: inout [Int], _ total: Int) {\n            if total == target {\n                res.append(cur)\n                return\n            }\n            if i >= nums.count || total > target {\n                return\n            }\n\n            cur.append(nums[i])\n            dfs(i, &cur, total + nums[i])\n            cur.removeLast()\n            dfs(i + 1, &cur, total)\n        }\n\n        var cur: [Int] = []\n        dfs(0, &cur, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "impl Solution {\n    pub fn combination_sum(nums: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n\n        fn dfs(nums: &[i32], target: i32, i: usize, cur: &mut Vec<i32>, total: i32, res: &mut Vec<Vec<i32>>) {\n            if total == target {\n                res.push(cur.clone());\n                return;\n            }\n            if i >= nums.len() || total > target {\n                return;\n            }\n            cur.push(nums[i]);\n            dfs(nums, target, i, cur, total + nums[i], res);\n            cur.pop();\n            dfs(nums, target, i + 1, cur, total, res);\n        }\n\n        dfs(&nums, target, 0, &mut vec![], 0, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution:\n    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:\n        res = []\n        nums.sort()\n\n        def dfs(i, cur, total):\n            if total == target:\n                res.append(cur.copy())\n                return\n\n            for j in range(i, len(nums)):\n                if total + nums[j] > target:\n                    return\n                cur.append(nums[j])\n                dfs(j, cur, total + nums[j])\n                cur.pop()\n\n        dfs(0, [], 0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "public class Solution {\n    List<List<Integer>> res;\n    public List<List<Integer>> combinationSum(int[] nums, int target) {\n        res = new ArrayList<>();\n        Arrays.sort(nums);\n\n        dfs(0, new ArrayList<>(), 0, nums, target);\n        return res;\n    }\n\n    private void dfs(int i, List<Integer> cur, int total, int[] nums, int target) {\n        if (total == target) {\n            res.add(new ArrayList<>(cur));\n            return;\n        }\n\n        for (int j = i; j < nums.length; j++) {\n            if (total + nums[j] > target) {\n                return;\n            }\n            cur.add(nums[j]);\n            dfs(j, cur, total + nums[j], nums, target);\n            cur.remove(cur.size() - 1);\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> res;\n    vector<vector<int>> combinationSum(vector<int>& nums, int target) {\n        sort(nums.begin(), nums.end());\n        dfs(0, {}, 0, nums, target);\n        return res;\n    }\n\n    void dfs(int i, vector<int> cur, int total, vector<int>& nums, int target) {\n        if (total == target) {\n            res.push_back(cur);\n            return;\n        }\n\n        for (int j = i; j < nums.size(); j++) {\n            if (total + nums[j] > target) {\n                return;\n            }\n            cur.push_back(nums[j]);\n            dfs(j, cur, total + nums[j], nums, target);\n            cur.pop_back();\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} target\n     * @returns {number[][]}\n     */\n    combinationSum(nums, target) {\n        const res = [];\n        nums.sort((a, b) => a - b);\n\n        const dfs = (i, cur, total) => {\n            if (total === target) {\n                res.push([...cur]);\n                return;\n            }\n\n            for (let j = i; j < nums.length; j++) {\n                if (total + nums[j] > target) {\n                    return;\n                }\n                cur.push(nums[j]);\n                dfs(j, cur, total + nums[j]);\n                cur.pop();\n            }\n        };\n\n        dfs(0, [], 0);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "public class Solution {\n    List<List<int>> res;\n    public List<List<int>> CombinationSum(int[] nums, int target) {\n        res = new List<List<int>>();\n        Array.Sort(nums);\n        dfs(0, new List<int>(), 0, nums, target);\n        return res;\n    }\n\n    private void dfs(int i, List<int> cur, int total, int[] nums, int target) {\n        if (total == target) {\n            res.Add(new List<int>(cur));\n            return;\n        }\n\n        for (int j = i; j < nums.Length; j++) {\n            if (total + nums[j] > target) {\n                return;\n            }\n            cur.Add(nums[j]);\n            dfs(j, cur, total + nums[j], nums, target);\n            cur.RemoveAt(cur.Count - 1);\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "func combinationSum(nums []int, target int) [][]int {\n    res := [][]int{}\n    sort.Ints(nums)\n\n    var dfs func(int, []int, int)\n    dfs = func(i int, cur []int, total int) {\n        if total == target {\n            temp := make([]int, len(cur))\n            copy(temp, cur)\n            res = append(res, temp)\n            return\n        }\n\n        for j := i; j < len(nums); j++ {\n            if total + nums[j] > target {\n                return\n            }\n            cur = append(cur, nums[j])\n            dfs(j, cur, total + nums[j])\n            cur = cur[:len(cur)-1]\n        }\n    }\n\n    dfs(0, []int{}, 0)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution {\n    fun combinationSum(nums: IntArray, target: Int): List<List<Int>> {\n        val res = mutableListOf<List<Int>>()\n        nums.sort()\n\n        fun dfs(i: Int, cur: MutableList<Int>, total: Int) {\n            if (total == target) {\n                res.add(ArrayList(cur))\n                return\n            }\n\n            for (j in i until nums.size) {\n                if (total + nums[j] > target) {\n                    return\n                }\n                cur.add(nums[j])\n                dfs(j, cur, total + nums[j])\n                cur.removeAt(cur.size - 1)\n            }\n        }\n\n        dfs(0, mutableListOf(), 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "class Solution {\n    func combinationSum(_ nums: [Int], _ target: Int) -> [[Int]] {\n        var res: [[Int]] = []\n        let sortedNums = nums.sorted()\n\n        func dfs(_ i: Int, _ cur: inout [Int], _ total: Int) {\n            if total == target {\n                res.append(cur)\n                return\n            }\n\n            for j in i..<sortedNums.count {\n                if total + sortedNums[j] > target {\n                    return\n                }\n                cur.append(sortedNums[j])\n                dfs(j, &cur, total + sortedNums[j])\n                cur.removeLast()\n            }\n        }\n\n        var cur: [Int] = []\n        dfs(0, &cur, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^frac{t}{m})",
+            "space_complexity": "O(frac{t}{m})",
+            "code": "impl Solution {\n    pub fn combination_sum(nums: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut nums = nums;\n        nums.sort();\n\n        fn dfs(nums: &[i32], target: i32, i: usize, cur: &mut Vec<i32>, total: i32, res: &mut Vec<Vec<i32>>) {\n            if total == target {\n                res.push(cur.clone());\n                return;\n            }\n            for j in i..nums.len() {\n                if total + nums[j] > target {\n                    return;\n                }\n                cur.push(nums[j]);\n                dfs(nums, target, j, cur, total + nums[j], res);\n                cur.pop();\n            }\n        }\n\n        dfs(&nums, target, 0, &mut vec![], 0, &mut res);\n        res\n    }\n}"
+        }
+    ]
+}

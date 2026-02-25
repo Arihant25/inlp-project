@@ -1,0 +1,174 @@
+{
+    "problem_name": "Diameter of Binary Tree",
+    "problem_slug": "diameter-of-binary-tree",
+    "difficulty": "easy",
+    "topic_tags": [
+        "tree",
+        "depth-first search",
+        "binary tree"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:\n        if not root:\n            return 0\n\n        leftHeight = self.maxHeight(root.left)\n        rightHeight = self.maxHeight(root.right)\n        diameter = leftHeight + rightHeight\n        sub = max(self.diameterOfBinaryTree(root.left),\n                  self.diameterOfBinaryTree(root.right))\n        return max(diameter, sub)\n\n\n    def maxHeight(self, root: Optional[TreeNode]) -> int:\n        if not root:\n            return 0\n\n        return 1 + max(self.maxHeight(root.left), self.maxHeight(root.right))"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int diameterOfBinaryTree(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n\n        int leftHeight = maxHeight(root.left);\n        int rightHeight = maxHeight(root.right);\n        int diameter = leftHeight + rightHeight;\n        int sub = Math.max(diameterOfBinaryTree(root.left),\n                           diameterOfBinaryTree(root.right));\n        return Math.max(diameter, sub);\n    }\n\n    public int maxHeight(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n        return 1 + Math.max(maxHeight(root.left), maxHeight(root.right));\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    int diameterOfBinaryTree(TreeNode* root) {\n        if (!root) return 0;\n\n        int leftHeight = maxHeight(root->left);\n        int rightHeight = maxHeight(root->right);\n        int diameter = leftHeight + rightHeight;\n        int sub = max(diameterOfBinaryTree(root->left),\n                      diameterOfBinaryTree(root->right));\n        return max(diameter, sub);\n    }\n\n    int maxHeight(TreeNode* root) {\n        if (!root) return 0;\n        return 1 + max(maxHeight(root->left), maxHeight(root->right));\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {number}\n     */\n    diameterOfBinaryTree(root) {\n        if (!root) return 0;\n\n        let leftHeight = this.maxHeight(root.left);\n        let rightHeight = this.maxHeight(root.right);\n        let diameter = leftHeight + rightHeight;\n        let sub = Math.max(\n            this.diameterOfBinaryTree(root.left),\n            this.diameterOfBinaryTree(root.right),\n        );\n        return Math.max(diameter, sub);\n    }\n\n    /**\n     * @param {TreeNode} root\n     * @return {number}\n     */\n    maxHeight(root) {\n        if (!root) return 0;\n        return (\n            1 + Math.max(this.maxHeight(root.left), this.maxHeight(root.right))\n        );\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int DiameterOfBinaryTree(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n\n        int leftHeight = MaxHeight(root.left);\n        int rightHeight = MaxHeight(root.right);\n        int diameter = leftHeight + rightHeight;\n        int sub = Math.Max(DiameterOfBinaryTree(root.left),\n                           DiameterOfBinaryTree(root.right));\n        return Math.Max(diameter, sub);\n    }\n\n    public int MaxHeight(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n        return 1 + Math.Max(MaxHeight(root.left), MaxHeight(root.right));\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc diameterOfBinaryTree(root *TreeNode) int {\n    if root == nil {\n        return 0\n    }\n\n    leftHeight := maxHeight(root.Left)\n    rightHeight := maxHeight(root.Right)\n    diameter := leftHeight + rightHeight\n\n    sub := max(diameterOfBinaryTree(root.Left),\n              diameterOfBinaryTree(root.Right))\n\n    return max(diameter, sub)\n}\n\nfunc maxHeight(root *TreeNode) int {\n    if root == nil {\n        return 0\n    }\n\n    return 1 + max(maxHeight(root.Left), maxHeight(root.Right))\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun diameterOfBinaryTree(root: TreeNode?): Int {\n        if (root == null) {\n            return 0\n        }\n\n        val leftHeight = maxHeight(root.left)\n        val rightHeight = maxHeight(root.right)\n        val diameter = leftHeight + rightHeight\n\n        val sub = maxOf(\n            diameterOfBinaryTree(root.left),\n            diameterOfBinaryTree(root.right)\n        )\n\n        return maxOf(diameter, sub)\n    }\n\n    private fun maxHeight(root: TreeNode?): Int {\n        if (root == null) {\n            return 0\n        }\n\n        return 1 + maxOf(maxHeight(root.left), maxHeight(root.right))\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func diameterOfBinaryTree(_ root: TreeNode?) -> Int {\n        guard let root = root else { return 0 }\n\n        let leftHeight = maxHeight(root.left)\n        let rightHeight = maxHeight(root.right)\n        let diameter = leftHeight + rightHeight\n        let sub = max(diameterOfBinaryTree(root.left), diameterOfBinaryTree(root.right))\n\n        return max(diameter, sub)\n    }\n\n    private func maxHeight(_ root: TreeNode?) -> Int {\n        guard let root = root else { return 0 }\n        return 1 + max(maxHeight(root.left), maxHeight(root.right))\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn diameter_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        fn max_height(root: &Option<Rc<RefCell<TreeNode>>>) -> i32 {\n            match root {\n                None => 0,\n                Some(node) => {\n                    let node = node.borrow();\n                    1 + max_height(&node.left).max(max_height(&node.right))\n                }\n            }\n        }\n\n        match root {\n            None => 0,\n            Some(ref node) => {\n                let n = node.borrow();\n                let left_height = max_height(&n.left);\n                let right_height = max_height(&n.right);\n                let diameter = left_height + right_height;\n                let sub = Self::diameter_of_binary_tree(n.left.clone())\n                    .max(Self::diameter_of_binary_tree(n.right.clone()));\n                diameter.max(sub)\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:\n        res = 0\n\n        def dfs(root):\n            nonlocal res\n\n            if not root:\n                return 0\n            left = dfs(root.left)\n            right = dfs(root.right)\n            res = max(res, left + right)\n\n            return 1 + max(left, right)\n\n        dfs(root)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n\n    public int diameterOfBinaryTree(TreeNode root) {\n        int[] res = new int[1];\n        dfs(root, res);\n        return res[0];\n    }\n\n    private int dfs(TreeNode root, int[] res) {\n        if (root == null) {\n            return 0;\n        }\n        int left = dfs(root.left, res);\n        int right = dfs(root.right, res);\n        res[0] = Math.max(res[0], left + right);\n        return 1 + Math.max(left, right);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    int diameterOfBinaryTree(TreeNode* root) {\n        int res = 0;\n        dfs(root, res);\n        return res;\n    }\n\nprivate:\n    int dfs(TreeNode* root, int& res) {\n        if (!root) {\n            return 0;\n        }\n        int left = dfs(root->left, res);\n        int right = dfs(root->right, res);\n        res = max(res, left + right);\n        return 1 + max(left, right);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {number}\n     */\n    diameterOfBinaryTree(root) {\n        const res = [0];\n        this.dfs(root, res);\n        return res[0];\n    }\n\n    /**\n     * @param {TreeNode} root\n     * @param {number[]} res\n     * @return {number}\n     */\n    dfs(root, res) {\n        if (root === null) {\n            return 0;\n        }\n        const left = this.dfs(root.left, res);\n        const right = this.dfs(root.right, res);\n        res[0] = Math.max(res[0], left + right);\n        return 1 + Math.max(left, right);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n\n    public int DiameterOfBinaryTree(TreeNode root) {\n        int res = 0;\n        DFS(root, ref res);\n        return res;\n    }\n\n    private int DFS(TreeNode root, ref int res) {\n        if (root == null) {\n            return 0;\n        }\n        int left = DFS(root.left, ref res);\n        int right = DFS(root.right, ref res);\n        res = Math.Max(res, left + right);\n        return 1 + Math.Max(left, right);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc diameterOfBinaryTree(root *TreeNode) int {\n    res := 0\n\n    var dfs func(*TreeNode) int\n    dfs = func(root *TreeNode) int {\n        if root == nil {\n            return 0\n        }\n\n        left := dfs(root.Left)\n        right := dfs(root.Right)\n        res = max(res, left + right)\n\n        return 1 + max(left, right)\n    }\n\n    dfs(root)\n    return res\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    private var res = 0\n\n    fun diameterOfBinaryTree(root: TreeNode?): Int {\n        dfs(root)\n        return res\n    }\n\n    private fun dfs(root: TreeNode?): Int {\n        if (root == null) {\n            return 0\n        }\n\n        val left = dfs(root.left)\n        val right = dfs(root.right)\n        res = maxOf(res, left + right)\n\n        return 1 + maxOf(left, right)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func diameterOfBinaryTree(_ root: TreeNode?) -> Int {\n        var res = 0\n\n        func dfs(_ root: TreeNode?) -> Int {\n            guard let root = root else { return 0 }\n            let left = dfs(root.left)\n            let right = dfs(root.right)\n            res = max(res, left + right)\n            return 1 + max(left, right)\n        }\n\n        dfs(root)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(h)",
+            "code": "impl Solution {\n    pub fn diameter_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        let mut res = 0;\n        Self::dfs(&root, &mut res);\n        res\n    }\n\n    fn dfs(root: &Option<Rc<RefCell<TreeNode>>>, res: &mut i32) -> i32 {\n        match root {\n            None => 0,\n            Some(node) => {\n                let node = node.borrow();\n                let left = Self::dfs(&node.left, res);\n                let right = Self::dfs(&node.right, res);\n                *res = (*res).max(left + right);\n                1 + left.max(right)\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:\n        stack = [root]\n        mp = {None: (0, 0)}\n\n        while stack:\n            node = stack[-1]\n\n            if node.left and node.left not in mp:\n                stack.append(node.left)\n            elif node.right and node.right not in mp:\n                stack.append(node.right)\n            else:\n                node = stack.pop()\n\n                leftHeight, leftDiameter = mp[node.left]\n                rightHeight, rightDiameter = mp[node.right]\n\n                mp[node] = (1 + max(leftHeight, rightHeight),\n                           max(leftHeight + rightHeight, leftDiameter, rightDiameter))\n\n        return mp[root][1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int diameterOfBinaryTree(TreeNode root) {\n        Map<TreeNode, int[]> mp = new HashMap<>();\n        mp.put(null, new int[]{0, 0});\n        Stack<TreeNode> stack = new Stack<>();\n        stack.push(root);\n\n        while (!stack.isEmpty()) {\n            TreeNode node = stack.peek();\n\n            if (node.left != null && !mp.containsKey(node.left)) {\n                stack.push(node.left);\n            } else if (node.right != null && !mp.containsKey(node.right)) {\n                stack.push(node.right);\n            } else {\n                node = stack.pop();\n\n                int[] leftData = mp.get(node.left);\n                int[] rightData = mp.get(node.right);\n\n                int leftHeight = leftData[0], leftDiameter = leftData[1];\n                int rightHeight = rightData[0], rightDiameter = rightData[1];\n\n                int height = 1 + Math.max(leftHeight, rightHeight);\n                int diameter = Math.max(leftHeight + rightHeight,\n                               Math.max(leftDiameter, rightDiameter));\n\n                mp.put(node, new int[]{height, diameter});\n            }\n        }\n        return mp.get(root)[1];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    int diameterOfBinaryTree(TreeNode* root) {\n        unordered_map<TreeNode*, pair<int, int>> mp;\n        mp[nullptr] = {0, 0};\n        stack<TreeNode*> stack;\n        stack.push(root);\n\n        while (!stack.empty()) {\n            TreeNode* node = stack.top();\n\n            if (node->left && mp.find(node->left) == mp.end()) {\n                stack.push(node->left);\n            } else if (node->right && mp.find(node->right) == mp.end()) {\n                stack.push(node->right);\n            } else {\n                node = stack.top();\n                stack.pop();\n\n                auto[leftHeight, leftDiameter] = mp[node->left];\n                auto[rightHeight, rightDiameter] = mp[node->right];\n\n                int height = 1 + std::max(leftHeight, rightHeight);\n                int diameter = max(leftHeight + rightHeight,\n                               max(leftDiameter, rightDiameter));\n\n                mp[node] = {height, diameter};\n            }\n        }\n        return mp[root].second;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {number}\n     */\n    diameterOfBinaryTree(root) {\n        let stack = [root];\n        let mp = new Map();\n        mp.set(null, [0, 0]);\n\n        while (stack.length > 0) {\n            let node = stack[stack.length - 1];\n\n            if (node.left && !mp.has(node.left)) {\n                stack.push(node.left);\n            } else if (node.right && !mp.has(node.right)) {\n                stack.push(node.right);\n            } else {\n                node = stack.pop();\n\n                let [leftHeight, leftDiameter] = mp.get(node.left);\n                let [rightHeight, rightDiameter] = mp.get(node.right);\n\n                let height = 1 + Math.max(leftHeight, rightHeight);\n                let diameter = Math.max(\n                    leftHeight + rightHeight,\n                    Math.max(leftDiameter, rightDiameter),\n                );\n\n                mp.set(node, [height, diameter]);\n            }\n        }\n        return mp.get(root)[1];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public int DiameterOfBinaryTree(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n\n        Stack<TreeNode> stack = new Stack<TreeNode>();\n        Dictionary<TreeNode, (int, int)> mp = new Dictionary<TreeNode, (int, int)>();\n        stack.Push(root);\n\n        while (stack.Count > 0) {\n            TreeNode node = stack.Peek();\n\n            if (node.left != null && !mp.ContainsKey(node.left)) {\n                stack.Push(node.left);\n            } else if (node.right != null && !mp.ContainsKey(node.right)) {\n                stack.Push(node.right);\n            } else {\n                node = stack.Pop();\n\n                int leftHeight = 0, leftDiameter = 0;\n                if (node.left != null && mp.ContainsKey(node.left)) {\n                    (leftHeight, leftDiameter) = mp[node.left];\n                }\n\n                int rightHeight = 0, rightDiameter = 0;\n                if (node.right != null && mp.ContainsKey(node.right)) {\n                    (rightHeight, rightDiameter) = mp[node.right];\n                }\n\n                int height = 1 + Math.Max(leftHeight, rightHeight);\n                int diameter = Math.Max(leftHeight + rightHeight,\n                               Math.Max(leftDiameter, rightDiameter));\n\n                mp[node] = (height, diameter);\n            }\n        }\n\n        return mp[root].Item2;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc diameterOfBinaryTree(root *TreeNode) int {\n   if root == nil {\n       return 0\n   }\n\n   stack := linkedliststack.New()\n   stack.Push(root)\n   mp := make(map[*TreeNode][]int)\n   mp[nil] = []int{0, 0}\n\n   for !stack.Empty() {\n       val, _ := stack.Peek()\n       node := val.(*TreeNode)\n\n       if node.Left != nil && len(mp[node.Left]) == 0 {\n           stack.Push(node.Left)\n       } else if node.Right != nil && len(mp[node.Right]) == 0 {\n           stack.Push(node.Right)\n       } else {\n           stack.Pop()\n\n           leftHeight := mp[node.Left][0]\n           leftDiameter := mp[node.Left][1]\n           rightHeight := mp[node.Right][0]\n           rightDiameter := mp[node.Right][1]\n\n           height := 1 + max(leftHeight, rightHeight)\n           diameter := max(leftHeight+rightHeight,\n                         max(leftDiameter, rightDiameter))\n\n           mp[node] = []int{height, diameter}\n       }\n   }\n\n   return mp[root][1]\n}\n\nfunc max(a, b int) int {\n   if a > b {\n       return a\n   }\n   return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun diameterOfBinaryTree(root: TreeNode?): Int {\n        if (root == null) {\n            return 0\n        }\n\n        val stack = ArrayDeque<TreeNode>()\n        stack.addLast(root)\n\n        val mp = HashMap<TreeNode?, Pair<Int, Int>>()\n        mp[null] = Pair(0, 0)\n\n        while (stack.isNotEmpty()) {\n            val node = stack.last()\n\n            when {\n                node.left != null && !mp.containsKey(node.left) -> {\n                    stack.addLast(node.left)\n                }\n                node.right != null && !mp.containsKey(node.right) -> {\n                    stack.addLast(node.right)\n                }\n                else -> {\n                    stack.removeLast()\n\n                    val (leftHeight, leftDiameter) = mp[node.left] ?: Pair(0, 0)\n                    val (rightHeight, rightDiameter) = mp[node.right] ?: Pair(0, 0)\n\n                    val height = 1 + maxOf(leftHeight, rightHeight)\n                    val diameter = maxOf(leftHeight + rightHeight,\n                                      leftDiameter,\n                                      rightDiameter)\n\n                    mp[node] = Pair(height, diameter)\n                }\n            }\n        }\n\n        return mp[root]?.second ?: 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func diameterOfBinaryTree(_ root: TreeNode?) -> Int {\n        guard let root = root else { return 0 }\n        var stack: [TreeNode] = [root]\n        var mp = [ObjectIdentifier: (Int, Int)]()\n\n        while !stack.isEmpty {\n            let node = stack.last!\n            if let left = node.left, mp[ObjectIdentifier(left)] == nil {\n                stack.append(left)\n            } else if let right = node.right, mp[ObjectIdentifier(right)] == nil {\n                stack.append(right)\n            } else {\n                let node = stack.removeLast()\n                let leftTuple = node.left != nil ? mp[ObjectIdentifier(node.left!)]! : (0, 0)\n                let rightTuple = node.right != nil ? mp[ObjectIdentifier(node.right!)]! : (0, 0)\n                let height = 1 + max(leftTuple.0, rightTuple.0)\n                let diameter = max(leftTuple.0 + rightTuple.0, leftTuple.1, rightTuple.1)\n                mp[ObjectIdentifier(node)] = (height, diameter)\n            }\n        }\n\n        return mp[ObjectIdentifier(root)]!.1\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn diameter_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        let root = match root {\n            Some(r) => r,\n            None => return 0,\n        };\n\n        let mut stack: Vec<Rc<RefCell<TreeNode>>> = vec![root.clone()];\n        let mut mp: HashMap<usize, (i32, i32)> = HashMap::new();\n\n        while let Some(node_rc) = stack.last().cloned() {\n            let node = node_rc.borrow();\n            let left_ptr = node.left.as_ref().map(|n| Rc::as_ptr(n) as usize);\n            let right_ptr = node.right.as_ref().map(|n| Rc::as_ptr(n) as usize);\n\n            if let Some(lp) = left_ptr {\n                if !mp.contains_key(&lp) {\n                    stack.push(node.left.clone().unwrap());\n                    continue;\n                }\n            }\n            if let Some(rp) = right_ptr {\n                if !mp.contains_key(&rp) {\n                    stack.push(node.right.clone().unwrap());\n                    continue;\n                }\n            }\n            drop(node);\n            stack.pop();\n\n            let n = node_rc.borrow();\n            let (lh, ld) = n.left.as_ref()\n                .map(|l| *mp.get(&(Rc::as_ptr(l) as usize)).unwrap())\n                .unwrap_or((0, 0));\n            let (rh, rd) = n.right.as_ref()\n                .map(|r| *mp.get(&(Rc::as_ptr(r) as usize)).unwrap())\n                .unwrap_or((0, 0));\n\n            let height = 1 + lh.max(rh);\n            let diameter = (lh + rh).max(ld).max(rd);\n            mp.insert(Rc::as_ptr(&node_rc) as usize, (height, diameter));\n        }\n\n        mp.get(&(Rc::as_ptr(&root) as usize)).unwrap().1\n    }\n}"
+        }
+    ]
+}

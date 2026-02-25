@@ -1,0 +1,121 @@
+{
+    "problem_name": "Implement Trie Prefix Tree",
+    "problem_slug": "implement-trie-prefix-tree",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hash table",
+        "string",
+        "design",
+        "trie"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode:\n    def __init__(self):\n        self.children = [None] * 26\n        self.endOfWord = False\n\nclass PrefixTree:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word: str) -> None:\n        cur = self.root\n        for c in word:\n            i = ord(c) - ord(\"a\")\n            if cur.children[i] == None:\n                cur.children[i] = TrieNode()\n            cur = cur.children[i]\n        cur.endOfWord = True\n\n    def search(self, word: str) -> bool:\n        cur = self.root\n        for c in word:\n            i = ord(c) - ord(\"a\")\n            if cur.children[i] == None:\n                return False\n            cur = cur.children[i]\n        return cur.endOfWord\n\n    def startsWith(self, prefix: str) -> bool:\n        cur = self.root\n        for c in prefix:\n            i = ord(c) - ord(\"a\")\n            if cur.children[i] == None:\n                return False\n            cur = cur.children[i]\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "public class TrieNode {\n    TrieNode[] children = new TrieNode[26];\n    boolean endOfWord = false;\n}\n\npublic class PrefixTree {\n    private TrieNode root;\n\n    public PrefixTree() {\n        root = new TrieNode();\n    }\n\n    public void insert(String word) {\n        TrieNode cur = root;\n        for (char c : word.toCharArray()) {\n            int i = c - 'a';\n            if (cur.children[i] == null) {\n                cur.children[i] = new TrieNode();\n            }\n            cur = cur.children[i];\n        }\n        cur.endOfWord = true;\n    }\n\n    public boolean search(String word) {\n        TrieNode cur = root;\n        for (char c : word.toCharArray()) {\n            int i = c - 'a';\n            if (cur.children[i] == null) {\n                return false;\n            }\n            cur = cur.children[i];\n        }\n        return cur.endOfWord;\n    }\n\n    public boolean startsWith(String prefix) {\n        TrieNode cur = root;\n        for (char c : prefix.toCharArray()) {\n            int i = c - 'a';\n            if (cur.children[i] == null) {\n                return false;\n            }\n            cur = cur.children[i];\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode {\npublic:\n    TrieNode* children[26];\n    bool endOfWord;\n\n    TrieNode() {\n        for (int i = 0; i < 26; i++) {\n            children[i] = nullptr;\n        }\n        endOfWord = false;\n    }\n};\n\nclass PrefixTree {\n    TrieNode* root;\n\npublic:\n    PrefixTree() {\n        root = new TrieNode();\n    }\n\n    void insert(string word) {\n        TrieNode* cur = root;\n        for (char c : word) {\n            int i = c - 'a';\n            if (cur->children[i] == nullptr) {\n                cur->children[i] = new TrieNode();\n            }\n            cur = cur->children[i];\n        }\n        cur->endOfWord = true;\n    }\n\n    bool search(string word) {\n        TrieNode* cur = root;\n        for (char c : word) {\n            int i = c - 'a';\n            if (cur->children[i] == nullptr) {\n                return false;\n            }\n            cur = cur->children[i];\n        }\n        return cur->endOfWord;\n    }\n\n    bool startsWith(string prefix) {\n        TrieNode* cur = root;\n        for (char c : prefix) {\n            int i = c - 'a';\n            if (cur->children[i] == nullptr) {\n                return false;\n            }\n            cur = cur->children[i];\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode {\n    constructor() {\n        this.children = new Array(26).fill(null);\n        this.endOfWord = false;\n    }\n}\n\nclass PrefixTree {\n    constructor() {\n        this.root = new TrieNode();\n    }\n\n    /**\n     * @param {string} word\n     * @return {void}\n     */\n    insert(word) {\n        let cur = this.root;\n        for (let c of word) {\n            let i = c.charCodeAt(0) - 97;\n            if (cur.children[i] === null) {\n                cur.children[i] = new TrieNode();\n            }\n            cur = cur.children[i];\n        }\n        cur.endOfWord = true;\n    }\n\n    /**\n     * @param {string} word\n     * @return {boolean}\n     */\n    search(word) {\n        let cur = this.root;\n        for (let c of word) {\n            let i = c.charCodeAt(0) - 97;\n            if (cur.children[i] === null) {\n                return false;\n            }\n            cur = cur.children[i];\n        }\n        return cur.endOfWord;\n    }\n\n    /**\n     * @param {string} prefix\n     * @return {boolean}\n     */\n    startsWith(prefix) {\n        let cur = this.root;\n        for (let c of prefix) {\n            let i = c.charCodeAt(0) - 97;\n            if (cur.children[i] === null) {\n                return false;\n            }\n            cur = cur.children[i];\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "public class TrieNode {\n    public TrieNode[] children = new TrieNode[26];\n    public bool endOfWord = false;\n}\n\npublic class PrefixTree {\n    private TrieNode root;\n\n    public PrefixTree() {\n        root = new TrieNode();\n    }\n\n    public void Insert(string word) {\n        TrieNode cur = root;\n        foreach (char c in word) {\n            int i = c - 'a';\n            if (cur.children[i] == null) {\n                cur.children[i] = new TrieNode();\n            }\n            cur = cur.children[i];\n        }\n        cur.endOfWord = true;\n    }\n\n    public bool Search(string word) {\n        TrieNode cur = root;\n        foreach (char c in word) {\n            int i = c - 'a';\n            if (cur.children[i] == null) {\n                return false;\n            }\n            cur = cur.children[i];\n        }\n        return cur.endOfWord;\n    }\n\n    public bool StartsWith(string prefix) {\n        TrieNode cur = root;\n        foreach (char c in prefix) {\n            int i = c - 'a';\n            if (cur.children[i] == null) {\n                return false;\n            }\n            cur = cur.children[i];\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "type TrieNode struct {\n\tchildren [26]*TrieNode\n\tendOfWord bool\n}\n\ntype PrefixTree struct {\n\troot *TrieNode\n}\n\nfunc Constructor() PrefixTree {\n\treturn PrefixTree{root: &TrieNode{}}\n}\n\nfunc (this *PrefixTree) Insert(word string) {\n\tcur := this.root\n\tfor _, c := range word {\n\t\ti := c - 'a'\n\t\tif cur.children[i] == nil {\n\t\t\tcur.children[i] = &TrieNode{}\n\t\t}\n\t\tcur = cur.children[i]\n\t}\n\tcur.endOfWord = true\n}\n\nfunc (this *PrefixTree) Search(word string) bool {\n\tcur := this.root\n\tfor _, c := range word {\n\t\ti := c - 'a'\n\t\tif cur.children[i] == nil {\n\t\t\treturn false\n\t\t}\n\t\tcur = cur.children[i]\n\t}\n\treturn cur.endOfWord\n}\n\nfunc (this *PrefixTree) StartsWith(prefix string) bool {\n\tcur := this.root\n\tfor _, c := range prefix {\n\t\ti := c - 'a'\n\t\tif cur.children[i] == nil {\n\t\t\treturn false\n\t\t}\n\t\tcur = cur.children[i]\n\t}\n\treturn true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode {\n    val children = arrayOfNulls<TrieNode>(26)\n    var endOfWord = false\n}\n\nclass PrefixTree {\n    private val root = TrieNode()\n\n    fun insert(word: String) {\n        var cur = root\n        for (c in word) {\n            val i = c - 'a'\n            if (cur.children[i] == null) {\n                cur.children[i] = TrieNode()\n            }\n            cur = cur.children[i]!!\n        }\n        cur.endOfWord = true\n    }\n\n    fun search(word: String): Boolean {\n        var cur = root\n        for (c in word) {\n            val i = c - 'a'\n            if (cur.children[i] == null) {\n                return false\n            }\n            cur = cur.children[i]!!\n        }\n        return cur.endOfWord\n    }\n\n    fun startsWith(prefix: String): Boolean {\n        var cur = root\n        for (c in prefix) {\n            val i = c - 'a'\n            if (cur.children[i] == null) {\n                return false\n            }\n            cur = cur.children[i]!!\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode {\n    var children: [TrieNode?]\n    var endOfWord: Bool\n\n    init() {\n        self.children = Array(repeating: nil, count: 26)\n        self.endOfWord = false\n    }\n}\n\nclass PrefixTree {\n    private let root: TrieNode\n\n    init() {\n        self.root = TrieNode()\n    }\n\n    func insert(_ word: String) {\n        var cur = root\n        for c in word {\n            let i = Int(c.asciiValue! - Character(\"a\").asciiValue!)\n            if cur.children[i] == nil {\n                cur.children[i] = TrieNode()\n            }\n            cur = cur.children[i]!\n        }\n        cur.endOfWord = true\n    }\n\n    func search(_ word: String) -> Bool {\n        var cur = root\n        for c in word {\n            let i = Int(c.asciiValue! - Character(\"a\").asciiValue!)\n            if cur.children[i] == nil {\n                return false\n            }\n            cur = cur.children[i]!\n        }\n        return cur.endOfWord\n    }\n\n    func startsWith(_ prefix: String) -> Bool {\n        var cur = root\n        for c in prefix {\n            let i = Int(c.asciiValue! - Character(\"a\").asciiValue!)\n            if cur.children[i] == nil {\n                return false\n            }\n            cur = cur.children[i]!\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "struct TrieNode {\n    children: [Option<Box<TrieNode>>; 26],\n    end_of_word: bool,\n}\n\nimpl TrieNode {\n    fn new() -> Self {\n        Self {\n            children: Default::default(),\n            end_of_word: false,\n        }\n    }\n}\n\nstruct PrefixTree {\n    root: TrieNode,\n}\n\nimpl PrefixTree {\n    fn new() -> Self {\n        Self { root: TrieNode::new() }\n    }\n\n    fn insert(&mut self, word: String) {\n        let mut cur = &mut self.root;\n        for c in word.bytes() {\n            let i = (c - b'a') as usize;\n            cur = cur.children[i].get_or_insert_with(|| Box::new(TrieNode::new()));\n        }\n        cur.end_of_word = true;\n    }\n\n    fn search(&self, word: String) -> bool {\n        let mut cur = &self.root;\n        for c in word.bytes() {\n            let i = (c - b'a') as usize;\n            match &cur.children[i] {\n                Some(node) => cur = node,\n                None => return false,\n            }\n        }\n        cur.end_of_word\n    }\n\n    fn starts_with(&self, prefix: String) -> bool {\n        let mut cur = &self.root;\n        for c in prefix.bytes() {\n            let i = (c - b'a') as usize;\n            match &cur.children[i] {\n                Some(node) => cur = node,\n                None => return false,\n            }\n        }\n        true\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.endOfWord = False\n\nclass PrefixTree:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word: str) -> None:\n        cur = self.root\n        for c in word:\n            if c not in cur.children:\n                cur.children[c] = TrieNode()\n            cur = cur.children[c]\n        cur.endOfWord = True\n\n    def search(self, word: str) -> bool:\n        cur = self.root\n        for c in word:\n            if c not in cur.children:\n                return False\n            cur = cur.children[c]\n        return cur.endOfWord\n\n    def startsWith(self, prefix: str) -> bool:\n        cur = self.root\n        for c in prefix:\n            if c not in cur.children:\n                return False\n            cur = cur.children[c]\n        return True"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "public class TrieNode {\n    HashMap<Character, TrieNode> children = new HashMap<>();\n    boolean endOfWord = false;\n}\n\npublic class PrefixTree {\n    private TrieNode root;\n\n    public PrefixTree() {\n        root = new TrieNode();\n    }\n\n    public void insert(String word) {\n        TrieNode cur = root;\n        for (char c : word.toCharArray()) {\n            cur.children.putIfAbsent(c, new TrieNode());\n            cur = cur.children.get(c);\n        }\n        cur.endOfWord = true;\n    }\n\n    public boolean search(String word) {\n        TrieNode cur = root;\n        for (char c : word.toCharArray()) {\n            if (!cur.children.containsKey(c)) {\n                return false;\n            }\n            cur = cur.children.get(c);\n        }\n        return cur.endOfWord;\n    }\n\n    public boolean startsWith(String prefix) {\n        TrieNode cur = root;\n        for (char c : prefix.toCharArray()) {\n            if (!cur.children.containsKey(c)) {\n                return false;\n            }\n            cur = cur.children.get(c);\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode {\npublic:\n    unordered_map<char, TrieNode*> children;\n    bool endOfWord = false;\n};\n\nclass PrefixTree {\n    TrieNode* root;\n\npublic:\n    PrefixTree() {\n        root = new TrieNode();\n    }\n\n    void insert(string word) {\n        TrieNode* cur = root;\n        for (char c : word) {\n            if (cur->children.find(c) == cur->children.end()) {\n                cur->children[c] = new TrieNode();\n            }\n            cur = cur->children[c];\n        }\n        cur->endOfWord = true;\n    }\n\n    bool search(string word) {\n        TrieNode* cur = root;\n        for (char c : word) {\n            if (cur->children.find(c) == cur->children.end()) {\n                return false;\n            }\n            cur = cur->children[c];\n        }\n        return cur->endOfWord;\n    }\n\n    bool startsWith(string prefix) {\n        TrieNode* cur = root;\n        for (char c : prefix) {\n            if (cur->children.find(c) == cur->children.end()) {\n                return false;\n            }\n            cur = cur->children[c];\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode {\n    constructor() {\n        this.children = new Map();\n        this.endOfWord = false;\n    }\n}\n\nclass PrefixTree {\n    constructor() {\n        this.root = new TrieNode();\n    }\n\n    /**\n     * @param {string} word\n     * @return {void}\n     */\n    insert(word) {\n        let cur = this.root;\n        for (let c of word) {\n            if (!cur.children.has(c)) {\n                cur.children.set(c, new TrieNode());\n            }\n            cur = cur.children.get(c);\n        }\n        cur.endOfWord = true;\n    }\n\n    /**\n     * @param {string} word\n     * @return {boolean}\n     */\n    search(word) {\n        let cur = this.root;\n        for (let c of word) {\n            if (!cur.children.has(c)) {\n                return false;\n            }\n            cur = cur.children.get(c);\n        }\n        return cur.endOfWord;\n    }\n\n    /**\n     * @param {string} prefix\n     * @return {boolean}\n     */\n    startsWith(prefix) {\n        let cur = this.root;\n        for (let c of prefix) {\n            if (!cur.children.has(c)) {\n                return false;\n            }\n            cur = cur.children.get(c);\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "public class TrieNode {\n    public Dictionary<char, TrieNode> children =\n                            new Dictionary<char, TrieNode>();\n    public bool endOfWord = false;\n}\n\npublic class PrefixTree {\n    private TrieNode root;\n\n    public PrefixTree() {\n        root = new TrieNode();\n    }\n\n    public void Insert(string word) {\n        TrieNode cur = root;\n        foreach (char c in word) {\n            if (!cur.children.ContainsKey(c)) {\n                cur.children[c] = new TrieNode();\n            }\n            cur = cur.children[c];\n        }\n        cur.endOfWord = true;\n    }\n\n    public bool Search(string word) {\n        TrieNode cur = root;\n        foreach (char c in word) {\n            if (!cur.children.ContainsKey(c)) {\n                return false;\n            }\n            cur = cur.children[c];\n        }\n        return cur.endOfWord;\n    }\n\n    public bool StartsWith(string prefix) {\n        TrieNode cur = root;\n        foreach (char c in prefix) {\n            if (!cur.children.ContainsKey(c)) {\n                return false;\n            }\n            cur = cur.children[c];\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "type TrieNode struct {\n\tchildren map[rune]*TrieNode\n\tendOfWord bool\n}\n\ntype PrefixTree struct {\n\troot *TrieNode\n}\n\nfunc Constructor() PrefixTree {\n\treturn PrefixTree{root: &TrieNode{children: make(map[rune]*TrieNode)}}\n}\n\nfunc (this *PrefixTree) Insert(word string) {\n\tcur := this.root\n\tfor _, c := range word {\n\t\tif cur.children[c] == nil {\n\t\t\tcur.children[c] = &TrieNode{children: make(map[rune]*TrieNode)}\n\t\t}\n\t\tcur = cur.children[c]\n\t}\n\tcur.endOfWord = true\n}\n\nfunc (this *PrefixTree) Search(word string) bool {\n\tcur := this.root\n\tfor _, c := range word {\n\t\tif cur.children[c] == nil {\n\t\t\treturn false\n\t\t}\n\t\tcur = cur.children[c]\n\t}\n\treturn cur.endOfWord\n}\n\nfunc (this *PrefixTree) StartsWith(prefix string) bool {\n\tcur := this.root\n\tfor _, c := range prefix {\n\t\tif cur.children[c] == nil {\n\t\t\treturn false\n\t\t}\n\t\tcur = cur.children[c]\n\t}\n\treturn true\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode {\n    val children = mutableMapOf<Char, TrieNode>()\n    var endOfWord = false\n}\n\nclass PrefixTree {\n    private val root = TrieNode()\n\n    fun insert(word: String) {\n        var cur = root\n        for (c in word) {\n            cur.children.putIfAbsent(c, TrieNode())\n            cur = cur.children[c]!!\n        }\n        cur.endOfWord = true\n    }\n\n    fun search(word: String): Boolean {\n        var cur = root\n        for (c in word) {\n            if (c !in cur.children) {\n                return false\n            }\n            cur = cur.children[c]!!\n        }\n        return cur.endOfWord\n    }\n\n    fun startsWith(prefix: String): Boolean {\n        var cur = root\n        for (c in prefix) {\n            if (c !in cur.children) {\n                return false\n            }\n            cur = cur.children[c]!!\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "class TrieNode {\n    var children: [Character: TrieNode]\n    var endOfWord: Bool\n\n    init() {\n        self.children = [:]\n        self.endOfWord = false\n    }\n}\n\nclass PrefixTree {\n    private let root: TrieNode\n\n    init() {\n        self.root = TrieNode()\n    }\n\n    func insert(_ word: String) {\n        var cur = root\n        for c in word {\n            if cur.children[c] == nil {\n                cur.children[c] = TrieNode()\n            }\n            cur = cur.children[c]!\n        }\n        cur.endOfWord = true\n    }\n\n    func search(_ word: String) -> Bool {\n        var cur = root\n        for c in word {\n            if cur.children[c] == nil {\n                return false\n            }\n            cur = cur.children[c]!\n        }\n        return cur.endOfWord\n    }\n\n    func startsWith(_ prefix: String) -> Bool {\n        var cur = root\n        for c in prefix {\n            if cur.children[c] == nil {\n                return false\n            }\n            cur = cur.children[c]!\n        }\n        return true\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(t)",
+            "code": "struct TrieNode {\n    children: HashMap<char, TrieNode>,\n    end_of_word: bool,\n}\n\nimpl TrieNode {\n    fn new() -> Self {\n        Self {\n            children: HashMap::new(),\n            end_of_word: false,\n        }\n    }\n}\n\nstruct PrefixTree {\n    root: TrieNode,\n}\n\nimpl PrefixTree {\n    fn new() -> Self {\n        Self { root: TrieNode::new() }\n    }\n\n    fn insert(&mut self, word: String) {\n        let mut cur = &mut self.root;\n        for c in word.chars() {\n            cur = cur.children.entry(c).or_insert_with(TrieNode::new);\n        }\n        cur.end_of_word = true;\n    }\n\n    fn search(&self, word: String) -> bool {\n        let mut cur = &self.root;\n        for c in word.chars() {\n            match cur.children.get(&c) {\n                Some(node) => cur = node,\n                None => return false,\n            }\n        }\n        cur.end_of_word\n    }\n\n    fn starts_with(&self, prefix: String) -> bool {\n        let mut cur = &self.root;\n        for c in prefix.chars() {\n            match cur.children.get(&c) {\n                Some(node) => cur = node,\n                None => return false,\n            }\n        }\n        true\n    }\n}"
+        }
+    ]
+}

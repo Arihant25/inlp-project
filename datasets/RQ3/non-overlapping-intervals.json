@@ -1,0 +1,337 @@
+{
+    "problem_name": "Non Overlapping Intervals",
+    "problem_slug": "non-overlapping-intervals",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming",
+        "greedy",
+        "sorting"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        intervals.sort()\n\n        def dfs(i, prev):\n            if i == len(intervals):\n                return 0\n            res = dfs(i + 1, prev)\n            if prev == -1 or intervals[prev][1] <= intervals[i][0]:\n                res = max(res, 1 + dfs(i + 1, i))\n            return res\n\n        return len(intervals) - dfs(0, -1)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));\n        return intervals.length - dfs(intervals, 0, -1);\n    }\n\n    private int dfs(int[][] intervals, int i, int prev) {\n        if (i == intervals.length) return 0;\n        int res = dfs(intervals, i + 1, prev);\n        if (prev == -1 || intervals[prev][1] <= intervals[i][0]) {\n            res = Math.max(res, 1 + dfs(intervals, i + 1, i));\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end());\n        return intervals.size() - dfs(intervals, 0, -1);\n    }\n\nprivate:\n    int dfs(const vector<vector<int>>& intervals, int i, int prev) {\n        if (i == intervals.size()) return 0;\n        int res = dfs(intervals, i + 1, prev);\n        if (prev == -1 || intervals[prev][1] <= intervals[i][0]) {\n            res = max(res, 1 + dfs(intervals, i + 1, i));\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number}\n     */\n    eraseOverlapIntervals(intervals) {\n        intervals.sort((a, b) => a[0] - b[0]);\n\n        const dfs = (i, prev) => {\n            if (i === intervals.length) return 0;\n            let res = dfs(i + 1, prev);\n            if (prev === -1 || intervals[prev][1] <= intervals[i][0]) {\n                res = Math.max(res, 1 + dfs(i + 1, i));\n            }\n            return res;\n        };\n\n        return intervals.length - dfs(0, -1);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int EraseOverlapIntervals(int[][] intervals) {\n        Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));\n        return intervals.Length - Dfs(intervals, 0, -1);\n    }\n\n    private int Dfs(int[][] intervals, int i, int prev) {\n        if (i == intervals.Length) return 0;\n        int res = Dfs(intervals, i + 1, prev);\n        if (prev == -1 || intervals[prev][1] <= intervals[i][0]) {\n            res = Math.Max(res, 1 + Dfs(intervals, i + 1, i));\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "func eraseOverlapIntervals(intervals [][]int) int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][0] < intervals[j][0]\n    })\n\n    var dfs func(i, prev int) int\n    dfs = func(i, prev int) int {\n        if i == len(intervals) {\n            return 0\n        }\n        res := dfs(i+1, prev)\n        if prev == -1 || intervals[prev][1] <= intervals[i][0] {\n            res = max(res, 1+dfs(i+1, i))\n        }\n        return res\n    }\n\n    return len(intervals) - dfs(0, -1)\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {\n        intervals.sortBy { it[0] }\n\n        fun dfs(i: Int, prev: Int): Int {\n            if (i == intervals.size) {\n                return 0\n            }\n            var res = dfs(i + 1, prev)\n            if (prev == -1 || intervals[prev][1] <= intervals[i][0]) {\n                res = maxOf(res, 1 + dfs(i + 1, i))\n            }\n            return res\n        }\n\n        return intervals.size - dfs(0, -1)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func eraseOverlapIntervals(_ intervals: [[Int]]) -> Int {\n        var intervals = intervals\n        intervals.sort { $0[0] < $1[0] }\n\n        func dfs(_ i: Int, _ prev: Int) -> Int {\n            if i == intervals.count {\n                return 0\n            }\n            var res = dfs(i + 1, prev)\n            if prev == -1 || intervals[prev][1] <= intervals[i][0] {\n                res = max(res, 1 + dfs(i + 1, i))\n            }\n            return res\n        }\n\n        return intervals.count - dfs(0, -1)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn erase_overlap_intervals(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut intervals = intervals;\n        intervals.sort_unstable();\n\n        fn dfs(intervals: &[Vec<i32>], i: usize, prev: i32) -> i32 {\n            if i == intervals.len() {\n                return 0;\n            }\n            let mut res = dfs(intervals, i + 1, prev);\n            if prev == -1\n                || intervals[prev as usize][1] <= intervals[i][0]\n            {\n                res = res.max(1 + dfs(intervals, i + 1, i as i32));\n            }\n            res\n        }\n\n        intervals.len() as i32 - dfs(&intervals, 0, -1)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        intervals.sort(key = lambda x: x[1])\n        n = len(intervals)\n        memo = {}\n\n        def dfs(i):\n            if i in memo:\n                return memo[i]\n\n            res = 1\n            for j in range(i + 1, n):\n                if intervals[i][1] <= intervals[j][0]:\n                    res = max(res, 1 + dfs(j))\n            memo[i] = res\n            return res\n\n        return n - dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int[] memo;\n\n    public int eraseOverlapIntervals(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int n = intervals.length;\n        memo = new int[n];\n        Arrays.fill(memo, -1);\n\n        int maxNonOverlapping = dfs(intervals, 0);\n        return n - maxNonOverlapping;\n    }\n\n    private int dfs(int[][] intervals, int i) {\n        if (i >= intervals.length) return 0;\n        if (memo[i] != -1) return memo[i];\n\n        int res = 1;\n        for (int j = i + 1; j < intervals.length; j++) {\n            if (intervals[i][1] <= intervals[j][0]) {\n                res = Math.max(res, 1 + dfs(intervals, j));\n            }\n        }\n        memo[i] = res;\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end(), [](auto& a, auto& b) {\n            return a[1] < b[1];\n        });\n        int n = intervals.size();\n        vector<int> memo(n, -1);\n\n        int maxNonOverlapping = dfs(intervals, 0, memo);\n        return n - maxNonOverlapping;\n    }\n\nprivate:\n    int dfs(const vector<vector<int>>& intervals, int i, vector<int>& memo) {\n        if (i >= intervals.size()) return 0;\n        if (memo[i] != -1) return memo[i];\n\n        int res = 1;\n        for (int j = i + 1; j < intervals.size(); j++) {\n            if (intervals[i][1] <= intervals[j][0]) {\n                res = max(res, 1 + dfs(intervals, j, memo));\n            }\n        }\n        memo[i] = res;\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number}\n     */\n    eraseOverlapIntervals(intervals) {\n        intervals.sort((a, b) => a[1] - b[1]);\n        const n = intervals.length;\n        let memo = new Array(n).fill(-1);\n\n        const dfs = (i) => {\n            if (i >= n) return 0;\n            if (memo[i] !== -1) return memo[i];\n\n            let res = 1;\n            for (let j = i + 1; j < n; j++) {\n                if (intervals[i][1] <= intervals[j][0]) {\n                    res = Math.max(res, 1 + dfs(j));\n                }\n            }\n            memo[i] = res;\n            return res;\n        };\n\n        const maxNonOverlapping = dfs(0);\n        return n - maxNonOverlapping;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int[] memo;\n\n    public int EraseOverlapIntervals(int[][] intervals) {\n        Array.Sort(intervals, (a, b) => a[1].CompareTo(b[1]));\n        int n = intervals.Length;\n        memo = new int[n];\n        Array.Fill(memo, -1);\n\n        int maxNonOverlapping = Dfs(intervals, 0);\n        return n - maxNonOverlapping;\n    }\n\n    private int Dfs(int[][] intervals, int i) {\n        if (i >= intervals.Length) return 0;\n        if (memo[i] != -1) return memo[i];\n\n        int res = 1;\n        for (int j = i + 1; j < intervals.Length; j++) {\n            if (intervals[i][1] <= intervals[j][0]) {\n                res = Math.Max(res, 1 + Dfs(intervals, j));\n            }\n        }\n        memo[i] = res;\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func eraseOverlapIntervals(intervals [][]int) int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][1] < intervals[j][1]\n    })\n    n := len(intervals)\n    memo := make([]int, n)\n\n    var dfs func(i int) int\n    dfs = func(i int) int {\n        if memo[i] != 0 {\n            return memo[i]\n        }\n\n        res := 1\n        for j := i + 1; j < n; j++ {\n            if intervals[i][1] <= intervals[j][0] {\n                res = max(res, 1+dfs(j))\n            }\n        }\n        memo[i] = res\n        return res\n    }\n\n    return n - dfs(0)\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {\n        intervals.sortBy { it[1] }\n        val n = intervals.size\n        val memo = IntArray(n)\n\n        fun dfs(i: Int): Int {\n            if (memo[i] != 0) {\n                return memo[i]\n            }\n\n            var res = 1\n            for (j in i + 1 until n) {\n                if (intervals[i][1] <= intervals[j][0]) {\n                    res = maxOf(res, 1 + dfs(j))\n                }\n            }\n            memo[i] = res\n            return res\n        }\n\n        return n - dfs(0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func eraseOverlapIntervals(_ intervals: [[Int]]) -> Int {\n        var intervals = intervals\n        intervals.sort { $0[1] < $1[1] }\n        let n = intervals.count\n        var memo = [Int: Int]()\n\n        func dfs(_ i: Int) -> Int {\n            if let result = memo[i] {\n                return result\n            }\n\n            var res = 1\n            for j in i + 1..<n {\n                if intervals[i][1] <= intervals[j][0] {\n                    res = max(res, 1 + dfs(j))\n                }\n            }\n            memo[i] = res\n            return res\n        }\n\n        return n - dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn erase_overlap_intervals(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut intervals = intervals;\n        intervals.sort_unstable_by_key(|v| v[1]);\n        let n = intervals.len();\n        let mut memo = vec![-1i32; n];\n\n        fn dfs(intervals: &[Vec<i32>], i: usize, memo: &mut Vec<i32>) -> i32 {\n            if i >= intervals.len() {\n                return 0;\n            }\n            if memo[i] != -1 {\n                return memo[i];\n            }\n            let mut res = 1;\n            for j in i + 1..intervals.len() {\n                if intervals[i][1] <= intervals[j][0] {\n                    res = res.max(1 + dfs(intervals, j, memo));\n                }\n            }\n            memo[i] = res;\n            res\n        }\n\n        n as i32 - dfs(&intervals, 0, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        intervals.sort(key=lambda x: x[1])\n        n = len(intervals)\n        dp = [0] * n\n\n        for i in range(n):\n            dp[i] = 1\n            for j in range(i):\n                if intervals[j][1] <= intervals[i][0]:\n                    dp[i] = max(dp[i], 1 + dp[j])\n\n        max_non_overlapping = max(dp)\n        return n - max_non_overlapping"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int n = intervals.length;\n        int[] dp = new int[n];\n\n        for (int i = 0; i < n; i++) {\n            dp[i] = 1;\n            for (int j = 0; j < i; j++) {\n                if (intervals[j][1] <= intervals[i][0]) {\n                    dp[i] = Math.max(dp[i], 1 + dp[j]);\n                }\n            }\n        }\n\n        int maxNonOverlapping = Arrays.stream(dp).max().getAsInt();\n        return n - maxNonOverlapping;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end(), [](auto& a, auto& b) {\n            return a[1] < b[1];\n        });\n        int n = intervals.size();\n        vector<int> dp(n, 0);\n\n        for (int i = 0; i < n; i++) {\n            dp[i] = 1;\n            for (int j = 0; j < i; j++) {\n                if (intervals[j][1] <= intervals[i][0]) {\n                    dp[i] = max(dp[i], 1 + dp[j]);\n                }\n            }\n        }\n\n        int maxNonOverlapping = *max_element(dp.begin(), dp.end());\n        return n - maxNonOverlapping;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number}\n     */\n    eraseOverlapIntervals(intervals) {\n        intervals.sort((a, b) => a[1] - b[1]);\n        const n = intervals.length;\n        const dp = new Array(n).fill(0);\n\n        for (let i = 0; i < n; i++) {\n            dp[i] = 1;\n            for (let j = 0; j < i; j++) {\n                if (intervals[j][1] <= intervals[i][0]) {\n                    dp[i] = Math.max(dp[i], 1 + dp[j]);\n                }\n            }\n        }\n\n        const maxNonOverlapping = Math.max(...dp);\n        return n - maxNonOverlapping;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int EraseOverlapIntervals(int[][] intervals) {\n        Array.Sort(intervals, (a, b) => a[1].CompareTo(b[1]));\n        int n = intervals.Length;\n        int[] dp = new int[n];\n\n        for (int i = 0; i < n; i++) {\n            dp[i] = 1;\n            for (int j = 0; j < i; j++) {\n                if (intervals[j][1] <= intervals[i][0]) {\n                    dp[i] = Math.Max(dp[i], 1 + dp[j]);\n                }\n            }\n        }\n\n        int maxNonOverlapping = 0;\n        foreach (var count in dp) {\n            maxNonOverlapping = Math.Max(maxNonOverlapping, count);\n        }\n        return n - maxNonOverlapping;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func eraseOverlapIntervals(intervals [][]int) int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][1] < intervals[j][1]\n    })\n\n    n := len(intervals)\n    dp := make([]int, n)\n\n    for i := 0; i < n; i++ {\n        dp[i] = 1\n        for j := 0; j < i; j++ {\n            if intervals[j][1] <= intervals[i][0] {\n                dp[i] = max(dp[i], 1+dp[j])\n            }\n        }\n    }\n\n    maxNonOverlapping := dp[0]\n    for i := 1; i < n; i++ {\n        maxNonOverlapping = max(maxNonOverlapping, dp[i])\n    }\n\n    return n - maxNonOverlapping\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {\n        intervals.sortBy { it[1] }\n        val n = intervals.size\n        val dp = IntArray(n)\n\n        for (i in 0 until n) {\n            dp[i] = 1\n            for (j in 0 until i) {\n                if (intervals[j][1] <= intervals[i][0]) {\n                    dp[i] = maxOf(dp[i], 1 + dp[j])\n                }\n            }\n        }\n\n        val maxNonOverlapping = dp.maxOrNull() ?: 0\n        return n - maxNonOverlapping\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func eraseOverlapIntervals(_ intervals: [[Int]]) -> Int {\n        var intervals = intervals\n        intervals.sort { $0[1] < $1[1] }\n        let n = intervals.count\n        var dp = [Int](repeating: 0, count: n)\n\n        for i in 0..<n {\n            dp[i] = 1\n            for j in 0..<i {\n                if intervals[j][1] <= intervals[i][0] {\n                    dp[i] = max(dp[i], 1 + dp[j])\n                }\n            }\n        }\n\n        let maxNonOverlapping = dp.max() ?? 0\n        return n - maxNonOverlapping\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn erase_overlap_intervals(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut intervals = intervals;\n        intervals.sort_unstable_by_key(|v| v[1]);\n        let n = intervals.len();\n        let mut dp = vec![0i32; n];\n\n        for i in 0..n {\n            dp[i] = 1;\n            for j in 0..i {\n                if intervals[j][1] <= intervals[i][0] {\n                    dp[i] = dp[i].max(1 + dp[j]);\n                }\n            }\n        }\n\n        let max_non_overlapping = *dp.iter().max().unwrap();\n        n as i32 - max_non_overlapping\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        intervals.sort(key=lambda x: x[1])\n        n = len(intervals)\n        dp = [0] * n\n        dp[0] = 1\n\n        def bs(r, target):\n            l = 0\n            while l < r:\n                m = (l + r) >> 1\n                if intervals[m][1] <= target:\n                    l = m + 1\n                else:\n                    r = m\n            return l\n\n        for i in range(1, n):\n            idx = bs(i, intervals[i][0])\n            if idx == 0:\n                dp[i] = dp[i - 1]\n            else:\n                dp[i] = max(dp[i - 1], 1 + dp[idx - 1])\n        return n - dp[n - 1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int n = intervals.length;\n        int[] dp = new int[n];\n        dp[0] = 1;\n\n        for (int i = 1; i < n; i++) {\n            int idx = bs(i, intervals[i][0], intervals);\n            if (idx == 0) {\n                dp[i] = dp[i - 1];\n            } else {\n                dp[i] = Math.max(dp[i - 1], 1 + dp[idx - 1]);\n            }\n        }\n        return n - dp[n - 1];\n    }\n\n    private int bs(int r, int target, int[][] intervals) {\n        int l = 0;\n        while (l < r) {\n            int m = (l + r) >> 1;\n            if (intervals[m][1] <= target) {\n                l = m + 1;\n            } else {\n                r = m;\n            }\n        }\n        return l;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end(), [](auto& a, auto& b) {\n            return a[1] < b[1];\n        });\n        int n = intervals.size();\n        vector<int> dp(n);\n        dp[0] = 1;\n\n        for (int i = 1; i < n; i++) {\n            int idx = bs(i, intervals[i][0], intervals);\n            if (idx == 0) {\n                dp[i] = dp[i - 1];\n            } else {\n                dp[i] = max(dp[i - 1], 1 + dp[idx - 1]);\n            }\n        }\n        return n - dp[n - 1];\n    }\n\n    int bs(int r, int target, vector<vector<int>>& intervals) {\n        int l = 0;\n        while (l < r) {\n            int m = (l + r) >> 1;\n            if (intervals[m][1] <= target) {\n                l = m + 1;\n            } else {\n                r = m;\n            }\n        }\n        return l;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number}\n     */\n    eraseOverlapIntervals(intervals) {\n        intervals.sort((a, b) => a[1] - b[1]);\n        const n = intervals.length;\n        const dp = new Array(n).fill(0);\n        dp[0] = 1;\n\n        const bs = (r, target) => {\n            let l = 0;\n            while (l < r) {\n                const m = (l + r) >> 1;\n                if (intervals[m][1] <= target) {\n                    l = m + 1;\n                } else {\n                    r = m;\n                }\n            }\n            return l;\n        };\n\n        for (let i = 1; i < n; i++) {\n            const idx = bs(i, intervals[i][0]);\n            if (idx === 0) {\n                dp[i] = dp[i - 1];\n            } else {\n                dp[i] = Math.max(dp[i - 1], 1 + dp[idx - 1]);\n            }\n        }\n        return n - dp[n - 1];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int EraseOverlapIntervals(int[][] intervals) {\n        Array.Sort(intervals, (a, b) => a[1].CompareTo(b[1]));\n        int n = intervals.Length;\n        int[] dp = new int[n];\n        dp[0] = 1;\n\n        for (int i = 1; i < n; i++) {\n            int idx = Bs(i, intervals[i][0], intervals);\n            if (idx == 0) {\n                dp[i] = dp[i - 1];\n            } else {\n                dp[i] = Math.Max(dp[i - 1], 1 + dp[idx - 1]);\n            }\n        }\n        return n - dp[n - 1];\n    }\n\n    private int Bs(int r, int target, int[][] intervals) {\n        int l = 0;\n        while (l < r) {\n            int m = (l + r) >> 1;\n            if (intervals[m][1] <= target) {\n                l = m + 1;\n            } else {\n                r = m;\n            }\n        }\n        return l;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func eraseOverlapIntervals(intervals [][]int) int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][1] < intervals[j][1]\n    })\n\n    n := len(intervals)\n    dp := make([]int, n)\n    dp[0] = 1\n\n    var bs func(r, target int) int\n    bs = func(r, target int) int {\n        l := 0\n        for l < r {\n            m := (l + r) >> 1\n            if intervals[m][1] <= target {\n                l = m + 1\n            } else {\n                r = m\n            }\n        }\n        return l\n    }\n\n    for i := 1; i < n; i++ {\n        idx := bs(i, intervals[i][0])\n        if idx == 0 {\n            dp[i] = dp[i-1]\n        } else {\n            dp[i] = max(dp[i-1], 1+dp[idx-1])\n        }\n    }\n\n    return n - dp[n-1]\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {\n        intervals.sortBy { it[1] }\n        val n = intervals.size\n        val dp = IntArray(n)\n        dp[0] = 1\n\n        fun bs(r: Int, target: Int): Int {\n            var l = 0\n            var r = r\n            while (l < r) {\n                val m = (l + r) / 2\n                if (intervals[m][1] <= target) {\n                    l = m + 1\n                } else {\n                    r = m\n                }\n            }\n            return l\n        }\n\n        for (i in 1 until n) {\n            val idx = bs(i, intervals[i][0])\n            dp[i] = if (idx == 0) dp[i - 1] else maxOf(dp[i - 1], 1 + dp[idx - 1])\n        }\n\n        return n - dp[n - 1]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func eraseOverlapIntervals(_ intervals: [[Int]]) -> Int {\n        var intervals = intervals\n        intervals.sort { $0[1] < $1[1] }\n        let n = intervals.count\n        var dp = [Int](repeating: 0, count: n)\n        dp[0] = 1\n\n        func bs(_ r: Int, _ target: Int) -> Int {\n            var l = 0\n            var r = r\n            while l < r {\n                let m = (l + r) >> 1\n                if intervals[m][1] <= target {\n                    l = m + 1\n                } else {\n                    r = m\n                }\n            }\n            return l\n        }\n\n        for i in 1..<n {\n            let idx = bs(i, intervals[i][0])\n            if idx == 0 {\n                dp[i] = dp[i - 1]\n            } else {\n                dp[i] = max(dp[i - 1], 1 + dp[idx - 1])\n            }\n        }\n        return n - dp[n - 1]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn erase_overlap_intervals(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut intervals = intervals;\n        intervals.sort_unstable_by_key(|v| v[1]);\n        let n = intervals.len();\n        let mut dp = vec![0i32; n];\n        dp[0] = 1;\n\n        let bs = |r: usize, target: i32| -> usize {\n            let (mut l, mut r) = (0usize, r);\n            while l < r {\n                let m = (l + r) >> 1;\n                if intervals[m][1] <= target {\n                    l = m + 1;\n                } else {\n                    r = m;\n                }\n            }\n            l\n        };\n\n        for i in 1..n {\n            let idx = bs(i, intervals[i][0]);\n            if idx == 0 {\n                dp[i] = dp[i - 1];\n            } else {\n                dp[i] = dp[i - 1].max(1 + dp[idx - 1]);\n            }\n        }\n        n as i32 - dp[n - 1]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        intervals.sort()\n        res = 0\n        prevEnd = intervals[0][1]\n\n        for start, end in intervals[1:]:\n            if start >= prevEnd:\n                prevEnd = end\n            else:\n                res += 1\n                prevEnd = min(end, prevEnd)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));\n        int res = 0;\n        int prevEnd = intervals[0][1];\n\n        for (int i = 1; i < intervals.length; i++) {\n            int start = intervals[i][0];\n            int end = intervals[i][1];\n            if (start >= prevEnd) {\n                prevEnd = end;\n            } else {\n                res++;\n                prevEnd = Math.min(end, prevEnd);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end());\n        int res = 0;\n        int prevEnd = intervals[0][1];\n\n        for (int i = 1; i < intervals.size(); i++) {\n            int start = intervals[i][0];\n            int end = intervals[i][1];\n            if (start >= prevEnd) {\n                prevEnd = end;\n            } else {\n                res++;\n                prevEnd = min(end, prevEnd);\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number}\n     */\n    eraseOverlapIntervals(intervals) {\n        intervals.sort((a, b) => a[0] - b[0]);\n        let res = 0;\n        let prevEnd = intervals[0][1];\n\n        for (let i = 1; i < intervals.length; i++) {\n            const start = intervals[i][0];\n            const end = intervals[i][1];\n            if (start >= prevEnd) {\n                prevEnd = end;\n            } else {\n                res++;\n                prevEnd = Math.min(end, prevEnd);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int EraseOverlapIntervals(int[][] intervals) {\n        Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));\n        int res = 0;\n        int prevEnd = intervals[0][1];\n\n        for (int i = 1; i < intervals.Length; i++) {\n            int start = intervals[i][0];\n            int end = intervals[i][1];\n            if (start >= prevEnd) {\n                prevEnd = end;\n            } else {\n                res++;\n                prevEnd = Math.Min(end, prevEnd);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "func eraseOverlapIntervals(intervals [][]int) int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][0] < intervals[j][0]\n    })\n\n    res := 0\n    prevEnd := intervals[0][1]\n\n    for _, interval := range intervals[1:] {\n        start, end := interval[0], interval[1]\n        if start >= prevEnd {\n            prevEnd = end\n        } else {\n            res++\n            prevEnd = min(end, prevEnd)\n        }\n    }\n    return res\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {\n        intervals.sortBy { it[0] }\n\n        var res = 0\n        var prevEnd = intervals[0][1]\n\n        for (i in 1 until intervals.size) {\n            val (start, end) = intervals[i]\n            if (start >= prevEnd) {\n                prevEnd = end\n            } else {\n                res++\n                prevEnd = minOf(end, prevEnd)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func eraseOverlapIntervals(_ intervals: [[Int]]) -> Int {\n        var intervals = intervals\n        intervals.sort { $0[0] < $1[0] }\n\n        var res = 0\n        var prevEnd = intervals[0][1]\n\n        for i in 1..<intervals.count {\n            let start = intervals[i][0]\n            let end = intervals[i][1]\n            if start >= prevEnd {\n                prevEnd = end\n            } else {\n                res += 1\n                prevEnd = min(end, prevEnd)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn erase_overlap_intervals(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut intervals = intervals;\n        intervals.sort_unstable();\n        let mut res = 0;\n        let mut prev_end = intervals[0][1];\n\n        for i in 1..intervals.len() {\n            let start = intervals[i][0];\n            let end = intervals[i][1];\n            if start >= prev_end {\n                prev_end = end;\n            } else {\n                res += 1;\n                prev_end = prev_end.min(end);\n            }\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        intervals.sort(key = lambda pair: pair[1])\n        prevEnd = intervals[0][1]\n        res = 0\n\n        for i in range(1, len(intervals)):\n            if prevEnd > intervals[i][0]:\n                res += 1\n            else:\n                prevEnd = intervals[i][1]\n\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int res = 0;\n        int prevEnd = intervals[0][1];\n\n        for (int i = 1; i < intervals.length; i++) {\n            int start = intervals[i][0];\n            int end = intervals[i][1];\n            if (start < prevEnd) {\n                res++;\n            } else {\n                prevEnd = end;\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end(), [](auto& a, auto& b) {\n            return a[1] < b[1];\n        });\n        int res = 0;\n        int prevEnd = intervals[0][1];\n\n        for (int i = 1; i < intervals.size(); i++) {\n            int start = intervals[i][0];\n            int end = intervals[i][1];\n            if (start < prevEnd) {\n                res++;\n            } else {\n                prevEnd = end;\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} intervals\n     * @return {number}\n     */\n    eraseOverlapIntervals(intervals) {\n        intervals.sort((a, b) => a[1] - b[1]);\n        let res = 0;\n        let prevEnd = intervals[0][1];\n\n        for (let i = 1; i < intervals.length; i++) {\n            const start = intervals[i][0];\n            const end = intervals[i][1];\n            if (start < prevEnd) {\n                res++;\n            } else {\n                prevEnd = end;\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int EraseOverlapIntervals(int[][] intervals) {\n        Array.Sort(intervals, (a, b) => a[1].CompareTo(b[1]));\n        int res = 0;\n        int prevEnd = intervals[0][1];\n\n        for (int i = 1; i < intervals.Length; i++) {\n            int start = intervals[i][0];\n            int end = intervals[i][1];\n            if (start < prevEnd) {\n                res++;\n            } else {\n                prevEnd = end;\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "func eraseOverlapIntervals(intervals [][]int) int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][1] < intervals[j][1]\n    })\n\n    prevEnd := intervals[0][1]\n    res := 0\n\n    for i := 1; i < len(intervals); i++ {\n        if prevEnd > intervals[i][0] {\n            res++\n        } else {\n            prevEnd = intervals[i][1]\n        }\n    }\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {\n        intervals.sortBy { it[1] }\n\n        var prevEnd = intervals[0][1]\n        var res = 0\n\n        for (i in 1 until intervals.size) {\n            if (prevEnd > intervals[i][0]) {\n                res++\n            } else {\n                prevEnd = intervals[i][1]\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func eraseOverlapIntervals(_ intervals: [[Int]]) -> Int {\n        var intervals = intervals\n        intervals.sort { $0[1] < $1[1] }\n\n        var prevEnd = intervals[0][1]\n        var res = 0\n\n        for i in 1..<intervals.count {\n            if prevEnd > intervals[i][0] {\n                res += 1\n            } else {\n                prevEnd = intervals[i][1]\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn erase_overlap_intervals(intervals: Vec<Vec<i32>>) -> i32 {\n        let mut intervals = intervals;\n        intervals.sort_unstable_by_key(|v| v[1]);\n        let mut res = 0;\n        let mut prev_end = intervals[0][1];\n\n        for i in 1..intervals.len() {\n            if prev_end > intervals[i][0] {\n                res += 1;\n            } else {\n                prev_end = intervals[i][1];\n            }\n        }\n        res\n    }\n}"
+        }
+    ]
+}

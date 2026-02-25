@@ -1,0 +1,228 @@
+{
+    "problem_name": "Coin Change",
+    "problem_slug": "coin-change",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming",
+        "breadth-first search"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n\n        def dfs(amount):\n            if amount == 0:\n                return 0\n\n            res = 1e9\n            for coin in coins:\n                if amount - coin >= 0:\n                    res = min(res, 1 + dfs(amount - coin))\n            return res\n\n        minCoins = dfs(amount)\n        return -1 if minCoins >= 1e9 else minCoins"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    public int dfs(int[] coins, int amount) {\n        if (amount == 0) return 0;\n\n        int res = (int) 1e9;\n        for (int coin : coins) {\n            if (amount - coin >= 0) {\n                res = Math.min(res,\n                      1 + dfs(coins, amount - coin));\n            }\n        }\n        return res;\n    }\n\n    public int coinChange(int[] coins, int amount) {\n        int minCoins = dfs(coins, amount);\n        return (minCoins >= 1e9) ? -1 : minCoins;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\npublic:\n    int dfs(vector<int>& coins, int amount) {\n        if (amount == 0) return 0;\n\n        int res = 1e9;\n        for (int coin : coins) {\n            if (amount - coin >= 0) {\n                res = min(res,\n                      1 + dfs(coins, amount - coin));\n            }\n        }\n        return res;\n    }\n\n    int coinChange(vector<int>& coins, int amount) {\n        int minCoins = dfs(coins, amount);\n        return (minCoins >= 1e9) ? -1 : minCoins;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} coins\n     * @param {number} amount\n     * @return {number}\n     */\n    coinChange(coins, amount) {\n        const dfs = (amount) => {\n            if (amount === 0) return 0;\n\n            let res = Infinity;\n            for (let coin of coins) {\n                if (amount - coin >= 0) {\n                    res = Math.min(res, 1 + dfs(amount - coin));\n                }\n            }\n            return res;\n        };\n\n        const minCoins = dfs(amount);\n        return minCoins === Infinity ? -1 : minCoins;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    public int Dfs(int[] coins, int amount) {\n        if (amount == 0) return 0;\n\n        int res = (int)1e9;\n        foreach (var coin in coins) {\n            if (amount - coin >= 0) {\n                res = Math.Min(res,\n                      1 + Dfs(coins, amount - coin));\n            }\n        }\n        return res;\n    }\n\n    public int CoinChange(int[] coins, int amount) {\n        int minCoins = Dfs(coins, amount);\n        return (minCoins >= 1e9) ? -1 : minCoins;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "func coinChange(coins []int, amount int) int {\n    var dfs func(int) int\n    dfs = func(amt int) int {\n        if amt == 0 {\n            return 0\n        }\n\n        res := math.MaxInt32\n        for _, coin := range coins {\n            if amt - coin >= 0 {\n                res = min(res, 1 + dfs(amt - coin))\n            }\n        }\n\n        return res\n    }\n\n    minCoins := dfs(amount)\n    if minCoins >= math.MaxInt32 {\n        return -1\n    }\n    return minCoins\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    fun coinChange(coins: IntArray, amount: Int): Int {\n        val INF = 1000000000\n        fun dfs(amt: Int): Int {\n            if (amt == 0) return 0\n\n            var res = INF\n            for (coin in coins) {\n                if (amt - coin >= 0) {\n                    res = minOf(res, 1 + dfs(amt - coin))\n                }\n            }\n            return res\n        }\n\n        val minCoins = dfs(amount)\n        return if (minCoins >= INF) -1 else minCoins\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    func coinChange(_ coins: [Int], _ amount: Int) -> Int {\n        func dfs(_ amount: Int) -> Int {\n            if amount == 0 {\n                return 0\n            }\n\n            var res = Int(1e9)\n            for coin in coins {\n                if amount - coin >= 0 {\n                    res = min(res, 1 + dfs(amount - coin))\n                }\n            }\n            return res\n        }\n\n        let minCoins = dfs(amount)\n        return minCoins >= Int(1e9) ? -1 : minCoins\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^t)",
+            "space_complexity": "O(t)",
+            "code": "impl Solution {\n    pub fn coin_change(coins: Vec<i32>, amount: i32) -> i32 {\n        fn dfs(coins: &[i32], amount: i32) -> i32 {\n            if amount == 0 { return 0; }\n\n            let mut res = 1_000_000_000;\n            for &coin in coins {\n                if amount - coin >= 0 {\n                    res = res.min(1 + dfs(coins, amount - coin));\n                }\n            }\n            res\n        }\n\n        let min_coins = dfs(&coins, amount);\n        if min_coins >= 1_000_000_000 { -1 } else { min_coins }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        memo = {}\n\n        def dfs(amount):\n            if amount == 0:\n                return 0\n            if amount in memo:\n                return memo[amount]\n\n            res = 1e9\n            for coin in coins:\n                if amount - coin >= 0:\n                    res = min(res, 1 + dfs(amount - coin))\n\n            memo[amount] = res\n            return res\n\n        minCoins = dfs(amount)\n        return -1 if minCoins >= 1e9 else minCoins"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    HashMap<Integer, Integer> memo = new HashMap<>();\n\n    public int dfs(int amount, int[] coins) {\n        if (amount == 0) return 0;\n        if (memo.containsKey(amount))\n            return memo.get(amount);\n\n        int res = Integer.MAX_VALUE;\n        for (int coin : coins) {\n            if (amount - coin >= 0) {\n                int result = dfs(amount - coin, coins);\n                if (result != Integer.MAX_VALUE) {\n                    res = Math.min(res, 1 + result);\n                }\n            }\n        }\n\n        memo.put(amount, res);\n        return res;\n    }\n\n    public int coinChange(int[] coins, int amount) {\n        int minCoins = dfs(amount, coins);\n        return minCoins == Integer.MAX_VALUE ? -1 : minCoins;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\npublic:\n    unordered_map<int, int> memo;\n    int dfs(int amount, vector<int>& coins) {\n        if (amount == 0) return 0;\n        if (memo.find(amount) != memo.end())\n            return memo[amount];\n\n        int res = INT_MAX;\n        for (int coin : coins) {\n            if (amount - coin >= 0) {\n                int result = dfs(amount - coin, coins);\n                if (result != INT_MAX) {\n                    res = min(res, 1 + result);\n                }\n            }\n        }\n\n        memo[amount] = res;\n        return res;\n    }\n\n    int coinChange(vector<int>& coins, int amount) {\n        int minCoins = dfs(amount, coins);\n        return minCoins == INT_MAX ? -1 : minCoins;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} coins\n     * @param {number} amount\n     * @return {number}\n     */\n    coinChange(coins, amount) {\n        let memo = {};\n\n        const dfs = (amount) => {\n            if (amount === 0) return 0;\n            if (memo[amount] !== undefined) return memo[amount];\n\n            let res = Infinity;\n            for (let coin of coins) {\n                if (amount - coin >= 0) {\n                    res = Math.min(res, 1 + dfs(amount - coin));\n                }\n            }\n\n            memo[amount] = res;\n            return res;\n        };\n\n        const minCoins = dfs(amount);\n        return minCoins === Infinity ? -1 : minCoins;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    private Dictionary<int, int> memo = new Dictionary<int, int>();\n\n    private int Dfs(int amount, int[] coins) {\n        if (amount == 0) return 0;\n        if (memo.ContainsKey(amount))\n            return memo[amount];\n\n        int res = int.MaxValue;\n        foreach (int coin in coins) {\n            if (amount - coin >= 0) {\n                int result = Dfs(amount - coin, coins);\n                if (result != int.MaxValue) {\n                    res = Math.Min(res, 1 + result);\n                }\n            }\n        }\n\n        memo[amount] = res;\n        return res;\n    }\n\n    public int CoinChange(int[] coins, int amount) {\n        int minCoins = Dfs(amount, coins);\n        return minCoins == int.MaxValue ? -1 : minCoins;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "func coinChange(coins []int, amount int) int {\n    var memo = make(map[int]int)\n    memo[0] = 0\n\n    var dfs func(int) int\n    dfs = func(amt int) int {\n        if val, ok := memo[amt]; ok {\n            return val\n        }\n\n        res := math.MaxInt32\n        for _, coin := range coins {\n            if amt - coin >= 0 {\n                res = min(res, 1 + dfs(amt - coin))\n            }\n        }\n        memo[amt] = res\n        return res\n    }\n\n    minCoins := dfs(amount)\n    if minCoins >= math.MaxInt32 {\n        return -1\n    }\n    return minCoins\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    fun coinChange(coins: IntArray, amount: Int): Int {\n        val INF = 1000000000\n        var memo = hashMapOf(0 to 0)\n\n        fun dfs(amt: Int): Int {\n            if (amt in memo) {\n                return memo[amt]!!\n            }\n\n            var res = INF\n            for (coin in coins) {\n                if (amt - coin >= 0) {\n                    res = minOf(res, 1 + dfs(amt - coin))\n                }\n            }\n            memo[amt] = res\n            return res\n        }\n\n        val minCoins = dfs(amount)\n        return if (minCoins >= INF) -1 else minCoins\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    func coinChange(_ coins: [Int], _ amount: Int) -> Int {\n        var memo = [Int: Int]()\n\n        func dfs(_ amount: Int) -> Int {\n            if amount == 0 {\n                return 0\n            }\n            if let cached = memo[amount] {\n                return cached\n            }\n\n            var res = Int(1e9)\n            for coin in coins {\n                if amount - coin >= 0 {\n                    res = min(res, 1 + dfs(amount - coin))\n                }\n            }\n\n            memo[amount] = res\n            return res\n        }\n\n        let minCoins = dfs(amount)\n        return minCoins >= Int(1e9) ? -1 : minCoins\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "impl Solution {\n    pub fn coin_change(coins: Vec<i32>, amount: i32) -> i32 {\n        let mut memo = HashMap::new();\n\n        fn dfs(coins: &[i32], amount: i32, memo: &mut HashMap<i32, i32>) -> i32 {\n            if amount == 0 { return 0; }\n            if let Some(&val) = memo.get(&amount) {\n                return val;\n            }\n\n            let mut res = i32::MAX;\n            for &coin in coins {\n                if amount - coin >= 0 {\n                    let result = dfs(coins, amount - coin, memo);\n                    if result != i32::MAX {\n                        res = res.min(1 + result);\n                    }\n                }\n            }\n\n            memo.insert(amount, res);\n            res\n        }\n\n        let min_coins = dfs(&coins, amount, &mut memo);\n        if min_coins == i32::MAX { -1 } else { min_coins }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        dp = [amount + 1] * (amount + 1)\n        dp[0] = 0\n\n        for a in range(1, amount + 1):\n            for c in coins:\n                if a - c >= 0:\n                    dp[a] = min(dp[a], 1 + dp[a - c])\n        return dp[amount] if dp[amount] != amount + 1 else -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    public int coinChange(int[] coins, int amount) {\n        int[] dp = new int[amount + 1];\n        Arrays.fill(dp, amount + 1);\n        dp[0] = 0;\n        for (int i = 1; i <= amount; i++) {\n            for (int j = 0; j < coins.length; j++) {\n                if (coins[j] <= i) {\n                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);\n                }\n            }\n        }\n        return dp[amount] > amount ? -1 : dp[amount];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        vector<int> dp(amount + 1, amount + 1);\n        dp[0] = 0;\n        for (int i = 1; i <= amount; i++) {\n            for (int j = 0; j < coins.size(); j++) {\n                if (coins[j] <= i) {\n                    dp[i] = min(dp[i], dp[i - coins[j]] + 1);\n                }\n            }\n        }\n        return dp[amount] > amount ? -1 : dp[amount];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} coins\n     * @param {number} amount\n     * @return {number}\n     */\n    coinChange(coins, amount) {\n        const dp = new Array(amount + 1).fill(amount + 1);\n        dp[0] = 0;\n        for (let i = 1; i <= amount; i++) {\n            for (let j = 0; j < coins.length; j++) {\n                if (coins[j] <= i) {\n                    dp[i] = Math.min(dp[i], 1 + dp[i - coins[j]]);\n                }\n            }\n        }\n        return dp[amount] > amount ? -1 : dp[amount];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    public int CoinChange(int[] coins, int amount) {\n        int[] dp = new int[amount + 1];\n        Array.Fill(dp, amount + 1);\n        dp[0] = 0;\n        for (int i = 1; i <= amount; i++) {\n            foreach (int coin in coins) {\n                if (coin <= i) {\n                    dp[i] = Math.Min(dp[i], dp[i - coin] + 1);\n                }\n            }\n        }\n        return dp[amount] > amount ? -1 : dp[amount];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "func coinChange(coins []int, amount int) int {\n    dp := make([]int, amount+1)\n    for i := range dp {\n        dp[i] = amount + 1\n    }\n    dp[0] = 0\n    for a := 1; a <= amount; a++ {\n        for _, c := range coins {\n            if a-c >= 0 {\n                dp[a] = min(dp[a], 1+dp[a-c])\n            }\n        }\n    }\n    if dp[amount] > amount {\n        return -1\n    }\n    return dp[amount]\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    fun coinChange(coins: IntArray, amount: Int): Int {\n        val dp = IntArray(amount + 1) { amount + 1 }\n        dp[0] = 0\n        for (a in 1..amount) {\n            for (c in coins) {\n                if (a - c >= 0) {\n                    dp[a] = minOf(dp[a], 1 + dp[a - c])\n                }\n            }\n        }\n        return if (dp[amount] > amount) -1 else dp[amount]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    func coinChange(_ coins: [Int], _ amount: Int) -> Int {\n        if amount == 0 {\n            return 0\n        }\n\n        var dp = [Int](repeating: amount + 1, count: amount + 1)\n        dp[0] = 0\n\n        for a in 1...amount {\n            for coin in coins {\n                if a - coin >= 0 {\n                    dp[a] = min(dp[a], 1 + dp[a - coin])\n                }\n            }\n        }\n\n        return dp[amount] == amount + 1 ? -1 : dp[amount]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "impl Solution {\n    pub fn coin_change(coins: Vec<i32>, amount: i32) -> i32 {\n        let amount = amount as usize;\n        let mut dp = vec![amount as i32 + 1; amount + 1];\n        dp[0] = 0;\n\n        for a in 1..=amount {\n            for &c in &coins {\n                if c as usize <= a {\n                    dp[a] = dp[a].min(dp[a - c as usize] + 1);\n                }\n            }\n        }\n\n        if dp[amount] > amount as i32 { -1 } else { dp[amount] }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution:\n    def coinChange(self, coins: List[int], amount: int) -> int:\n        if amount == 0:\n            return 0\n\n        q = deque([0])\n        seen = [False] * (amount + 1)\n        seen[0] = True\n        res = 0\n\n        while q:\n            res += 1\n            for _ in range(len(q)):\n                cur = q.popleft()\n                for coin in coins:\n                    nxt = cur + coin\n                    if nxt == amount:\n                        return res\n                    if nxt > amount or seen[nxt]:\n                        continue\n                    seen[nxt] = True\n                    q.append(nxt)\n\n        return -1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    public int coinChange(int[] coins, int amount) {\n        if (amount == 0) return 0;\n\n        Queue<Integer> q = new LinkedList<>();\n        q.add(0);\n        boolean[] seen = new boolean[amount + 1];\n        seen[0] = true;\n        int res = 0;\n\n        while (!q.isEmpty()) {\n            res++;\n            int size = q.size();\n            for (int i = 0; i < size; i++) {\n                int cur = q.poll();\n                for (int coin : coins) {\n                    int nxt = cur + coin;\n                    if (nxt == amount) return res;\n                    if (nxt > amount || seen[nxt]) continue;\n                    seen[nxt] = true;\n                    q.add(nxt);\n                }\n            }\n        }\n\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        if (amount == 0) return 0;\n\n        queue<int> q;\n        q.push(0);\n        vector<bool> seen(amount + 1, false);\n        seen[0] = true;\n        int res = 0;\n\n        while (!q.empty()) {\n            res++;\n            int size = q.size();\n            for (int i = 0; i < size; i++) {\n                int cur = q.front();\n                q.pop();\n                for (int coin : coins) {\n                    int nxt = cur + coin;\n                    if (nxt == amount) return res;\n                    if (nxt > amount || seen[nxt]) continue;\n                    seen[nxt] = true;\n                    q.push(nxt);\n                }\n            }\n        }\n\n        return -1;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} coins\n     * @param {number} amount\n     * @return {number}\n     */\n    coinChange(coins, amount) {\n        if (amount === 0) return 0;\n\n        const q = new Queue([0]);\n        const seen = new Array(amount + 1).fill(false);\n        seen[0] = true;\n        let res = 0;\n\n        while (!q.isEmpty()) {\n            res++;\n            const size = q.size();\n            for (let i = 0; i < size; i++) {\n                const cur = q.pop();\n                for (const coin of coins) {\n                    const nxt = cur + coin;\n                    if (nxt === amount) return res;\n                    if (nxt > amount || seen[nxt]) continue;\n                    seen[nxt] = true;\n                    q.push(nxt);\n                }\n            }\n        }\n\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "public class Solution {\n    public int CoinChange(int[] coins, int amount) {\n        if (amount == 0) return 0;\n\n        Queue<int> q = new Queue<int>();\n        q.Enqueue(0);\n        bool[] seen = new bool[amount + 1];\n        seen[0] = true;\n        int res = 0;\n\n        while (q.Count > 0) {\n            res++;\n            int size = q.Count;\n            for (int i = 0; i < size; i++) {\n                int cur = q.Dequeue();\n                foreach (int coin in coins) {\n                    int nxt = cur + coin;\n                    if (nxt == amount) return res;\n                    if (nxt > amount || seen[nxt]) continue;\n                    seen[nxt] = true;\n                    q.Enqueue(nxt);\n                }\n            }\n        }\n\n        return -1;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "func coinChange(coins []int, amount int) int {\n    if amount == 0 {\n        return 0\n    }\n    queue := []int{0}\n    seen := make([]bool, amount+1)\n    seen[0] = true\n    res := 0\n    for len(queue) > 0 {\n        res++\n        size := len(queue)\n        for i := 0; i < size; i++ {\n            cur := queue[0]\n            queue = queue[1:]\n            for _, coin := range coins {\n                next := cur + coin\n                if next == amount {\n                    return res\n                }\n                if next > amount || seen[next] {\n                    continue\n                }\n                seen[next] = true\n                queue = append(queue, next)\n            }\n        }\n    }\n    return -1\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    fun coinChange(coins: IntArray, amount: Int): Int {\n        if (amount == 0) return 0\n        val queue = ArrayDeque<Int>().apply { add(0) }\n        val seen = BooleanArray(amount + 1) { false }\n        seen[0] = true\n        var res = 0\n        while (queue.isNotEmpty()) {\n            res++\n            repeat(queue.size) {\n                val cur = queue.removeFirst()\n                for (coin in coins) {\n                    val next = cur + coin\n                    if (next == amount) return res\n                    if (next > amount || seen[next]) continue\n                    seen[next] = true\n                    queue.addLast(next)\n                }\n            }\n        }\n        return -1\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "class Solution {\n    func coinChange(_ coins: [Int], _ amount: Int) -> Int {\n        if amount == 0 {\n            return 0\n        }\n\n        var q = Deque([0])\n        var seen = Array(repeating: false, count: amount + 1)\n        seen[0] = true\n        var res = 0\n\n        while !q.isEmpty {\n            res += 1\n            for _ in 0..<q.count {\n                let cur = q.popFirst()!\n                for coin in coins {\n                    let nxt = cur + coin\n                    if nxt == amount {\n                        return res\n                    }\n                    if nxt > amount || seen[nxt] {\n                        continue\n                    }\n                    seen[nxt] = true\n                    q.append(nxt)\n                }\n            }\n        }\n\n        return -1\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * t)",
+            "space_complexity": "O(t)",
+            "code": "impl Solution {\n    pub fn coin_change(coins: Vec<i32>, amount: i32) -> i32 {\n        if amount == 0 { return 0; }\n\n        let amount = amount as usize;\n        let mut q = VecDeque::new();\n        q.push_back(0usize);\n        let mut seen = vec![false; amount + 1];\n        seen[0] = true;\n        let mut res = 0;\n\n        while !q.is_empty() {\n            res += 1;\n            let size = q.len();\n            for _ in 0..size {\n                let cur = q.pop_front().unwrap();\n                for &coin in &coins {\n                    let nxt = cur + coin as usize;\n                    if nxt == amount { return res; }\n                    if nxt > amount || seen[nxt] { continue; }\n                    seen[nxt] = true;\n                    q.push_back(nxt);\n                }\n            }\n        }\n\n        -1\n    }\n}"
+        }
+    ]
+}

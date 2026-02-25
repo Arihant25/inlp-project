@@ -1,0 +1,336 @@
+{
+    "problem_name": "Unique Paths",
+    "problem_slug": "unique-paths",
+    "difficulty": "medium",
+    "topic_tags": [
+        "math",
+        "dynamic programming",
+        "combinatorics"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n\n        def dfs(i, j):\n            if i == (m - 1) and j == (n - 1):\n                return 1\n            if i >= m or j >= n:\n                return 0\n            return dfs(i, j + 1) + dfs(i + 1, j)\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "public class Solution {\n    public int uniquePaths(int m, int n) {\n        return dfs(0, 0, m, n);\n    }\n\n    public int dfs(int i, int j, int m, int n) {\n        if (i == (m - 1) && j == (n - 1)) {\n            return 1;\n        }\n        if (i >= m || j >= n) return 0;\n        return dfs(i, j + 1, m, n) +\n               dfs(i + 1, j, m, n);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        return dfs(0, 0, m, n);\n    }\n\n    int dfs(int i, int j, int m, int n) {\n        if (i == (m - 1) && j == (n - 1)) {\n            return 1;\n        }\n        if (i >= m || j >= n) return 0;\n        return dfs(i, j + 1, m, n) +\n               dfs(i + 1, j, m, n);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    /**\n     * @param {number} m\n     * @param {number} n\n     * @return {number}\n     */\n    uniquePaths(m, n) {\n        const dfs = (i, j) => {\n            if (i == m - 1 && j == n - 1) {\n                return 1;\n            }\n            if (i >= m || j >= n) return 0;\n            return dfs(i, j + 1) + dfs(i + 1, j);\n        };\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "public class Solution {\n    public int UniquePaths(int m, int n) {\n        return Dfs(0, 0, m, n);\n    }\n\n    int Dfs(int i, int j, int m, int n) {\n        if (i == (m - 1) && j == (n - 1)) {\n            return 1;\n        }\n        if (i >= m || j >= n) return 0;\n        return Dfs(i, j + 1, m, n) +\n               Dfs(i + 1, j, m, n);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "func uniquePaths(m int, n int) int {\n    var dfs func(i, j int) int\n    dfs = func(i, j int) int {\n        if i == m-1 && j == n-1 {\n            return 1\n        }\n        if i >= m || j >= n {\n            return 0\n        }\n        return dfs(i, j+1) + dfs(i+1, j)\n    }\n\n    return dfs(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    fun uniquePaths(m: Int, n: Int): Int {\n        fun dfs(i: Int, j: Int): Int {\n            if (i == m - 1 && j == n - 1) return 1\n            if (i >= m || j >= n) return 0\n            return dfs(i, j + 1) + dfs(i + 1, j)\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "class Solution {\n    func uniquePaths(_ m: Int, _ n: Int) -> Int {\n        func dfs(_ i: Int, _ j: Int) -> Int {\n            if i == m - 1 && j == n - 1 {\n                return 1\n            }\n            if i >= m || j >= n {\n                return 0\n            }\n            return dfs(i, j + 1) + dfs(i + 1, j)\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^{m + n})",
+            "space_complexity": "O(m + n)",
+            "code": "impl Solution {\n    pub fn unique_paths(m: i32, n: i32) -> i32 {\n        fn dfs(i: i32, j: i32, m: i32, n: i32) -> i32 {\n            if i == m - 1 && j == n - 1 {\n                return 1;\n            }\n            if i >= m || j >= n {\n                return 0;\n            }\n            dfs(i, j + 1, m, n) + dfs(i + 1, j, m, n)\n        }\n        dfs(0, 0, m, n)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        memo = [[-1] * n for _ in range(m)]\n        def dfs(i, j):\n            if i == (m - 1) and j == (n - 1):\n                return 1\n            if i >= m or j >= n:\n                return 0\n            if memo[i][j] != -1:\n                return memo[i][j]\n\n            memo[i][j] =  dfs(i, j + 1) + dfs(i + 1, j)\n            return memo[i][j]\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    int[][] memo;\n    public int uniquePaths(int m, int n) {\n        memo = new int[m][n];\n        for(int[] it : memo) {\n            Arrays.fill(it, -1);\n        }\n        return dfs(0, 0, m, n);\n    }\n\n    public int dfs(int i, int j, int m, int n) {\n        if (i == (m - 1) && j == (n - 1)) {\n            return 1;\n        }\n        if (i >= m || j >= n) return 0;\n        if (memo[i][j] != -1) {\n            return memo[i][j];\n        }\n        return memo[i][j] = dfs(i, j + 1, m, n) +\n                            dfs(i + 1, j, m, n);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> memo;\n    int uniquePaths(int m, int n) {\n        memo.resize(m, vector<int>(n, -1));\n        return dfs(0, 0, m, n);\n    }\n\n    int dfs(int i, int j, int m, int n) {\n        if (i == (m - 1) && j == (n - 1)) {\n            return 1;\n        }\n        if (i >= m || j >= n) return 0;\n        if (memo[i][j] != -1) {\n            return memo[i][j];\n        }\n        return memo[i][j] = dfs(i, j + 1, m, n) +\n                            dfs(i + 1, j, m, n);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {number} m\n     * @param {number} n\n     * @return {number}\n     */\n    uniquePaths(m, n) {\n        const memo = Array.from({ length: m }, () => Array(n).fill(-1));\n        const dfs = (i, j) => {\n            if (i == m - 1 && j == n - 1) {\n                return 1;\n            }\n            if (i >= m || j >= n) return 0;\n            if (memo[i][j] != -1) {\n                return memo[i][j];\n            }\n            memo[i][j] = dfs(i, j + 1) + dfs(i + 1, j);\n            return memo[i][j];\n        };\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    int[,] memo;\n    public int UniquePaths(int m, int n) {\n        memo = new int[m, n];\n        for (int i = 0; i < m; i++)\n            for (int j = 0; j < n; j++)\n                memo[i, j] = -1;\n\n        return Dfs(0, 0, m, n);\n    }\n\n    int Dfs(int i, int j, int m, int n) {\n        if (i == (m - 1) && j == (n - 1)) {\n            return 1;\n        }\n        if (i >= m || j >= n) return 0;\n        if (memo[i, j] != -1) {\n            return memo[i, j];\n        }\n        return memo[i, j] = Dfs(i, j + 1, m, n) +\n                            Dfs(i + 1, j, m, n);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "func uniquePaths(m int, n int) int {\n    memo := make([][]int, m)\n    for i := range memo {\n        memo[i] = make([]int, n)\n        for j := range memo[i] {\n            memo[i][j] = -1\n        }\n    }\n\n    var dfs func(i, j int) int\n    dfs = func(i, j int) int {\n        if i == m-1 && j == n-1 {\n            return 1\n        }\n        if i >= m || j >= n {\n            return 0\n        }\n        if memo[i][j] != -1 {\n            return memo[i][j]\n        }\n\n        memo[i][j] = dfs(i, j+1) + dfs(i+1, j)\n        return memo[i][j]\n    }\n\n    return dfs(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun uniquePaths(m: Int, n: Int): Int {\n        val memo = Array(m) { IntArray(n) { -1 } }\n\n        fun dfs(i: Int, j: Int): Int {\n            if (i == m - 1 && j == n - 1) return 1\n            if (i >= m || j >= n) return 0\n            if (memo[i][j] != -1) return memo[i][j]\n\n            memo[i][j] = dfs(i, j + 1) + dfs(i + 1, j)\n            return memo[i][j]\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func uniquePaths(_ m: Int, _ n: Int) -> Int {\n        var memo = Array(repeating: Array(repeating: -1, count: n), count: m)\n\n        func dfs(_ i: Int, _ j: Int) -> Int {\n            if i == m - 1 && j == n - 1 {\n                return 1\n            }\n            if i >= m || j >= n {\n                return 0\n            }\n            if memo[i][j] != -1 {\n                return memo[i][j]\n            }\n\n            memo[i][j] = dfs(i, j + 1) + dfs(i + 1, j)\n            return memo[i][j]\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn unique_paths(m: i32, n: i32) -> i32 {\n        let (m, n) = (m as usize, n as usize);\n        let mut memo = vec![vec![-1i32; n]; m];\n\n        fn dfs(i: usize, j: usize, m: usize, n: usize, memo: &mut Vec<Vec<i32>>) -> i32 {\n            if i == m - 1 && j == n - 1 {\n                return 1;\n            }\n            if i >= m || j >= n {\n                return 0;\n            }\n            if memo[i][j] != -1 {\n                return memo[i][j];\n            }\n            memo[i][j] = dfs(i, j + 1, m, n, memo) + dfs(i + 1, j, m, n, memo);\n            memo[i][j]\n        }\n\n        dfs(0, 0, m, n, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        dp = [[0] * (n + 1) for _ in range(m + 1)]\n        dp[m - 1][n - 1] = 1\n\n        for i in range(m - 1, -1, -1):\n            for j in range(n - 1, -1, -1):\n                dp[i][j] += dp[i + 1][j] + dp[i][j + 1]\n\n        return dp[0][0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public int uniquePaths(int m, int n) {\n        int[][] dp = new int[m + 1][n + 1];\n        dp[m - 1][n - 1] = 1;\n\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                dp[i][j] += dp[i + 1][j] + dp[i][j + 1];\n            }\n        }\n\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));\n        dp[m - 1][n - 1] = 1;\n\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                dp[i][j] += dp[i + 1][j] + dp[i][j + 1];\n            }\n        }\n\n        return dp[0][0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {number} m\n     * @param {number} n\n     * @return {number}\n     */\n    uniquePaths(m, n) {\n        let dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));\n        dp[m - 1][n - 1] = 1;\n\n        for (let i = m - 1; i >= 0; i--) {\n            for (let j = n - 1; j >= 0; j--) {\n                dp[i][j] += dp[i + 1][j] + dp[i][j + 1];\n            }\n        }\n\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public int UniquePaths(int m, int n) {\n        int[,] dp = new int[m + 1, n + 1];\n        dp[m - 1, n - 1] = 1;\n\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                dp[i, j] += dp[i + 1, j] + dp[i, j + 1];\n            }\n        }\n\n        return dp[0, 0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "func uniquePaths(m int, n int) int {\n    dp := make([][]int, m+1)\n    for i := range dp {\n        dp[i] = make([]int, n+1)\n    }\n    dp[m-1][n-1] = 1\n\n    for i := m - 1; i >= 0; i-- {\n        for j := n - 1; j >= 0; j-- {\n            dp[i][j] += dp[i+1][j] + dp[i][j+1]\n        }\n    }\n\n    return dp[0][0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun uniquePaths(m: Int, n: Int): Int {\n        val dp = Array(m + 1) { IntArray(n + 1) }\n        dp[m - 1][n - 1] = 1\n\n        for (i in m - 1 downTo 0) {\n            for (j in n - 1 downTo 0) {\n                dp[i][j] += dp[i + 1][j] + dp[i][j + 1]\n            }\n        }\n\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func uniquePaths(_ m: Int, _ n: Int) -> Int {\n        var dp = Array(repeating: Array(repeating: 0, count: n + 1), count: m + 1)\n        dp[m - 1][n - 1] = 1\n\n        for i in stride(from: m - 1, through: 0, by: -1) {\n            for j in stride(from: n - 1, through: 0, by: -1) {\n                dp[i][j] += dp[i + 1][j] + dp[i][j + 1]\n            }\n        }\n\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn unique_paths(m: i32, n: i32) -> i32 {\n        let (m, n) = (m as usize, n as usize);\n        let mut dp = vec![vec![0; n + 1]; m + 1];\n        dp[m - 1][n - 1] = 1;\n\n        for i in (0..m).rev() {\n            for j in (0..n).rev() {\n                dp[i][j] += dp[i + 1][j] + dp[i][j + 1];\n            }\n        }\n\n        dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        row = [1] * n\n\n        for i in range(m - 1):\n            newRow = [1] * n\n            for j in range(n - 2, -1, -1):\n                newRow[j] = newRow[j + 1] + row[j]\n            row = newRow\n        return row[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int uniquePaths(int m, int n) {\n        int[] row = new int[n];\n        Arrays.fill(row, 1);\n\n        for (int i = 0; i < m - 1; i++) {\n            int[] newRow = new int[n];\n            Arrays.fill(newRow, 1);\n            for (int j = n - 2; j >= 0; j--) {\n                newRow[j] = newRow[j + 1] + row[j];\n            }\n            row = newRow;\n        }\n        return row[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        vector<int> row(n, 1);\n\n        for (int i = 0; i < m - 1; ++i) {\n            vector<int> newRow(n, 1);\n            for (int j = n - 2; j >= 0; --j) {\n                newRow[j] = newRow[j + 1] + row[j];\n            }\n            row = newRow;\n        }\n        return row[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number} m\n     * @param {number} n\n     * @return {number}\n     */\n    uniquePaths(m, n) {\n        let row = new Array(n).fill(1);\n\n        for (let i = 0; i < m - 1; i++) {\n            const newRow = new Array(n).fill(1);\n            for (let j = n - 2; j >= 0; j--) {\n                newRow[j] = newRow[j + 1] + row[j];\n            }\n            row = newRow;\n        }\n        return row[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int UniquePaths(int m, int n) {\n        var row = new int[n];\n        Array.Fill(row, 1);\n        for (int i = 0; i < m - 1; i++) {\n            var newRow = new int[n];\n            Array.Fill(newRow, 1);\n            for (int j = n - 2; j >=0; j--) {\n                newRow[j] = newRow[j + 1] + row[j];\n            }\n            row = newRow;\n        }\n        return row[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "func uniquePaths(m int, n int) int {\n    row := make([]int, n)\n    for i := range row {\n        row[i] = 1\n    }\n\n    for i := 0; i < m - 1; i++ {\n        newRow := make([]int, n)\n        newRow[n-1] = 1\n        for j := n - 2; j >= 0; j-- {\n            newRow[j] = newRow[j+1] + row[j]\n        }\n        row = newRow\n    }\n\n    return row[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun uniquePaths(m: Int, n: Int): Int {\n        var row = IntArray(n) { 1 }\n\n        for (i in 0 until m - 1) {\n            val newRow = IntArray(n) { 1 }\n            for (j in n - 2 downTo 0) {\n                newRow[j] = newRow[j + 1] + row[j]\n            }\n            row = newRow\n        }\n\n        return row[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func uniquePaths(_ m: Int, _ n: Int) -> Int {\n        var row = Array(repeating: 1, count: n)\n\n        for _ in 0..<(m - 1) {\n            var newRow = Array(repeating: 1, count: n)\n            for j in stride(from: n - 2, through: 0, by: -1) {\n                newRow[j] = newRow[j + 1] + row[j]\n            }\n            row = newRow\n        }\n        return row[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn unique_paths(m: i32, n: i32) -> i32 {\n        let (m, n) = (m as usize, n as usize);\n        let mut row = vec![1; n];\n\n        for _ in 0..m - 1 {\n            let mut new_row = vec![1; n];\n            for j in (0..n - 1).rev() {\n                new_row[j] = new_row[j + 1] + row[j];\n            }\n            row = new_row;\n        }\n        row[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        dp = [1] * n\n        for i in range(m - 2, -1, -1):\n            for j in range(n - 2, -1, -1):\n                dp[j] += dp[j + 1]\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int uniquePaths(int m, int n) {\n        int[] dp = new int[n];\n        Arrays.fill(dp, 1);\n\n        for (int i = m - 2; i >= 0; i--) {\n            for (int j = n - 2; j >= 0; j--) {\n                dp[j] += dp[j + 1];\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        vector<int> dp(n, 1);\n\n        for (int i = m - 2; i >= 0; i--) {\n            for (int j = n - 2; j >= 0; j--) {\n                dp[j] += dp[j + 1];\n            }\n        }\n\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number} m\n     * @param {number} n\n     * @return {number}\n     */\n    uniquePaths(m, n) {\n        let dp = new Array(n).fill(1);\n\n        for (let i = m - 2; i >= 0; i--) {\n            for (let j = n - 2; j >= 0; j--) {\n                dp[j] += dp[j + 1];\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int UniquePaths(int m, int n) {\n        int[] dp = new int[n];\n        Array.Fill(dp, 1);\n\n        for (int i = m - 2; i >= 0; i--) {\n            for (int j = n - 2; j >= 0; j--) {\n                dp[j] += dp[j + 1];\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "func uniquePaths(m int, n int) int {\n    dp := make([]int, n)\n    for i := range dp {\n        dp[i] = 1\n    }\n\n    for i := m - 2; i >= 0; i-- {\n        for j := n - 2; j >= 0; j-- {\n            dp[j] += dp[j+1]\n        }\n    }\n\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun uniquePaths(m: Int, n: Int): Int {\n        var dp = IntArray(n) { 1 }\n\n        for (i in m - 2 downTo 0) {\n            for (j in n - 2 downTo 0) {\n                dp[j] += dp[j + 1]\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func uniquePaths(_ m: Int, _ n: Int) -> Int {\n        var dp = Array(repeating: 1, count: n)\n\n        for _ in stride(from: m - 2, through: 0, by: -1) {\n            for j in stride(from: n - 2, through: 0, by: -1) {\n                dp[j] += dp[j + 1]\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn unique_paths(m: i32, n: i32) -> i32 {\n        let (m, n) = (m as usize, n as usize);\n        let mut dp = vec![1; n];\n\n        for _ in (0..m - 1).rev() {\n            for j in (0..n - 1).rev() {\n                dp[j] += dp[j + 1];\n            }\n        }\n\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        if m == 1 or n == 1:\n            return 1\n        if m < n:\n            m, n = n, m\n\n        res = j = 1\n        for i in range(m, m + n - 1):\n            res *= i\n            res //= j\n            j += 1\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int uniquePaths(int m, int n) {\n        if (m == 1 || n == 1) {\n            return 1;\n        }\n        if (m < n) {\n            int temp = m;\n            m = n;\n            n = temp;\n        }\n\n        long res = 1;\n        int j = 1;\n        for (int i = m; i < m + n - 1; i++) {\n            res *= i;\n            res /= j;\n            j++;\n        }\n\n        return (int) res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        if (m == 1 || n == 1) {\n            return 1;\n        }\n        if (m < n) {\n            swap(m, n);\n        }\n\n        long long res = 1;\n        int j = 1;\n        for (int i = m; i < m + n - 1; i++) {\n            res *= i;\n            res /= j;\n            j++;\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number} m\n     * @param {number} n\n     * @return {number}\n     */\n    uniquePaths(m, n) {\n        if (m === 1 || n === 1) {\n            return 1;\n        }\n        if (m < n) {\n            [m, n] = [n, m];\n        }\n\n        let res = 1,\n            j = 1;\n        for (let i = m; i < m + n - 1; i++) {\n            res *= i;\n            res = Math.floor(res / j);\n            j++;\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int UniquePaths(int m, int n) {\n        if (m == 1 || n == 1) {\n            return 1;\n        }\n        if (m < n) {\n            int temp = m;\n            m = n;\n            n = temp;\n        }\n\n        long res = 1;\n        int j = 1;\n        for (int i = m; i < m + n - 1; i++) {\n            res *= i;\n            res /= j;\n            j++;\n        }\n\n        return (int) res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "func uniquePaths(m int, n int) int {\n    if m == 1 || n == 1 {\n        return 1\n    }\n    if m < n {\n        tmp := m\n        m = n\n        n = tmp\n    }\n\n    res, j := 1, 1\n    for i := m; i < m + n - 1; i++ {\n        res *= i\n        res /= j\n        j++\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun uniquePaths(m: Int, n: Int): Int {\n        if (m == 1 || n == 1) return 1\n        var m = m\n        var n = n\n        if (m < n) {\n            val tmp = m\n            m = n\n            n = tmp\n        }\n\n        var res: Long = 1\n        var j = 1\n        for (i in m until m + n - 1) {\n            res *= i\n            res /= j\n            j++\n        }\n\n        return res.toInt()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func uniquePaths(_ m: Int, _ n: Int) -> Int {\n        if m == 1 || n == 1 {\n            return 1\n        }\n        var m = m, n = n\n        if m < n {\n            swap(&m, &n)\n        }\n\n        var res = 1\n        var j = 1\n        for i in m..<(m + n - 1) {\n            res *= i\n            res /= j\n            j += 1\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(min(m, n))",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn unique_paths(m: i32, n: i32) -> i32 {\n        if m == 1 || n == 1 {\n            return 1;\n        }\n        let (mut m, mut n) = (m as i64, n as i64);\n        if m < n {\n            std::mem::swap(&mut m, &mut n);\n        }\n\n        let mut res: i64 = 1;\n        let mut j: i64 = 1;\n        for i in m..(m + n - 1) {\n            res *= i;\n            res /= j;\n            j += 1;\n        }\n\n        res as i32\n    }\n}"
+        }
+    ]
+}

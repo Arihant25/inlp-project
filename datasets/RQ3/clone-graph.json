@@ -1,0 +1,121 @@
+{
+    "problem_name": "Clone Graph",
+    "problem_slug": "clone-graph",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hash table",
+        "depth-first search",
+        "breadth-first search",
+        "graph"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val = 0, neighbors = None):\n        self.val = val\n        self.neighbors = neighbors if neighbors is not None else []\n\"\"\"\n\nclass Solution:\n    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:\n        oldToNew = {}\n\n        def dfs(node):\n            if node in oldToNew:\n                return oldToNew[node]\n\n            copy = Node(node.val)\n            oldToNew[node] = copy\n            for nei in node.neighbors:\n                copy.neighbors.append(dfs(nei))\n            return copy\n\n        return dfs(node) if node else None"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/*\nDefinition for a Node.\nclass Node {\n    public int val;\n    public List<Node> neighbors;\n    public Node() {\n        val = 0;\n        neighbors = new ArrayList<Node>();\n    }\n    public Node(int _val) {\n        val = _val;\n        neighbors = new ArrayList<Node>();\n    }\n    public Node(int _val, ArrayList<Node> _neighbors) {\n        val = _val;\n        neighbors = _neighbors;\n    }\n}\n*/\n\npublic class Solution {\n    public Node cloneGraph(Node node) {\n        Map<Node, Node> oldToNew = new HashMap<>();\n\n        return dfs(node, oldToNew);\n    }\n\n    private Node dfs(Node node, Map<Node, Node> oldToNew) {\n        if (node == null) {\n            return null;\n        }\n\n        if (oldToNew.containsKey(node)) {\n            return oldToNew.get(node);\n        }\n\n        Node copy = new Node(node.val);\n        oldToNew.put(node, copy);\n\n        for (Node nei : node.neighbors) {\n            copy.neighbors.add(dfs(nei, oldToNew));\n        }\n\n        return copy;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/*\n// Definition for a Node.\nclass Node {\npublic:\n    int val;\n    vector<Node*> neighbors;\n    Node() {\n        val = 0;\n        neighbors = vector<Node*>();\n    }\n    Node(int _val) {\n        val = _val;\n        neighbors = vector<Node*>();\n    }\n    Node(int _val, vector<Node*> _neighbors) {\n        val = _val;\n        neighbors = _neighbors;\n    }\n};\n*/\n\nclass Solution {\npublic:\n    Node* cloneGraph(Node* node) {\n        map<Node*, Node*> oldToNew;\n        return dfs(node, oldToNew);\n    }\n\n    Node* dfs(Node* node, map<Node*, Node*>& oldToNew) {\n        if (node == nullptr) {\n            return nullptr;\n        }\n\n        if (oldToNew.count(node)) {\n            return oldToNew[node];\n        }\n\n        Node* copy = new Node(node->val);\n        oldToNew[node] = copy;\n\n        for (Node* nei : node->neighbors) {\n            copy->neighbors.push_back(dfs(nei, oldToNew));\n        }\n\n        return copy;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/**\n * // Definition for a Node.\n * class Node {\n *     constructor(val = 0, neighbors = []) {\n *       this.val = val;\n *       this.neighbors = neighbors;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {Node} node\n     * @return {Node}\n     */\n    cloneGraph(node) {\n        const oldToNew = new Map();\n        return this.dfs(node, oldToNew);\n    }\n\n    /**\n     * @param {Node} node\n     * @param {Map} oldToNew\n     * @return {Node}\n     */\n    dfs(node, oldToNew) {\n        if (node === null) {\n            return null;\n        }\n\n        if (oldToNew.has(node)) {\n            return oldToNew.get(node);\n        }\n\n        const copy = new Node(node.val);\n        oldToNew.set(node, copy);\n\n        for (const nei of node.neighbors) {\n            copy.neighbors.push(this.dfs(nei, oldToNew));\n        }\n\n        return copy;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/*\n// Definition for a Node.\npublic class Node {\n    public int val;\n    public IList<Node> neighbors;\n\n    public Node() {\n        val = 0;\n        neighbors = new List<Node>();\n    }\n\n    public Node(int _val) {\n        val = _val;\n        neighbors = new List<Node>();\n    }\n\n    public Node(int _val, List<Node> _neighbors) {\n        val = _val;\n        neighbors = _neighbors;\n    }\n}\n*/\n\npublic class Solution {\n    public Node CloneGraph(Node node) {\n        Dictionary<Node, Node> oldToNew = new Dictionary<Node, Node>();\n        return Dfs(node, oldToNew);\n    }\n\n    private Node Dfs(Node node, Dictionary<Node, Node> oldToNew) {\n        if (node == null)\n            return null;\n\n        if (oldToNew.ContainsKey(node))\n            return oldToNew[node];\n\n        Node copy = new Node(node.val);\n        oldToNew[node] = copy;\n\n        foreach (Node nei in node.neighbors)\n            copy.neighbors.Add(Dfs(nei, oldToNew));\n\n        return copy;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/**\n * Definition for a Node.\n * type Node struct {\n *     Val int\n *     Neighbors []*Node\n * }\n */\n\nfunc cloneGraph(node *Node) *Node {\n    oldToNew := make(map[*Node]*Node)\n\n    var dfs func(*Node) *Node\n    dfs = func(node *Node) *Node {\n        if node == nil {\n            return nil\n        }\n\n        if _, found := oldToNew[node]; found {\n            return oldToNew[node]\n        }\n\n        copy := &Node{Val: node.Val}\n        oldToNew[node] = copy\n        for _, nei := range node.Neighbors {\n            copy.Neighbors = append(copy.Neighbors, dfs(nei))\n        }\n        return copy\n    }\n\n    return dfs(node)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/**\n * Definition for a Node.\n * class Node(var `val`: Int) {\n *     var neighbors: ArrayList<Node?> = ArrayList<Node?>()\n * }\n */\n\nclass Solution {\n    fun cloneGraph(node: Node?): Node? {\n        if (node == null) return null\n\n        val oldToNew = HashMap<Node, Node>()\n\n        fun dfs(node: Node): Node {\n            if (node in oldToNew) {\n                return oldToNew[node]!!\n            }\n\n            val copy = Node(node.`val`)\n            oldToNew[node] = copy\n\n            for (nei in node.neighbors) {\n                nei?.let { copy.neighbors.add(dfs(it)) }\n            }\n\n            return copy\n        }\n\n        return dfs(node)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/**\n * Definition for a Node.\n * public class Node {\n *     public var val: Int\n *     public var neighbors: [Node?]\n *     public init(_ val: Int) {\n *         self.val = val\n *         self.neighbors = []\n *     }\n * }\n */\n\nclass Solution {\n    func cloneGraph(_ node: Node?) -> Node? {\n        var oldToNew = [Node: Node]()\n\n        func dfs(_ node: Node?) -> Node? {\n            guard let node = node else { return nil }\n\n            if let existingCopy = oldToNew[node] {\n                return existingCopy\n            }\n\n            let copy = Node(node.val)\n            oldToNew[node] = copy\n\n            for neighbor in node.neighbors {\n                if let clonedNeighbor = dfs(neighbor) {\n                    copy.neighbors.append(clonedNeighbor)\n                }\n            }\n\n            return copy\n        }\n\n        return dfs(node)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "impl Solution {\n    pub fn clone_graph(node: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {\n        let mut old_to_new: HashMap<i32, Rc<RefCell<Node>>> = HashMap::new();\n\n        fn dfs(\n            node: Option<Rc<RefCell<Node>>>,\n            old_to_new: &mut HashMap<i32, Rc<RefCell<Node>>>,\n        ) -> Option<Rc<RefCell<Node>>> {\n            let node = node?;\n            let val = node.borrow().val;\n\n            if let Some(existing) = old_to_new.get(&val) {\n                return Some(existing.clone());\n            }\n\n            let copy = Rc::new(RefCell::new(Node::new(val)));\n            old_to_new.insert(val, copy.clone());\n\n            for nei in &node.borrow().neighbors {\n                if let Some(cloned_nei) = dfs(nei.clone(), old_to_new) {\n                    copy.borrow_mut().neighbors.push(Some(cloned_nei));\n                }\n            }\n\n            Some(copy)\n        }\n\n        dfs(node, &mut old_to_new)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val = 0, neighbors = None):\n        self.val = val\n        self.neighbors = neighbors if neighbors is not None else []\n\"\"\"\n\nclass Solution:\n    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:\n        if not node:\n            return None\n\n        oldToNew = {}\n        oldToNew[node] = Node(node.val)\n        q = deque([node])\n\n        while q:\n            cur = q.popleft()\n            for nei in cur.neighbors:\n                if nei not in oldToNew:\n                    oldToNew[nei] = Node(nei.val)\n                    q.append(nei)\n                oldToNew[cur].neighbors.append(oldToNew[nei])\n\n        return oldToNew[node]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/*\nDefinition for a Node.\nclass Node {\n    public int val;\n    public List<Node> neighbors;\n    public Node() {\n        val = 0;\n        neighbors = new ArrayList<Node>();\n    }\n    public Node(int _val) {\n        val = _val;\n        neighbors = new ArrayList<Node>();\n    }\n    public Node(int _val, ArrayList<Node> _neighbors) {\n        val = _val;\n        neighbors = _neighbors;\n    }\n}\n*/\n\npublic class Solution {\n    public Node cloneGraph(Node node) {\n        if (node == null) return null;\n        Map<Node, Node> oldToNew = new HashMap<>();\n        Queue<Node> q = new LinkedList<>();\n        oldToNew.put(node, new Node(node.val));\n        q.add(node);\n\n        while (!q.isEmpty()) {\n            Node cur = q.poll();\n            for (Node nei : cur.neighbors) {\n                if (!oldToNew.containsKey(nei)) {\n                    oldToNew.put(nei, new Node(nei.val));\n                    q.add(nei);\n                }\n                oldToNew.get(cur).neighbors.add(oldToNew.get(nei));\n            }\n        }\n        return oldToNew.get(node);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/*\n// Definition for a Node.\nclass Node {\npublic:\n    int val;\n    vector<Node*> neighbors;\n    Node() {\n        val = 0;\n        neighbors = vector<Node*>();\n    }\n    Node(int _val) {\n        val = _val;\n        neighbors = vector<Node*>();\n    }\n    Node(int _val, vector<Node*> _neighbors) {\n        val = _val;\n        neighbors = _neighbors;\n    }\n};\n*/\n\nclass Solution {\npublic:\n    Node* cloneGraph(Node* node) {\n        if (!node) return nullptr;\n        unordered_map<Node*, Node*> oldToNew;\n        queue<Node*> q;\n        oldToNew[node] = new Node(node->val);\n        q.push(node);\n\n        while (!q.empty()) {\n            Node* cur = q.front();\n            q.pop();\n            for (Node* nei : cur->neighbors) {\n                if (oldToNew.find(nei) == oldToNew.end()) {\n                    oldToNew[nei] = new Node(nei->val);\n                    q.push(nei);\n                }\n                oldToNew[cur]->neighbors.push_back(oldToNew[nei]);\n            }\n        }\n        return oldToNew[node];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/**\n * // Definition for a Node.\n * class Node {\n *     constructor(val = 0, neighbors = []) {\n *       this.val = val;\n *       this.neighbors = neighbors;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {Node} node\n     * @return {Node}\n     */\n    cloneGraph(node) {\n        if (!node) return null;\n        const oldToNew = new Map();\n        const q = new Queue();\n        oldToNew.set(node, new Node(node.val));\n        q.push(node);\n\n        while (!q.isEmpty()) {\n            const cur = q.pop();\n            for (const nei of cur.neighbors) {\n                if (!oldToNew.has(nei)) {\n                    oldToNew.set(nei, new Node(nei.val));\n                    q.push(nei);\n                }\n                oldToNew.get(cur).neighbors.push(oldToNew.get(nei));\n            }\n        }\n        return oldToNew.get(node);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/*\n// Definition for a Node.\npublic class Node {\n    public int val;\n    public IList<Node> neighbors;\n\n    public Node() {\n        val = 0;\n        neighbors = new List<Node>();\n    }\n\n    public Node(int _val) {\n        val = _val;\n        neighbors = new List<Node>();\n    }\n\n    public Node(int _val, List<Node> _neighbors) {\n        val = _val;\n        neighbors = _neighbors;\n    }\n}\n*/\n\npublic class Solution {\n    public Node CloneGraph(Node node) {\n        if (node == null) return null;\n        var oldToNew = new Dictionary<Node, Node>();\n        var q = new Queue<Node>();\n        oldToNew[node] = new Node(node.val);\n        q.Enqueue(node);\n\n        while (q.Count > 0) {\n            var cur = q.Dequeue();\n            foreach (var nei in cur.neighbors) {\n                if (!oldToNew.ContainsKey(nei)) {\n                    oldToNew[nei] = new Node(nei.val);\n                    q.Enqueue(nei);\n                }\n                oldToNew[cur].neighbors.Add(oldToNew[nei]);\n            }\n        }\n        return oldToNew[node];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/**\n * Definition for a Node.\n * type Node struct {\n *     Val int\n *     Neighbors []*Node\n * }\n */\n\nfunc cloneGraph(node *Node) *Node {\n    if node == nil {\n        return nil\n    }\n\n    oldToNew := make(map[*Node]*Node)\n    oldToNew[node] = &Node{Val: node.Val, Neighbors: make([]*Node, 0)}\n    queue := make([]*Node, 0)\n    queue = append(queue, node)\n\n    for len(queue) > 0 {\n        cur := queue[0]\n        queue = queue[1:]\n\n        for _, nei := range cur.Neighbors {\n            if _, exists := oldToNew[nei]; !exists {\n                oldToNew[nei] = &Node{Val: nei.Val, Neighbors: make([]*Node, 0)}\n                queue = append(queue, nei)\n            }\n            oldToNew[cur].Neighbors = append(oldToNew[cur].Neighbors, oldToNew[nei])\n        }\n    }\n\n    return oldToNew[node]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/**\n * Definition for a Node.\n * class Node(var `val`: Int) {\n *     var neighbors: ArrayList<Node?> = ArrayList<Node?>()\n * }\n */\n\nclass Solution {\n    fun cloneGraph(node: Node?): Node? {\n        if (node == null) return null\n\n        val oldToNew = HashMap<Node, Node>()\n        oldToNew[node] = Node(node.`val`)\n        val queue = ArrayDeque<Node>()\n        queue.add(node)\n\n        while (queue.isNotEmpty()) {\n            val cur = queue.removeFirst()\n\n            for (nei in cur.neighbors) {\n                nei?.let { neighbor ->\n                    if (neighbor !in oldToNew) {\n                        oldToNew[neighbor] = Node(neighbor.`val`)\n                        queue.add(neighbor)\n                    }\n                    oldToNew[cur]?.neighbors?.add(oldToNew[neighbor])\n                }\n            }\n        }\n\n        return oldToNew[node]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "/**\n * Definition for a Node.\n * public class Node {\n *     public var val: Int\n *     public var neighbors: [Node?]\n *     public init(_ val: Int) {\n *         self.val = val\n *         self.neighbors = []\n *     }\n * }\n */\n\nclass Solution {\n    func cloneGraph(_ node: Node?) -> Node? {\n        if node == nil {\n            return nil\n        }\n\n        var oldToNew: [Node: Node] = [:]\n        let newNode = Node(node!.val)\n        oldToNew[node!] = newNode\n        var queue = Deque<Node>()\n        queue.append(node!)\n\n        while !queue.isEmpty {\n            let cur = queue.popFirst()!\n            for nei in cur.neighbors {\n                if let nei = nei {\n                    if oldToNew[nei] == nil {\n                        oldToNew[nei] = Node(nei.val)\n                        queue.append(nei)\n                    }\n                    oldToNew[cur]!.neighbors.append(oldToNew[nei]!)\n                }\n            }\n        }\n\n        return oldToNew[node!]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V)",
+            "code": "impl Solution {\n    pub fn clone_graph(node: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {\n        let node = node?;\n        let mut old_to_new: HashMap<i32, Rc<RefCell<Node>>> = HashMap::new();\n        let val = node.borrow().val;\n        old_to_new.insert(val, Rc::new(RefCell::new(Node::new(val))));\n        let mut queue = VecDeque::new();\n        queue.push_back(node.clone());\n\n        while let Some(cur) = queue.pop_front() {\n            let cur_val = cur.borrow().val;\n            for nei in &cur.borrow().neighbors {\n                if let Some(nei_rc) = nei {\n                    let nei_val = nei_rc.borrow().val;\n                    if !old_to_new.contains_key(&nei_val) {\n                        old_to_new.insert(nei_val, Rc::new(RefCell::new(Node::new(nei_val))));\n                        queue.push_back(nei_rc.clone());\n                    }\n                    let cloned_nei = old_to_new.get(&nei_val).unwrap().clone();\n                    old_to_new.get(&cur_val).unwrap().borrow_mut().neighbors.push(Some(cloned_nei));\n                }\n            }\n        }\n\n        old_to_new.get(&val).cloned()\n    }\n}"
+        }
+    ]
+}

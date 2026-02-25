@@ -1,0 +1,174 @@
+{
+    "problem_name": "Reconstruct Itinerary",
+    "problem_slug": "reconstruct-itinerary",
+    "difficulty": "hard",
+    "topic_tags": [
+        "depth-first search",
+        "graph theory",
+        "eulerian circuit"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "class Solution:\n    def findItinerary(self, tickets: List[List[str]]) -> List[str]:\n        adj = {src: [] for src, dst in tickets}\n        tickets.sort()\n        for src, dst in tickets:\n            adj[src].append(dst)\n\n        res = [\"JFK\"]\n        def dfs(src):\n            if len(res) == len(tickets) + 1:\n                return True\n            if src not in adj:\n                return False\n\n            temp = list(adj[src])\n            for i, v in enumerate(temp):\n                adj[src].pop(i)\n                res.append(v)\n                if dfs(v): return True\n                adj[src].insert(i, v)\n                res.pop()\n            return False\n\n        dfs(\"JFK\")\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "public class Solution {\n    public List<String> findItinerary(List<List<String>> tickets) {\n        Map<String, List<String>> adj = new HashMap<>();\n        for (List<String> ticket : tickets) {\n            adj.putIfAbsent(ticket.get(0), new ArrayList<>());\n        }\n\n        tickets.sort((a, b) -> a.get(1).compareTo(b.get(1)));\n        for (List<String> ticket : tickets) {\n            adj.get(ticket.get(0)).add(ticket.get(1));\n        }\n\n        List<String> res = new ArrayList<>();\n        res.add(\"JFK\");\n\n        if (dfs(\"JFK\", res, adj, tickets.size() + 1)) {\n            return res;\n        }\n        return new ArrayList<>();\n    }\n\n    private boolean dfs(String src, List<String> res,\n                        Map<String, List<String>> adj, int targetLen) {\n        if (res.size() == targetLen) {\n            return true;\n        }\n\n        if (!adj.containsKey(src)) {\n            return false;\n        }\n\n        List<String> temp = new ArrayList<>(adj.get(src));\n        for (int i = 0; i < temp.size(); i++) {\n            String v = temp.get(i);\n            adj.get(src).remove(i);\n            res.add(v);\n            if (dfs(v, res, adj, targetLen)) return true;\n            adj.get(src).add(i, v);\n            res.remove(res.size() - 1);\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "class Solution {\npublic:\n    vector<string> findItinerary(vector<vector<string>>& tickets) {\n        unordered_map<string, vector<string>> adj;\n        for (auto& ticket : tickets) {\n            adj[ticket[0]];\n        }\n\n        sort(tickets.begin(), tickets.end());\n        for (auto& ticket : tickets) {\n            adj[ticket[0]].push_back(ticket[1]);\n        }\n\n        vector<string> res = {\"JFK\"};\n        dfs(\"JFK\", res, adj, tickets.size() + 1);\n        return res;\n    }\n\nprivate:\n    bool dfs(const string& src, vector<string>& res,\n             unordered_map<string, vector<string>>& adj, int targetLen) {\n        if (res.size() == targetLen) {\n            return true;\n        }\n\n        if (adj.find(src) == adj.end()) {\n            return false;\n        }\n\n        vector<string> temp = adj[src];\n        for (int i = 0; i < temp.size(); ++i) {\n            string v = temp[i];\n            adj[src].erase(adj[src].begin() + i);\n            res.push_back(v);\n            if (dfs(v, res, adj, targetLen)) return true;\n            adj[src].insert(adj[src].begin() + i, v);\n            res.pop_back();\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "class Solution {\n    /**\n     * @param {string[][]} tickets\n     * @return {string[]}\n     */\n    findItinerary(tickets) {\n        const adj = {};\n        for (const [src, dst] of tickets) {\n            if (!adj[src]) adj[src] = [];\n        }\n\n        tickets.sort();\n        for (const [src, dst] of tickets) {\n            adj[src].push(dst);\n        }\n\n        const res = ['JFK'];\n        const dfs = (src) => {\n            if (res.length === tickets.length + 1) return true;\n            if (!adj[src]) return false;\n\n            const temp = [...adj[src]];\n            for (let i = 0; i < temp.length; i++) {\n                const v = temp[i];\n                adj[src].splice(i, 1);\n                res.push(v);\n                if (dfs(v)) return true;\n                res.pop();\n                adj[src].splice(i, 0, v);\n            }\n            return false;\n        };\n\n        dfs('JFK');\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "public class Solution {\n    public List<string> FindItinerary(List<List<string>> tickets) {\n        var adj = new Dictionary<string, List<string>>();\n        foreach (var ticket in tickets) {\n            if (!adj.ContainsKey(ticket[0])) {\n                adj[ticket[0]] = new List<string>();\n            }\n        }\n\n        tickets.Sort((a, b) => string.Compare(a[1], b[1]));\n        foreach (var ticket in tickets) {\n            adj[ticket[0]].Add(ticket[1]);\n        }\n\n        var res = new List<string> { \"JFK\" };\n        Dfs(\"JFK\", res, adj, tickets.Count + 1);\n        return res;\n    }\n\n    private bool Dfs(string src, List<string> res,\n                     Dictionary<string, List<string>> adj, int targetLen) {\n        if (res.Count == targetLen) return true;\n        if (!adj.ContainsKey(src)) return false;\n\n        var temp = new List<string>(adj[src]);\n        for (int i = 0; i < temp.Count; i++) {\n            var v = temp[i];\n            adj[src].RemoveAt(i);\n            res.Add(v);\n            if (Dfs(v, res, adj, targetLen)) return true;\n            res.RemoveAt(res.Count - 1);\n            adj[src].Insert(i, v);\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "func findItinerary(tickets [][]string) []string {\n    adj := make(map[string][]string)\n    for _, ticket := range tickets {\n        adj[ticket[0]] = append(adj[ticket[0]], ticket[1])\n    }\n\n    for src := range adj {\n        sort.Strings(adj[src])\n    }\n\n    res := []string{\"JFK\"}\n\n    var dfs func(string) bool\n    dfs = func(src string) bool {\n        if len(res) == len(tickets) + 1 {\n            return true\n        }\n\n        destinations, exists := adj[src]\n        if !exists {\n            return false\n        }\n\n        temp := make([]string, len(destinations))\n        copy(temp, destinations)\n\n        for i, v := range temp {\n            adj[src] = append(adj[src][:i], adj[src][i+1:]...)\n            res = append(res, v)\n\n            if dfs(v) {\n                return true\n            }\n\n            adj[src] = append(adj[src][:i], append([]string{v}, adj[src][i:]...)...)\n            res = res[:len(res)-1]\n        }\n        return false\n    }\n\n    dfs(\"JFK\")\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "class Solution {\n    fun findItinerary(tickets: List<List<String>>): List<String> {\n        val adj = HashMap<String, MutableList<String>>()\n\n        tickets.sortedBy { it[1] }.forEach { (src, dst) ->\n            adj.getOrPut(src) { mutableListOf() }.add(dst)\n        }\n\n        val res = mutableListOf(\"JFK\")\n\n        fun dfs(src: String): Boolean {\n            if (res.size == tickets.size + 1) {\n                return true\n            }\n\n            val destinations = adj[src] ?: return false\n\n            for (i in destinations.indices) {\n                val v = destinations.removeAt(i)\n                res.add(v)\n\n                if (dfs(v)) {\n                    return true\n                }\n\n                destinations.add(i, v)\n                res.removeAt(res.lastIndex)\n            }\n            return false\n        }\n\n        dfs(\"JFK\")\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "class Solution {\n    func findItinerary(_ tickets: [[String]]) -> [String] {\n        var adj = [String: [String]]()\n        for ticket in tickets {\n            adj[ticket[0], default: []].append(ticket[1])\n        }\n\n        for key in adj.keys {\n            adj[key]?.sort()\n        }\n\n        var res = [\"JFK\"]\n\n        func dfs(_ src: String) -> Bool {\n            if res.count == tickets.count + 1 {\n                return true\n            }\n            guard let destinations = adj[src] else {\n                return false\n            }\n\n            var temp = destinations\n            for i in 0..<temp.count {\n                let v = temp[i]\n                adj[src]?.remove(at: i)\n                res.append(v)\n                if dfs(v) { return true }\n                res.removeLast()\n                adj[src]?.insert(v, at: i)\n            }\n            return false\n        }\n\n        dfs(\"JFK\")\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(E * V)",
+            "space_complexity": "O(E * V)",
+            "code": "impl Solution {\n    pub fn find_itinerary(tickets: Vec<Vec<String>>) -> Vec<String> {\n        let mut adj: HashMap<String, Vec<String>> = HashMap::new();\n        let mut tickets = tickets;\n        tickets.sort();\n        for ticket in &tickets {\n            adj.entry(ticket[0].clone()).or_default().push(ticket[1].clone());\n        }\n\n        let mut res = vec![\"JFK\".to_string()];\n        let target_len = tickets.len() + 1;\n\n        fn dfs(\n            src: &str,\n            res: &mut Vec<String>,\n            adj: &mut HashMap<String, Vec<String>>,\n            target_len: usize,\n        ) -> bool {\n            if res.len() == target_len {\n                return true;\n            }\n            let dests = match adj.get(src) {\n                Some(d) => d.clone(),\n                None => return false,\n            };\n            for i in 0..dests.len() {\n                let v = dests[i].clone();\n                adj.get_mut(src).unwrap().remove(i);\n                res.push(v.clone());\n                if dfs(&v, res, adj, target_len) {\n                    return true;\n                }\n                adj.get_mut(src).unwrap().insert(i, v);\n                res.pop();\n            }\n            false\n        }\n\n        dfs(\"JFK\", &mut res, &mut adj, target_len);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution:\n    def findItinerary(self, tickets: List[List[str]]) -> List[str]:\n        adj = defaultdict(list)\n        for src, dst in sorted(tickets)[::-1]:\n            adj[src].append(dst)\n\n        res = []\n        def dfs(src):\n            while adj[src]:\n                dst = adj[src].pop()\n                dfs(dst)\n            res.append(src)\n\n        dfs('JFK')\n        return res[::-1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "public class Solution {\n    public List<String> findItinerary(List<List<String>> tickets) {\n        Map<String, PriorityQueue<String>> adj = new HashMap<>();\n        for (List<String> ticket : tickets) {\n            String src = ticket.get(0);\n            String dst = ticket.get(1);\n            adj.computeIfAbsent(src, k -> new PriorityQueue<>()).offer(dst);\n        }\n\n        List<String> res = new ArrayList<>();\n        dfs(adj, \"JFK\", res);\n\n        Collections.reverse(res);\n        return res;\n    }\n\n    private void dfs(Map<String, PriorityQueue<String>> adj,\n                     String src, List<String> res) {\n        PriorityQueue<String> queue = adj.get(src);\n        while (queue != null && !queue.isEmpty()) {\n            String dst = queue.poll();\n            dfs(adj, dst, res);\n        }\n        res.add(src);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution {\npublic:\n    vector<string> findItinerary(vector<vector<string>>& tickets) {\n        unordered_map<string, deque<string>> adj;\n        for (auto& ticket : tickets) {\n            adj[ticket[0]].push_back(ticket[1]);\n        }\n        for (auto& [src, dests] : adj) {\n            sort(dests.rbegin(), dests.rend());\n        }\n\n        vector<string> res;\n        dfs(\"JFK\", adj, res);\n        reverse(res.begin(), res.end());\n        return res;\n    }\n\nprivate:\n    void dfs(const string& src, unordered_map<string,\n             deque<string>>& adj, vector<string>& res) {\n        while (!adj[src].empty()) {\n            string dst = adj[src].back();\n            adj[src].pop_back();\n            dfs(dst, adj, res);\n        }\n        res.push_back(src);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution {\n    /**\n     * @param {string[][]} tickets\n     * @return {string[]}\n     */\n    findItinerary(tickets) {\n        const adj = new Map();\n        const res = [];\n\n        tickets\n            .sort()\n            .reverse()\n            .forEach(([src, dst]) => {\n                if (!adj.has(src)) adj.set(src, []);\n                adj.get(src).push(dst);\n            });\n\n        function dfs(src) {\n            while (adj.has(src) && adj.get(src).length > 0) {\n                const dst = adj.get(src).pop();\n                dfs(dst);\n            }\n            res.push(src);\n        }\n\n        dfs('JFK');\n        return res.reverse();\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "public class Solution {\n    private Dictionary<string, List<string>> adj;\n    private List<string> res = new List<string>();\n\n    public List<string> FindItinerary(List<List<string>> tickets) {\n        adj = new Dictionary<string, List<string>>();\n        var sortedTickets = tickets.OrderByDescending(t => t[1]).ToList();\n        foreach (var ticket in sortedTickets) {\n            if (!adj.ContainsKey(ticket[0])) {\n                adj[ticket[0]] = new List<string>();\n            }\n            adj[ticket[0]].Add(ticket[1]);\n        }\n\n        Dfs(\"JFK\");\n        res.Reverse();\n        return res;\n    }\n\n    private void Dfs(string src) {\n        while (adj.ContainsKey(src) && adj[src].Count > 0) {\n            var dst = adj[src][adj[src].Count - 1];\n            adj[src].RemoveAt(adj[src].Count - 1);\n            Dfs(dst);\n        }\n        res.Add(src);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "func findItinerary(tickets [][]string) []string {\n    adj := make(map[string][]string)\n\n    sort.Slice(tickets, func(i, j int) bool {\n        if tickets[i][0] == tickets[j][0] {\n            return tickets[i][1] > tickets[j][1]\n        }\n        return tickets[i][0] > tickets[j][0]\n    })\n\n    for _, ticket := range tickets {\n        src, dst := ticket[0], ticket[1]\n        adj[src] = append(adj[src], dst)\n    }\n\n    res := make([]string, 0)\n\n    var dfs func(string)\n    dfs = func(src string) {\n        for len(adj[src]) > 0 {\n            last := len(adj[src]) - 1\n            dst := adj[src][last]\n            adj[src] = adj[src][:last]\n            dfs(dst)\n        }\n        res = append(res, src)\n    }\n\n    dfs(\"JFK\")\n\n    for i := 0; i < len(res)/2; i++ {\n        res[i], res[len(res)-1-i] = res[len(res)-1-i], res[i]\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution {\n    fun findItinerary(tickets: List<List<String>>): List<String> {\n        val adj = HashMap<String, MutableList<String>>()\n\n        tickets.sortedWith(compareBy({ it[0] }, { it[1] }))\n            .reversed()\n            .forEach { (src, dst) ->\n                adj.getOrPut(src) { mutableListOf() }.add(dst)\n            }\n\n        val res = mutableListOf<String>()\n\n        fun dfs(src: String) {\n            while (adj[src]?.isNotEmpty() == true) {\n                val dst = adj[src]!!.removeAt(adj[src]!!.lastIndex)\n                dfs(dst)\n            }\n            res.add(src)\n        }\n\n        dfs(\"JFK\")\n        return res.reversed()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution {\n    func findItinerary(_ tickets: [[String]]) -> [String] {\n        var adj = [String: [String]]()\n        for ticket in tickets.sorted(by: { $0[1] > $1[1] }) {\n            adj[ticket[0], default: []].append(ticket[1])\n        }\n\n        var res = [String]()\n\n        func dfs(_ src: String) {\n            while let destinations = adj[src], !destinations.isEmpty {\n                let dst = adj[src]!.removeLast()\n                dfs(dst)\n            }\n            res.append(src)\n        }\n\n        dfs(\"JFK\")\n        return res.reversed()\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "impl Solution {\n    pub fn find_itinerary(tickets: Vec<Vec<String>>) -> Vec<String> {\n        let mut adj: HashMap<String, Vec<String>> = HashMap::new();\n        let mut tickets = tickets;\n        tickets.sort();\n        tickets.reverse();\n        for ticket in &tickets {\n            adj.entry(ticket[0].clone()).or_default().push(ticket[1].clone());\n        }\n\n        let mut res = Vec::new();\n\n        fn dfs(src: &str, adj: &mut HashMap<String, Vec<String>>, res: &mut Vec<String>) {\n            while let Some(dests) = adj.get(src) {\n                if dests.is_empty() {\n                    break;\n                }\n                let dst = adj.get_mut(src).unwrap().pop().unwrap();\n                dfs(&dst, adj, res);\n            }\n            res.push(src.to_string());\n        }\n\n        dfs(\"JFK\", &mut adj, &mut res);\n        res.reverse();\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution:\n    def findItinerary(self, tickets: List[List[str]]) -> List[str]:\n        adj = defaultdict(list)\n        for src, dst in sorted(tickets)[::-1]:\n            adj[src].append(dst)\n\n        stack = [\"JFK\"]\n        res = []\n\n        while stack:\n            curr = stack[-1]\n            if not adj[curr]:\n                res.append(stack.pop())\n            else:\n                stack.append(adj[curr].pop())\n\n        return res[::-1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "public class Solution {\n    public List<String> findItinerary(List<List<String>> tickets) {\n        Map<String, PriorityQueue<String>> adj = new HashMap<>();\n        for (List<String> ticket : tickets) {\n            adj.computeIfAbsent(ticket.get(0),\n            k -> new PriorityQueue<>()).add(ticket.get(1));\n        }\n\n        LinkedList<String> res = new LinkedList<>();\n        Stack<String> stack = new Stack<>();\n        stack.push(\"JFK\");\n\n        while (!stack.isEmpty()) {\n            String curr = stack.peek();\n            if (!adj.containsKey(curr) || adj.get(curr).isEmpty()) {\n                res.addFirst(stack.pop());\n            } else {\n                stack.push(adj.get(curr).poll());\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution {\npublic:\n    vector<string> findItinerary(vector<vector<string>>& tickets) {\n        unordered_map<string, vector<string>> adj;\n        for (const auto& ticket : tickets) {\n            adj[ticket[0]].push_back(ticket[1]);\n        }\n        for (auto& [src, destinations] : adj) {\n            sort(destinations.rbegin(), destinations.rend());\n        }\n\n        vector<string> res;\n        stack<string> stk;\n        stk.push(\"JFK\");\n\n        while (!stk.empty()) {\n            string curr = stk.top();\n            if (adj[curr].empty()) {\n                res.push_back(curr);\n                stk.pop();\n            } else {\n                string next = adj[curr].back();\n                adj[curr].pop_back();\n                stk.push(next);\n            }\n        }\n\n        reverse(res.begin(), res.end());\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution {\n    /**\n     * @param {string[][]} tickets\n     * @return {string[]}\n     */\n    findItinerary(tickets) {\n        const adj = new Map();\n        tickets\n            .sort()\n            .reverse()\n            .forEach(([src, dst]) => {\n                if (!adj.has(src)) adj.set(src, []);\n                adj.get(src).push(dst);\n            });\n\n        const res = [];\n        const stack = ['JFK'];\n\n        while (stack.length > 0) {\n            let curr = stack[stack.length - 1];\n            if (!adj.has(curr) || adj.get(curr).length === 0) {\n                res.unshift(stack.pop());\n            } else {\n                stack.push(adj.get(curr).pop());\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "public class Solution {\n    public List<string> FindItinerary(List<List<string>> tickets) {\n        var adj = new Dictionary<string, List<string>>();\n        foreach (var ticket in tickets.OrderByDescending(t => t[1])) {\n            if (!adj.ContainsKey(ticket[0])) {\n                adj[ticket[0]] = new List<string>();\n            }\n            adj[ticket[0]].Add(ticket[1]);\n        }\n\n        var res = new List<string>();\n        var stack = new Stack<string>();\n        stack.Push(\"JFK\");\n\n        while (stack.Count > 0) {\n            var curr = stack.Peek();\n            if (!adj.ContainsKey(curr) || adj[curr].Count == 0) {\n                res.Insert(0, stack.Pop());\n            } else {\n                var next = adj[curr][adj[curr].Count - 1];\n                adj[curr].RemoveAt(adj[curr].Count - 1);\n                stack.Push(next);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "func findItinerary(tickets [][]string) []string {\n\tadj := make(map[string][]string)\n\tfor _, ticket := range tickets {\n\t\tsrc, dst := ticket[0], ticket[1]\n\t\tadj[src] = append(adj[src], dst)\n\t}\n\tfor src := range adj {\n\t\tsort.Sort(sort.Reverse(sort.StringSlice(adj[src])))\n\t}\n\n\tstack := []string{\"JFK\"}\n\tvar res []string\n\n\tfor len(stack) > 0 {\n\t\tcurr := stack[len(stack)-1]\n\t\tif len(adj[curr]) == 0 {\n\t\t\tres = append(res, stack[len(stack)-1])\n\t\t\tstack = stack[:len(stack)-1]\n\t\t} else {\n\t\t\tstack = append(stack, adj[curr][len(adj[curr])-1])\n\t\t\tadj[curr] = adj[curr][:len(adj[curr])-1]\n\t\t}\n\t}\n\n\tfor i, j := 0, len(res)-1; i < j; i, j = i+1, j-1 {\n\t\tres[i], res[j] = res[j], res[i]\n\t}\n\treturn res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution {\n    fun findItinerary(tickets: List<List<String>>): List<String> {\n        val adj = HashMap<String, MutableList<String>>()\n        for ((src, dst) in tickets.sortedWith(\n            compareByDescending<List<String>> { it[0] }.thenByDescending { it[1] })\n        ) {\n            adj.computeIfAbsent(src) { mutableListOf() }.add(dst)\n        }\n\n        val stack = ArrayDeque<String>().apply { add(\"JFK\") }\n        val res = mutableListOf<String>()\n\n        while (stack.isNotEmpty()) {\n            val curr = stack.last()\n            if (adj[curr].isNullOrEmpty()) {\n                res.add(stack.removeLast())\n            } else {\n                stack.add(adj[curr]!!.removeLast())\n            }\n        }\n\n        return res.asReversed()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "class Solution {\n    func findItinerary(_ tickets: [[String]]) -> [String] {\n        var adj = [String: [String]]()\n        for ticket in tickets.sorted(by: { $0[1] > $1[1] }) {\n            adj[ticket[0], default: []].append(ticket[1])\n        }\n\n        var stack = [\"JFK\"]\n        var res = [String]()\n\n        while !stack.isEmpty {\n            let curr = stack.last!\n            if adj[curr] == nil || adj[curr]!.isEmpty {\n                res.append(stack.removeLast())\n            } else {\n                stack.append(adj[curr]!.removeLast())\n            }\n        }\n\n        return res.reversed()\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(Elog E)",
+            "space_complexity": "O(E)",
+            "code": "impl Solution {\n    pub fn find_itinerary(tickets: Vec<Vec<String>>) -> Vec<String> {\n        let mut adj: HashMap<String, Vec<String>> = HashMap::new();\n        let mut tickets = tickets;\n        tickets.sort();\n        tickets.reverse();\n        for ticket in &tickets {\n            adj.entry(ticket[0].clone()).or_default().push(ticket[1].clone());\n        }\n\n        let mut stack = vec![\"JFK\".to_string()];\n        let mut res = Vec::new();\n\n        while let Some(curr) = stack.last().cloned() {\n            if adj.get(&curr).map_or(true, |d| d.is_empty()) {\n                res.push(stack.pop().unwrap());\n            } else {\n                let next = adj.get_mut(&curr).unwrap().pop().unwrap();\n                stack.push(next);\n            }\n        }\n\n        res.reverse();\n        res\n    }\n}"
+        }
+    ]
+}

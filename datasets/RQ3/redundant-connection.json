@@ -1,0 +1,229 @@
+{
+    "problem_name": "Redundant Connection",
+    "problem_slug": "redundant-connection",
+    "difficulty": "medium",
+    "topic_tags": [
+        "depth-first search",
+        "breadth-first search",
+        "union find",
+        "graph theory"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:\n        n = len(edges)\n        adj = [[] for _ in range(n + 1)]\n\n        def dfs(node, par):\n            if visit[node]:\n                return True\n\n            visit[node] = True\n            for nei in adj[node]:\n                if nei == par:\n                    continue\n                if dfs(nei, node):\n                    return True\n            return False\n\n        for u, v in edges:\n            adj[u].append(v)\n            adj[v].append(u)\n            visit = [False] * (n + 1)\n\n            if dfs(u, -1):\n                return [u, v]\n        return []"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int[] findRedundantConnection(int[][] edges) {\n        int n = edges.length;\n        List<List<Integer>> adj = new ArrayList<>();\n        for (int i = 0; i <= n; i++) {\n            adj.add(new ArrayList<>());\n        }\n\n        for (int[] edge : edges) {\n            int u = edge[0], v = edge[1];\n            adj.get(u).add(v);\n            adj.get(v).add(u);\n            boolean[] visit = new boolean[n + 1];\n\n            if (dfs(u, -1, adj, visit)) {\n                return edge;\n            }\n        }\n        return new int[0];\n    }\n\n    private boolean dfs(int node, int parent,\n                        List<List<Integer>> adj, boolean[] visit) {\n        if (visit[node]) {\n            return true;\n        }\n\n        visit[node] = true;\n        for (int nei : adj.get(node)) {\n            if (nei == parent) {\n                continue;\n            }\n            if (dfs(nei, node, adj, visit)) {\n                return true;\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\npublic:\n    vector<int> findRedundantConnection(vector<vector<int>>& edges) {\n        int n = edges.size();\n        vector<vector<int>> adj(n + 1);\n\n        for (const auto& edge : edges) {\n            int u = edge[0], v = edge[1];\n            adj[u].push_back(v);\n            adj[v].push_back(u);\n            vector<bool> visit(n + 1, false);\n\n            if (dfs(u, -1, adj, visit)) {\n                return {u, v};\n            }\n        }\n        return {};\n    }\n\nprivate:\n    bool dfs(int node, int parent,\n             vector<vector<int>>& adj, vector<bool>& visit) {\n        if (visit[node]) return true;\n        visit[node] = true;\n        for (int nei : adj[node]) {\n            if (nei == parent) continue;\n            if (dfs(nei, node, adj, visit)) return true;\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} edges\n     * @return {number[]}\n     */\n    findRedundantConnection(edges) {\n        const n = edges.length;\n        const adj = Array.from({ length: n + 1 }, () => []);\n\n        const dfs = (node, parent, visited) => {\n            if (visited[node]) return true;\n            visited[node] = true;\n            for (const nei of adj[node]) {\n                if (nei === parent) continue;\n                if (dfs(nei, node, visited)) return true;\n            }\n            return false;\n        };\n\n        for (const [u, v] of edges) {\n            adj[u].push(v);\n            adj[v].push(u);\n            const visited = Array(n + 1).fill(false);\n            if (dfs(u, -1, visited)) {\n                return [u, v];\n            }\n        }\n        return [];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int[] FindRedundantConnection(int[][] edges) {\n        int n = edges.Length;\n        List<List<int>> adj = new List<List<int>>();\n        for (int i = 0; i <= n; i++) {\n            adj.Add(new List<int>());\n        }\n\n        foreach (var edge in edges) {\n            int u = edge[0], v = edge[1];\n            adj[u].Add(v);\n            adj[v].Add(u);\n            bool[] visit = new bool[n + 1];\n\n            if (Dfs(u, -1, adj, visit)) {\n                return new int[] { u, v };\n            }\n        }\n        return new int[0];\n    }\n\n    private bool Dfs(int node, int parent,\n                     List<List<int>> adj, bool[] visit) {\n        if (visit[node]) return true;\n        visit[node] = true;\n        foreach (int nei in adj[node]) {\n            if (nei == parent) continue;\n            if (Dfs(nei, node, adj, visit)) return true;\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "func findRedundantConnection(edges [][]int) []int {\n    n := len(edges)\n    adj := make([][]int, n+1)\n    visit := make([]bool, n+1)\n\n    var dfs func(node, par int) bool\n    dfs = func(node, par int) bool {\n        if visit[node] {\n            return true\n        }\n        visit[node] = true\n        for _, nei := range adj[node] {\n            if nei == par {\n                continue\n            }\n            if dfs(nei, node) {\n                return true\n            }\n        }\n        return false\n    }\n\n    for _, edge := range edges {\n        u, v := edge[0], edge[1]\n        adj[u] = append(adj[u], v)\n        adj[v] = append(adj[v], u)\n        for i := 0; i <= n; i++ {\n            visit[i] = false\n        }\n\n        if dfs(u, -1) {\n            return []int{u, v}\n        }\n    }\n    return []int{}\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun findRedundantConnection(edges: Array<IntArray>): IntArray {\n        val n = edges.size\n        val adj = Array(n + 1) { mutableListOf<Int>() }\n\n        fun dfs(node: Int, par: Int, visit: BooleanArray): Boolean {\n            if (visit[node]) {\n                return true\n            }\n            visit[node] = true\n            for (nei in adj[node]) {\n                if (nei == par) continue\n                if (dfs(nei, node, visit)) return true\n            }\n            return false\n        }\n\n        for (edge in edges) {\n            val u = edge[0]\n            val v = edge[1]\n            adj[u].add(v)\n            adj[v].add(u)\n            val visit = BooleanArray(n + 1)\n\n            if (dfs(u, -1, visit)) {\n                return intArrayOf(u, v)\n            }\n        }\n        return intArrayOf()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    func findRedundantConnection(_ edges: [[Int]]) -> [Int] {\n        let n = edges.count\n        var adj = Array(repeating: [Int](), count: n + 1)\n\n        func dfs(_ node: Int, _ par: Int, _ visit: inout [Bool]) -> Bool {\n            if visit[node] {\n                return true\n            }\n\n            visit[node] = true\n            for nei in adj[node] {\n                if nei == par {\n                    continue\n                }\n                if dfs(nei, node, &visit) {\n                    return true\n                }\n            }\n            return false\n        }\n\n        for edge in edges {\n            let u = edge[0]\n            let v = edge[1]\n            adj[u].append(v)\n            adj[v].append(u)\n            var visit = Array(repeating: false, count: n + 1)\n\n            if dfs(u, -1, &visit) {\n                return [u, v]\n            }\n        }\n        return []\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(E * (V + E))",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn find_redundant_connection(edges: Vec<Vec<i32>>) -> Vec<i32> {\n        let n = edges.len();\n        let mut adj = vec![vec![]; n + 1];\n\n        fn dfs(node: usize, parent: i32, adj: &Vec<Vec<usize>>, visit: &mut Vec<bool>) -> bool {\n            if visit[node] {\n                return true;\n            }\n            visit[node] = true;\n            for &nei in &adj[node] {\n                if nei as i32 == parent {\n                    continue;\n                }\n                if dfs(nei, node as i32, adj, visit) {\n                    return true;\n                }\n            }\n            false\n        }\n\n        for edge in &edges {\n            let (u, v) = (edge[0] as usize, edge[1] as usize);\n            adj[u].push(v);\n            adj[v].push(u);\n            let mut visit = vec![false; n + 1];\n\n            if dfs(u, -1, &adj, &mut visit) {\n                return edge.clone();\n            }\n        }\n        vec![]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:\n        n = len(edges)\n        adj = [[] for _ in range(n + 1)]\n        for u, v in edges:\n            adj[u].append(v)\n            adj[v].append(u)\n\n        visit = [False] * (n + 1)\n        cycle = set()\n        cycleStart = -1\n\n        def dfs(node, par):\n            nonlocal cycleStart\n            if visit[node]:\n                cycleStart = node\n                return True\n\n            visit[node] = True\n            for nei in adj[node]:\n                if nei == par:\n                    continue\n                if dfs(nei, node):\n                    if cycleStart != -1:\n                        cycle.add(node)\n                    if node == cycleStart:\n                        cycleStart = -1\n                    return True\n            return False\n\n        dfs(1, -1)\n\n        for u, v in reversed(edges):\n            if u in cycle and v in cycle:\n                return [u, v]\n\n        return []"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    private boolean[] visit;\n    private List<List<Integer>> adj;\n    private Set<Integer> cycle;\n    private int cycleStart;\n\n    public int[] findRedundantConnection(int[][] edges) {\n        int n = edges.length;\n        adj = new ArrayList<>();\n        for (int i = 0; i <= n; i++)\n            adj.add(new ArrayList<>());\n\n        for (int[] edge : edges) {\n            int u = edge[0], v = edge[1];\n            adj.get(u).add(v);\n            adj.get(v).add(u);\n        }\n\n        visit = new boolean[n + 1];\n        cycle = new HashSet<>();\n        cycleStart = -1;\n        dfs(1, -1);\n\n        for (int i = edges.length - 1; i >= 0; i--) {\n            int u = edges[i][0], v = edges[i][1];\n            if (cycle.contains(u) && cycle.contains(v)) {\n                return new int[]{u, v};\n            }\n        }\n        return new int[0];\n    }\n\n    private boolean dfs(int node, int par) {\n        if (visit[node]) {\n            cycleStart = node;\n            return true;\n        }\n        visit[node] = true;\n        for (int nei : adj.get(node)) {\n            if (nei == par) continue;\n            if (dfs(nei, node)) {\n                if (cycleStart != -1) cycle.add(node);\n                if (node == cycleStart) {\n                    cycleStart = -1;\n                }\n                return true;\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    vector<bool> visit;\n    vector<vector<int>> adj;\n    unordered_set<int> cycle;\n    int cycleStart;\npublic:\n    vector<int> findRedundantConnection(vector<vector<int>>& edges) {\n        int n = edges.size();\n        adj.resize(n + 1);\n        for (auto& edge : edges) {\n            int u = edge[0], v = edge[1];\n            adj[u].push_back(v);\n            adj[v].push_back(u);\n        }\n\n        visit.resize(n + 1, false);\n        cycleStart = -1;\n        dfs(1, -1);\n\n        for (int i = edges.size() - 1; i >= 0; i--) {\n            int u = edges[i][0], v = edges[i][1];\n            if (cycle.count(u) && cycle.count(v)) {\n                return {u, v};\n            }\n        }\n        return {};\n    }\n\nprivate:\n    bool dfs(int node, int par) {\n        if (visit[node]) {\n            cycleStart = node;\n            return true;\n        }\n        visit[node] = true;\n        for (int nei : adj[node]) {\n            if (nei == par) continue;\n            if (dfs(nei, node)) {\n                if (cycleStart != -1) cycle.insert(node);\n                if (node == cycleStart) {\n                    cycleStart = -1;\n                }\n                return true;\n            }\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} edges\n     * @return {number[]}\n     */\n    findRedundantConnection(edges) {\n        const n = edges.length;\n        const adj = Array.from({ length: n + 1 }, () => []);\n\n        for (const [u, v] of edges) {\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n\n        const visit = Array(n + 1).fill(false);\n        const cycle = new Set();\n        let cycleStart = -1;\n\n        const dfs = (node, par) => {\n            if (visit[node]) {\n                cycleStart = node;\n                return true;\n            }\n            visit[node] = true;\n            for (const nei of adj[node]) {\n                if (nei === par) continue;\n                if (dfs(nei, node)) {\n                    if (cycleStart !== -1) cycle.add(node);\n                    if (node === cycleStart) {\n                        cycleStart = -1;\n                    }\n                    return true;\n                }\n            }\n            return false;\n        };\n\n        dfs(1, -1);\n\n        for (let i = edges.length - 1; i >= 0; i--) {\n            const [u, v] = edges[i];\n            if (cycle.has(u) && cycle.has(v)) {\n                return [u, v];\n            }\n        }\n        return [];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int[] FindRedundantConnection(int[][] edges) {\n        int n = edges.Length;\n        List<int>[] adj = new List<int>[n + 1];\n        for (int i = 0; i <= n; i++) adj[i] = new List<int>();\n\n        foreach (var edge in edges) {\n            int u = edge[0], v = edge[1];\n            adj[u].Add(v);\n            adj[v].Add(u);\n        }\n\n        bool[] visit = new bool[n + 1];\n        HashSet<int> cycle = new HashSet<int>();\n        int cycleStart = -1;\n\n        bool Dfs(int node, int par) {\n            if (visit[node]) {\n                cycleStart = node;\n                return true;\n            }\n            visit[node] = true;\n            foreach (int nei in adj[node]) {\n                if (nei == par) continue;\n                if (Dfs(nei, node)) {\n                    if (cycleStart != -1) cycle.Add(node);\n                    if (node == cycleStart) {\n                        cycleStart = -1;\n                    }\n                    return true;\n                }\n            }\n            return false;\n        }\n\n        Dfs(1, -1);\n\n        for (int i = edges.Length - 1; i >= 0; i--) {\n            int u = edges[i][0], v = edges[i][1];\n            if (cycle.Contains(u) && cycle.Contains(v)) {\n                return new int[] { u, v };\n            }\n        }\n        return new int[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "func findRedundantConnection(edges [][]int) []int {\n    n := len(edges)\n    adj := make([][]int, n+1)\n    for _, edge := range edges {\n        u, v := edge[0], edge[1]\n        adj[u] = append(adj[u], v)\n        adj[v] = append(adj[v], u)\n    }\n\n    visit := make([]bool, n+1)\n    cycle := make(map[int]bool)\n    cycleStart := -1\n\n    var dfs func(node, par int) bool\n    dfs = func(node, par int) bool {\n        if visit[node] {\n            cycleStart = node\n            return true\n        }\n\n        visit[node] = true\n        for _, nei := range adj[node] {\n            if nei == par {\n                continue\n            }\n            if dfs(nei, node) {\n                if cycleStart != -1 {\n                    cycle[node] = true\n                }\n                if node == cycleStart {\n                    cycleStart = -1\n                }\n                return true\n            }\n        }\n        return false\n    }\n\n    dfs(1, -1)\n\n    for i := len(edges) - 1; i >= 0; i-- {\n        u, v := edges[i][0], edges[i][1]\n        if cycle[u] && cycle[v] {\n            return []int{u, v}\n        }\n    }\n    return []int{}\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun findRedundantConnection(edges: Array<IntArray>): IntArray {\n        val n = edges.size\n        val adj = Array(n + 1) { mutableListOf<Int>() }\n        for ((u, v) in edges) {\n            adj[u].add(v)\n            adj[v].add(u)\n        }\n\n        val visit = BooleanArray(n + 1)\n        val cycle = HashSet<Int>()\n        var cycleStart = -1\n\n        fun dfs(node: Int, par: Int): Boolean {\n            if (visit[node]) {\n                cycleStart = node\n                return true\n            }\n            visit[node] = true\n            for (nei in adj[node]) {\n                if (nei == par) continue\n                if (dfs(nei, node)) {\n                    if (cycleStart != -1) {\n                        cycle.add(node)\n                    }\n                    if (node == cycleStart) {\n                        cycleStart = -1\n                    }\n                    return true\n                }\n            }\n            return false\n        }\n\n        dfs(1, -1)\n\n        for (i in edges.indices.reversed()) {\n            val (u, v) = edges[i]\n            if (u in cycle && v in cycle) {\n                return intArrayOf(u, v)\n            }\n        }\n        return intArrayOf()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    func findRedundantConnection(_ edges: [[Int]]) -> [Int] {\n        let n = edges.count\n        var adj = Array(repeating: [Int](), count: n + 1)\n\n        for edge in edges {\n            let u = edge[0]\n            let v = edge[1]\n            adj[u].append(v)\n            adj[v].append(u)\n        }\n\n        var visit = Array(repeating: false, count: n + 1)\n        var cycle = Set<Int>()\n        var cycleStart = -1\n\n        func dfs(_ node: Int, _ par: Int) -> Bool {\n            if visit[node] {\n                cycleStart = node\n                return true\n            }\n\n            visit[node] = true\n            for nei in adj[node] {\n                if nei == par {\n                    continue\n                }\n                if dfs(nei, node) {\n                    if cycleStart != -1 {\n                        cycle.insert(node)\n                    }\n                    if node == cycleStart {\n                        cycleStart = -1\n                    }\n                    return true\n                }\n            }\n            return false\n        }\n\n        dfs(1, -1)\n\n        for edge in edges.reversed() {\n            let u = edge[0]\n            let v = edge[1]\n            if cycle.contains(u) && cycle.contains(v) {\n                return [u, v]\n            }\n        }\n\n        return []\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn find_redundant_connection(edges: Vec<Vec<i32>>) -> Vec<i32> {\n        let n = edges.len();\n        let mut adj = vec![vec![]; n + 1];\n        for edge in &edges {\n            let (u, v) = (edge[0] as usize, edge[1] as usize);\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n\n        let mut visit = vec![false; n + 1];\n        let mut cycle = HashSet::new();\n        let mut cycle_start: i32 = -1;\n\n        fn dfs(\n            node: usize, par: i32, adj: &Vec<Vec<usize>>,\n            visit: &mut Vec<bool>, cycle: &mut HashSet<usize>,\n            cycle_start: &mut i32,\n        ) -> bool {\n            if visit[node] {\n                *cycle_start = node as i32;\n                return true;\n            }\n            visit[node] = true;\n            for &nei in &adj[node] {\n                if nei as i32 == par { continue; }\n                if dfs(nei, node as i32, adj, visit, cycle, cycle_start) {\n                    if *cycle_start != -1 {\n                        cycle.insert(node);\n                    }\n                    if node as i32 == *cycle_start {\n                        *cycle_start = -1;\n                    }\n                    return true;\n                }\n            }\n            false\n        }\n\n        dfs(1, -1, &adj, &mut visit, &mut cycle, &mut cycle_start);\n\n        for edge in edges.iter().rev() {\n            let (u, v) = (edge[0] as usize, edge[1] as usize);\n            if cycle.contains(&u) && cycle.contains(&v) {\n                return edge.clone();\n            }\n        }\n        vec![]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution:\n    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:\n        n = len(edges)\n        indegree = [0] * (n + 1)\n        adj = [[] for _ in range(n + 1)]\n        for u, v in edges:\n            adj[u].append(v)\n            adj[v].append(u)\n            indegree[u] += 1\n            indegree[v] += 1\n\n        q = deque()\n        for i in range(1, n + 1):\n            if indegree[i] == 1:\n                q.append(i)\n\n        while q:\n            node = q.popleft()\n            indegree[node] -= 1\n            for nei in adj[node]:\n                indegree[nei] -= 1\n                if indegree[nei] == 1:\n                    q.append(nei)\n\n        for u, v in reversed(edges):\n            if indegree[u] == 2 and indegree[v]:\n                return [u, v]\n        return []"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int[] findRedundantConnection(int[][] edges) {\n        int n = edges.length;\n        int[] indegree = new int[n + 1];\n        List<List<Integer>> adj = new ArrayList<>(n + 1);\n        for (int i = 0; i <= n; i++) adj.add(new ArrayList<>());\n        for (int[] edge : edges) {\n            int u = edge[0], v = edge[1];\n            adj.get(u).add(v);\n            adj.get(v).add(u);\n            indegree[u]++;\n            indegree[v]++;\n        }\n\n        Queue<Integer> q = new LinkedList<>();\n        for (int i = 1; i <= n; i++) {\n            if (indegree[i] == 1) q.offer(i);\n        }\n\n        while (!q.isEmpty()) {\n            int node = q.poll();\n            indegree[node]--;\n            for (int nei : adj.get(node)) {\n                indegree[nei]--;\n                if (indegree[nei] == 1) q.offer(nei);\n            }\n        }\n\n        for (int i = edges.length - 1; i >= 0; i--) {\n            int u = edges[i][0], v = edges[i][1];\n            if (indegree[u] == 2 && indegree[v] > 0)\n                return new int[]{u, v};\n        }\n        return new int[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\npublic:\n    vector<int> findRedundantConnection(vector<vector<int>>& edges) {\n        int n = edges.size();\n        vector<int> indegree(n + 1, 0);\n        vector<vector<int>> adj(n + 1);\n        for (auto& edge : edges) {\n            int u = edge[0], v = edge[1];\n            adj[u].push_back(v);\n            adj[v].push_back(u);\n            indegree[u]++;\n            indegree[v]++;\n        }\n\n        queue<int> q;\n        for (int i = 1; i <= n; i++) {\n            if (indegree[i] == 1) q.push(i);\n        }\n\n        while (!q.empty()) {\n            int node = q.front(); q.pop();\n            indegree[node]--;\n            for (int nei : adj[node]) {\n                indegree[nei]--;\n                if (indegree[nei] == 1) q.push(nei);\n            }\n        }\n\n        for (int i = edges.size() - 1; i >= 0; i--) {\n            int u = edges[i][0], v = edges[i][1];\n            if (indegree[u] == 2 && indegree[v])\n                return {u, v};\n        }\n        return {};\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} edges\n     * @return {number[]}\n     */\n    findRedundantConnection(edges) {\n        const n = edges.length;\n        const indegree = new Array(n + 1).fill(0);\n        const adj = Array.from({ length: n + 1 }, () => []);\n        for (const [u, v] of edges) {\n            adj[u].push(v);\n            adj[v].push(u);\n            indegree[u]++;\n            indegree[v]++;\n        }\n\n        const q = new Queue();\n        for (let i = 1; i <= n; i++) {\n            if (indegree[i] === 1) q.push(i);\n        }\n\n        while (!q.isEmpty()) {\n            const node = q.pop();\n            indegree[node]--;\n            for (const nei of adj[node]) {\n                indegree[nei]--;\n                if (indegree[nei] === 1) q.push(nei);\n            }\n        }\n\n        for (let i = edges.length - 1; i >= 0; i--) {\n            const [u, v] = edges[i];\n            if (indegree[u] === 2 && indegree[v]) return [u, v];\n        }\n        return [];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "public class Solution {\n    public int[] FindRedundantConnection(int[][] edges) {\n        int n = edges.Length;\n        int[] indegree = new int[n + 1];\n        List<int>[] adj = new List<int>[n + 1];\n        for (int i = 0; i <= n; i++) adj[i] = new List<int>();\n        foreach (var edge in edges) {\n            int u = edge[0], v = edge[1];\n            adj[u].Add(v);\n            adj[v].Add(u);\n            indegree[u]++;\n            indegree[v]++;\n        }\n\n        Queue<int> q = new Queue<int>();\n        for (int i = 1; i <= n; i++) {\n            if (indegree[i] == 1) q.Enqueue(i);\n        }\n\n        while (q.Count > 0) {\n            int node = q.Dequeue();\n            indegree[node]--;\n            foreach (int nei in adj[node]) {\n                indegree[nei]--;\n                if (indegree[nei] == 1) q.Enqueue(nei);\n            }\n        }\n\n        for (int i = edges.Length - 1; i >= 0; i--) {\n            int u = edges[i][0], v = edges[i][1];\n            if (indegree[u] == 2 && indegree[v] > 0)\n                return new int[] {u, v};\n        }\n        return new int[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "func findRedundantConnection(edges [][]int) []int {\n    n := len(edges)\n    indegree := make([]int, n+1)\n    adj := make([][]int, n+1)\n    for _, edge := range edges {\n        u, v := edge[0], edge[1]\n        adj[u] = append(adj[u], v)\n        adj[v] = append(adj[v], u)\n        indegree[u]++\n        indegree[v]++\n    }\n\n    q := []int{}\n    for i := 1; i <= n; i++ {\n        if indegree[i] == 1 {\n            q = append(q, i)\n        }\n    }\n\n    for len(q) > 0 {\n        node := q[0]\n        q = q[1:]\n        indegree[node]--\n        for _, nei := range adj[node] {\n            indegree[nei]--\n            if indegree[nei] == 1 {\n                q = append(q, nei)\n            }\n        }\n    }\n\n    for i := len(edges) - 1; i >= 0; i-- {\n        u, v := edges[i][0], edges[i][1]\n        if indegree[u] == 2 && indegree[v] == 2 {\n            return []int{u, v}\n        }\n    }\n    return []int{}\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    fun findRedundantConnection(edges: Array<IntArray>): IntArray {\n        val n = edges.size\n        val indegree = IntArray(n + 1)\n        val adj = Array(n + 1) { mutableListOf<Int>() }\n\n        for ((u, v) in edges) {\n            adj[u].add(v)\n            adj[v].add(u)\n            indegree[u]++\n            indegree[v]++\n        }\n\n        val q: Queue<Int> = LinkedList()\n        for (i in 1..n) {\n            if (indegree[i] == 1) {\n                q.add(i)\n            }\n        }\n\n        while (q.isNotEmpty()) {\n            val node = q.poll()\n            indegree[node]--\n            for (nei in adj[node]) {\n                indegree[nei]--\n                if (indegree[nei] == 1) {\n                    q.add(nei)\n                }\n            }\n        }\n\n        for (i in edges.indices.reversed()) {\n            val (u, v) = edges[i]\n            if (indegree[u] == 2 && indegree[v] == 2) {\n                return intArrayOf(u, v)\n            }\n        }\n        return intArrayOf()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "class Solution {\n    func findRedundantConnection(_ edges: [[Int]]) -> [Int] {\n        let n = edges.count\n        var indegree = Array(repeating: 0, count: n + 1)\n        var adj = Array(repeating: [Int](), count: n + 1)\n\n        for edge in edges {\n            let u = edge[0]\n            let v = edge[1]\n            adj[u].append(v)\n            adj[v].append(u)\n            indegree[u] += 1\n            indegree[v] += 1\n        }\n\n        var queue = Deque<Int>()\n        for i in 1...n {\n            if indegree[i] == 1 {\n                queue.append(i)\n            }\n        }\n\n        while !queue.isEmpty {\n            let node = queue.popFirst()!\n            indegree[node] -= 1\n            for nei in adj[node] {\n                indegree[nei] -= 1\n                if indegree[nei] == 1 {\n                    queue.append(nei)\n                }\n            }\n        }\n\n        for edge in edges.reversed() {\n            let u = edge[0]\n            let v = edge[1]\n            if indegree[u] == 2 && indegree[v] > 0 {\n                return [u, v]\n            }\n        }\n        return []\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + E)",
+            "space_complexity": "O(V + E)",
+            "code": "impl Solution {\n    pub fn find_redundant_connection(edges: Vec<Vec<i32>>) -> Vec<i32> {\n        let n = edges.len();\n        let mut indegree = vec![0i32; n + 1];\n        let mut adj = vec![vec![]; n + 1];\n\n        for edge in &edges {\n            let (u, v) = (edge[0] as usize, edge[1] as usize);\n            adj[u].push(v);\n            adj[v].push(u);\n            indegree[u] += 1;\n            indegree[v] += 1;\n        }\n\n        let mut queue = VecDeque::new();\n        for i in 1..=n {\n            if indegree[i] == 1 {\n                queue.push_back(i);\n            }\n        }\n\n        while let Some(node) = queue.pop_front() {\n            indegree[node] -= 1;\n            for &nei in &adj[node] {\n                indegree[nei] -= 1;\n                if indegree[nei] == 1 {\n                    queue.push_back(nei);\n                }\n            }\n        }\n\n        for edge in edges.iter().rev() {\n            let (u, v) = (edge[0] as usize, edge[1] as usize);\n            if indegree[u] == 2 && indegree[v] > 0 {\n                return edge.clone();\n            }\n        }\n        vec![]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class Solution:\n    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:\n        par = [i for i in range(len(edges) + 1)]\n        rank = [1] * (len(edges) + 1)\n\n        def find(n):\n            p = par[n]\n            while p != par[p]:\n                par[p] = par[par[p]]\n                p = par[p]\n            return p\n\n        def union(n1, n2):\n            p1, p2 = find(n1), find(n2)\n\n            if p1 == p2:\n                return False\n            if rank[p1] > rank[p2]:\n                par[p2] = p1\n                rank[p1] += rank[p2]\n            else:\n                par[p1] = p2\n                rank[p2] += rank[p1]\n            return True\n\n        for n1, n2 in edges:\n            if not union(n1, n2):\n                return [n1, n2]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "public class Solution {\n    public int[] findRedundantConnection(int[][] edges) {\n        int[] par = new int[edges.length + 1];\n        int[] rank = new int[edges.length + 1];\n        for (int i = 0; i < par.length; i++) {\n            par[i] = i;\n            rank[i] = 1;\n        }\n\n        for (int[] edge : edges) {\n            if (!union(par, rank, edge[0], edge[1]))\n                return new int[]{edge[0], edge[1]};\n        }\n        return new int[0];\n    }\n\n    private int find(int[] par, int n) {\n        int p = par[n];\n        while (p != par[p]) {\n            par[p] = par[par[p]];\n            p = par[p];\n        }\n        return p;\n    }\n\n    private boolean union(int[] par, int[] rank, int n1, int n2) {\n        int p1 = find(par, n1);\n        int p2 = find(par, n2);\n\n        if (p1 == p2)\n            return false;\n        if (rank[p1] > rank[p2]) {\n            par[p2] = p1;\n            rank[p1] += rank[p2];\n        } else {\n            par[p1] = p2;\n            rank[p2] += rank[p1];\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class Solution {\npublic:\n    vector<int> findRedundantConnection(vector<vector<int>>& edges) {\n        int n = edges.size();\n        vector<int> par(n + 1), rank(n + 1, 1);\n        for (int i = 0; i <= n; ++i)\n            par[i] = i;\n\n        for (const auto& edge : edges) {\n            if (!Union(par, rank, edge[0], edge[1]))\n                return vector<int>{ edge[0], edge[1] };\n        }\n        return {};\n    }\n\nprivate:\n    int Find(vector<int>& par, int n) {\n        int p = par[n];\n        while (p != par[p]) {\n            par[p] = par[par[p]];\n            p = par[p];\n        }\n        return p;\n    }\n\n    bool Union(vector<int>& par, vector<int>& rank, int n1, int n2) {\n        int p1 = Find(par, n1);\n        int p2 = Find(par, n2);\n\n        if (p1 == p2)\n            return false;\n        if (rank[p1] > rank[p2]) {\n            par[p2] = p1;\n            rank[p1] += rank[p2];\n        } else {\n            par[p1] = p2;\n            rank[p2] += rank[p1];\n        }\n        return true;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} edges\n     * @return {number[]}\n     */\n    findRedundantConnection(edges) {\n        const par = new Array(edges.length + 1).fill(0).map((_, i) => i);\n        const rank = new Array(edges.length + 1).fill(1);\n\n        /**\n         * @param {number} n\n         * @return {number}\n         */\n        function find(n) {\n            let p = par[n];\n            while (p !== par[p]) {\n                par[p] = par[par[p]];\n                p = par[p];\n            }\n            return p;\n        }\n\n        /**\n         * @param {number} n1\n         * @param {number} n2\n         * @return {boolean}\n         */\n        function union(n1, n2) {\n            const p1 = find(n1);\n            const p2 = find(n2);\n\n            if (p1 === p2) {\n                return false;\n            }\n            if (rank[p1] > rank[p2]) {\n                par[p2] = p1;\n                rank[p1] += rank[p2];\n            } else {\n                par[p1] = p2;\n                rank[p2] += rank[p1];\n            }\n            return true;\n        }\n\n        for (const [n1, n2] of edges) {\n            if (!union(n1, n2)) {\n                return [n1, n2];\n            }\n        }\n        return [];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "public class Solution {\n\n    public int[] FindRedundantConnection(int[][] edges) {\n        int[] par = new int[edges.Length + 1];\n        int[] rank = new int[edges.Length + 1];\n        for (int i = 0; i < par.Length; i++) {\n            par[i] = i;\n            rank[i] = 1;\n        }\n\n        foreach (var edge in edges) {\n            if (!Union(par, rank, edge[0], edge[1]))\n                return new int[]{ edge[0], edge[1] };\n        }\n        return new int[0];\n    }\n\n    private int Find(int[] par, int n) {\n        int p = par[n];\n        while (p != par[p]) {\n            par[p] = par[par[p]];\n            p = par[p];\n        }\n        return p;\n    }\n\n    private bool Union(int[] par, int[] rank, int n1, int n2) {\n        int p1 = Find(par, n1);\n        int p2 = Find(par, n2);\n\n        if (p1 == p2)\n            return false;\n        if (rank[p1] > rank[p2]) {\n            par[p2] = p1;\n            rank[p1] += rank[p2];\n        } else {\n            par[p1] = p2;\n            rank[p2] += rank[p1];\n        }\n        return true;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "func findRedundantConnection(edges [][]int) []int {\n    n := len(edges)\n    par := make([]int, n+1)\n    rank := make([]int, n+1)\n\n    for i := 0; i <= n; i++ {\n        par[i] = i\n        rank[i] = 1\n    }\n\n    var find func(int) int\n    find = func(x int) int {\n        if par[x] != x {\n            par[x] = find(par[x])\n        }\n        return par[x]\n    }\n\n    union := func(x, y int) bool {\n        rootX, rootY := find(x), find(y)\n        if rootX == rootY {\n            return false\n        }\n        if rank[rootX] > rank[rootY] {\n            par[rootY] = rootX\n            rank[rootX] += rank[rootY]\n        } else {\n            par[rootX] = rootY\n            rank[rootY] += rank[rootX]\n        }\n        return true\n    }\n\n    for _, edge := range edges {\n        if !union(edge[0], edge[1]) {\n            return edge\n        }\n    }\n    return []int{}\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class Solution {\n    fun findRedundantConnection(edges: Array<IntArray>): IntArray {\n        val n = edges.size\n        val par = IntArray(n + 1) { it }\n        val rank = IntArray(n + 1) { 1 }\n\n        fun find(x: Int): Int {\n            if (par[x] != x) {\n                par[x] = find(par[x])\n            }\n            return par[x]\n        }\n\n        fun union(x: Int, y: Int): Boolean {\n            val rootX = find(x)\n            val rootY = find(y)\n            if (rootX == rootY) {\n                return false\n            }\n            if (rank[rootX] > rank[rootY]) {\n                par[rootY] = rootX\n                rank[rootX] += rank[rootY]\n            } else {\n                par[rootX] = rootY\n                rank[rootY] += rank[rootX]\n            }\n            return true\n        }\n\n        for ((u, v) in edges) {\n            if (!union(u, v)) {\n                return intArrayOf(u, v)\n            }\n        }\n        return intArrayOf()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "class Solution {\n    func findRedundantConnection(_ edges: [[Int]]) -> [Int] {\n        var par = Array(0...edges.count)\n        var rank = Array(repeating: 1, count: edges.count + 1)\n\n        func find(_ n: Int) -> Int {\n            var p = par[n]\n            while p != par[p] {\n                par[p] = par[par[p]]\n                p = par[p]\n            }\n            return p\n        }\n\n        func union(_ n1: Int, _ n2: Int) -> Bool {\n            let p1 = find(n1)\n            let p2 = find(n2)\n\n            if p1 == p2 {\n                return false\n            }\n            if rank[p1] > rank[p2] {\n                par[p2] = p1\n                rank[p1] += rank[p2]\n            } else {\n                par[p1] = p2\n                rank[p2] += rank[p1]\n            }\n            return true\n        }\n\n        for edge in edges {\n            let n1 = edge[0]\n            let n2 = edge[1]\n            if !union(n1, n2) {\n                return [n1, n2]\n            }\n        }\n        return []\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(V + (E * \u03b1(V)))",
+            "space_complexity": "O(V)",
+            "code": "impl Solution {\n    pub fn find_redundant_connection(edges: Vec<Vec<i32>>) -> Vec<i32> {\n        let n = edges.len();\n        let mut par: Vec<usize> = (0..=n).collect();\n        let mut rank = vec![1usize; n + 1];\n\n        fn find(par: &mut Vec<usize>, n: usize) -> usize {\n            let mut p = par[n];\n            while p != par[p] {\n                par[p] = par[par[p]];\n                p = par[p];\n            }\n            p\n        }\n\n        fn union(par: &mut Vec<usize>, rank: &mut Vec<usize>, n1: usize, n2: usize) -> bool {\n            let p1 = find(par, n1);\n            let p2 = find(par, n2);\n            if p1 == p2 {\n                return false;\n            }\n            if rank[p1] > rank[p2] {\n                par[p2] = p1;\n                rank[p1] += rank[p2];\n            } else {\n                par[p1] = p2;\n                rank[p2] += rank[p1];\n            }\n            true\n        }\n\n        for edge in &edges {\n            let (n1, n2) = (edge[0] as usize, edge[1] as usize);\n            if !union(&mut par, &mut rank, n1, n2) {\n                return edge.clone();\n            }\n        }\n        vec![]\n    }\n}"
+        }
+    ]
+}

@@ -1,0 +1,176 @@
+{
+    "problem_name": "Word Search",
+    "problem_slug": "word-search",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "string",
+        "backtracking",
+        "depth-first search",
+        "matrix"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        ROWS, COLS = len(board), len(board[0])\n        path = set()\n\n        def dfs(r, c, i):\n            if i == len(word):\n                return True\n\n            if (min(r, c) < 0 or\n                r >= ROWS or c >= COLS or\n                word[i] != board[r][c] or\n                (r, c) in path):\n                return False\n\n            path.add((r, c))\n            res = (dfs(r + 1, c, i + 1) or\n                   dfs(r - 1, c, i + 1) or\n                   dfs(r, c + 1, i + 1) or\n                   dfs(r, c - 1, i + 1))\n            path.remove((r, c))\n            return res\n\n        for r in range(ROWS):\n            for c in range(COLS):\n                if dfs(r, c, 0):\n                    return True\n        return False"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int ROWS, COLS;\n    private Set<Pair<Integer, Integer>> path = new HashSet<>();\n\n    public boolean exist(char[][] board, String word) {\n        ROWS = board.length;\n        COLS = board[0].length;\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (dfs(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    private boolean dfs(char[][] board, String word, int r, int c, int i) {\n        if (i == word.length()) {\n            return true;\n        }\n\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n            board[r][c] != word.charAt(i) ||\n            path.contains(new Pair<>(r, c))) {\n            return false;\n        }\n\n        path.add(new Pair<>(r, c));\n        boolean res = dfs(board, word, r + 1, c, i + 1) ||\n                      dfs(board, word, r - 1, c, i + 1) ||\n                      dfs(board, word, r, c + 1, i + 1) ||\n                      dfs(board, word, r, c - 1, i + 1);\n        path.remove(new Pair<>(r, c));\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int ROWS, COLS;\n    set<pair<int, int>> path;\n\n    bool exist(vector<vector<char>>& board, string word) {\n        ROWS = board.size();\n        COLS = board[0].size();\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (dfs(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    bool dfs(vector<vector<char>>& board, string word, int r, int c, int i) {\n        if (i == word.length()) {\n            return true;\n        }\n\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n            board[r][c] != word[i] || path.count({r, c})) {\n            return false;\n        }\n\n        path.insert({r, c});\n        bool res = dfs(board, word, r + 1, c, i + 1) ||\n                   dfs(board, word, r - 1, c, i + 1) ||\n                   dfs(board, word, r, c + 1, i + 1) ||\n                   dfs(board, word, r, c - 1, i + 1);\n        path.erase({r, c});\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {character[][]} board\n     * @param {string} word\n     * @return {boolean}\n     */\n    exist(board, word) {\n        const ROWS = board.length;\n        const COLS = board[0].length;\n        const path = new Set();\n\n        const dfs = (r, c, i) => {\n            if (i === word.length) return true;\n            if (\n                r < 0 ||\n                c < 0 ||\n                r >= ROWS ||\n                c >= COLS ||\n                board[r][c] !== word[i] ||\n                path.has(`${r},${c}`)\n            ) {\n                return false;\n            }\n\n            path.add(`${r},${c}`);\n            const res =\n                dfs(r + 1, c, i + 1) ||\n                dfs(r - 1, c, i + 1) ||\n                dfs(r, c + 1, i + 1) ||\n                dfs(r, c - 1, i + 1);\n            path.delete(`${r},${c}`);\n            return res;\n        };\n\n        for (let r = 0; r < ROWS; r++) {\n            for (let c = 0; c < COLS; c++) {\n                if (dfs(r, c, 0)) return true;\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int ROWS, COLS;\n    private HashSet<(int, int)> path = new HashSet<(int, int)>();\n\n    public bool Exist(char[][] board, string word) {\n        ROWS = board.Length;\n        COLS = board[0].Length;\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (DFS(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    private bool DFS(char[][] board, string word, int r, int c, int i) {\n        if (i == word.Length) {\n            return true;\n        }\n\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n            board[r][c] != word[i] || path.Contains((r, c))) {\n            return false;\n        }\n\n        path.Add((r, c));\n        bool res = DFS(board, word, r + 1, c, i + 1) ||\n                   DFS(board, word, r - 1, c, i + 1) ||\n                   DFS(board, word, r, c + 1, i + 1) ||\n                   DFS(board, word, r, c - 1, i + 1);\n        path.Remove((r, c));\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "func exist(board [][]byte, word string) bool {\n    rows, cols := len(board), len(board[0])\n    path := make(map[[2]int]bool)\n\n    var dfs func(r, c, i int) bool\n    dfs = func(r, c, i int) bool {\n        if i == len(word) {\n            return true\n        }\n        if r < 0 || c < 0 || r >= rows || c >= cols ||\n           board[r][c] != word[i] || path[[2]int{r, c}] {\n            return false\n        }\n\n        path[[2]int{r, c}] = true\n        res := dfs(r+1, c, i+1) ||\n               dfs(r-1, c, i+1) ||\n               dfs(r, c+1, i+1) ||\n               dfs(r, c-1, i+1)\n        delete(path, [2]int{r, c})\n\n        return res\n    }\n\n    for r := 0; r < rows; r++ {\n        for c := 0; c < cols; c++ {\n            if dfs(r, c, 0) {\n                return true\n            }\n        }\n    }\n    return false\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun exist(board: Array<CharArray>, word: String): Boolean {\n        val rows = board.size\n        val cols = board[0].size\n        val path = HashSet<Pair<Int, Int>>()\n\n        fun dfs(r: Int, c: Int, i: Int): Boolean {\n            if (i == word.length) return true\n            if (r < 0 || c < 0 || r >= rows || c >= cols ||\n                board[r][c] != word[i] || Pair(r, c) in path) {\n                return false\n            }\n\n            path.add(Pair(r, c))\n            val res = dfs(r + 1, c, i + 1) ||\n                      dfs(r - 1, c, i + 1) ||\n                      dfs(r, c + 1, i + 1) ||\n                      dfs(r, c - 1, i + 1)\n            path.remove(Pair(r, c))\n\n            return res\n        }\n\n        for (r in 0 until rows) {\n            for (c in 0 until cols) {\n                if (dfs(r, c, 0)) {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func exist(_ board: [[Character]], _ word: String) -> Bool {\n        let ROWS = board.count\n        let COLS = board[0].count\n        var path = Set<[Int]>()\n        let wordArray = Array(word)\n\n        func dfs(_ r: Int, _ c: Int, _ i: Int) -> Bool {\n            if i == wordArray.count {\n                return true\n            }\n            if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n                board[r][c] != wordArray[i] || path.contains([r, c])) {\n                return false\n            }\n\n            path.insert([r, c])\n            let res = dfs(r + 1, c, i + 1) ||\n                      dfs(r - 1, c, i + 1) ||\n                      dfs(r, c + 1, i + 1) ||\n                      dfs(r, c - 1, i + 1)\n            path.remove([r, c])\n            return res\n        }\n\n        for r in 0..<ROWS {\n            for c in 0..<COLS {\n                if dfs(r, c, 0) {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn exist(board: Vec<Vec<char>>, word: String) -> bool {\n        let rows = board.len();\n        let cols = board[0].len();\n        let word: Vec<char> = word.chars().collect();\n        let mut path = HashSet::new();\n\n        for r in 0..rows {\n            for c in 0..cols {\n                if Self::dfs(&board, &word, r as i32, c as i32, 0, &mut path) {\n                    return true;\n                }\n            }\n        }\n        false\n    }\n\n    fn dfs(\n        board: &Vec<Vec<char>>, word: &[char],\n        r: i32, c: i32, i: usize,\n        path: &mut HashSet<(i32, i32)>,\n    ) -> bool {\n        if i == word.len() { return true; }\n        if r < 0 || c < 0 || r >= board.len() as i32\n            || c >= board[0].len() as i32\n            || board[r as usize][c as usize] != word[i]\n            || path.contains(&(r, c))\n        {\n            return false;\n        }\n\n        path.insert((r, c));\n        let res = Self::dfs(board, word, r + 1, c, i + 1, path)\n            || Self::dfs(board, word, r - 1, c, i + 1, path)\n            || Self::dfs(board, word, r, c + 1, i + 1, path)\n            || Self::dfs(board, word, r, c - 1, i + 1, path);\n        path.remove(&(r, c));\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        ROWS, COLS = len(board), len(board[0])\n        visited = [[False for _ in range(COLS)] for _ in range(ROWS)]\n\n        def dfs(r, c, i):\n            if i == len(word):\n                return True\n            if (r < 0 or c < 0 or r >= ROWS or c >= COLS or\n                word[i] != board[r][c] or visited[r][c]):\n                return False\n\n            visited[r][c] = True\n            res = (dfs(r + 1, c, i + 1) or\n                   dfs(r - 1, c, i + 1) or\n                   dfs(r, c + 1, i + 1) or\n                   dfs(r, c - 1, i + 1))\n            visited[r][c] = False\n            return res\n\n        for r in range(ROWS):\n            for c in range(COLS):\n                if dfs(r, c, 0):\n                    return True\n        return False"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int ROWS, COLS;\n    private boolean[][] visited;\n\n    public boolean exist(char[][] board, String word) {\n        ROWS = board.length;\n        COLS = board[0].length;\n        visited = new boolean[ROWS][COLS];\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (dfs(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    private boolean dfs(char[][] board, String word, int r, int c, int i) {\n        if (i == word.length()) {\n            return true;\n        }\n\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n            board[r][c] != word.charAt(i) || visited[r][c]) {\n            return false;\n        }\n\n        visited[r][c] = true;\n        boolean res = dfs(board, word, r + 1, c, i + 1) ||\n                      dfs(board, word, r - 1, c, i + 1) ||\n                      dfs(board, word, r, c + 1, i + 1) ||\n                      dfs(board, word, r, c - 1, i + 1);\n        visited[r][c] = false;\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int ROWS, COLS;\n    vector<vector<bool>> visited;\n\n    bool exist(vector<vector<char>>& board, string word) {\n        ROWS = board.size();\n        COLS = board[0].size();\n        visited = vector<vector<bool>>(ROWS, vector<bool>(COLS, false));\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (dfs(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    bool dfs(vector<vector<char>>& board, string word, int r, int c, int i) {\n        if (i == word.length()) {\n            return true;\n        }\n\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n            board[r][c] != word[i] || visited[r][c]) {\n            return false;\n        }\n\n        visited[r][c] = true;\n        bool res = dfs(board, word, r + 1, c, i + 1) ||\n                   dfs(board, word, r - 1, c, i + 1) ||\n                   dfs(board, word, r, c + 1, i + 1) ||\n                   dfs(board, word, r, c - 1, i + 1);\n        visited[r][c] = false;\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {character[][]} board\n     * @param {string} word\n     * @return {boolean}\n     */\n    exist(board, word) {\n        const ROWS = board.length;\n        const COLS = board[0].length;\n        const visited = Array.from({ length: ROWS }, () =>\n            Array(COLS).fill(false),\n        );\n\n        const dfs = (r, c, i) => {\n            if (i === word.length) return true;\n            if (\n                r < 0 ||\n                c < 0 ||\n                r >= ROWS ||\n                c >= COLS ||\n                board[r][c] !== word[i] ||\n                visited[r][c]\n            ) {\n                return false;\n            }\n\n            visited[r][c] = true;\n            const res =\n                dfs(r + 1, c, i + 1) ||\n                dfs(r - 1, c, i + 1) ||\n                dfs(r, c + 1, i + 1) ||\n                dfs(r, c - 1, i + 1);\n            visited[r][c] = false;\n            return res;\n        };\n\n        for (let r = 0; r < ROWS; r++) {\n            for (let c = 0; c < COLS; c++) {\n                if (dfs(r, c, 0)) return true;\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int ROWS, COLS;\n    private bool[,] visited;\n\n    public bool Exist(char[][] board, string word) {\n        ROWS = board.Length;\n        COLS = board[0].Length;\n        visited = new bool[ROWS, COLS];\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (DFS(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    private bool DFS(char[][] board, string word, int r, int c, int i) {\n        if (i == word.Length) {\n            return true;\n        }\n\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n            board[r][c] != word[i] || visited[r, c]) {\n            return false;\n        }\n\n        visited[r, c] = true;\n        bool res = DFS(board, word, r + 1, c, i + 1) ||\n                   DFS(board, word, r - 1, c, i + 1) ||\n                   DFS(board, word, r, c + 1, i + 1) ||\n                   DFS(board, word, r, c - 1, i + 1);\n        visited[r, c] = false;\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "func exist(board [][]byte, word string) bool {\n    rows, cols := len(board), len(board[0])\n    visited := make([][]bool, rows)\n    for i := range visited {\n        visited[i] = make([]bool, cols)\n    }\n\n    var dfs func(r, c, i int) bool\n    dfs = func(r, c, i int) bool {\n        if i == len(word) {\n            return true\n        }\n        if r < 0 || c < 0 || r >= rows || c >= cols ||\n           board[r][c] != word[i] || visited[r][c] {\n            return false\n        }\n\n        visited[r][c] = true\n        res := dfs(r+1, c, i+1) ||\n               dfs(r-1, c, i+1) ||\n               dfs(r, c+1, i+1) ||\n               dfs(r, c-1, i+1)\n        visited[r][c] = false\n\n        return res\n    }\n\n    for r := 0; r < rows; r++ {\n        for c := 0; c < cols; c++ {\n            if dfs(r, c, 0) {\n                return true\n            }\n        }\n    }\n    return false\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun exist(board: Array<CharArray>, word: String): Boolean {\n        val rows = board.size\n        val cols = board[0].size\n        val visited = Array(rows) { BooleanArray(cols) }\n\n        fun dfs(r: Int, c: Int, i: Int): Boolean {\n            if (i == word.length) return true\n            if (r < 0 || c < 0 || r >= rows || c >= cols ||\n                board[r][c] != word[i] || visited[r][c]) {\n                return false\n            }\n\n            visited[r][c] = true\n            val res = dfs(r + 1, c, i + 1) ||\n                      dfs(r - 1, c, i + 1) ||\n                      dfs(r, c + 1, i + 1) ||\n                      dfs(r, c - 1, i + 1)\n            visited[r][c] = false\n\n            return res\n        }\n\n        for (r in 0 until rows) {\n            for (c in 0 until cols) {\n                if (dfs(r, c, 0)) {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func exist(_ board: [[Character]], _ word: String) -> Bool {\n        let ROWS = board.count\n        let COLS = board[0].count\n        var visited = Array(repeating: Array(repeating: false, count: COLS), count: ROWS)\n        let wordArray = Array(word)\n\n        func dfs(_ r: Int, _ c: Int, _ i: Int) -> Bool {\n            if i == wordArray.count {\n                return true\n            }\n            if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n                board[r][c] != wordArray[i] || visited[r][c]) {\n                return false\n            }\n\n            visited[r][c] = true\n            let res = dfs(r + 1, c, i + 1) ||\n                      dfs(r - 1, c, i + 1) ||\n                      dfs(r, c + 1, i + 1) ||\n                      dfs(r, c - 1, i + 1)\n            visited[r][c] = false\n            return res\n        }\n\n        for r in 0..<ROWS {\n            for c in 0..<COLS {\n                if dfs(r, c, 0) {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn exist(board: Vec<Vec<char>>, word: String) -> bool {\n        let rows = board.len();\n        let cols = board[0].len();\n        let word: Vec<char> = word.chars().collect();\n        let mut visited = vec![vec![false; cols]; rows];\n\n        for r in 0..rows {\n            for c in 0..cols {\n                if Self::dfs(&board, &word, r as i32, c as i32, 0, &mut visited) {\n                    return true;\n                }\n            }\n        }\n        false\n    }\n\n    fn dfs(\n        board: &Vec<Vec<char>>, word: &[char],\n        r: i32, c: i32, i: usize,\n        visited: &mut Vec<Vec<bool>>,\n    ) -> bool {\n        if i == word.len() { return true; }\n        if r < 0 || c < 0 || r >= board.len() as i32\n            || c >= board[0].len() as i32\n        {\n            return false;\n        }\n        let (ru, cu) = (r as usize, c as usize);\n        if board[ru][cu] != word[i] || visited[ru][cu] {\n            return false;\n        }\n\n        visited[ru][cu] = true;\n        let res = Self::dfs(board, word, r + 1, c, i + 1, visited)\n            || Self::dfs(board, word, r - 1, c, i + 1, visited)\n            || Self::dfs(board, word, r, c + 1, i + 1, visited)\n            || Self::dfs(board, word, r, c - 1, i + 1, visited);\n        visited[ru][cu] = false;\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        ROWS, COLS = len(board), len(board[0])\n\n        def dfs(r, c, i):\n            if i == len(word):\n                return True\n            if (r < 0 or c < 0 or r >= ROWS or c >= COLS or\n                word[i] != board[r][c] or board[r][c] == '#'):\n                return False\n\n            board[r][c] = '#'\n            res = (dfs(r + 1, c, i + 1) or\n                   dfs(r - 1, c, i + 1) or\n                   dfs(r, c + 1, i + 1) or\n                   dfs(r, c - 1, i + 1))\n            board[r][c] = word[i]\n            return res\n\n        for r in range(ROWS):\n            for c in range(COLS):\n                if dfs(r, c, 0):\n                    return True\n        return False"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int ROWS, COLS;\n\n    public boolean exist(char[][] board, String word) {\n        ROWS = board.length;\n        COLS = board[0].length;\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (dfs(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    private boolean dfs(char[][] board, String word, int r, int c, int i) {\n        if (i == word.length()) {\n            return true;\n        }\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n            board[r][c] != word.charAt(i) || board[r][c] == '#') {\n            return false;\n        }\n\n        board[r][c] = '#';\n        boolean res = dfs(board, word, r + 1, c, i + 1) ||\n                      dfs(board, word, r - 1, c, i + 1) ||\n                      dfs(board, word, r, c + 1, i + 1) ||\n                      dfs(board, word, r, c - 1, i + 1);\n        board[r][c] = word.charAt(i);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int ROWS, COLS;\n\n    bool exist(vector<vector<char>>& board, string word) {\n        ROWS = board.size();\n        COLS = board[0].size();\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (dfs(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    bool dfs(vector<vector<char>>& board, string word, int r, int c, int i) {\n        if (i == word.size()) {\n            return true;\n        }\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n            board[r][c] != word[i] || board[r][c] == '#') {\n            return false;\n        }\n\n        board[r][c] = '#';\n        bool res = dfs(board, word, r + 1, c, i + 1) ||\n                   dfs(board, word, r - 1, c, i + 1) ||\n                   dfs(board, word, r, c + 1, i + 1) ||\n                   dfs(board, word, r, c - 1, i + 1);\n        board[r][c] = word[i];\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {character[][]} board\n     * @param {string} word\n     * @return {boolean}\n     */\n    exist(board, word) {\n        const ROWS = board.length;\n        const COLS = board[0].length;\n\n        const dfs = (r, c, i) => {\n            if (i === word.length) return true;\n            if (\n                r < 0 ||\n                c < 0 ||\n                r >= ROWS ||\n                c >= COLS ||\n                board[r][c] !== word[i] ||\n                board[r][c] === '#'\n            ) {\n                return false;\n            }\n\n            board[r][c] = '#';\n            const res =\n                dfs(r + 1, c, i + 1) ||\n                dfs(r - 1, c, i + 1) ||\n                dfs(r, c + 1, i + 1) ||\n                dfs(r, c - 1, i + 1);\n            board[r][c] = word[i];\n            return res;\n        };\n\n        for (let r = 0; r < ROWS; r++) {\n            for (let c = 0; c < COLS; c++) {\n                if (dfs(r, c, 0)) return true;\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int ROWS, COLS;\n\n    public bool Exist(char[][] board, string word) {\n        ROWS = board.Length;\n        COLS = board[0].Length;\n\n        for (int r = 0; r < ROWS; r++) {\n            for (int c = 0; c < COLS; c++) {\n                if (Dfs(board, word, r, c, 0)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    private bool Dfs(char[][] board, string word, int r, int c, int i) {\n        if (i == word.Length) {\n            return true;\n        }\n        if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n        board[r][c] != word[i] || board[r][c] == '#') {\n            return false;\n        }\n\n        board[r][c] = '#';\n        bool res = Dfs(board, word, r + 1, c, i + 1) ||\n                   Dfs(board, word, r - 1, c, i + 1) ||\n                   Dfs(board, word, r, c + 1, i + 1) ||\n                   Dfs(board, word, r, c - 1, i + 1);\n        board[r][c] = word[i];\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "func exist(board [][]byte, word string) bool {\n    rows, cols := len(board), len(board[0])\n\n    var dfs func(r, c, i int) bool\n    dfs = func(r, c, i int) bool {\n        if i == len(word) {\n            return true\n        }\n        if r < 0 || c < 0 || r >= rows || c >= cols ||\n           board[r][c] != word[i] || board[r][c] == '#' {\n            return false\n        }\n\n        temp := board[r][c]\n        board[r][c] = '#'\n        res := dfs(r+1, c, i+1) ||\n               dfs(r-1, c, i+1) ||\n               dfs(r, c+1, i+1) ||\n               dfs(r, c-1, i+1)\n        board[r][c] = temp\n\n        return res\n    }\n\n    for r := 0; r < rows; r++ {\n        for c := 0; c < cols; c++ {\n            if dfs(r, c, 0) {\n                return true\n            }\n        }\n    }\n    return false\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun exist(board: Array<CharArray>, word: String): Boolean {\n        val rows = board.size\n        val cols = board[0].size\n\n        fun dfs(r: Int, c: Int, i: Int): Boolean {\n            if (i == word.length) return true\n            if (r < 0 || c < 0 || r >= rows || c >= cols ||\n                board[r][c] != word[i] || board[r][c] == '#') {\n                return false\n            }\n\n            val temp = board[r][c]\n            board[r][c] = '#'\n            val res = dfs(r + 1, c, i + 1) ||\n                      dfs(r - 1, c, i + 1) ||\n                      dfs(r, c + 1, i + 1) ||\n                      dfs(r, c - 1, i + 1)\n            board[r][c] = temp\n\n            return res\n        }\n\n        for (r in 0 until rows) {\n            for (c in 0 until cols) {\n                if (dfs(r, c, 0)) {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func exist(_ board: [[Character]], _ word: String) -> Bool {\n        let ROWS = board.count\n        let COLS = board[0].count\n        let wordArray = Array(word)\n        var board = board\n\n        func dfs(_ r: Int, _ c: Int, _ i: Int) -> Bool {\n            if i == wordArray.count {\n                return true\n            }\n            if (r < 0 || c < 0 || r >= ROWS || c >= COLS ||\n                board[r][c] != wordArray[i] || board[r][c] == \"#\") {\n                return false\n            }\n\n            let temp = board[r][c]\n            board[r][c] = \"#\"\n            let res = dfs(r + 1, c, i + 1) ||\n                      dfs(r - 1, c, i + 1) ||\n                      dfs(r, c + 1, i + 1) ||\n                      dfs(r, c - 1, i + 1)\n            board[r][c] = temp\n            return res\n        }\n\n        for r in 0..<ROWS {\n            for c in 0..<COLS {\n                if dfs(r, c, 0) {\n                    return true\n                }\n            }\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * 4^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn exist(mut board: Vec<Vec<char>>, word: String) -> bool {\n        let rows = board.len();\n        let cols = board[0].len();\n        let word: Vec<char> = word.chars().collect();\n\n        for r in 0..rows {\n            for c in 0..cols {\n                if Self::dfs(&mut board, &word, r as i32, c as i32, 0) {\n                    return true;\n                }\n            }\n        }\n        false\n    }\n\n    fn dfs(\n        board: &mut Vec<Vec<char>>, word: &[char],\n        r: i32, c: i32, i: usize,\n    ) -> bool {\n        if i == word.len() { return true; }\n        if r < 0 || c < 0 || r >= board.len() as i32\n            || c >= board[0].len() as i32\n        {\n            return false;\n        }\n        let (ru, cu) = (r as usize, c as usize);\n        if board[ru][cu] != word[i] || board[ru][cu] == '#' {\n            return false;\n        }\n\n        board[ru][cu] = '#';\n        let res = Self::dfs(board, word, r + 1, c, i + 1)\n            || Self::dfs(board, word, r - 1, c, i + 1)\n            || Self::dfs(board, word, r, c + 1, i + 1)\n            || Self::dfs(board, word, r, c - 1, i + 1);\n        board[ru][cu] = word[i];\n        res\n    }\n}"
+        }
+    ]
+}

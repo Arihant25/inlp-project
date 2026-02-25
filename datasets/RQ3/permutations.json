@@ -1,0 +1,281 @@
+{
+    "problem_name": "Permutations",
+    "problem_slug": "permutations",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "backtracking"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        if len(nums) == 0:\n            return [[]]\n\n        perms = self.permute(nums[1:])\n        res = []\n        for p in perms:\n            for i in range(len(p) + 1):\n                p_copy = p.copy()\n                p_copy.insert(i, nums[0])\n                res.append(p_copy)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        if (nums.length == 0) {\n            return Arrays.asList(new ArrayList<>());\n        }\n\n        List<List<Integer>> perms = permute(Arrays.copyOfRange(nums, 1, nums.length));\n        List<List<Integer>> res = new ArrayList<>();\n        for (List<Integer> p : perms) {\n            for (int i = 0; i <= p.size(); i++) {\n                List<Integer> p_copy = new ArrayList<>(p);\n                p_copy.add(i, nums[0]);\n                res.add(p_copy);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        if (nums.empty()) {\n            return {{}};\n        }\n\n        vector<int> tmp = vector<int>(nums.begin() + 1, nums.end());\n        vector<vector<int>> perms = permute(tmp);\n        vector<vector<int>> res;\n        for (const auto& p : perms) {\n            for (int i = 0; i <= p.size(); i++) {\n                vector<int> p_copy = p;\n                p_copy.insert(p_copy.begin() + i, nums[0]);\n                res.push_back(p_copy);\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    permute(nums) {\n        if (nums.length === 0) {\n            return [[]];\n        }\n\n        let perms = this.permute(nums.slice(1));\n        let res = [];\n        for (let p of perms) {\n            for (let i = 0; i <= p.length; i++) {\n                let p_copy = p.slice();\n                p_copy.splice(i, 0, nums[0]);\n                res.push(p_copy);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    public List<List<int>> Permute(int[] nums) {\n        if (nums.Length == 0) {\n            return new List<List<int>> { new List<int>() };\n        }\n\n        var perms = Permute(nums[1..]);\n        var res = new List<List<int>>();\n        foreach (var p in perms) {\n            for (int i = 0; i <= p.Count; i++) {\n                var p_copy = new List<int>(p);\n                p_copy.Insert(i, nums[0]);\n                res.Add(p_copy);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "func permute(nums []int) [][]int {\n    if len(nums) == 0 {\n        return [][]int{{}}\n    }\n\n    perms := permute(nums[1:])\n    var res [][]int\n    for _, p := range perms {\n        for i := 0; i <= len(p); i++ {\n            pCopy := append([]int{}, p...)\n            pCopy = append(pCopy[:i], append([]int{nums[0]}, pCopy[i:]...)...)\n            res = append(res, pCopy)\n        }\n    }\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    fun permute(nums: IntArray): List<List<Int>> {\n        if (nums.isEmpty()) return listOf(listOf())\n\n        val perms = permute(nums.sliceArray(1 until nums.size))\n        val res = mutableListOf<List<Int>>()\n        for (p in perms) {\n            for (i in 0..p.size) {\n                val pCopy = p.toMutableList()\n                pCopy.add(i, nums[0])\n                res.add(pCopy)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    func permute(_ nums: [Int]) -> [[Int]] {\n        if nums.isEmpty {\n            return [[]]\n        }\n\n        let perms = permute(Array(nums.dropFirst()))\n        var res = [[Int]]()\n\n        for p in perms {\n            for i in 0...p.count {\n                var pCopy = p\n                pCopy.insert(nums[0], at: i)\n                res.append(pCopy)\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "impl Solution {\n    pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        if nums.is_empty() {\n            return vec![vec![]];\n        }\n        let first = nums[0];\n        let perms = Self::permute(nums[1..].to_vec());\n        let mut res = Vec::new();\n        for p in perms {\n            for i in 0..=p.len() {\n                let mut p_copy = p.clone();\n                p_copy.insert(i, first);\n                res.push(p_copy);\n            }\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        perms = [[]]\n        for num in nums:\n            new_perms = []\n            for p in perms:\n                for i in range(len(p) + 1):\n                    p_copy = p.copy()\n                    p_copy.insert(i, num)\n                    new_perms.append(p_copy)\n            perms = new_perms\n        return perms"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        List<List<Integer>> perms = new ArrayList<>();\n        perms.add(new ArrayList<>());\n\n        for (int num : nums) {\n            List<List<Integer>> new_perms = new ArrayList<>();\n            for (List<Integer> p : perms) {\n                for (int i = 0; i <= p.size(); i++) {\n                    List<Integer> p_copy = new ArrayList<>(p);\n                    p_copy.add(i, num);\n                    new_perms.add(p_copy);\n                }\n            }\n            perms = new_perms;\n        }\n        return perms;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        vector<vector<int>> perms = {{}};\n        for (int num : nums) {\n            vector<vector<int>> new_perms;\n            for (const auto& p : perms) {\n                for (int i = 0; i <= p.size(); i++) {\n                    vector<int> p_copy = p;\n                    p_copy.insert(p_copy.begin() + i, num);\n                    new_perms.push_back(p_copy);\n                }\n            }\n            perms = new_perms;\n        }\n        return perms;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    permute(nums) {\n        let perms = [[]];\n        for (let num of nums) {\n            let new_perms = [];\n            for (let p of perms) {\n                for (let i = 0; i <= p.length; i++) {\n                    let p_copy = p.slice();\n                    p_copy.splice(i, 0, num);\n                    new_perms.push(p_copy);\n                }\n            }\n            perms = new_perms;\n        }\n        return perms;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    public List<List<int>> Permute(int[] nums) {\n        var perms = new List<List<int>>() { new List<int>() };\n        foreach (int num in nums) {\n            var new_perms = new List<List<int>>();\n            foreach (var p in perms) {\n                for (int i = 0; i <= p.Count; i++) {\n                    var p_copy = new List<int>(p);\n                    p_copy.Insert(i, num);\n                    new_perms.Add(p_copy);\n                }\n            }\n            perms = new_perms;\n        }\n        return perms;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "func permute(nums []int) [][]int {\n    perms := [][]int{{}}\n\n    for _, num := range nums {\n        var newPerms [][]int\n        for _, p := range perms {\n            for i := 0; i <= len(p); i++ {\n                pCopy := append([]int{}, p...)\n                pCopy = append(pCopy[:i], append([]int{num}, pCopy[i:]...)...)\n                newPerms = append(newPerms, pCopy)\n            }\n        }\n        perms = newPerms\n    }\n\n    return perms\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    fun permute(nums: IntArray): List<List<Int>> {\n        var perms = mutableListOf(listOf<Int>())\n\n        for (num in nums) {\n            val newPerms = mutableListOf<List<Int>>()\n            for (p in perms) {\n                for (i in 0..p.size) {\n                    val pCopy = p.toMutableList()\n                    pCopy.add(i, num)\n                    newPerms.add(pCopy)\n                }\n            }\n            perms = newPerms\n        }\n\n        return perms\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    func permute(_ nums: [Int]) -> [[Int]] {\n        var perms: [[Int]] = [[]]\n\n        for num in nums {\n            var newPerms = [[Int]]()\n            for p in perms {\n                for i in 0...p.count {\n                    var pCopy = p\n                    pCopy.insert(num, at: i)\n                    newPerms.append(pCopy)\n                }\n            }\n            perms = newPerms\n        }\n\n        return perms\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n! * n^2)",
+            "space_complexity": "O(n! * n)",
+            "code": "impl Solution {\n    pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut perms: Vec<Vec<i32>> = vec![vec![]];\n        for &num in &nums {\n            let mut new_perms = Vec::new();\n            for p in &perms {\n                for i in 0..=p.len() {\n                    let mut p_copy = p.clone();\n                    p_copy.insert(i, num);\n                    new_perms.push(p_copy);\n                }\n            }\n            perms = new_perms;\n        }\n        perms\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        self.res = []\n        self.backtrack([], nums, [False] * len(nums))\n        return self.res\n\n    def backtrack(self, perm: List[int], nums: List[int], pick: List[bool]):\n        if len(perm) == len(nums):\n            self.res.append(perm[:])\n            return\n        for i in range(len(nums)):\n            if not pick[i]:\n                perm.append(nums[i])\n                pick[i] = True\n                self.backtrack(perm, nums, pick)\n                perm.pop()\n                pick[i] = False"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    List<List<Integer>> res;\n    public List<List<Integer>> permute(int[] nums) {\n        res = new ArrayList<>();\n        backtrack(new ArrayList<>(), nums, new boolean[nums.length]);\n        return res;\n    }\n\n    public void backtrack(List<Integer> perm, int[] nums, boolean[] pick) {\n        if (perm.size() == nums.length) {\n            res.add(new ArrayList<>(perm));\n            return;\n        }\n        for (int i = 0; i < nums.length; i++) {\n            if (!pick[i]) {\n                perm.add(nums[i]);\n                pick[i] = true;\n                backtrack(perm, nums, pick);\n                perm.remove(perm.size() - 1);\n                pick[i] = false;\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    vector<vector<int>> res;\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        vector<bool> pick(nums.size(), false);\n        vector<int> perm;\n        backtrack(perm, nums, pick);\n        return res;\n    }\n\n    void backtrack(vector<int>& perm, vector<int>& nums, vector<bool>& pick) {\n        if (perm.size() == nums.size()) {\n            res.push_back(perm);\n            return;\n        }\n        for (int i = 0; i < nums.size(); i++) {\n            if (!pick[i]) {\n                perm.push_back(nums[i]);\n                pick[i] = true;\n                backtrack(perm, nums, pick);\n                perm.pop_back();\n                pick[i] = false;\n            }\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    permute(nums) {\n        let res = [];\n        backtrack([], nums, new Array(nums.length).fill(false));\n        return res;\n\n        function backtrack(perm, nums, pick) {\n            if (perm.length === nums.length) {\n                res.push([...perm]);\n                return;\n            }\n            for (let i = 0; i < nums.length; i++) {\n                if (!pick[i]) {\n                    perm.push(nums[i]);\n                    pick[i] = true;\n                    backtrack(perm, nums, pick);\n                    perm.pop();\n                    pick[i] = false;\n                }\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    List<List<int>> res;\n    public List<List<int>> Permute(int[] nums) {\n        res = new List<List<int>>();\n        Backtrack(new List<int>(), nums, new bool[nums.Length]);\n        return res;\n    }\n\n    private void Backtrack(List<int> perm, int[] nums, bool[] pick) {\n        if (perm.Count == nums.Length) {\n            res.Add(new List<int>(perm));\n            return;\n        }\n        for (int i = 0; i < nums.Length; i++) {\n            if (!pick[i]) {\n                perm.Add(nums[i]);\n                pick[i] = true;\n                Backtrack(perm, nums, pick);\n                perm.RemoveAt(perm.Count - 1);\n                pick[i] = false;\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "func permute(nums []int) [][]int {\n    var res [][]int\n    backtrack(&res, []int{}, nums, make([]bool, len(nums)))\n    return res\n}\n\nfunc backtrack(res *[][]int, perm []int, nums []int, pick []bool) {\n    if len(perm) == len(nums) {\n        temp := append([]int{}, perm...)\n        *res = append(*res, temp)\n        return\n    }\n    for i := 0; i < len(nums); i++ {\n        if !pick[i] {\n            perm = append(perm, nums[i])\n            pick[i] = true\n            backtrack(res, perm, nums, pick)\n            perm = perm[:len(perm)-1]\n            pick[i] = false\n        }\n    }\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    private val res = mutableListOf<List<Int>>()\n\n    fun permute(nums: IntArray): List<List<Int>> {\n        backtrack(mutableListOf(), nums, BooleanArray(nums.size))\n        return res\n    }\n\n    private fun backtrack(perm: MutableList<Int>, nums: IntArray, pick: BooleanArray) {\n        if (perm.size == nums.size) {\n            res.add(ArrayList(perm))\n            return\n        }\n        for (i in nums.indices) {\n            if (!pick[i]) {\n                perm.add(nums[i])\n                pick[i] = true\n                backtrack(perm, nums, pick)\n                perm.removeAt(perm.size - 1)\n                pick[i] = false\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    func permute(_ nums: [Int]) -> [[Int]] {\n        var res = [[Int]]()\n        var pick = [Bool](repeating: false, count: nums.count)\n\n        func backtrack(_ perm: inout [Int]) {\n            if perm.count == nums.count {\n                res.append(perm)\n                return\n            }\n            for i in 0..<nums.count {\n                if !pick[i] {\n                    perm.append(nums[i])\n                    pick[i] = true\n                    backtrack(&perm)\n                    perm.popLast()\n                    pick[i] = false\n                }\n            }\n        }\n\n        var perm = [Int]()\n        backtrack(&perm)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "impl Solution {\n    pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut pick = vec![false; nums.len()];\n        let mut perm = Vec::new();\n        fn backtrack(nums: &[i32], perm: &mut Vec<i32>, pick: &mut Vec<bool>, res: &mut Vec<Vec<i32>>) {\n            if perm.len() == nums.len() {\n                res.push(perm.clone());\n                return;\n            }\n            for i in 0..nums.len() {\n                if !pick[i] {\n                    perm.push(nums[i]);\n                    pick[i] = true;\n                    backtrack(nums, perm, pick, res);\n                    perm.pop();\n                    pick[i] = false;\n                }\n            }\n        }\n        backtrack(&nums, &mut perm, &mut pick, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        self.res = []\n        self.backtrack([], nums, 0)\n        return self.res\n\n    def backtrack(self, perm: List[int], nums: List[int], mask: int):\n        if len(perm) == len(nums):\n            self.res.append(perm[:])\n            return\n        for i in range(len(nums)):\n            if not (mask & (1 << i)):\n                perm.append(nums[i])\n                self.backtrack(perm, nums, mask | (1 << i))\n                perm.pop()"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    List<List<Integer>> res = new ArrayList<>();\n\n    public List<List<Integer>> permute(int[] nums) {\n        backtrack(new ArrayList<>(), nums, 0);\n        return res;\n    }\n\n    private void backtrack(List<Integer> perm, int[] nums, int mask) {\n        if (perm.size() == nums.length) {\n            res.add(new ArrayList<>(perm));\n            return;\n        }\n        for (int i = 0; i < nums.length; i++) {\n            if ((mask & (1 << i)) == 0) {\n                perm.add(nums[i]);\n                backtrack(perm, nums, mask | (1 << i));\n                perm.remove(perm.size() - 1);\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> res;\n\n    vector<vector<int>> permute(vector<int>& nums) {\n        backtrack({}, nums, 0);\n        return res;\n    }\n\n    void backtrack(vector<int> perm, vector<int>& nums, int mask) {\n        if (perm.size() == nums.size()) {\n            res.push_back(perm);\n            return;\n        }\n        for (int i = 0; i < nums.size(); i++) {\n            if (!(mask & (1 << i))) {\n                perm.push_back(nums[i]);\n                backtrack(perm, nums, mask | (1 << i));\n                perm.pop_back();\n            }\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    permute(nums) {\n        let res = [];\n        this.backtrack([], nums, 0, res);\n        return res;\n    }\n\n    /**\n     * @param {number[]} perm\n     * @param {number[]} nums\n     * @param {number} mask\n     * @param {number[][]} res\n     * @return {void}\n     */\n    backtrack(perm, nums, mask, res) {\n        if (perm.length === nums.length) {\n            res.push([...perm]);\n            return;\n        }\n        for (let i = 0; i < nums.length; i++) {\n            if (!(mask & (1 << i))) {\n                perm.push(nums[i]);\n                this.backtrack(perm, nums, mask | (1 << i), res);\n                perm.pop();\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    List<List<int>> res = new List<List<int>>();\n\n    public List<List<int>> Permute(int[] nums) {\n        Backtrack(new List<int>(), nums, 0);\n        return res;\n    }\n\n    private void Backtrack(List<int> perm, int[] nums, int mask) {\n        if (perm.Count == nums.Length) {\n            res.Add(new List<int>(perm));\n            return;\n        }\n        for (int i = 0; i < nums.Length; i++) {\n            if ((mask & (1 << i)) == 0) {\n                perm.Add(nums[i]);\n                Backtrack(perm, nums, mask | (1 << i));\n                perm.RemoveAt(perm.Count - 1);\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "func permute(nums []int) [][]int {\n    var res [][]int\n    backtrack(&res, []int{}, nums, 0)\n    return res\n}\n\nfunc backtrack(res *[][]int, perm []int, nums []int, mask int) {\n    if len(perm) == len(nums) {\n        temp := append([]int{}, perm...)\n        *res = append(*res, temp)\n        return\n    }\n    for i := 0; i < len(nums); i++ {\n        if mask&(1<<i) == 0 {\n            perm = append(perm, nums[i])\n            backtrack(res, perm, nums, mask|(1<<i))\n            perm = perm[:len(perm)-1]\n        }\n    }\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    private val res = mutableListOf<List<Int>>()\n\n    fun permute(nums: IntArray): List<List<Int>> {\n        backtrack(mutableListOf(), nums, 0)\n        return res\n    }\n\n    private fun backtrack(perm: MutableList<Int>, nums: IntArray, mask: Int) {\n        if (perm.size == nums.size) {\n            res.add(ArrayList(perm))\n            return\n        }\n        for (i in nums.indices) {\n            if (mask and (1 shl i) == 0) {\n                perm.add(nums[i])\n                backtrack(perm, nums, mask or (1 shl i))\n                perm.removeAt(perm.size - 1)\n            }\n        }\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    func permute(_ nums: [Int]) -> [[Int]] {\n        var res = [[Int]]()\n\n        func backtrack(_ perm: inout [Int], _ mask: Int) {\n            if perm.count == nums.count {\n                res.append(perm)\n                return\n            }\n            for i in 0..<nums.count {\n                if mask & (1 << i) == 0 {\n                    perm.append(nums[i])\n                    backtrack(&perm, mask | (1 << i))\n                    perm.popLast()\n                }\n            }\n        }\n\n        var perm = [Int]()\n        backtrack(&perm, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "impl Solution {\n    pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut perm = Vec::new();\n        fn backtrack(nums: &[i32], perm: &mut Vec<i32>, mask: usize, res: &mut Vec<Vec<i32>>) {\n            if perm.len() == nums.len() {\n                res.push(perm.clone());\n                return;\n            }\n            for i in 0..nums.len() {\n                if mask & (1 << i) == 0 {\n                    perm.push(nums[i]);\n                    backtrack(nums, perm, mask | (1 << i), res);\n                    perm.pop();\n                }\n            }\n        }\n        backtrack(&nums, &mut perm, 0, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        self.res = []\n        self.backtrack(nums, 0)\n        return self.res\n\n    def backtrack(self, nums: List[int], idx: int):\n        if idx == len(nums):\n            self.res.append(nums[:])\n            return\n        for i in range(idx, len(nums)):\n            nums[idx], nums[i] = nums[i], nums[idx]\n            self.backtrack(nums, idx + 1)\n            nums[idx], nums[i] = nums[i], nums[idx]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    List<List<Integer>> res;\n    public List<List<Integer>> permute(int[] nums) {\n        res = new ArrayList<>();\n        backtrack(nums, 0);\n        return res;\n    }\n\n    public void backtrack(int[] nums, int idx) {\n        if (idx == nums.length) {\n            List<Integer> perm = new ArrayList<>();\n            for (int num : nums) perm.add(num);\n            res.add(perm);\n            return;\n        }\n        for (int i = idx; i < nums.length; i++) {\n            swap(nums, idx, i);\n            backtrack(nums, idx + 1);\n            swap(nums, idx, i);\n        }\n    }\n\n    private void swap(int[] nums, int i, int j) {\n        int temp = nums[i];\n        nums[i] = nums[j];\n        nums[j] = temp;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    vector<vector<int>> res;\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        backtrack(nums, 0);\n        return res;\n    }\n\n    void backtrack(vector<int>& nums, int idx) {\n        if (idx == nums.size()) {\n            res.push_back(nums);\n            return;\n        }\n        for (int i = idx; i < nums.size(); i++) {\n            swap(nums[idx], nums[i]);\n            backtrack(nums, idx + 1);\n            swap(nums[idx], nums[i]);\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    constructor() {\n        this.res = [];\n    }\n\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    permute(nums) {\n        this.backtrack(nums, 0);\n        return this.res;\n    }\n\n    /**\n     * @param {number[]} nums\n     * @param {number} idx\n     * @return {void}\n     */\n    backtrack(nums, idx) {\n        if (idx === nums.length) {\n            this.res.push([...nums]);\n            return;\n        }\n        for (let i = idx; i < nums.length; i++) {\n            [nums[idx], nums[i]] = [nums[i], nums[idx]];\n            this.backtrack(nums, idx + 1);\n            [nums[idx], nums[i]] = [nums[i], nums[idx]];\n        }\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "public class Solution {\n    private List<List<int>> res;\n\n    public List<List<int>> Permute(int[] nums) {\n        res = new List<List<int>>();\n        Backtrack(nums, 0);\n        return res;\n    }\n\n    private void Backtrack(int[] nums, int idx) {\n        if (idx == nums.Length) {\n            res.Add(new List<int>(nums));\n            return;\n        }\n        for (int i = idx; i < nums.Length; i++) {\n            Swap(nums, idx, i);\n            Backtrack(nums, idx + 1);\n            Swap(nums, idx, i);\n        }\n    }\n\n    private void Swap(int[] nums, int i, int j) {\n        int temp = nums[i];\n        nums[i] = nums[j];\n        nums[j] = temp;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "func permute(nums []int) [][]int {\n    var res [][]int\n    backtrack(&res, nums, 0)\n    return res\n}\n\nfunc backtrack(res *[][]int, nums []int, idx int) {\n    if idx == len(nums) {\n        temp := append([]int{}, nums...)\n        *res = append(*res, temp)\n        return\n    }\n    for i := idx; i < len(nums); i++ {\n        nums[idx], nums[i] = nums[i], nums[idx]\n        backtrack(res, nums, idx+1)\n        nums[idx], nums[i] = nums[i], nums[idx]\n    }\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    private val res = mutableListOf<List<Int>>()\n\n    fun permute(nums: IntArray): List<List<Int>> {\n        backtrack(nums, 0)\n        return res\n    }\n\n    private fun backtrack(nums: IntArray, idx: Int) {\n        if (idx == nums.size) {\n            res.add(nums.toList())\n            return\n        }\n        for (i in idx until nums.size) {\n            nums.swap(idx, i)\n            backtrack(nums, idx + 1)\n            nums.swap(idx, i)\n        }\n    }\n\n    private fun IntArray.swap(i: Int, j: Int) {\n        val temp = this[i]\n        this[i] = this[j]\n        this[j] = temp\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "class Solution {\n    func permute(_ nums: [Int]) -> [[Int]] {\n        var res = [[Int]]()\n        var nums = nums\n\n        func backtrack(_ idx: Int) {\n            if idx == nums.count {\n                res.append(nums)\n                return\n            }\n            for i in idx..<nums.count {\n                nums.swapAt(idx, i)\n                backtrack(idx + 1)\n                nums.swapAt(idx, i)\n            }\n        }\n\n        backtrack(0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n! * n)",
+            "space_complexity": "O(n! * n)",
+            "code": "impl Solution {\n    pub fn permute(mut nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let n = nums.len();\n        fn backtrack(idx: usize, nums: &mut Vec<i32>, n: usize, res: &mut Vec<Vec<i32>>) {\n            if idx == n {\n                res.push(nums.clone());\n                return;\n            }\n            for i in idx..n {\n                nums.swap(idx, i);\n                backtrack(idx + 1, nums, n, res);\n                nums.swap(idx, i);\n            }\n        }\n        backtrack(0, &mut nums, n, &mut res);\n        res\n    }\n}"
+        }
+    ]
+}

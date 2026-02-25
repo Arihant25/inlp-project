@@ -1,0 +1,227 @@
+{
+    "problem_name": "Decode Ways",
+    "problem_slug": "decode-ways",
+    "difficulty": "medium",
+    "topic_tags": [
+        "string",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def numDecodings(self, s: str) -> int:\n\n        def dfs(i):\n            if i == len(s):\n                return 1\n            if s[i] == '0':\n                return 0\n\n            res = dfs(i + 1)\n            if i < len(s) - 1:\n                if (s[i] == '1' or\n                   (s[i] == '2' and s[i + 1] < '7')):\n                    res += dfs(i + 2)\n\n            return res\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int dfs(int i, String s) {\n        if (i == s.length()) return 1;\n        if (s.charAt(i) == '0') return 0;\n\n        int res = dfs(i + 1, s);\n        if (i < s.length() - 1) {\n            if (s.charAt(i) == '1' ||\n               (s.charAt(i) == '2' && s.charAt(i + 1) < '7')) {\n                res += dfs(i + 2, s);\n            }\n        }\n        return res;\n    }\n\n    public int numDecodings(String s) {\n        return dfs(0, s);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int dfs(int i, string& s) {\n        if (i == s.size()) return 1;\n        if (s[i] == '0') return 0;\n\n        int res = dfs(i + 1, s);\n        if (i < s.size() - 1) {\n            if (s[i] == '1' ||\n               (s[i] == '2' && s[i + 1] < '7')) {\n                res += dfs(i + 2, s);\n            }\n        }\n        return res;\n    }\n\n    int numDecodings(string s) {\n        return dfs(0, s);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {number}\n     */\n    numDecodings(s) {\n        const dfs = (i) => {\n            if (i === s.length) return 1;\n            if (s[i] === '0') return 0;\n\n            let res = dfs(i + 1);\n            if (i < s.length - 1) {\n                if (s[i] === '1' || (s[i] === '2' && s[i + 1] < '7')) {\n                    res += dfs(i + 2);\n                }\n            }\n            return res;\n        };\n\n        return dfs(0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int NumDecodings(string s) {\n        int Dfs(int i) {\n            if (i == s.Length) return 1;\n            if (s[i] == '0') return 0;\n\n            int res = Dfs(i + 1);\n            if (i < s.Length - 1) {\n                if (s[i] == '1' ||\n                   (s[i] == '2' && s[i + 1] < '7')) {\n                    res += Dfs(i + 2);\n                }\n            }\n            return res;\n        }\n\n        return Dfs(0);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "func numDecodings(s string) int {\n    return dfs(s, 0)\n}\n\nfunc dfs(s string, i int) int {\n    if i == len(s) {\n        return 1\n    }\n    if s[i] == '0' {\n        return 0\n    }\n    res := dfs(s, i+1)\n    if i < len(s)-1 {\n        if s[i] == '1' || (s[i] == '2' && s[i+1] < '7') {\n            res += dfs(s, i+2)\n        }\n    }\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun numDecodings(s: String): Int {\n        return dfs(s, 0)\n    }\n\n    fun dfs(s: String, i: Int): Int {\n        if (i == s.length) {\n            return 1\n        }\n        if (s[i] == '0') {\n            return 0\n        }\n        var res = dfs(s, i + 1)\n        if (i < s.length - 1) {\n            if (s[i] == '1' || (s[i] == '2' && s[i + 1] < '7')) {\n                res += dfs(s, i + 2)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func numDecodings(_ s: String) -> Int {\n        let chars = Array(s)\n\n        func dfs(_ i: Int) -> Int {\n            if i == chars.count {\n                return 1\n            }\n            if chars[i] == \"0\" {\n                return 0\n            }\n\n            var res = dfs(i + 1)\n            if i < chars.count - 1 {\n                if chars[i] == \"1\" || (chars[i] == \"2\" && chars[i + 1] < \"7\") {\n                    res += dfs(i + 2)\n                }\n            }\n\n            return res\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn num_decodings(s: String) -> i32 {\n        let s = s.as_bytes();\n\n        fn dfs(s: &[u8], i: usize) -> i32 {\n            if i == s.len() {\n                return 1;\n            }\n            if s[i] == b'0' {\n                return 0;\n            }\n\n            let mut res = dfs(s, i + 1);\n            if i < s.len() - 1 {\n                if s[i] == b'1' || (s[i] == b'2' && s[i + 1] < b'7') {\n                    res += dfs(s, i + 2);\n                }\n            }\n            res\n        }\n\n        dfs(s, 0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def numDecodings(self, s: str) -> int:\n        dp = {len(s) : 1}\n\n        def dfs(i):\n            if i in dp:\n                return dp[i]\n            if s[i] == \"0\":\n                return 0\n\n            res = dfs(i + 1)\n            if i + 1 < len(s) and (\n                s[i] == \"1\" or s[i] == \"2\" and\n                s[i + 1] in \"0123456\"\n            ):\n                res += dfs(i + 2)\n            dp[i] = res\n            return res\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    public int numDecodings(String s) {\n        Map<Integer, Integer> dp = new HashMap<>();\n        dp.put(s.length(), 1);\n\n        return dfs(s, 0, dp);\n    }\n\n    private int dfs(String s, int i, Map<Integer, Integer> dp) {\n        if (dp.containsKey(i)) {\n            return dp.get(i);\n        }\n        if (s.charAt(i) == '0') {\n            return 0;\n        }\n\n        int res = dfs(s, i + 1, dp);\n        if (i + 1 < s.length() && (s.charAt(i) == '1' ||\n           s.charAt(i) == '2' && s.charAt(i + 1) < '7')) {\n            res += dfs(s, i + 2, dp);\n        }\n        dp.put(i, res);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int numDecodings(string s) {\n        unordered_map<int, int> dp;\n        dp[s.size()] = 1;\n        return dfs(s, 0, dp);\n    }\n\nprivate:\n    int dfs(string s, int i, unordered_map<int, int>& dp) {\n        if (dp.count(i)) {\n            return dp[i];\n        }\n        if (s[i] == '0') {\n            return 0;\n        }\n\n        int res = dfs(s, i + 1, dp);\n        if (i + 1 < s.size() && (s[i] == '1' ||\n            s[i] == '2' && s[i + 1] < '7')) {\n            res += dfs(s, i + 2, dp);\n        }\n        dp[i] = res;\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {number}\n     */\n    numDecodings(s) {\n        const dp = new Map();\n        dp.set(s.length, 1);\n\n        return this.dfs(s, 0, dp);\n    }\n\n    /**\n     * @param {string} s\n     * @param {number} i\n     * @param {Map} dp\n     * @return {number}\n     */\n    dfs(s, i, dp) {\n        if (dp.has(i)) {\n            return dp.get(i);\n        }\n        if (s.charAt(i) === '0') {\n            return 0;\n        }\n\n        let res = this.dfs(s, i + 1, dp);\n        if (\n            i + 1 < s.length &&\n            (s.charAt(i) === '1' ||\n                (s.charAt(i) === '2' && s.charAt(i + 1) < '7'))\n        ) {\n            res += this.dfs(s, i + 2, dp);\n        }\n        dp.set(i, res);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    public int NumDecodings(string s) {\n        Dictionary<int, int> dp = new Dictionary<int, int>();\n        dp[s.Length] = 1;\n        return Dfs(s, 0, dp);\n    }\n\n    private int Dfs(string s, int i, Dictionary<int, int> dp) {\n        if (dp.ContainsKey(i)) {\n            return dp[i];\n        }\n        if (s[i] == '0') {\n            return 0;\n        }\n\n        int res = Dfs(s, i + 1, dp);\n        if (i + 1 < s.Length && (s[i] == '1' ||\n            s[i] == '2' && s[i + 1] < '7')) {\n            res += Dfs(s, i + 2, dp);\n        }\n        dp[i] = res;\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func numDecodings(s string) int {\n    return dfs(s, 0, map[int]int{len(s): 1})\n}\n\nfunc dfs(s string, i int, dp map[int]int) int {\n    if val, ok := dp[i]; ok {\n        return val\n    }\n    if i == len(s) {\n        return 1\n    }\n    if s[i] == '0' {\n        return 0\n    }\n    res := dfs(s, i+1, dp)\n    if i+1 < len(s) && (s[i] == '1' ||\n       (s[i] == '2' && s[i+1] <= '6')) {\n        res += dfs(s, i+2, dp)\n    }\n    dp[i] = res\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun numDecodings(s: String): Int {\n        return dfs(s, 0, hashMapOf(s.length to 1))\n    }\n\n    fun dfs(s: String, i: Int, dp: HashMap<Int, Int>): Int {\n        if (i in dp) {\n            return dp[i]!!\n        }\n        if (i == s.length) {\n            return 1\n        }\n        if (s[i] == '0') {\n            return 0\n        }\n        var res = dfs(s, i + 1, dp)\n        if (i + 1 < s.length && (s[i] == '1' ||\n           (s[i] == '2' && s[i + 1] <= '6'))) {\n            res += dfs(s, i + 2, dp)\n        }\n        dp[i] = res\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func numDecodings(_ s: String) -> Int {\n        let chars = Array(s)\n        var dp = [Int: Int]()\n        dp[chars.count] = 1\n\n        func dfs(_ i: Int) -> Int {\n            if let cached = dp[i] {\n                return cached\n            }\n            if chars[i] == \"0\" {\n                return 0\n            }\n\n            var res = dfs(i + 1)\n            if i + 1 < chars.count,\n               chars[i] == \"1\" || (chars[i] == \"2\" && \"0123456\".contains(chars[i + 1])) {\n                res += dfs(i + 2)\n            }\n            dp[i] = res\n            return res\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn num_decodings(s: String) -> i32 {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut dp = HashMap::new();\n        dp.insert(n, 1);\n\n        fn dfs(s: &[u8], i: usize, dp: &mut HashMap<usize, i32>) -> i32 {\n            if let Some(&val) = dp.get(&i) {\n                return val;\n            }\n            if s[i] == b'0' {\n                return 0;\n            }\n\n            let mut res = dfs(s, i + 1, dp);\n            if i + 1 < s.len()\n                && (s[i] == b'1' || (s[i] == b'2' && s[i + 1] < b'7'))\n            {\n                res += dfs(s, i + 2, dp);\n            }\n            dp.insert(i, res);\n            res\n        }\n\n        dfs(s, 0, &mut dp)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def numDecodings(self, s: str) -> int:\n        dp = {len(s): 1}\n        for i in range(len(s) - 1, -1, -1):\n            if s[i] == \"0\":\n                dp[i] = 0\n            else:\n                dp[i] = dp[i + 1]\n\n            if i + 1 < len(s) and (s[i] == \"1\" or\n               s[i] == \"2\" and s[i + 1] in \"0123456\"\n            ):\n                dp[i] += dp[i + 2]\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int numDecodings(String s) {\n        int[] dp = new int[s.length() + 1];\n        dp[s.length()] = 1;\n        for (int i = s.length() - 1; i >= 0; i--) {\n            if (s.charAt(i) == '0') {\n                dp[i] = 0;\n            } else {\n                dp[i] = dp[i + 1];\n                if (i + 1 < s.length() && (s.charAt(i) == '1' ||\n                    s.charAt(i) == '2' && s.charAt(i + 1) < '7')) {\n                    dp[i] += dp[i + 2];\n                }\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int numDecodings(string s) {\n        vector<int> dp(s.size() + 1);\n        dp[s.size()] = 1;\n        for (int i = s.size() - 1; i >= 0; i--) {\n            if (s[i] == '0') {\n                dp[i] = 0;\n            } else {\n                dp[i] = dp[i + 1];\n                if (i + 1 < s.size() && (s[i] == '1' ||\n                    s[i] == '2' && s[i + 1] < '7')) {\n                    dp[i] += dp[i + 2];\n                }\n            }\n        }\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {number}\n     */\n    numDecodings(s) {\n        let dp = new Array(s.length + 1).fill(0);\n        dp[s.length] = 1;\n        for (let i = s.length - 1; i >= 0; i--) {\n            if (s.charAt(i) === '0') {\n                dp[i] = 0;\n            } else {\n                dp[i] = dp[i + 1];\n                if (\n                    i + 1 < s.length &&\n                    (s.charAt(i) === '1' ||\n                        (s.charAt(i) === '2' && s.charAt(i + 1) < '7'))\n                ) {\n                    dp[i] += dp[i + 2];\n                }\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int NumDecodings(string s) {\n        int[] dp = new int[s.Length + 1];\n        dp[s.Length] = 1;\n        for (int i = s.Length - 1; i >= 0; i--) {\n            if (s[i] == '0') {\n                dp[i] = 0;\n            } else {\n                dp[i] = dp[i + 1];\n                if (i + 1 < s.Length && (s[i] == '1' ||\n                    s[i] == '2' && s[i + 1] < '7')) {\n                    dp[i] += dp[i + 2];\n                }\n            }\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func numDecodings(s string) int {\n    dp := make(map[int]int)\n    dp[len(s)] = 1\n    for i := len(s) - 1; i >= 0; i-- {\n        if s[i] == '0' {\n            dp[i] = 0\n        } else {\n            dp[i] = dp[i+1]\n            if i+1 < len(s) && (s[i] == '1' ||\n               (s[i] == '2' && s[i+1] <= '6')) {\n                dp[i] += dp[i+2]\n            }\n        }\n    }\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun numDecodings(s: String): Int {\n        val dp = mutableMapOf(s.length to 1)\n        for (i in s.length - 1 downTo 0) {\n            if (s[i] == '0') {\n                dp[i] = 0\n            } else {\n                dp[i] = dp[i + 1] ?: 0\n                if (i + 1 < s.length && (s[i] == '1' ||\n                   (s[i] == '2' && s[i + 1] <= '6'))) {\n                    dp[i] = dp[i]!! + (dp[i + 2] ?: 0)\n                }\n            }\n        }\n        return dp[0] ?: 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func numDecodings(_ s: String) -> Int {\n        let chars = Array(s)\n        var dp = [Int: Int]()\n        dp[chars.count] = 1\n\n        for i in stride(from: chars.count - 1, through: 0, by: -1) {\n            if chars[i] == \"0\" {\n                dp[i] = 0\n            } else {\n                dp[i] = dp[i + 1] ?? 0\n            }\n\n            if i + 1 < chars.count,\n               chars[i] == \"1\" || (chars[i] == \"2\" && \"0123456\".contains(chars[i + 1])) {\n                dp[i]! += dp[i + 2] ?? 0\n            }\n        }\n        return dp[0] ?? 0\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn num_decodings(s: String) -> i32 {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut dp = vec![0i32; n + 1];\n        dp[n] = 1;\n\n        for i in (0..n).rev() {\n            if s[i] == b'0' {\n                dp[i] = 0;\n            } else {\n                dp[i] = dp[i + 1];\n                if i + 1 < n && (s[i] == b'1' || (s[i] == b'2' && s[i + 1] < b'7')) {\n                    dp[i] += dp[i + 2];\n                }\n            }\n        }\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def numDecodings(self, s: str) -> int:\n        dp = dp2 = 0\n        dp1 = 1\n        for i in range(len(s) - 1, -1, -1):\n            if s[i] == \"0\":\n                dp = 0\n            else:\n                dp = dp1\n\n            if i + 1 < len(s) and (s[i] == \"1\" or\n               s[i] == \"2\" and s[i + 1] in \"0123456\"\n            ):\n                dp += dp2\n            dp, dp1, dp2 = 0, dp, dp1\n        return dp1"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int numDecodings(String s) {\n        int dp = 0, dp2 = 0;\n        int dp1 = 1;\n        for (int i = s.length() - 1; i >= 0; i--) {\n            if (s.charAt(i) == '0') {\n                dp = 0;\n            } else {\n                dp = dp1;\n                if (i + 1 < s.length() && (s.charAt(i) == '1' ||\n                    s.charAt(i) == '2' && s.charAt(i + 1) < '7')) {\n                    dp += dp2;\n                }\n            }\n            dp2 = dp1;\n            dp1 = dp;\n            dp = 0;\n        }\n        return dp1;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int numDecodings(string s) {\n        int dp = 0, dp2 = 0;\n        int dp1 = 1;\n        for (int i = s.size() - 1; i >= 0; i--) {\n            if (s[i] == '0') {\n                dp = 0;\n            } else {\n                dp = dp1;\n                if (i + 1 < s.size() && (s[i] == '1' ||\n                    s[i] == '2' && s[i + 1] < '7')) {\n                    dp += dp2;\n                }\n            }\n            dp2 = dp1;\n            dp1 = dp;\n            dp = 0;\n        }\n        return dp1;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {number}\n     */\n    numDecodings(s) {\n        let dp2 = 0,\n            dp = 0;\n        let dp1 = 1;\n        for (let i = s.length - 1; i >= 0; i--) {\n            if (s.charAt(i) === '0') {\n                dp = 0;\n            } else {\n                dp = dp1;\n                if (\n                    i + 1 < s.length &&\n                    (s.charAt(i) === '1' ||\n                        (s.charAt(i) === '2' && s.charAt(i + 1) < '7'))\n                ) {\n                    dp += dp2;\n                }\n            }\n            dp2 = dp1;\n            dp1 = dp;\n            dp = 0;\n        }\n        return dp1;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int NumDecodings(string s) {\n        int dp = 0, dp1 = 1, dp2 = 0;\n        for (int i = s.Length - 1; i >= 0; i--) {\n            if (s[i] == '0') {\n                dp = 0;\n            } else {\n                dp = dp1;\n                if (i + 1 < s.Length && (s[i] == '1' ||\n                    s[i] == '2' && s[i + 1] < '7')) {\n                    dp += dp2;\n                }\n            }\n            dp2 = dp1;\n            dp1 = dp;\n            dp = 0;\n        }\n        return dp1;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func numDecodings(s string) int {\n    dp, dp2 := 0, 0\n    dp1 := 1\n    for i := len(s) - 1; i >= 0; i-- {\n        if s[i] == '0' {\n            dp = 0\n        } else {\n            dp = dp1\n        }\n        if i+1 < len(s) && (s[i] == '1' ||\n           s[i] == '2' && s[i+1] <= '6') {\n            dp += dp2\n        }\n        dp2 = dp1\n        dp1 = dp\n        dp = 0\n    }\n    return dp1\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun numDecodings(s: String): Int {\n        var dp = 0\n        var dp2 = 0\n        var dp1 = 1\n        for (i in s.length - 1 downTo 0) {\n            if (s[i] == '0') {\n                dp = 0\n            } else {\n                dp = dp1\n            }\n            if (i + 1 < s.length && (s[i] == '1' ||\n               (s[i] == '2' && s[i + 1] <= '6'))) {\n                dp += dp2\n            }\n            dp2 = dp1\n            dp1 = dp\n        }\n        return dp1\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func numDecodings(_ s: String) -> Int {\n        let chars = Array(s)\n        var dp = 0, dp1 = 1, dp2 = 0\n\n        for i in stride(from: chars.count - 1, through: 0, by: -1) {\n            if chars[i] == \"0\" {\n                dp = 0\n            } else {\n                dp = dp1\n            }\n\n            if i + 1 < chars.count,\n               chars[i] == \"1\" || (chars[i] == \"2\" && \"0123456\".contains(chars[i + 1])) {\n                dp += dp2\n            }\n            (dp, dp1, dp2) = (0, dp, dp1)\n        }\n        return dp1\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn num_decodings(s: String) -> i32 {\n        let s = s.as_bytes();\n        let mut dp = 0i32;\n        let mut dp1 = 1i32;\n        let mut dp2 = 0i32;\n\n        for i in (0..s.len()).rev() {\n            if s[i] == b'0' {\n                dp = 0;\n            } else {\n                dp = dp1;\n                if i + 1 < s.len()\n                    && (s[i] == b'1' || (s[i] == b'2' && s[i + 1] < b'7'))\n                {\n                    dp += dp2;\n                }\n            }\n            dp2 = dp1;\n            dp1 = dp;\n            dp = 0;\n        }\n        dp1\n    }\n}"
+        }
+    ]
+}

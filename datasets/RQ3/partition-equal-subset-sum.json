@@ -1,0 +1,347 @@
+{
+    "problem_name": "Partition Equal Subset Sum",
+    "problem_slug": "partition-equal-subset-sum",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        if sum(nums) % 2:\n            return False\n\n        def dfs(i, target):\n            if i >= len(nums):\n                return target == 0\n            if target < 0:\n                return False\n\n            return dfs(i + 1, target) or dfs(i + 1, target - nums[i])\n\n        return dfs(0, sum(nums) // 2)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean canPartition(int[] nums) {\n        int n = nums.length;\n        int sum = 0;\n        for (int i = 0; i < n; i++) {\n            sum += nums[i];\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        return dfs(nums, 0, sum / 2);\n    }\n\n    public boolean dfs(int[] nums, int i, int target) {\n        if (i == nums.length) {\n            return target == 0;\n        }\n        if (target < 0) {\n            return false;\n        }\n\n        return dfs(nums, i + 1, target) ||\n               dfs(nums, i + 1, target - nums[i]);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        int sum = 0;\n        for (int num : nums) {\n            sum += num;\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        return dfs(nums, 0, sum / 2);\n    }\n\n    bool dfs(vector<int>& nums, int i, int target) {\n        if (i == nums.size()) {\n            return target == 0;\n        }\n        if (target < 0) {\n            return false;\n        }\n\n        return dfs(nums, i + 1, target) ||\n               dfs(nums, i + 1, target - nums[i]);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canPartition(nums) {\n        let sum = nums.reduce((a, b) => a + b, 0);\n        if (sum % 2 !== 0) {\n            return false;\n        }\n\n        return this.dfs(nums, 0, sum / 2);\n    }\n\n    /**\n     * @params {number[]} nums\n     * @params {number} i\n     * @params {number} target\n     * @return {boolean}\n     */\n    dfs(nums, i, target) {\n        if (i === nums.length) {\n            return target === 0;\n        }\n        if (target < 0) {\n            return false;\n        }\n\n        return (\n            this.dfs(nums, i + 1, target) ||\n            this.dfs(nums, i + 1, target - nums[i])\n        );\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool CanPartition(int[] nums) {\n        int sum = 0;\n        for (int i = 0; i < nums.Length; i++) {\n            sum += nums[i];\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        return Dfs(nums, 0, sum / 2);\n    }\n\n    public bool Dfs(int[] nums, int i, int target) {\n        if (i == nums.Length) {\n            return target == 0;\n        }\n        if (target < 0) {\n            return false;\n        }\n\n        return Dfs(nums, i + 1, target) ||\n               Dfs(nums, i + 1, target - nums[i]);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "func canPartition(nums []int) bool {\n    sum := 0\n    for _, num := range nums {\n        sum += num\n    }\n    if sum%2 != 0 {\n        return false\n    }\n\n    target := sum / 2\n\n    var dfs func(int, int) bool\n    dfs = func(i int, target int) bool {\n        if target == 0 {\n            return true\n        }\n        if i >= len(nums) || target < 0 {\n            return false\n        }\n\n        return dfs(i+1, target) || dfs(i+1, target-nums[i])\n    }\n\n    return dfs(0, target)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun canPartition(nums: IntArray): Boolean {\n        val sum = nums.sum()\n        if (sum % 2 != 0) {\n            return false\n        }\n\n        val target = sum / 2\n\n        fun dfs(i: Int, target: Int): Boolean {\n            if (target == 0) {\n                return true\n            }\n            if (i >= nums.size || target < 0) {\n                return false\n            }\n\n            return dfs(i + 1, target) || dfs(i + 1, target - nums[i])\n        }\n\n        return dfs(0, target)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func canPartition(_ nums: [Int]) -> Bool {\n        let totalSum = nums.reduce(0, +)\n        if totalSum % 2 != 0 {\n            return false\n        }\n\n        let target = totalSum / 2\n        let n = nums.count\n\n        func dfs(_ i: Int, _ target: Int) -> Bool {\n            if i >= n {\n                return target == 0\n            }\n            if target < 0 {\n                return false\n            }\n\n            return dfs(i + 1, target) || dfs(i + 1, target - nums[i])\n        }\n\n        return dfs(0, target)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn can_partition(nums: Vec<i32>) -> bool {\n        let total: i32 = nums.iter().sum();\n        if total % 2 != 0 {\n            return false;\n        }\n\n        fn dfs(nums: &[i32], i: usize, target: i32) -> bool {\n            if i == nums.len() {\n                return target == 0;\n            }\n            if target < 0 {\n                return false;\n            }\n            dfs(nums, i + 1, target) || dfs(nums, i + 1, target - nums[i])\n        }\n\n        dfs(&nums, 0, total / 2)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        total = sum(nums)\n        if total % 2 != 0:\n            return False\n\n        target = total // 2\n        n = len(nums)\n        memo = [[-1] * (target + 1) for _ in range(n + 1)]\n\n        def dfs(i, target):\n            if target == 0:\n                return True\n            if i >= n or target < 0:\n                return False\n            if memo[i][target] != -1:\n                return memo[i][target]\n\n            memo[i][target] = (dfs(i + 1, target) or\n                               dfs(i + 1, target - nums[i]))\n            return memo[i][target]\n\n        return dfs(0, target)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "public class Solution {\n    Boolean[][] memo;\n    public boolean canPartition(int[] nums) {\n        int n = nums.length;\n        int sum = 0;\n        for (int i = 0; i < n; i++) {\n            sum += nums[i];\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n        memo = new Boolean[n][sum / 2 + 1];\n\n        return dfs(nums, 0, sum / 2);\n    }\n\n    public boolean dfs(int[] nums, int i, int target) {\n        if (i == nums.length) {\n            return target == 0;\n        }\n        if (target < 0) {\n            return false;\n        }\n        if (memo[i][target] != null) {\n            return memo[i][target];\n        }\n\n        memo[i][target] = dfs(nums, i + 1, target) ||\n                          dfs(nums, i + 1, target - nums[i]);\n        return memo[i][target];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> memo;\n    bool canPartition(vector<int>& nums) {\n        int sum = 0;\n        for (int num : nums) {\n            sum += num;\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n        memo.resize(nums.size(), vector<int>(sum / 2 + 1, -1));\n\n        return dfs(nums, 0, sum / 2);\n    }\n\n    bool dfs(vector<int>& nums, int i, int target) {\n        if (i == nums.size()) {\n            return target == 0;\n        }\n        if (target < 0) {\n            return false;\n        }\n        if (memo[i][target] != -1) {\n            return memo[i][target];\n        }\n\n        memo[i][target] =  dfs(nums, i + 1, target) ||\n                           dfs(nums, i + 1, target - nums[i]);\n        return memo[i][target];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canPartition(nums) {\n        let sum = nums.reduce((a, b) => a + b, 0);\n        if (sum % 2 !== 0) {\n            return false;\n        }\n        const n = nums.length;\n        this.memo = Array.from(Array(n + 1), () =>\n            Array(sum / 2 + 1).fill(null),\n        );\n\n        return this.dfs(nums, 0, sum / 2);\n    }\n\n    /**\n     * @params {number[]} nums\n     * @params {number} i\n     * @params {number} target\n     * @return {boolean}\n     */\n    dfs(nums, i, target) {\n        if (i === nums.length) {\n            return target === 0;\n        }\n        if (target < 0) {\n            return false;\n        }\n        if (this.memo[i][target] != null) {\n            return this.memo[i][target];\n        }\n\n        this.memo[i][target] =\n            this.dfs(nums, i + 1, target) ||\n            this.dfs(nums, i + 1, target - nums[i]);\n        return this.memo[i][target];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "public class Solution {\n    private bool?[,] memo;\n\n    public bool CanPartition(int[] nums) {\n        int sum = 0;\n        for (int i = 0; i < nums.Length; i++) {\n            sum += nums[i];\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        memo = new bool?[nums.Length + 1, sum / 2 + 1];\n        return Dfs(nums, 0, sum / 2);\n    }\n\n    public bool Dfs(int[] nums, int i, int target) {\n        if (target == 0) {\n            return true;\n        }\n        if (i == nums.Length || target < 0) {\n            return false;\n        }\n        if (memo[i, target] != null) {\n            return memo[i, target] == true;\n        }\n\n        bool result = Dfs(nums, i + 1, target) ||\n                      Dfs(nums, i + 1, target - nums[i]);\n\n        memo[i, target] = result;\n        return result;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "func canPartition(nums []int) bool {\n    total := 0\n    for _, num := range nums {\n        total += num\n    }\n    if total%2 != 0 {\n        return false\n    }\n\n    target := total / 2\n    n := len(nums)\n    memo := make([][]int, n+1)\n    for i := range memo {\n        memo[i] = make([]int, target+1)\n        for j := range memo[i] {\n            memo[i][j] = -1\n        }\n    }\n\n    var dfs func(int, int) bool\n    dfs = func(i, target int) bool {\n        if target == 0 {\n            return true\n        }\n        if i >= n || target < 0 {\n            return false\n        }\n        if memo[i][target] != -1 {\n            return memo[i][target] == 1\n        }\n\n        found := dfs(i+1, target) || dfs(i+1, target-nums[i])\n        if found {\n            memo[i][target] = 1\n        } else {\n            memo[i][target] = 0\n        }\n\n        return found\n    }\n\n    return dfs(0, target)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution {\n    fun canPartition(nums: IntArray): Boolean {\n        val total = nums.sum()\n        if (total % 2 != 0) return false\n\n        val target = total / 2\n        val n = nums.size\n        val memo = Array(n + 1) { IntArray(target + 1) { -1 } }\n\n        fun dfs(i: Int, target: Int): Boolean {\n            if (target == 0) return true\n            if (i >= n || target < 0) return false\n            if (memo[i][target] != -1) return memo[i][target] == 1\n\n            val found = dfs(i + 1, target) || dfs(i + 1, target - nums[i])\n            memo[i][target] = if (found) 1 else 0\n\n            return found\n        }\n\n        return dfs(0, target)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution {\n    func canPartition(_ nums: [Int]) -> Bool {\n        let total = nums.reduce(0, +)\n        if total % 2 != 0 {\n            return false\n        }\n\n        let target = total / 2\n        let n = nums.count\n        var memo = Array(repeating: Array(repeating: -1, count: target + 1), count: n + 1)\n\n        func dfs(_ i: Int, _ target: Int) -> Bool {\n            if target == 0 {\n                return true\n            }\n            if i >= n || target < 0 {\n                return false\n            }\n            if memo[i][target] != -1 {\n                return memo[i][target] == 1\n            }\n\n            let result = dfs(i + 1, target) || dfs(i + 1, target - nums[i])\n            memo[i][target] = result ? 1 : 0\n            return result\n        }\n\n        return dfs(0, target)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "impl Solution {\n    pub fn can_partition(nums: Vec<i32>) -> bool {\n        let total: i32 = nums.iter().sum();\n        if total % 2 != 0 {\n            return false;\n        }\n        let target = total as usize / 2;\n        let n = nums.len();\n        let mut memo = vec![vec![-1i8; target + 1]; n];\n\n        fn dfs(nums: &[i32], i: usize, target: i32, memo: &mut [Vec<i8>]) -> bool {\n            if target == 0 {\n                return true;\n            }\n            if i == nums.len() || target < 0 {\n                return false;\n            }\n            if memo[i][target as usize] != -1 {\n                return memo[i][target as usize] == 1;\n            }\n            let res = dfs(nums, i + 1, target, memo)\n                || dfs(nums, i + 1, target - nums[i], memo);\n            memo[i][target as usize] = res as i8;\n            res\n        }\n\n        dfs(&nums, 0, target as i32, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        total = sum(nums)\n        if total % 2 != 0:\n            return False\n\n        target = total // 2\n        n = len(nums)\n        dp = [[False] * (target + 1) for _ in range(n + 1)]\n\n        for i in range(n + 1):\n            dp[i][0] = True\n\n        for i in range(1, n + 1):\n            for j in range(1, target + 1):\n                if nums[i - 1] <= j:\n                    dp[i][j] = (dp[i - 1][j] or\n                                dp[i - 1][j - nums[i - 1]])\n                else:\n                    dp[i][j] = dp[i - 1][j]\n\n        return dp[n][target]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "public class Solution {\n    public boolean canPartition(int[] nums) {\n        int n = nums.length;\n        int sum = 0;\n        for (int num : nums) {\n            sum += num;\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        int target = sum / 2;\n        boolean[][] dp = new boolean[n + 1][target + 1];\n\n        for (int i = 0; i <= n; i++) {\n            dp[i][0] = true;\n        }\n\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j <= target; j++) {\n                if (nums[i - 1] <= j) {\n                    dp[i][j] = dp[i - 1][j] ||\n                               dp[i - 1][j - nums[i - 1]];\n                } else {\n                    dp[i][j] = dp[i - 1][j];\n                }\n            }\n        }\n\n        return dp[n][target];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        int sum = 0;\n        for (int num : nums) {\n            sum += num;\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        int target = sum / 2;\n        int n = nums.size();\n        vector<vector<bool>> dp(n + 1, vector<bool>(target + 1, false));\n\n        for (int i = 0; i <= n; i++) {\n            dp[i][0] = true;\n        }\n\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j <= target; j++) {\n                if (nums[i - 1] <= j) {\n                    dp[i][j] = dp[i - 1][j] ||\n                               dp[i - 1][j - nums[i - 1]];\n                } else {\n                    dp[i][j] = dp[i - 1][j];\n                }\n            }\n        }\n\n        return dp[n][target];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canPartition(nums) {\n        let sum = nums.reduce((a, b) => a + b, 0);\n        if (sum % 2 !== 0) {\n            return false;\n        }\n        const target = sum / 2;\n        const n = nums.length;\n\n        const dp = Array.from(Array(n + 1), () =>\n            Array(target + 1).fill(false),\n        );\n\n        for (let i = 0; i <= n; i++) {\n            dp[i][0] = true;\n        }\n\n        for (let i = 1; i <= n; i++) {\n            for (let j = 1; j <= target; j++) {\n                if (nums[i - 1] <= j) {\n                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];\n                } else {\n                    dp[i][j] = dp[i - 1][j];\n                }\n            }\n        }\n\n        return dp[n][target];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "public class Solution {\n    public bool CanPartition(int[] nums) {\n        int sum = 0;\n        foreach (var num in nums) {\n            sum += num;\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        int target = sum / 2;\n        int n = nums.Length;\n\n        bool[,] dp = new bool[n + 1, target + 1];\n\n        for (int i = 0; i <= n; i++) {\n            dp[i, 0] = true;\n        }\n\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j <= target; j++) {\n                if (nums[i - 1] <= j) {\n                    dp[i, j] = dp[i - 1, j] ||\n                               dp[i - 1, j - nums[i - 1]];\n                } else {\n                    dp[i, j] = dp[i - 1, j];\n                }\n            }\n        }\n\n        return dp[n, target];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "func canPartition(nums []int) bool {\n    total := 0\n    for _, num := range nums {\n        total += num\n    }\n    if total%2 != 0 {\n        return false\n    }\n\n    target := total / 2\n    n := len(nums)\n    dp := make([][]bool, n+1)\n    for i := range dp {\n        dp[i] = make([]bool, target+1)\n    }\n\n    for i := 0; i <= n; i++ {\n        dp[i][0] = true\n    }\n\n    for i := 1; i <= n; i++ {\n        for j := 1; j <= target; j++ {\n            if nums[i-1] <= j {\n                dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]]\n            } else {\n                dp[i][j] = dp[i-1][j]\n            }\n        }\n    }\n\n    return dp[n][target]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution {\n    fun canPartition(nums: IntArray): Boolean {\n        val total = nums.sum()\n        if (total % 2 != 0) return false\n\n        val target = total / 2\n        val n = nums.size\n        val dp = Array(n + 1) { BooleanArray(target + 1) }\n\n        for (i in 0..n) {\n            dp[i][0] = true\n        }\n\n        for (i in 1..n) {\n            for (j in 1..target) {\n                dp[i][j] = if (nums[i - 1] <= j) {\n                    dp[i - 1][j] || dp[i - 1][j - nums[i - 1]]\n                } else {\n                    dp[i - 1][j]\n                }\n            }\n        }\n\n        return dp[n][target]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "class Solution {\n    func canPartition(_ nums: [Int]) -> Bool {\n        let total = nums.reduce(0, +)\n        if total % 2 != 0 {\n            return false\n        }\n\n        let target = total / 2\n        let n = nums.count\n        var dp = Array(repeating: Array(repeating: false, count: target + 1), count: n + 1)\n\n        for i in 0...n {\n            dp[i][0] = true\n        }\n\n        for i in 1...n {\n            for j in 1...target {\n                if nums[i - 1] <= j {\n                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]]\n                } else {\n                    dp[i][j] = dp[i - 1][j]\n                }\n            }\n        }\n\n        return dp[n][target]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(n * target)",
+            "code": "impl Solution {\n    pub fn can_partition(nums: Vec<i32>) -> bool {\n        let total: i32 = nums.iter().sum();\n        if total % 2 != 0 {\n            return false;\n        }\n\n        let target = total as usize / 2;\n        let n = nums.len();\n        let mut dp = vec![vec![false; target + 1]; n + 1];\n\n        for i in 0..=n {\n            dp[i][0] = true;\n        }\n\n        for i in 1..=n {\n            for j in 1..=target {\n                if nums[i - 1] as usize <= j {\n                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1] as usize];\n                } else {\n                    dp[i][j] = dp[i - 1][j];\n                }\n            }\n        }\n\n        dp[n][target]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        if sum(nums) % 2:\n            return False\n\n        target = sum(nums) // 2\n        dp = [False] * (target + 1)\n        nextDp = [False] * (target + 1)\n\n        dp[0] = True\n        for i in range(len(nums)):\n            for j in range(1, target + 1):\n                if j >= nums[i]:\n                    nextDp[j] = dp[j] or dp[j - nums[i]]\n                else:\n                    nextDp[j] = dp[j]\n            dp, nextDp = nextDp, dp\n\n        return dp[target]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "public class Solution {\n    public boolean canPartition(int[] nums) {\n        if (sum(nums) % 2 != 0) {\n            return false;\n        }\n\n        int target = sum(nums) / 2;\n        boolean[] dp = new boolean[target + 1];\n        boolean[] nextDp = new boolean[target + 1];\n\n        dp[0] = true;\n        for (int i = 0; i < nums.length; i++) {\n            for (int j = 1; j <= target; j++) {\n                if (j >= nums[i]) {\n                    nextDp[j] = dp[j] || dp[j - nums[i]];\n                } else {\n                    nextDp[j] = dp[j];\n                }\n            }\n            boolean[] temp = dp;\n            dp = nextDp;\n            nextDp = temp;\n        }\n\n        return dp[target];\n    }\n\n    private int sum(int[] nums) {\n        int total = 0;\n        for (int num : nums) {\n            total += num;\n        }\n        return total;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        if (sum(nums) % 2 != 0) {\n            return false;\n        }\n\n        int target = sum(nums) / 2;\n        vector<bool> dp(target + 1, false);\n        vector<bool> nextDp(target + 1, false);\n\n        dp[0] = true;\n        for (int i = 0; i < nums.size(); i++) {\n            for (int j = 1; j <= target; j++) {\n                if (j >= nums[i]) {\n                    nextDp[j] = dp[j] || dp[j - nums[i]];\n                } else {\n                    nextDp[j] = dp[j];\n                }\n            }\n            swap(dp, nextDp);\n        }\n\n        return dp[target];\n    }\n\nprivate:\n    int sum(vector<int>& nums) {\n        int total = 0;\n        for (int num : nums) {\n            total += num;\n        }\n        return total;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canPartition(nums) {\n        if (nums.reduce((a, b) => a + b, 0) % 2) {\n            return false;\n        }\n\n        const target = nums.reduce((a, b) => a + b, 0) / 2;\n        let dp = Array(target + 1).fill(false);\n        let nextDp = Array(target + 1).fill(false);\n\n        dp[0] = true;\n        for (let i = 0; i < nums.length; i++) {\n            for (let j = 1; j <= target; j++) {\n                if (j >= nums[i]) {\n                    nextDp[j] = dp[j] || dp[j - nums[i]];\n                } else {\n                    nextDp[j] = dp[j];\n                }\n            }\n            [dp, nextDp] = [nextDp, dp];\n        }\n\n        return dp[target];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "public class Solution {\n    public bool CanPartition(int[] nums) {\n        if (Sum(nums) % 2 != 0) {\n            return false;\n        }\n\n        int target = Sum(nums) / 2;\n        bool[] dp = new bool[target + 1];\n        bool[] nextDp = new bool[target + 1];\n\n        dp[0] = true;\n        for (int i = 0; i < nums.Length; i++) {\n            for (int j = 1; j <= target; j++) {\n                if (j >= nums[i]) {\n                    nextDp[j] = dp[j] || dp[j - nums[i]];\n                } else {\n                    nextDp[j] = dp[j];\n                }\n            }\n            bool[] temp = dp;\n            dp = nextDp;\n            nextDp = temp;\n        }\n\n        return dp[target];\n    }\n\n    private int Sum(int[] nums) {\n        int total = 0;\n        foreach (var num in nums) {\n            total += num;\n        }\n        return total;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "func canPartition(nums []int) bool {\n    total := 0\n    for _, num := range nums {\n        total += num\n    }\n    if total%2 != 0 {\n        return false\n    }\n\n    target := total / 2\n    dp := make([]bool, target+1)\n    nextDp := make([]bool, target+1)\n    dp[0] = true\n\n    for i := 0; i < len(nums); i++ {\n        for j := 1; j <= target; j++ {\n            if j >= nums[i] {\n                nextDp[j] = dp[j] || dp[j-nums[i]]\n            } else {\n                nextDp[j] = dp[j]\n            }\n        }\n        dp, nextDp = nextDp, dp\n    }\n\n    return dp[target]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    fun canPartition(nums: IntArray): Boolean {\n        val total = nums.sum()\n        if (total % 2 != 0) return false\n\n        val target = total / 2\n        var dp = BooleanArray(target + 1)\n        var nextDp = BooleanArray(target + 1)\n        dp[0] = true\n\n        for (i in nums.indices) {\n            for (j in 1..target) {\n                nextDp[j] = if (j >= nums[i]) dp[j] || dp[j - nums[i]] else dp[j]\n            }\n            val temp = dp\n            dp = nextDp\n            nextDp = temp\n        }\n\n        return dp[target]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    func canPartition(_ nums: [Int]) -> Bool {\n        if nums.reduce(0, +) % 2 != 0 {\n            return false\n        }\n\n        let target = nums.reduce(0, +) / 2\n        var dp = Array(repeating: false, count: target + 1)\n        var nextDp = Array(repeating: false, count: target + 1)\n\n        dp[0] = true\n        for num in nums {\n            for j in stride(from: target, through: 1, by: -1) {\n                if j >= num {\n                    nextDp[j] = dp[j] || dp[j - num]\n                } else {\n                    nextDp[j] = dp[j]\n                }\n            }\n            swap(&dp, &nextDp)\n        }\n\n        return dp[target]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "impl Solution {\n    pub fn can_partition(nums: Vec<i32>) -> bool {\n        let total: i32 = nums.iter().sum();\n        if total % 2 != 0 {\n            return false;\n        }\n\n        let target = total as usize / 2;\n        let mut dp = vec![false; target + 1];\n        let mut next_dp = vec![false; target + 1];\n        dp[0] = true;\n\n        for &num in &nums {\n            let num = num as usize;\n            for j in 1..=target {\n                if j >= num {\n                    next_dp[j] = dp[j] || dp[j - num];\n                } else {\n                    next_dp[j] = dp[j];\n                }\n            }\n            std::mem::swap(&mut dp, &mut next_dp);\n        }\n\n        dp[target]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        if sum(nums) % 2:\n            return False\n\n        dp = set()\n        dp.add(0)\n        target = sum(nums) // 2\n\n        for i in range(len(nums) - 1, -1, -1):\n            nextDP = set()\n            for t in dp:\n                if (t + nums[i]) == target:\n                    return True\n                nextDP.add(t + nums[i])\n                nextDP.add(t)\n            dp = nextDP\n        return False"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "public class Solution {\n    public boolean canPartition(int[] nums) {\n        if (Arrays.stream(nums).sum() % 2 != 0) {\n            return false;\n        }\n\n        Set<Integer> dp = new HashSet<>();\n        dp.add(0);\n        int target = Arrays.stream(nums).sum() / 2;\n\n        for (int i = nums.length - 1; i >= 0; i--) {\n            Set<Integer> nextDP = new HashSet<>();\n            for (int t : dp) {\n                if (t + nums[i] == target) {\n                    return true;\n                }\n                nextDP.add(t + nums[i]);\n                nextDP.add(t);\n            }\n            dp = nextDP;\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        int sum = 0;\n        for (int num : nums) {\n            sum += num;\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        unordered_set<int> dp;\n        dp.insert(0);\n        int target = sum / 2;\n\n        for (int i = nums.size() - 1; i >= 0; i--) {\n            unordered_set<int> nextDP;\n            for (int t : dp) {\n                if (t + nums[i] == target) {\n                    return true;\n                }\n                nextDP.insert(t + nums[i]);\n                nextDP.insert(t);\n            }\n            dp = nextDP;\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canPartition(nums) {\n        const sum = nums.reduce((acc, num) => acc + num, 0);\n        if (sum % 2 !== 0) {\n            return false;\n        }\n\n        let dp = new Set();\n        dp.add(0);\n        const target = sum / 2;\n\n        for (let i = nums.length - 1; i >= 0; i--) {\n            const nextDP = new Set();\n            for (const t of dp) {\n                if (t + nums[i] === target) {\n                    return true;\n                }\n                nextDP.add(t + nums[i]);\n                nextDP.add(t);\n            }\n            dp = nextDP;\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "public class Solution {\n    public bool CanPartition(int[] nums) {\n        if (nums.Sum() % 2 != 0) {\n            return false;\n        }\n\n        HashSet<int> dp = new HashSet<int>();\n        dp.Add(0);\n        int target = nums.Sum() / 2;\n\n        for (int i = nums.Length - 1; i >= 0; i--) {\n            HashSet<int> nextDP = new HashSet<int>();\n            foreach (int t in dp) {\n                if (t + nums[i] == target) {\n                    return true;\n                }\n                nextDP.Add(t + nums[i]);\n                nextDP.Add(t);\n            }\n            dp = nextDP;\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "func canPartition(nums []int) bool {\n    total := 0\n    for _, num := range nums {\n        total += num\n    }\n    if total%2 != 0 {\n        return false\n    }\n\n    target := total / 2\n    dp := map[int]bool{0: true}\n\n    for i := len(nums) - 1; i >= 0; i-- {\n        nextDP := map[int]bool{}\n        for t := range dp {\n            if t+nums[i] == target {\n                return true\n            }\n            nextDP[t+nums[i]] = true\n            nextDP[t] = true\n        }\n        dp = nextDP\n    }\n\n    return false\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    fun canPartition(nums: IntArray): Boolean {\n        val total = nums.sum()\n        if (total % 2 != 0) return false\n\n        val target = total / 2\n        var dp = hashSetOf(0)\n\n        for (i in nums.size - 1 downTo 0) {\n            val nextDP = HashSet<Int>()\n            for (t in dp) {\n                if (t + nums[i] == target) return true\n                nextDP.add(t + nums[i])\n                nextDP.add(t)\n            }\n            dp = nextDP\n        }\n\n        return false\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    func canPartition(_ nums: [Int]) -> Bool {\n        if nums.reduce(0, +) % 2 != 0 {\n            return false\n        }\n\n        var dp: Set<Int> = [0]\n        let target = nums.reduce(0, +) / 2\n\n        for i in stride(from: nums.count - 1, through: 0, by: -1) {\n            var nextDP: Set<Int> = []\n            for t in dp {\n                if t + nums[i] == target {\n                    return true\n                }\n                nextDP.insert(t + nums[i])\n                nextDP.insert(t)\n            }\n            dp = nextDP\n        }\n        return false\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "impl Solution {\n    pub fn can_partition(nums: Vec<i32>) -> bool {\n        let total: i32 = nums.iter().sum();\n        if total % 2 != 0 {\n            return false;\n        }\n\n        let target = total / 2;\n        let mut dp = HashSet::new();\n        dp.insert(0);\n\n        for i in (0..nums.len()).rev() {\n            let mut next_dp = HashSet::new();\n            for &t in &dp {\n                if t + nums[i] == target {\n                    return true;\n                }\n                next_dp.insert(t + nums[i]);\n                next_dp.insert(t);\n            }\n            dp = next_dp;\n        }\n\n        false\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution:\n    def canPartition(self, nums: list[int]) -> bool:\n        if sum(nums) % 2:\n            return False\n\n        target = sum(nums) // 2\n        dp = [False] * (target + 1)\n\n        dp[0] = True\n        for num in nums:\n            for j in range(target, num - 1, -1):\n                dp[j] = dp[j] or dp[j - num]\n\n        return dp[target]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "public class Solution {\n    public boolean canPartition(int[] nums) {\n        if (sum(nums) % 2 != 0) {\n            return false;\n        }\n\n        int target = sum(nums) / 2;\n        boolean[] dp = new boolean[target + 1];\n\n        dp[0] = true;\n        for (int i = 0; i < nums.length; i++) {\n            for (int j = target; j >= nums[i]; j--) {\n                dp[j] = dp[j] || dp[j - nums[i]];\n            }\n        }\n\n        return dp[target];\n    }\n\n    private int sum(int[] nums) {\n        int total = 0;\n        for (int num : nums) {\n            total += num;\n        }\n        return total;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        if (sum(nums) % 2 != 0) {\n            return false;\n        }\n\n        int target = sum(nums) / 2;\n        vector<bool> dp(target + 1, false);\n\n        dp[0] = true;\n        for (int i = 0; i < nums.size(); i++) {\n            for (int j = target; j >= nums[i]; j--) {\n                dp[j] = dp[j] || dp[j - nums[i]];\n            }\n        }\n\n        return dp[target];\n    }\n\nprivate:\n    int sum(vector<int>& nums) {\n        int total = 0;\n        for (int num : nums) {\n            total += num;\n        }\n        return total;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {boolean}\n     */\n    canPartition(nums) {\n        if (nums.reduce((a, b) => a + b, 0) % 2) {\n            return false;\n        }\n\n        const target = nums.reduce((a, b) => a + b, 0) / 2;\n        const dp = Array(target + 1).fill(false);\n\n        dp[0] = true;\n        for (let i = 0; i < nums.length; i++) {\n            for (let j = target; j >= nums[i]; j--) {\n                dp[j] = dp[j] || dp[j - nums[i]];\n            }\n        }\n\n        return dp[target];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "public class Solution {\n    public bool CanPartition(int[] nums) {\n        if (Sum(nums) % 2 != 0) {\n            return false;\n        }\n\n        int target = Sum(nums) / 2;\n        bool[] dp = new bool[target + 1];\n\n        dp[0] = true;\n        for (int i = 0; i < nums.Length; i++) {\n            for (int j = target; j >= nums[i]; j--) {\n                dp[j] = dp[j] || dp[j - nums[i]];\n            }\n        }\n\n        return dp[target];\n    }\n\n    private int Sum(int[] nums) {\n        int total = 0;\n        foreach (var num in nums) {\n            total += num;\n        }\n        return total;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "func canPartition(nums []int) bool {\n    total := 0\n    for _, num := range nums {\n        total += num\n    }\n    if total%2 != 0 {\n        return false\n    }\n\n    target := total / 2\n    dp := make([]bool, target+1)\n    dp[0] = true\n\n    for _, num := range nums {\n        for j := target; j >= num; j-- {\n            dp[j] = dp[j] || dp[j-num]\n        }\n    }\n\n    return dp[target]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    fun canPartition(nums: IntArray): Boolean {\n        val total = nums.sum()\n        if (total % 2 != 0) return false\n\n        val target = total / 2\n        val dp = BooleanArray(target + 1)\n        dp[0] = true\n\n        for (num in nums) {\n            for (j in target downTo num) {\n                dp[j] = dp[j] || dp[j - num]\n            }\n        }\n\n        return dp[target]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\n    func canPartition(_ nums: [Int]) -> Bool {\n        if nums.reduce(0, +) % 2 != 0 {\n            return false\n        }\n\n        let target = nums.reduce(0, +) / 2\n        var dp = Array(repeating: false, count: target + 1)\n\n        dp[0] = true\n        for num in nums {\n            for j in stride(from: target, through: num, by: -1) {\n                dp[j] = dp[j] || dp[j - num]\n            }\n        }\n\n        return dp[target]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "impl Solution {\n    pub fn can_partition(nums: Vec<i32>) -> bool {\n        let total: i32 = nums.iter().sum();\n        if total % 2 != 0 {\n            return false;\n        }\n\n        let target = total as usize / 2;\n        let mut dp = vec![false; target + 1];\n        dp[0] = true;\n\n        for &num in &nums {\n            let num = num as usize;\n            for j in (num..=target).rev() {\n                dp[j] = dp[j] || dp[j - num];\n            }\n        }\n\n        dp[target]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution:\n    def canPartition(self, nums: list[int]) -> bool:\n        total = sum(nums)\n        if total % 2 != 0:\n            return False\n\n        target = total // 2\n        dp = 1 << 0\n\n        for num in nums:\n            dp |= dp << num\n\n        return (dp & (1 << target)) != 0"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * target)",
+            "space_complexity": "O(target)",
+            "code": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        int sum = 0;\n        for (int num : nums) {\n            sum += num;\n        }\n        if (sum % 2 != 0) {\n            return false;\n        }\n\n        int target = sum / 2;\n        bitset<10001> dp;\n        dp[0] = 1;\n\n        for (int num : nums) {\n            dp |= dp << num;\n        }\n\n        return dp[target];\n    }\n};"
+        }
+    ]
+}

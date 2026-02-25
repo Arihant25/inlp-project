@@ -1,0 +1,67 @@
+{
+    "problem_name": "Partition Labels",
+    "problem_slug": "partition-labels",
+    "difficulty": "medium",
+    "topic_tags": [
+        "hash table",
+        "two pointers",
+        "string",
+        "greedy"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def partitionLabels(self, s: str) -> List[int]:\n        lastIndex = {}\n        for i, c in enumerate(s):\n            lastIndex[c] = i\n\n        res = []\n        size = end = 0\n        for i, c in enumerate(s):\n            size += 1\n            end = max(end, lastIndex[c])\n\n            if i == end:\n                res.append(size)\n                size = 0\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public List<Integer> partitionLabels(String s) {\n        Map<Character, Integer> lastIndex = new HashMap<>();\n        for (int i = 0; i < s.length(); i++) {\n            lastIndex.put(s.charAt(i), i);\n        }\n\n        List<Integer> res = new ArrayList<>();\n        int size = 0, end = 0;\n        for (int i = 0; i < s.length(); i++) {\n            size++;\n            end = Math.max(end, lastIndex.get(s.charAt(i)));\n\n            if (i == end) {\n                res.add(size);\n                size = 0;\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    vector<int> partitionLabels(string s) {\n        unordered_map<char, int> lastIndex;\n        for (int i = 0; i < s.size(); i++) {\n            lastIndex[s[i]] = i;\n        }\n\n        vector<int> res;\n        int size = 0, end = 0;\n        for (int i = 0; i < s.size(); i++) {\n            size++;\n            end = max(end, lastIndex[s[i]]);\n\n            if (i == end) {\n                res.push_back(size);\n                size = 0;\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {string} S\n     * @return {number[]}\n     */\n    partitionLabels(S) {\n        let lastIndex = {};\n        for (let i = 0; i < S.length; i++) {\n            lastIndex[S[i]] = i;\n        }\n\n        let res = [];\n        let size = 0,\n            end = 0;\n        for (let i = 0; i < S.length; i++) {\n            size++;\n            end = Math.max(end, lastIndex[S[i]]);\n\n            if (i === end) {\n                res.push(size);\n                size = 0;\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public List<int> PartitionLabels(string s) {\n        Dictionary<char, int> lastIndex = new Dictionary<char, int>();\n        for (int i = 0; i < s.Length; i++) {\n            lastIndex[s[i]] = i;\n        }\n\n        List<int> res = new List<int>();\n        int size = 0, end = 0;\n        for (int i = 0; i < s.Length; i++) {\n            size++;\n            end = Math.Max(end, lastIndex[s[i]]);\n\n            if (i == end) {\n                res.Add(size);\n                size = 0;\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "func partitionLabels(s string) []int {\n    lastIndex := make(map[rune]int)\n    for i, c := range s {\n        lastIndex[c] = i\n    }\n\n    var res []int\n    size, end := 0, 0\n    for i, c := range s {\n        size++\n        if lastIndex[c] > end {\n            end = lastIndex[c]\n        }\n\n        if i == end {\n            res = append(res, size)\n            size = 0\n        }\n    }\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun partitionLabels(s: String): List<Int> {\n        val lastIndex = HashMap<Char, Int>()\n        s.forEachIndexed { i, c -> lastIndex[c] = i }\n\n        val res = mutableListOf<Int>()\n        var size = 0\n        var end = 0\n        for (i in s.indices) {\n            size++\n            end = maxOf(end, lastIndex[s[i]] ?: 0)\n\n            if (i == end) {\n                res.add(size)\n                size = 0\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func partitionLabels(_ s: String) -> [Int] {\n        var lastIndex = [Character: Int]()\n        for (i, c) in s.enumerated() {\n            lastIndex[c] = i\n        }\n\n        var res = [Int]()\n        var size = 0\n        var end = 0\n        for (i, c) in s.enumerated() {\n            size += 1\n            end = max(end, lastIndex[c]!)\n\n            if i == end {\n                res.append(size)\n                size = 0\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn partition_labels(s: String) -> Vec<i32> {\n        let mut last_index = HashMap::new();\n        for (i, c) in s.chars().enumerate() {\n            last_index.insert(c, i);\n        }\n\n        let mut res = Vec::new();\n        let mut size = 0;\n        let mut end = 0;\n        for (i, c) in s.chars().enumerate() {\n            size += 1;\n            end = end.max(*last_index.get(&c).unwrap());\n\n            if i == end {\n                res.push(size);\n                size = 0;\n            }\n        }\n        res\n    }\n}"
+        }
+    ]
+}

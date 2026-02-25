@@ -1,0 +1,281 @@
+{
+    "problem_name": "Coin Change II",
+    "problem_slug": "coin-change-ii",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "class Solution:\n    def change(self, amount: int, coins: List[int]) -> int:\n        coins.sort()\n\n        def dfs(i, a):\n            if a == 0:\n                return 1\n            if i >= len(coins):\n                return 0\n\n            res = 0\n            if a >= coins[i]:\n                res = dfs(i + 1, a)\n                res += dfs(i, a - coins[i])\n            return res\n\n        return dfs(0, amount)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "public class Solution {\n    public int change(int amount, int[] coins) {\n        Arrays.sort(coins);\n\n        return dfs(coins, 0, amount);\n    }\n\n    private int dfs(int[] coins, int i, int a) {\n        if (a == 0) {\n            return 1;\n        }\n        if (i >= coins.length) {\n            return 0;\n        }\n\n        int res = 0;\n        if (a >= coins[i]) {\n            res = dfs(coins, i + 1, a);\n            res += dfs(coins, i, a - coins[i]);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "class Solution {\npublic:\n    int change(int amount, vector<int>& coins) {\n        sort(coins.begin(), coins.end());\n        return dfs(coins, 0, amount);\n    }\n\nprivate:\n    int dfs(const vector<int>& coins, int i, int a) {\n        if (a == 0) {\n            return 1;\n        }\n        if (i >= coins.size()) {\n            return 0;\n        }\n\n        int res = 0;\n        if (a >= coins[i]) {\n            res = dfs(coins, i + 1, a);\n            res += dfs(coins, i, a - coins[i]);\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "class Solution {\n    /**\n     * @param {number} amount\n     * @param {number[]} coins\n     * @return {number}\n     */\n    change(amount, coins) {\n        coins.sort((a, b) => a - b);\n\n        const dfs = (i, a) => {\n            if (a === 0) return 1;\n            if (i >= coins.length) return 0;\n\n            let res = 0;\n            if (a >= coins[i]) {\n                res = dfs(i + 1, a);\n                res += dfs(i, a - coins[i]);\n            }\n            return res;\n        };\n\n        return dfs(0, amount);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "public class Solution {\n    public int Change(int amount, int[] coins) {\n        Array.Sort(coins);\n        return Dfs(coins, 0, amount);\n    }\n\n    private int Dfs(int[] coins, int i, int a) {\n        if (a == 0) {\n            return 1;\n        }\n        if (i >= coins.Length) {\n            return 0;\n        }\n\n        int res = 0;\n        if (a >= coins[i]) {\n            res = Dfs(coins, i + 1, a);\n            res += Dfs(coins, i, a - coins[i]);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "func change(amount int, coins []int) int {\n    sort.Ints(coins)\n\n    var dfs func(i, a int) int\n    dfs = func(i, a int) int {\n        if a == 0 {\n            return 1\n        }\n        if i >= len(coins) {\n            return 0\n        }\n\n        res := 0\n        if a >= coins[i] {\n            res = dfs(i+1, a)\n            res += dfs(i, a-coins[i])\n        }\n        return res\n    }\n\n    return dfs(0, amount)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "class Solution {\n    fun change(amount: Int, coins: IntArray): Int {\n        coins.sort()\n\n        fun dfs(i: Int, a: Int): Int {\n            if (a == 0) {\n                return 1\n            }\n            if (i >= coins.size) {\n                return 0\n            }\n\n            var res = 0\n            if (a >= coins[i]) {\n                res = dfs(i + 1, a)\n                res += dfs(i, a - coins[i])\n            }\n            return res\n        }\n\n        return dfs(0, amount)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "class Solution {\n    func change(_ amount: Int, _ coins: [Int]) -> Int {\n        let coins = coins.sorted()\n\n        func dfs(_ i: Int, _ a: Int) -> Int {\n            if a == 0 {\n                return 1\n            }\n            if i >= coins.count {\n                return 0\n            }\n\n            var res = 0\n            if a >= coins[i] {\n                res = dfs(i + 1, a)\n                res += dfs(i, a - coins[i])\n            }\n            return res\n        }\n\n        return dfs(0, amount)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^{max(n, frac{a}{m})})",
+            "space_complexity": "O(max(n, frac{a}{m}))",
+            "code": "impl Solution {\n    pub fn change(amount: i32, coins: Vec<i32>) -> i32 {\n        let mut coins = coins;\n        coins.sort();\n\n        fn dfs(coins: &[i32], i: usize, a: i32) -> i32 {\n            if a == 0 {\n                return 1;\n            }\n            if i >= coins.len() {\n                return 0;\n            }\n            let mut res = 0;\n            if a >= coins[i] {\n                res = dfs(coins, i + 1, a);\n                res += dfs(coins, i, a - coins[i]);\n            }\n            res\n        }\n\n        dfs(&coins, 0, amount)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution:\n    def change(self, amount: int, coins: List[int]) -> int:\n        coins.sort()\n        memo = [[-1] * (amount + 1) for _ in range(len(coins) + 1)]\n\n        def dfs(i, a):\n            if a == 0:\n                return 1\n            if i >= len(coins):\n                return 0\n            if memo[i][a] != -1:\n                return memo[i][a]\n\n            res = 0\n            if a >= coins[i]:\n                res = dfs(i + 1, a)\n                res += dfs(i, a - coins[i])\n\n            memo[i][a] = res\n            return res\n\n        return dfs(0, amount)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "public class Solution {\n    public int change(int amount, int[] coins) {\n        Arrays.sort(coins);\n        int[][] memo = new int[coins.length + 1][amount + 1];\n        for (int[] row : memo) {\n            Arrays.fill(row, -1);\n        }\n\n        return dfs(0, amount, coins, memo);\n    }\n\n    private int dfs(int i, int a, int[] coins, int[][] memo) {\n        if (a == 0) return 1;\n        if (i >= coins.length) return 0;\n        if (memo[i][a] != -1) return memo[i][a];\n\n        int res = 0;\n        if (a >= coins[i]) {\n            res = dfs(i + 1, a, coins, memo);\n            res += dfs(i, a - coins[i], coins, memo);\n        }\n        memo[i][a] = res;\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution {\npublic:\n    int change(int amount, vector<int>& coins) {\n        sort(coins.begin(), coins.end());\n        vector<vector<int>> memo(coins.size() + 1,\n                            vector<int>(amount + 1, -1));\n\n        return dfs(0, amount, coins, memo);\n    }\n\n    int dfs(int i, int a, vector<int>& coins, vector<vector<int>>& memo) {\n        if (a == 0) return 1;\n        if (i >= coins.size()) return 0;\n        if (memo[i][a] != -1) return memo[i][a];\n\n        int res = 0;\n        if (a >= coins[i]) {\n            res = dfs(i + 1, a, coins, memo);\n            res += dfs(i, a - coins[i], coins, memo);\n        }\n        memo[i][a] = res;\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution {\n    /**\n     * @param {number} amount\n     * @param {number[]} coins\n     * @return {number}\n     */\n    change(amount, coins) {\n        coins.sort((a, b) => a - b);\n        let memo = Array.from({ length: coins.length + 1 }, () =>\n            Array(amount + 1).fill(-1),\n        );\n\n        const dfs = (i, a) => {\n            if (a === 0) return 1;\n            if (i >= coins.length) return 0;\n            if (memo[i][a] !== -1) return memo[i][a];\n\n            let res = 0;\n            if (a >= coins[i]) {\n                res = dfs(i + 1, a);\n                res += dfs(i, a - coins[i]);\n            }\n            memo[i][a] = res;\n            return res;\n        };\n\n        return dfs(0, amount);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "public class Solution {\n    public int Change(int amount, int[] coins) {\n        Array.Sort(coins);\n        int[,] memo = new int[coins.Length + 1, amount + 1];\n        for (int i = 0; i <= coins.Length; i++) {\n            for (int j = 0; j <= amount; j++) {\n                memo[i, j] = -1;\n            }\n        }\n\n        return Dfs(0, amount, coins, memo);\n    }\n\n    private int Dfs(int i, int a, int[] coins, int[,] memo) {\n        if (a == 0) return 1;\n        if (i >= coins.Length) return 0;\n        if (memo[i, a] != -1) return memo[i, a];\n\n        int res = 0;\n        if (a >= coins[i]) {\n            res = Dfs(i + 1, a, coins, memo);\n            res += Dfs(i, a - coins[i], coins, memo);\n        }\n        memo[i, a] = res;\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "func change(amount int, coins []int) int {\n    sort.Ints(coins)\n    memo := make([][]int, len(coins) + 1)\n    for i := range memo {\n        memo[i] = make([]int, amount + 1)\n        for j := range memo[i] {\n            memo[i][j] = -1\n        }\n    }\n\n    var dfs func(i, a int) int\n    dfs = func(i, a int) int {\n        if a == 0 {\n            return 1\n        }\n        if i >= len(coins) {\n            return 0\n        }\n        if memo[i][a] != -1 {\n            return memo[i][a]\n        }\n\n        res := 0\n        if a >= coins[i] {\n            res = dfs(i+1, a)\n            res += dfs(i, a-coins[i])\n        }\n        memo[i][a] = res\n        return res\n    }\n\n    return dfs(0, amount)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution {\n    fun change(amount: Int, coins: IntArray): Int {\n        coins.sort()\n        val memo = Array(coins.size + 1) { IntArray(amount + 1) { -1 } }\n\n        fun dfs(i: Int, a: Int): Int {\n            if (a == 0) {\n                return 1\n            }\n            if (i >= coins.size) {\n                return 0\n            }\n            if (memo[i][a] != -1) return memo[i][a]\n\n            var res = 0\n            if (a >= coins[i]) {\n                res = dfs(i + 1, a)\n                res += dfs(i, a - coins[i])\n            }\n            memo[i][a] = res\n            return res\n        }\n\n        return dfs(0, amount)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution {\n    func change(_ amount: Int, _ coins: [Int]) -> Int {\n        let coins = coins.sorted()\n        var memo = Array(repeating: Array(repeating: -1, count: amount + 1), count: coins.count + 1)\n\n        func dfs(_ i: Int, _ a: Int) -> Int {\n            if a == 0 {\n                return 1\n            }\n            if i >= coins.count {\n                return 0\n            }\n            if memo[i][a] != -1 {\n                return memo[i][a]\n            }\n\n            var res = 0\n            if a >= coins[i] {\n                res = dfs(i + 1, a)\n                res += dfs(i, a - coins[i])\n            }\n\n            memo[i][a] = res\n            return res\n        }\n\n        return dfs(0, amount)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "impl Solution {\n    pub fn change(amount: i32, coins: Vec<i32>) -> i32 {\n        let mut coins = coins;\n        coins.sort();\n        let n = coins.len();\n        let a = amount as usize;\n        let mut memo = vec![vec![-1i32; a + 1]; n + 1];\n\n        fn dfs(coins: &[i32], memo: &mut Vec<Vec<i32>>, i: usize, a: i32) -> i32 {\n            if a == 0 { return 1; }\n            if i >= coins.len() { return 0; }\n            if memo[i][a as usize] != -1 { return memo[i][a as usize]; }\n\n            let mut res = 0;\n            if a >= coins[i] {\n                res = dfs(coins, memo, i + 1, a);\n                res += dfs(coins, memo, i, a - coins[i]);\n            }\n            memo[i][a as usize] = res;\n            res\n        }\n\n        dfs(&coins, &mut memo, 0, amount)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution:\n    def change(self, amount: int, coins: List[int]) -> int:\n        n = len(coins)\n        coins.sort()\n        dp = [[0] * (amount + 1) for _ in range(n + 1)]\n\n        for i in range(n + 1):\n            dp[i][0] = 1\n\n        for i in range(n - 1, -1, -1):\n            for a in range(amount + 1):\n                if a >= coins[i]:\n                    dp[i][a] = dp[i + 1][a]\n                    dp[i][a] += dp[i][a - coins[i]]\n\n        return dp[0][amount]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "public class Solution {\n    public int change(int amount, int[] coins) {\n        int n = coins.length;\n        Arrays.sort(coins);\n        int[][] dp = new int[n + 1][amount + 1];\n\n        for (int i = 0; i <= n; i++) {\n            dp[i][0] = 1;\n        }\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int a = 0; a <= amount; a++) {\n                if (a >= coins[i]) {\n                    dp[i][a] = dp[i + 1][a];\n                    dp[i][a] += dp[i][a - coins[i]];\n                }\n            }\n        }\n\n        return dp[0][amount];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution {\npublic:\n    int change(int amount, vector<int>& coins) {\n        int n = coins.size();\n        sort(coins.begin(), coins.end());\n        vector<vector<uint>> dp(n + 1, vector<uint>(amount + 1, 0));\n\n        for (int i = 0; i <= n; i++) {\n            dp[i][0] = 1;\n        }\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int a = 0; a <= amount; a++) {\n                if (a >= coins[i]) {\n                    dp[i][a] = dp[i + 1][a];\n                    dp[i][a] += dp[i][a - coins[i]];\n                }\n            }\n        }\n\n        return dp[0][amount];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution {\n    /**\n     * @param {number} amount\n     * @param {number[]} coins\n     * @return {number}\n     */\n    change(amount, coins) {\n        coins.sort((a, b) => a - b);\n        const n = coins.length;\n        const dp = Array.from({ length: n + 1 }, () =>\n            Array(amount + 1).fill(0),\n        );\n\n        for (let i = 0; i <= n; i++) {\n            dp[i][0] = 1;\n        }\n\n        for (let i = n - 1; i >= 0; i--) {\n            for (let a = 0; a <= amount; a++) {\n                if (a >= coins[i]) {\n                    dp[i][a] = dp[i + 1][a];\n                    dp[i][a] += dp[i][a - coins[i]];\n                }\n            }\n        }\n\n        return dp[0][amount];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "public class Solution {\n    public int Change(int amount, int[] coins) {\n        int n = coins.Length;\n        Array.Sort(coins);\n        int[,] dp = new int[n + 1, amount + 1];\n\n        for (int i = 0; i <= n; i++) {\n            dp[i, 0] = 1;\n        }\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int a = 0; a <= amount; a++) {\n                if (a >= coins[i]) {\n                    dp[i, a] = dp[i + 1, a];\n                    dp[i, a] += dp[i, a - coins[i]];\n                }\n            }\n        }\n\n        return dp[0, amount];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "func change(amount int, coins []int) int {\n    n := len(coins)\n    dp := make([][]int, n+1)\n    for i := range dp {\n        dp[i] = make([]int, amount+1)\n    }\n\n    for i := 0; i <= n; i++ {\n        dp[i][0] = 1\n    }\n\n    for i := n - 1; i >= 0; i-- {\n        for a := 0; a <= amount; a++ {\n            if a >= coins[i] {\n                dp[i][a] = dp[i+1][a]\n                dp[i][a] += dp[i][a-coins[i]]\n            } else {\n                dp[i][a] = dp[i+1][a]\n            }\n        }\n    }\n\n    return dp[0][amount]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution {\n    fun change(amount: Int, coins: IntArray): Int {\n        val n = coins.size\n        val dp = Array(n + 1) { IntArray(amount + 1) }\n\n        for (i in 0..n) {\n            dp[i][0] = 1\n        }\n\n        for (i in n - 1 downTo 0) {\n            for (a in 0..amount) {\n                if (a >= coins[i]) {\n                    dp[i][a] = dp[i + 1][a]\n                    dp[i][a] += dp[i][a - coins[i]]\n                } else {\n                    dp[i][a] = dp[i + 1][a]\n                }\n            }\n        }\n\n        return dp[0][amount]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "class Solution {\n    func change(_ amount: Int, _ coins: [Int]) -> Int {\n        let n = coins.count\n        let sortedCoins = coins.sorted()\n        var dp = Array(\n            repeating: Array(repeating: 0, count: amount + 1),\n            count: n + 1\n        )\n\n        for i in 0...n {\n            dp[i][0] = 1\n        }\n\n        for i in stride(from: n - 1, through: 0, by: -1) {\n            for a in 0...amount {\n                let base = dp[i + 1][a]\n                if a >= sortedCoins[i] {\n                    let addend = dp[i][a - sortedCoins[i]]\n                    if base > Int.max - addend {\n                        dp[i][a] = 0\n                    } else {\n                        dp[i][a] = base + addend\n                    }\n                } else {\n                    dp[i][a] = base\n                }\n            }\n        }\n\n        return dp[0][amount]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(n * a)",
+            "code": "impl Solution {\n    pub fn change(amount: i32, coins: Vec<i32>) -> i32 {\n        let mut coins = coins;\n        coins.sort();\n        let n = coins.len();\n        let amount = amount as usize;\n        let mut dp = vec![vec![0i32; amount + 1]; n + 1];\n\n        for i in 0..=n {\n            dp[i][0] = 1;\n        }\n\n        for i in (0..n).rev() {\n            for a in 0..=amount {\n                if a >= coins[i] as usize {\n                    dp[i][a] = dp[i + 1][a];\n                    dp[i][a] += dp[i][a - coins[i] as usize];\n                }\n            }\n        }\n\n        dp[0][amount]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution:\n    def change(self, amount: int, coins: List[int]) -> int:\n        dp = [0] * (amount + 1)\n        dp[0] = 1\n        for i in range(len(coins) - 1, -1, -1):\n            nextDP = [0] * (amount + 1)\n            nextDP[0] = 1\n\n            for a in range(1, amount + 1):\n                nextDP[a] = dp[a]\n                if a - coins[i] >= 0:\n                    nextDP[a] += nextDP[a - coins[i]]\n            dp = nextDP\n        return dp[amount]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "public class Solution {\n    public int change(int amount, int[] coins) {\n        int[] dp = new int[amount + 1];\n        dp[0] = 1;\n        for (int i = coins.length - 1; i >= 0; i--) {\n            int[] nextDP = new int[amount + 1];\n            nextDP[0] = 1;\n\n            for (int a = 1; a <= amount; a++) {\n                nextDP[a] = dp[a];\n                if (a - coins[i] >= 0) {\n                    nextDP[a] += nextDP[a - coins[i]];\n                }\n            }\n            dp = nextDP;\n        }\n        return dp[amount];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution {\npublic:\n    int change(int amount, vector<int>& coins) {\n        vector<uint> dp(amount + 1, 0);\n        dp[0] = 1;\n        for (int i = coins.size() - 1; i >= 0; i--) {\n            vector<uint> nextDP(amount + 1, 0);\n            nextDP[0] = 1;\n\n            for (int a = 1; a <= amount; a++) {\n                nextDP[a] = dp[a];\n                if (a - coins[i] >= 0) {\n                    nextDP[a] += nextDP[a - coins[i]];\n                }\n            }\n            dp = nextDP;\n        }\n        return dp[amount];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution {\n    /**\n     * @param {number} amount\n     * @param {number[]} coins\n     * @return {number}\n     */\n    change(amount, coins) {\n        let dp = new Array(amount + 1).fill(0);\n        dp[0] = 1;\n        for (let i = coins.length - 1; i >= 0; i--) {\n            const nextDP = new Array(amount + 1).fill(0);\n            nextDP[0] = 1;\n\n            for (let a = 1; a <= amount; a++) {\n                nextDP[a] = dp[a];\n                if (a - coins[i] >= 0) {\n                    nextDP[a] += nextDP[a - coins[i]];\n                }\n            }\n            dp = nextDP;\n        }\n        return dp[amount];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "public class Solution {\n    public int Change(int amount, int[] coins) {\n        int[] dp = new int[amount + 1];\n        dp[0] = 1;\n        for (int i = coins.Length - 1; i >= 0; i--) {\n            int[] nextDP = new int[amount + 1];\n            nextDP[0] = 1;\n\n            for (int a = 1; a <= amount; a++) {\n                nextDP[a] = dp[a];\n                if (a - coins[i] >= 0) {\n                    nextDP[a] += nextDP[a - coins[i]];\n                }\n            }\n            dp = nextDP;\n        }\n        return dp[amount];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "func change(amount int, coins []int) int {\n    dp := make([]int, amount+1)\n    dp[0] = 1\n\n    for i := len(coins) - 1; i >= 0; i-- {\n        nextDP := make([]int, amount+1)\n        nextDP[0] = 1\n\n        for a := 1; a <= amount; a++ {\n            nextDP[a] = dp[a]\n            if a-coins[i] >= 0 {\n                nextDP[a] += nextDP[a-coins[i]]\n            }\n        }\n        dp = nextDP\n    }\n\n    return dp[amount]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution {\n    fun change(amount: Int, coins: IntArray): Int {\n        val dp = IntArray(amount + 1)\n        dp[0] = 1\n\n        for (i in coins.size - 1 downTo 0) {\n            val nextDP = IntArray(amount + 1)\n            nextDP[0] = 1\n\n            for (a in 1..amount) {\n                nextDP[a] = dp[a]\n                if (a - coins[i] >= 0) {\n                    nextDP[a] += nextDP[a - coins[i]]\n                }\n            }\n            System.arraycopy(nextDP, 0, dp, 0, amount + 1)\n        }\n\n        return dp[amount]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution {\n    func change(_ amount: Int, _ coins: [Int]) -> Int {\n        var dp = [Int](repeating: 0, count: amount + 1)\n        dp[0] = 1\n\n        for i in stride(from: coins.count - 1, through: 0, by: -1) {\n            var nextDP = [Int](repeating: 0, count: amount + 1)\n            nextDP[0] = 1\n\n            for a in 1..<(amount + 1) {\n                nextDP[a] = dp[a]\n                if a - coins[i] >= 0 {\n                    let addend = nextDP[a - coins[i]]\n                    if nextDP[a] > Int.max - addend {\n                        nextDP[a] = 0\n                    } else {\n                        nextDP[a] += addend\n                    }\n                }\n            }\n\n            dp = nextDP\n        }\n\n        return dp[amount]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "impl Solution {\n    pub fn change(amount: i32, coins: Vec<i32>) -> i32 {\n        let amount = amount as usize;\n        let mut dp = vec![0i32; amount + 1];\n        dp[0] = 1;\n\n        for i in (0..coins.len()).rev() {\n            let mut next_dp = vec![0i32; amount + 1];\n            next_dp[0] = 1;\n\n            for a in 1..=amount {\n                next_dp[a] = dp[a];\n                if a >= coins[i] as usize {\n                    next_dp[a] += next_dp[a - coins[i] as usize];\n                }\n            }\n            dp = next_dp;\n        }\n\n        dp[amount]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution:\n    def change(self, amount: int, coins: List[int]) -> int:\n        dp = [0] * (amount + 1)\n        dp[0] = 1\n        for i in range(len(coins) - 1, -1, -1):\n            for a in range(1, amount + 1):\n                dp[a] += dp[a - coins[i]] if coins[i] <= a else 0\n        return dp[amount]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "public class Solution {\n    public int change(int amount, int[] coins) {\n        int[] dp = new int[amount + 1];\n        dp[0] = 1;\n        for (int i = coins.length - 1; i >= 0; i--)\n            for (int a = 1; a <= amount; a++)\n                dp[a] = dp[a] + (coins[i] <= a ? dp[a - coins[i]] : 0);\n        return dp[amount];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution {\npublic:\n    int change(int amount, vector<int>& coins) {\n        vector<uint> dp(amount + 1, 0);\n        dp[0] = 1;\n        for (int i = coins.size() - 1; i >= 0; i--) {\n            for (int a = 1; a <= amount; a++) {\n                dp[a] = dp[a] + (coins[i] <= a ? dp[a - coins[i]] : 0);\n            }\n        }\n        return dp[amount];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution {\n    /**\n     * @param {number} amount\n     * @param {number[]} coins\n     * @return {number}\n     */\n    change(amount, coins) {\n        const dp = new Array(amount + 1).fill(0);\n        dp[0] = 1;\n        for (let i = coins.length - 1; i >= 0; i--) {\n            for (let a = 1; a <= amount; a++) {\n                dp[a] += coins[i] <= a ? dp[a - coins[i]] : 0;\n            }\n        }\n        return dp[amount];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "public class Solution {\n    public int Change(int amount, int[] coins) {\n        int[] dp = new int[amount + 1];\n        dp[0] = 1;\n        for (int i = coins.Length - 1; i >= 0; i--) {\n            for (int a = 1; a <= amount; a++) {\n                dp[a] += (coins[i] <= a ? dp[a - coins[i]] : 0);\n            }\n        }\n        return dp[amount];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "func change(amount int, coins []int) int {\n    dp := make([]int, amount+1)\n    dp[0] = 1\n\n    for i := len(coins) - 1; i >= 0; i-- {\n        for a := 1; a <= amount; a++ {\n            if a-coins[i] >= 0 {\n                dp[a] += dp[a - coins[i]]\n            }\n        }\n    }\n\n    return dp[amount]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution {\n    fun change(amount: Int, coins: IntArray): Int {\n        val dp = IntArray(amount + 1)\n        dp[0] = 1\n\n        for (i in coins.size - 1 downTo 0) {\n            for (a in 1..amount) {\n                if (a - coins[i] >= 0) {\n                    dp[a] += dp[a - coins[i]]\n                }\n            }\n        }\n\n        return dp[amount]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "class Solution {\n    func change(_ amount: Int, _ coins: [Int]) -> Int {\n        var dp = [Int](repeating: 0, count: amount + 1)\n        dp[0] = 1\n\n        for i in stride(from: coins.count - 1, through: 0, by: -1) {\n            for a in 1..<(amount + 1) {\n                if coins[i] <= a {\n                    let addend = dp[a - coins[i]]\n                    if dp[a] > Int.max - addend {\n                        dp[a] = 0\n                    } else {\n                        dp[a] += addend\n                    }\n                }\n            }\n        }\n\n        return dp[amount]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * a)",
+            "space_complexity": "O(a)",
+            "code": "impl Solution {\n    pub fn change(amount: i32, coins: Vec<i32>) -> i32 {\n        let amount = amount as usize;\n        let mut dp = vec![0i32; amount + 1];\n        dp[0] = 1;\n\n        for i in (0..coins.len()).rev() {\n            for a in 1..=amount {\n                if coins[i] as usize <= a {\n                    dp[a] += dp[a - coins[i] as usize];\n                }\n            }\n        }\n\n        dp[amount]\n    }\n}"
+        }
+    ]
+}

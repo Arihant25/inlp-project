@@ -1,0 +1,228 @@
+{
+    "problem_name": "Subsets II",
+    "problem_slug": "subsets-ii",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "backtracking",
+        "bit manipulation"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "class Solution:\n    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:\n        res = set()\n\n        def backtrack(i, subset):\n            if i == len(nums):\n                res.add(tuple(subset))\n                return\n\n            subset.append(nums[i])\n            backtrack(i + 1, subset)\n            subset.pop()\n            backtrack(i + 1, subset)\n\n        nums.sort()\n        backtrack(0, [])\n        return [list(s) for s in res]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "public class Solution {\n    Set<List<Integer>> res = new HashSet<>();\n\n    public List<List<Integer>> subsetsWithDup(int[] nums) {\n        Arrays.sort(nums);\n        backtrack(nums, 0, new ArrayList<>());\n        return new ArrayList<>(res);\n    }\n\n    private void backtrack(int[] nums, int i, List<Integer> subset) {\n        if (i == nums.length) {\n            res.add(new ArrayList<>(subset));\n            return;\n        }\n\n        subset.add(nums[i]);\n        backtrack(nums, i + 1, subset);\n        subset.remove(subset.size() - 1);\n        backtrack(nums, i + 1, subset);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "class Solution {\n    set<vector<int>> res;\npublic:\n    vector<vector<int>> subsetsWithDup(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n        backtrack(nums, 0, {});\n        return vector<vector<int>>(res.begin(), res.end());\n    }\n\n    void backtrack(vector<int>& nums, int i, vector<int> subset) {\n        if (i == nums.size()) {\n            res.insert(subset);\n            return;\n        }\n\n        subset.push_back(nums[i]);\n        backtrack(nums, i + 1, subset);\n        subset.pop_back();\n        backtrack(nums, i + 1, subset);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "class Solution {\n    constructor() {\n        this.res = new Set();\n    }\n\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    subsetsWithDup(nums) {\n        nums.sort((a, b) => a - b);\n        this.backtrack(nums, 0, []);\n        return Array.from(this.res).map((subset) => JSON.parse(subset));\n    }\n\n    /**\n     * @param {number[]} nums\n     * @param {number[]} subset\n     * @return {void}\n     */\n    backtrack(nums, i, subset) {\n        if (i === nums.length) {\n            this.res.add(JSON.stringify(subset));\n            return;\n        }\n\n        subset.push(nums[i]);\n        this.backtrack(nums, i + 1, subset);\n        subset.pop();\n        this.backtrack(nums, i + 1, subset);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "public class Solution {\n    HashSet<string> res = new HashSet<string>();\n\n    public List<List<int>> SubsetsWithDup(int[] nums) {\n        Array.Sort(nums);\n        Backtrack(nums, 0, new List<int>());\n        List<List<int>> result = new List<List<int>>();\n        result.Add(new List<int>());\n        res.Remove(\"\");\n        foreach (string str in res) {\n            List<int> subset = new List<int>();\n            string[] arr = str.Split(',');\n            foreach (string num in arr) {\n                subset.Add(int.Parse(num));\n            }\n            result.Add(subset);\n        }\n        return result;\n    }\n\n    private void Backtrack(int[] nums, int i, List<int> subset) {\n        if (i == nums.Length) {\n            res.Add(string.Join(\",\", subset));\n            return;\n        }\n\n        subset.Add(nums[i]);\n        Backtrack(nums, i + 1, subset);\n        subset.RemoveAt(subset.Count - 1);\n        Backtrack(nums, i + 1, subset);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "func subsetsWithDup(nums []int) [][]int {\n    sort.Ints(nums)\n    res := make(map[string][]int)\n\n    var backtrack func(int, []int)\n    backtrack = func(i int, subset []int) {\n        if i == len(nums) {\n            key := fmt.Sprint(subset)\n            res[key] = append([]int{}, subset...)\n            return\n        }\n\n        subset = append(subset, nums[i])\n        backtrack(i+1, subset)\n        subset = subset[:len(subset)-1]\n        backtrack(i+1, subset)\n    }\n\n    backtrack(0, []int{})\n\n    var result [][]int\n    for _, v := range res {\n        result = append(result, v)\n    }\n    return result\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "class Solution {\n    fun subsetsWithDup(nums: IntArray): List<List<Int>> {\n        nums.sort()\n        val res = HashSet<List<Int>>()\n\n        fun backtrack(i: Int, subset: MutableList<Int>) {\n            if (i == nums.size) {\n                res.add(ArrayList(subset))\n                return\n            }\n\n            subset.add(nums[i])\n            backtrack(i + 1, subset)\n            subset.removeAt(subset.size - 1)\n            backtrack(i + 1, subset)\n        }\n\n        backtrack(0, mutableListOf())\n        return res.toList()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "class Solution {\n    func subsetsWithDup(_ nums: [Int]) -> [[Int]] {\n        var res = Set<[Int]>()\n        var subset = [Int]()\n        let nums = nums.sorted()\n\n        func backtrack(_ i: Int) {\n            if i == nums.count {\n                res.insert(subset)\n                return\n            }\n\n            subset.append(nums[i])\n            backtrack(i + 1)\n            subset.removeLast()\n            backtrack(i + 1)\n        }\n\n        backtrack(0)\n        return Array(res)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(2^n)",
+            "code": "impl Solution {\n    pub fn subsets_with_dup(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut nums = nums;\n        nums.sort();\n        let mut res: HashSet<Vec<i32>> = HashSet::new();\n\n        fn backtrack(nums: &[i32], i: usize, subset: &mut Vec<i32>, res: &mut HashSet<Vec<i32>>) {\n            if i == nums.len() {\n                res.insert(subset.clone());\n                return;\n            }\n\n            subset.push(nums[i]);\n            backtrack(nums, i + 1, subset, res);\n            subset.pop();\n            backtrack(nums, i + 1, subset, res);\n        }\n\n        backtrack(&nums, 0, &mut vec![], &mut res);\n        res.into_iter().collect()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:\n        res = []\n        nums.sort()\n\n        def backtrack(i, subset):\n            if i == len(nums):\n                res.append(subset[::])\n                return\n\n            subset.append(nums[i])\n            backtrack(i + 1, subset)\n            subset.pop()\n\n            while i + 1 < len(nums) and nums[i] == nums[i + 1]:\n                i += 1\n            backtrack(i + 1, subset)\n\n        backtrack(0, [])\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    List<List<Integer>> res = new ArrayList<>();\n\n    public List<List<Integer>> subsetsWithDup(int[] nums) {\n        Arrays.sort(nums);\n        backtrack(0, new ArrayList<>(), nums);\n        return res;\n    }\n\n    private void backtrack(int i, List<Integer> subset, int[] nums) {\n        if (i == nums.length) {\n            res.add(new ArrayList<>(subset));\n            return;\n        }\n\n        subset.add(nums[i]);\n        backtrack(i + 1, subset, nums);\n        subset.remove(subset.size() - 1);\n\n        while (i + 1 < nums.length && nums[i] == nums[i + 1]) {\n            i++;\n        }\n        backtrack(i + 1, subset, nums);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    vector<vector<int>> res;\npublic:\n    vector<vector<int>> subsetsWithDup(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n        backtrack(0, {}, nums);\n        return res;\n    }\n\n    void backtrack(int i, vector<int> subset, vector<int>& nums) {\n        if (i == nums.size()) {\n            res.push_back(subset);\n            return;\n        }\n\n        subset.push_back(nums[i]);\n        backtrack(i + 1, subset, nums);\n        subset.pop_back();\n\n        while (i + 1 < nums.size() && nums[i] == nums[i + 1]) {\n            i++;\n        }\n        backtrack(i + 1, subset, nums);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    subsetsWithDup(nums) {\n        const res = [];\n        nums.sort((a, b) => a - b);\n        this.backtrack(0, [], nums, res);\n        return res;\n    }\n\n    /**\n     * @param {number} start\n     * @param {number[]} subset\n     * @param {number[]} nums\n     * @param {number[][]} res\n     * @return {void}\n     */\n    backtrack(start, subset, nums, res) {\n        res.push([...subset]);\n        for (let i = start; i < nums.length; i++) {\n            if (i > start && nums[i] === nums[i - 1]) {\n                continue;\n            }\n            subset.push(nums[i]);\n            this.backtrack(i + 1, subset, nums, res);\n            subset.pop();\n        }\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    List<List<int>> res = new List<List<int>>();\n\n    public List<List<int>> SubsetsWithDup(int[] nums) {\n        Array.Sort(nums);\n        Backtrack(0, new List<int>(), nums);\n        return res;\n    }\n\n    private void Backtrack(int i, List<int> subset, int[] nums) {\n        if (i == nums.Length) {\n            res.Add(new List<int>(subset));\n            return;\n        }\n\n        subset.Add(nums[i]);\n        Backtrack(i + 1, subset, nums);\n        subset.RemoveAt(subset.Count - 1);\n\n        while (i + 1 < nums.Length && nums[i] == nums[i + 1]) {\n            i++;\n        }\n        Backtrack(i + 1, subset, nums);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func subsetsWithDup(nums []int) [][]int {\n    var res [][]int\n    sort.Ints(nums)\n\n    var backtrack func(int, []int)\n    backtrack = func(i int, subset []int) {\n        if i == len(nums) {\n            res = append(res, append([]int{}, subset...))\n            return\n        }\n\n        subset = append(subset, nums[i])\n        backtrack(i+1, subset)\n        subset = subset[:len(subset)-1]\n\n        for i+1 < len(nums) && nums[i] == nums[i+1] {\n            i++\n        }\n\n        backtrack(i+1, subset)\n    }\n\n    backtrack(0, []int{})\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun subsetsWithDup(nums: IntArray): List<List<Int>> {\n        val res = mutableListOf<List<Int>>()\n        nums.sort()\n\n        fun backtrack(i: Int, subset: MutableList<Int>) {\n            if (i == nums.size) {\n                res.add(ArrayList(subset))\n                return\n            }\n\n            subset.add(nums[i])\n            backtrack(i + 1, subset)\n            subset.removeAt(subset.size - 1)\n\n            var j = i\n            while (j + 1 < nums.size && nums[j] == nums[j + 1]) {\n                j++\n            }\n\n            backtrack(j + 1, subset)\n        }\n\n        backtrack(0, mutableListOf())\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func subsetsWithDup(_ nums: [Int]) -> [[Int]] {\n        var res = [[Int]]()\n        var subset = [Int]()\n        let nums = nums.sorted()\n\n        func backtrack(_ i: Int) {\n            if i == nums.count {\n                res.append(subset)\n                return\n            }\n\n            subset.append(nums[i])\n            backtrack(i + 1)\n            subset.removeLast()\n\n            var j = i\n            while j + 1 < nums.count && nums[j] == nums[j + 1] {\n                j += 1\n            }\n            backtrack(j + 1)\n        }\n\n        backtrack(0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn subsets_with_dup(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut nums = nums;\n        nums.sort();\n        let mut res = Vec::new();\n\n        fn backtrack(nums: &[i32], i: usize, subset: &mut Vec<i32>, res: &mut Vec<Vec<i32>>) {\n            if i == nums.len() {\n                res.push(subset.clone());\n                return;\n            }\n\n            subset.push(nums[i]);\n            backtrack(nums, i + 1, subset, res);\n            subset.pop();\n\n            let mut j = i;\n            while j + 1 < nums.len() && nums[j] == nums[j + 1] {\n                j += 1;\n            }\n            backtrack(nums, j + 1, subset, res);\n        }\n\n        backtrack(&nums, 0, &mut vec![], &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:\n        nums.sort()\n        res = []\n        def backtrack(i, subset):\n            res.append(subset[::])\n\n            for j in range(i, len(nums)):\n                if j > i and nums[j] == nums[j - 1]:\n                    continue\n                subset.append(nums[j])\n                backtrack(j + 1, subset)\n                subset.pop()\n\n        backtrack(0, [])\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    List<List<Integer>> res = new ArrayList<>();\n\n    public List<List<Integer>> subsetsWithDup(int[] nums) {\n        Arrays.sort(nums);\n        backtrack(0, new ArrayList<>(), nums);\n        return res;\n    }\n\n    private void backtrack(int i, List<Integer> subset, int[] nums) {\n        res.add(new ArrayList<>(subset));\n        for (int j = i; j < nums.length; j++) {\n            if (j > i && nums[j] == nums[j - 1]) {\n                continue;\n            }\n            subset.add(nums[j]);\n            backtrack(j + 1, subset, nums);\n            subset.remove(subset.size() - 1);\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> res;\n\n    vector<vector<int>> subsetsWithDup(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n        backtrack(0, {}, nums);\n        return res;\n    }\n\n    void backtrack(int i, vector<int> subset, vector<int>& nums) {\n        res.push_back(subset);\n        for (int j = i; j < nums.size(); j++) {\n            if (j > i && nums[j] == nums[j - 1]) {\n                continue;\n            }\n            subset.push_back(nums[j]);\n            backtrack(j + 1, subset, nums);\n            subset.pop_back();\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    constructor() {\n        this.res = [];\n    }\n\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    subsetsWithDup(nums) {\n        nums.sort((a, b) => a - b);\n        this.backtrack(0, [], nums);\n        return this.res;\n    }\n\n    /**\n     * @param {number} i\n     * @param {number[]} subset\n     * @param {number[]} nums\n     * @return {void}\n     */\n    backtrack(i, subset, nums) {\n        this.res.push([...subset]);\n        for (let j = i; j < nums.length; j++) {\n            if (j > i && nums[j] === nums[j - 1]) {\n                continue;\n            }\n            subset.push(nums[j]);\n            this.backtrack(j + 1, subset, nums);\n            subset.pop();\n        }\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private List<List<int>> res = new List<List<int>>();\n\n    public List<List<int>> SubsetsWithDup(int[] nums) {\n        Array.Sort(nums);\n        Backtrack(0, new List<int>(), nums);\n        return res;\n    }\n\n    private void Backtrack(int i, List<int> subset, int[] nums) {\n        res.Add(new List<int>(subset));\n        for (int j = i; j < nums.Length; j++) {\n            if (j > i && nums[j] == nums[j - 1]) {\n                continue;\n            }\n            subset.Add(nums[j]);\n            Backtrack(j + 1, subset, nums);\n            subset.RemoveAt(subset.Count - 1);\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func subsetsWithDup(nums []int) [][]int {\n    var res [][]int\n    sort.Ints(nums)\n\n    var backtrack func(int, []int)\n    backtrack = func(i int, subset []int) {\n        res = append(res, append([]int{}, subset...))\n\n        for j := i; j < len(nums); j++ {\n            if j > i && nums[j] == nums[j-1] {\n                continue\n            }\n            subset = append(subset, nums[j])\n            backtrack(j+1, subset)\n            subset = subset[:len(subset)-1]\n        }\n    }\n\n    backtrack(0, []int{})\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun subsetsWithDup(nums: IntArray): List<List<Int>> {\n        val res = mutableListOf<List<Int>>()\n        nums.sort()\n\n        fun backtrack(i: Int, subset: MutableList<Int>) {\n            res.add(ArrayList(subset))\n\n            for (j in i until nums.size) {\n                if (j > i && nums[j] == nums[j - 1]) {\n                    continue\n                }\n                subset.add(nums[j])\n                backtrack(j + 1, subset)\n                subset.removeAt(subset.size - 1)\n            }\n        }\n\n        backtrack(0, mutableListOf())\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func subsetsWithDup(_ nums: [Int]) -> [[Int]] {\n        var res = [[Int]]()\n        var subset = [Int]()\n        let nums = nums.sorted()\n\n        func backtrack(_ i: Int) {\n            res.append(subset)\n\n            for j in i..<nums.count {\n                if j > i && nums[j] == nums[j - 1] {\n                    continue\n                }\n                subset.append(nums[j])\n                backtrack(j + 1)\n                subset.removeLast()\n            }\n        }\n\n        backtrack(0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn subsets_with_dup(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut nums = nums;\n        nums.sort();\n        let mut res = Vec::new();\n\n        fn backtrack(nums: &[i32], i: usize, subset: &mut Vec<i32>, res: &mut Vec<Vec<i32>>) {\n            res.push(subset.clone());\n\n            for j in i..nums.len() {\n                if j > i && nums[j] == nums[j - 1] {\n                    continue;\n                }\n                subset.push(nums[j]);\n                backtrack(nums, j + 1, subset, res);\n                subset.pop();\n            }\n        }\n\n        backtrack(&nums, 0, &mut vec![], &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:\n        nums.sort()\n        res = [[]]\n        prev_Idx = idx = 0\n\n        for i in range(len(nums)):\n            idx = prev_idx if i >= 1 and nums[i] == nums[i - 1] else 0\n            prev_idx = len(res)\n            for j in range(idx, prev_idx):\n                tmp = res[j].copy()\n                tmp.append(nums[i])\n                res.append(tmp)\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public List<List<Integer>> subsetsWithDup(int[] nums) {\n        Arrays.sort(nums);\n        List<List<Integer>> res = new ArrayList<>();\n        res.add(new ArrayList<>());\n        int prevIdx = 0;\n        int idx = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            idx = (i >= 1 && nums[i] == nums[i - 1]) ? prevIdx : 0;\n            prevIdx = res.size();\n            for (int j = idx; j < prevIdx; j++) {\n                List<Integer> tmp = new ArrayList<>(res.get(j));\n                tmp.add(nums[i]);\n                res.add(tmp);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> subsetsWithDup(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n        vector<vector<int>> res = {{}};\n        int prevIdx = 0;\n        int idx = 0;\n\n        for (int i = 0; i < nums.size(); i++) {\n            idx = (i >= 1 && nums[i] == nums[i - 1]) ? prevIdx : 0;\n            prevIdx = res.size();\n            for (int j = idx; j < prevIdx; j++) {\n                std::vector<int> tmp = res[j];\n                tmp.push_back(nums[i]);\n                res.push_back(tmp);\n            }\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    subsetsWithDup(nums) {\n        nums.sort((a, b) => a - b);\n        const res = [[]];\n        let prevIdx = 0;\n        let idx = 0;\n\n        for (let i = 0; i < nums.length; i++) {\n            idx = i >= 1 && nums[i] === nums[i - 1] ? prevIdx : 0;\n            prevIdx = res.length;\n            for (let j = idx; j < prevIdx; j++) {\n                const tmp = [...res[j]];\n                tmp.push(nums[i]);\n                res.push(tmp);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public List<List<int>> SubsetsWithDup(int[] nums) {\n        Array.Sort(nums);\n        var res = new List<List<int>> { new List<int>() };\n        int prevIdx = 0;\n        int idx = 0;\n\n        for (int i = 0; i < nums.Length; i++) {\n            idx = (i >= 1 && nums[i] == nums[i - 1]) ? prevIdx : 0;\n            prevIdx = res.Count;\n            for (int j = idx; j < prevIdx; j++) {\n                var tmp = new List<int>(res[j]);\n                tmp.Add(nums[i]);\n                res.Add(tmp);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "func subsetsWithDup(nums []int) [][]int {\n    sort.Ints(nums)\n    res := [][]int{{}}\n    prevIdx, idx := 0, 0\n\n    for i := 0; i < len(nums); i++ {\n        if i > 0 && nums[i] == nums[i-1] {\n            idx = prevIdx\n        } else {\n            idx = 0\n        }\n        prevIdx = len(res)\n        for j := idx; j < prevIdx; j++ {\n            tmp := append([]int{}, res[j]...)\n            tmp = append(tmp, nums[i])\n            res = append(res, tmp)\n        }\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun subsetsWithDup(nums: IntArray): List<List<Int>> {\n        nums.sort()\n        val res = mutableListOf(listOf<Int>())\n        var prevIdx = 0\n        var idx = 0\n\n        for (i in nums.indices) {\n            idx = if (i > 0 && nums[i] == nums[i - 1]) prevIdx else 0\n            prevIdx = res.size\n            for (j in idx until prevIdx) {\n                val tmp = ArrayList(res[j])\n                tmp.add(nums[i])\n                res.add(tmp)\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func subsetsWithDup(_ nums: [Int]) -> [[Int]] {\n        let nums = nums.sorted()\n        var res: [[Int]] = [[]]\n        var prevIdx = 0\n        var idx = 0\n\n        for i in 0..<nums.count {\n            idx = (i >= 1 && nums[i] == nums[i - 1]) ? prevIdx : 0\n            prevIdx = res.count\n\n            for j in idx..<prevIdx {\n                var temp = res[j]\n                temp.append(nums[i])\n                res.append(temp)\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn subsets_with_dup(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut nums = nums;\n        nums.sort();\n        let mut res: Vec<Vec<i32>> = vec![vec![]];\n        let mut prev_idx = 0usize;\n\n        for i in 0..nums.len() {\n            let idx = if i >= 1 && nums[i] == nums[i - 1] {\n                prev_idx\n            } else {\n                0\n            };\n            prev_idx = res.len();\n            for j in idx..prev_idx {\n                let mut tmp = res[j].clone();\n                tmp.push(nums[i]);\n                res.push(tmp);\n            }\n        }\n\n        res\n    }\n}"
+        }
+    ]
+}

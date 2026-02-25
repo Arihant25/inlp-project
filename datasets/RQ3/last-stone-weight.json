@@ -1,0 +1,227 @@
+{
+    "problem_name": "Last Stone Weight",
+    "problem_slug": "last-stone-weight",
+    "difficulty": "easy",
+    "topic_tags": [
+        "array",
+        "heap (priority queue)"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def lastStoneWeight(self, stones: List[int]) -> int:\n\n        while len(stones) > 1:\n            stones.sort()\n            cur = stones.pop() - stones.pop()\n            if cur:\n                stones.append(cur)\n\n        return stones[0] if stones else 0"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int lastStoneWeight(int[] stones) {\n        List<Integer> stoneList = new ArrayList<>();\n        for (int stone : stones) {\n            stoneList.add(stone);\n        }\n\n        while (stoneList.size() > 1) {\n            Collections.sort(stoneList);\n            int cur = stoneList.remove(stoneList.size() - 1) -\n                      stoneList.remove(stoneList.size() - 1);\n            if (cur != 0) {\n                stoneList.add(cur);\n            }\n        }\n\n        return stoneList.isEmpty() ? 0 : stoneList.get(0);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int lastStoneWeight(vector<int>& stones) {\n        while (stones.size() > 1) {\n            sort(stones.begin(), stones.end());\n            int cur = stones.back() - stones[stones.size() - 2];\n            stones.pop_back();\n            stones.pop_back();\n            if (cur != 0) {\n                stones.push_back(cur);\n            }\n        }\n        return stones.empty() ? 0 : stones[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} stones\n     * @return {number}\n     */\n    lastStoneWeight(stones) {\n        while (stones.length > 1) {\n            stones.sort((a, b) => a - b);\n            let cur = stones.pop() - stones.pop();\n            if (cur) {\n                stones.push(cur);\n            }\n        }\n        return stones.length ? stones[0] : 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int LastStoneWeight(int[] stones) {\n        List<int> stoneList = new List<int>(stones);\n        while (stoneList.Count > 1) {\n            stoneList.Sort();\n            int cur = stoneList[stoneList.Count - 1] - stoneList[stoneList.Count - 2];\n            stoneList.RemoveAt(stoneList.Count - 1);\n            stoneList.RemoveAt(stoneList.Count - 1);\n            if (cur != 0) {\n                stoneList.Add(cur);\n            }\n        }\n\n        return stoneList.Count == 0 ? 0 : stoneList[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "func lastStoneWeight(stones []int) int {\n    for len(stones) > 1 {\n\t\tsort.Ints(stones)\n\t\tcur := stones[len(stones)-1] - stones[len(stones)-2]\n\t\tstones = stones[:len(stones)-2]\n\t\tif cur > 0 {\n\t\t\tstones = append(stones, cur)\n\t\t}\n\t}\n\tif len(stones) == 0 {\n\t\treturn 0\n\t}\n\treturn stones[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun lastStoneWeight(stones: IntArray): Int {\n        var stonesList = stones.toMutableList()\n\n        while (stonesList.size > 1) {\n            stonesList.sort()\n            val cur = stonesList.removeAt(stonesList.size - 1) - stonesList.removeAt(stonesList.size - 1)\n            if (cur > 0) {\n                stonesList.add(cur)\n            }\n        }\n        return if (stonesList.isEmpty()) 0 else stonesList[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func lastStoneWeight(_ stones: [Int]) -> Int {\n        var stones = stones\n\n        while stones.count > 1 {\n            stones.sort()\n            let cur = stones.removeLast() - stones.removeLast()\n            if cur > 0 {\n                stones.append(cur)\n            }\n        }\n\n        return stones.isEmpty ? 0 : stones[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2 log n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn last_stone_weight(stones: Vec<i32>) -> i32 {\n        let mut stone_list = stones;\n\n        while stone_list.len() > 1 {\n            stone_list.sort_unstable();\n            let a = stone_list.pop().unwrap();\n            let b = stone_list.pop().unwrap();\n            let cur = a - b;\n            if cur != 0 {\n                stone_list.push(cur);\n            }\n        }\n\n        if stone_list.is_empty() { 0 } else { stone_list[0] }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def lastStoneWeight(self, stones: List[int]) -> int:\n        stones.sort()\n        n = len(stones)\n\n        while n > 1:\n            cur = stones.pop() - stones.pop()\n            n -= 2\n            if cur > 0:\n                l, r = 0, n\n                while l < r:\n                    mid = (l + r) // 2\n                    if stones[mid] < cur:\n                        l = mid + 1\n                    else:\n                        r = mid\n                pos = l\n                n += 1\n                stones.append(0)\n                for i in range(n - 1, pos, -1):\n                    stones[i] = stones[i - 1]\n                stones[pos] = cur\n\n        return stones[0] if n > 0 else 0"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int lastStoneWeight(int[] stones) {\n        Arrays.sort(stones);\n        int n = stones.length;\n\n        while (n > 1) {\n            int cur = stones[n - 1] - stones[n - 2];\n            n -= 2;\n            if (cur > 0) {\n                int l = 0, r = n;\n                while (l < r) {\n                    int mid = (l + r) / 2;\n                    if (stones[mid] < cur) {\n                        l = mid + 1;\n                    } else {\n                        r = mid;\n                    }\n                }\n                int pos = l;\n                n++;\n                stones = Arrays.copyOf(stones, n);\n                for (int i = n - 1; i > pos; i--) {\n                    stones[i] = stones[i - 1];\n                }\n                stones[pos] = cur;\n            }\n        }\n        return n > 0 ? stones[0] : 0;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int lastStoneWeight(vector<int>& stones) {\n        sort(stones.begin(), stones.end());\n        int n = stones.size();\n\n        while (n > 1) {\n            int cur = stones[n - 1] - stones[n - 2];\n            n -= 2;\n            if (cur > 0) {\n                int l = 0, r = n;\n                while (l < r) {\n                    int mid = (l + r) / 2;\n                    if (stones[mid] < cur) {\n                        l = mid + 1;\n                    } else {\n                        r = mid;\n                    }\n                }\n                int pos = l;\n                stones.push_back(0);\n                for (int i = n + 1; i > pos; i--) {\n                    stones[i] = stones[i - 1];\n                }\n                stones[pos] = cur;\n                n++;\n            }\n        }\n        return n > 0 ? stones[0] : 0;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} stones\n     * @return {number}\n     */\n    lastStoneWeight(stones) {\n        stones.sort((a, b) => a - b);\n        let n = stones.length;\n\n        while (n > 1) {\n            let cur = stones.pop() - stones.pop();\n            n -= 2;\n            if (cur > 0) {\n                let l = 0,\n                    r = n;\n                while (l < r) {\n                    let mid = Math.floor((l + r) / 2);\n                    if (stones[mid] < cur) {\n                        l = mid + 1;\n                    } else {\n                        r = mid;\n                    }\n                }\n                let pos = l;\n                n++;\n                stones.push(0);\n                for (let i = n - 1; i > pos; i--) {\n                    stones[i] = stones[i - 1];\n                }\n                stones[pos] = cur;\n            }\n        }\n        return n > 0 ? stones[0] : 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int LastStoneWeight(int[] stones) {\n        Array.Sort(stones);\n        int n = stones.Length;\n\n        while (n > 1) {\n            int cur = stones[n - 1] - stones[n - 2];\n            n -= 2;\n            if (cur > 0) {\n                int l = 0, r = n;\n                while (l < r) {\n                    int mid = (l + r) / 2;\n                    if (stones[mid] < cur) {\n                        l = mid + 1;\n                    } else {\n                        r = mid;\n                    }\n                }\n                int pos = l;\n                Array.Resize(ref stones, n + 1);\n                for (int i = n; i > pos; i--) {\n                    stones[i] = stones[i - 1];\n                }\n                stones[pos] = cur;\n                n++;\n            }\n        }\n        return n > 0 ? stones[0] : 0;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "func lastStoneWeight(stones []int) int {\n    sort.Ints(stones)\n    n := len(stones)\n\n    for n > 1 {\n        cur := stones[n-1] - stones[n-2]\n        n -= 2\n\n        if cur > 0 {\n            pos := sort.Search(n, func(i int) bool {\n                return stones[i] >= cur\n            })\n\n            for i := n; i > pos; i-- {\n                stones[i] = stones[i-1]\n            }\n            stones[pos] = cur\n            n++\n        }\n    }\n\n    if n > 0 {\n        return stones[0]\n    }\n    return 0\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun lastStoneWeight(stones: IntArray): Int {\n        stones.sort()\n        var n = stones.size\n\n        while (n > 1) {\n            val cur = stones[n-1] - stones[n-2]\n            n -= 2\n\n            if (cur > 0) {\n                var l = 0\n                var r = n\n                while (l < r) {\n                    val mid = (l + r) / 2\n                    if (stones[mid] < cur) {\n                        l = mid + 1\n                    } else {\n                        r = mid\n                    }\n                }\n\n                for (i in n downTo l+1) {\n                    stones[i] = stones[i-1]\n                }\n                stones[l] = cur\n                n++\n            }\n        }\n\n        return if (n > 0) stones[0] else 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func lastStoneWeight(_ stones: [Int]) -> Int {\n        var stones = stones.sorted()\n        var n = stones.count\n\n        while n > 1 {\n            let cur = stones.removeLast() - stones.removeLast()\n            n -= 2\n            if cur > 0 {\n                var l = 0, r = n\n                while l < r {\n                    let mid = (l + r) / 2\n                    if stones[mid] < cur {\n                        l = mid + 1\n                    } else {\n                        r = mid\n                    }\n                }\n                let pos = l\n                stones.append(0)\n                n += 1\n                for i in stride(from: n - 1, to: pos, by: -1) {\n                    stones[i] = stones[i - 1]\n                }\n                stones[pos] = cur\n            }\n        }\n\n        return n > 0 ? stones[0] : 0\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn last_stone_weight(stones: Vec<i32>) -> i32 {\n        let mut stones = stones;\n        stones.sort_unstable();\n        let mut n = stones.len();\n\n        while n > 1 {\n            let cur = stones[n - 1] - stones[n - 2];\n            n -= 2;\n            if cur > 0 {\n                let mut l = 0usize;\n                let mut r = n;\n                while l < r {\n                    let mid = (l + r) / 2;\n                    if stones[mid] < cur {\n                        l = mid + 1;\n                    } else {\n                        r = mid;\n                    }\n                }\n                let pos = l;\n                if n < stones.len() {\n                    stones[n] = 0;\n                } else {\n                    stones.push(0);\n                }\n                n += 1;\n                for i in (pos + 1..n).rev() {\n                    stones[i] = stones[i - 1];\n                }\n                stones[pos] = cur;\n            }\n        }\n\n        if n > 0 { stones[0] } else { 0 }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def lastStoneWeight(self, stones: List[int]) -> int:\n        stones = [-s for s in stones]\n        heapq.heapify(stones)\n\n        while len(stones) > 1:\n            first = heapq.heappop(stones)\n            second = heapq.heappop(stones)\n            if second > first:\n                heapq.heappush(stones, first - second)\n\n        stones.append(0)\n        return abs(stones[0])"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    public int lastStoneWeight(int[] stones) {\n        PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n        for (int s : stones) {\n            minHeap.offer(-s);\n        }\n\n        while (minHeap.size() > 1) {\n            int first = minHeap.poll();\n            int second = minHeap.poll();\n            if (second > first) {\n                minHeap.offer(first - second);\n            }\n        }\n\n        minHeap.offer(0);\n        return Math.abs(minHeap.peek());\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int lastStoneWeight(vector<int>& stones) {\n        priority_queue<int> maxHeap;\n        for (int s : stones) {\n            maxHeap.push(s);\n        }\n\n        while (maxHeap.size() > 1) {\n            int first = maxHeap.top();\n            maxHeap.pop();\n            int second = maxHeap.top();\n            maxHeap.pop();\n            if (second < first) {\n                maxHeap.push(first - second);\n            }\n        }\n\n        maxHeap.push(0);\n        return maxHeap.top();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * const { MaxPriorityQueue } = require('@datastructures-js/priority-queue');\n */\n\nclass Solution {\n    /**\n     * @param {number[]} stones\n     * @return {number}\n     */\n    lastStoneWeight(stones) {\n        const maxPQ = new MaxPriorityQueue();\n\n        for (const stone of stones) {\n            maxPQ.enqueue(stone);\n        }\n\n        while (maxPQ.size() > 1) {\n            const stone1 = maxPQ.dequeue();\n            const stone2 = maxPQ.dequeue();\n\n            if (stone1 !== stone2) {\n                maxPQ.enqueue(stone1 - stone2);\n            }\n        }\n\n        return maxPQ.size() === 1 ? maxPQ.dequeue() : 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int LastStoneWeight(int[] stones) {\n        PriorityQueue<int, int> minHeap = new PriorityQueue<int, int>();\n        foreach (int s in stones) {\n            minHeap.Enqueue(-s, -s);\n        }\n\n        while (minHeap.Count > 1) {\n            int first = minHeap.Dequeue();\n            int second = minHeap.Dequeue();\n            if (second > first) {\n                minHeap.Enqueue(first - second, first - second);\n            }\n        }\n\n        minHeap.Enqueue(0, 0);\n        return Math.Abs(minHeap.Peek());\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "func lastStoneWeight(stones []int) int {\n    pq := priorityqueue.NewWith(func(a, b interface{}) int {\n        return a.(int) - b.(int)\n    })\n\n    for _, s := range stones {\n        pq.Enqueue(-s)\n    }\n\n    for pq.Size() > 1 {\n        first, _ := pq.Dequeue()\n        second, _ := pq.Dequeue()\n        if second.(int) > first.(int) {\n            pq.Enqueue(first.(int) - second.(int))\n        }\n    }\n\n    pq.Enqueue(0)\n    result, _ := pq.Dequeue()\n    return -result.(int)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun lastStoneWeight(stones: IntArray): Int {\n        val minHeap = PriorityQueue<Int>()\n        for (s in stones) {\n            minHeap.offer(-s)\n        }\n\n        while (minHeap.size > 1) {\n            val first = minHeap.poll()\n            val second = minHeap.poll()\n            if (second > first) {\n                minHeap.offer(first - second)\n            }\n        }\n\n        minHeap.offer(0)\n        return Math.abs(minHeap.peek())\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func lastStoneWeight(_ stones: [Int]) -> Int {\n        var heap = Heap(stones)\n        while heap.count > 1 {\n            let first = heap.popMax()!\n            let second = heap.popMax()!\n            if first > second {\n                heap.insert(first - second)\n            }\n        }\n        return heap.isEmpty ? 0 : heap.popMax()!\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn last_stone_weight(stones: Vec<i32>) -> i32 {\n        let mut heap = BinaryHeap::new();\n        for s in stones {\n            heap.push(s);\n        }\n\n        while heap.len() > 1 {\n            let first = heap.pop().unwrap();\n            let second = heap.pop().unwrap();\n            if first != second {\n                heap.push(first - second);\n            }\n        }\n\n        heap.pop().unwrap_or(0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "class Solution:\n    def lastStoneWeight(self, stones: List[int]) -> int:\n\n        maxStone = max(stones)\n        bucket = [0] * (maxStone + 1)\n        for stone in stones:\n            bucket[stone] += 1\n\n        first = second = maxStone\n        while first > 0:\n            if bucket[first] % 2 == 0:\n                first -= 1\n                continue\n\n            j = min(first - 1, second)\n            while j > 0 and bucket[j] == 0:\n                j -= 1\n\n            if j == 0:\n                return first\n            second = j\n            bucket[first] -= 1\n            bucket[second] -= 1\n            bucket[first - second] += 1\n            first = max(first - second, second)\n        return first"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "public class Solution {\n    public int lastStoneWeight(int[] stones) {\n        int maxStone = 0;\n        for (int stone : stones) {\n            maxStone = Math.max(maxStone, stone);\n        }\n\n        int[] bucket = new int[maxStone + 1];\n        for (int stone : stones) {\n            bucket[stone]++;\n        }\n\n        int first = maxStone, second = maxStone;\n        while (first > 0) {\n            if (bucket[first] % 2 == 0) {\n                first--;\n                continue;\n            }\n\n            int j = Math.min(first - 1, second);\n            while (j > 0 && bucket[j] == 0) {\n                j--;\n            }\n\n            if (j == 0) {\n                return first;\n            }\n\n            second = j;\n            bucket[first]--;\n            bucket[second]--;\n            bucket[first - second]++;\n            first = Math.max(first - second, second);\n        }\n\n        return first;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "class Solution {\npublic:\n    int lastStoneWeight(vector<int>& stones) {\n        int maxStone = 0;\n        for (int stone : stones) {\n            maxStone = max(maxStone, stone);\n        }\n\n        vector<int> bucket(maxStone + 1, 0);\n        for (int stone : stones) {\n            bucket[stone]++;\n        }\n\n        int first = maxStone, second = maxStone;\n        while (first > 0) {\n            if (bucket[first] % 2 == 0) {\n                first--;\n                continue;\n            }\n\n            int j = min(first - 1, second);\n            while (j > 0 && bucket[j] == 0) {\n                j--;\n            }\n\n            if (j == 0) {\n                return first;\n            }\n\n            second = j;\n            bucket[first]--;\n            bucket[second]--;\n            bucket[first - second]++;\n            first = max(first - second, second);\n        }\n\n        return first;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} stones\n     * @return {number}\n     */\n    lastStoneWeight(stones) {\n        let maxStone = 0;\n        for (let stone of stones) {\n            maxStone = Math.max(maxStone, stone);\n        }\n\n        let bucket = Array(maxStone + 1).fill(0);\n        for (let stone of stones) {\n            bucket[stone]++;\n        }\n\n        let first = maxStone,\n            second = maxStone;\n        while (first > 0) {\n            if (bucket[first] % 2 === 0) {\n                first--;\n                continue;\n            }\n\n            let j = Math.min(first - 1, second);\n            while (j > 0 && bucket[j] === 0) {\n                j--;\n            }\n\n            if (j === 0) {\n                return first;\n            }\n\n            second = j;\n            bucket[first]--;\n            bucket[second]--;\n            bucket[first - second]++;\n            first = Math.max(first - second, second);\n        }\n\n        return first;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "public class Solution {\n    public int LastStoneWeight(int[] stones) {\n        int maxStone = 0;\n        foreach (int stone in stones) {\n            maxStone = Math.Max(maxStone, stone);\n        }\n\n        int[] bucket = new int[maxStone + 1];\n        foreach (int stone in stones) {\n            bucket[stone]++;\n        }\n\n        int first = maxStone, second = maxStone;\n        while (first > 0) {\n            if (bucket[first] % 2 == 0) {\n                first--;\n                continue;\n            }\n\n            int j = Math.Min(first - 1, second);\n            while (j > 0 && bucket[j] == 0) {\n                j--;\n            }\n\n            if (j == 0) {\n                return first;\n            }\n\n            second = j;\n            bucket[first]--;\n            bucket[second]--;\n            bucket[first - second]++;\n            first = Math.Max(first - second, second);\n        }\n\n        return first;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "func lastStoneWeight(stones []int) int {\n    maxStone := 0\n    for _, stone := range stones {\n        if stone > maxStone {\n            maxStone = stone\n        }\n    }\n\n    bucket := make([]int, maxStone+1)\n    for _, stone := range stones {\n        bucket[stone]++\n    }\n\n    first, second := maxStone, maxStone\n    for first > 0 {\n        if bucket[first]%2 == 0 {\n            first--\n            continue\n        }\n\n        j := min(first-1, second)\n        for j > 0 && bucket[j] == 0 {\n            j--\n        }\n\n        if j == 0 {\n            return first\n        }\n        second = j\n        bucket[first]--\n        bucket[second]--\n        bucket[first-second]++\n        first = max(first-second, second)\n    }\n    return first\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "class Solution {\n    fun lastStoneWeight(stones: IntArray): Int {\n        val maxStone = stones.max()!!\n        val bucket = IntArray(maxStone + 1)\n        for (stone in stones) {\n            bucket[stone]++\n        }\n\n        var first = maxStone\n        var second = maxStone\n        while (first > 0) {\n            if (bucket[first] % 2 == 0) {\n                first--\n                continue\n            }\n\n            var j = minOf(first - 1, second)\n            while (j > 0 && bucket[j] == 0) {\n                j--\n            }\n\n            if (j == 0) {\n                return first\n            }\n            second = j\n            bucket[first]--\n            bucket[second]--\n            bucket[first - second]++\n            first = maxOf(first - second, second)\n        }\n        return first\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "class Solution {\n    func lastStoneWeight(_ stones: [Int]) -> Int {\n        guard let maxStone = stones.max() else { return 0 }\n\n        var bucket = [Int](repeating: 0, count: maxStone + 1)\n        for stone in stones {\n            bucket[stone] += 1\n        }\n\n        var first = maxStone\n        var second = maxStone\n\n        while first > 0 {\n            if bucket[first] % 2 == 0 {\n                first -= 1\n                continue\n            }\n\n            var j = min(first - 1, second)\n            while j > 0 && bucket[j] == 0 {\n                j -= 1\n            }\n\n            if j == 0 {\n                return first\n            }\n\n            second = j\n            bucket[first] -= 1\n            bucket[second] -= 1\n            bucket[first - second] += 1\n            first = max(first - second, second)\n        }\n\n        return first\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n + w)",
+            "space_complexity": "O(w)",
+            "code": "impl Solution {\n    pub fn last_stone_weight(stones: Vec<i32>) -> i32 {\n        let max_stone = *stones.iter().max().unwrap() as usize;\n        let mut bucket = vec![0i32; max_stone + 1];\n        for &stone in &stones {\n            bucket[stone as usize] += 1;\n        }\n\n        let mut first = max_stone;\n        let mut second = max_stone;\n\n        while first > 0 {\n            if bucket[first] % 2 == 0 {\n                first -= 1;\n                continue;\n            }\n\n            let mut j = first.min(second).saturating_sub(1);\n            while j > 0 && bucket[j] == 0 {\n                j -= 1;\n            }\n\n            if j == 0 {\n                return first as i32;\n            }\n\n            second = j;\n            bucket[first] -= 1;\n            bucket[second] -= 1;\n            bucket[first - second] += 1;\n            first = (first - second).max(second);\n        }\n\n        first as i32\n    }\n}"
+        }
+    ]
+}

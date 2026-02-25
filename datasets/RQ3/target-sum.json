@@ -1,0 +1,228 @@
+{
+    "problem_name": "Target Sum",
+    "problem_slug": "target-sum",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming",
+        "backtracking"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def findTargetSumWays(self, nums: List[int], target: int) -> int:\n\n        def backtrack(i, total):\n            if i ==len(nums):\n                return  total == target\n\n            return (backtrack(i + 1, total + nums[i]) +\n                    backtrack(i + 1, total - nums[i]))\n\n        return backtrack(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int findTargetSumWays(int[] nums, int target) {\n        return backtrack(0, 0, nums, target);\n    }\n\n    private int backtrack(int i, int total, int[] nums, int target) {\n        if (i == nums.length) {\n            return total == target ? 1 : 0;\n        }\n        return backtrack(i + 1, total + nums[i], nums, target) +\n               backtrack(i + 1, total - nums[i], nums, target);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int findTargetSumWays(vector<int>& nums, int target) {\n        return backtrack(0, 0, nums, target);\n    }\n\n    int backtrack(int i, int total, vector<int>& nums, int target) {\n        if (i == nums.size()) {\n            return total == target;\n        }\n        return backtrack(i + 1, total + nums[i], nums, target) +\n               backtrack(i + 1, total - nums[i], nums, target);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} target\n     * @return {number}\n     */\n    findTargetSumWays(nums, target) {\n        const backtrack = (i, total) => {\n            if (i === nums.length) {\n                return total === target ? 1 : 0;\n            }\n            return (\n                backtrack(i + 1, total + nums[i]) +\n                backtrack(i + 1, total - nums[i])\n            );\n        };\n\n        return backtrack(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int FindTargetSumWays(int[] nums, int target) {\n        return Backtrack(0, 0, nums, target);\n    }\n\n    private int Backtrack(int i, int total, int[] nums, int target) {\n        if (i == nums.Length) {\n            return total == target ? 1 : 0;\n        }\n        return Backtrack(i + 1, total + nums[i], nums, target) +\n               Backtrack(i + 1, total - nums[i], nums, target);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "func findTargetSumWays(nums []int, target int) int {\n    var backtrack func(i int, total int) int\n    backtrack = func(i int, total int) int {\n        if i == len(nums) {\n            if total == target {\n                return 1\n            }\n            return 0\n        }\n        return backtrack(i+1, total+nums[i]) + backtrack(i+1, total-nums[i])\n    }\n\n    return backtrack(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun findTargetSumWays(nums: IntArray, target: Int): Int {\n        fun backtrack(i: Int, total: Int): Int {\n            if (i == nums.size) {\n                return if (total == target) 1 else 0\n            }\n            return backtrack(i + 1, total + nums[i]) +\n                   backtrack(i + 1, total - nums[i])\n        }\n\n        return backtrack(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func findTargetSumWays(_ nums: [Int], _ target: Int) -> Int {\n        func backtrack(_ i: Int, _ total: Int) -> Int {\n            if i == nums.count {\n                return total == target ? 1 : 0\n            }\n            return backtrack(i + 1, total + nums[i]) + backtrack(i + 1, total - nums[i])\n        }\n        return backtrack(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {\n        fn backtrack(nums: &[i32], i: usize, total: i32, target: i32) -> i32 {\n            if i == nums.len() {\n                return if total == target { 1 } else { 0 };\n            }\n            backtrack(nums, i + 1, total + nums[i], target)\n                + backtrack(nums, i + 1, total - nums[i], target)\n        }\n\n        backtrack(&nums, 0, 0, target)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution:\n    def findTargetSumWays(self, nums: List[int], target: int) -> int:\n        dp = {}  # (index, total) -> # of ways\n\n        def backtrack(i, total):\n            if i == len(nums):\n                return 1 if total == target else 0\n            if (i, total) in dp:\n                return dp[(i, total)]\n\n            dp[(i, total)] = (backtrack(i + 1, total + nums[i]) +\n                              backtrack(i + 1, total - nums[i]))\n            return dp[(i, total)]\n\n        return backtrack(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "public class Solution {\n    private int[][] dp;\n    private int totalSum;\n\n    public int findTargetSumWays(int[] nums, int target) {\n        totalSum = 0;\n        for (int num : nums) totalSum += num;\n        dp = new int[nums.length][2 * totalSum + 1];\n        for (int i = 0; i < nums.length; i++) {\n            for (int j = 0; j < 2 * totalSum + 1; j++) {\n                dp[i][j] = Integer.MIN_VALUE;\n            }\n        }\n        return backtrack(0, 0, nums, target);\n    }\n\n    private int backtrack(int i, int total, int[] nums, int target) {\n        if (i == nums.length) {\n            return total == target ? 1 : 0;\n        }\n        if (dp[i][total + totalSum] != Integer.MIN_VALUE) {\n            return dp[i][total + totalSum];\n        }\n        dp[i][total + totalSum] = backtrack(i + 1, total + nums[i], nums, target) +\n                                  backtrack(i + 1, total - nums[i], nums, target);\n        return dp[i][total + totalSum];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution {\n    vector<vector<int>> dp;\n    int totalSum;\n\npublic:\n    int findTargetSumWays(vector<int>& nums, int target) {\n        totalSum = accumulate(nums.begin(), nums.end(), 0);\n        dp = vector<vector<int>>(nums.size(), vector<int>(2 * totalSum + 1, INT_MIN));\n        return backtrack(0, 0, nums, target);\n    }\n\n    int backtrack(int i, int total, vector<int>& nums, int target) {\n        if (i == nums.size()) {\n            return total == target;\n        }\n        if (dp[i][total + totalSum] != INT_MIN) {\n            return dp[i][total + totalSum];\n        }\n        dp[i][total + totalSum] = backtrack(i + 1, total + nums[i], nums, target) +\n                                  backtrack(i + 1, total - nums[i], nums, target);\n        return dp[i][total + totalSum];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} target\n     * @return {number}\n     */\n    findTargetSumWays(nums, target) {\n        const NEG_INF = Number.MIN_SAFE_INTEGER;\n        const totalSum = nums.reduce((a, b) => a + b, 0);\n        const dp = Array.from({ length: nums.length }, () =>\n            Array(2 * totalSum + 1).fill(NEG_INF),\n        );\n\n        const backtrack = (i, total) => {\n            if (i === nums.length) {\n                return total === target ? 1 : 0;\n            }\n            if (dp[i][total + totalSum] !== NEG_INF) {\n                return dp[i][total + totalSum];\n            }\n            dp[i][total + totalSum] =\n                backtrack(i + 1, total + nums[i]) +\n                backtrack(i + 1, total - nums[i]);\n            return dp[i][total + totalSum];\n        };\n\n        return backtrack(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "public class Solution {\n    private int[,] dp;\n    private int totalSum;\n\n    public int FindTargetSumWays(int[] nums, int target) {\n        totalSum = 0;\n        foreach (var num in nums) totalSum += num;\n        dp = new int[nums.Length, 2 * totalSum + 1];\n        for (int i = 0; i < nums.Length; i++) {\n            for (int j = 0; j < 2 * totalSum + 1; j++) {\n                dp[i, j] = int.MinValue;\n            }\n        }\n        return Backtrack(0, 0, nums, target);\n    }\n\n    private int Backtrack(int i, int total, int[] nums, int target) {\n        if (i == nums.Length) {\n            return total == target ? 1 : 0;\n        }\n\n        if (dp[i, total + totalSum] != int.MinValue) {\n            return dp[i, total + totalSum];\n        }\n\n        dp[i, total + totalSum] = Backtrack(i + 1, total + nums[i], nums, target) +\n                                  Backtrack(i + 1, total - nums[i], nums, target);\n        return dp[i, total + totalSum];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "func findTargetSumWays(nums []int, target int) int {\n    totalSum := 0\n    for _, num := range nums {\n        totalSum += num\n    }\n\n    dp := make([][]int, len(nums))\n    for i := range dp {\n        dp[i] = make([]int, 2*totalSum+1)\n        for j := range dp[i] {\n            dp[i][j] = math.MinInt32\n        }\n    }\n\n    var backtrack func(i, total int) int\n    backtrack = func(i, total int) int {\n        if i == len(nums) {\n            if total == target {\n                return 1\n            }\n            return 0\n        }\n\n        if dp[i][total+totalSum] != math.MinInt32 {\n            return dp[i][total+totalSum]\n        }\n\n        dp[i][total+totalSum] = (backtrack(i+1, total+nums[i]) +\n                                 backtrack(i+1, total-nums[i]))\n        return dp[i][total+totalSum]\n    }\n\n    return backtrack(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution {\n    fun findTargetSumWays(nums: IntArray, target: Int): Int {\n        var totalSum = nums.sum()\n        var dp = Array(nums.size) { IntArray(2 * totalSum + 1) { Int.MIN_VALUE } }\n\n        fun backtrack(i: Int, total: Int): Int {\n            if (i == nums.size) {\n                return if (total == target) 1 else 0\n            }\n            if (dp[i][total + totalSum] != Int.MIN_VALUE) {\n                return dp[i][total + totalSum]\n            }\n            dp[i][total + totalSum] = backtrack(i + 1, total + nums[i]) +\n                                      backtrack(i + 1, total - nums[i])\n            return dp[i][total + totalSum]\n        }\n\n        return backtrack(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution {\n    func findTargetSumWays(_ nums: [Int], _ target: Int) -> Int {\n        let totalSum = nums.reduce(0, +)\n        var dp = Array(repeating: Array(repeating: Int.min, count: 2 * totalSum + 1), count: nums.count)\n\n        func backtrack(_ i: Int, _ total: Int) -> Int {\n            if i == nums.count {\n                return total == target ? 1 : 0\n            }\n            if dp[i][total + totalSum] != Int.min {\n                return dp[i][total + totalSum]\n            }\n            dp[i][total + totalSum] = backtrack(i + 1, total + nums[i]) +\n                                      backtrack(i + 1, total - nums[i])\n            return dp[i][total + totalSum]\n        }\n\n        return backtrack(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "impl Solution {\n    pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {\n        let mut memo = HashMap::new();\n\n        fn backtrack(\n            nums: &[i32], i: usize, total: i32, target: i32,\n            memo: &mut HashMap<(usize, i32), i32>,\n        ) -> i32 {\n            if i == nums.len() {\n                return if total == target { 1 } else { 0 };\n            }\n            if let Some(&val) = memo.get(&(i, total)) {\n                return val;\n            }\n            let res = backtrack(nums, i + 1, total + nums[i], target, memo)\n                + backtrack(nums, i + 1, total - nums[i], target, memo);\n            memo.insert((i, total), res);\n            res\n        }\n\n        backtrack(&nums, 0, 0, target, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution:\n    def findTargetSumWays(self, nums: List[int], target: int) -> int:\n        n = len(nums)\n        dp = [defaultdict(int) for _ in range(n + 1)]\n        dp[0][0] = 1\n\n        for i in range(n):\n            for total, count in dp[i].items():\n                dp[i + 1][total + nums[i]] += count\n                dp[i + 1][total - nums[i]] += count\n\n        return dp[n][target]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "public class Solution {\n    public int findTargetSumWays(int[] nums, int target) {\n        int n = nums.length;\n        Map<Integer, Integer>[] dp = new HashMap[n + 1];\n        for (int i = 0; i <= n; i++) {\n            dp[i] = new HashMap<>();\n        }\n        dp[0].put(0, 1);\n\n        for (int i = 0; i < n; i++) {\n            for (Map.Entry<Integer, Integer> entry : dp[i].entrySet()) {\n                int total = entry.getKey();\n                int count = entry.getValue();\n                dp[i + 1].put(total + nums[i],\n                          dp[i + 1].getOrDefault(total + nums[i], 0) + count);\n                dp[i + 1].put(total - nums[i],\n                          dp[i + 1].getOrDefault(total - nums[i], 0) + count);\n            }\n        }\n        return dp[n].getOrDefault(target, 0);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution {\npublic:\n    int findTargetSumWays(vector<int>& nums, int target) {\n        int n = nums.size();\n        vector<unordered_map<int, int>> dp(n + 1);\n        dp[0][0] = 1;\n\n        for (int i = 0; i < n; i++) {\n            for (auto &p : dp[i]) {\n                dp[i + 1][p.first + nums[i]] += p.second;\n                dp[i + 1][p.first - nums[i]] += p.second;\n            }\n        }\n        return dp[n][target];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} target\n     * @return {number}\n     */\n    findTargetSumWays(nums, target) {\n        const n = nums.length;\n        let dp = Array.from({ length: n + 1 }, () => ({}));\n        dp[0][0] = 1;\n\n        for (let i = 0; i < n; i++) {\n            for (let total in dp[i]) {\n                total = Number(total);\n                let count = dp[i][total];\n                dp[i + 1][total + nums[i]] =\n                    (dp[i + 1][total + nums[i]] || 0) + count;\n                dp[i + 1][total - nums[i]] =\n                    (dp[i + 1][total - nums[i]] || 0) + count;\n            }\n        }\n        return dp[n][target] || 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "public class Solution {\n    public int FindTargetSumWays(int[] nums, int S) {\n        int n = nums.Length;\n        Dictionary<int, int>[] dp = new Dictionary<int, int>[n + 1];\n        for (int i = 0; i <= n; i++) {\n            dp[i] = new Dictionary<int, int>();\n        }\n        dp[0][0] = 1;\n\n        for (int i = 0; i < n; i++) {\n            foreach (var entry in dp[i]) {\n                int total = entry.Key;\n                int count = entry.Value;\n                if (!dp[i + 1].ContainsKey(total + nums[i])) {\n                    dp[i + 1][total + nums[i]] = 0;\n                }\n                dp[i + 1][total + nums[i]] += count;\n\n                if (!dp[i + 1].ContainsKey(total - nums[i])) {\n                    dp[i + 1][total - nums[i]] = 0;\n                }\n                dp[i + 1][total - nums[i]] += count;\n            }\n        }\n        return dp[n].ContainsKey(S) ? dp[n][S] : 0;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "func findTargetSumWays(nums []int, target int) int {\n    n := len(nums)\n    dp := make([]map[int]int, n+1)\n\n    for i := 0; i <= n; i++ {\n        dp[i] = make(map[int]int)\n    }\n\n    dp[0][0] = 1\n\n    for i := 0; i < n; i++ {\n        for total, count := range dp[i] {\n            dp[i+1][total+nums[i]] += count\n            dp[i+1][total-nums[i]] += count\n        }\n    }\n\n    return dp[n][target]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution {\n    fun findTargetSumWays(nums: IntArray, target: Int): Int {\n        val n = nums.size\n        val dp = Array(n + 1) { mutableMapOf<Int, Int>() }\n\n        dp[0][0] = 1\n\n        for (i in 0 until n) {\n            for ((total, count) in dp[i]) {\n                dp[i + 1][total + nums[i]] = dp[i + 1].getOrDefault(total + nums[i], 0) + count\n                dp[i + 1][total - nums[i]] = dp[i + 1].getOrDefault(total - nums[i], 0) + count\n            }\n        }\n\n        return dp[n][target] ?: 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "class Solution {\n    func findTargetSumWays(_ nums: [Int], _ target: Int) -> Int {\n        let n = nums.count\n        var dp = Array(repeating: [Int: Int](), count: n + 1)\n        dp[0][0] = 1\n\n        for i in 0..<n {\n            for (total, count) in dp[i] {\n                dp[i + 1][total + nums[i], default: 0] += count\n                dp[i + 1][total - nums[i], default: 0] += count\n            }\n        }\n        return dp[n][target, default: 0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(n * m)",
+            "code": "impl Solution {\n    pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {\n        let n = nums.len();\n        let mut dp: Vec<HashMap<i32, i32>> =\n            vec![HashMap::new(); n + 1];\n        dp[0].insert(0, 1);\n\n        for i in 0..n {\n            let cur = dp[i].clone();\n            for (&total, &count) in &cur {\n                *dp[i + 1].entry(total + nums[i]).or_insert(0) += count;\n                *dp[i + 1].entry(total - nums[i]).or_insert(0) += count;\n            }\n        }\n\n        *dp[n].get(&target).unwrap_or(&0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def findTargetSumWays(self, nums: List[int], target: int) -> int:\n        dp = defaultdict(int)\n        dp[0] = 1\n\n        for num in nums:\n            next_dp = defaultdict(int)\n            for total, count in dp.items():\n                next_dp[total + num] += count\n                next_dp[total - num] += count\n            dp = next_dp\n\n        return dp[target]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int findTargetSumWays(int[] nums, int target) {\n        Map<Integer, Integer> dp = new HashMap<>();\n        dp.put(0, 1);\n\n        for (int num : nums) {\n            Map<Integer, Integer> nextDp = new HashMap<>();\n            for (Map.Entry<Integer, Integer> entry : dp.entrySet()) {\n                int total = entry.getKey();\n                int count = entry.getValue();\n                nextDp.put(total + num,\n                           nextDp.getOrDefault(total + num, 0) + count);\n                nextDp.put(total - num,\n                           nextDp.getOrDefault(total - num, 0) + count);\n            }\n            dp = nextDp;\n        }\n        return dp.getOrDefault(target, 0);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    int findTargetSumWays(vector<int>& nums, int target) {\n        unordered_map<int, int> dp;\n        dp[0] = 1;\n\n        for (int num : nums) {\n            unordered_map<int, int> nextDp;\n            for (auto& entry : dp) {\n                int total = entry.first;\n                int count = entry.second;\n                nextDp[total + num] += count;\n                nextDp[total - num] += count;\n            }\n            dp = nextDp;\n        }\n        return dp[target];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @param {number} target\n     * @return {number}\n     */\n    findTargetSumWays(nums, target) {\n        let dp = new Map();\n        dp.set(0, 1);\n\n        for (let num of nums) {\n            let nextDp = new Map();\n            for (let [total, count] of dp) {\n                nextDp.set(total + num, (nextDp.get(total + num) || 0) + count);\n                nextDp.set(total - num, (nextDp.get(total - num) || 0) + count);\n            }\n            dp = nextDp;\n        }\n        return dp.get(target) || 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int FindTargetSumWays(int[] nums, int target) {\n        Dictionary<int, int> dp = new Dictionary<int, int>();\n        dp[0] = 1;\n\n        foreach (int num in nums) {\n            Dictionary<int, int> nextDp = new Dictionary<int, int>();\n            foreach (var entry in dp) {\n                int total = entry.Key;\n                int count = entry.Value;\n\n                if (!nextDp.ContainsKey(total + num)) {\n                    nextDp[total + num] = 0;\n                }\n                nextDp[total + num] += count;\n\n                if (!nextDp.ContainsKey(total - num)) {\n                    nextDp[total - num] = 0;\n                }\n                nextDp[total - num] += count;\n            }\n            dp = nextDp;\n        }\n        return dp.ContainsKey(target) ? dp[target] : 0;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "func findTargetSumWays(nums []int, target int) int {\n    dp := make(map[int]int)\n    dp[0] = 1\n\n    for _, num := range nums {\n        nextDp := make(map[int]int)\n        for total, count := range dp {\n            nextDp[total+num] += count\n            nextDp[total-num] += count\n        }\n        dp = nextDp\n    }\n\n    return dp[target]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun findTargetSumWays(nums: IntArray, target: Int): Int {\n        val dp = mutableMapOf(0 to 1)\n\n        for (num in nums) {\n            val nextDp = mutableMapOf<Int, Int>()\n            for ((total, count) in dp) {\n                nextDp[total + num] = nextDp.getOrDefault(total + num, 0) + count\n                nextDp[total - num] = nextDp.getOrDefault(total - num, 0) + count\n            }\n            dp.clear()\n            dp.putAll(nextDp)\n        }\n\n        return dp[target] ?: 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func findTargetSumWays(_ nums: [Int], _ target: Int) -> Int {\n        var dp = [0: 1]\n\n        for num in nums {\n            var nextDp = [Int: Int]()\n            for (total, count) in dp {\n                nextDp[total + num, default: 0] += count\n                nextDp[total - num, default: 0] += count\n            }\n            dp = nextDp\n        }\n        return dp[target, default: 0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * m)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {\n        let mut dp: HashMap<i32, i32> = HashMap::new();\n        dp.insert(0, 1);\n\n        for &num in &nums {\n            let mut next_dp: HashMap<i32, i32> = HashMap::new();\n            for (&total, &count) in &dp {\n                *next_dp.entry(total + num).or_insert(0) += count;\n                *next_dp.entry(total - num).or_insert(0) += count;\n            }\n            dp = next_dp;\n        }\n\n        *dp.get(&target).unwrap_or(&0)\n    }\n}"
+        }
+    ]
+}

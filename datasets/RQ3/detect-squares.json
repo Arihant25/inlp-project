@@ -1,0 +1,121 @@
+{
+    "problem_name": "Detect Squares",
+    "problem_slug": "detect-squares",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "hash table",
+        "design",
+        "counting"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares:\n    def __init__(self):\n        self.ptsCount = defaultdict(int)\n        self.pts = []\n\n    def add(self, point: List[int]) -> None:\n        self.ptsCount[tuple(point)] += 1\n        self.pts.append(point)\n\n    def count(self, point: List[int]) -> int:\n        res = 0\n        px, py = point\n        for x, y in self.pts:\n            if (abs(py - y) != abs(px - x)) or x == px or y == py:\n                continue\n            res += self.ptsCount[(x, py)] * self.ptsCount[(px, y)]\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "public class CountSquares {\n    private Map<List<Integer>, Integer> ptsCount;\n    private List<List<Integer>> pts;\n\n    public CountSquares() {\n        ptsCount = new HashMap<>();\n        pts = new ArrayList<>();\n    }\n\n    public void add(int[] point) {\n        List<Integer> p = Arrays.asList(point[0], point[1]);\n        ptsCount.put(p, ptsCount.getOrDefault(p, 0) + 1);\n        pts.add(p);\n    }\n\n    public int count(int[] point) {\n        int res = 0;\n        int px = point[0], py = point[1];\n        for (List<Integer> pt : pts) {\n            int x = pt.get(0), y = pt.get(1);\n            if (Math.abs(py - y) != Math.abs(px - x) || x == px || y == py) {\n                continue;\n            }\n            res += ptsCount.getOrDefault(Arrays.asList(x, py), 0) *\n                   ptsCount.getOrDefault(Arrays.asList(px, y), 0);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares {\nprivate:\n    unordered_map<long, int> ptsCount;\n    vector<vector<int>> pts;\n\n    long getKey(int x, int y) {\n        return (static_cast<long>(x) << 32) | static_cast<long>(y);\n    }\n\npublic:\n    CountSquares() {\n    }\n\n    void add(vector<int> point) {\n        long key = getKey(point[0], point[1]);\n        ptsCount[key]++;\n        pts.push_back(point);\n    }\n\n    int count(vector<int> point) {\n        int res = 0;\n        int px = point[0], py = point[1];\n\n        for (const auto& pt : pts) {\n            int x = pt[0], y = pt[1];\n            if (abs(py - y) != abs(px - x) || x == px || y == py) continue;\n            res += ptsCount[getKey(x, py)] * ptsCount[getKey(px, y)];\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares {\n    constructor() {\n        this.ptsCount = new Map();\n        this.pts = [];\n    }\n\n    /**\n     * @param {number[]} point\n     * @return {void}\n     */\n    add(point) {\n        const p = point.join(',');\n        this.ptsCount.set(p, (this.ptsCount.get(p) || 0) + 1);\n        this.pts.push(point);\n    }\n\n    /**\n     * @param {number[]} point\n     * @return {number}\n     */\n    count(point) {\n        let res = 0;\n        const [px, py] = point;\n        for (const [x, y] of this.pts) {\n            if (Math.abs(py - y) !== Math.abs(px - x) || x === px || y === py) {\n                continue;\n            }\n            res +=\n                (this.ptsCount.get(`${x},${py}`) || 0) *\n                (this.ptsCount.get(`${px},${y}`) || 0);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "public class CountSquares {\n    private Dictionary<(int, int), int> ptsCount;\n    private List<int[]> pts;\n\n    public CountSquares() {\n        ptsCount = new Dictionary<(int, int), int>();\n        pts = new List<int[]>();\n    }\n\n    public void Add(int[] point) {\n        var tuplePoint = (point[0], point[1]);\n        if (!ptsCount.ContainsKey(tuplePoint))\n            ptsCount[tuplePoint] = 0;\n\n        ptsCount[tuplePoint]++;\n        pts.Add(point);\n    }\n\n    public int Count(int[] point) {\n        int res = 0;\n        int px = point[0];\n        int py = point[1];\n\n        foreach (var pt in pts) {\n            int x = pt[0];\n            int y = pt[1];\n\n            if (Math.Abs(py - y) != Math.Abs(px - x) || x == px || y == py)\n                continue;\n\n            res += (ptsCount.GetValueOrDefault((x, py)) *\n                   ptsCount.GetValueOrDefault((px, y)));\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "type CountSquares struct {\n    ptsCount map[Point]int\n    pts      []Point\n}\n\ntype Point struct {\n    x, y int\n}\n\nfunc Constructor() CountSquares {\n    return CountSquares{\n        ptsCount: make(map[Point]int),\n        pts:      make([]Point, 0),\n    }\n}\n\nfunc (this *CountSquares) Add(point []int) {\n    p := Point{point[0], point[1]}\n    this.ptsCount[p]++\n    this.pts = append(this.pts, p)\n}\n\nfunc (this *CountSquares) Count(point []int) int {\n    res := 0\n    px, py := point[0], point[1]\n\n    for _, pt := range this.pts {\n        if abs(py-pt.y) != abs(px-pt.x) || pt.x == px || pt.y == py {\n            continue\n        }\n\n        p1 := Point{pt.x, py}\n        p2 := Point{px, pt.y}\n\n        res += this.ptsCount[p1] * this.ptsCount[p2]\n    }\n\n    return res\n}\n\nfunc abs(x int) int {\n    if x < 0 {\n        return -x\n    }\n    return x\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares() {\n    private val pointCounts = HashMap<Pair<Int, Int>, Int>()\n    private val points = mutableListOf<IntArray>()\n\n    fun add(point: IntArray) {\n        val pair = Pair(point[0], point[1])\n        pointCounts[pair] = pointCounts.getOrDefault(pair, 0) + 1\n        points.add(point)\n    }\n\n    fun count(point: IntArray): Int {\n        var result = 0\n        val (px, py) = point\n\n        for ((x, y) in points) {\n            if (kotlin.math.abs(py - y) != kotlin.math.abs(px - x) ||\n                x == px || y == py) {\n                continue\n            }\n            result += (pointCounts[Pair(x, py)] ?: 0) * (pointCounts[Pair(px, y)] ?: 0)\n        }\n        return result\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares {\n    private var ptsCount: [String: Int]\n    private var pts: [[Int]]\n\n    init() {\n        self.ptsCount = [:]\n        self.pts = []\n    }\n\n    func add(_ point: [Int]) {\n        let key = \"\\(point[0]),\\(point[1])\"\n        ptsCount[key, default: 0] += 1\n        pts.append(point)\n    }\n\n    func count(_ point: [Int]) -> Int {\n        var res = 0\n        let px = point[0], py = point[1]\n\n        for pt in pts {\n            let x = pt[0], y = pt[1]\n            if abs(py - y) != abs(px - x) || x == px || y == py {\n                continue\n            }\n            let key1 = \"\\(x),\\(py)\"\n            let key2 = \"\\(px),\\(y)\"\n            res += (ptsCount[key1] ?? 0) * (ptsCount[key2] ?? 0)\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "struct CountSquares {\n    pts_count: HashMap<(i32, i32), i32>,\n    pts: Vec<(i32, i32)>,\n}\n\nimpl CountSquares {\n    fn new() -> Self {\n        CountSquares {\n            pts_count: HashMap::new(),\n            pts: Vec::new(),\n        }\n    }\n\n    fn add(&mut self, point: Vec<i32>) {\n        let p = (point[0], point[1]);\n        *self.pts_count.entry(p).or_insert(0) += 1;\n        self.pts.push(p);\n    }\n\n    fn count(&self, point: Vec<i32>) -> i32 {\n        let mut res = 0;\n        let (px, py) = (point[0], point[1]);\n        for &(x, y) in &self.pts {\n            if (py - y).abs() != (px - x).abs() || x == px || y == py {\n                continue;\n            }\n            res += self.pts_count.get(&(x, py)).unwrap_or(&0)\n                 * self.pts_count.get(&(px, y)).unwrap_or(&0);\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares:\n\n    def __init__(self):\n        self.ptsCount = defaultdict(lambda: defaultdict(int))\n\n    def add(self, point: List[int]) -> None:\n        self.ptsCount[point[0]][point[1]] += 1\n\n    def count(self, point: List[int]) -> int:\n        res = 0\n        x1, y1 = point\n        for y2 in self.ptsCount[x1]:\n            side = y2 - y1\n            if side == 0:\n                continue\n\n            x3, x4 = x1 + side, x1 - side\n            res += (self.ptsCount[x1][y2] * self.ptsCount[x3][y1] *\n                    self.ptsCount[x3][y2])\n\n            res += (self.ptsCount[x1][y2] * self.ptsCount[x4][y1] *\n                    self.ptsCount[x4][y2])\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "public class CountSquares {\n    private Map<Integer, Map<Integer, Integer>> ptsCount;\n\n    public CountSquares() {\n        ptsCount = new HashMap<>();\n    }\n\n    public void add(int[] point) {\n        int x = point[0], y = point[1];\n        ptsCount.putIfAbsent(x, new HashMap<>());\n        ptsCount.get(x).put(y, ptsCount.get(x).getOrDefault(y, 0) + 1);\n    }\n\n    public int count(int[] point) {\n        int res = 0, x1 = point[0], y1 = point[1];\n\n        if (!ptsCount.containsKey(x1)) return res;\n\n        for (int y2 : ptsCount.get(x1).keySet()) {\n            int side = y2 - y1;\n            if (side == 0) continue;\n\n            int x3 = x1 + side, x4 = x1 - side;\n            res += ptsCount.get(x1).get(y2) *\n                   ptsCount.getOrDefault(x3, new HashMap<>()).getOrDefault(y1, 0) *\n                   ptsCount.getOrDefault(x3, new HashMap<>()).getOrDefault(y2, 0);\n\n            res += ptsCount.get(x1).get(y2) *\n                   ptsCount.getOrDefault(x4, new HashMap<>()).getOrDefault(y1, 0) *\n                   ptsCount.getOrDefault(x4, new HashMap<>()).getOrDefault(y2, 0);\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares {\n    unordered_map<int, unordered_map<int, int>> ptsCount;\n\npublic:\n    CountSquares() {}\n\n    void add(vector<int> point) {\n        ptsCount[point[0]][point[1]]++;\n    }\n\n    int count(vector<int> point) {\n        int res = 0;\n        int x1 = point[0], y1 = point[1];\n\n        for (auto &[y2, cnt] : ptsCount[x1]) {\n            int side = y2 - y1;\n            if (side == 0) continue;\n\n            int x3 = x1 + side, x4 = x1 - side;\n            res += cnt * ptsCount[x3][y1] * ptsCount[x3][y2];\n            res += cnt * ptsCount[x4][y1] * ptsCount[x4][y2];\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares {\n    constructor() {\n        this.ptsCount = new Map();\n    }\n\n    /**\n     * @param {number[]} point\n     * @return {void}\n     */\n    add(point) {\n        const [x, y] = point;\n        if (!this.ptsCount.has(x)) this.ptsCount.set(x, new Map());\n        const yCount = this.ptsCount.get(x);\n        yCount.set(y, (yCount.get(y) || 0) + 1);\n    }\n\n    /**\n     * @param {number[]} point\n     * @return {number}\n     */\n    count(point) {\n        let res = 0;\n        const [x1, y1] = point;\n        if (!this.ptsCount.has(x1)) return res;\n\n        const x1Points = this.ptsCount.get(x1);\n        for (const [y2, cnt] of x1Points) {\n            const side = y2 - y1;\n            if (side === 0) continue;\n\n            const x3 = x1 + side;\n            const x4 = x1 - side;\n\n            res +=\n                cnt *\n                (this.ptsCount.get(x3)?.get(y1) || 0) *\n                (this.ptsCount.get(x3)?.get(y2) || 0);\n\n            res +=\n                cnt *\n                (this.ptsCount.get(x4)?.get(y1) || 0) *\n                (this.ptsCount.get(x4)?.get(y2) || 0);\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "public class CountSquares {\n    private Dictionary<int, Dictionary<int, int>> ptsCount;\n\n    public CountSquares() {\n        ptsCount = new Dictionary<int, Dictionary<int, int>>();\n    }\n\n    public void Add(int[] point) {\n        int x = point[0], y = point[1];\n        if (!ptsCount.ContainsKey(x)) {\n            ptsCount[x] = new Dictionary<int, int>();\n        }\n        if (!ptsCount[x].ContainsKey(y)) ptsCount[x][y] = 0;\n        ptsCount[x][y]++;\n    }\n\n    public int Count(int[] point) {\n        int res = 0;\n        int x1 = point[0], y1 = point[1];\n\n        if (!ptsCount.ContainsKey(x1)) return res;\n\n        foreach (var kv in ptsCount[x1]) {\n            int y2 = kv.Key, cnt = kv.Value;\n            int side = y2 - y1;\n            if (side == 0) continue;\n\n            int x3 = x1 + side, x4 = x1 - side;\n\n            res += cnt *\n                   (ptsCount.ContainsKey(x3) &&\n                    ptsCount[x3].ContainsKey(y1) ? ptsCount[x3][y1] : 0) *\n                   (ptsCount.ContainsKey(x3) &&\n                    ptsCount[x3].ContainsKey(y2) ? ptsCount[x3][y2] : 0);\n\n            res += cnt *\n                   (ptsCount.ContainsKey(x4) &&\n                    ptsCount[x4].ContainsKey(y1) ? ptsCount[x4][y1] : 0) *\n                   (ptsCount.ContainsKey(x4) &&\n                    ptsCount[x4].ContainsKey(y2) ? ptsCount[x4][y2] : 0);\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "type CountSquares struct {\n    ptsCount map[int]map[int]int\n}\n\nfunc Constructor() CountSquares {\n    return CountSquares{\n        ptsCount: make(map[int]map[int]int),\n    }\n}\n\nfunc (this *CountSquares) Add(point []int) {\n    x, y := point[0], point[1]\n    if this.ptsCount[x] == nil {\n        this.ptsCount[x] = make(map[int]int)\n    }\n    this.ptsCount[x][y]++\n}\n\nfunc (this *CountSquares) Count(point []int) int {\n    res := 0\n    x1, y1 := point[0], point[1]\n\n    for y2 := range this.ptsCount[x1] {\n        side := y2 - y1\n        if side == 0 {\n            continue\n        }\n\n        x3, x4 := x1+side, x1-side\n\n        if _, exists := this.ptsCount[x3]; exists {\n            res += this.ptsCount[x1][y2] * this.ptsCount[x3][y1] * this.ptsCount[x3][y2]\n        }\n\n        if _, exists := this.ptsCount[x4]; exists {\n            res += this.ptsCount[x1][y2] * this.ptsCount[x4][y1] * this.ptsCount[x4][y2]\n        }\n    }\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares {\n    private val points = HashMap<Int, HashMap<Int, Int>>()\n\n    fun add(point: IntArray) {\n        val x = point[0]\n        val y = point[1]\n\n        if (!points.containsKey(x)) {\n            points[x] = hashMapOf()\n        }\n\n        points[x]?.put(y, (points[x]?.get(y) ?: 0) + 1)\n    }\n\n    fun count(point: IntArray): Int {\n        var result = 0\n        val x1 = point[0]\n        val y1 = point[1]\n\n        points[x1]?.forEach { (y2, count1) ->\n            if (y2 == y1) return@forEach\n\n            val side = Math.abs(y2 - y1)\n\n            val x3 = x1 + side\n            if (points.containsKey(x3)) {\n                val count2 = points[x3]?.get(y1) ?: 0\n                val count3 = points[x3]?.get(y2) ?: 0\n                result += count1 * count2 * count3\n            }\n\n            val x4 = x1 - side\n            if (points.containsKey(x4)) {\n                val count2 = points[x4]?.get(y1) ?: 0\n                val count3 = points[x4]?.get(y2) ?: 0\n                result += count1 * count2 * count3\n            }\n        }\n\n        return result\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "class CountSquares {\n    var ptsCount: [Int: [Int: Int]]\n\n    init() {\n        ptsCount = [:]\n    }\n\n    func add(_ point: [Int]) {\n        let x = point[0]\n        let y = point[1]\n        ptsCount[x, default: [:]][y, default: 0] += 1\n    }\n\n    func count(_ point: [Int]) -> Int {\n        var res = 0\n        let x1 = point[0]\n        let y1 = point[1]\n\n        if let yMap = ptsCount[x1] {\n            for (y2, countXY2) in yMap {\n                let side = y2 - y1\n                if side == 0 { continue }\n                let x3 = x1 + side\n                let x4 = x1 - side\n                res += countXY2 * (ptsCount[x3]?[y1] ?? 0) * (ptsCount[x3]?[y2] ?? 0)\n                res += countXY2 * (ptsCount[x4]?[y1] ?? 0) * (ptsCount[x4]?[y2] ?? 0)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "add()",
+            "code": "struct CountSquares {\n    pts_count: HashMap<i32, HashMap<i32, i32>>,\n}\n\nimpl CountSquares {\n    fn new() -> Self {\n        CountSquares {\n            pts_count: HashMap::new(),\n        }\n    }\n\n    fn add(&mut self, point: Vec<i32>) {\n        let x = point[0];\n        let y = point[1];\n        *self.pts_count.entry(x).or_default().entry(y).or_insert(0) += 1;\n    }\n\n    fn count(&self, point: Vec<i32>) -> i32 {\n        let mut res = 0;\n        let x1 = point[0];\n        let y1 = point[1];\n\n        if let Some(y_map) = self.pts_count.get(&x1) {\n            for (&y2, &cnt) in y_map {\n                let side = y2 - y1;\n                if side == 0 {\n                    continue;\n                }\n                let x3 = x1 + side;\n                let x4 = x1 - side;\n\n                let get = |x: i32, y: i32| -> i32 {\n                    *self.pts_count.get(&x).and_then(|m| m.get(&y)).unwrap_or(&0)\n                };\n\n                res += cnt * get(x3, y1) * get(x3, y2);\n                res += cnt * get(x4, y1) * get(x4, y2);\n            }\n        }\n        res\n    }\n}"
+        }
+    ]
+}

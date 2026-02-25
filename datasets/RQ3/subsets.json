@@ -1,0 +1,174 @@
+{
+    "problem_name": "Subsets",
+    "problem_slug": "subsets",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "backtracking",
+        "bit manipulation"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def subsets(self, nums: List[int]) -> List[List[int]]:\n        res = []\n        subset = []\n\n        def dfs(i):\n            if i >= len(nums):\n                res.append(subset.copy())\n                return\n            subset.append(nums[i])\n            dfs(i + 1)\n            subset.pop()\n            dfs(i + 1)\n\n        dfs(0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    public List<List<Integer>> subsets(int[] nums) {\n        List<List<Integer>> res = new ArrayList<>();\n        List<Integer> subset = new ArrayList<>();\n        dfs(nums, 0, subset, res);\n        return res;\n    }\n\n    private void dfs(int[] nums, int i, List<Integer> subset, List<List<Integer>> res) {\n        if (i >= nums.length) {\n            res.add(new ArrayList<>(subset));\n            return;\n        }\n        subset.add(nums[i]);\n        dfs(nums, i + 1, subset, res);\n        subset.remove(subset.size() - 1);\n        dfs(nums, i + 1, subset, res);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        vector<vector<int>> res;\n        vector<int> subset;\n        dfs(nums, 0, subset, res);\n        return res;\n    }\n\nprivate:\n    void dfs(const vector<int>& nums, int i, vector<int>& subset, vector<vector<int>>& res) {\n        if (i >= nums.size()) {\n            res.push_back(subset);\n            return;\n        }\n        subset.push_back(nums[i]);\n        dfs(nums, i + 1, subset, res);\n        subset.pop_back();\n        dfs(nums, i + 1, subset, res);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    subsets(nums) {\n        const res = [];\n        const subset = [];\n        this.dfs(nums, 0, subset, res);\n        return res;\n    }\n\n    /**\n     * @param {number[]} nums\n     * @param {number} i\n     * @param {number[]} subset\n     * @param {number[][]} res\n     * @return {void}\n     */\n    dfs(nums, i, subset, res) {\n        if (i >= nums.length) {\n            res.push([...subset]);\n            return;\n        }\n        subset.push(nums[i]);\n        this.dfs(nums, i + 1, subset, res);\n        subset.pop();\n        this.dfs(nums, i + 1, subset, res);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n\n    public List<List<int>> Subsets(int[] nums) {\n        var res = new List<List<int>>();\n        var subset = new List<int>();\n        Dfs(nums, 0, subset, res);\n        return res;\n    }\n\n    private void Dfs(int[] nums, int i, List<int> subset, List<List<int>> res) {\n        if (i >= nums.Length) {\n            res.Add(new List<int>(subset));\n            return;\n        }\n        subset.Add(nums[i]);\n        Dfs(nums, i + 1, subset, res);\n        subset.RemoveAt(subset.Count - 1);\n        Dfs(nums, i + 1, subset, res);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func subsets(nums []int) [][]int {\n    res := [][]int{}\n    subset := []int{}\n\n    var dfs func(int)\n    dfs = func(i int) {\n        if i >= len(nums) {\n            temp := make([]int, len(subset))\n            copy(temp, subset)\n            res = append(res, temp)\n            return\n        }\n        subset = append(subset, nums[i])\n        dfs(i + 1)\n        subset = subset[:len(subset)-1]\n        dfs(i + 1)\n    }\n\n    dfs(0)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun subsets(nums: IntArray): List<List<Int>> {\n        val res = mutableListOf<List<Int>>()\n        val subset = mutableListOf<Int>()\n\n        fun dfs(i: Int) {\n            if (i >= nums.size) {\n                res.add(subset.toList())\n                return\n            }\n            subset.add(nums[i])\n            dfs(i + 1)\n            subset.removeAt(subset.size - 1)\n            dfs(i + 1)\n        }\n\n        dfs(0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func subsets(_ nums: [Int]) -> [[Int]] {\n        var res = [[Int]]()\n        var subset = [Int]()\n\n        func dfs(_ i: Int) {\n            if i >= nums.count {\n                res.append(subset)\n                return\n            }\n            subset.append(nums[i])\n            dfs(i + 1)\n            subset.removeLast()\n            dfs(i + 1)\n        }\n\n        dfs(0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut subset = Vec::new();\n        Self::dfs(&nums, 0, &mut subset, &mut res);\n        res\n    }\n\n    fn dfs(nums: &[i32], i: usize, subset: &mut Vec<i32>, res: &mut Vec<Vec<i32>>) {\n        if i >= nums.len() {\n            res.push(subset.clone());\n            return;\n        }\n        subset.push(nums[i]);\n        Self::dfs(nums, i + 1, subset, res);\n        subset.pop();\n        Self::dfs(nums, i + 1, subset, res);\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def subsets(self, nums: List[int]) -> List[List[int]]:\n        res = [[]]\n\n        for num in nums:\n            res += [subset + [num] for subset in res]\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public List<List<Integer>> subsets(int[] nums) {\n        List<List<Integer>> res = new ArrayList<>();\n        res.add(new ArrayList<>());\n\n        for (int num : nums) {\n            int size = res.size();\n            for (int i = 0; i < size; i++) {\n                List<Integer> subset = new ArrayList<>(res.get(i));\n                subset.add(num);\n                res.add(subset);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        vector<vector<int>> res = {{}};\n\n        for (int num : nums) {\n            int size = res.size();\n            for (int i = 0; i < size; i++) {\n                vector<int> subset = res[i];\n                subset.push_back(num);\n                res.push_back(subset);\n            }\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    subsets(nums) {\n        let res = [[]];\n\n        for (let num of nums) {\n            let size = res.length;\n            for (let i = 0; i < size; i++) {\n                let subset = res[i].slice();\n                subset.push(num);\n                res.push(subset);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public List<List<int>> Subsets(int[] nums) {\n        List<List<int>> res = new List<List<int>>();\n        res.Add(new List<int>());\n\n        foreach (int num in nums) {\n            int size = res.Count;\n            for (int i = 0; i < size; i++) {\n                List<int> subset = new List<int>(res[i]);\n                subset.Add(num);\n                res.Add(subset);\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func subsets(nums []int) [][]int {\n    res := [][]int{{}}\n\n    for _, num := range nums {\n        n := len(res)\n        for i := 0; i < n; i++ {\n            newSubset := make([]int, len(res[i]))\n            copy(newSubset, res[i])\n            newSubset = append(newSubset, num)\n            res = append(res, newSubset)\n        }\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun subsets(nums: IntArray): List<List<Int>> {\n        val res = mutableListOf<List<Int>>(listOf())\n\n        for (num in nums) {\n            val n = res.size\n            for (i in 0 until n) {\n                val newSubset = res[i].toMutableList()\n                newSubset.add(num)\n                res.add(newSubset)\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func subsets(_ nums: [Int]) -> [[Int]] {\n        var res: [[Int]] = [[]]\n\n        for num in nums {\n            res += res.map { $0 + [num] }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res: Vec<Vec<i32>> = vec![vec![]];\n\n        for &num in &nums {\n            let size = res.len();\n            for i in 0..size {\n                let mut subset = res[i].clone();\n                subset.push(num);\n                res.push(subset);\n            }\n        }\n\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def subsets(self, nums: List[int]) -> List[List[int]]:\n        n = len(nums)\n        res = []\n        for i in range(1 << n):\n            subset = [nums[j] for j in range(n) if (i & (1 << j))]\n            res.append(subset)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public List<List<Integer>> subsets(int[] nums) {\n        int n = nums.length;\n        List<List<Integer>> res = new ArrayList<>();\n        for (int i = 0; i < (1 << n); i++) {\n            List<Integer> subset = new ArrayList<>();\n            for (int j = 0; j < n; j++) {\n                if ((i & (1 << j)) != 0) {\n                    subset.add(nums[j]);\n                }\n            }\n            res.add(subset);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        int n = nums.size();\n        vector<vector<int>> res;\n        for (int i = 0; i < (1 << n); i++) {\n            vector<int> subset;\n            for (int j = 0; j < n; j++) {\n                if (i & (1 << j)) {\n                    subset.push_back(nums[j]);\n                }\n            }\n            res.push_back(subset);\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number[][]}\n     */\n    subsets(nums) {\n        let res = [];\n        let n = nums.length;\n        for (let i = 0; i < 1 << n; i++) {\n            let subset = [];\n            for (let j = 0; j < n; j++) {\n                if (i & (1 << j)) {\n                    subset.push(nums[j]);\n                }\n            }\n            res.push(subset);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public List<List<int>> Subsets(int[] nums) {\n        int n = nums.Length;\n        List<List<int>> res = new List<List<int>>();\n        for (int i = 0; i < (1 << n); i++) {\n            List<int> subset = new List<int>();\n            for (int j = 0; j < n; j++) {\n                if ((i & (1 << j)) != 0) {\n                    subset.Add(nums[j]);\n                }\n            }\n            res.Add(subset);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "func subsets(nums []int) [][]int {\n    n := len(nums)\n    res := [][]int{}\n\n    for i := 0; i < (1 << n); i++ {\n        subset := []int{}\n        for j := 0; j < n; j++ {\n            if (i & (1 << j)) != 0 {\n                subset = append(subset, nums[j])\n            }\n        }\n        res = append(res, subset)\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun subsets(nums: IntArray): List<List<Int>> {\n        val n = nums.size\n        val res = mutableListOf<List<Int>>()\n\n        for (i in 0 until (1 shl n)) {\n            val subset = mutableListOf<Int>()\n            for (j in 0 until n) {\n                if (i and (1 shl j) != 0) {\n                    subset.add(nums[j])\n                }\n            }\n            res.add(subset)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func subsets(_ nums: [Int]) -> [[Int]] {\n        let n = nums.count\n        var res: [[Int]] = []\n\n        for i in 0..<(1 << n) {\n            var subset: [Int] = []\n            for j in 0..<n {\n                if (i & (1 << j)) != 0 {\n                    subset.append(nums[j])\n                }\n            }\n            res.append(subset)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * 2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let n = nums.len();\n        let mut res = Vec::new();\n\n        for i in 0..(1 << n) {\n            let mut subset = Vec::new();\n            for j in 0..n {\n                if i & (1 << j) != 0 {\n                    subset.push(nums[j]);\n                }\n            }\n            res.push(subset);\n        }\n\n        res\n    }\n}"
+        }
+    ]
+}

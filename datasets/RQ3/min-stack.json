@@ -1,0 +1,173 @@
+{
+    "problem_name": "Min Stack",
+    "problem_slug": "min-stack",
+    "difficulty": "medium",
+    "topic_tags": [
+        "stack",
+        "design"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "class MinStack:\n\n    def __init__(self):\n        self.stack = []\n\n    def push(self, val: int) -> None:\n        self.stack.append(val)\n\n    def pop(self) -> None:\n        self.stack.pop()\n\n    def top(self) -> int:\n        return self.stack[-1]\n\n    def getMin(self) -> int:\n        tmp = []\n        mini = self.stack[-1]\n\n        while len(self.stack):\n            mini = min(mini, self.stack[-1])\n            tmp.append(self.stack.pop())\n\n        while len(tmp):\n            self.stack.append(tmp.pop())\n\n        return mini"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "class MinStack {\n\n    private Stack<Integer> stack;\n\n    public MinStack() {\n        stack = new Stack<>();\n    }\n\n    public void push(int val) {\n        stack.push(val);\n    }\n\n    public void pop() {\n        stack.pop();\n    }\n\n    public int top() {\n        return stack.peek();\n    }\n\n    public int getMin() {\n        Stack<Integer> tmp = new Stack<>();\n        int mini = stack.peek();\n\n        while (!stack.isEmpty()) {\n            mini = Math.min(mini, stack.peek());\n            tmp.push(stack.pop());\n        }\n\n        while (!tmp.isEmpty()) {\n            stack.push(tmp.pop());\n        }\n\n        return mini;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "class MinStack {\npublic:\n    stack<int> stk;\n    MinStack() {\n\n    }\n\n    void push(int val) {\n        stk.push(val);\n    }\n\n    void pop() {\n        stk.pop();\n    }\n\n    int top() {\n        return stk.top();\n    }\n\n    int getMin() {\n        stack<int> tmp;\n        int mini = stk.top();\n        while (stk.size()) {\n            mini = min(mini, stk.top());\n            tmp.push(stk.top());\n            stk.pop();\n        }\n\n        while (tmp.size()) {\n            stk.push(tmp.top());\n            tmp.pop();\n        }\n\n        return mini;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "class MinStack {\n    constructor() {\n        this.stack = [];\n    }\n\n    /**\n     * @param {number} val\n     * @return {void}\n     */\n    push(val) {\n        this.stack.push(val);\n    }\n\n    /**\n     * @return {void}\n     */\n    pop() {\n        this.stack.pop();\n    }\n\n    /**\n     * @return {number}\n     */\n    top() {\n        return this.stack[this.stack.length - 1];\n    }\n\n    /**\n     * @return {number}\n     */\n    getMin() {\n        const tmp = [];\n        let mini = this.stack[this.stack.length - 1];\n\n        while (this.stack.length > 0) {\n            mini = Math.min(mini, this.stack[this.stack.length - 1]);\n            tmp.push(this.stack.pop());\n        }\n\n        while (tmp.length > 0) {\n            this.stack.push(tmp.pop());\n        }\n\n        return mini;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "public class MinStack {\n    private Stack<int> stack;\n\n    public MinStack() {\n        stack = new Stack<int>();\n    }\n\n    public void Push(int val) {\n        stack.Push(val);\n    }\n\n    public void Pop() {\n        stack.Pop();\n    }\n\n    public int Top() {\n        return stack.Peek();\n    }\n\n    public int GetMin() {\n        Stack<int> tmp = new Stack<int>();\n        int mini = stack.Peek();\n\n        while (stack.Count > 0) {\n            mini = System.Math.Min(mini, stack.Peek());\n            tmp.Push(stack.Pop());\n        }\n\n        while (tmp.Count > 0) {\n            stack.Push(tmp.Pop());\n        }\n\n        return mini;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "type MinStack struct {\n    stack *linkedliststack.Stack\n}\n\nfunc Constructor() MinStack {\n    return MinStack{stack: linkedliststack.New()}\n}\n\nfunc (this *MinStack) Push(val int) {\n    this.stack.Push(val)\n}\n\nfunc (this *MinStack) Pop() {\n    this.stack.Pop()\n}\n\nfunc (this *MinStack) Top() int {\n    top, _ := this.stack.Peek()\n    return top.(int)\n}\n\nfunc (this *MinStack) GetMin() int {\n    tmp := linkedliststack.New()\n    min := this.Top()\n\n    for !this.stack.Empty() {\n        val, _ := this.stack.Pop()\n        min = getMin(min, val.(int))\n        tmp.Push(val)\n    }\n\n    for !tmp.Empty() {\n        val, _ := tmp.Pop()\n        this.stack.Push(val)\n    }\n\n    return min\n}\n\nfunc getMin(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "class MinStack() {\n    private val stack = ArrayDeque<Int>()\n\n    fun push(`val`: Int) {\n        stack.addLast(`val`)\n    }\n\n    fun pop() {\n        stack.removeLast()\n    }\n\n    fun top(): Int {\n        return stack.last()\n    }\n\n    fun getMin(): Int {\n        val tmp = ArrayDeque<Int>()\n        var min = stack.last()\n\n        while (stack.isNotEmpty()) {\n            min = minOf(min, stack.last())\n            tmp.addLast(stack.removeLast())\n        }\n\n        while (tmp.isNotEmpty()) {\n            stack.addLast(tmp.removeLast())\n        }\n\n        return min\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "class MinStack {\n    private var stack: [Int] = []\n\n    init() {}\n\n    func push(_ val: Int) {\n        stack.append(val)\n    }\n\n    func pop() {\n        stack.popLast()\n    }\n\n    func top() -> Int {\n        return stack.last!\n    }\n\n    func getMin() -> Int {\n        var tmp = [Int]()\n        var mini = stack.last!\n\n        while !stack.isEmpty {\n            mini = min(mini, stack.last!)\n            tmp.append(stack.removeLast())\n        }\n\n        while !tmp.isEmpty {\n            stack.append(tmp.removeLast())\n        }\n\n        return mini\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "getMin()",
+            "code": "struct MinStack {\n    stack: Vec<i32>,\n}\n\nimpl MinStack {\n    fn new() -> Self {\n        Self { stack: Vec::new() }\n    }\n\n    fn push(&mut self, val: i32) {\n        self.stack.push(val);\n    }\n\n    fn pop(&mut self) {\n        self.stack.pop();\n    }\n\n    fn top(&self) -> i32 {\n        *self.stack.last().unwrap()\n    }\n\n    fn get_min(&mut self) -> i32 {\n        let mut tmp = Vec::new();\n        let mut mini = *self.stack.last().unwrap();\n\n        while let Some(val) = self.stack.pop() {\n            mini = mini.min(val);\n            tmp.push(val);\n        }\n\n        while let Some(val) = tmp.pop() {\n            self.stack.push(val);\n        }\n\n        mini\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack:\n    def __init__(self):\n        self.stack = []\n        self.minStack = []\n\n    def push(self, val: int) -> None:\n        self.stack.append(val)\n        val = min(val, self.minStack[-1] if self.minStack else val)\n        self.minStack.append(val)\n\n    def pop(self) -> None:\n        self.stack.pop()\n        self.minStack.pop()\n\n    def top(self) -> int:\n        return self.stack[-1]\n\n    def getMin(self) -> int:\n        return self.minStack[-1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "public class MinStack {\n    private Stack<Integer> stack;\n    private Stack<Integer> minStack;\n\n    public MinStack() {\n        stack = new Stack<>();\n        minStack = new Stack<>();\n    }\n\n    public void push(int val) {\n        stack.push(val);\n        if (minStack.isEmpty() || val <= minStack.peek()) {\n            minStack.push(val);\n        }\n    }\n\n    public void pop() {\n        if (stack.isEmpty()) return;\n        int top = stack.pop();\n        if (top == minStack.peek()) {\n            minStack.pop();\n        }\n    }\n\n    public int top() {\n        return stack.peek();\n    }\n\n    public int getMin() {\n        return minStack.peek();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack {\nprivate:\n    std::stack<int> stack;\n    std::stack<int> minStack;\n\npublic:\n    MinStack() {}\n\n    void push(int val) {\n        stack.push(val);\n        val = std::min(val, minStack.empty() ? val : minStack.top());\n        minStack.push(val);\n    }\n\n    void pop() {\n        stack.pop();\n        minStack.pop();\n    }\n\n    int top() {\n        return stack.top();\n    }\n\n    int getMin() {\n        return minStack.top();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack {\n    constructor() {\n        this.stack = [];\n        this.minStack = [];\n    }\n\n    /**\n     * @param {number} val\n     * @return {void}\n     */\n    push(val) {\n        this.stack.push(val);\n        val = Math.min(\n            val,\n            this.minStack.length === 0\n                ? val\n                : this.minStack[this.minStack.length - 1],\n        );\n        this.minStack.push(val);\n    }\n\n    /**\n     * @return {void}\n     */\n    pop() {\n        this.stack.pop();\n        this.minStack.pop();\n    }\n\n    /**\n     * @return {number}\n     */\n    top() {\n        return this.stack[this.stack.length - 1];\n    }\n\n    /**\n     * @return {number}\n     */\n    getMin() {\n        return this.minStack[this.minStack.length - 1];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "public class MinStack {\n\n    private Stack<int> stack;\n    private Stack<int> minStack;\n\n    public MinStack() {\n        stack = new Stack<int>();\n        minStack = new Stack<int>();\n    }\n\n    public void Push(int val) {\n        stack.Push(val);\n        val = Math.Min(val, minStack.Count == 0 ? val : minStack.Peek());\n        minStack.Push(val);\n    }\n\n    public void Pop() {\n        stack.Pop();\n        minStack.Pop();\n    }\n\n    public int Top() {\n        return stack.Peek();\n    }\n\n    public int GetMin() {\n        return minStack.Peek();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "type MinStack struct {\n    stack    *linkedliststack.Stack\n    minStack *linkedliststack.Stack\n}\n\nfunc Constructor() MinStack {\n    return MinStack{\n        stack:    linkedliststack.New(),\n        minStack: linkedliststack.New(),\n    }\n}\n\nfunc (this *MinStack) Push(val int) {\n    this.stack.Push(val)\n    minVal := val\n    if !this.minStack.Empty() {\n        if top, ok := this.minStack.Peek(); ok {\n            if top.(int) < val {\n                minVal = top.(int)\n            }\n        }\n    }\n    this.minStack.Push(minVal)\n}\n\nfunc (this *MinStack) Pop() {\n    this.stack.Pop()\n    this.minStack.Pop()\n}\n\nfunc (this *MinStack) Top() int {\n    top, _ := this.stack.Peek()\n    return top.(int)\n}\n\nfunc (this *MinStack) GetMin() int {\n    min, _ := this.minStack.Peek()\n    return min.(int)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack() {\n    private val stack = ArrayDeque<Int>()\n    private val minStack = ArrayDeque<Int>()\n\n    fun push(`val`: Int) {\n        stack.addLast(`val`)\n        val minVal = if (minStack.isNotEmpty()) minOf(`val`, minStack.last()) else `val`\n        minStack.addLast(minVal)\n    }\n\n    fun pop() {\n        stack.removeLast()\n        minStack.removeLast()\n    }\n\n    fun top(): Int {\n        return stack.last()\n    }\n\n    fun getMin(): Int {\n        return minStack.last()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack {\n    private var stack: [Int] = []\n    private var minStack: [Int] = []\n\n    init() {}\n\n    func push(_ val: Int) {\n        stack.append(val)\n        let minVal = min(val, minStack.last ?? val)\n        minStack.append(minVal)\n    }\n\n    func pop() {\n        stack.popLast()\n        minStack.popLast()\n    }\n\n    func top() -> Int {\n        return stack.last!\n    }\n\n    func getMin() -> Int {\n        return minStack.last!\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "struct MinStack {\n    stack: Vec<i32>,\n    min_stack: Vec<i32>,\n}\n\nimpl MinStack {\n    fn new() -> Self {\n        Self {\n            stack: Vec::new(),\n            min_stack: Vec::new(),\n        }\n    }\n\n    fn push(&mut self, val: i32) {\n        self.stack.push(val);\n        let min_val = if let Some(&top) = self.min_stack.last() {\n            val.min(top)\n        } else {\n            val\n        };\n        self.min_stack.push(min_val);\n    }\n\n    fn pop(&mut self) {\n        self.stack.pop();\n        self.min_stack.pop();\n    }\n\n    fn top(&self) -> i32 {\n        *self.stack.last().unwrap()\n    }\n\n    fn get_min(&self) -> i32 {\n        *self.min_stack.last().unwrap()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack:\n    def __init__(self):\n        self.min = float('inf')\n        self.stack = []\n\n    def push(self, val: int) -> None:\n        if not self.stack:\n            self.stack.append(0)\n            self.min = val\n        else:\n            self.stack.append(val - self.min)\n            if val < self.min:\n                self.min = val\n\n    def pop(self) -> None:\n        if not self.stack:\n            return\n\n        pop = self.stack.pop()\n\n        if pop < 0:\n            self.min = self.min - pop\n\n    def top(self) -> int:\n        top = self.stack[-1]\n        if top > 0:\n            return top + self.min\n        else:\n            return self.min\n\n    def getMin(self) -> int:\n        return self.min"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "public class MinStack {\n    long min;\n    Stack<Long> stack;\n\n    public MinStack() {\n        stack = new Stack<>();\n    }\n\n    public void push(int val) {\n        if (stack.isEmpty()) {\n            stack.push(0L);\n            min = val;\n        } else {\n            stack.push(val - min);\n            if (val < min) min = val;\n        }\n    }\n\n    public void pop() {\n        if (stack.isEmpty()) return;\n\n        long pop = stack.pop();\n\n        if (pop < 0) min = min - pop;\n    }\n\n    public int top() {\n        long top = stack.peek();\n        if (top > 0) {\n            return (int) (top + min);\n        } else {\n            return (int) min;\n        }\n    }\n\n    public int getMin() {\n        return (int) min;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack {\nprivate:\n    long min;\n    std::stack<long> stack;\n\npublic:\n    MinStack() {}\n\n    void push(int val) {\n        if (stack.empty()) {\n            stack.push(0);\n            min = val;\n        } else {\n            stack.push(val - min);\n            if (val < min) min = val;\n        }\n    }\n\n    void pop() {\n        if (stack.empty()) return;\n\n        long pop = stack.top();\n        stack.pop();\n\n        if (pop < 0) min = min - pop;\n    }\n\n    int top() {\n        long top = stack.top();\n        return (top > 0) ? (top + min) : (int)min;\n    }\n\n    int getMin() {\n        return (int)min;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack {\n    constructor() {\n        this.min = Infinity;\n        this.stack = [];\n    }\n\n    /**\n     * @param {number} val\n     * @return {void}\n     */\n    push(val) {\n        if (this.stack.length === 0) {\n            this.stack.push(0);\n            this.min = val;\n        } else {\n            this.stack.push(val - this.min);\n            if (val < this.min) this.min = val;\n        }\n    }\n\n    /**\n     * @return {void}\n     */\n    pop() {\n        if (this.stack.length === 0) return;\n\n        const pop = this.stack.pop();\n\n        if (pop < 0) this.min -= pop;\n    }\n\n    /**\n     * @return {number}\n     */\n    top() {\n        const top = this.stack[this.stack.length - 1];\n        return top > 0 ? top + this.min : this.min;\n    }\n\n    /**\n     * @return {number}\n     */\n    getMin() {\n        return this.min;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "public class MinStack {\n    private long min;\n    private Stack<long> stack;\n\n    public MinStack() {\n        stack = new Stack<long>();\n    }\n\n    public void Push(int val) {\n        if (stack.Count == 0) {\n            stack.Push(0L);\n            min = val;\n        } else {\n            stack.Push(val - min);\n            if (val < min) min = val;\n        }\n    }\n\n    public void Pop() {\n        if (stack.Count == 0) return;\n\n        long pop = stack.Pop();\n\n        if (pop < 0) min -= pop;\n    }\n\n    public int Top() {\n        long top = stack.Peek();\n        return top > 0 ? (int)(top + min) : (int)(min);\n    }\n\n    public int GetMin() {\n        return (int)min;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "type MinStack struct {\n    min   int\n    stack []int\n}\n\nfunc Constructor() MinStack {\n    return MinStack{\n        min:   math.MaxInt64,\n        stack: []int{},\n    }\n}\n\nfunc (this *MinStack) Push(val int) {\n    if len(this.stack) == 0 {\n        this.stack = append(this.stack, 0)\n        this.min = val\n    } else {\n        this.stack = append(this.stack, val - this.min)\n        if val < this.min {\n            this.min = val\n        }\n    }\n}\n\nfunc (this *MinStack) Pop() {\n    if len(this.stack) == 0 {\n        return\n    }\n    pop := this.stack[len(this.stack)-1]\n    this.stack = this.stack[:len(this.stack)-1]\n    if pop < 0 {\n        this.min = this.min - pop\n    }\n}\n\nfunc (this *MinStack) Top() int {\n    top := this.stack[len(this.stack)-1]\n    if top > 0 {\n        return top + this.min\n    }\n    return this.min\n}\n\nfunc (this *MinStack) GetMin() int {\n    return this.min\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack() {\n    private var min: Long = Long.MAX_VALUE\n    private val stack = ArrayDeque<Long>()\n\n    fun push(`val`: Int) {\n        val valAsLong = `val`.toLong()\n        if (stack.isEmpty()) {\n            stack.addLast(0L)\n            min = valAsLong\n        } else {\n            stack.addLast(valAsLong - min)\n            if (valAsLong < min) {\n                min = valAsLong\n            }\n        }\n    }\n\n    fun pop() {\n        if (stack.isEmpty()) return\n        val pop = stack.removeLast()\n        if (pop < 0) {\n            min -= pop\n        }\n    }\n\n    fun top(): Int {\n        val top = stack.last()\n        return if (top > 0) (top + min).toInt() else min.toInt()\n    }\n\n    fun getMin(): Int {\n        return min.toInt()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "class MinStack {\n    private var minVal: Int = Int.max\n    private var stack: [Int] = []\n\n    init() {}\n\n    func push(_ val: Int) {\n        if stack.isEmpty {\n            stack.append(0)\n            minVal = val\n        } else {\n            stack.append(val - minVal)\n            if val < minVal {\n                minVal = val\n            }\n        }\n    }\n\n    func pop() {\n        if stack.isEmpty {\n            return\n        }\n\n        let pop = stack.removeLast()\n\n        if pop < 0 {\n            minVal -= pop\n        }\n    }\n\n    func top() -> Int {\n        let top = stack.last!\n        return top > 0 ? top + minVal : minVal\n    }\n\n    func getMin() -> Int {\n        return minVal\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(1)",
+            "space_complexity": "O(n)",
+            "code": "struct MinStack {\n    min_val: i64,\n    stack: Vec<i64>,\n}\n\nimpl MinStack {\n    fn new() -> Self {\n        Self {\n            min_val: 0,\n            stack: Vec::new(),\n        }\n    }\n\n    fn push(&mut self, val: i32) {\n        let val = val as i64;\n        if self.stack.is_empty() {\n            self.stack.push(0);\n            self.min_val = val;\n        } else {\n            self.stack.push(val - self.min_val);\n            if val < self.min_val {\n                self.min_val = val;\n            }\n        }\n    }\n\n    fn pop(&mut self) {\n        if let Some(top) = self.stack.pop() {\n            if top < 0 {\n                self.min_val -= top;\n            }\n        }\n    }\n\n    fn top(&self) -> i32 {\n        let top = *self.stack.last().unwrap();\n        if top > 0 { (top + self.min_val) as i32 } else { self.min_val as i32 }\n    }\n\n    fn get_min(&self) -> i32 {\n        self.min_val as i32\n    }\n}"
+        }
+    ]
+}

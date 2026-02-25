@@ -1,0 +1,339 @@
+{
+    "problem_name": "Word Break",
+    "problem_slug": "word-break",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "hash table",
+        "string",
+        "dynamic programming",
+        "trie",
+        "memoization"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n\n        def dfs(i):\n            if i == len(s):\n                return True\n\n            for w in wordDict:\n                if ((i + len(w)) <= len(s) and\n                     s[i : i + len(w)] == w\n                ):\n                    if dfs(i + len(w)):\n                        return True\n            return False\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        return dfs(s, wordDict, 0);\n    }\n\n    private boolean dfs(String s, List<String> wordDict, int i) {\n        if (i == s.length()) {\n            return true;\n        }\n\n        for (String w : wordDict) {\n            if (i + w.length() <= s.length() &&\n                s.substring(i, i + w.length()).equals(w)) {\n                if (dfs(s, wordDict, i + w.length())) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        return dfs(s, wordDict, 0);\n    }\n\nprivate:\n    bool dfs(const string& s, const vector<string>& wordDict, int i) {\n        if (i == s.length()) {\n            return true;\n        }\n\n        for (const string& w : wordDict) {\n            if (i + w.length() <= s.length() &&\n                s.substr(i, w.length()) == w) {\n                if (dfs(s, wordDict, i + w.length())) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string[]} wordDict\n     * @return {boolean}\n     */\n    wordBreak(s, wordDict) {\n        return this.dfs(s, wordDict, 0);\n    }\n\n    /**\n     * @param {string} s\n     * @param {string[]} wordDict\n     * @param {number} i\n     * @return {boolean}\n     */\n    dfs(s, wordDict, i) {\n        if (i === s.length) {\n            return true;\n        }\n\n        for (let w of wordDict) {\n            if (\n                i + w.length <= s.length &&\n                s.substring(i, i + w.length) === w\n            ) {\n                if (this.dfs(s, wordDict, i + w.length)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool WordBreak(string s, List<string> wordDict) {\n        return Dfs(s, wordDict, 0);\n    }\n\n    private bool Dfs(string s, List<string> wordDict, int i) {\n        if (i == s.Length) {\n            return true;\n        }\n\n        foreach (string w in wordDict) {\n            if (i + w.Length <= s.Length &&\n                s.Substring(i, w.Length) == w) {\n                if (Dfs(s, wordDict, i + w.Length)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "func wordBreak(s string, wordDict []string) bool {\n    return dfs(s, wordDict, 0)\n}\n\nfunc dfs(s string, wordDict []string, i int) bool {\n    if i == len(s) {\n        return true\n    }\n\n    for _, w := range wordDict {\n        if len(s[i:]) >= len(w) && s[i:i+len(w)] == w {\n            if dfs(s, wordDict, i+len(w)) {\n                return true\n            }\n        }\n    }\n\n    return false\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun wordBreak(s: String, wordDict: List<String>): Boolean {\n        return dfs(s, wordDict, 0)\n    }\n\n    private fun dfs(s: String, wordDict: List<String>, i: Int): Boolean {\n        if (i == s.length) {\n            return true\n        }\n\n        for (w in wordDict) {\n            if (s.length - i >= w.length && s.substring(i, i + w.length) == w) {\n                if (dfs(s, wordDict, i + w.length)) {\n                    return true\n                }\n            }\n        }\n\n        return false\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {\n        let chars = Array(s)\n\n        func dfs(_ i: Int) -> Bool {\n            if i == chars.count {\n                return true\n            }\n\n            for w in wordDict {\n                if i + w.count <= chars.count,\n                   String(chars[i..<i + w.count]) == w {\n                    if dfs(i + w.count) {\n                        return true\n                    }\n                }\n            }\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(t * m^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        fn dfs(s: &[u8], word_dict: &[String], i: usize) -> bool {\n            if i == s.len() {\n                return true;\n            }\n            for w in word_dict {\n                let wb = w.as_bytes();\n                if i + wb.len() <= s.len() && &s[i..i + wb.len()] == wb {\n                    if dfs(s, word_dict, i + wb.len()) {\n                        return true;\n                    }\n                }\n            }\n            false\n        }\n\n        dfs(s.as_bytes(), &word_dict, 0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        wordSet = set(wordDict)\n\n        def dfs(i):\n            if i == len(s):\n                return True\n\n            for j in range(i, len(s)):\n                if s[i : j + 1] in wordSet:\n                    if dfs(j + 1):\n                        return True\n            return False\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "public class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        HashSet<String> wordSet = new HashSet<>(wordDict);\n\n        return dfs(s, wordSet, 0);\n    }\n\n    private boolean dfs(String s, HashSet<String> wordSet, int i) {\n        if (i == s.length()) {\n            return true;\n        }\n\n        for (int j = i; j < s.length(); j++) {\n            if (wordSet.contains(s.substring(i, j + 1))) {\n                if (dfs(s, wordSet, j + 1)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        unordered_set<string> wordSet(wordDict.begin(), wordDict.end());\n        return dfs(s, wordSet, 0);\n    }\n\n    bool dfs(const string& s, const unordered_set<string>& wordSet, int i) {\n        if (i == s.size()) {\n            return true;\n        }\n\n        for (int j = i; j < s.size(); j++) {\n            if (wordSet.find(s.substr(i, j - i + 1)) != wordSet.end()) {\n                if (dfs(s, wordSet, j + 1)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string[]} wordDict\n     * @return {boolean}\n     */\n    wordBreak(s, wordDict) {\n        const wordSet = new Set(wordDict);\n        const dfs = (i) => {\n            if (i === s.length) {\n                return true;\n            }\n\n            for (let j = i; j < s.length; j++) {\n                if (wordSet.has(s.substring(i, j + 1))) {\n                    if (dfs(j + 1)) {\n                        return true;\n                    }\n                }\n            }\n            return false;\n        };\n\n        return dfs(0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "public class Solution {\n    public bool WordBreak(string s, List<string> wordDict) {\n        HashSet<string> wordSet = new HashSet<string>(wordDict);\n        return Dfs(s, wordSet, 0);\n    }\n\n    private bool Dfs(string s, HashSet<string> wordSet, int i) {\n        if (i == s.Length) {\n            return true;\n        }\n\n        for (int j = i; j < s.Length; j++) {\n            if (wordSet.Contains(s.Substring(i, j - i + 1))) {\n                if (Dfs(s, wordSet, j + 1)) {\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "func wordBreak(s string, wordDict []string) bool {\n    wordSet := make(map[string]bool)\n    for _, w := range wordDict {\n        wordSet[w] = true\n    }\n    return dfs(s, wordSet, 0)\n}\n\nfunc dfs(s string, wordSet map[string]bool, i int) bool {\n    if i == len(s) {\n        return true\n    }\n\n    for j := i; j < len(s); j++ {\n        if wordSet[s[i:j+1]] {\n            if dfs(s, wordSet, j+1) {\n                return true\n            }\n        }\n    }\n\n    return false\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution {\n    fun wordBreak(s: String, wordDict: List<String>): Boolean {\n        val wordSet = wordDict.toHashSet()\n        return dfs(s, wordSet, 0)\n    }\n\n    private fun dfs(s: String, wordSet: HashSet<String>, i: Int): Boolean {\n        if (i == s.length) {\n            return true\n        }\n\n        for (j in i until s.length) {\n            if (wordSet.contains(s.substring(i, j + 1))) {\n                if (dfs(s, wordSet, j + 1)) {\n                    return true\n                }\n            }\n        }\n\n        return false\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution {\n    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {\n        let wordSet = Set(wordDict)\n        let chars = Array(s)\n\n        func dfs(_ i: Int) -> Bool {\n            if i == chars.count {\n                return true\n            }\n\n            for j in i..<chars.count {\n                if wordSet.contains(String(chars[i...j])) {\n                    if dfs(j + 1) {\n                        return true\n                    }\n                }\n            }\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O( (n * 2^n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "impl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        let word_set: HashSet<&str> = word_dict.iter().map(|w| w.as_str()).collect();\n\n        fn dfs(s: &str, word_set: &HashSet<&str>, i: usize) -> bool {\n            if i == s.len() {\n                return true;\n            }\n            for j in i..s.len() {\n                if word_set.contains(&s[i..=j]) {\n                    if dfs(s, word_set, j + 1) {\n                        return true;\n                    }\n                }\n            }\n            false\n        }\n\n        dfs(&s, &word_set, 0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        memo = {len(s) : True}\n        def dfs(i):\n            if i in memo:\n                return memo[i]\n\n            for w in wordDict:\n                if ((i + len(w)) <= len(s) and\n                     s[i : i + len(w)] == w\n                ):\n                    if dfs(i + len(w)):\n                        memo[i] = True\n                        return True\n            memo[i] = False\n            return False\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private Map<Integer, Boolean> memo;\n\n    public boolean wordBreak(String s, List<String> wordDict) {\n        memo = new HashMap<>();\n        memo.put(s.length(), true);\n        return dfs(s, wordDict, 0);\n    }\n\n    private boolean dfs(String s, List<String> wordDict, int i) {\n        if (memo.containsKey(i)) {\n            return memo.get(i);\n        }\n\n        for (String w : wordDict) {\n            if (i + w.length() <= s.length() &&\n                s.substring(i, i + w.length()).equals(w)) {\n                if (dfs(s, wordDict, i + w.length())) {\n                    memo.put(i, true);\n                    return true;\n                }\n            }\n        }\n        memo.put(i, false);\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    unordered_map<int, bool> memo;\n\n    bool wordBreak(string s, vector<string>& wordDict) {\n        memo[s.length()] = true;\n        return dfs(s, wordDict, 0);\n    }\n\n    bool dfs(string& s, vector<string>& wordDict, int i) {\n        if (memo.find(i) != memo.end()) {\n            return memo[i];\n        }\n\n        for (const string& w : wordDict) {\n            if (i + w.length() <= s.length() &&\n                s.substr(i, w.length()) == w) {\n                if (dfs(s, wordDict, i + w.length())) {\n                    memo[i] = true;\n                    return true;\n                }\n            }\n        }\n        memo[i] = false;\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    constructor() {\n        this.memo = {};\n    }\n\n    /**\n     * @param {string} s\n     * @param {string[]} wordDict\n     * @return {boolean}\n     */\n    wordBreak(s, wordDict) {\n        this.memo = { [s.length]: true };\n        return this.dfs(s, wordDict, 0);\n    }\n\n    /**\n     * @param {string} s\n     * @param {string[]} wordDict\n     * @param {number} i\n     * @return {boolean}\n     */\n    dfs(s, wordDict, i) {\n        if (i in this.memo) {\n            return this.memo[i];\n        }\n\n        for (let w of wordDict) {\n            if (\n                i + w.length <= s.length &&\n                s.substring(i, i + w.length) === w\n            ) {\n                if (this.dfs(s, wordDict, i + w.length)) {\n                    this.memo[i] = true;\n                    return true;\n                }\n            }\n        }\n        this.memo[i] = false;\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private Dictionary<int, bool> memo;\n\n    public bool WordBreak(string s, List<string> wordDict) {\n        memo = new Dictionary<int, bool> { { s.Length, true } };\n        return Dfs(s, wordDict, 0);\n    }\n\n    private bool Dfs(string s, List<string> wordDict, int i) {\n        if (memo.ContainsKey(i)) {\n            return memo[i];\n        }\n\n        foreach (var w in wordDict) {\n            if (i + w.Length <= s.Length &&\n                s.Substring(i, w.Length) == w) {\n                if (Dfs(s, wordDict, i + w.Length)) {\n                    memo[i] = true;\n                    return true;\n                }\n            }\n        }\n        memo[i] = false;\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "func wordBreak(s string, wordDict []string) bool {\n    memo := make(map[int]bool)\n    memo[len(s)] = true\n\n    var dfs func(int) bool\n    dfs = func(i int) bool {\n        if val, found := memo[i]; found {\n            return val\n        }\n\n        for _, w := range wordDict {\n            if i+len(w) <= len(s) && s[i:i+len(w)] == w {\n                if dfs(i + len(w)) {\n                    memo[i] = true\n                    return true\n                }\n            }\n        }\n\n        memo[i] = false\n        return false\n    }\n\n    return dfs(0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun wordBreak(s: String, wordDict: List<String>): Boolean {\n        val memo = hashMapOf(s.length to true)\n\n        fun dfs(i: Int): Boolean {\n            memo[i]?.let { return it }\n\n            for (w in wordDict) {\n                if (i + w.length <= s.length &&\n                    s.substring(i, i + w.length) == w) {\n                    if (dfs(i + w.length)) {\n                        memo[i] = true\n                        return true\n                    }\n                }\n            }\n\n            memo[i] = false\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {\n        var memo = [Int: Bool]()\n        memo[s.count] = true\n        let chars = Array(s)\n\n        func dfs(_ i: Int) -> Bool {\n            if let cached = memo[i] {\n                return cached\n            }\n\n            for w in wordDict {\n                if i + w.count <= chars.count,\n                   String(chars[i..<i + w.count]) == w {\n                    if dfs(i + w.count) {\n                        memo[i] = true\n                        return true\n                    }\n                }\n            }\n            memo[i] = false\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        let n = s.len();\n        let mut memo = HashMap::new();\n        memo.insert(n, true);\n\n        fn dfs(\n            s: &[u8], word_dict: &[String], i: usize,\n            memo: &mut HashMap<usize, bool>,\n        ) -> bool {\n            if let Some(&val) = memo.get(&i) {\n                return val;\n            }\n            for w in word_dict {\n                let wb = w.as_bytes();\n                if i + wb.len() <= s.len() && &s[i..i + wb.len()] == wb {\n                    if dfs(s, word_dict, i + wb.len(), memo) {\n                        memo.insert(i, true);\n                        return true;\n                    }\n                }\n            }\n            memo.insert(i, false);\n            false\n        }\n\n        dfs(s.as_bytes(), &word_dict, 0, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        wordSet = set(wordDict)\n        t = 0\n        for w in wordDict:\n            t = max(t, len(w))\n\n        memo = {}\n        def dfs(i):\n            if i in memo:\n                return memo[i]\n            if i == len(s):\n                return True\n            for j in range(i, min(len(s), i + t)):\n                if s[i : j + 1] in wordSet:\n                    if dfs(j + 1):\n                        memo[i] = True\n                        return True\n            memo[i] = False\n            return False\n\n        return dfs(0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "public class Solution {\n    private HashSet<String> wordSet;\n    private Boolean[] memo;\n    private int t;\n\n    public boolean wordBreak(String s, List<String> wordDict) {\n        wordSet = new HashSet<>(wordDict);\n        memo = new Boolean[s.length()];\n        t = 0;\n        for (int i = 0; i < wordDict.size(); i++) {\n            t = Math.max(t, wordDict.get(i).length());\n        }\n        return dfs(s, 0);\n    }\n\n    private boolean dfs(String s, int i) {\n        if (i == s.length()) {\n            return true;\n        }\n        if (memo[i] != null) {\n            return memo[i];\n        }\n\n        for (int j = i; j < Math.min(i + t, s.length()); j++) {\n            if (wordSet.contains(s.substring(i, j + 1))) {\n                if (dfs(s, j + 1)) {\n                    memo[i] = true;\n                    return true;\n                }\n            }\n        }\n        memo[i] = false;\n        return false;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution {\npublic:\n    unordered_set<string> wordSet;\n    vector<int> memo;\n    int t;\n\n    bool wordBreak(string s, vector<string>& wordDict) {\n        wordSet.insert(wordDict.begin(), wordDict.end());\n        memo.resize(s.size(), -1);\n        t = 0;\n        for (string& w : wordDict) {\n            t = max(t, int(w.length()));\n        }\n        return dfs(s, 0);\n    }\n\n    bool dfs(string& s, int i) {\n        if (i == s.size()) {\n            return true;\n        }\n        if (memo[i] != -1) {\n            return memo[i] == 1;\n        }\n\n        for (int j = i; j < (i + t, s.size()); j++) {\n            if (wordSet.count(s.substr(i, j - i + 1))) {\n                if (dfs(s, j + 1)) {\n                    memo[i] = 1;\n                    return true;\n                }\n            }\n        }\n        memo[i] = 0;\n        return false;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string[]} wordDict\n     * @return {boolean}\n     */\n    wordBreak(s, wordDict) {\n        this.wordSet = new Set(wordDict);\n        this.memo = new Array(s.length).fill(null);\n        this.t = 0;\n        for (const w of wordDict) {\n            this.t = Math.max(this.t, w.length);\n        }\n        return this.dfs(s, 0);\n    }\n\n    /**\n     * @param {string} s\n     * @param {number} i\n     * @return {boolean}\n     */\n    dfs(s, i) {\n        if (i === s.length) {\n            return true;\n        }\n        if (this.memo[i] !== null) {\n            return this.memo[i];\n        }\n\n        for (let j = i; j < Math.min(i + this.t, s.length); j++) {\n            if (this.wordSet.has(s.substring(i, j + 1))) {\n                if (this.dfs(s, j + 1)) {\n                    this.memo[i] = true;\n                    return true;\n                }\n            }\n        }\n        this.memo[i] = false;\n        return false;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "public class Solution {\n    private HashSet<string> wordSet;\n    private Dictionary<int, bool> memo;\n    private int t;\n\n    public bool WordBreak(string s, List<string> wordDict) {\n        wordSet = new HashSet<string>(wordDict);\n        memo = new Dictionary<int, bool>();\n        t = 0;\n        foreach (var w in wordDict) {\n            t = Math.Max(t, w.Length);\n        }\n        return Dfs(s, 0);\n    }\n\n    private bool Dfs(string s, int i) {\n        if (i == s.Length) {\n            return true;\n        }\n        if (memo.ContainsKey(i)) {\n            return memo[i];\n        }\n\n        for (int j = i; j < Math.Min(i + t, s.Length); j++) {\n            if (wordSet.Contains(s.Substring(i, j - i + 1))) {\n                if (Dfs(s, j + 1)) {\n                    memo[i] = true;\n                    return true;\n                }\n            }\n        }\n        memo[i] = false;\n        return false;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "func wordBreak(s string, wordDict []string) bool {\n    wordSet := make(map[string]bool)\n    maxLen := 0\n\n    for _, w := range wordDict {\n        wordSet[w] = true\n        if len(w) > maxLen {\n            maxLen = len(w)\n        }\n    }\n\n    memo := make(map[int]bool)\n\n    var dfs func(int) bool\n    dfs = func(i int) bool {\n        if val, found := memo[i]; found {\n            return val\n        }\n        if i == len(s) {\n            return true\n        }\n        for j := i; j < len(s) && j < i+maxLen; j++ {\n            if wordSet[s[i:j+1]] {\n                if dfs(j + 1) {\n                    memo[i] = true\n                    return true\n                }\n            }\n        }\n        memo[i] = false\n        return false\n    }\n\n    return dfs(0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution {\n    fun wordBreak(s: String, wordDict: List<String>): Boolean {\n        val wordSet = wordDict.toSet()\n        val maxLen = wordDict.maxOfOrNull { it.length } ?: 0\n        val memo = HashMap<Int, Boolean>()\n\n        fun dfs(i: Int): Boolean {\n            memo[i]?.let { return it }\n            if (i == s.length) return true\n\n            for (j in i until minOf(s.length, i + maxLen)) {\n                if (s.substring(i, j + 1) in wordSet) {\n                    if (dfs(j + 1)) {\n                        memo[i] = true\n                        return true\n                    }\n                }\n            }\n\n            memo[i] = false\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class Solution {\n    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {\n        let wordSet = Set(wordDict)\n        var maxLen = 0\n        for w in wordDict {\n            maxLen = max(maxLen, w.count)\n        }\n\n        var memo = [Int: Bool]()\n        let chars = Array(s)\n\n        func dfs(_ i: Int) -> Bool {\n            if let cached = memo[i] {\n                return cached\n            }\n            if i == chars.count {\n                return true\n            }\n            for j in i..<min(chars.count, i + maxLen) {\n                if wordSet.contains(String(chars[i...j])) {\n                    if dfs(j + 1) {\n                        memo[i] = true\n                        return true\n                    }\n                }\n            }\n            memo[i] = false\n            return false\n        }\n\n        return dfs(0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O((t^2 * n) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "impl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        let word_set: HashSet<&str> = word_dict.iter().map(|w| w.as_str()).collect();\n        let t = word_dict.iter().map(|w| w.len()).max().unwrap_or(0);\n        let n = s.len();\n        let mut memo = HashMap::new();\n\n        fn dfs(\n            s: &str, i: usize, t: usize,\n            word_set: &HashSet<&str>, memo: &mut HashMap<usize, bool>,\n        ) -> bool {\n            if let Some(&val) = memo.get(&i) {\n                return val;\n            }\n            if i == s.len() {\n                return true;\n            }\n            for j in i..s.len().min(i + t) {\n                if word_set.contains(&s[i..=j]) {\n                    if dfs(s, j + 1, t, word_set, memo) {\n                        memo.insert(i, true);\n                        return true;\n                    }\n                }\n            }\n            memo.insert(i, false);\n            false\n        }\n\n        dfs(&s, 0, t, &word_set, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        dp = [False] * (len(s) + 1)\n        dp[len(s)] = True\n\n        for i in range(len(s) - 1, -1, -1):\n            for w in wordDict:\n                if (i + len(w)) <= len(s) and s[i : i + len(w)] == w:\n                    dp[i] = dp[i + len(w)]\n                if dp[i]:\n                    break\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        boolean[] dp = new boolean[s.length() + 1];\n        dp[s.length()] = true;\n\n        for (int i = s.length() - 1; i >= 0; i--) {\n            for (String w : wordDict) {\n                if ((i + w.length()) <= s.length() &&\n                     s.substring(i, i + w.length()).equals(w)) {\n                    dp[i] = dp[i + w.length()];\n                }\n                if (dp[i]) {\n                    break;\n                }\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        vector<bool> dp(s.size() + 1, false);\n        dp[s.size()] = true;\n\n        for (int i = s.size() - 1; i >= 0; i--) {\n            for (const auto& w : wordDict) {\n                if ((i + w.size()) <= s.size() &&\n                     s.substr(i, w.size()) == w) {\n                    dp[i] = dp[i + w.size()];\n                }\n                if (dp[i]) {\n                    break;\n                }\n            }\n        }\n\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string[]} wordDict\n     * @return {boolean}\n     */\n    wordBreak(s, wordDict) {\n        const dp = new Array(s.length + 1).fill(false);\n        dp[s.length] = true;\n\n        for (let i = s.length - 1; i >= 0; i--) {\n            for (const w of wordDict) {\n                if (\n                    i + w.length <= s.length &&\n                    s.slice(i, i + w.length) === w\n                ) {\n                    dp[i] = dp[i + w.length];\n                }\n                if (dp[i]) {\n                    break;\n                }\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool WordBreak(string s, List<string> wordDict) {\n        bool[] dp = new bool[s.Length + 1];\n        dp[s.Length] = true;\n\n        for (int i = s.Length - 1; i >= 0; i--) {\n            foreach (string w in wordDict) {\n                if ((i + w.Length) <= s.Length &&\n                     s.Substring(i, w.Length) == w) {\n                    dp[i] = dp[i + w.Length];\n                }\n                if (dp[i]) {\n                    break;\n                }\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "func wordBreak(s string, wordDict []string) bool {\n    dp := make([]bool, len(s)+1)\n    dp[len(s)] = true\n\n    for i := len(s) - 1; i >= 0; i-- {\n        for _, w := range wordDict {\n            if i+len(w) <= len(s) && s[i:i+len(w)] == w {\n                dp[i] = dp[i+len(w)]\n            }\n            if dp[i] {\n                break\n            }\n        }\n    }\n\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun wordBreak(s: String, wordDict: List<String>): Boolean {\n        val dp = BooleanArray(s.length + 1)\n        dp[s.length] = true\n\n        for (i in s.length - 1 downTo 0) {\n            for (w in wordDict) {\n                if (i + w.length <= s.length &&\n                    s.substring(i, i + w.length) == w) {\n                    dp[i] = dp[i + w.length]\n                }\n                if (dp[i]) break\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {\n        var dp = Array(repeating: false, count: s.count + 1)\n        dp[s.count] = true\n        let chars = Array(s)\n\n        for i in stride(from: s.count - 1, through: 0, by: -1) {\n            for w in wordDict {\n                if i + w.count <= chars.count, String(chars[i..<i + w.count]) == w {\n                    dp[i] = dp[i + w.count]\n                }\n                if dp[i] {\n                    break\n                }\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * m * t)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        let n = s.len();\n        let sb = s.as_bytes();\n        let mut dp = vec![false; n + 1];\n        dp[n] = true;\n\n        for i in (0..n).rev() {\n            for w in &word_dict {\n                let wb = w.as_bytes();\n                if i + wb.len() <= n && &sb[i..i + wb.len()] == wb {\n                    dp[i] = dp[i + wb.len()];\n                }\n                if dp[i] {\n                    break;\n                }\n            }\n        }\n\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_word = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_word = True\n\n    def search(self, s, i, j):\n        node = self.root\n        for idx in range(i, j + 1):\n            if s[idx] not in node.children:\n                return False\n            node = node.children[s[idx]]\n        return node.is_word\n\nclass Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        trie = Trie()\n        for word in wordDict:\n            trie.insert(word)\n\n        dp = [False] * (len(s) + 1)\n        dp[len(s)] = True\n\n        t = 0\n        for w in wordDict:\n            t = max(t, len(w))\n\n        for i in range(len(s), -1, -1):\n            for j in range(i, min(len(s), i + t)):\n                if trie.search(s, i, j):\n                    dp[i] = dp[j + 1]\n                    if dp[i]:\n                        break\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class TrieNode {\n    HashMap<Character, TrieNode> children;\n    boolean isWord;\n\n    public TrieNode() {\n        children = new HashMap<>();\n        isWord = false;\n    }\n}\n\nclass Trie {\n    TrieNode root;\n\n    public Trie() {\n        root = new TrieNode();\n    }\n\n    public void insert(String word) {\n        TrieNode node = root;\n        for (char c : word.toCharArray()) {\n            node.children.putIfAbsent(c, new TrieNode());\n            node = node.children.get(c);\n        }\n        node.isWord = true;\n    }\n\n    public boolean search(String s, int i, int j) {\n        TrieNode node = root;\n        for (int idx = i; idx <= j; idx++) {\n            if (!node.children.containsKey(s.charAt(idx))) {\n                return false;\n            }\n            node = node.children.get(s.charAt(idx));\n        }\n        return node.isWord;\n    }\n}\n\npublic class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        Trie trie = new Trie();\n        for (String word : wordDict) {\n            trie.insert(word);\n        }\n\n        int n = s.length();\n        boolean[] dp = new boolean[n + 1];\n        dp[n] = true;\n\n        int maxLen = 0;\n        for (String word : wordDict) {\n            maxLen = Math.max(maxLen, word.length());\n        }\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int j = i; j < Math.min(n, i + maxLen); j++) {\n                if (trie.search(s, i, j)) {\n                    dp[i] = dp[j + 1];\n                    if (dp[i]) break;\n                }\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class TrieNode {\npublic:\n    unordered_map<char, TrieNode*> children;\n    bool is_word = false;\n};\n\nclass Trie {\npublic:\n    TrieNode* root;\n\n    Trie() {\n        root = new TrieNode();\n    }\n\n    void insert(string word) {\n        TrieNode* node = root;\n        for (char c : word) {\n            if (!node->children.count(c)) {\n                node->children[c] = new TrieNode();\n            }\n            node = node->children[c];\n        }\n        node->is_word = true;\n    }\n\n    bool search(string& s, int i, int j) {\n        TrieNode* node = root;\n        for (int idx = i; idx <= j; ++idx) {\n            if (!node->children.count(s[idx])) {\n                return false;\n            }\n            node = node->children[s[idx]];\n        }\n        return node->is_word;\n    }\n};\n\nclass Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        Trie trie;\n        for (string word : wordDict) {\n            trie.insert(word);\n        }\n\n        int n = s.length();\n        vector<bool> dp(n + 1, false);\n        dp[n] = true;\n\n        int maxLen = 0;\n        for (string w : wordDict) {\n            maxLen = max(maxLen, (int)w.size());\n        }\n\n        for (int i = n - 1; i >= 0; --i) {\n            for (int j = i; j < min(n, i + maxLen); ++j) {\n                if (trie.search(s, i, j)) {\n                    dp[i] = dp[j + 1];\n                    if (dp[i]) break;\n                }\n            }\n        }\n\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class TrieNode {\n    constructor() {\n        this.children = {};\n        this.isWord = false;\n    }\n}\n\nclass Trie {\n    constructor() {\n        this.root = new TrieNode();\n    }\n\n    /**\n     * @param {string} word\n     * @return {void}\n     */\n    insert(word) {\n        let node = this.root;\n        for (let char of word) {\n            if (!node.children[char]) {\n                node.children[char] = new TrieNode();\n            }\n            node = node.children[char];\n        }\n        node.isWord = true;\n    }\n\n    /**\n     * @param {string} s\n     * @param {number} i\n     * @param {number} j\n     * @return {boolean}\n     */\n    search(s, i, j) {\n        let node = this.root;\n        for (let idx = i; idx <= j; idx++) {\n            if (!node.children[s[idx]]) {\n                return false;\n            }\n            node = node.children[s[idx]];\n        }\n        return node.isWord;\n    }\n}\n\nclass Solution {\n    /**\n     * @param {string} s\n     * @param {string[]} wordDict\n     * @return {boolean}\n     */\n    wordBreak(s, wordDict) {\n        const trie = new Trie();\n        for (let word of wordDict) {\n            trie.insert(word);\n        }\n\n        const dp = new Array(s.length + 1).fill(false);\n        dp[s.length] = true;\n\n        let maxLen = 0;\n        for (let w of wordDict) {\n            maxLen = Math.max(maxLen, w.length);\n        }\n\n        for (let i = s.length - 1; i >= 0; i--) {\n            for (let j = i; j < Math.min(s.length, i + maxLen); j++) {\n                if (trie.search(s, i, j)) {\n                    dp[i] = dp[j + 1];\n                    if (dp[i]) break;\n                }\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "public class TrieNode {\n    public Dictionary<char, TrieNode> Children;\n    public bool IsWord;\n\n    public TrieNode() {\n        Children = new Dictionary<char, TrieNode>();\n        IsWord = false;\n    }\n}\n\npublic class Trie {\n    public TrieNode Root;\n\n    public Trie() {\n        Root = new TrieNode();\n    }\n\n    public void Insert(string word) {\n        TrieNode node = Root;\n        foreach (char c in word) {\n            if (!node.Children.ContainsKey(c)) {\n                node.Children[c] = new TrieNode();\n            }\n            node = node.Children[c];\n        }\n        node.IsWord = true;\n    }\n\n    public bool Search(string s, int i, int j) {\n        TrieNode node = Root;\n        for (int idx = i; idx <= j; idx++) {\n            if (!node.Children.ContainsKey(s[idx])) {\n                return false;\n            }\n            node = node.Children[s[idx]];\n        }\n        return node.IsWord;\n    }\n}\n\npublic class Solution {\n    public bool WordBreak(string s, IList<string> wordDict) {\n        Trie trie = new Trie();\n        foreach (string word in wordDict) {\n            trie.Insert(word);\n        }\n\n        int n = s.Length;\n        bool[] dp = new bool[n + 1];\n        dp[n] = true;\n\n        int maxLen = 0;\n        foreach (string word in wordDict) {\n            maxLen = Math.Max(maxLen, word.Length);\n        }\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int j = i; j < Math.Min(n, i + maxLen); j++) {\n                if (trie.Search(s, i, j)) {\n                    dp[i] = dp[j + 1];\n                    if (dp[i]) break;\n                }\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "type TrieNode struct {\n    children map[rune]*TrieNode\n    isWord   bool\n}\n\nfunc NewTrieNode() *TrieNode {\n    return &TrieNode{children: make(map[rune]*TrieNode)}\n}\n\ntype Trie struct {\n    root *TrieNode\n}\n\nfunc NewTrie() *Trie {\n    return &Trie{root: NewTrieNode()}\n}\n\nfunc (t *Trie) Insert(word string) {\n    node := t.root\n    for _, char := range word {\n        if _, found := node.children[char]; !found {\n            node.children[char] = NewTrieNode()\n        }\n        node = node.children[char]\n    }\n    node.isWord = true\n}\n\nfunc (t *Trie) Search(s string, i, j int) bool {\n    node := t.root\n    for idx := i; idx <= j; idx++ {\n        char := rune(s[idx])\n        if _, found := node.children[char]; !found {\n            return false\n        }\n        node = node.children[char]\n    }\n    return node.isWord\n}\n\nfunc wordBreak(s string, wordDict []string) bool {\n    trie := NewTrie()\n    for _, word := range wordDict {\n        trie.Insert(word)\n    }\n\n    dp := make([]bool, len(s)+1)\n    dp[len(s)] = true\n\n    maxLength := 0\n    for _, word := range wordDict {\n        if len(word) > maxLength {\n            maxLength = len(word)\n        }\n    }\n\n    for i := len(s) - 1; i >= 0; i-- {\n        for j := i; j < len(s) && j < i+maxLength; j++ {\n            if trie.Search(s, i, j) {\n                dp[i] = dp[j+1]\n                if dp[i] {\n                    break\n                }\n            }\n        }\n    }\n\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class TrieNode {\n    val children = mutableMapOf<Char, TrieNode>()\n    var isWord = false\n}\n\nclass Trie {\n    private val root = TrieNode()\n\n    fun insert(word: String) {\n        var node = root\n        for (char in word) {\n            node = node.children.computeIfAbsent(char) { TrieNode() }\n        }\n        node.isWord = true\n    }\n\n    fun search(s: String, i: Int, j: Int): Boolean {\n        var node = root\n        for (idx in i..j) {\n            val char = s[idx]\n            node = node.children[char] ?: return false\n        }\n        return node.isWord\n    }\n}\n\nclass Solution {\n    fun wordBreak(s: String, wordDict: List<String>): Boolean {\n        val trie = Trie()\n        wordDict.forEach { trie.insert(it) }\n\n        val dp = BooleanArray(s.length + 1)\n        dp[s.length] = true\n\n        val maxLength = wordDict.maxOfOrNull { it.length } ?: 0\n\n        for (i in s.length - 1 downTo 0) {\n            for (j in i until minOf(s.length, i + maxLength)) {\n                if (trie.search(s, i, j)) {\n                    dp[i] = dp[j + 1]\n                    if (dp[i]) break\n                }\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "class TrieNode {\n    var children = [Character: TrieNode]()\n    var isWord = false\n}\n\nclass Trie {\n    private let root = TrieNode()\n\n    func insert(_ word: String) {\n        var node = root\n        for char in word {\n            if node.children[char] == nil {\n                node.children[char] = TrieNode()\n            }\n            node = node.children[char]!\n        }\n        node.isWord = true\n    }\n\n    func search(_ s: [Character], _ i: Int, _ j: Int) -> Bool {\n        var node = root\n        for idx in i...j {\n            if node.children[s[idx]] == nil {\n                return false\n            }\n            node = node.children[s[idx]]!\n        }\n        return node.isWord\n    }\n}\n\nclass Solution {\n    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {\n        let trie = Trie()\n        for word in wordDict {\n            trie.insert(word)\n        }\n\n        var dp = Array(repeating: false, count: s.count + 1)\n        dp[s.count] = true\n        let chars = Array(s)\n\n        var maxLen = 0\n        for word in wordDict {\n            maxLen = max(maxLen, word.count)\n        }\n\n        for i in stride(from: s.count, through: 0, by: -1) {\n            for j in i..<min(s.count, i + maxLen) {\n                if trie.search(chars, i, j) {\n                    dp[i] = dp[j + 1]\n                    if dp[i] {\n                        break\n                    }\n                }\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O((n * t^2) + m)",
+            "space_complexity": "O(n + (m * t))",
+            "code": "struct TrieNode {\n    children: HashMap<u8, TrieNode>,\n    is_word: bool,\n}\n\nimpl TrieNode {\n    fn new() -> Self {\n        Self { children: HashMap::new(), is_word: false }\n    }\n}\n\nstruct Trie {\n    root: TrieNode,\n}\n\nimpl Trie {\n    fn new() -> Self {\n        Self { root: TrieNode::new() }\n    }\n    fn insert(&mut self, word: &str) {\n        let mut node = &mut self.root;\n        for &b in word.as_bytes() {\n            node = node.children.entry(b).or_insert_with(TrieNode::new);\n        }\n        node.is_word = true;\n    }\n    fn search(&self, s: &[u8], i: usize, j: usize) -> bool {\n        let mut node = &self.root;\n        for idx in i..=j {\n            match node.children.get(&s[idx]) {\n                Some(next) => node = next,\n                None => return false,\n            }\n        }\n        node.is_word\n    }\n}\n\nimpl Solution {\n    pub fn word_break(s: String, word_dict: Vec<String>) -> bool {\n        let mut trie = Trie::new();\n        for word in &word_dict {\n            trie.insert(word);\n        }\n\n        let sb = s.as_bytes();\n        let n = sb.len();\n        let mut dp = vec![false; n + 1];\n        dp[n] = true;\n\n        let max_len = word_dict.iter().map(|w| w.len()).max().unwrap_or(0);\n\n        for i in (0..n).rev() {\n            for j in i..n.min(i + max_len) {\n                if trie.search(sb, i, j) {\n                    dp[i] = dp[j + 1];\n                    if dp[i] {\n                        break;\n                    }\n                }\n            }\n        }\n\n        dp[0]\n    }\n}"
+        }
+    ]
+}

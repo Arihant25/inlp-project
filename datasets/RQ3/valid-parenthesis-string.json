@@ -1,0 +1,337 @@
+{
+    "problem_name": "Valid Parenthesis String",
+    "problem_slug": "valid-parenthesis-string",
+    "difficulty": "medium",
+    "topic_tags": [
+        "string",
+        "dynamic programming",
+        "stack",
+        "greedy"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def checkValidString(self, s: str) -> bool:\n\n        def dfs(i, open):\n            if open < 0:\n                return False\n            if i == len(s):\n                return open == 0\n\n            if s[i] == '(':\n                return dfs(i + 1, open + 1)\n            elif s[i] == ')':\n                return dfs(i + 1, open - 1)\n            else:\n                return (dfs(i + 1, open) or\n                        dfs(i + 1, open + 1) or\n                        dfs(i + 1, open - 1))\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean checkValidString(String s) {\n\n        return dfs(0, 0, s);\n    }\n\n    private boolean dfs(int i, int open, String s) {\n        if (open < 0) return false;\n        if (i == s.length()) return open == 0;\n\n        if (s.charAt(i) == '(') {\n            return dfs(i + 1, open + 1, s);\n        } else if (s.charAt(i) == ')') {\n            return dfs(i + 1, open - 1, s);\n        } else {\n            return dfs(i + 1, open, s) ||\n                   dfs(i + 1, open + 1, s) ||\n                   dfs(i + 1, open - 1, s);\n        }\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool checkValidString(string s) {\n        return dfs(0, 0, s);\n    }\n\nprivate:\n    bool dfs(int i, int open, const string& s) {\n        if (open < 0) return false;\n        if (i == s.size()) return open == 0;\n\n        if (s[i] == '(') {\n            return dfs(i + 1, open + 1, s);\n        } else if (s[i] == ')') {\n            return dfs(i + 1, open - 1, s);\n        } else {\n            return dfs(i + 1, open, s) ||\n                   dfs(i + 1, open + 1, s) ||\n                   dfs(i + 1, open - 1, s);\n        }\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    checkValidString(s) {\n        function dfs(i, open) {\n            if (open < 0) return false;\n            if (i === s.length) return open === 0;\n\n            if (s[i] === '(') {\n                return dfs(i + 1, open + 1);\n            } else if (s[i] === ')') {\n                return dfs(i + 1, open - 1);\n            } else {\n                return (\n                    dfs(i + 1, open) ||\n                    dfs(i + 1, open + 1) ||\n                    dfs(i + 1, open - 1)\n                );\n            }\n        }\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool CheckValidString(string s) {\n        return Dfs(0, 0, s);\n    }\n\n    private bool Dfs(int i, int open, string s) {\n        if (open < 0) return false;\n        if (i == s.Length) return open == 0;\n\n        if (s[i] == '(') {\n            return Dfs(i + 1, open + 1, s);\n        } else if (s[i] == ')') {\n            return Dfs(i + 1, open - 1, s);\n        } else {\n            return Dfs(i + 1, open, s) ||\n                   Dfs(i + 1, open + 1, s) ||\n                   Dfs(i + 1, open - 1, s);\n        }\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "func checkValidString(s string) bool {\n    var dfs func(i, open int) bool\n    dfs = func(i, open int) bool {\n        if open < 0 {\n            return false\n        }\n        if i == len(s) {\n            return open == 0\n        }\n\n        if s[i] == '(' {\n            return dfs(i+1, open+1)\n        } else if s[i] == ')' {\n            return dfs(i+1, open-1)\n        } else {\n            return (dfs(i+1, open) ||\n                    dfs(i+1, open+1) ||\n                    dfs(i+1, open-1))\n        }\n    }\n    return dfs(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun checkValidString(s: String): Boolean {\n\n        fun dfs(i: Int, open: Int): Boolean {\n            if (open < 0) {\n                return false\n            }\n            if (i == s.length) {\n                return open == 0\n            }\n\n            return when (s[i]) {\n                '(' -> dfs(i + 1, open + 1)\n                ')' -> dfs(i + 1, open - 1)\n                else -> dfs(i + 1, open) || dfs(i + 1, open + 1) || dfs(i + 1, open - 1)\n            }\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func checkValidString(_ s: String) -> Bool {\n        let chars = Array(s)\n\n        func dfs(_ i: Int, _ open: Int) -> Bool {\n            if open < 0 { return false }\n            if i == chars.count { return open == 0 }\n\n            if chars[i] == \"(\" {\n                return dfs(i + 1, open + 1)\n            } else if chars[i] == \")\" {\n                return dfs(i + 1, open - 1)\n            } else {\n                return dfs(i + 1, open) ||\n                       dfs(i + 1, open + 1) ||\n                       dfs(i + 1, open - 1)\n            }\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(3^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn check_valid_string(s: String) -> bool {\n        let s = s.as_bytes();\n\n        fn dfs(s: &[u8], i: usize, open: i32) -> bool {\n            if open < 0 {\n                return false;\n            }\n            if i == s.len() {\n                return open == 0;\n            }\n            match s[i] {\n                b'(' => dfs(s, i + 1, open + 1),\n                b')' => dfs(s, i + 1, open - 1),\n                _ => {\n                    dfs(s, i + 1, open)\n                        || dfs(s, i + 1, open + 1)\n                        || dfs(s, i + 1, open - 1)\n                }\n            }\n        }\n\n        dfs(s, 0, 0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n    def checkValidString(self, s: str) -> bool:\n        n = len(s)\n        memo = [[None] * (n + 1) for _ in range(n + 1)]\n\n        def dfs(i, open):\n            if open < 0:\n                return False\n            if i == n:\n                return open == 0\n            if memo[i][open] is not None:\n                return memo[i][open]\n\n            if s[i] == '(':\n                result = dfs(i + 1, open + 1)\n            elif s[i] == ')':\n                result = dfs(i + 1, open - 1)\n            else:\n                result = (dfs(i + 1, open) or\n                          dfs(i + 1, open + 1) or\n                          dfs(i + 1, open - 1))\n\n            memo[i][open] = result\n            return result\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public boolean checkValidString(String s) {\n        int n = s.length();\n        Boolean[][] memo = new Boolean[n + 1][n + 1];\n        return dfs(0, 0, s, memo);\n    }\n\n    private boolean dfs(int i, int open, String s, Boolean[][] memo) {\n        if (open < 0) return false;\n        if (i == s.length()) return open == 0;\n\n        if (memo[i][open] != null) return memo[i][open];\n\n        boolean result;\n        if (s.charAt(i) == '(') {\n            result = dfs(i + 1, open + 1, s, memo);\n        } else if (s.charAt(i) == ')') {\n            result = dfs(i + 1, open - 1, s, memo);\n        } else {\n            result = (dfs(i + 1, open, s, memo) ||\n                      dfs(i + 1, open + 1, s, memo) ||\n                      dfs(i + 1, open - 1, s, memo));\n        }\n\n        memo[i][open] = result;\n        return result;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\npublic:\n    bool checkValidString(string s) {\n        int n = s.size();\n        memo = vector<vector<int>>(n + 1, vector<int>(n + 1, -1));\n        return dfs(0, 0, s);\n    }\n\nprivate:\n    vector<vector<int>> memo;\n\n    bool dfs(int i, int open, const string& s) {\n        if (open < 0) return false;\n        if (i == s.size()) return open == 0;\n\n        if (memo[i][open] != -1) return memo[i][open] == 1;\n\n        bool result;\n        if (s[i] == '(') {\n            result = dfs(i + 1, open + 1, s);\n        } else if (s[i] == ')') {\n            result = dfs(i + 1, open - 1, s);\n        } else {\n            result = (dfs(i + 1, open, s) ||\n                      dfs(i + 1, open + 1, s) ||\n                      dfs(i + 1, open - 1, s));\n        }\n\n        memo[i][open] = result ? 1 : 0;\n        return result;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    checkValidString(s) {\n        const n = s.length;\n        const memo = Array.from({ length: n + 1 }, () =>\n            Array(n + 1).fill(null),\n        );\n\n        function dfs(i, open) {\n            if (open < 0) return false;\n            if (i === n) return open === 0;\n\n            if (memo[i][open] !== null) return memo[i][open];\n\n            let result;\n            if (s[i] === '(') {\n                result = dfs(i + 1, open + 1);\n            } else if (s[i] === ')') {\n                result = dfs(i + 1, open - 1);\n            } else {\n                result =\n                    dfs(i + 1, open) ||\n                    dfs(i + 1, open + 1) ||\n                    dfs(i + 1, open - 1);\n            }\n\n            memo[i][open] = result;\n            return result;\n        }\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public bool CheckValidString(string s) {\n        int n = s.Length;\n        bool?[,] memo = new bool?[n + 1, n + 1];\n        return Dfs(0, 0, s, memo);\n    }\n\n    private bool Dfs(int i, int open, string s, bool?[,] memo) {\n        if (open < 0) return false;\n        if (i == s.Length) return open == 0;\n\n        if (memo[i, open].HasValue) return memo[i, open].Value;\n\n        bool result;\n        if (s[i] == '(') {\n            result = Dfs(i + 1, open + 1, s, memo);\n        } else if (s[i] == ')') {\n            result = Dfs(i + 1, open - 1, s, memo);\n        } else {\n            result = Dfs(i + 1, open, s, memo) ||\n                     Dfs(i + 1, open + 1, s, memo) ||\n                     Dfs(i + 1, open - 1, s, memo);\n        }\n\n        memo[i, open] = result;\n        return result;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "func checkValidString(s string) bool {\n    memo := make([][]int, len(s)+1)\n    for i := range memo {\n        memo[i] = make([]int, len(s)+1)\n        for j := range memo[i] {\n            memo[i][j] = -1\n        }\n    }\n\n    var dfs func(i, open int) bool\n    dfs = func(i, open int) bool {\n        if open < 0 {\n            return false\n        }\n        if i == len(s) {\n            return open == 0\n        }\n        if memo[i][open] != -1 {\n            return memo[i][open] == 1\n        }\n\n        result := false\n        if s[i] == '(' {\n            result = dfs(i+1, open+1)\n        } else if s[i] == ')' {\n            result = dfs(i+1, open-1)\n        } else {\n            result = (dfs(i+1, open) ||\n                      dfs(i+1, open+1) ||\n                      dfs(i+1, open-1))\n        }\n\n        memo[i][open] = 1\n        if !result {\n            memo[i][open] = 0\n        }\n        return result\n    }\n    return dfs(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    fun checkValidString(s: String): Boolean {\n        val memo = Array(s.length + 1) { IntArray(s.length + 1) { -1 } }\n\n        fun dfs(i: Int, open: Int): Boolean {\n            if (open < 0) return false\n            if (i == s.length) return open == 0\n            if (memo[i][open] != -1) return memo[i][open] == 1\n\n            val result = when (s[i]) {\n                '(' -> dfs(i + 1, open + 1)\n                ')' -> dfs(i + 1, open - 1)\n                else -> (dfs(i + 1, open) ||\n                         dfs(i + 1, open + 1) ||\n                         dfs(i + 1, open - 1))\n            }\n\n            memo[i][open] = if (result) 1 else 0\n            return result\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func checkValidString(_ s: String) -> Bool {\n        let n = s.count\n        let sArr = Array(s)\n        var memo = Array(\n            repeating: Array<Bool?>(repeating: nil, count: n + 1),\n            count: n + 1\n        )\n\n        func dfs(_ i: Int, _ open: Int) -> Bool {\n            if open < 0 {\n                return false\n            }\n            if i == n {\n                return open == 0\n            }\n            if let memoized = memo[i][open] {\n                return memoized\n            }\n\n            let result: Bool\n            if sArr[i] == \"(\" {\n                result = dfs(i + 1, open + 1)\n            } else if sArr[i] == \")\" {\n                result = dfs(i + 1, open - 1)\n            } else {\n                result = dfs(i + 1, open) ||\n                         dfs(i + 1, open + 1) ||\n                         dfs(i + 1, open - 1)\n            }\n\n            memo[i][open] = result\n            return result\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn check_valid_string(s: String) -> bool {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut memo = vec![vec![-1i8; n + 1]; n + 1];\n\n        fn dfs(s: &[u8], i: usize, open: i32, memo: &mut Vec<Vec<i8>>) -> bool {\n            if open < 0 {\n                return false;\n            }\n            if i == s.len() {\n                return open == 0;\n            }\n            let o = open as usize;\n            if memo[i][o] != -1 {\n                return memo[i][o] == 1;\n            }\n            let result = match s[i] {\n                b'(' => dfs(s, i + 1, open + 1, memo),\n                b')' => dfs(s, i + 1, open - 1, memo),\n                _ => {\n                    dfs(s, i + 1, open, memo)\n                        || dfs(s, i + 1, open + 1, memo)\n                        || dfs(s, i + 1, open - 1, memo)\n                }\n            };\n            memo[i][o] = if result { 1 } else { 0 };\n            result\n        }\n\n        dfs(s, 0, 0, &mut memo)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n    def checkValidString(self, s: str) -> bool:\n        n = len(s)\n        dp = [[False] * (n + 1) for _ in range(n + 1)]\n        dp[n][0] = True\n\n        for i in range(n - 1, -1, -1):\n            for open in range(n):\n                res = False\n                if s[i] == '*':\n                    res |= dp[i + 1][open + 1]\n                    if open > 0:\n                        res |= dp[i + 1][open - 1]\n                    res |= dp[i + 1][open]\n                else:\n                    if s[i] == '(':\n                        res |= dp[i + 1][open + 1]\n                    elif open > 0:\n                        res |= dp[i + 1][open - 1]\n                dp[i][open] = res\n\n        return dp[0][0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public boolean checkValidString(String s) {\n        int n = s.length();\n        boolean[][] dp = new boolean[n + 1][n + 1];\n        dp[n][0] = true;\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int open = 0; open < n; open++) {\n                boolean res = false;\n                if (s.charAt(i) == '*') {\n                    res |= dp[i + 1][open + 1];\n                    if (open > 0) res |= dp[i + 1][open - 1];\n                    res |= dp[i + 1][open];\n                } else {\n                    if (s.charAt(i) == '(') {\n                        res |= dp[i + 1][open + 1];\n                    } else if (open > 0) {\n                        res |= dp[i + 1][open - 1];\n                    }\n                }\n                dp[i][open] = res;\n            }\n        }\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\npublic:\n    bool checkValidString(string s) {\n        int n = s.size();\n        vector<vector<bool>> dp(n + 1, vector<bool>(n + 1, false));\n        dp[n][0] = true;\n\n        for (int i = n - 1; i >= 0; --i) {\n            for (int open = 0; open < n; ++open) {\n                bool res = false;\n                if (s[i] == '*') {\n                    res |= dp[i + 1][open + 1];\n                    if (open > 0) res |= dp[i + 1][open - 1];\n                    res |= dp[i + 1][open];\n                } else {\n                    if (s[i] == '(') {\n                        res |= dp[i + 1][open + 1];\n                    } else if (open > 0) {\n                        res |= dp[i + 1][open - 1];\n                    }\n                }\n                dp[i][open] = res;\n            }\n        }\n        return dp[0][0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    checkValidString(s) {\n        const n = s.length;\n        const dp = Array.from({ length: n + 1 }, () =>\n            Array(n + 1).fill(false),\n        );\n        dp[n][0] = true;\n\n        for (let i = n - 1; i >= 0; i--) {\n            for (let open = 0; open < n; open++) {\n                let res = false;\n                if (s[i] === '*') {\n                    res ||= dp[i + 1][open + 1];\n                    if (open > 0) res ||= dp[i + 1][open - 1];\n                    res ||= dp[i + 1][open];\n                } else {\n                    if (s[i] === '(') {\n                        res ||= dp[i + 1][open + 1];\n                    } else if (open > 0) {\n                        res ||= dp[i + 1][open - 1];\n                    }\n                }\n                dp[i][open] = res;\n            }\n        }\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public bool CheckValidString(string s) {\n        int n = s.Length;\n        bool[,] dp = new bool[n + 1, n + 1];\n        dp[n, 0] = true;\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int open = 0; open < n; open++) {\n                bool res = false;\n                if (s[i] == '*') {\n                    res |= dp[i + 1, open + 1];\n                    if (open > 0) res |= dp[i + 1, open - 1];\n                    res |= dp[i + 1, open];\n                } else {\n                    if (s[i] == '(') {\n                        res |= dp[i + 1, open + 1];\n                    } else if (open > 0) {\n                        res |= dp[i + 1, open - 1];\n                    }\n                }\n                dp[i, open] = res;\n            }\n        }\n        return dp[0, 0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "func checkValidString(s string) bool {\n    n := len(s)\n    dp := make([][]bool, n+1)\n    for i := range dp {\n        dp[i] = make([]bool, n+1)\n    }\n    dp[n][0] = true\n\n    for i := n - 1; i >= 0; i-- {\n        for open := 0; open < n; open++ {\n            res := false\n            if s[i] == '*' {\n                res = dp[i+1][open+1]\n                if open > 0 {\n                    res = res || dp[i+1][open-1]\n                }\n                res = res || dp[i+1][open]\n            } else {\n                if s[i] == '(' {\n                    res = dp[i+1][open+1]\n                } else if open > 0 {\n                    res = dp[i+1][open-1]\n                }\n            }\n            dp[i][open] = res\n        }\n    }\n    return dp[0][0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    fun checkValidString(s: String): Boolean {\n        val n = s.length\n        val dp = Array(n + 1) { BooleanArray(n + 1) }\n        dp[n][0] = true\n\n        for (i in n - 1 downTo 0) {\n            for (open in 0 until n) {\n                var res = false\n                if (s[i] == '*') {\n                    res = dp[i + 1][open + 1]\n                    if (open > 0) {\n                        res = res || dp[i + 1][open - 1]\n                    }\n                    res = res || dp[i + 1][open]\n                } else {\n                    if (s[i] == '(') {\n                        res = dp[i + 1][open + 1]\n                    } else if (open > 0) {\n                        res = dp[i + 1][open - 1]\n                    }\n                }\n                dp[i][open] = res\n            }\n        }\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func checkValidString(_ s: String) -> Bool {\n        let n = s.count\n        var dp = Array(repeating: Array(repeating: false, count: n + 1), count: n + 1)\n        dp[n][0] = true\n\n        let chars = Array(s)\n\n        for i in stride(from: n - 1, through: 0, by: -1) {\n            for open in 0..<n {\n                var res = false\n                if chars[i] == \"*\" {\n                    res = res || dp[i + 1][open + 1]\n                    if open > 0 {\n                        res = res || dp[i + 1][open - 1]\n                    }\n                    res = res || dp[i + 1][open]\n                } else {\n                    if chars[i] == \"(\" {\n                        res = res || dp[i + 1][open + 1]\n                    } else if open > 0 {\n                        res = res || dp[i + 1][open - 1]\n                    }\n                }\n                dp[i][open] = res\n            }\n        }\n\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn check_valid_string(s: String) -> bool {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut dp = vec![vec![false; n + 1]; n + 1];\n        dp[n][0] = true;\n\n        for i in (0..n).rev() {\n            for open in 0..n {\n                let mut res = false;\n                if s[i] == b'*' {\n                    res |= dp[i + 1][open + 1];\n                    if open > 0 {\n                        res |= dp[i + 1][open - 1];\n                    }\n                    res |= dp[i + 1][open];\n                } else if s[i] == b'(' {\n                    res |= dp[i + 1][open + 1];\n                } else if open > 0 {\n                    res |= dp[i + 1][open - 1];\n                }\n                dp[i][open] = res;\n            }\n        }\n        dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def checkValidString(self, s: str) -> bool:\n        n = len(s)\n        dp = [False] * (n + 1)\n        dp[0] = True\n\n        for i in range(n - 1, -1, -1):\n            new_dp = [False] * (n + 1)\n            for open in range(n):\n                if s[i] == '*':\n                    new_dp[open] = (dp[open + 1] or\n                                    (open > 0 and dp[open - 1]) or\n                                    dp[open])\n                elif s[i] == '(':\n                    new_dp[open] = dp[open + 1]\n                elif open > 0:\n                    new_dp[open] = dp[open - 1]\n            dp = new_dp\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public boolean checkValidString(String s) {\n        int n = s.length();\n        boolean[] dp = new boolean[n + 1];\n        dp[0] = true;\n\n        for (int i = n - 1; i >= 0; i--) {\n            boolean[] newDp = new boolean[n + 1];\n            for (int open = 0; open < n; open++) {\n                if (s.charAt(i) == '*') {\n                    newDp[open] = dp[open + 1] ||\n                                  (open > 0 && dp[open - 1]) || dp[open];\n                } else if (s.charAt(i) == '(') {\n                    newDp[open] = dp[open + 1];\n                } else if (open > 0) {\n                    newDp[open] = dp[open - 1];\n                }\n            }\n            dp = newDp;\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool checkValidString(string s) {\n        int n = s.size();\n        vector<bool> dp(n + 1, false);\n        dp[0] = true;\n\n        for (int i = n - 1; i >= 0; --i) {\n            vector<bool> newDp(n + 1, false);\n            for (int open = 0; open < n; ++open) {\n                if (s[i] == '*') {\n                    newDp[open] = dp[open + 1] ||\n                                  (open > 0 && dp[open - 1]) || dp[open];\n                } else if (s[i] == '(') {\n                    newDp[open] = dp[open + 1];\n                } else if (open > 0) {\n                    newDp[open] = dp[open - 1];\n                }\n            }\n            dp = newDp;\n        }\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    checkValidString(s) {\n        const n = s.length;\n        let dp = Array(n + 1).fill(false);\n        dp[0] = true;\n\n        for (let i = n - 1; i >= 0; i--) {\n            const newDp = Array(n + 1).fill(false);\n            for (let open = 0; open < n; open++) {\n                if (s[i] === '*') {\n                    newDp[open] =\n                        dp[open + 1] || (open > 0 && dp[open - 1]) || dp[open];\n                } else if (s[i] === '(') {\n                    newDp[open] = dp[open + 1];\n                } else if (open > 0) {\n                    newDp[open] = dp[open - 1];\n                }\n            }\n            dp = newDp;\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool CheckValidString(string s) {\n        int n = s.Length;\n        bool[] dp = new bool[n + 1];\n        dp[0] = true;\n\n        for (int i = n - 1; i >= 0; i--) {\n            bool[] newDp = new bool[n + 1];\n            for (int open = 0; open < n; open++) {\n                if (s[i] == '*') {\n                    newDp[open] = dp[open + 1] ||\n                                  (open > 0 && dp[open - 1]) || dp[open];\n                } else if (s[i] == '(') {\n                    newDp[open] = dp[open + 1];\n                } else if (open > 0) {\n                    newDp[open] = dp[open - 1];\n                }\n            }\n            dp = newDp;\n        }\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "func checkValidString(s string) bool {\n    n := len(s)\n    dp := make([]bool, n+1)\n    dp[0] = true\n\n    for i := n - 1; i >= 0; i-- {\n        newDp := make([]bool, n+1)\n        for open := 0; open < n; open++ {\n            if s[i] == '*' {\n                newDp[open] = (dp[open+1] ||\n                               (open > 0 && dp[open-1]) ||\n                               dp[open])\n            } else if s[i] == '(' {\n                newDp[open] = dp[open+1]\n            } else if open > 0 {\n                newDp[open] = dp[open-1]\n            }\n        }\n        dp = newDp\n    }\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun checkValidString(s: String): Boolean {\n        val n = s.length\n        var dp = BooleanArray(n + 1)\n        dp[0] = true\n\n        for (i in n - 1 downTo 0) {\n            val newDp = BooleanArray(n + 1)\n            for (open in 0 until n) {\n                newDp[open] = when (s[i]) {\n                    '*' -> (dp[open + 1] ||\n                            (open > 0 && dp[open - 1]) ||\n                            dp[open])\n                    '(' -> dp[open + 1]\n                    else -> open > 0 && dp[open - 1]\n                }\n            }\n            dp = newDp\n        }\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func checkValidString(_ s: String) -> Bool {\n        let n = s.count\n        var dp = Array(repeating: false, count: n + 1)\n        dp[0] = true\n\n        let chars = Array(s)\n\n        for i in stride(from: n - 1, through: 0, by: -1) {\n            var new_dp = Array(repeating: false, count: n + 1)\n            for open in 0..<n {\n                if chars[i] == \"*\" {\n                    new_dp[open] = dp[open + 1] || (open > 0 && dp[open - 1]) || dp[open]\n                } else if chars[i] == \"(\" {\n                    new_dp[open] = dp[open + 1]\n                } else if open > 0 {\n                    new_dp[open] = dp[open - 1]\n                }\n            }\n            dp = new_dp\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn check_valid_string(s: String) -> bool {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut dp = vec![false; n + 1];\n        dp[0] = true;\n\n        for i in (0..n).rev() {\n            let mut new_dp = vec![false; n + 1];\n            for open in 0..n {\n                new_dp[open] = match s[i] {\n                    b'*' => {\n                        dp[open + 1]\n                            || (open > 0 && dp[open - 1])\n                            || dp[open]\n                    }\n                    b'(' => dp[open + 1],\n                    _ => open > 0 && dp[open - 1],\n                };\n            }\n            dp = new_dp;\n        }\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def checkValidString(self, s: str) -> bool:\n        left = []\n        star = []\n        for i, ch in enumerate(s):\n            if ch == '(':\n                left.append(i)\n            elif ch == '*':\n                star.append(i)\n            else:\n                if not left and not star:\n                    return False\n                if left:\n                    left.pop()\n                else:\n                    star.pop()\n\n        while left and star:\n            if left.pop() > star.pop():\n                return False\n        return not left"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n        public boolean checkValidString(String s) {\n        Stack<Integer> left = new Stack<>();\n        Stack<Integer> star = new Stack<>();\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            if (ch == '(') {\n                left.push(i);\n            } else if (ch == '*') {\n                star.push(i);\n            } else {\n                if (left.isEmpty() && star.isEmpty()) return false;\n                if (!left.isEmpty()) {\n                    left.pop();\n                } else{\n                    star.pop();\n                }\n            }\n        }\n        while (!left.isEmpty() && !star.isEmpty()) {\n            if (left.pop() > star.pop())\n                return false;\n        }\n        return left.isEmpty();\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    bool checkValidString(string s) {\n        stack<int> left, star;\n        for (int i = 0; i < s.size(); ++i) {\n            if (s[i] == '(') {\n                left.push(i);\n            } else if (s[i] == '*') {\n                star.push(i);\n            } else {\n                if (left.empty() && star.empty()) return false;\n                if (!left.empty()) {\n                    left.pop();\n                } else {\n                    star.pop();\n                }\n            }\n        }\n\n        while (!left.empty() && !star.empty()) {\n            if (left.top() > star.top()) return false;\n            left.pop();\n            star.pop();\n        }\n        return left.empty();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    checkValidString(s) {\n        const left = [];\n        const star = [];\n        for (let i = 0; i < s.length; i++) {\n            const ch = s[i];\n            if (ch === '(') {\n                left.push(i);\n            } else if (ch === '*') {\n                star.push(i);\n            } else {\n                if (left.length === 0 && star.length === 0) {\n                    return false;\n                }\n                if (left.length > 0) {\n                    left.pop();\n                } else {\n                    star.pop();\n                }\n            }\n        }\n\n        while (left.length > 0 && star.length > 0) {\n            if (left.pop() > star.pop()) return false;\n        }\n        return left.length === 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public bool CheckValidString(string s) {\n        Stack<int> left = new Stack<int>();\n        Stack<int> star = new Stack<int>();\n        for (int i = 0; i < s.Length; i++) {\n            char ch = s[i];\n            if (ch == '(') {\n                left.Push(i);\n            } else if (ch == '*') {\n                star.Push(i);\n            } else {\n                if (left.Count == 0 && star.Count == 0) return false;\n                if (left.Count > 0) {\n                    left.Pop();\n                } else {\n                    star.Pop();\n                }\n            }\n        }\n\n        while (left.Count > 0 && star.Count > 0) {\n            if (left.Pop() > star.Pop()) return false;\n        }\n        return left.Count == 0;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func checkValidString(s string) bool {\n    var left, star []int\n    for i, ch := range s {\n        if ch == '(' {\n            left = append(left, i)\n        } else if ch == '*' {\n            star = append(star, i)\n        } else {\n            if len(left) == 0 && len(star) == 0 {\n                return false\n            }\n            if len(left) > 0 {\n                left = left[:len(left)-1]\n            } else {\n                star = star[:len(star)-1]\n            }\n        }\n    }\n\n    for len(left) > 0 && len(star) > 0 {\n        if left[len(left)-1] > star[len(star)-1] {\n            return false\n        }\n        left = left[:len(left)-1]\n        star = star[:len(star)-1]\n    }\n    return len(left) == 0\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun checkValidString(s: String): Boolean {\n        val left = ArrayDeque<Int>()\n        val star = ArrayDeque<Int>()\n\n        for ((i, ch) in s.withIndex()) {\n            when (ch) {\n                '(' -> left.addLast(i)\n                '*' -> star.addLast(i)\n                ')' -> {\n                    if (left.isEmpty() && star.isEmpty()) return false\n                    if (left.isNotEmpty()) left.removeLast()\n                    else star.removeLast()\n                }\n            }\n        }\n\n        while (left.isNotEmpty() && star.isNotEmpty()) {\n            if (left.last() > star.last()) return false\n            left.removeLast()\n            star.removeLast()\n        }\n        return left.isEmpty()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func checkValidString(_ s: String) -> Bool {\n        var left = [Int]()\n        var star = [Int]()\n\n        let chars = Array(s)\n\n        for (i, ch) in chars.enumerated() {\n            if ch == \"(\" {\n                left.append(i)\n            } else if ch == \"*\" {\n                star.append(i)\n            } else {\n                if left.isEmpty && star.isEmpty {\n                    return false\n                }\n                if !left.isEmpty {\n                    left.popLast()\n                } else {\n                    star.popLast()\n                }\n            }\n        }\n\n        while !left.isEmpty && !star.isEmpty {\n            if left.last! > star.last! {\n                return false\n            }\n            left.popLast()\n            star.popLast()\n        }\n\n        return left.isEmpty\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn check_valid_string(s: String) -> bool {\n        let mut left = Vec::new();\n        let mut star = Vec::new();\n\n        for (i, ch) in s.bytes().enumerate() {\n            match ch {\n                b'(' => left.push(i),\n                b'*' => star.push(i),\n                _ => {\n                    if left.is_empty() && star.is_empty() {\n                        return false;\n                    }\n                    if !left.is_empty() {\n                        left.pop();\n                    } else {\n                        star.pop();\n                    }\n                }\n            }\n        }\n\n        while !left.is_empty() && !star.is_empty() {\n            if left.pop().unwrap() > star.pop().unwrap() {\n                return false;\n            }\n        }\n        left.is_empty()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def checkValidString(self, s: str) -> bool:\n        leftMin, leftMax = 0, 0\n\n        for c in s:\n            if c == \"(\":\n                leftMin, leftMax = leftMin + 1, leftMax + 1\n            elif c == \")\":\n                leftMin, leftMax = leftMin - 1, leftMax - 1\n            else:\n                leftMin, leftMax = leftMin - 1, leftMax + 1\n            if leftMax < 0:\n                return False\n            if leftMin < 0:\n                leftMin = 0\n        return leftMin == 0"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public boolean checkValidString(String s) {\n        int leftMin = 0, leftMax = 0;\n\n        for (char c : s.toCharArray()) {\n            if (c == '(') {\n                leftMin++;\n                leftMax++;\n            } else if (c == ')') {\n                leftMin--;\n                leftMax--;\n            } else {\n                leftMin--;\n                leftMax++;\n            }\n            if (leftMax < 0) {\n                return false;\n            }\n            if (leftMin < 0) {\n                leftMin = 0;\n            }\n        }\n        return leftMin == 0;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    bool checkValidString(string s) {\n        int leftMin = 0, leftMax = 0;\n\n        for (char c : s) {\n            if (c == '(') {\n                leftMin++;\n                leftMax++;\n            } else if (c == ')') {\n                leftMin--;\n                leftMax--;\n            } else {\n                leftMin--;\n                leftMax++;\n            }\n            if (leftMax < 0) {\n                return false;\n            }\n            if (leftMin < 0) {\n                leftMin = 0;\n            }\n        }\n        return leftMin == 0;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    checkValidString(s) {\n        let leftMin = 0;\n        let leftMax = 0;\n\n        for (const c of s) {\n            if (c === '(') {\n                leftMin++;\n                leftMax++;\n            } else if (c === ')') {\n                leftMin--;\n                leftMax--;\n            } else {\n                leftMin--;\n                leftMax++;\n            }\n            if (leftMax < 0) {\n                return false;\n            }\n            if (leftMin < 0) {\n                leftMin = 0;\n            }\n        }\n        return leftMin === 0;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public bool CheckValidString(string s) {\n        int leftMin = 0, leftMax = 0;\n\n        foreach (char c in s) {\n            if (c == '(') {\n                leftMin++;\n                leftMax++;\n            } else if (c == ')') {\n                leftMin--;\n                leftMax--;\n            } else {\n                leftMin--;\n                leftMax++;\n            }\n            if (leftMax < 0) {\n                return false;\n            }\n            if (leftMin < 0) {\n                leftMin = 0;\n            }\n        }\n        return leftMin == 0;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func checkValidString(s string) bool {\n    leftMin, leftMax := 0, 0\n\n    for _, c := range s {\n        if c == '(' {\n            leftMin, leftMax = leftMin+1, leftMax+1\n        } else if c == ')' {\n            leftMin, leftMax = leftMin-1, leftMax-1\n        } else {\n            leftMin, leftMax = leftMin-1, leftMax+1\n        }\n        if leftMax < 0 {\n            return false\n        }\n        if leftMin < 0 {\n            leftMin = 0\n        }\n    }\n    return leftMin == 0\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun checkValidString(s: String): Boolean {\n        var leftMin = 0\n        var leftMax = 0\n\n        for (c in s) {\n            when (c) {\n                '(' -> {\n                    leftMin++\n                    leftMax++\n                }\n                ')' -> {\n                    leftMin--\n                    leftMax--\n                }\n                else -> {\n                    leftMin--\n                    leftMax++\n                }\n            }\n            if (leftMax < 0) return false\n            if (leftMin < 0) leftMin = 0\n        }\n        return leftMin == 0\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func checkValidString(_ s: String) -> Bool {\n        var leftMin = 0\n        var leftMax = 0\n\n        for c in s {\n            if c == \"(\" {\n                leftMin += 1\n                leftMax += 1\n            } else if c == \")\" {\n                leftMin -= 1\n                leftMax -= 1\n            } else {\n                leftMin -= 1\n                leftMax += 1\n            }\n            if leftMax < 0 {\n                return false\n            }\n            if leftMin < 0 {\n                leftMin = 0\n            }\n        }\n        return leftMin == 0\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn check_valid_string(s: String) -> bool {\n        let (mut left_min, mut left_max) = (0i32, 0i32);\n\n        for c in s.bytes() {\n            match c {\n                b'(' => {\n                    left_min += 1;\n                    left_max += 1;\n                }\n                b')' => {\n                    left_min -= 1;\n                    left_max -= 1;\n                }\n                _ => {\n                    left_min -= 1;\n                    left_max += 1;\n                }\n            }\n            if left_max < 0 {\n                return false;\n            }\n            if left_min < 0 {\n                left_min = 0;\n            }\n        }\n        left_min == 0\n    }\n}"
+        }
+    ]
+}

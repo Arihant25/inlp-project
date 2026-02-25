@@ -1,0 +1,281 @@
+{
+    "problem_name": "Distinct Subsequences",
+    "problem_slug": "distinct-subsequences",
+    "difficulty": "hard",
+    "topic_tags": [
+        "string",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution:\n    def numDistinct(self, s: str, t: str) -> int:\n        if len(t) > len(s):\n            return 0\n\n        def dfs(i, j):\n            if j == len(t):\n                return 1\n            if i == len(s):\n                return 0\n\n            res = dfs(i + 1, j)\n            if s[i] == t[j]:\n                res += dfs(i + 1, j + 1)\n            return res\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int numDistinct(String s, String t) {\n        if (t.length() > s.length()) {\n            return 0;\n        }\n        return dfs(s, t, 0, 0);\n    }\n\n    private int dfs(String s, String t, int i, int j) {\n        if (j == t.length()) {\n            return 1;\n        }\n        if (i == s.length()) {\n            return 0;\n        }\n\n        int res = dfs(s, t, i + 1, j);\n        if (s.charAt(i) == t.charAt(j)) {\n            res += dfs(s, t, i + 1, j + 1);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\npublic:\n    int numDistinct(string s, string t) {\n        if (t.length() > s.length()) {\n            return 0;\n        }\n        return dfs(s, t, 0, 0);\n    }\n\nprivate:\n    int dfs(const string &s, const string &t, int i, int j) {\n        if (j == t.length()) {\n            return 1;\n        }\n        if (i == s.length()) {\n            return 0;\n        }\n\n        int res = dfs(s, t, i + 1, j);\n        if (s[i] == t[j]) {\n            res += dfs(s, t, i + 1, j + 1);\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} t\n     * @return {number}\n     */\n    numDistinct(s, t) {\n        if (t.length > s.length) {\n            return 0;\n        }\n\n        const dfs = (i, j) => {\n            if (j === t.length) {\n                return 1;\n            }\n            if (i === s.length) {\n                return 0;\n            }\n\n            let res = dfs(i + 1, j);\n            if (s[i] === t[j]) {\n                res += dfs(i + 1, j + 1);\n            }\n            return res;\n        };\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "public class Solution {\n    public int NumDistinct(string s, string t) {\n        if (t.Length > s.Length) {\n            return 0;\n        }\n        return Dfs(s, t, 0, 0);\n    }\n\n    private int Dfs(string s, string t, int i, int j) {\n        if (j == t.Length) {\n            return 1;\n        }\n        if (i == s.Length) {\n            return 0;\n        }\n\n        int res = Dfs(s, t, i + 1, j);\n        if (s[i] == t[j]) {\n            res += Dfs(s, t, i + 1, j + 1);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "func numDistinct(s string, t string) int {\n    if len(t) > len(s) {\n        return 0\n    }\n\n    var dfs func(i, j int) int\n    dfs = func(i, j int) int {\n        if j == len(t) {\n            return 1\n        }\n        if i == len(s) {\n            return 0\n        }\n\n        res := dfs(i+1, j)\n        if s[i] == t[j] {\n            res += dfs(i+1, j+1)\n        }\n        return res\n    }\n\n    return dfs(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    fun numDistinct(s: String, t: String): Int {\n        if (t.length > s.length) return 0\n\n        fun dfs(i: Int, j: Int): Int {\n            if (j == t.length) return 1\n            if (i == s.length) return 0\n\n            var res = dfs(i + 1, j)\n            if (s[i] == t[j]) {\n                res += dfs(i + 1, j + 1)\n            }\n            return res\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "class Solution {\n    func numDistinct(_ s: String, _ t: String) -> Int {\n        let sArray = Array(s), tArray = Array(t)\n        let sLen = sArray.count, tLen = tArray.count\n        if tLen > sLen { return 0 }\n\n        func dfs(_ i: Int, _ j: Int) -> Int {\n            if j == tLen { return 1 }\n            if i == sLen { return 0 }\n\n            var res = dfs(i + 1, j)\n            if sArray[i] == tArray[j] {\n                res += dfs(i + 1, j + 1)\n            }\n            return res\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^m)",
+            "space_complexity": "O(m)",
+            "code": "impl Solution {\n    pub fn num_distinct(s: String, t: String) -> i32 {\n        let s = s.as_bytes();\n        let t = t.as_bytes();\n        if t.len() > s.len() {\n            return 0;\n        }\n\n        fn dfs(s: &[u8], t: &[u8], i: usize, j: usize) -> i32 {\n            if j == t.len() {\n                return 1;\n            }\n            if i == s.len() {\n                return 0;\n            }\n            let mut res = dfs(s, t, i + 1, j);\n            if s[i] == t[j] {\n                res += dfs(s, t, i + 1, j + 1);\n            }\n            res\n        }\n\n        dfs(s, t, 0, 0)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def numDistinct(self, s: str, t: str) -> int:\n        if len(t) > len(s):\n            return 0\n\n        dp = {}\n        def dfs(i, j):\n            if j == len(t):\n                return 1\n            if i == len(s):\n                return 0\n            if (i, j) in dp:\n                return dp[(i, j)]\n\n            res = dfs(i + 1, j)\n            if s[i] == t[j]:\n                res += dfs(i + 1, j + 1)\n            dp[(i, j)] = res\n            return res\n\n        return dfs(0, 0)"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    private int[][] dp;\n\n    public int numDistinct(String s, String t) {\n        int m = s.length(), n = t.length();\n        if (n > m) return 0;\n        dp = new int[m + 1][n + 1];\n        for (int i = 0; i <= m; i++) {\n            Arrays.fill(dp[i], -1);\n        }\n        return dfs(s, t, 0, 0);\n    }\n\n    private int dfs(String s, String t, int i, int j) {\n        if (j == t.length()) return 1;\n        if (i == s.length()) return 0;\n        if (dp[i][j] != -1) return dp[i][j];\n\n        int res = dfs(s, t, i + 1, j);\n        if (s.charAt(i) == t.charAt(j)) {\n            res += dfs(s, t, i + 1, j + 1);\n        }\n        dp[i][j] = res;\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    vector<vector<int>> dp;\npublic:\n    int numDistinct(string s, string t) {\n        int m = s.size(), n = t.size();\n        if (n > m) return 0;\n        dp.assign(m + 1, vector<int>(n + 1, -1));\n        return dfs(s, t, 0, 0);\n    }\n\nprivate:\n    int dfs(const string &s, const string &t, int i, int j) {\n        if (j == t.size()) return 1;\n        if (i == s.size()) return 0;\n        if (dp[i][j] != -1) return dp[i][j];\n\n        int res = dfs(s, t, i + 1, j);\n        if (s[i] == t[j]) {\n            res += dfs(s, t, i + 1, j + 1);\n        }\n        dp[i][j] = res;\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} t\n     * @return {number}\n     */\n    numDistinct(s, t) {\n        let m = s.length,\n            n = t.length;\n        if (n > m) return 0;\n        let dp = Array(m + 1)\n            .fill()\n            .map(() => Array(n + 1).fill(-1));\n\n        const dfs = (i, j) => {\n            if (j === n) return 1;\n            if (i === m) return 0;\n            if (dp[i][j] !== -1) return dp[i][j];\n\n            let res = dfs(i + 1, j);\n            if (s[i] === t[j]) {\n                res += dfs(i + 1, j + 1);\n            }\n            dp[i][j] = res;\n            return res;\n        };\n\n        return dfs(0, 0);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    private int?[,] dp;\n\n    public int NumDistinct(string s, string t) {\n        int m = s.Length, n = t.Length;\n        if (n > m) return 0;\n        dp = new int?[m + 1, n + 1];\n        return Dfs(s, t, 0, 0);\n    }\n\n    private int Dfs(string s, string t, int i, int j) {\n        if (j == t.Length) return 1;\n        if (i == s.Length) return 0;\n        if (dp[i, j].HasValue) return dp[i, j].Value;\n\n        int res = Dfs(s, t, i + 1, j);\n        if (s[i] == t[j]) {\n            res += Dfs(s, t, i + 1, j + 1);\n        }\n        dp[i, j] = res;\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "func numDistinct(s string, t string) int {\n    if len(t) > len(s) {\n        return 0\n    }\n\n    dp := make([][]int, len(s)+1)\n    for i := range dp {\n        dp[i] = make([]int, len(t)+1)\n        for j := range dp[i] {\n            dp[i][j] = -1\n        }\n    }\n\n    var dfs func(i, j int) int\n    dfs = func(i, j int) int {\n        if j == len(t) {\n            return 1\n        }\n        if i == len(s) {\n            return 0\n        }\n        if dp[i][j] != -1 {\n            return dp[i][j]\n        }\n\n        res := dfs(i+1, j)\n        if s[i] == t[j] {\n            res += dfs(i+1, j+1)\n        }\n\n        dp[i][j] = res\n        return res\n    }\n\n    return dfs(0, 0)\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun numDistinct(s: String, t: String): Int {\n        if (t.length > s.length) return 0\n\n        val dp = Array(s.length + 1) { IntArray(t.length + 1) { -1 } }\n\n        fun dfs(i: Int, j: Int): Int {\n            if (j == t.length) return 1\n            if (i == s.length) return 0\n            if (dp[i][j] != -1) return dp[i][j]\n\n            var res = dfs(i + 1, j)\n            if (s[i] == t[j]) {\n                res += dfs(i + 1, j + 1)\n            }\n\n            dp[i][j] = res\n            return res\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func numDistinct(_ s: String, _ t: String) -> Int {\n        let sArray = Array(s), tArray = Array(t)\n        let sLen = sArray.count, tLen = tArray.count\n        if tLen > sLen { return 0 }\n\n        var dp = [[Int]: Int]()\n\n        func dfs(_ i: Int, _ j: Int) -> Int {\n            if j == tLen { return 1 }\n            if i == sLen { return 0 }\n            if let val = dp[[i, j]] { return val }\n\n            var res = dfs(i + 1, j)\n            if sArray[i] == tArray[j] {\n                res += dfs(i + 1, j + 1)\n            }\n            dp[[i, j]] = res\n            return res\n        }\n\n        return dfs(0, 0)\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn num_distinct(s: String, t: String) -> i32 {\n        let s = s.as_bytes();\n        let t = t.as_bytes();\n        let m = s.len();\n        let n = t.len();\n        if n > m {\n            return 0;\n        }\n        let mut dp = vec![vec![-1i32; n + 1]; m + 1];\n\n        fn dfs(s: &[u8], t: &[u8], i: usize, j: usize, dp: &mut Vec<Vec<i32>>) -> i32 {\n            if j == t.len() {\n                return 1;\n            }\n            if i == s.len() {\n                return 0;\n            }\n            if dp[i][j] != -1 {\n                return dp[i][j];\n            }\n            let mut res = dfs(s, t, i + 1, j, dp);\n            if s[i] == t[j] {\n                res += dfs(s, t, i + 1, j + 1, dp);\n            }\n            dp[i][j] = res;\n            res\n        }\n\n        dfs(s, t, 0, 0, &mut dp)\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution:\n    def numDistinct(self, s: str, t: str) -> int:\n        m, n = len(s), len(t)\n        dp = [[0] * (n + 1) for _ in range(m + 1)]\n\n        for i in range(m + 1):\n            dp[i][n] = 1\n\n        for i in range(m - 1, -1, -1):\n            for j in range(n - 1, -1, -1):\n                dp[i][j] = dp[i + 1][j]\n                if s[i] == t[j]:\n                    dp[i][j] += dp[i + 1][j + 1]\n\n        return dp[0][0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public int numDistinct(String s, String t) {\n        int m = s.length(), n = t.length();\n        int[][] dp = new int[m + 1][n + 1];\n\n        for (int i = 0; i <= m; i++) {\n            dp[i][n] = 1;\n        }\n\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                dp[i][j] = dp[i + 1][j];\n                if (s.charAt(i) == t.charAt(j)) {\n                    dp[i][j] += dp[i + 1][j + 1];\n                }\n            }\n        }\n\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\npublic:\n    int numDistinct(string s, string t) {\n        int m = s.length(), n = t.length();\n        vector<vector<uint>> dp(m + 1, vector<uint>(n + 1, 0));\n\n        for (int i = 0; i <= m; i++) {\n            dp[i][n] = 1;\n        }\n\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                dp[i][j] = dp[i + 1][j];\n                if (s[i] == t[j]) {\n                    dp[i][j] += dp[i + 1][j + 1];\n                }\n            }\n        }\n\n        return dp[0][0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} t\n     * @return {number}\n     */\n    numDistinct(s, t) {\n        let m = s.length,\n            n = t.length;\n        let dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));\n\n        for (let i = 0; i <= m; i++) {\n            dp[i][n] = 1;\n        }\n\n        for (let i = m - 1; i >= 0; i--) {\n            for (let j = n - 1; j >= 0; j--) {\n                dp[i][j] = dp[i + 1][j];\n                if (s[i] === t[j]) {\n                    dp[i][j] += dp[i + 1][j + 1];\n                }\n            }\n        }\n\n        return dp[0][0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "public class Solution {\n    public int NumDistinct(string s, string t) {\n        int m = s.Length, n = t.Length;\n        int[,] dp = new int[m + 1, n + 1];\n\n        for (int i = 0; i <= m; i++) {\n            dp[i, n] = 1;\n        }\n\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                dp[i, j] = dp[i + 1, j];\n                if (s[i] == t[j]) {\n                    dp[i, j] += dp[i + 1, j + 1];\n                }\n            }\n        }\n\n        return dp[0, 0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "func numDistinct(s string, t string) int {\n    m, n := len(s), len(t)\n    dp := make([][]int, m+1)\n    for i := range dp {\n        dp[i] = make([]int, n+1)\n    }\n\n    for i := 0; i <= m; i++ {\n        dp[i][n] = 1\n    }\n\n    for i := m - 1; i >= 0; i-- {\n        for j := n - 1; j >= 0; j-- {\n            dp[i][j] = dp[i+1][j]\n            if s[i] == t[j] {\n                dp[i][j] += dp[i+1][j+1]\n            }\n        }\n    }\n\n    return dp[0][0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    fun numDistinct(s: String, t: String): Int {\n        val m = s.length\n        val n = t.length\n        val dp = Array(m + 1) { IntArray(n + 1) }\n\n        for (i in 0..m) {\n            dp[i][n] = 1\n        }\n\n        for (i in m - 1 downTo 0) {\n            for (j in n - 1 downTo 0) {\n                dp[i][j] = dp[i + 1][j]\n                if (s[i] == t[j]) {\n                    dp[i][j] += dp[i + 1][j + 1]\n                }\n            }\n        }\n\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "class Solution {\n    func numDistinct(_ s: String, _ t: String) -> Int {\n        let m = s.count, n = t.count\n        var dp = Array(\n            repeating: Array(repeating: 0, count: n + 1),\n            count: m + 1\n        )\n\n        let sArray = Array(s)\n        let tArray = Array(t)\n\n        for i in 0...m {\n            dp[i][n] = 1\n        }\n\n        for i in stride(from: m - 1, through: 0, by: -1) {\n            for j in stride(from: n - 1, through: 0, by: -1) {\n                let base = dp[i + 1][j]\n                dp[i][j] = base\n                if sArray[i] == tArray[j] {\n                    let addend = dp[i + 1][j + 1]\n                    if base > Int.max - addend {\n                        dp[i][j] = 0\n                    } else {\n                        dp[i][j] += addend\n                    }\n                }\n            }\n        }\n\n        return dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(m * n)",
+            "code": "impl Solution {\n    pub fn num_distinct(s: String, t: String) -> i32 {\n        let s = s.as_bytes();\n        let t = t.as_bytes();\n        let m = s.len();\n        let n = t.len();\n        let mut dp = vec![vec![0i32; n + 1]; m + 1];\n\n        for i in 0..=m {\n            dp[i][n] = 1;\n        }\n\n        for i in (0..m).rev() {\n            for j in (0..n).rev() {\n                dp[i][j] = dp[i + 1][j];\n                if s[i] == t[j] {\n                    dp[i][j] += dp[i + 1][j + 1];\n                }\n            }\n        }\n\n        dp[0][0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def numDistinct(self, s: str, t: str) -> int:\n        m, n = len(s), len(t)\n        dp = [0] * (n + 1)\n        nextDp = [0] * (n + 1)\n\n        dp[n] = nextDp[n] = 1\n        for i in range(m - 1, -1, -1):\n            for j in range(n - 1, -1, -1):\n                nextDp[j] = dp[j]\n                if s[i] == t[j]:\n                    nextDp[j] += dp[j + 1]\n            dp = nextDp[:]\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int numDistinct(String s, String t) {\n        int m = s.length(), n = t.length();\n        int[] dp = new int[n + 1];\n        int[] nextDp = new int[n + 1];\n\n        dp[n] = nextDp[n] = 1;\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                nextDp[j] = dp[j];\n                if (s.charAt(i) == t.charAt(j)) {\n                    nextDp[j] += dp[j + 1];\n                }\n            }\n            dp = nextDp.clone();\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int numDistinct(string s, string t) {\n        int m = s.size(), n = t.size();\n        vector<uint> dp(n + 1, 0);\n        vector<uint> nextDp(n + 1, 0);\n        dp[n] = nextDp[n] = 1;\n\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                nextDp[j] = dp[j];\n                if (s[i] == t[j]) {\n                    nextDp[j] += dp[j + 1];\n                }\n            }\n            dp = nextDp;\n        }\n\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} t\n     * @return {number}\n     */\n    numDistinct(s, t) {\n        let m = s.length,\n            n = t.length;\n        let dp = new Array(n + 1).fill(0);\n        let nextDp = new Array(n + 1).fill(0);\n\n        dp[n] = nextDp[n] = 1;\n        for (let i = m - 1; i >= 0; i--) {\n            for (let j = n - 1; j >= 0; j--) {\n                nextDp[j] = dp[j];\n                if (s[i] === t[j]) {\n                    nextDp[j] += dp[j + 1];\n                }\n            }\n            dp = nextDp.slice();\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int NumDistinct(string s, string t) {\n        int m = s.Length, n = t.Length;\n        int[] dp = new int[n + 1];\n        int[] nextDp = new int[n + 1];\n\n        dp[n] = nextDp[n] = 1;\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                nextDp[j] = dp[j];\n                if (s[i] == t[j]) {\n                    nextDp[j] += dp[j + 1];\n                }\n            }\n            dp = (int[])nextDp.Clone();\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "func numDistinct(s string, t string) int {\n    m, n := len(s), len(t)\n    dp := make([]int, n+1)\n    nextDp := make([]int, n+1)\n\n    dp[n] = 1\n    nextDp[n] = 1\n\n    for i := m - 1; i >= 0; i-- {\n        for j := n - 1; j >= 0; j-- {\n            nextDp[j] = dp[j]\n            if s[i] == t[j] {\n                nextDp[j] += dp[j+1]\n            }\n        }\n        dp = append([]int(nil), nextDp...)\n    }\n\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun numDistinct(s: String, t: String): Int {\n        val m = s.length\n        val n = t.length\n        var dp = IntArray(n + 1)\n        var nextDp = IntArray(n + 1)\n\n        dp[n] = 1\n        nextDp[n] = 1\n\n        for (i in m - 1 downTo 0) {\n            for (j in n - 1 downTo 0) {\n                nextDp[j] = dp[j]\n                if (s[i] == t[j]) {\n                    nextDp[j] += dp[j + 1]\n                }\n            }\n            dp = nextDp.copyOf()\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func numDistinct(_ s: String, _ t: String) -> Int {\n        let m = s.count, n = t.count\n        var dp = [Int](repeating: 0, count: n + 1)\n        var nextDp = [Int](repeating: 0, count: n + 1)\n        dp[n] = 1\n        nextDp[n] = 1\n\n        let sArr = Array(s)\n        let tArr = Array(t)\n\n        for i in stride(from: m - 1, through: 0, by: -1) {\n            for j in stride(from: n - 1, through: 0, by: -1) {\n                nextDp[j] = dp[j]\n                if sArr[i] == tArr[j] {\n                    let addend = dp[j + 1]\n                    if nextDp[j] > Int.max - addend {\n                        nextDp[j] = 0\n                    } else {\n                        nextDp[j] += addend\n                    }\n                }\n            }\n            dp = nextDp\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn num_distinct(s: String, t: String) -> i32 {\n        let s = s.as_bytes();\n        let t = t.as_bytes();\n        let m = s.len();\n        let n = t.len();\n        let mut dp = vec![0i32; n + 1];\n        let mut next_dp = vec![0i32; n + 1];\n        dp[n] = 1;\n        next_dp[n] = 1;\n\n        for i in (0..m).rev() {\n            for j in (0..n).rev() {\n                next_dp[j] = dp[j];\n                if s[i] == t[j] {\n                    next_dp[j] += dp[j + 1];\n                }\n            }\n            dp = next_dp.clone();\n        }\n\n        dp[0]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def numDistinct(self, s: str, t: str) -> int:\n        m, n = len(s), len(t)\n        dp = [0] * (n + 1)\n\n        dp[n] = 1\n        for i in range(m - 1, -1, -1):\n            prev = 1\n            for j in range(n - 1, -1, -1):\n                res = dp[j]\n                if s[i] == t[j]:\n                    res += prev\n\n                prev = dp[j]\n                dp[j] = res\n\n        return dp[0]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int numDistinct(String s, String t) {\n        int m = s.length(), n = t.length();\n        int[] dp = new int[n + 1];\n\n        dp[n] = 1;\n        for (int i = m - 1; i >= 0; i--) {\n            int prev = 1;\n            for (int j = n - 1; j >= 0; j--) {\n                int res = dp[j];\n                if (s.charAt(i) == t.charAt(j)) {\n                    res += prev;\n                }\n\n                prev = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int numDistinct(string s, string t) {\n        int m = s.size(), n = t.size();\n        vector<uint> dp(n + 1, 0);\n        dp[n] = 1;\n\n        for (int i = m - 1; i >= 0; i--) {\n            int prev = 1;\n            for (int j = n - 1; j >= 0; j--) {\n                uint res = dp[j];\n                if (s[i] == t[j]) {\n                    res += prev;\n                }\n\n                prev = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        return dp[0];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @param {string} t\n     * @return {number}\n     */\n    numDistinct(s, t) {\n        let m = s.length,\n            n = t.length;\n        let dp = new Array(n + 1).fill(0);\n\n        dp[n] = 1;\n        for (let i = m - 1; i >= 0; i--) {\n            let prev = 1;\n            for (let j = n - 1; j >= 0; j--) {\n                let res = dp[j];\n                if (s[i] === t[j]) {\n                    res += prev;\n                }\n\n                prev = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int NumDistinct(string s, string t) {\n        int m = s.Length, n = t.Length;\n        int[] dp = new int[n + 1];\n\n        dp[n] = 1;\n        for (int i = m - 1; i >= 0; i--) {\n            int prev = 1;\n            for (int j = n - 1; j >= 0; j--) {\n                int res = dp[j];\n                if (s[i] == t[j]) {\n                    res += prev;\n                }\n\n                prev = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        return dp[0];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "func numDistinct(s string, t string) int {\n    m, n := len(s), len(t)\n    dp := make([]int, n+1)\n\n    dp[n] = 1\n    for i := m - 1; i >= 0; i-- {\n        prev := 1\n        for j := n - 1; j >= 0; j-- {\n            res := dp[j]\n            if s[i] == t[j] {\n                res += prev\n            }\n            prev = dp[j]\n            dp[j] = res\n        }\n    }\n\n    return dp[0]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun numDistinct(s: String, t: String): Int {\n        val m = s.length\n        val n = t.length\n        val dp = IntArray(n + 1)\n\n        dp[n] = 1\n        for (i in m - 1 downTo 0) {\n            var prev = 1\n            for (j in n - 1 downTo 0) {\n                var res = dp[j]\n                if (s[i] == t[j]) {\n                    res += prev\n                }\n                prev = dp[j]\n                dp[j] = res\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func numDistinct(_ s: String, _ t: String) -> Int {\n        let m = s.count, n = t.count\n        var dp = [Int](repeating: 0, count: n + 1)\n        dp[n] = 1\n        let sArr = Array(s)\n        let tArr = Array(t)\n\n        for i in stride(from: m - 1, through: 0, by: -1) {\n            var prev = 1\n            for j in stride(from: n - 1, through: 0, by: -1) {\n                let base = dp[j]\n                var res = base\n                if sArr[i] == tArr[j] {\n                    if base > Int.max - prev {\n                        res = 0\n                    } else {\n                        res += prev\n                    }\n                }\n                prev = dp[j]\n                dp[j] = res\n            }\n        }\n\n        return dp[0]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(m * n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn num_distinct(s: String, t: String) -> i32 {\n        let s = s.as_bytes();\n        let t = t.as_bytes();\n        let m = s.len();\n        let n = t.len();\n        let mut dp = vec![0i32; n + 1];\n        dp[n] = 1;\n\n        for i in (0..m).rev() {\n            let mut prev = 1;\n            for j in (0..n).rev() {\n                let mut res = dp[j];\n                if s[i] == t[j] {\n                    res += prev;\n                }\n                prev = dp[j];\n                dp[j] = res;\n            }\n        }\n\n        dp[0]\n    }\n}"
+        }
+    ]
+}

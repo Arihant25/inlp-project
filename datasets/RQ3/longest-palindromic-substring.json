@@ -1,0 +1,228 @@
+{
+    "problem_name": "Longest Palindromic Substring",
+    "problem_slug": "longest-palindromic-substring",
+    "difficulty": "medium",
+    "topic_tags": [
+        "two pointers",
+        "string",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        res, resLen = \"\", 0\n\n        for i in range(len(s)):\n            for j in range(i, len(s)):\n                l, r = i, j\n                while l < r and s[l] == s[r]:\n                    l += 1\n                    r -= 1\n\n                if l >= r and resLen < (j - i + 1):\n                    res = s[i : j + 1]\n                    resLen = j - i + 1\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public String longestPalindrome(String s) {\n        String res = \"\";\n        int resLen = 0;\n\n        for (int i = 0; i < s.length(); i++) {\n            for (int j = i; j < s.length(); j++) {\n                int l = i, r = j;\n                while (l < r && s.charAt(l) == s.charAt(r)) {\n                    l++;\n                    r--;\n                }\n\n                if (l >= r && resLen < (j - i + 1)) {\n                    res = s.substring(i, j + 1);\n                    resLen = j - i + 1;\n                }\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    string longestPalindrome(string s) {\n        string res = \"\";\n        int resLen = 0;\n\n        for (int i = 0; i < s.size(); i++) {\n            for (int j = i; j < s.size(); j++) {\n                int l = i, r = j;\n                while (l < r && s[l] == s[r]) {\n                    l++;\n                    r--;\n                }\n\n                if (l >= r && resLen < (j - i + 1)) {\n                    res = s.substr(i, j - i + 1);\n                    resLen = j - i + 1;\n                }\n            }\n        }\n\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {string}\n     */\n    longestPalindrome(s) {\n        let res = '';\n        let resLen = 0;\n\n        for (let i = 0; i < s.length; i++) {\n            for (let j = i; j < s.length; j++) {\n                let l = i,\n                    r = j;\n                while (l < r && s[l] === s[r]) {\n                    l++;\n                    r--;\n                }\n\n                if (l >= r && resLen < j - i + 1) {\n                    res = s.slice(i, j + 1);\n                    resLen = j - i + 1;\n                }\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public string LongestPalindrome(string s) {\n        string res = \"\";\n        int resLen = 0;\n\n        for (int i = 0; i < s.Length; i++) {\n            for (int j = i; j < s.Length; j++) {\n                int l = i, r = j;\n                while (l < r && s[l] == s[r]) {\n                    l++;\n                    r--;\n                }\n\n                if (l >= r && resLen < (j - i + 1)) {\n                    res = s.Substring(i, j - i + 1);\n                    resLen = j - i + 1;\n                }\n            }\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "func longestPalindrome(s string) string {\n    res := \"\"\n    resLen := 0\n\n    for i := 0; i < len(s); i++ {\n        for j := i; j < len(s); j++ {\n            l, r := i, j\n            for l < r && s[l] == s[r] {\n                l++\n                r--\n            }\n\n            if l >= r && resLen < (j-i+1) {\n                res = s[i : j+1]\n                resLen = j - i + 1\n            }\n        }\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun longestPalindrome(s: String): String {\n        var res = \"\"\n        var resLen = 0\n\n        for (i in s.indices) {\n            for (j in i until s.length) {\n                var l = i\n                var r = j\n                while (l < r && s[l] == s[r]) {\n                    l++\n                    r--\n                }\n\n                if (l >= r && resLen < (j - i + 1)) {\n                    res = s.substring(i, j + 1)\n                    resLen = j - i + 1\n                }\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func longestPalindrome(_ s: String) -> String {\n        let chars = Array(s)\n        var res = \"\"\n        var resLen = 0\n\n        for i in 0..<chars.count {\n            for j in i..<chars.count {\n                var l = i, r = j\n                while l < r && chars[l] == chars[r] {\n                    l += 1\n                    r -= 1\n                }\n\n                if l >= r && resLen < (j - i + 1) {\n                    res = String(chars[i...j])\n                    resLen = j - i + 1\n                }\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^3)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn longest_palindrome(s: String) -> String {\n        let s = s.as_bytes();\n        let mut res_idx = 0;\n        let mut res_len = 0;\n\n        for i in 0..s.len() {\n            for j in i..s.len() {\n                let (mut l, mut r) = (i, j);\n                while l < r && s[l] == s[r] {\n                    l += 1;\n                    r -= 1;\n                }\n                if l >= r && res_len < (j - i + 1) {\n                    res_idx = i;\n                    res_len = j - i + 1;\n                }\n            }\n        }\n\n        String::from_utf8(s[res_idx..res_idx + res_len].to_vec()).unwrap()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        resIdx, resLen = 0, 0\n        n = len(s)\n\n        dp = [[False] * n for _ in range(n)]\n\n        for i in range(n - 1, -1, -1):\n            for j in range(i, n):\n                if s[i] == s[j] and (j - i <= 2 or dp[i + 1][j - 1]):\n                    dp[i][j] = True\n                    if resLen < (j - i + 1):\n                        resIdx = i\n                        resLen = j - i + 1\n\n        return s[resIdx : resIdx + resLen]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public String longestPalindrome(String s) {\n        int resIdx = 0, resLen = 0;\n        int n = s.length();\n\n        boolean[][] dp = new boolean[n][n];\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int j = i; j < n; j++) {\n                if (s.charAt(i) == s.charAt(j) &&\n                    (j - i <= 2 || dp[i + 1][j - 1])) {\n\n                    dp[i][j] = true;\n                    if (resLen < (j - i + 1)) {\n                        resIdx = i;\n                        resLen = j - i + 1;\n                    }\n                }\n            }\n        }\n\n        return s.substring(resIdx, resIdx + resLen);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\npublic:\n    string longestPalindrome(string s) {\n        int resIdx = 0, resLen = 0;\n        int n = s.size();\n\n        vector<vector<bool>> dp(n, vector<bool>(n, false));\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int j = i; j < n; j++) {\n                if (s[i] == s[j] &&\n                    (j - i <= 2 || dp[i + 1][j - 1])) {\n\n                    dp[i][j] = true;\n                    if (resLen < (j - i + 1)) {\n                        resIdx = i;\n                        resLen = j - i + 1;\n                    }\n                }\n            }\n        }\n\n        return s.substr(resIdx, resLen);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {string}\n     */\n    longestPalindrome(s) {\n        let resIdx = 0,\n            resLen = 0;\n        const n = s.length;\n\n        const dp = Array.from({ length: n }, () => Array(n).fill(false));\n\n        for (let i = n - 1; i >= 0; i--) {\n            for (let j = i; j < n; j++) {\n                if (s[i] === s[j] && (j - i <= 2 || dp[i + 1][j - 1])) {\n                    dp[i][j] = true;\n                    if (resLen < j - i + 1) {\n                        resIdx = i;\n                        resLen = j - i + 1;\n                    }\n                }\n            }\n        }\n\n        return s.slice(resIdx, resIdx + resLen);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public string LongestPalindrome(string s) {\n        int resIdx = 0, resLen = 0;\n        int n = s.Length;\n\n        bool[,] dp = new bool[n, n];\n\n        for (int i = n - 1; i >= 0; i--) {\n            for (int j = i; j < n; j++) {\n                if (s[i] == s[j] &&\n                   (j - i <= 2 || dp[i + 1, j - 1])) {\n\n                    dp[i, j] = true;\n                    if (resLen < (j - i + 1)) {\n                        resIdx = i;\n                        resLen = j - i + 1;\n                    }\n                }\n            }\n        }\n\n        return s.Substring(resIdx, resLen);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "func longestPalindrome(s string) string {\n    n := len(s)\n    resIdx, resLen := 0, 0\n\n    dp := make([][]bool, n)\n    for i := range dp {\n        dp[i] = make([]bool, n)\n    }\n\n    for i := n - 1; i >= 0; i-- {\n        for j := i; j < n; j++ {\n            if s[i] == s[j] && (j-i <= 2 || dp[i+1][j-1]) {\n                dp[i][j] = true\n                if resLen < (j-i+1) {\n                    resIdx = i\n                    resLen = j - i + 1\n                }\n            }\n        }\n    }\n\n    return s[resIdx : resIdx+resLen]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    fun longestPalindrome(s: String): String {\n        val n = s.length\n        var resIdx = 0\n        var resLen = 0\n\n        val dp = Array(n) { BooleanArray(n) }\n\n        for (i in n - 1 downTo 0) {\n            for (j in i until n) {\n                if (s[i] == s[j] && (j - i <= 2 || dp[i + 1][j - 1])) {\n                    dp[i][j] = true\n                    if (resLen < (j - i + 1)) {\n                        resIdx = i\n                        resLen = j - i + 1\n                    }\n                }\n            }\n        }\n\n        return s.substring(resIdx, resIdx + resLen)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func longestPalindrome(_ s: String) -> String {\n        let chars = Array(s)\n        let n = chars.count\n        var resIdx = 0, resLen = 0\n        var dp = Array(repeating: Array(repeating: false, count: n), count: n)\n\n        for i in stride(from: n - 1, through: 0, by: -1) {\n            for j in i..<n {\n                if chars[i] == chars[j] && (j - i <= 2 || dp[i + 1][j - 1]) {\n                    dp[i][j] = true\n                    if resLen < (j - i + 1) {\n                        resIdx = i\n                        resLen = j - i + 1\n                    }\n                }\n            }\n        }\n\n        return String(chars[resIdx..<resIdx + resLen])\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn longest_palindrome(s: String) -> String {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut res_idx = 0;\n        let mut res_len = 0;\n        let mut dp = vec![vec![false; n]; n];\n\n        for i in (0..n).rev() {\n            for j in i..n {\n                if s[i] == s[j] && (j - i <= 2 || dp[i + 1][j - 1]) {\n                    dp[i][j] = true;\n                    if res_len < (j - i + 1) {\n                        res_idx = i;\n                        res_len = j - i + 1;\n                    }\n                }\n            }\n        }\n\n        String::from_utf8(s[res_idx..res_idx + res_len].to_vec()).unwrap()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        resIdx = 0\n        resLen = 0\n\n        for i in range(len(s)):\n            # odd length\n            l, r = i, i\n            while l >= 0 and r < len(s) and s[l] == s[r]:\n                if (r - l + 1) > resLen:\n                    resIdx = l\n                    resLen = r - l + 1\n                l -= 1\n                r += 1\n\n            # even length\n            l, r = i, i + 1\n            while l >= 0 and r < len(s) and s[l] == s[r]:\n                if (r - l + 1) > resLen:\n                    resIdx = l\n                    resLen = r - l + 1\n                l -= 1\n                r += 1\n\n        return s[resIdx : resIdx + resLen]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    public String longestPalindrome(String s) {\n        int resLen = 0, resIdx = 0;\n\n        for (int i = 0; i < s.length(); i++) {\n            // odd length\n            int l = i, r = i;\n            while (l >= 0 && r < s.length() &&\n                   s.charAt(l) == s.charAt(r)) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l;\n                    resLen = r - l + 1;\n                }\n                l--;\n                r++;\n            }\n\n            // even length\n            l = i;\n            r = i + 1;\n            while (l >= 0 && r < s.length() &&\n                   s.charAt(l) == s.charAt(r)) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l;\n                    resLen = r - l + 1;\n                }\n                l--;\n                r++;\n            }\n        }\n\n        return s.substring(resIdx, resIdx + resLen);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    string longestPalindrome(string s) {\n        int resLen = 0, resIdx = 0;\n\n        for (int i = 0; i < s.size(); i++) {\n            // odd length\n            int l = i, r = i;\n            while (l >= 0 && r < s.size() &&\n                   s[l] == s[r]) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l;\n                    resLen = r - l + 1;\n                }\n                l--;\n                r++;\n            }\n\n            // even length\n            l = i;\n            r = i + 1;\n            while (l >= 0 && r < s.size() &&\n                   s[l] == s[r]) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l;\n                    resLen = r - l + 1;\n                }\n                l--;\n                r++;\n            }\n        }\n\n        return s.substr(resIdx, resLen);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {string}\n     */\n    longestPalindrome(s) {\n        let resIdx = 0;\n        let resLen = 0;\n\n        for (let i = 0; i < s.length; i++) {\n            // odd length\n            let l = i;\n            let r = i;\n            while (l >= 0 && r < s.length && s.charAt(l) === s.charAt(r)) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l;\n                    resLen = r - l + 1;\n                }\n                l--;\n                r++;\n            }\n\n            // even length\n            l = i;\n            r = i + 1;\n            while (l >= 0 && r < s.length && s.charAt(l) === s.charAt(r)) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l;\n                    resLen = r - l + 1;\n                }\n                l--;\n                r++;\n            }\n        }\n\n        return s.substring(resIdx, resIdx + resLen);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public string LongestPalindrome(string s) {\n        int resLen = 0, resIdx = 0;\n\n        for (int i = 0; i < s.Length; i++) {\n            // odd length\n            int l = i, r = i;\n            while (l >= 0 && r < s.Length &&\n                   s[l] == s[r]) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l;\n                    resLen = r - l + 1;\n                }\n                l--;\n                r++;\n            }\n\n            // even length\n            l = i;\n            r = i + 1;\n            while (l >= 0 && r < s.Length &&\n                   s[l] == s[r]) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l;\n                    resLen = r - l + 1;\n                }\n                l--;\n                r++;\n            }\n        }\n\n        return s.Substring(resIdx, resLen);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "func longestPalindrome(s string) string {\n    resIdx, resLen := 0, 0\n\n    for i := 0; i < len(s); i++ {\n        // odd length\n        l, r := i, i\n        for l >= 0 && r < len(s) && s[l] == s[r] {\n            if r-l+1 > resLen {\n                resIdx = l\n                resLen = r - l + 1\n            }\n            l--\n            r++\n        }\n\n        // even length\n        l, r = i, i+1\n        for l >= 0 && r < len(s) && s[l] == s[r] {\n            if r-l+1 > resLen {\n                resIdx = l\n                resLen = r - l + 1\n            }\n            l--\n            r++\n        }\n    }\n\n    return s[resIdx : resIdx+resLen]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun longestPalindrome(s: String): String {\n        var resIdx = 0\n        var resLen = 0\n\n        for (i in s.indices) {\n            // odd length\n            var l = i\n            var r = i\n            while (l >= 0 && r < s.length && s[l] == s[r]) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l\n                    resLen = r - l + 1\n                }\n                l--\n                r++\n            }\n\n            // even length\n            l = i\n            r = i + 1\n            while (l >= 0 && r < s.length && s[l] == s[r]) {\n                if (r - l + 1 > resLen) {\n                    resIdx = l\n                    resLen = r - l + 1\n                }\n                l--\n                r++\n            }\n        }\n\n        return s.substring(resIdx, resIdx + resLen)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func longestPalindrome(_ s: String) -> String {\n        let chars = Array(s)\n        var resIdx = 0\n        var resLen = 0\n\n        for i in 0..<chars.count {\n            // Odd length palindrome\n            var l = i, r = i\n            while l >= 0 && r < chars.count && chars[l] == chars[r] {\n                if (r - l + 1) > resLen {\n                    resIdx = l\n                    resLen = r - l + 1\n                }\n                l -= 1\n                r += 1\n            }\n\n            // Even length palindrome\n            l = i\n            r = i + 1\n            while l >= 0 && r < chars.count && chars[l] == chars[r] {\n                if (r - l + 1) > resLen {\n                    resIdx = l\n                    resLen = r - l + 1\n                }\n                l -= 1\n                r += 1\n            }\n        }\n\n        return String(chars[resIdx..<resIdx + resLen])\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n^2)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn longest_palindrome(s: String) -> String {\n        let s = s.as_bytes();\n        let n = s.len();\n        let mut res_idx = 0;\n        let mut res_len = 0;\n\n        for i in 0..n {\n            // odd length\n            let (mut l, mut r) = (i as isize, i as isize);\n            while l >= 0 && (r as usize) < n && s[l as usize] == s[r as usize] {\n                if (r - l + 1) as usize > res_len {\n                    res_idx = l as usize;\n                    res_len = (r - l + 1) as usize;\n                }\n                l -= 1;\n                r += 1;\n            }\n\n            // even length\n            let (mut l, mut r) = (i as isize, i as isize + 1);\n            while l >= 0 && (r as usize) < n && s[l as usize] == s[r as usize] {\n                if (r - l + 1) as usize > res_len {\n                    res_idx = l as usize;\n                    res_len = (r - l + 1) as usize;\n                }\n                l -= 1;\n                r += 1;\n            }\n        }\n\n        String::from_utf8(s[res_idx..res_idx + res_len].to_vec()).unwrap()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        def manacher(s):\n            t = '#' + '#'.join(s) + '#'\n            n = len(t)\n            p = [0] * n\n            l, r = 0, 0\n            for i in range(n):\n                p[i] = min(r - i, p[l + (r - i)]) if i < r else 0\n                while (i + p[i] + 1 < n and i - p[i] - 1 >= 0\n                       and t[i + p[i] + 1] == t[i - p[i] - 1]):\n                    p[i] += 1\n                if i + p[i] > r:\n                    l, r = i - p[i], i + p[i]\n            return p\n\n        p = manacher(s)\n        resLen, center_idx = max((v, i) for i, v in enumerate(p))\n        resIdx = (center_idx - resLen) // 2\n        return s[resIdx : resIdx + resLen]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[] manacher(String s) {\n        StringBuilder t = new StringBuilder(\"#\");\n        for (char c : s.toCharArray()) {\n            t.append(c).append(\"#\");\n        }\n        int n = t.length();\n        int[] p = new int[n];\n        int l = 0, r = 0;\n        for (int i = 0; i < n; i++) {\n            p[i] = (i < r) ? Math.min(r - i, p[l + (r - i)]) : 0;\n            while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 &&\n                   t.charAt(i + p[i] + 1) == t.charAt(i - p[i] - 1)) {\n                p[i]++;\n            }\n            if (i + p[i] > r) {\n                l = i - p[i];\n                r = i + p[i];\n            }\n        }\n        return p;\n    }\n\n    public String longestPalindrome(String s) {\n        int[] p = manacher(s);\n        int resLen = 0, center_idx = 0;\n        for (int i = 0; i < p.length; i++) {\n            if (p[i] > resLen) {\n                resLen = p[i];\n                center_idx = i;\n            }\n        }\n        int resIdx = (center_idx - resLen) / 2;\n        return s.substring(resIdx, resIdx + resLen);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<int> manacher(string& s) {\n        string t = \"#\" + string(1, s[0]);\n        for (int i = 1; i < s.size(); ++i)\n            t += \"#\" + string(1, s[i]);\n        t += \"#\";\n        int n = t.size();\n        vector<int> p(n, 0);\n        int l = 0, r = 0;\n        for (int i = 0; i < n; i++) {\n            p[i] = (i < r) ? min(r - i, p[l + (r - i)]) : 0;\n            while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 &&\n                   t[i + p[i] + 1] == t[i - p[i] - 1])\n                p[i]++;\n            if (i + p[i] > r)\n                l = i - p[i], r = i + p[i];\n        }\n        return p;\n    }\n\n    string longestPalindrome(string s) {\n        vector<int> p = manacher(s);\n        int resLen = 0, center_idx = 0;\n        for (int i = 0; i < p.size(); i++) {\n            if (p[i] > resLen) {\n                resLen = p[i];\n                center_idx = i;\n            }\n        }\n        int resIdx = (center_idx - resLen) / 2;\n        return s.substr(resIdx, resLen);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {number[]}\n     */\n    manacher(s) {\n        const t = '#' + s.split('').join('#') + '#';\n        const n = t.length;\n        const p = new Array(n).fill(0);\n        let l = 0,\n            r = 0;\n        for (let i = 0; i < n; i++) {\n            p[i] = i < r ? Math.min(r - i, p[l + (r - i)]) : 0;\n            while (\n                i + p[i] + 1 < n &&\n                i - p[i] - 1 >= 0 &&\n                t[i + p[i] + 1] === t[i - p[i] - 1]\n            ) {\n                p[i]++;\n            }\n            if (i + p[i] > r) {\n                l = i - p[i];\n                r = i + p[i];\n            }\n        }\n        return p;\n    }\n\n    /**\n     * @param {string} s\n     * @return {string}\n     */\n    longestPalindrome(s) {\n        const p = this.manacher(s);\n        let resLen = 0,\n            center_idx = 0;\n        for (let i = 0; i < p.length; i++) {\n            if (p[i] > resLen) {\n                resLen = p[i];\n                center_idx = i;\n            }\n        }\n        const resIdx = (center_idx - resLen) / 2;\n        return s.substring(resIdx, resIdx + resLen);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[] Manacher(string s) {\n        string t = \"#\" + string.Join(\"#\", s.ToCharArray()) + \"#\";\n        int n = t.Length;\n        int[] p = new int[n];\n        int l = 0, r = 0;\n        for (int i = 0; i < n; i++) {\n            p[i] = (i < r) ? Math.Min(r - i, p[l + (r - i)]) : 0;\n            while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 &&\n                   t[i + p[i] + 1] == t[i - p[i] - 1]) {\n                p[i]++;\n            }\n            if (i + p[i] > r) {\n                l = i - p[i];\n                r = i + p[i];\n            }\n        }\n        return p;\n    }\n\n    public string LongestPalindrome(string s) {\n        int[] p = Manacher(s);\n        int resLen = 0, center_idx = 0;\n        for (int i = 0; i < p.Length; i++) {\n            if (p[i] > resLen) {\n                resLen = p[i];\n                center_idx = i;\n            }\n        }\n        int resIdx = (center_idx - resLen) / 2;\n        return s.Substring(resIdx, resLen);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func longestPalindrome(s string) string {\n    manacher := func(s string) []int {\n        t := \"#\"\n        for i := 0; i < len(s); i++ {\n            t += string(s[i]) + \"#\"\n        }\n        n := len(t)\n        p := make([]int, n)\n        l, r := 0, 0\n        for i := 0; i < n; i++ {\n            if i < r {\n                p[i] = min(r-i, p[l+(r-i)])\n            }\n            for i+p[i]+1 < n && i-p[i]-1 >= 0 && t[i+p[i]+1] == t[i-p[i]-1] {\n                p[i]++\n            }\n            if i + p[i] > r {\n                l, r = i - p[i], i + p[i]\n            }\n        }\n        return p\n    }\n\n    p := manacher(s)\n    resLen, centerIdx := 0, 0\n    for i, v := range p {\n        if v > resLen {\n            resLen = v\n            centerIdx = i\n        }\n    }\n\n    resIdx := (centerIdx - resLen) / 2\n    return s[resIdx : resIdx + resLen]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun longestPalindrome(s: String): String {\n        fun manacher(s: String): IntArray {\n            val t = \"#\" + s.chunked(1).joinToString(\"#\") + \"#\"\n            val n = t.length\n            val p = IntArray(n)\n            var l = 0\n            var r = 0\n\n            for (i in 0 until n) {\n                p[i] = if (i < r) Math.min(r - i, p[l + (r - i)]) else 0\n                while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 &&\n                       t[i + p[i] + 1] == t[i - p[i] - 1]) {\n                    p[i]++\n                }\n                if (i + p[i] > r) {\n                    l = i - p[i]\n                    r = i + p[i]\n                }\n            }\n            return p\n        }\n\n        val p = manacher(s)\n        var resLen = 0\n        var centerIdx = 0\n        for (i in p.indices) {\n            if (p[i] > resLen) {\n                resLen = p[i]\n                centerIdx = i\n            }\n        }\n\n        val resIdx = (centerIdx - resLen) / 2\n        return s.substring(resIdx, resIdx + resLen)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func longestPalindrome(_ s: String) -> String {\n        func manacher(_ s: String) -> [Int] {\n            let t = \"#\" + s.map { String($0) }.joined(separator: \"#\") + \"#\"\n            let tArray = Array(t)\n            let n = tArray.count\n            var p = [Int](repeating: 0, count: n)\n            var l = 0, r = 0\n\n            for i in 0..<n {\n                if i < r {\n                    p[i] = min(r - i, p[l + (r - i)])\n                } else {\n                    p[i] = 0\n                }\n                while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 &&\n                       tArray[i + p[i] + 1] == tArray[i - p[i] - 1]) {\n                    p[i] += 1\n                }\n                if i + p[i] > r {\n                    l = i - p[i]\n                    r = i + p[i]\n                }\n            }\n            return p\n        }\n\n        let p = manacher(s)\n        var resLen = 0, centerIndex = 0\n        for (i, v) in p.enumerated() {\n            if v > resLen {\n                resLen = v\n                centerIndex = i\n            }\n        }\n        let resIdx = (centerIndex - resLen) / 2\n        let start = s.index(s.startIndex, offsetBy: resIdx)\n        let end = s.index(start, offsetBy: resLen)\n        return String(s[start..<end])\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn longest_palindrome(s: String) -> String {\n        let s_bytes = s.as_bytes();\n        let mut t = vec![b'#'];\n        for &c in s_bytes {\n            t.push(c);\n            t.push(b'#');\n        }\n        let n = t.len();\n        let mut p = vec![0usize; n];\n        let (mut l, mut r) = (0usize, 0usize);\n\n        for i in 0..n {\n            p[i] = if i < r { (r - i).min(p[l + (r - i)]) } else { 0 };\n            while i + p[i] + 1 < n\n                && i >= p[i] + 1\n                && t[i + p[i] + 1] == t[i - p[i] - 1]\n            {\n                p[i] += 1;\n            }\n            if i + p[i] > r {\n                l = i - p[i];\n                r = i + p[i];\n            }\n        }\n\n        let (mut res_len, mut center_idx) = (0, 0);\n        for (i, &v) in p.iter().enumerate() {\n            if v > res_len {\n                res_len = v;\n                center_idx = i;\n            }\n        }\n\n        let res_idx = (center_idx - res_len) / 2;\n        String::from_utf8(s_bytes[res_idx..res_idx + res_len].to_vec()).unwrap()\n    }\n}"
+        }
+    ]
+}

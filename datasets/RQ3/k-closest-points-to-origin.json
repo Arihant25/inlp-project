@@ -1,0 +1,232 @@
+{
+    "problem_name": "K Closest Points to Origin",
+    "problem_slug": "k-closest-points-to-origin",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "math",
+        "divide and conquer",
+        "geometry",
+        "sorting",
+        "heap (priority queue)",
+        "quickselect"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:\n        points.sort(key=lambda p: p[0]**2 + p[1]**2)\n        return points[:k]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] kClosest(int[][] points, int k) {\n        Arrays.sort(points, (a, b) -> (a[0] * a[0] + a[1] * a[1]) -\n                                      (b[0] * b[0] + b[1] * b[1]));\n        return Arrays.copyOfRange(points, 0, k);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {\n        sort(points.begin(), points.end(), [](const auto& a, const auto& b) {\n            return (a[0] * a[0] + a[1] * a[1]) < (b[0] * b[0] + b[1] * b[1]);\n        });\n        return vector<vector<int>>(points.begin(), points.begin() + k);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} points\n     * @param {number} k\n     * @return {number[][]}\n     */\n    kClosest(points, k) {\n        points.sort((a, b) => a[0] ** 2 + a[1] ** 2 - (b[0] ** 2 + b[1] ** 2));\n        return points.slice(0, k);\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n    public int[][] KClosest(int[][] points, int k) {\n        Array.Sort(points, (a, b) =>\n        (a[0] * a[0] + a[1] * a[1]).CompareTo(b[0] * b[0] + b[1] * b[1]));\n        return points[..k];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "func kClosest(points [][]int, k int) [][]int {\n    sort.Slice(points, func(i, j int) bool {\n        return points[i][0]*points[i][0] + points[i][1]*points[i][1] <\n               points[j][0]*points[j][0] + points[j][1]*points[j][1]\n    })\n    return points[:k]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun kClosest(points: Array<IntArray>, k: Int): Array<IntArray> {\n        points.sortBy { it[0] * it[0] + it[1] * it[1] }\n        return points.take(k).toTypedArray()\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func kClosest(_ points: [[Int]], _ k: Int) -> [[Int]] {\n        return points.sorted { ($0[0] * $0[0] + $0[1] * $0[1]) < ($1[0] * $1[0] + $1[1] * $1[1]) }\n                      .prefix(k)\n                      .map { $0 }\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n log n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn k_closest(mut points: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n        points.sort_by_key(|p| p[0] * p[0] + p[1] * p[1]);\n        points.truncate(k as usize);\n        points\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:\n        minHeap = []\n        for x, y in points:\n            dist = (x ** 2) + (y ** 2)\n            minHeap.append([dist, x, y])\n\n        heapq.heapify(minHeap)\n        res = []\n        while k > 0:\n            dist, x, y = heapq.heappop(minHeap)\n            res.append([x, y])\n            k -= 1\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[][] kClosest(int[][] points, int K) {\n        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparing(a -> a[0]));\n        for (int[] point : points) {\n            int dist = point[0] * point[0] + point[1] * point[1];\n            minHeap.offer(new int[]{dist, point[0], point[1]});\n        }\n\n        int[][] result = new int[K][2];\n        for (int i = 0; i < K; ++i) {\n            int[] point = minHeap.poll();\n            result[i] = new int[]{point[1], point[2]};\n        }\n        return result;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> kClosest(vector<vector<int>>& points, int K) {\n        auto comp = [](const vector<int>& a, const vector<int>& b) {\n            return a[0]*a[0] + a[1]*a[1] > b[0]*b[0] + b[1]*b[1];\n        };\n\n        priority_queue<vector<int>, vector<vector<int>>, decltype(comp)> minHeap(comp);\n\n        for (const auto& point : points) {\n            minHeap.push({point[0], point[1]});\n        }\n\n        vector<vector<int>> result;\n        for (int i = 0; i < K; ++i) {\n            result.push_back(minHeap.top());\n            minHeap.pop();\n        }\n        return result;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * const { MinPriorityQueue } = require('@datastructures-js/priority-queue');\n */\n\nclass Solution {\n    /**\n     * @param {number[][]} points\n     * @param {number} k\n     * @return {number[][]}\n     */\n    kClosest(points, k) {\n        const minHeap = new MinPriorityQueue((point) => point[0]);\n\n        for (const [x, y] of points) {\n            const dist = x ** 2 + y ** 2;\n            minHeap.enqueue([dist, x, y]);\n        }\n\n        const res = [];\n        for (let i = 0; i < k; i++) {\n            const [_, x, y] = minHeap.dequeue();\n            res.push([x, y]);\n        }\n\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int[][] KClosest(int[][] points, int K) {\n        PriorityQueue<int[], int> minHeap = new PriorityQueue<int[], int>();\n        foreach (int[] point in points) {\n            int dist = point[0] * point[0] + point[1] * point[1];\n            minHeap.Enqueue(new int[] { dist, point[0], point[1] }, dist);\n        }\n\n        int[][] result = new int[K][];\n        for (int i = 0; i < K; ++i) {\n            int[] point = minHeap.Dequeue();\n            result[i] = new int[] { point[1], point[2] };\n        }\n        return result;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "func kClosest(points [][]int, k int) [][]int {\n    minHeap := priorityqueue.NewWith(func(a, b interface{}) int {\n        distA := a.([]int)[0]\n        distB := b.([]int)[0]\n        return distA - distB\n    })\n\n    for _, point := range points {\n        x, y := point[0], point[1]\n        dist := x*x + y*y\n        minHeap.Enqueue([]int{dist, x, y})\n    }\n\n    res := [][]int{}\n    for i := 0; i < k; i++ {\n        item, _ := minHeap.Dequeue()\n        point := item.([]int)\n        res = append(res, []int{point[1], point[2]})\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun kClosest(points: Array<IntArray>, k: Int): List<IntArray> {\n        val minHeap = PriorityQueue(compareBy<IntArray> { it[0] * it[0] + it[1] * it[1] })\n\n        for (point in points) {\n            minHeap.add(point)\n        }\n\n        val res = mutableListOf<IntArray>()\n        repeat(k) {\n            res.add(minHeap.poll())\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "struct Item: Comparable {\n    let dist: Int\n    let x: Int\n    let y: Int\n\n    static func < (lhs: Item, rhs: Item) -> Bool {\n        return lhs.dist < rhs.dist\n    }\n}\n\nclass Solution {\n    func kClosest(_ points: [[Int]], _ k: Int) -> [[Int]] {\n        var minHeap = Heap<Item>()\n\n        for point in points {\n            let x = point[0], y = point[1]\n            let dist = x * x + y * y\n            minHeap.insert(Item(dist: dist, x: x, y: y))\n        }\n\n        var res = [[Int]]()\n        for _ in 0..<k {\n            if let item = minHeap.popMin() {\n                res.append([item.x, item.y])\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n + k * log n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn k_closest(points: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n        let mut heap = BinaryHeap::new();\n        for p in &points {\n            let dist = p[0] * p[0] + p[1] * p[1];\n            heap.push(Reverse((dist, p[0], p[1])));\n        }\n        let mut res = Vec::new();\n        for _ in 0..k {\n            if let Some(Reverse((_, x, y))) = heap.pop() {\n                res.push(vec![x, y]);\n            }\n        }\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "class Solution:\n    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:\n        maxHeap = []\n        for x, y in points:\n            dist = -(x ** 2 + y ** 2)\n            heapq.heappush(maxHeap, [dist, x, y])\n            if len(maxHeap) > k:\n                heapq.heappop(maxHeap)\n\n        res = []\n        while maxHeap:\n            dist, x, y = heapq.heappop(maxHeap)\n            res.append([x, y])\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "public class Solution {\n    public int[][] kClosest(int[][] points, int k) {\n        PriorityQueue<int[]> maxHeap = new PriorityQueue<>(\n            (a, b) -> Integer.compare(b[0] * b[0] + b[1] * b[1],\n                                      a[0] * a[0] + a[1] * a[1])\n        );\n\n        for (int[] point : points) {\n            maxHeap.offer(point);\n            if (maxHeap.size() > k) {\n                maxHeap.poll();\n            }\n        }\n\n        int[][] res = new int[k][2];\n        int i = 0;\n        while (!maxHeap.isEmpty()) {\n            res[i++] = maxHeap.poll();\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {\n        priority_queue<pair<int, pair<int, int>>> maxHeap;\n        for (auto& point : points) {\n            int dist = point[0] * point[0] + point[1] * point[1];\n            maxHeap.push({dist, {point[0], point[1]}});\n            if (maxHeap.size() > k) {\n                maxHeap.pop();\n            }\n        }\n\n        vector<vector<int>> res;\n        while (!maxHeap.empty()) {\n            res.push_back({maxHeap.top().second.first,\n                           maxHeap.top().second.second});\n            maxHeap.pop();\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "/**\n * const { PriorityQueue } = require('@datastructures-js/priority-queue');\n */\n\nclass Solution {\n    /**\n     * @param {number[][]} points\n     * @param {number} k\n     * @return {number[][]}\n     */\n    kClosest(points, k) {\n        const maxHeap = new PriorityQueue((a, b) => b[0] - a[0]);\n\n        for (const [x, y] of points) {\n            const dist = x ** 2 + y ** 2;\n            maxHeap.push([dist, x, y]);\n            if (maxHeap.size() > k) {\n                maxHeap.pop();\n            }\n        }\n\n        const res = [];\n        while (maxHeap.size() > 0) {\n            let tmp = maxHeap.pop();\n            res.push([tmp[1], tmp[2]]);\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "public class Solution {\n    public int[][] KClosest(int[][] points, int K) {\n        PriorityQueue<int[], int> maxHeap = new();\n\n        foreach (var point in points) {\n            int dist = point[0] * point[0] + point[1] * point[1];\n            maxHeap.Enqueue(point, -dist);\n            if (maxHeap.Count > K) {\n                maxHeap.Dequeue();\n            }\n        }\n\n        var res = new List<int[]>();\n        while (maxHeap.Count > 0) {\n            res.Add(maxHeap.Dequeue());\n        }\n\n        return res.ToArray();\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "func kClosest(points [][]int, k int) [][]int {\n    maxHeap := priorityqueue.NewWith(func(a, b interface{}) int {\n        distA := a.([]int)[2]\n        distB := b.([]int)[2]\n        if distA > distB {\n            return -1\n        } else if distA < distB {\n            return 1\n        }\n        return 0\n    })\n\n    for _, point := range points {\n        x, y := point[0], point[1]\n        dist := x*x + y*y\n        maxHeap.Enqueue([]int{x, y, dist})\n        if maxHeap.Size() > k {\n            maxHeap.Dequeue()\n        }\n    }\n\n    result := make([][]int, k)\n    for i := k - 1; i >= 0; i-- {\n        val, _ := maxHeap.Dequeue()\n        point := val.([]int)\n        result[i] = []int{point[0], point[1]}\n    }\n\n    return result\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "class Solution {\n    fun kClosest(points: Array<IntArray>, k: Int): Array<IntArray> {\n        val maxHeap = PriorityQueue<IntArray> { a, b ->\n            (b[0] * b[0] + b[1] * b[1]) - (a[0] * a[0] + a[1] * a[1])\n        }\n\n        for (point in points) {\n            maxHeap.offer(point)\n            if (maxHeap.size > k) {\n                maxHeap.poll()\n            }\n        }\n\n        return Array(k) { maxHeap.poll() }\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "struct Item: Comparable {\n    let dist: Int\n    let x: Int\n    let y: Int\n\n    static func < (lhs: Item, rhs: Item) -> Bool {\n        return lhs.dist > rhs.dist\n    }\n}\n\nclass Solution {\n    func kClosest(_ points: [[Int]], _ k: Int) -> [[Int]] {\n        var maxHeap = Heap<Item>()\n\n        for point in points {\n            let x = point[0], y = point[1]\n            let dist = x * x + y * y\n            maxHeap.insert(Item(dist: dist, x: x, y: y))\n            if maxHeap.count > k {\n                _ = maxHeap.popMin()\n            }\n        }\n\n        var res = [[Int]]()\n        while !maxHeap.isEmpty {\n            if let item = maxHeap.popMin() {\n                res.append([item.x, item.y])\n            }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n * log k)",
+            "space_complexity": "O(k)",
+            "code": "impl Solution {\n    pub fn k_closest(points: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n        let k = k as usize;\n        let mut heap = BinaryHeap::new();\n        for p in &points {\n            let dist = p[0] * p[0] + p[1] * p[1];\n            heap.push((dist, p[0], p[1]));\n            if heap.len() > k {\n                heap.pop();\n            }\n        }\n        heap.into_iter().map(|(_, x, y)| vec![x, y]).collect()\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution:\n    def kClosest(self, points, k):\n        euclidean = lambda x: x[0] ** 2 + x[1] ** 2\n        def partition(l, r):\n            pivotIdx = r\n            pivotDist = euclidean(points[pivotIdx])\n            i = l\n            for j in range(l, r):\n                if euclidean(points[j]) <= pivotDist:\n                    points[i], points[j] = points[j], points[i]\n                    i += 1\n            points[i], points[r] = points[r], points[i]\n            return i\n\n        L, R = 0, len(points) - 1\n        pivot = len(points)\n\n        while pivot != k:\n            pivot = partition(L, R)\n            if pivot < k:\n                L = pivot + 1\n            else:\n                R = pivot - 1\n        return points[:k]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "public class Solution {\n    public int[][] kClosest(int[][] points, int k) {\n        int L = 0, R = points.length - 1;\n        int pivot = points.length;\n\n        while (pivot != k) {\n            pivot = partition(points, L, R);\n            if (pivot < k) {\n                L = pivot + 1;\n            } else {\n                R = pivot - 1;\n            }\n        }\n        int[][] res = new int[k][2];\n        System.arraycopy(points, 0, res, 0, k);\n        return res;\n    }\n\n    private int partition(int[][] points, int l, int r) {\n        int pivotIdx = r;\n        int pivotDist = euclidean(points[pivotIdx]);\n        int i = l;\n        for (int j = l; j < r; j++) {\n            if (euclidean(points[j]) <= pivotDist) {\n                int[] temp = points[i];\n                points[i] = points[j];\n                points[j] = temp;\n                i++;\n            }\n        }\n        int[] temp = points[i];\n        points[i] = points[r];\n        points[r] = temp;\n        return i;\n    }\n\n    private int euclidean(int[] point) {\n        return point[0] * point[0] + point[1] * point[1];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\npublic:\n    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {\n        int L = 0, R = points.size() - 1;\n        int pivot = points.size();\n\n        while (pivot != k) {\n            pivot = partition(points, L, R);\n            if (pivot < k) {\n                L = pivot + 1;\n            } else {\n                R = pivot - 1;\n            }\n        }\n        return vector<std::vector<int>>(points.begin(), points.begin() + k);\n    }\n\nprivate:\n    int partition(vector<vector<int>>& points, int l, int r) {\n        int pivotIdx = r;\n        int pivotDist = euclidean(points[pivotIdx]);\n        int i = l;\n        for (int j = l; j < r; j++) {\n            if (euclidean(points[j]) <= pivotDist) {\n                swap(points[i], points[j]);\n                i++;\n            }\n        }\n        swap(points[i], points[r]);\n        return i;\n    }\n\n    int euclidean(vector<int>& point) {\n        return point[0] * point[0] + point[1] * point[1];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    /**\n     * @param {number[][]} points\n     * @param {number} k\n     * @return {number[][]}\n     */\n    kClosest(points, k) {\n        let L = 0,\n            R = points.length - 1,\n            pivot = points.length;\n\n        while (pivot !== k) {\n            pivot = this.partition(points, L, R);\n            if (pivot < k) {\n                L = pivot + 1;\n            } else {\n                R = pivot - 1;\n            }\n        }\n        return points.slice(0, k);\n    }\n\n    /**\n     * @param {number[][]} points\n     * @param {number} l\n     * @param {number} r\n     * @return {number}\n     */\n    partition(points, l, r) {\n        const pivotIdx = r;\n        const pivotDist = this.euclidean(points[pivotIdx]);\n        let i = l;\n        for (let j = l; j < r; j++) {\n            if (this.euclidean(points[j]) <= pivotDist) {\n                [points[i], points[j]] = [points[j], points[i]];\n                i++;\n            }\n        }\n        [points[i], points[r]] = [points[r], points[i]];\n        return i;\n    }\n\n    /**\n     * @param {number[]} point\n     * @return {number}\n     */\n    euclidean(point) {\n        return point[0] ** 2 + point[1] ** 2;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    public int[][] KClosest(int[][] points, int k) {\n        int L = 0, R = points.Length - 1;\n        int pivot = points.Length;\n\n        while (pivot != k) {\n            pivot = Partition(points, L, R);\n            if (pivot < k) {\n                L = pivot + 1;\n            } else {\n                R = pivot - 1;\n            }\n        }\n        int[][] res = new int[k][];\n        Array.Copy(points, res, k);\n        return res;\n    }\n\n    private int Partition(int[][] points, int l, int r) {\n        int pivotIdx = r;\n        int pivotDist = Euclidean(points[pivotIdx]);\n        int i = l;\n        for (int j = l; j < r; j++) {\n            if (Euclidean(points[j]) <= pivotDist) {\n                Swap(points, i, j);\n                i++;\n            }\n        }\n        Swap(points, i, r);\n        return i;\n    }\n\n    private int Euclidean(int[] point) {\n        return point[0] * point[0] + point[1] * point[1];\n    }\n\n    private void Swap(int[][] points, int i, int j) {\n        int[] temp = points[i];\n        points[i] = points[j];\n        points[j] = temp;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "func kClosest(points [][]int, k int) [][]int {\n    euclidean := func(x []int) int {\n        return x[0]*x[0] + x[1]*x[1]\n    }\n\n    partition := func(points [][]int, l, r int) int {\n        pivotIdx := r\n        pivotDist := euclidean(points[pivotIdx])\n        i := l\n        for j := l; j < r; j++ {\n            if euclidean(points[j]) <= pivotDist {\n                points[i], points[j] = points[j], points[i]\n                i++\n            }\n        }\n        points[i], points[r] = points[r], points[i]\n        return i\n    }\n\n    L, R := 0, len(points)-1\n    pivot := len(points)\n\n    for pivot != k {\n        pivot = partition(points, L, R)\n        if pivot < k {\n            L = pivot + 1\n        } else {\n            R = pivot - 1\n        }\n    }\n    return points[:k]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    fun kClosest(points: Array<IntArray>, k: Int): Array<IntArray> {\n        val euclidean = { x: IntArray -> x[0] * x[0] + x[1] * x[1] }\n\n        fun partition(points: Array<IntArray>, l: Int, r: Int): Int {\n            val pivotIdx = r\n            val pivotDist = euclidean(points[pivotIdx])\n            var i = l\n            for (j in l until r) {\n                if (euclidean(points[j]) <= pivotDist) {\n                    points[i] = points[j].also { points[j] = points[i] }\n                    i++\n                }\n            }\n            points[i] = points[r].also { points[r] = points[i] }\n            return i\n        }\n\n        var L = 0\n        var R = points.size - 1\n        var pivot = points.size\n\n        while (pivot != k) {\n            pivot = partition(points, L, R)\n            if (pivot < k) {\n                L = pivot + 1\n            } else {\n                R = pivot - 1\n            }\n        }\n        return points.copyOfRange(0, k)\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "class Solution {\n    func kClosest(_ points: [[Int]], _ k: Int) -> [[Int]] {\n        var points = points\n\n        func euclidean(_ point: [Int]) -> Int {\n            return point[0] * point[0] + point[1] * point[1]\n        }\n\n        func partition(_ l: Int, _ r: Int) -> Int {\n            let pivotIdx = r\n            let pivotDist = euclidean(points[pivotIdx])\n            var i = l\n            for j in l..<r {\n                if euclidean(points[j]) <= pivotDist {\n                    points.swapAt(i, j)\n                    i += 1\n                }\n            }\n            points.swapAt(i, r)\n            return i\n        }\n\n        var l = 0, r = points.count - 1\n        var pivot = points.count\n\n        while pivot != k {\n            pivot = partition(l, r)\n            if pivot < k {\n                l = pivot + 1\n            } else {\n                r = pivot - 1\n            }\n        }\n\n        return Array(points[..<k])\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n^2)",
+            "code": "impl Solution {\n    pub fn k_closest(mut points: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n        let k = k as usize;\n        let mut l = 0usize;\n        let mut r = points.len() - 1;\n        let mut pivot = points.len();\n\n        while pivot != k {\n            pivot = Self::partition(&mut points, l, r);\n            if pivot < k {\n                l = pivot + 1;\n            } else {\n                r = pivot - 1;\n            }\n        }\n        points.truncate(k);\n        points\n    }\n\n    fn partition(points: &mut Vec<Vec<i32>>, l: usize, r: usize) -> usize {\n        let pivot_dist = points[r][0] * points[r][0] + points[r][1] * points[r][1];\n        let mut i = l;\n        for j in l..r {\n            let d = points[j][0] * points[j][0] + points[j][1] * points[j][1];\n            if d <= pivot_dist {\n                points.swap(i, j);\n                i += 1;\n            }\n        }\n        points.swap(i, r);\n        i\n    }\n}"
+        }
+    ]
+}

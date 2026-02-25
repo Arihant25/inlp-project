@@ -1,0 +1,120 @@
+{
+    "problem_name": "Binary Tree Level Order Traversal",
+    "problem_slug": "binary-tree-level-order-traversal",
+    "difficulty": "medium",
+    "topic_tags": [
+        "tree",
+        "breadth-first search",
+        "binary tree"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        res = []\n\n        def dfs(node, depth):\n            if not node:\n                return None\n            if len(res) == depth:\n                res.append([])\n\n            res[depth].append(node.val)\n            dfs(node.left, depth + 1)\n            dfs(node.right, depth + 1)\n\n        dfs(root, 0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    List<List<Integer>> res = new ArrayList<>();\n\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        dfs(root, 0);\n        return res;\n    }\n\n    private void dfs(TreeNode node, int depth) {\n        if (node == null) {\n            return;\n        }\n\n        if (res.size() == depth) {\n            res.add(new ArrayList<>());\n        }\n\n        res.get(depth).add(node.val);\n        dfs(node.left, depth + 1);\n        dfs(node.right, depth + 1);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    vector<vector<int>> res;\n\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        dfs(root, 0);\n        return res;\n    }\n\n    void dfs(TreeNode* node, int depth) {\n        if (!node) return;\n\n        if (res.size() == depth) {\n            res.push_back(vector<int>());\n        }\n\n        res[depth].push_back(node->val);\n        dfs(node->left, depth + 1);\n        dfs(node->right, depth + 1);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {number[][]}\n     */\n    levelOrder(root) {\n        let res = [];\n\n        /**\n         * @param {TreeNode} node\n         * @param {number} depth\n         */\n        function dfs(node, depth) {\n            if (!node) return;\n\n            if (res.length === depth) {\n                res.push([]);\n            }\n\n            res[depth].push(node.val);\n            dfs(node.left, depth + 1);\n            dfs(node.right, depth + 1);\n        }\n\n        dfs(root, 0);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    List<List<int>> res = new List<List<int>>();\n\n    public List<List<int>> LevelOrder(TreeNode root) {\n        dfs(root, 0);\n        return res;\n    }\n\n    private void dfs(TreeNode node, int depth) {\n        if (node == null) {\n            return;\n        }\n\n        if (res.Count == depth) {\n            res.Add(new List<int>());\n        }\n\n        res[depth].Add(node.val);\n        dfs(node.left, depth + 1);\n        dfs(node.right, depth + 1);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc levelOrder(root *TreeNode) [][]int {\n    res := [][]int{}\n\n    var dfs func(node *TreeNode, depth int)\n    dfs = func(node *TreeNode, depth int) {\n        if node == nil {\n            return\n        }\n\n        if len(res) == depth {\n            res = append(res, []int{})\n        }\n\n        res[depth] = append(res[depth], node.Val)\n        dfs(node.Left, depth+1)\n        dfs(node.Right, depth+1)\n    }\n\n    dfs(root, 0)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun levelOrder(root: TreeNode?): List<List<Int>> {\n        val res = mutableListOf<MutableList<Int>>()\n\n        fun dfs(node: TreeNode?, depth: Int) {\n            if (node == null) return\n\n            if (res.size == depth) {\n                res.add(mutableListOf())\n            }\n\n            res[depth].add(node.`val`)\n            dfs(node.left, depth + 1)\n            dfs(node.right, depth + 1)\n        }\n\n        dfs(root, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func levelOrder(_ root: TreeNode?) -> [[Int]] {\n        var res = [[Int]]()\n\n        func dfs(_ node: TreeNode?, _ depth: Int) {\n            guard let node = node else { return }\n\n            if res.count == depth {\n                res.append([])\n            }\n\n            res[depth].append(node.val)\n            dfs(node.left, depth + 1)\n            dfs(node.right, depth + 1)\n        }\n\n        dfs(root, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n\n        fn dfs(node: &Option<Rc<RefCell<TreeNode>>>, depth: usize, res: &mut Vec<Vec<i32>>) {\n            if let Some(n) = node {\n                let n = n.borrow();\n                if res.len() == depth {\n                    res.push(Vec::new());\n                }\n                res[depth].push(n.val);\n                dfs(&n.left, depth + 1, res);\n                dfs(&n.right, depth + 1, res);\n            }\n        }\n\n        dfs(&root, 0, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        res = []\n\n        q = collections.deque()\n        q.append(root)\n\n        while q:\n            qLen = len(q)\n            level = []\n            for i in range(qLen):\n                node = q.popleft()\n                if node:\n                    level.append(node.val)\n                    q.append(node.left)\n                    q.append(node.right)\n            if level:\n                res.append(level)\n\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        List<List<Integer>> res = new ArrayList<>();\n\n        Queue<TreeNode> q = new LinkedList<>();\n        q.add(root);\n\n        while (!q.isEmpty()) {\n            List<Integer> level = new ArrayList<>();\n\n            for (int i = q.size(); i > 0; i--) {\n                TreeNode node = q.poll();\n                if (node != null) {\n                    level.add(node.val);\n                    q.add(node.left);\n                    q.add(node.right);\n                }\n            }\n            if (level.size() > 0) {\n                res.add(level);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        vector<vector<int>> res;\n        if (!root) return res;\n\n        queue<TreeNode*> q;\n        q.push(root);\n\n        while (!q.empty()) {\n            vector<int> level;\n            int size = q.size();\n\n            for (int i = q.size(); i > 0; i--) {\n                TreeNode* node = q.front();\n                q.pop();\n                if (node) {\n                    level.push_back(node->val);\n                    q.push(node->left);\n                    q.push(node->right);\n                }\n            }\n            if (!level.empty()) {\n                res.push_back(level);\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {number[][]}\n     */\n    levelOrder(root) {\n        let res = [];\n        if (!root) return res;\n\n        const q = new Queue();\n        q.push(root);\n\n        while (!q.isEmpty()) {\n            let level = [];\n\n            for (let i = q.size(); i > 0; i--) {\n                let node = q.pop();\n                if (node !== null) {\n                    level.push(node.val);\n                    q.push(node.left);\n                    q.push(node.right);\n                }\n            }\n            if (level.length > 0) {\n                res.push(level);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public List<List<int>> LevelOrder(TreeNode root) {\n        List<List<int>> res = new List<List<int>>();\n        if (root == null) return res;\n\n        Queue<TreeNode> q = new Queue<TreeNode>();\n        q.Enqueue(root);\n\n        while (q.Count > 0) {\n            List<int> level = new List<int>();\n\n            for (int i = q.Count; i > 0; i--) {\n                TreeNode node = q.Dequeue();\n                if (node != null) {\n                    level.Add(node.val);\n                    q.Enqueue(node.left);\n                    q.Enqueue(node.right);\n                }\n            }\n            if (level.Count > 0) {\n                res.Add(level);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc levelOrder(root *TreeNode) [][]int {\n    res := [][]int{}\n    if root == nil {\n        return res\n    }\n\n    q := []*TreeNode{root}\n\n    for len(q) > 0 {\n        qLen := len(q)\n        level := []int{}\n\n        for i := 0; i < qLen; i++ {\n            node := q[0]\n            q = q[1:]\n            level = append(level, node.Val)\n\n            if node.Left != nil {\n                q = append(q, node.Left)\n            }\n            if node.Right != nil {\n                q = append(q, node.Right)\n            }\n        }\n\n        res = append(res, level)\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun levelOrder(root: TreeNode?): List<List<Int>> {\n        val res = mutableListOf<List<Int>>()\n        if (root == null) return res\n\n        val q = ArrayDeque<TreeNode>()\n        q.add(root)\n\n        while (q.isNotEmpty()) {\n            val level = mutableListOf<Int>()\n            val qLen = q.size\n\n            for (i in 0 until qLen) {\n                val node = q.removeFirst()\n                level.add(node.`val`)\n\n                node.left?.let { q.add(it) }\n                node.right?.let { q.add(it) }\n            }\n\n            res.add(level)\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func levelOrder(_ root: TreeNode?) -> [[Int]] {\n        var res = [[Int]]()\n        var q = Deque<TreeNode?>()\n        q.append(root)\n\n        while !q.isEmpty {\n            let qLen = q.count\n            var level = [Int]()\n\n            for _ in 0..<qLen {\n                if let node = q.removeFirst() {\n                    level.append(node.val)\n                    q.append(node.left)\n                    q.append(node.right)\n                }\n            }\n            if !level.isEmpty {\n                res.append(level)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut q = VecDeque::new();\n        if let Some(r) = root {\n            q.push_back(r);\n        }\n\n        while !q.is_empty() {\n            let q_len = q.len();\n            let mut level = Vec::new();\n            for _ in 0..q_len {\n                let node = q.pop_front().unwrap();\n                let node = node.borrow();\n                level.push(node.val);\n                if let Some(ref left) = node.left {\n                    q.push_back(Rc::clone(left));\n                }\n                if let Some(ref right) = node.right {\n                    q.push_back(Rc::clone(right));\n                }\n            }\n            res.push(level);\n        }\n        res\n    }\n}"
+        }
+    ]
+}

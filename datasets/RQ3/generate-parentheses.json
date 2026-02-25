@@ -1,0 +1,174 @@
+{
+    "problem_name": "Generate Parentheses",
+    "problem_slug": "generate-parentheses",
+    "difficulty": "medium",
+    "topic_tags": [
+        "string",
+        "dynamic programming",
+        "backtracking"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        res = []\n\n        def valid(s: str):\n            open = 0\n            for c in s:\n                open += 1 if c == '(' else -1\n                if open < 0:\n                    return False\n            return not open\n\n        def dfs(s: str):\n            if n * 2 == len(s):\n                if valid(s):\n                    res.append(s)\n                return\n\n            dfs(s + '(')\n            dfs(s + ')')\n\n        dfs(\"\")\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "public class Solution {\n    public boolean valid(String s) {\n        int open = 0;\n        for (char c : s.toCharArray()) {\n            open += c == '(' ? 1 : -1;\n            if (open < 0) return false;\n        }\n        return open == 0;\n    }\n\n    void dfs(String s, List<String> res, int n) {\n        if (n * 2 == s.length()) {\n            if (valid(s)) res.add(s);\n            return;\n        }\n        dfs(s + '(', res, n);\n        dfs(s + ')', res, n);\n    }\n\n    public List<String> generateParenthesis(int n) {\n        List<String> res = new ArrayList<>();\n        dfs(\"\", res, n);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "class Solution {\npublic:\n    bool valid(const string& s) {\n        int open = 0;\n        for (char c : s) {\n            open += (c == '(') ? 1 : -1;\n            if (open < 0) return false;\n        }\n        return open == 0;\n    }\n\n    void dfs(string s, vector<string>& res, int n) {\n        if (s.length() == 2 * n) {\n            if (valid(s)) res.push_back(s);\n            return;\n        }\n        dfs(s + '(', res, n);\n        dfs(s + ')', res, n);\n    }\n\n    vector<string> generateParenthesis(int n) {\n        vector<string> res;\n        dfs(\"\", res, n);\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "class Solution {\n    /**\n     * @param {string} s\n     * @return {boolean}\n     */\n    valid(s) {\n        let open = 0;\n        for (const c of s) {\n            open += c === '(' ? 1 : -1;\n            if (open < 0) return false;\n        }\n        return open === 0;\n    }\n\n    /**\n     * @param {string} s\n     * @param {string[]}\n     * @param {number} n\n     */\n    dfs(s, res, n) {\n        if (s.length === 2 * n) {\n            if (this.valid(s)) res.push(s);\n            return;\n        }\n        this.dfs(s + '(', res, n);\n        this.dfs(s + ')', res, n);\n    }\n\n    /**\n     * @param {number} n\n     * @return {string[]}\n     */\n    generateParenthesis(n) {\n        const res = [];\n        this.dfs('', res, n);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "public class Solution {\n    public bool Valid(string s) {\n        int open = 0;\n        foreach (char c in s) {\n            open += (c == '(') ? 1 : -1;\n            if (open < 0) return false;\n        }\n        return open == 0;\n    }\n\n    public void Dfs(string s, List<string> res, int n) {\n        if (s.Length == 2 * n) {\n            if (Valid(s)) res.Add(s);\n            return;\n        }\n        Dfs(s + '(', res, n);\n        Dfs(s + ')', res, n);\n    }\n\n    public List<string> GenerateParenthesis(int n) {\n        List<string> res = new List<string>();\n        Dfs(\"\", res, n);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "func generateParenthesis(n int) []string {\n   res := make([]string, 0)\n\n   var valid func(string) bool\n   valid = func(s string) bool {\n       open := 0\n       for _, c := range s {\n           if c == '(' {\n               open++\n           } else {\n               open--\n           }\n           if open < 0 {\n               return false\n           }\n       }\n       return open == 0\n   }\n\n   var dfs func(string)\n   dfs = func(s string) {\n       if len(s) == n*2 {\n           if valid(s) {\n               res = append(res, s)\n           }\n           return\n       }\n\n       dfs(s + \"(\")\n       dfs(s + \")\")\n   }\n\n   dfs(\"\")\n   return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "class Solution {\n    fun generateParenthesis(n: Int): List<String> {\n        val res = mutableListOf<String>()\n\n        fun valid(s: String): Boolean {\n            var open = 0\n            for (c in s) {\n                if (c == '(') open++ else open--\n                if (open < 0) return false\n            }\n            return open == 0\n        }\n\n        fun dfs(s: String) {\n            if (s.length == n * 2) {\n                if (valid(s)) {\n                    res.add(s)\n                }\n                return\n            }\n\n            dfs(s + \"(\")\n            dfs(s + \")\")\n        }\n\n        dfs(\"\")\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "class Solution {\n    func generateParenthesis(_ n: Int) -> [String] {\n        var res = [String]()\n\n        func isValid(_ s: String) -> Bool {\n            var open = 0\n            for c in s {\n                open += (c == \"(\") ? 1 : -1\n                if open < 0 {\n                    return false\n                }\n            }\n            return open == 0\n        }\n\n        func dfs(_ s: String) {\n            if s.count == n * 2 {\n                if isValid(s) {\n                    res.append(s)\n                }\n                return\n            }\n            dfs(s + \"(\")\n            dfs(s + \")\")\n        }\n\n        dfs(\"\")\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^{2n} * n)",
+            "space_complexity": "O(2^{2n} * n)",
+            "code": "impl Solution {\n    pub fn generate_parenthesis(n: i32) -> Vec<String> {\n        let mut res = vec![];\n\n        fn valid(s: &str) -> bool {\n            let mut open = 0i32;\n            for c in s.chars() {\n                open += if c == '(' { 1 } else { -1 };\n                if open < 0 {\n                    return false;\n                }\n            }\n            open == 0\n        }\n\n        fn dfs(s: String, n: i32, res: &mut Vec<String>) {\n            if s.len() == (n * 2) as usize {\n                if valid(&s) {\n                    res.push(s);\n                }\n                return;\n            }\n            dfs(s.clone() + \"(\", n, res);\n            dfs(s + \")\", n, res);\n        }\n\n        dfs(String::new(), n, &mut res);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        stack = []\n        res = []\n\n        def backtrack(openN, closedN):\n            if openN == closedN == n:\n                res.append(\"\".join(stack))\n                return\n\n            if openN < n:\n                stack.append(\"(\")\n                backtrack(openN + 1, closedN)\n                stack.pop()\n            if closedN < openN:\n                stack.append(\")\")\n                backtrack(openN, closedN + 1)\n                stack.pop()\n\n        backtrack(0, 0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private void backtrack(int openN, int closedN, int n, List<String> res, StringBuilder stack) {\n        if (openN == closedN && openN == n) {\n            res.add(stack.toString());\n            return;\n        }\n\n        if (openN < n) {\n            stack.append('(');\n            backtrack(openN + 1, closedN, n, res, stack);\n            stack.deleteCharAt(stack.length() - 1);\n        }\n        if (closedN < openN) {\n            stack.append(')');\n            backtrack(openN, closedN + 1, n, res, stack);\n            stack.deleteCharAt(stack.length() - 1);\n        }\n    }\n\n    public List<String> generateParenthesis(int n) {\n        List<String> res = new ArrayList<>();\n        StringBuilder stack = new StringBuilder();\n        backtrack(0, 0, n, res, stack);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    void backtrack(int openN, int closedN, int n, vector<string>& res, string& stack) {\n        if (openN == closedN && openN == n) {\n            res.push_back(stack);\n            return;\n        }\n\n        if (openN < n) {\n            stack += '(';\n            backtrack(openN + 1, closedN, n, res, stack);\n            stack.pop_back();\n        }\n        if (closedN < openN) {\n            stack += ')';\n            backtrack(openN, closedN + 1, n, res, stack);\n            stack.pop_back();\n        }\n    }\n\n    vector<string> generateParenthesis(int n) {\n        vector<string> res;\n        string stack;\n        backtrack(0, 0, n, res, stack);\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number} openN\n     * @param {number} closeN\n     * @param {number} n\n     * @param {string[]} res\n     * @param {string} stack\n     */\n    backtrack(openN, closedN, n, res, stack) {\n        if (openN === closedN && openN === n) {\n            res.push(stack);\n            return;\n        }\n\n        if (openN < n) {\n            this.backtrack(openN + 1, closedN, n, res, stack + '(');\n        }\n        if (closedN < openN) {\n            this.backtrack(openN, closedN + 1, n, res, stack + ')');\n        }\n    }\n\n    /**\n     * @param {number} n\n     * @return {string[]}\n     */\n    generateParenthesis(n) {\n        const res = [];\n        this.backtrack(0, 0, n, res, '');\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public void Backtrack(int openN, int closedN, int n, List<string> res, string stack) {\n        if (openN == closedN && openN == n) {\n            res.Add(stack);\n            return;\n        }\n\n        if (openN < n) {\n            Backtrack(openN + 1, closedN, n, res, stack + '(');\n        }\n\n        if (closedN < openN) {\n            Backtrack(openN, closedN + 1, n, res, stack + ')');\n        }\n    }\n\n    public List<string> GenerateParenthesis(int n) {\n        List<string> res = new List<string>();\n        string stack = \"\";\n        Backtrack(0, 0, n, res, stack);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "func generateParenthesis(n int) []string {\n   stack := make([]string, 0)\n   res := make([]string, 0)\n\n   var backtrack func(int, int)\n   backtrack = func(openN, closedN int) {\n       if openN == n && closedN == n {\n           res = append(res, strings.Join(stack, \"\"))\n           return\n       }\n\n       if openN < n {\n           stack = append(stack, \"(\")\n           backtrack(openN+1, closedN)\n           stack = stack[:len(stack)-1]\n       }\n\n       if closedN < openN {\n           stack = append(stack, \")\")\n           backtrack(openN, closedN+1)\n           stack = stack[:len(stack)-1]\n       }\n   }\n\n   backtrack(0, 0)\n   return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun generateParenthesis(n: Int): List<String> {\n        val stack = mutableListOf<String>()\n        val res = mutableListOf<String>()\n\n        fun backtrack(openN: Int, closedN: Int) {\n            if (openN == n && closedN == n) {\n                res.add(stack.joinToString(\"\"))\n                return\n            }\n\n            if (openN < n) {\n                stack.add(\"(\")\n                backtrack(openN + 1, closedN)\n                stack.removeAt(stack.lastIndex)\n            }\n\n            if (closedN < openN) {\n                stack.add(\")\")\n                backtrack(openN, closedN + 1)\n                stack.removeAt(stack.lastIndex)\n            }\n        }\n\n        backtrack(0, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func generateParenthesis(_ n: Int) -> [String] {\n        var stack = [Character]()\n        var res = [String]()\n\n        func backtrack(_ openN: Int, _ closedN: Int) {\n            if openN == n && closedN == n {\n                res.append(String(stack))\n                return\n            }\n\n            if openN < n {\n                stack.append(\"(\")\n                backtrack(openN + 1, closedN)\n                stack.removeLast()\n            }\n\n            if closedN < openN {\n                stack.append(\")\")\n                backtrack(openN, closedN + 1)\n                stack.removeLast()\n            }\n        }\n\n        backtrack(0, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn generate_parenthesis(n: i32) -> Vec<String> {\n        let mut res = vec![];\n        let mut stack = String::new();\n\n        fn backtrack(open_n: i32, closed_n: i32, n: i32, res: &mut Vec<String>, stack: &mut String) {\n            if open_n == n && closed_n == n {\n                res.push(stack.clone());\n                return;\n            }\n            if open_n < n {\n                stack.push('(');\n                backtrack(open_n + 1, closed_n, n, res, stack);\n                stack.pop();\n            }\n            if closed_n < open_n {\n                stack.push(')');\n                backtrack(open_n, closed_n + 1, n, res, stack);\n                stack.pop();\n            }\n        }\n\n        backtrack(0, 0, n, &mut res, &mut stack);\n        res\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def generateParenthesis(self, n):\n        res = [[] for _ in range(n+1)]\n        res[0] = [\"\"]\n\n        for k in range(n + 1):\n            for i in range(k):\n                for left in res[i]:\n                    for right in res[k-i-1]:\n                        res[k].append(\"(\" + left + \")\" + right)\n\n        return res[-1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public List<String> generateParenthesis(int n) {\n        List<List<String>> res = new ArrayList<>();\n        for (int i = 0; i <= n; i++) {\n            res.add(new ArrayList<>());\n        }\n        res.get(0).add(\"\");\n\n        for (int k = 0; k <= n; k++) {\n            for (int i = 0; i < k; i++) {\n                for (String left : res.get(i)) {\n                    for (String right : res.get(k - i - 1)) {\n                        res.get(k).add(\"(\" + left + \")\" + right);\n                    }\n                }\n            }\n        }\n\n        return res.get(n);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        vector<vector<string>> res(n + 1);\n        res[0] = {\"\"};\n\n        for (int k = 0; k <= n; ++k) {\n            for (int i = 0; i < k; ++i) {\n                for (const string& left : res[i]) {\n                    for (const string& right : res[k - i - 1]) {\n                        res[k].push_back(\"(\" + left + \")\" + right);\n                    }\n                }\n            }\n        }\n\n        return res[n];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number} n\n     * @return {string[]}\n     */\n    generateParenthesis(n) {\n        const res = Array.from({ length: n + 1 }, () => []);\n        res[0] = [''];\n\n        for (let k = 0; k <= n; k++) {\n            for (let i = 0; i < k; i++) {\n                for (const left of res[i]) {\n                    for (const right of res[k - i - 1]) {\n                        res[k].push('(' + left + ')' + right);\n                    }\n                }\n            }\n        }\n\n        return res[n];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public List<string> GenerateParenthesis(int n) {\n        List<List<string>> res = new List<List<string>>();\n        for (int i = 0; i <= n; i++) {\n            res.Add(new List<string>());\n        }\n        res[0].Add(\"\");\n\n        for (int k = 0; k <= n; k++) {\n            for (int i = 0; i < k; i++) {\n                foreach (string left in res[i]) {\n                    foreach (string right in res[k - i - 1]) {\n                        res[k].Add(\"(\" + left + \")\" + right);\n                    }\n                }\n            }\n        }\n\n        return res[n];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "func generateParenthesis(n int) []string {\n   res := make([][]string, n+1)\n   res[0] = []string{\"\"}\n\n   for k := 1; k <= n; k++ {\n       res[k] = make([]string, 0)\n       for i := 0; i < k; i++ {\n           for _, left := range res[i] {\n               for _, right := range res[k-i-1] {\n                   res[k] = append(res[k], \"(\" + left + \")\" + right)\n               }\n           }\n       }\n   }\n\n   return res[n]\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun generateParenthesis(n: Int): List<String> {\n        val res = Array(n + 1) { mutableListOf<String>() }\n        res[0] = mutableListOf(\"\")\n\n        for (k in 1..n) {\n            for (i in 0 until k) {\n                for (left in res[i]) {\n                    for (right in res[k-i-1]) {\n                        res[k].add(\"(\" + left + \")\" + right)\n                    }\n                }\n            }\n        }\n\n        return res[n]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func generateParenthesis(_ n: Int) -> [String] {\n        var res = [[String]](repeating: [], count: n + 1)\n        res[0] = [\"\"]\n\n        for k in 0...n {\n            for i in 0..<k {\n                for left in res[i] {\n                    for right in res[k - i - 1] {\n                        res[k].append(\"(\" + left + \")\" + right)\n                    }\n                }\n            }\n        }\n\n        return res[n]\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(frac{4^n}{sqrt(n)})",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn generate_parenthesis(n: i32) -> Vec<String> {\n        let n = n as usize;\n        let mut res: Vec<Vec<String>> = vec![vec![]; n + 1];\n        res[0] = vec![String::new()];\n\n        for k in 1..=n {\n            let mut cur = vec![];\n            for i in 0..k {\n                let left = res[i].clone();\n                let right = res[k - i - 1].clone();\n                for l in &left {\n                    for r in &right {\n                        cur.push(format!(\"({}){}\", l, r));\n                    }\n                }\n            }\n            res[k] = cur;\n        }\n\n        res[n].clone()\n    }\n}"
+        }
+    ]
+}

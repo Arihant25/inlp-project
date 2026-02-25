@@ -1,0 +1,227 @@
+{
+    "problem_name": "House Robber II",
+    "problem_slug": "house-robber-ii",
+    "difficulty": "medium",
+    "topic_tags": [
+        "array",
+        "dynamic programming"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        if len(nums) == 1:\n            return nums[0]\n        def dfs(i, flag):\n            if i >= len(nums) or (flag and i == len(nums) - 1):\n                return 0\n\n            return max(dfs(i + 1, flag),\n                       nums[i] + dfs(i + 2, flag or i == 0))\n        return max(dfs(0, True), dfs(1, False))"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int rob(int[] nums) {\n        if (nums.length == 1) return nums[0];\n        return Math.max(dfs(0, true, nums), dfs(1, false, nums));\n    }\n\n    private int dfs(int i, boolean flag, int[] nums) {\n        if (i >= nums.length || (flag && i == nums.length - 1))\n            return 0;\n\n        return Math.max(dfs(i + 1, flag, nums),\n                        nums[i] + dfs(i + 2, flag || i == 0, nums));\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        if (nums.size() == 1) return nums[0];\n        return max(dfs(0, true, nums), dfs(1, false, nums));\n    }\n\nprivate:\n    int dfs(int i, bool flag, vector<int>& nums) {\n        if (i >= nums.size() || (flag && i == nums.size() - 1))\n            return 0;\n\n        return max(dfs(i + 1, flag, nums),\n                   nums[i] + dfs(i + 2, flag || i == 0, nums));\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    rob(nums) {\n        if (nums.length === 1) return nums[0];\n\n        const dfs = (i, flag) => {\n            if (i >= nums.length || (flag && i === nums.length - 1)) return 0;\n\n            return Math.max(\n                dfs(i + 1, flag),\n                nums[i] + dfs(i + 2, flag || i === 0),\n            );\n        };\n\n        return Math.max(dfs(0, true), dfs(1, false));\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int Rob(int[] nums) {\n        if (nums.Length == 1) return nums[0];\n        return Math.Max(Dfs(0, true, nums), Dfs(1, false, nums));\n    }\n\n    private int Dfs(int i, bool flag, int[] nums) {\n        if (i >= nums.Length || (flag && i == nums.Length - 1))\n            return 0;\n\n        return Math.Max(Dfs(i + 1, flag, nums),\n                        nums[i] + Dfs(i + 2, flag || i == 0, nums));\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "func rob(nums []int) int {\n    if len(nums) == 1 {\n        return nums[0]\n    }\n    var dfs func(i int, flag bool) int\n    dfs = func(i int, flag bool) int {\n        if i >= len(nums) || (flag && i == len(nums)-1) {\n            return 0\n        }\n        return max(dfs(i+1, flag), nums[i] + dfs(i+2, flag || i == 0))\n    }\n    return max(dfs(0, true), dfs(1, false))\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun rob(nums: IntArray): Int {\n        val n = nums.size\n        if (n == 1) return nums[0]\n        fun dfs(i: Int, flag: Boolean): Int {\n            if (i >= nums.size || (flag && i == nums.size - 1)) {\n                return 0\n            }\n            return maxOf(dfs(i + 1, flag),\n                         nums[i] + dfs(i + 2, flag || i == 0))\n        }\n        return maxOf(dfs(0, true), dfs(1, false))\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func rob(_ nums: [Int]) -> Int {\n        if nums.count == 1 {\n            return nums[0]\n        }\n\n        func dfs(_ i: Int, _ flag: Bool) -> Int {\n            if i >= nums.count || (flag && i == nums.count - 1) {\n                return 0\n            }\n            return max(dfs(i + 1, flag), nums[i] + dfs(i + 2, flag || i == 0))\n        }\n\n        return max(dfs(0, true), dfs(1, false))\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(2^n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn rob(nums: Vec<i32>) -> i32 {\n        if nums.len() == 1 {\n            return nums[0];\n        }\n        fn dfs(nums: &[i32], i: usize, flag: bool) -> i32 {\n            if i >= nums.len() || (flag && i == nums.len() - 1) {\n                return 0;\n            }\n            dfs(nums, i + 1, flag)\n                .max(nums[i] + dfs(nums, i + 2, flag || i == 0))\n        }\n        dfs(&nums, 0, true).max(dfs(&nums, 1, false))\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        if len(nums) == 1:\n            return nums[0]\n\n        memo = [[-1] * 2 for _ in range(len(nums))]\n\n        def dfs(i, flag):\n            if i >= len(nums) or (flag and i == len(nums) - 1):\n                return 0\n            if memo[i][flag] != -1:\n                return memo[i][flag]\n            memo[i][flag] = max(dfs(i + 1, flag),\n                            nums[i] + dfs(i + 2, flag or (i == 0)))\n            return memo[i][flag]\n\n        return max(dfs(0, True), dfs(1, False))"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int[][] memo;\n\n    public int rob(int[] nums) {\n        if (nums.length == 1) return nums[0];\n\n        memo = new int[nums.length][2];\n        for (int i = 0; i < nums.length; i++) {\n            memo[i][0] = -1;\n            memo[i][1] = -1;\n        }\n\n        return Math.max(dfs(0, 1, nums), dfs(1, 0, nums));\n    }\n\n    private int dfs(int i, int flag, int[] nums) {\n        if (i >= nums.length || (flag == 1 && i == nums.length - 1))\n            return 0;\n        if (memo[i][flag] != -1)\n            return memo[i][flag];\n        memo[i][flag] = Math.max(dfs(i + 1, flag, nums),\n                        nums[i] + dfs(i + 2, flag | (i == 0 ? 1 : 0), nums));\n        return memo[i][flag];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    vector<vector<int>> memo;\n\npublic:\n    int rob(vector<int>& nums) {\n        if (nums.size() == 1) return nums[0];\n\n        memo.resize(nums.size(), vector<int>(2, -1));\n        return max(dfs(0, 1, nums), dfs(1, 0, nums));\n    }\n\nprivate:\n    int dfs(int i, int flag, vector<int>& nums) {\n        if (i >= nums.size() || (flag == 1 && i == nums.size() - 1))\n            return 0;\n        if (memo[i][flag] != -1)\n            return memo[i][flag];\n        memo[i][flag] = max(dfs(i + 1, flag, nums),\n                        nums[i] + dfs(i + 2, flag | (i == 0 ? 1 : 0), nums));\n        return memo[i][flag];\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    rob(nums) {\n        if (nums.length === 1) return nums[0];\n\n        const n = nums.length;\n        const memo = Array.from({ length: n }, () => Array(2).fill(-1));\n\n        const dfs = (i, flag) => {\n            if (i >= n || (flag && i === n - 1)) return 0;\n            if (memo[i][flag] !== -1) return memo[i][flag];\n\n            memo[i][flag] = Math.max(\n                dfs(i + 1, flag),\n                nums[i] + dfs(i + 2, flag | (i === 0)),\n            );\n            return memo[i][flag];\n        };\n\n        return Math.max(dfs(0, 1), dfs(1, 0));\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    private int[][] memo;\n\n    public int Rob(int[] nums) {\n        if (nums.Length == 1) return nums[0];\n\n        memo = new int[nums.Length][];\n        for (int i = 0; i < nums.Length; i++) {\n            memo[i] = new int[] { -1, -1 };\n        }\n\n        return Math.Max(Dfs(0, 1, nums), Dfs(1, 0, nums));\n    }\n\n    private int Dfs(int i, int flag, int[] nums) {\n        if (i >= nums.Length || (flag == 1 && i == nums.Length - 1))\n            return 0;\n        if (memo[i][flag] != -1)\n            return memo[i][flag];\n        memo[i][flag] = Math.Max(Dfs(i + 1, flag, nums),\n                        nums[i] + Dfs(i + 2, flag | (i == 0 ? 1 : 0), nums));\n        return memo[i][flag];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func rob(nums []int) int {\n    if len(nums) == 1 {\n        return nums[0]\n    }\n    memo := make([][2]int, len(nums))\n    for i := range memo {\n        memo[i][0] = -1\n        memo[i][1] = -1\n    }\n\n    var dfs func(i, flag int) int\n    dfs = func(i, flag int) int {\n        if i >= len(nums) || (flag == 1 && i == len(nums)-1) {\n            return 0\n        }\n        if memo[i][flag] != -1 {\n            return memo[i][flag]\n        }\n\n        tmp := flag\n        if i == 0 {\n            tmp = 1\n        }\n        memo[i][flag] = max(dfs(i+1, flag), nums[i] + dfs(i+2, tmp))\n        return memo[i][flag]\n    }\n\n    return max(dfs(0, 1), dfs(1, 0))\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun rob(nums: IntArray): Int {\n        if (nums.size == 1) return nums[0]\n        val memo = Array(nums.size) { IntArray(2) { -1 } }\n\n        fun dfs(i: Int, flag: Int): Int {\n            if (i >= nums.size || (flag == 1 && i == nums.size - 1)) {\n                return 0\n            }\n            if (memo[i][flag] != -1) {\n                return memo[i][flag]\n            }\n            memo[i][flag] = maxOf(dfs(i + 1, flag),\n                                  nums[i] + dfs(i + 2, flag or if (i == 0) 1 else 0))\n            return memo[i][flag]\n        }\n\n        return maxOf(dfs(0, 1), dfs(1, 0))\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func rob(_ nums: [Int]) -> Int {\n        if nums.count == 1 {\n            return nums[0]\n        }\n\n        var memo = Array(repeating: Array(repeating: -1, count: 2), count: nums.count)\n\n        func dfs(_ i: Int, _ flag: Bool) -> Int {\n            if i >= nums.count || (flag && i == nums.count - 1) {\n                return 0\n            }\n            if memo[i][flag ? 1 : 0] != -1 {\n                return memo[i][flag ? 1 : 0]\n            }\n\n            memo[i][flag ? 1 : 0] = max(\n                dfs(i + 1, flag), nums[i] + dfs(i + 2, flag || i == 0)\n            )\n\n            return memo[i][flag ? 1 : 0]\n        }\n\n        return max(dfs(0, true), dfs(1, false))\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn rob(nums: Vec<i32>) -> i32 {\n        if nums.len() == 1 {\n            return nums[0];\n        }\n        let mut memo = vec![[-1i32; 2]; nums.len()];\n        fn dfs(nums: &[i32], i: usize, flag: usize, memo: &mut Vec<[i32; 2]>) -> i32 {\n            if i >= nums.len() || (flag == 1 && i == nums.len() - 1) {\n                return 0;\n            }\n            if memo[i][flag] != -1 {\n                return memo[i][flag];\n            }\n            memo[i][flag] = dfs(nums, i + 1, flag, memo)\n                .max(nums[i] + dfs(nums, i + 2, flag | if i == 0 { 1 } else { 0 }, memo));\n            memo[i][flag]\n        }\n        dfs(&nums, 0, 1, &mut memo).max(dfs(&nums, 1, 0, &mut memo))\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        if len(nums) == 1:\n            return nums[0]\n        return max(self.helper(nums[1:]),\n                   self.helper(nums[:-1]))\n\n    def helper(self, nums: List[int]) -> int:\n        if not nums:\n            return 0\n        if len(nums) == 1:\n            return nums[0]\n\n        dp = [0] * len(nums)\n        dp[0] = nums[0]\n        dp[1] = max(nums[0], nums[1])\n\n        for i in range(2, len(nums)):\n            dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])\n\n        return dp[-1]"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int rob(int[] nums) {\n        if (nums.length == 1) return nums[0];\n\n        return Math.max(helper(Arrays.copyOfRange(nums, 1, nums.length)),\n                        helper(Arrays.copyOfRange(nums, 0, nums.length - 1)));\n    }\n\n    private int helper(int[] nums) {\n        if (nums.length == 0) return 0;\n        if (nums.length == 1) return nums[0];\n\n        int[] dp = new int[nums.length];\n        dp[0] = nums[0];\n        dp[1] = Math.max(nums[0], nums[1]);\n\n        for (int i = 2; i < nums.length; i++) {\n            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);\n        }\n\n        return dp[nums.length - 1];\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\npublic:\n    int rob(std::vector<int>& nums) {\n        if (nums.size() == 1) return nums[0];\n\n        return max(helper(vector<int>(nums.begin() + 1, nums.end())),\n                        helper(vector<int>(nums.begin(), nums.end() - 1)));\n    }\n\n    int helper(vector<int> nums) {\n        if (nums.empty()) return 0;\n        if (nums.size() == 1) return nums[0];\n\n        vector<int> dp(nums.size());\n        dp[0] = nums[0];\n        dp[1] = max(nums[0], nums[1]);\n\n        for (int i = 2; i < nums.size(); i++) {\n            dp[i] = max(dp[i - 1], nums[i] + dp[i - 2]);\n        }\n\n        return dp.back();\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    rob(nums) {\n        if (nums.length === 0) return 0;\n        if (nums.length === 1) return nums[0];\n\n        return Math.max(\n            this.helper(nums.slice(1)),\n            this.helper(nums.slice(0, -1)),\n        );\n    }\n\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    helper(nums) {\n        if (nums.length === 0) return 0;\n        if (nums.length === 1) return nums[0];\n\n        const dp = new Array(nums.length);\n        dp[0] = nums[0];\n        dp[1] = Math.max(nums[0], nums[1]);\n\n        for (let i = 2; i < nums.length; i++) {\n            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);\n        }\n\n        return dp[nums.length - 1];\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "public class Solution {\n    public int Rob(int[] nums) {\n        if (nums.Length == 0) return 0;\n        if (nums.Length == 1) return nums[0];\n\n        return Math.Max(Helper(nums[1..]), Helper(nums[..^1]));\n    }\n\n    private int Helper(int[] nums) {\n        if (nums.Length == 0) return 0;\n        if (nums.Length == 1) return nums[0];\n\n        int[] dp = new int[nums.Length];\n        dp[0] = nums[0];\n        dp[1] = Math.Max(nums[0], nums[1]);\n\n        for (int i = 2; i < nums.Length; i++) {\n            dp[i] = Math.Max(dp[i - 1], nums[i] + dp[i - 2]);\n        }\n\n        return dp[^1];\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "func rob(nums []int) int {\n    if len(nums) == 1 {\n        return nums[0]\n    }\n    return max(helper(nums[1:]), helper(nums[:len(nums)-1]))\n}\n\nfunc helper(nums []int) int {\n    if len(nums) == 0 {\n        return 0\n    }\n    if len(nums) == 1 {\n        return nums[0]\n    }\n\n    dp := make([]int, len(nums))\n    dp[0] = nums[0]\n    dp[1] = max(nums[0], nums[1])\n\n    for i := 2; i < len(nums); i++ {\n        dp[i] = max(dp[i-1], nums[i] + dp[i-2])\n    }\n\n    return dp[len(nums)-1]\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    fun rob(nums: IntArray): Int {\n        if (nums.size == 1) {\n            return nums[0]\n        }\n        return max(helper(nums.copyOfRange(1, nums.size)),\n                   helper(nums.copyOfRange(0, nums.size - 1)))\n    }\n\n    fun helper(nums: IntArray): Int {\n        if (nums.isEmpty()) {\n            return 0\n        }\n        if (nums.size == 1) {\n            return nums[0]\n        }\n\n        val dp = IntArray(nums.size)\n        dp[0] = nums[0]\n        dp[1] = maxOf(nums[0], nums[1])\n\n        for (i in 2 until nums.size) {\n            dp[i] = maxOf(dp[i - 1], nums[i] + dp[i - 2])\n        }\n\n        return dp[nums.size - 1]\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "class Solution {\n    func rob(_ nums: [Int]) -> Int {\n        if nums.count == 1 {\n            return nums[0]\n        }\n        return max(helper(Array(nums[1...])), helper(Array(nums[..<(nums.count - 1)])))\n    }\n\n    func helper(_ nums: [Int]) -> Int {\n        if nums.isEmpty {\n            return 0\n        }\n        if nums.count == 1 {\n            return nums[0]\n        }\n\n        var dp = [Int](repeating: 0, count: nums.count)\n        dp[0] = nums[0]\n        dp[1] = max(nums[0], nums[1])\n\n        for i in 2..<nums.count {\n            dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])\n        }\n\n        return dp.last!\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn rob(nums: Vec<i32>) -> i32 {\n        if nums.len() == 1 {\n            return nums[0];\n        }\n        Self::helper(&nums[1..]).max(Self::helper(&nums[..nums.len() - 1]))\n    }\n\n    fn helper(nums: &[i32]) -> i32 {\n        if nums.is_empty() {\n            return 0;\n        }\n        if nums.len() == 1 {\n            return nums[0];\n        }\n        let n = nums.len();\n        let mut dp = vec![0; n];\n        dp[0] = nums[0];\n        dp[1] = nums[0].max(nums[1]);\n        for i in 2..n {\n            dp[i] = dp[i - 1].max(nums[i] + dp[i - 2]);\n        }\n        dp[n - 1]\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution:\n\n    def rob(self, nums: List[int]) -> int:\n        return max(nums[0], self.helper(nums[1:]),\n                            self.helper(nums[:-1]))\n\n    def helper(self, nums):\n        rob1, rob2 = 0, 0\n\n        for num in nums:\n            newRob = max(rob1 + num, rob2)\n            rob1 = rob2\n            rob2 = newRob\n        return rob2"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n\n    public int rob(int[] nums) {\n        return Math.max(nums[0],\n               Math.max(helper(Arrays.copyOfRange(nums, 1, nums.length)),\n               helper(Arrays.copyOfRange(nums, 0, nums.length - 1))));\n    }\n\n    private int helper(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n\n        for (int num : nums) {\n            int newRob = Math.max(rob1 + num, rob2);\n            rob1 = rob2;\n            rob2 = newRob;\n        }\n        return rob2;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        vector<int> nums1(nums.begin() + 1, nums.end());\n        vector<int> nums2(nums.begin(), nums.end() - 1);\n        return max(nums[0],\n               max(helper(nums1), helper(nums2)));\n    }\n\nprivate:\n    int helper(vector<int>& nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int num : nums) {\n            int newRob = max(rob1 + num, rob2);\n            rob1 = rob2;\n            rob2 = newRob;\n        }\n        return rob2;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    rob(nums) {\n        return Math.max(\n            nums[0],\n            Math.max(\n                this.helper(nums.slice(1)),\n                this.helper(nums.slice(0, -1)),\n            ),\n        );\n    }\n\n    /**\n     * @param {number[]} nums\n     * @return {number}\n     */\n    helper(nums) {\n        let rob1 = 0;\n        let rob2 = 0;\n        for (const num of nums) {\n            const newRob = Math.max(rob1 + num, rob2);\n            rob1 = rob2;\n            rob2 = newRob;\n        }\n        return rob2;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "public class Solution {\n\n    public int Rob(int[] nums) {\n        if (nums.Length == 1)\n            return nums[0];\n\n        return Math.Max(Helper(nums[1..]),\n                        Helper(nums[..^1]));\n    }\n\n    private int Helper(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        foreach (int num in nums) {\n            int newRob = Math.Max(rob1 + num, rob2);\n            rob1 = rob2;\n            rob2 = newRob;\n        }\n        return rob2;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "func rob(nums []int) int {\n    if len(nums) == 0 {\n        return 0\n    }\n    return max(nums[0], max(helper(nums[1:]),\n                            helper(nums[:len(nums)-1])))\n}\n\nfunc helper(nums []int) int {\n    rob1, rob2 := 0, 0\n\n    for _, num := range nums {\n        newRob := max(rob1+num, rob2)\n        rob1 = rob2\n        rob2 = newRob\n    }\n    return rob2\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    fun rob(nums: IntArray): Int {\n        return maxOf(nums[0],\n            maxOf(helper(nums.copyOfRange(1, nums.size)),\n            helper(nums.copyOfRange(0, nums.size - 1))))\n    }\n\n    private fun helper(nums: IntArray): Int {\n        var rob1 = 0\n        var rob2 = 0\n\n        for (num in nums) {\n            val newRob = maxOf(rob1 + num, rob2)\n            rob1 = rob2\n            rob2 = newRob\n        }\n        return rob2\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "class Solution {\n    func rob(_ nums: [Int]) -> Int {\n        if nums.isEmpty {\n            return 0\n        }\n        if nums.count == 1 {\n            return nums[0]\n        }\n\n        let candidate1 = nums[0]\n        let candidate2 = helper(Array(nums[1..<nums.count]))\n        let candidate3 = helper(Array(nums[0..<(nums.count - 1)]))\n\n        return max(max(candidate1, candidate2), candidate3)\n    }\n\n    func helper(_ nums: [Int]) -> Int {\n        var rob1 = 0\n        var rob2 = 0\n\n        for num in nums {\n            let newRob = max(rob1 + num, rob2)\n            rob1 = rob2\n            rob2 = newRob\n        }\n\n        return rob2\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(1)",
+            "code": "impl Solution {\n    pub fn rob(nums: Vec<i32>) -> i32 {\n        nums[0]\n            .max(Self::helper(&nums[1..]))\n            .max(Self::helper(&nums[..nums.len() - 1]))\n    }\n\n    fn helper(nums: &[i32]) -> i32 {\n        let (mut rob1, mut rob2) = (0, 0);\n        for &num in nums {\n            let new_rob = (rob1 + num).max(rob2);\n            rob1 = rob2;\n            rob2 = new_rob;\n        }\n        rob2\n    }\n}"
+        }
+    ]
+}

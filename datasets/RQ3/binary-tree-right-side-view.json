@@ -1,0 +1,121 @@
+{
+    "problem_name": "Binary Tree Right Side View",
+    "problem_slug": "binary-tree-right-side-view",
+    "difficulty": "medium",
+    "topic_tags": [
+        "tree",
+        "depth-first search",
+        "breadth-first search",
+        "binary tree"
+    ],
+    "solutions": [
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        res = []\n\n        def dfs(node, depth):\n            if not node:\n                return None\n            if depth == len(res):\n                res.append(node.val)\n\n            dfs(node.right, depth + 1)\n            dfs(node.left, depth + 1)\n\n        dfs(root, 0)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    List<Integer> res = new ArrayList<>();\n\n    public List<Integer> rightSideView(TreeNode root) {\n        dfs(root, 0);\n        return res;\n    }\n\n    private void dfs(TreeNode node, int depth) {\n        if (node == null) {\n            return;\n        }\n\n        if (res.size() == depth) {\n            res.add(node.val);\n        }\n\n        dfs(node.right, depth + 1);\n        dfs(node.left, depth + 1);\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    vector<int> res;\n\n    vector<int> rightSideView(TreeNode* root) {\n        dfs(root, 0);\n        return res;\n    }\n\n    void dfs(TreeNode* node, int depth) {\n        if (!node) return;\n\n        if (res.size() == depth) {\n            res.push_back(node->val);\n        }\n\n        dfs(node->right, depth + 1);\n        dfs(node->left, depth + 1);\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {number[]}\n     */\n    rightSideView(root) {\n        let res = [];\n\n        function dfs(node, depth) {\n            if (!node) return;\n\n            if (res.length === depth) {\n                res.push(node.val);\n            }\n\n            dfs(node.right, depth + 1);\n            dfs(node.left, depth + 1);\n        }\n\n        dfs(root, 0);\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    List<int> res = new List<int>();\n\n    public List<int> RightSideView(TreeNode root) {\n        dfs(root, 0);\n        return res;\n    }\n\n    private void dfs(TreeNode node, int depth) {\n        if (node == null) {\n            return;\n        }\n\n        if (res.Count == depth) {\n            res.Add(node.val);\n        }\n\n        dfs(node.right, depth + 1);\n        dfs(node.left, depth + 1);\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc rightSideView(root *TreeNode) []int {\n    var res []int\n\n    var dfs func(node *TreeNode, depth int)\n    dfs = func(node *TreeNode, depth int) {\n        if node == nil {\n            return\n        }\n        if depth == len(res) {\n            res = append(res, node.Val)\n        }\n        dfs(node.Right, depth+1)\n        dfs(node.Left, depth+1)\n    }\n\n    dfs(root, 0)\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun rightSideView(root: TreeNode?): List<Int> {\n        val res = mutableListOf<Int>()\n\n        fun dfs(node: TreeNode?, depth: Int) {\n            if (node == null) return\n            if (depth == res.size) {\n                res.add(node.`val`)\n            }\n            dfs(node.right, depth + 1)\n            dfs(node.left, depth + 1)\n        }\n\n        dfs(root, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func rightSideView(_ root: TreeNode?) -> [Int] {\n        var res = [Int]()\n\n        func dfs(_ node: TreeNode?, _ depth: Int) {\n            guard let node = node else { return }\n            if depth == res.count {\n                res.append(node.val)\n            }\n\n            dfs(node.right, depth + 1)\n            dfs(node.left, depth + 1)\n        }\n\n        dfs(root, 0)\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn right_side_view(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {\n        let mut res = Vec::new();\n        Self::dfs(&root, 0, &mut res);\n        res\n    }\n\n    fn dfs(node: &Option<Rc<RefCell<TreeNode>>>, depth: usize, res: &mut Vec<i32>) {\n        if let Some(n) = node {\n            let n = n.borrow();\n            if depth == res.len() {\n                res.push(n.val);\n            }\n            Self::dfs(&n.right, depth + 1, res);\n            Self::dfs(&n.left, depth + 1, res);\n        }\n    }\n}"
+        },
+        {
+            "language": "python",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n\nclass Solution:\n    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n        res = []\n        q = deque([root])\n\n        while q:\n            rightSide = None\n            qLen = len(q)\n\n            for i in range(qLen):\n                node = q.popleft()\n                if node:\n                    rightSide = node\n                    q.append(node.left)\n                    q.append(node.right)\n            if rightSide:\n                res.append(rightSide.val)\n        return res"
+        },
+        {
+            "language": "java",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        List<Integer> res = new ArrayList<>();\n        Queue<TreeNode> q = new LinkedList<>();\n        q.offer(root);\n\n        while (!q.isEmpty()) {\n            TreeNode rightSide = null;\n            int qLen = q.size();\n\n            for (int i = 0; i < qLen; i++) {\n                TreeNode node = q.poll();\n                if (node != null) {\n                    rightSide = node;\n                    q.offer(node.left);\n                    q.offer(node.right);\n                }\n            }\n            if (rightSide != null) {\n                res.add(rightSide.val);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "cpp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\n\nclass Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        vector<int> res;\n        queue<TreeNode*> q;\n        q.push(root);\n\n        while (!q.empty()) {\n            TreeNode* rightSide = nullptr;\n            int qLen = q.size();\n\n            for (int i = 0; i < qLen; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                if (node) {\n                    rightSide = node;\n                    q.push(node->left);\n                    q.push(node->right);\n                }\n            }\n            if (rightSide) {\n                res.push_back(rightSide->val);\n            }\n        }\n        return res;\n    }\n};"
+        },
+        {
+            "language": "javascript",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     constructor(val = 0, left = null, right = null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param {TreeNode} root\n     * @return {number[]}\n     */\n    rightSideView(root) {\n        const res = [];\n        const q = new Queue();\n\n        q.push(root);\n\n        while (!q.isEmpty()) {\n            let rightSide = null;\n            const qLen = q.size();\n\n            for (let i = 0; i < qLen; i++) {\n                const node = q.pop();\n                if (node) {\n                    rightSide = node;\n                    q.push(node.left);\n                    q.push(node.right);\n                }\n            }\n            if (rightSide) {\n                res.push(rightSide.val);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "csharp",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\n\npublic class Solution {\n    public List<int> RightSideView(TreeNode root) {\n        List<int> res = new List<int>();\n        Queue<TreeNode> q = new Queue<TreeNode>();\n        q.Enqueue(root);\n\n        while (q.Count > 0) {\n            TreeNode rightSide = null;\n            int qLen = q.Count;\n\n            for (int i = 0; i < qLen; i++) {\n                TreeNode node = q.Dequeue();\n                if (node != null) {\n                    rightSide = node;\n                    q.Enqueue(node.left);\n                    q.Enqueue(node.right);\n                }\n            }\n            if (rightSide != null) {\n                res.Add(rightSide.val);\n            }\n        }\n        return res;\n    }\n}"
+        },
+        {
+            "language": "go",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc rightSideView(root *TreeNode) []int {\n    if root == nil {\n        return []int{}\n    }\n\n    res := []int{}\n    q := []*TreeNode{root}\n\n    for len(q) > 0 {\n        rightSide := 0\n        qLen := len(q)\n\n        for i := 0; i < qLen; i++ {\n            node := q[0]\n            q = q[1:]\n\n            if node != nil {\n                rightSide = node.Val\n                if node.Left != nil {\n                    q = append(q, node.Left)\n                }\n                if node.Right != nil {\n                    q = append(q, node.Right)\n                }\n            }\n        }\n        res = append(res, rightSide)\n    }\n\n    return res\n}"
+        },
+        {
+            "language": "kotlin",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun rightSideView(root: TreeNode?): List<Int> {\n        if (root == null) return emptyList()\n\n        val res = mutableListOf<Int>()\n        val q = ArrayDeque(listOf(root))\n\n        while (q.isNotEmpty()) {\n            var rightSide: TreeNode? = null\n            var qLen = q.size\n\n            while (qLen > 0) {\n                val node = q.removeFirst()\n                if (node != null) {\n                    rightSide = node\n                    node.left?.let { q.add(it) }\n                    node.right?.let { q.add(it) }\n                }\n                qLen--\n            }\n            rightSide?.let { res.add(it.`val`) }\n        }\n\n        return res\n    }\n}"
+        },
+        {
+            "language": "swift",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func rightSideView(_ root: TreeNode?) -> [Int] {\n        var res = [Int]()\n        var q = Deque<TreeNode?>()\n        q.append(root)\n\n        while !q.isEmpty {\n            var rightSide: TreeNode?\n            let qLen = q.count\n\n            for _ in 0..<qLen {\n                if let node = q.removeFirst() {\n                    rightSide = node\n                    q.append(node.left)\n                    q.append(node.right)\n                }\n            }\n            if let rightSide = rightSide {\n                res.append(rightSide.val)\n            }\n        }\n        return res\n    }\n}"
+        },
+        {
+            "language": "rust",
+            "time_complexity": "O(n)",
+            "space_complexity": "O(n)",
+            "code": "impl Solution {\n    pub fn right_side_view(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {\n        let mut res = Vec::new();\n        let mut q: VecDeque<Option<Rc<RefCell<TreeNode>>>> = VecDeque::new();\n        q.push_back(root);\n\n        while !q.is_empty() {\n            let mut right_side = None;\n            let q_len = q.len();\n\n            for _ in 0..q_len {\n                if let Some(Some(node)) = q.pop_front() {\n                    let node_ref = node.borrow();\n                    right_side = Some(node_ref.val);\n                    q.push_back(node_ref.left.clone());\n                    q.push_back(node_ref.right.clone());\n                }\n            }\n            if let Some(val) = right_side {\n                res.push(val);\n            }\n        }\n        res\n    }\n}"
+        }
+    ]
+}
