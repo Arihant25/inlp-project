@@ -325,3 +325,21 @@ Code-specific pre-training (UniXcoder) provides a meaningful but insufficient ad
 ---
 
 *Report generated from analysis of 6 models × 1,000 snippets each. Full metrics available in per-model `rq4_metrics.json` files. Visualisations (t-SNE plots, silhouette bars, heatmaps, etc.) available in per-model result directories. Cross-model comparison plots in `results/RQ4/cross_model/`.*
+
+## 8. Figures
+
+### Figure 1: t-SNE Visualization
+![t-SNE Visualization](tsne_visualization.png)
+_t-SNE projection of all code snippet embeddings for RQ4. Buggy and fixed code are heavily mixed._
+
+### Figure 2: Clustering Metrics
+![Clustering Metrics](clustering_metrics.png)
+_Silhouette scores by correctness and severity overall._
+
+### Figure 3: Distance Distributions
+![Distance Distributions](distance_distributions.png)
+_Distribution of pairwise cosine distances between buggy and fixed code._
+
+### Figure 4: Cross-Language Comparison
+![Cross-Language Comparison](cross_language_comparison.png)
+_Dangerous neighbourhood rates or separability scores faceted by language._
