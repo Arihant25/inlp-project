@@ -15,7 +15,7 @@ EMBEDDINGS_DIR = os.path.join(SCRIPT_DIR, "../results/embeddings")
 OUTPUT_DIR = os.path.join(SCRIPT_DIR, "../results/clustering")
 
 MODELS = [
-    "octen", "bge_m3", "unixcoder", "qwen3", "minilm", "ada002"
+    "octen", "bge_m3", "unixcoder", "codebert", "qwen3", "minilm", "ada002"
 ]
 
 LANGUAGES = [

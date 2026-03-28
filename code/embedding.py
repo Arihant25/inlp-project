@@ -27,6 +27,7 @@ MODELS = {
     "octen": {"name": "Octen/Octen-Embedding-0.6B", "type": "sentence_transformer"},
     "bge_m3": {"name": "BAAI/bge-m3", "type": "sentence_transformer"},
     "unixcoder": {"name": "microsoft/unixcoder-base", "type": "huggingface"},
+    "codebert": {"name": "microsoft/codebert-base", "type": "huggingface"},
     "qwen3": {"name": "Qwen/Qwen3-Embedding-0.6B", "type": "sentence_transformer"},
     "minilm": {"name": "sentence-transformers/all-MiniLM-L6-v2", "type": "sentence_transformer"},
     "ada002": {"name": "openai/text-embedding-ada-002", "type": "api_openrouter"},

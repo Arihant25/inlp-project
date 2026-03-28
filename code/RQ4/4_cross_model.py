@@ -54,6 +54,7 @@ MODEL_PALETTE = [
     "#f4a261",
     "#e76f51",
     "#6a4c93",
+    "#c77daa",
 ]
 
 SEVERITY_ORDER = ["Easy", "Medium", "Hard", "Super Hard"]

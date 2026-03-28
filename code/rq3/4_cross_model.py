@@ -46,7 +46,7 @@ plt.rcParams.update({
 })
 
 MODEL_PALETTE = [
-    "#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51", "#6a4c93",
+    "#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51", "#6a4c93", "#c77daa",
 ]
 
 COMPLEXITY_ORDER = [
