@@ -66,12 +66,13 @@ The analysis follows a four-stage pipeline:
 
 ### 4.2 Embedding Models
 
-We evaluated six embedding models spanning different architectures and training objectives:
+We evaluated seven embedding models spanning different architectures and training objectives:
 
 | Model Key   | Full Name                              | Type                             |
 | ----------- | -------------------------------------- | -------------------------------- |
 | `ada002`    | OpenAI text-embedding-ada-002          | Commercial API                   |
 | `bge_m3`    | BAAI/bge-m3                            | Open-source, multilingual        |
+| `codebert`  | microsoft/codebert-base                | Code-specialised                 |
 | `minilm`    | sentence-transformers/all-MiniLM-L6-v2 | Lightweight sentence transformer |
 | `octen`     | Octen/Octen-Embedding-0.6B             | Open-source, 0.6B params         |
 | `qwen3`     | Qwen/Qwen3-Embedding-0.6B              | Open-source, 0.6B params         |
@@ -93,7 +94,7 @@ We evaluated six embedding models spanning different architectures and training 
 
 ### 5.1 Cross-Model Summary
 
-The table below aggregates key metrics across all six embedding models:
+The table below aggregates key metrics across all seven embedding models:
 
 | Model         | Framework Silhouette | Language Silhouette | Cross-FW Distance | Intra-FW Distance | Distance Gap | Cohen's d | Effect Size | t-statistic | p-value  |
 | ------------- | -------------------- | ------------------- | ----------------- | ----------------- | ------------ | --------- | ----------- | ----------- | -------- |
@@ -103,16 +104,18 @@ The table below aggregates key metrics across all six embedding models:
 | **qwen3**     | 0.022                | 0.175               | 0.383             | 0.264             | 0.119        | **1.448** | Large       | 82.87       | < 1e-300 |
 | **ada002**    | 0.060                | 0.304               | 0.189             | 0.129             | 0.060        | **1.424** | Large       | 69.32       | < 1e-300 |
 | **unixcoder** | -0.006               | 0.174               | 0.316             | 0.245             | 0.071        | **0.679** | Medium      | 38.21       | 3.6e-285 |
+| **codebert**  | -0.114               | 0.247               | 0.022             | 0.019             | 0.003        | **0.229** | Small       | 13.21       | 2.8e-39  |
 
 **Key observations:**
 
-- **All six models detect a statistically significant difference** between cross-framework and intra-framework distances (p < 0.001 in every case), confirming that framework choice creates measurable structure in the embedding space.
-- **Five of six models show a large effect size** (Cohen's d > 0.8). The exception is UniXCoder (d = 0.679, medium), which is notable since it is the only code-specialised model in the set — suggesting that models trained specifically on code may partially normalise away framework-specific surface patterns in favour of deeper semantic representations.
+- **All seven models detect a statistically significant difference** between cross-framework and intra-framework distances (p < 0.001 in every case), confirming that framework choice creates measurable structure in the embedding space.
+- **Five of seven models show a large effect size** (Cohen's d > 0.8). UniXCoder is the medium-effect outlier (d = 0.679) and CodeBERT is the most extreme, showing only a small effect (d = 0.229). Both are code-specialised models, suggesting that models trained specifically on code may partially normalise away framework-specific surface patterns in favour of deeper semantic representations — though the degree of suppression varies substantially between them.
+- **CodeBERT is the most negative outlier**: its framework silhouette (-0.114) is nearly twenty times more negative than UniXCoder's (-0.006), and its distance gap (0.003) is ~21× smaller than UniXCoder's (0.071). This traces to severe geometric compression — CodeBERT's maximum pairwise cosine distance is ~0.06, versus >0.30 for UniXCoder and general-purpose models.
 - **BGE-M3 shows the strongest framework separation** (d = 1.878), followed by MiniLM (d = 1.587). Both are general-purpose sentence embedding models, suggesting they are more sensitive to the lexical and structural cues that frameworks introduce (import statements, decorator patterns, API naming conventions).
 - **Language silhouette consistently exceeds framework silhouette** across all models (e.g., ada002: 0.304 vs 0.060), indicating that while frameworks create detectable sub-structure, the primary organising axis in embedding space remains the programming language itself.
 
 ![Effect Size Comparison Across Models](cross_model/effect_size_comparison.png)
-_Cohen's d for the cross-vs-intra framework distance gap across all six models. Five models show large effects (d > 0.8); UniXCoder is the sole medium-effect outlier._
+_Cohen's d for the cross-vs-intra framework distance gap across all seven models. Five models show large effects (d > 0.8); UniXCoder is a medium-effect outlier (d = 0.679); CodeBERT achieves only a small effect (d = 0.229)._
 
 ![Silhouette Comparison Across Models](cross_model/silhouette_comparison.png)
 _Per-language framework silhouette scores compared across all six models. MiniLM and BGE-M3 consistently score highest; UniXCoder and Octen/Qwen3 the lowest._
