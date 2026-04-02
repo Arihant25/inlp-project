@@ -33,7 +33,7 @@ Bugs are grouped into four severity tiers based on their index position in the d
 
 ### 2.3 Embedding Models
 
-Six models spanning different architectures, training regimes, and dimensionalities were evaluated to establish cross-model robustness:
+Seven models spanning different architectures, training regimes, and dimensionalities were evaluated to establish cross-model robustness:
 
 | Model Key | Model Name | Dim | Type |
 |-----------|-----------|-----|------|
@@ -43,6 +43,7 @@ Six models spanning different architectures, training regimes, and dimensionalit
 | `unixcoder` | microsoft/unixcoder-base | 768 | Code-specialised (pre-trained on code) |
 | `qwen3` | Qwen/Qwen3-Embedding-0.6B | 1,024 | General-purpose (multilingual) |
 | `ada002` | openai/text-embedding-ada-002 | 1,536 | Commercial API (general-purpose) |
+| `codebert` | microsoft/codebert-base | 768 | Code-specialised (bimodal pre-training) |
 
 ### 2.4 Metrics
 
@@ -58,48 +59,48 @@ Six models spanning different architectures, training regimes, and dimensionalit
 
 ### 3.1 Overall Correctness Clustering Is Near-Zero
 
-| Metric | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|--------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| Correctness silhouette (overall) | 0.0095 | 0.0129 | **0.0194** | 0.0133 | 0.0102 | 0.0072 |
-| Language baseline silhouette | 0.0391 | 0.0535 | 0.0068 | 0.0006 | 0.0602 | **0.0829** |
-| Severity baseline silhouette | 0.0253 | 0.0220 | 0.0201 | 0.0226 | 0.0239 | 0.0186 |
+| Metric | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 | CodeBERT |
+|--------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|:--------:|
+| Correctness silhouette (overall) | 0.0095 | 0.0129 | **0.0194** | 0.0133 | 0.0102 | 0.0072 | 0.0179 |
+| Language baseline silhouette | 0.0391 | 0.0535 | 0.0068 | 0.0006 | 0.0602 | **0.0829** | 0.0083 |
+| Severity baseline silhouette | 0.0253 | 0.0220 | 0.0201 | 0.0226 | 0.0239 | 0.0186 | −0.0198 |
 
-**Key finding:** Across all six models the correctness silhouette is essentially zero (range 0.0072–0.0194). Ada-002 records the **lowest** correctness silhouette (0.0072) while simultaneously exhibiting the **strongest** language clustering (0.0829 — 11.5× its own correctness signal). This means Ada-002 overwhelmingly organises code by language rather than by correctness. For Octen, MiniLM, and Qwen3, embeddings likewise cluster more strongly by *language* (4–6× higher silhouette) than by correctness. BGE-M3 and UniXcoder are notable for having near-zero language baselines (0.007 and 0.001 respectively), suggesting they produce more language-agnostic representations — yet even they do not achieve meaningful correctness separation.
+**Key finding:** Across all seven models the correctness silhouette is essentially zero (range 0.0072–0.0194). Ada-002 records the **lowest** correctness silhouette (0.0072) while simultaneously exhibiting the **strongest** language clustering (0.0829 — 11.5× its own correctness signal). This means Ada-002 overwhelmingly organises code by language rather than by correctness. For Octen, MiniLM, and Qwen3, embeddings likewise cluster more strongly by *language* (4–6× higher silhouette) than by correctness. BGE-M3 and UniXcoder are notable for having near-zero language baselines (0.007 and 0.001 respectively), suggesting they produce more language-agnostic representations — yet even they do not achieve meaningful correctness separation. CodeBERT's correctness silhouette (0.0179) appears mid-range, but this is misleading: its geometric compression (mean pairwise distance 0.011 vs 0.22 for UniXcoder) means the silhouette is measuring structure within a nearly point-coincident space.
 
-**Interpretation:** None of the six tested models encode a meaningful "correctness axis" in their embedding spaces. Buggy and fixed code of the same algorithm are representationally overlapping.
+**Interpretation:** None of the seven tested models encode a meaningful "correctness axis" in their embedding spaces. Buggy and fixed code of the same algorithm are representationally overlapping.
 
 ### 3.2 Per-Severity Correctness Silhouette
 
-| Severity | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| Easy | 0.0518 | 0.0445 | 0.0629 | **0.0672** | 0.0542 | 0.0311 |
-| Medium | 0.0041 | 0.0051 | 0.0134 | 0.0075 | 0.0043 | 0.0010 |
-| Hard | 0.0025 | 0.0047 | 0.0097 | 0.0043 | 0.0025 | 0.0006 |
-| Super Hard | −0.0019 | 0.0073 | 0.0140 | 0.0065 | −0.0016 | **−0.0024** |
+| Severity | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 | CodeBERT |
+|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|:--------:|
+| Easy | 0.0518 | 0.0445 | 0.0629 | **0.0672** | 0.0542 | 0.0311 | 0.0837 |
+| Medium | 0.0041 | 0.0051 | 0.0134 | 0.0075 | 0.0043 | 0.0010 | 0.0088 |
+| Hard | 0.0025 | 0.0047 | 0.0097 | 0.0043 | 0.0025 | 0.0006 | 0.0072 |
+| Super Hard | −0.0019 | 0.0073 | 0.0140 | 0.0065 | −0.0016 | **−0.0024** | 0.0180 |
 
-**Key finding:** Easy (syntax) bugs consistently produce the highest correctness silhouette across all six models — roughly 3–8× higher than other severity tiers. UniXcoder achieves the best Easy-bug separation (0.0672), while BGE-M3 is a close second (0.0629). Ada-002 trails all other models even for Easy bugs (0.0311 — roughly half the next lowest). This is intuitive: a missing semicolon or misspelled keyword creates a visually (and tokenically) distinct string.
+**Key finding:** Easy (syntax) bugs consistently produce the highest correctness silhouette across all seven models — roughly 3–8× higher than other severity tiers. UniXcoder achieves the best Easy-bug separation among models with meaningful distances (0.0672), while BGE-M3 is a close second (0.0629). Ada-002 trails general-purpose and code-aware models for Easy bugs (0.0311). CodeBERT records an anomalously high Easy-bug silhouette (0.0837), but this reflects geometric compression artefacts rather than genuine separability — all Easy bug pairs are dangerous (100% at threshold 0.10). This is intuitive: a missing semicolon or misspelled keyword creates a visually (and tokenically) distinct string.
 
-Three models produce **negative** Super Hard silhouettes: Ada-002 (−0.0024), Octen (−0.0019), and Qwen3 (−0.0016), meaning for these models buggy code is *more similar to the wrong cluster* than to its own — the worst possible outcome for a correctness detector. Ada-002 holds the most negative value. The remaining models keep Super Hard slightly positive but still negligible.
+Three models produce **negative** Super Hard silhouettes: Ada-002 (−0.0024), Octen (−0.0019), and Qwen3 (−0.0016), meaning for these models buggy code is *more similar to the wrong cluster* than to its own — the worst possible outcome for a correctness detector. Ada-002 holds the most negative value among models with meaningful pairwise distances. The remaining models keep Super Hard slightly positive but still negligible.
 
 ### 3.3 Pairwise Buggy–Fixed Distances
 
-| Metric | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|--------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| Overall mean distance | 0.1212 | 0.1404 | 0.1228 | **0.2230** | 0.1139 | 0.0389 |
-| Overall std | 0.0999 | 0.1128 | 0.0879 | 0.1639 | 0.0968 | 0.0318 |
+| Metric | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 | CodeBERT |
+|--------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|:--------:|
+| Overall mean distance | 0.1212 | 0.1404 | 0.1228 | **0.2230** | 0.1139 | 0.0389 | 0.0111 |
+| Overall std | 0.0999 | 0.1128 | 0.0879 | 0.1639 | 0.0968 | 0.0318 | 0.0125 |
 
-**UniXcoder** stands out with the highest pairwise distance (0.223) — nearly 6× that of Ada-002 (0.039), the worst performer. Ada-002's mean distance of **0.039** is roughly one-third of the next-lowest (Qwen3 at 0.114) and an order of magnitude below UniXcoder. Despite being the highest-dimensional model (1,536 dimensions) and a commercial API product, Ada-002 compresses buggy–fixed pairs into an extremely tight neighbourhood, making them virtually indistinguishable.
+**UniXcoder** stands out with the highest pairwise distance (0.223) — nearly 20× that of CodeBERT (0.011), the worst performer. Ada-002's mean distance of **0.039** is roughly one-third of the next-lowest (Qwen3 at 0.114) and an order of magnitude below UniXcoder. Despite being the highest-dimensional model (1,536 dimensions) and a commercial API product, Ada-002 compresses buggy–fixed pairs into an extremely tight neighbourhood. **CodeBERT is even worse**: its mean pairwise distance (0.011) is one-third of Ada-002's (0.039) and 20× smaller than UniXcoder's (0.223), making buggy and fixed code virtually point-coincident.
 
 #### By severity:
 
-| Severity | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| Easy | 0.2365 | 0.2085 | 0.2027 | **0.3917** | 0.2159 | 0.0632 |
-| Medium | 0.1082 | 0.1064 | 0.1183 | **0.2177** | 0.1026 | 0.0336 |
-| Hard | 0.0963 | 0.1056 | 0.1121 | **0.1997** | 0.0879 | 0.0441 |
-| Super Hard | 0.0886 | 0.1276 | 0.1288 | **0.2072** | 0.0886 | 0.0367 |
+| Severity | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 | CodeBERT |
+|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|:--------:|
+| Easy | 0.2365 | 0.2085 | 0.2027 | **0.3917** | 0.2159 | 0.0632 | 0.0186 |
+| Medium | 0.1082 | 0.1064 | 0.1183 | **0.2177** | 0.1026 | 0.0336 | 0.0085 |
+| Hard | 0.0963 | 0.1056 | 0.1121 | **0.1997** | 0.0879 | 0.0441 | 0.0110 |
+| Super Hard | 0.0886 | 0.1276 | 0.1288 | **0.2072** | 0.0886 | 0.0367 | 0.0102 |
 
-**Key finding:** The overall pairwise distance between a buggy snippet and its fixed counterpart is remarkably small for most models — only 0.11–0.14 on the cosine scale \[0, 2\]. UniXcoder is the outlier at the top (0.22), while Ada-002 is the extreme outlier at the bottom (0.039 — all severity tiers under 0.07). Even Ada-002's Easy bugs (0.063) are below every other model's worst severity tier. However, even UniXcoder's distances remain far below the proposal's expectations.
+**Key finding:** The overall pairwise distance between a buggy snippet and its fixed counterpart is remarkably small for most models — only 0.11–0.14 on the cosine scale \[0, 2\]. UniXcoder is the outlier at the top (0.22), while CodeBERT is the extreme outlier at the bottom (0.011 — all severity tiers under 0.02). Ada-002's Easy bugs (0.063) already fall below every other non-CodeBERT model's worst severity tier; CodeBERT's Easy bugs (0.019) are one-third of Ada-002's. Even UniXcoder's distances remain far below the proposal's expectations.
 
 The proposal's expected-behaviour thresholds predicted:
 - Easy: distance > 0.5
@@ -110,83 +111,83 @@ The proposal's expected-behaviour thresholds predicted:
 
 #### By language:
 
-| Language | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| C | 0.1224 | 0.1388 | 0.1190 | 0.2176 | 0.1184 | 0.0392 |
-| Go | 0.1148 | 0.1472 | 0.1225 | 0.2266 | 0.1055 | 0.0361 |
-| Java | 0.1169 | 0.1336 | 0.1088 | 0.1981 | 0.1083 | 0.0357 |
-| Python | 0.1290 | 0.1326 | 0.1369 | **0.2484** | 0.1203 | 0.0439 |
-| Swift | 0.1229 | 0.1496 | 0.1267 | 0.2245 | 0.1171 | 0.0396 |
+| Language | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 | CodeBERT |
+|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|:--------:|
+| C | 0.1224 | 0.1388 | 0.1190 | 0.2176 | 0.1184 | 0.0392 | 0.0111 |
+| Go | 0.1148 | 0.1472 | 0.1225 | 0.2266 | 0.1055 | 0.0361 | 0.0112 |
+| Java | 0.1169 | 0.1336 | 0.1088 | 0.1981 | 0.1083 | 0.0357 | 0.0107 |
+| Python | 0.1290 | 0.1326 | 0.1369 | **0.2484** | 0.1203 | 0.0439 | 0.0118 |
+| Swift | 0.1229 | 0.1496 | 0.1267 | 0.2245 | 0.1171 | 0.0396 | 0.0109 |
 
-Distances are remarkably uniform across languages within each model (range ≈0.02–0.05 per model for the local models; only ≈0.008 for Ada-002), indicating that the poor separability is not a language-specific artefact but a fundamental property of how these models represent code. UniXcoder consistently produces the highest distances, with Python showing the widest buggy–fixed gap (0.248). Ada-002's language spread (0.036–0.044) is the tightest of all, with all languages effectively collapsed into the same narrow band.
+Distances are remarkably uniform across languages within each model (range ≈0.02–0.05 per model for the local models; only ≈0.008 for Ada-002 and ≈0.001 for CodeBERT), indicating that the poor separability is not a language-specific artefact but a fundamental property of how these models represent code. UniXcoder consistently produces the highest distances, with Python showing the widest buggy–fixed gap (0.248). CodeBERT's language spread (0.011–0.012) is the tightest of all, with all languages essentially point-coincident in embedding space.
 
 ### 3.4 Cluster Separation Analysis
 
-| Metric | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|--------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| Intra-cluster mean distance | 0.6806 | 0.7366 | 0.4511 | 0.7740 | 0.6385 | 0.2637 |
-| Cross-cluster mean distance | 0.6992 | 0.7492 | 0.4626 | 0.7879 | 0.6543 | 0.2707 |
-| Raw difference (cross − intra) | **0.0187** | 0.0126 | 0.0115 | 0.0140 | 0.0158 | 0.0070 |
+| Metric | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 | CodeBERT |
+|--------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|:--------:|
+| Intra-cluster mean distance | 0.6806 | 0.7366 | 0.4511 | 0.7740 | 0.6385 | 0.2637 | 0.0444 |
+| Cross-cluster mean distance | 0.6992 | 0.7492 | 0.4626 | 0.7879 | 0.6543 | 0.2707 | 0.0443 |
+| Raw difference (cross − intra) | **0.0187** | 0.0126 | 0.0115 | 0.0140 | 0.0158 | 0.0070 | −0.0001 |
 
-The gap between "how far apart buggy snippets are from each other" and "how far apart buggy snippets are from fixed snippets" is only 0.007–0.019 across all six models — a trivially small margin relative to the absolute distance scale. Ada-002 has both the smallest absolute distances (intra = 0.264, cross = 0.271) and the smallest gap (0.007), indicating that its embedding space is the most compressed overall.
+The gap between "how far apart buggy snippets are from each other" and "how far apart buggy snippets are from fixed snippets" is effectively zero across all seven models. CodeBERT is the most extreme: its cross-cluster distance (0.0443) is actually **lower** than its intra-cluster distance (0.0444), yielding a negative raw gap of −0.0001 — meaning buggy code is fractionally *closer* to fixed code than to other buggy code, a complete representational collapse. Ada-002 (gap = 0.007) and CodeBERT (gap = −0.0001) have the most compressed absolute distances.
 
 #### Per-language separation scores:
 
-| Language | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| C | 0.0179 | 0.0133 | 0.0110 | 0.0099 | 0.0152 | 0.0078 |
-| Go | 0.0129 | 0.0129 | 0.0112 | 0.0143 | 0.0092 | 0.0067 |
-| Java | 0.0218 | 0.0133 | 0.0123 | 0.0128 | 0.0188 | 0.0088 |
-| Python | 0.0222 | 0.0111 | 0.0133 | 0.0185 | 0.0189 | 0.0060 |
-| Swift | 0.0185 | 0.0124 | 0.0098 | 0.0145 | 0.0167 | 0.0056 |
+| Language | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 | CodeBERT |
+|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|:--------:|
+| C | 0.0179 | 0.0133 | 0.0110 | 0.0099 | 0.0152 | 0.0078 | −0.0007 |
+| Go | 0.0129 | 0.0129 | 0.0112 | 0.0143 | 0.0092 | 0.0067 | −0.0008 |
+| Java | 0.0218 | 0.0133 | 0.0123 | 0.0128 | 0.0188 | 0.0088 | 0.0009 |
+| Python | 0.0222 | 0.0111 | 0.0133 | 0.0185 | 0.0189 | 0.0060 | 0.0010 |
+| Swift | 0.0185 | 0.0124 | 0.0098 | 0.0145 | 0.0167 | 0.0056 | −0.0010 |
 
-No language achieves even a separation score of 0.03 on any model. Ada-002's per-language separation scores (0.006–0.009) are the lowest, roughly half those of the other models.
+No language achieves even a separation score of 0.03 on any model. CodeBERT's per-language separation scores are negative for three of five languages (C: −0.0007, Go: −0.0008, Swift: −0.0010), meaning in those languages cross-cluster distance is actually *smaller* than intra-cluster distance — a complete failure of separability. Ada-002's per-language separation scores (0.006–0.009) are the lowest among models with positive gaps.
 
 ### 3.5 Dangerous Neighbourhoods
 
 A pair (bug type, language) is "dangerous" when the cosine distance between its buggy and fixed embeddings falls below a threshold — meaning the model sees them as nearly identical.
 
-| Threshold | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|-----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| 0.05 | 30.8 % | 24.2 % | 24.8 % | **17.6 %** | 32.8 % | **72.6 %** |
-| **0.10** | 51.8 % | 41.8 % | 45.8 % | **29.6 %** | 54.0 % | **96.4 %** |
-| 0.15 | 68.0 % | 60.8 % | 62.6 % | **38.2 %** | 69.2 % | **99.2 %** |
+| Threshold | UniXcoder | MiniLM | BGE-M3 | Octen | Qwen3 | Ada-002 | CodeBERT |
+|-----------|:---------:|:------:|:------:|:-----:|:-----:|:-------:|:--------:|
+| 0.05 | **17.6 %** | 24.2 % | 24.8 % | 30.8 % | 32.8 % | 72.6 % | **98.0 %** |
+| **0.10** | **29.6 %** | 41.8 % | 45.8 % | 51.8 % | 54.0 % | 96.4 % | **100 %** |
+| 0.15 | **38.2 %** | 60.8 % | 62.6 % | 68.0 % | 69.2 % | 99.2 % | **100 %** |
 
-**Key finding:** At a threshold of 0.10, dangerous-neighbourhood rates range from **29.6 %** (UniXcoder) to a catastrophic **96.4 %** (Ada-002). Among the five local models, UniXcoder is the clear best performer (29.6 %) and Qwen3 the worst (54.0 %). Ada-002 is in a class of its own: **96.4 %** of all bug–fix pairs are dangerous at threshold 0.10, and even at the strict 0.05 threshold it already reaches 72.6 % — higher than any other model's rate at 0.15. At 0.15, Ada-002 hits 99.2 %, meaning virtually every bug–fix pair is indistinguishable.
+**Key finding:** At a threshold of 0.10, dangerous-neighbourhood rates range from **29.6 %** (UniXcoder, best) to **100 %** (CodeBERT, worst). CodeBERT saturates at 100 % from τ = 0.10 onward — every single bug–fix pair is indistinguishable. Ada-002 (96.4 %) is a distant second-worst; it at least leaves 3.6 % of pairs distinguishable at τ = 0.10, whereas CodeBERT does not. Among the five non-compressed, non-Ada models, UniXcoder is the clear best performer (29.6 %) and Qwen3 the worst (54.0 %). UniXcoder is the only model below 40 % at τ = 0.15.
 
 #### Dangerous neighbourhoods by severity (at threshold 0.10):
 
-| Severity | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| Easy | 13.6 % | 18.2 % | 9.1 % | **4.5 %** | 18.2 % | **95.5 %** |
-| Medium | 60.7 % | 53.6 % | 46.4 % | **32.1 %** | 64.3 % | **100.0 %** |
-| Hard | 48.4 % | 64.5 % | 54.8 % | **22.6 %** | 51.6 % | **90.3 %** |
-| Super Hard | 68.4 % | 52.6 % | 52.6 % | 31.6 % | 73.7 % | **100.0 %** |
+| Severity | UniXcoder | MiniLM | BGE-M3 | Octen | Qwen3 | Ada-002 | CodeBERT |
+|----------|:---------:|:------:|:------:|:-----:|:-----:|:-------:|:--------:|
+| Easy | **4.5 %** | 18.2 % | 9.1 % | 13.6 % | 18.2 % | 95.5 % | **100.0 %** |
+| Medium | **32.1 %** | 53.6 % | 46.4 % | 60.7 % | 64.3 % | 100.0 % | **100.0 %** |
+| Hard | **22.6 %** | 64.5 % | 54.8 % | 48.4 % | 51.6 % | 90.3 % | **100.0 %** |
+| Super Hard | 31.6 % | 52.6 % | 52.6 % | 68.4 % | 73.7 % | 100.0 % | **100.0 %** |
 
-For the five local models, Easy bugs have the lowest dangerous-neighbourhood rate (4.5–18 %), consistent with their higher pairwise distance. UniXcoder keeps even Super Hard bugs at 31.6 %. Ada-002 completely breaks this pattern: **95.5 % of Easy bugs are dangerous** (vs 4.5–18 % for other models), and **100 % of Medium and Super Hard bugs** are indistinguishable. Even Ada-002's best severity tier (Hard at 90.3 %) exceeds every other model's worst severity tier.
+For the five non-compressed local models, Easy bugs have the lowest dangerous-neighbourhood rate (4.5–18 %), consistent with their higher pairwise distance. UniXcoder keeps even Super Hard bugs at 31.6 %. **CodeBERT reaches 100 % across every severity tier including Easy bugs** — syntax errors that other models can at least partially distinguish become completely indistinguishable under geometric compression. Ada-002 (95.5 % for Easy bugs, 100 % for Medium and Super Hard) follows a similar but less extreme pattern.
 
 #### Dangerous neighbourhoods by language (at threshold 0.10):
 
-| Language | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| C | 53.0 % | 43.0 % | 45.0 % | 32.0 % | 51.0 % | **95.0 %** |
-| Go | 52.0 % | 39.0 % | 47.0 % | 30.0 % | 56.0 % | **97.0 %** |
-| Java | 55.0 % | 44.0 % | 52.0 % | 37.0 % | 58.0 % | **98.0 %** |
-| Python | 48.0 % | 49.0 % | 42.0 % | **23.0 %** | 52.0 % | **96.0 %** |
-| Swift | 51.0 % | 34.0 % | 43.0 % | 26.0 % | 53.0 % | **96.0 %** |
+| Language | UniXcoder | MiniLM | BGE-M3 | Octen | Qwen3 | Ada-002 | CodeBERT |
+|----------|:---------:|:------:|:------:|:-----:|:-----:|:-------:|:--------:|
+| C | 32.0 % | 43.0 % | 45.0 % | 53.0 % | 51.0 % | 95.0 % | **100.0 %** |
+| Go | 30.0 % | 39.0 % | 47.0 % | 52.0 % | 56.0 % | 97.0 % | **100.0 %** |
+| Java | 37.0 % | 44.0 % | 52.0 % | 55.0 % | 58.0 % | 98.0 % | **100.0 %** |
+| Python | **23.0 %** | 49.0 % | 42.0 % | 48.0 % | 52.0 % | 96.0 % | **100.0 %** |
+| Swift | 26.0 % | 34.0 % | 43.0 % | 51.0 % | 53.0 % | 96.0 % | **100.0 %** |
 
-Among the local models, Java tends to have the highest dangerous-neighbourhood rate, and Python the lowest (especially for UniXcoder at 23 %). UniXcoder consistently outperforms all other local models across every language. Ada-002 shows uniformly catastrophic rates (95–98 %) across all languages with virtually no language-specific variation.
+CodeBERT reaches 100 % dangerous neighbourhoods in every language — a language-agnostic failure driven by geometric compression. Among non-compressed models, Java tends to have the highest dangerous-neighbourhood rate, and Python the lowest (especially for UniXcoder at 23 %). UniXcoder consistently outperforms all other non-compressed models across every language. Ada-002 shows uniformly catastrophic rates (95–98 %), but CodeBERT is strictly worse across the board.
 
 ### 3.6 Statistical Tests
 
-| Statistic | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 |
-|-----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|
-| Welch's *t* | 5.473 | 3.058 | 5.014 | 3.876 | 4.565 | 4.642 |
-| *p*-value | 4.64 × 10⁻⁸ | 2.24 × 10⁻³ | 5.51 × 10⁻⁷ | 1.07 × 10⁻⁴ | 5.10 × 10⁻⁶ | 3.53 × 10⁻⁶ |
-| Cohen's *d* | 0.149 | 0.083 | 0.136 | 0.105 | 0.124 | 0.126 |
-| Effect size | **negligible** | **negligible** | **negligible** | **negligible** | **negligible** | **negligible** |
+| Statistic | Octen | MiniLM | BGE-M3 | UniXcoder | Qwen3 | Ada-002 | CodeBERT |
+|-----------|:-----:|:------:|:------:|:---------:|:-----:|:-------:|:--------:|
+| Welch's *t* | 5.473 | 3.058 | 5.014 | 3.876 | 4.565 | 4.642 | −0.161 |
+| *p*-value | 4.64 × 10⁻⁸ | 2.24 × 10⁻³ | 5.51 × 10⁻⁷ | 1.07 × 10⁻⁴ | 5.10 × 10⁻⁶ | 3.53 × 10⁻⁶ | 0.873 |
+| Cohen's *d* | 0.149 | 0.083 | 0.136 | 0.105 | 0.124 | 0.126 | −0.004 |
+| Effect size | **negligible** | **negligible** | **negligible** | **negligible** | **negligible** | **negligible** | **negligible** |
 
-**Key finding:** The *t*-test is statistically significant (*p* < 0.01) for all six models — there *is* a measurable difference between cross-cluster and intra-cluster distances. However, Cohen's *d* is **negligible** (< 0.2) in every case, meaning the difference has no practical significance. The statistical significance is driven by large sample sizes (2,500–3,000 distance pairs), not by a meaningful separation effect. Notably, Ada-002 achieves statistical significance (*p* = 3.5 × 10⁻⁶) despite having the smallest raw gap (0.007), further illustrating how large sample sizes can produce significant *p*-values from trivial effects.
+**Key finding:** The *t*-test is statistically significant (*p* < 0.01) for six of seven models — there *is* a measurable difference between cross-cluster and intra-cluster distances. However, Cohen's *d* is **negligible** (< 0.2) in every case, meaning the difference has no practical significance. **CodeBERT is the sole exception: it fails statistical significance entirely** (*p* = 0.873, *d* = −0.004), because geometric compression eliminates even the tiny cross-cluster signal that sample size alone can reveal in other models. The negative *d* and negative *t*-statistic indicate that CodeBERT's cross-cluster distance is fractionally *smaller* than its intra-cluster distance. The statistical significance for the other six models is driven by large sample sizes (2,500–3,000 distance pairs), not by a meaningful separation effect.
 
 #### Bootstrap 95 % confidence intervals for the cross−intra difference:
 
@@ -198,20 +199,21 @@ Among the local models, Java tends to have the highest dangerous-neighbourhood r
 | UniXcoder | 0.0140 | \[0.0067, 0.0210\] |
 | Qwen3 | 0.0158 | \[0.0088, 0.0228\] |
 | Ada-002 | 0.0070 | \[0.0039, 0.0100\] |
+| CodeBERT | −0.0001 | \[−0.0015, 0.0013\] |
 
-All six CIs exclude zero, confirming a real but tiny signal across every model. Ada-002's CI is the narrowest and closest to zero, consistent with its compressed embedding space.
+Six CIs exclude zero, confirming a real but tiny signal. **CodeBERT's CI straddles zero** \[−0.0015, 0.0013\], consistent with its statistically non-significant result — the signal is effectively absent. Ada-002's CI is the narrowest positive interval, consistent with its compressed embedding space.
 
 ---
 
 ## 4. Cross-Model Consistency
 
-The six models span a wide range of architectures — code-specialised (Octen, UniXcoder), general-purpose (MiniLM, Qwen3), multilingual (BGE-M3), and commercial API (Ada-002) — with dimensionalities from 384 to 1,536. Yet the core patterns are strikingly consistent:
+The seven models span a wide range of architectures — code-specialised (CodeBERT, UniXcoder), general-purpose (MiniLM, Qwen3), multilingual (BGE-M3), commercial API (Ada-002), and open-source large (Octen) — with dimensionalities from 384 to 1,536. The core patterns are strikingly consistent:
 
 1. **All models produce near-zero correctness silhouettes** (0.0072–0.0194).
-2. **Easy bugs are the most distinguishable** in every local model (Ada-002 collapses even these).
-3. **Effect sizes are negligible** (Cohen's *d* = 0.083–0.149) despite statistically significant *t*-tests.
+2. **Easy bugs are the most distinguishable** in every local model (Ada-002 and CodeBERT collapse even these).
+3. **Effect sizes are negligible or non-significant** (Cohen's *d* = −0.004–0.149); CodeBERT is the only model that fails statistical significance entirely (*p* = 0.873).
 4. **No single language is dramatically better or worse** — the phenomenon is language-agnostic.
-5. **Higher dimensionality does not help** — Ada-002 (1,536d) is the worst performer despite having the most dimensions.
+5. **Higher dimensionality does not help** — Ada-002 (1,536d) is the second-worst performer; CodeBERT (768d) is the worst.
 
 ### 4.1 UniXcoder: The Relative Winner
 
@@ -223,12 +225,12 @@ UniXcoder stands out as the best-performing model on several key metrics:
 
 This is likely attributable to UniXcoder's code-specific pre-training objectives (masked token prediction, code-NL alignment), which encode finer-grained token-level differences. However, even UniXcoder's correctness silhouette (0.0133) remains negligible in absolute terms.
 
-### 4.2 Ada-002: The Catastrophic Worst Performer
+### 4.2 Ada-002: The Second-Worst Performer
 
-OpenAI's text-embedding-ada-002 — the only commercial API model tested — is the worst performer by a dramatic margin:
-- **Lowest correctness silhouette** (0.0072 — roughly half the next-lowest).
-- **Lowest pairwise distance** (0.039 — one-third of Qwen3's 0.114, one-sixth of UniXcoder's 0.223).
-- **Highest dangerous-neighbourhood rate** (96.4 % at threshold 0.10 — nearly double the next-worst).
+OpenAI's text-embedding-ada-002 — the only commercial API model tested — is the second-worst performer overall (after CodeBERT):
+- **Lowest correctness silhouette among non-compressed models** (0.0072 — roughly half the next-lowest among the five local models).
+- **Second-lowest pairwise distance** (0.039 — one-third of Qwen3's 0.114, one-sixth of UniXcoder's 0.223; but 3.5× higher than CodeBERT's 0.011).
+- **Second-highest dangerous-neighbourhood rate** (96.4 % at threshold 0.10).
 - **100 % of Medium and Super Hard bugs are dangerous** — zero separation.
 - **Strongest language clustering** (0.083) — 11.5× higher than its correctness signal.
 
@@ -236,11 +238,21 @@ Despite being the highest-dimensional model (1,536 dimensions) and a flagship co
 
 The Ada-002 result is particularly important because it demonstrates that **model scale and commercial backing do not correlate with correctness-awareness**. A smaller, open-source, code-specialised model (UniXcoder, 768d) outperforms it by 5–6× on every correctness metric.
 
-### 4.3 Qwen3: The Worst Local Performer
+### 4.3 CodeBERT: The Worst Performer
+
+CodeBERT (microsoft/codebert-base) is the worst performer across all correctness metrics, mirroring its pattern in RQ2 and RQ3:
+- **100 % dangerous-neighbourhood rate at τ = 0.10** — every single bug–fix pair is indistinguishable, across all languages and severity tiers including Easy (syntax) bugs.
+- **Lowest mean pairwise distance** (0.011 — one-third of Ada-002's 0.039 and 20× smaller than UniXcoder's 0.223).
+- **Only model to fail statistical significance** (*p* = 0.873, *d* = −0.004) — geometric compression eliminates the cross-cluster signal entirely.
+- **Negative cross-cluster gap**: cross-cluster distance (0.0443) is actually fractionally *lower* than intra-cluster distance (0.0444).
+
+Unlike Ada-002 (which fails due to general-purpose training objectives), CodeBERT fails due to geometric compression: its replaced-token-detection objective combined with mean pooling collapses embedding space into a narrow cone where all snippets — buggy or fixed — are near-coincident. Crucially, CodeBERT's correctness silhouette (0.0179) appears mid-range, illustrating that **silhouette scores are misleading when pairwise distances are uniformly near-zero**; pairwise distance distributions and dangerous-neighbourhood rates must always be examined alongside silhouette metrics.
+
+### 4.4 Qwen3: The Worst Non-Compressed Local Performer
 
 Qwen3 shows the highest dangerous-neighbourhood rates among local models (54.0 % overall, 73.7 % for Super Hard) and is one of three models with a negative Super Hard silhouette. Its strong language-clustering signal (0.0602 — second only to Ada-002) suggests it prioritises language-level features over correctness-related features, making it the least suitable local model for correctness-aware tasks.
 
-### 4.4 Cross-Model Summary Table
+### 4.5 Cross-Model Summary Table
 
 | Model | Sil (corr) | Pair dist | Cohen's *d* | Danger % @ 0.10 |
 |-------|:----------:|:---------:|:-----------:|:---------------:|
@@ -249,9 +261,13 @@ Qwen3 shows the highest dangerous-neighbourhood rates among local models (54.0 %
 | MiniLM | 0.0129 | 0.1404 | 0.083 | 41.8 |
 | Qwen3 | 0.0102 | 0.1139 | 0.124 | 54.0 |
 | Octen | 0.0095 | 0.1212 | 0.149 | 51.8 |
-| Ada-002 | 0.0072 | 0.0389 | 0.126 | **96.4** |
+| Ada-002 | 0.0072 | 0.0389 | 0.126 | 96.4 |
+| CodeBERT | 0.0179† | 0.0111 | −0.004‡ | **100.0** |
 
-This cross-model agreement — despite architectural diversity — strengthens the conclusion: the inability to separate buggy from fixed code is not a model-specific weakness but a fundamental limitation of how current embedding models represent code. The 6× spread in pairwise distance (0.039–0.223) and 3× spread in danger rate (30–96 %) show that model choice matters for *degree* of failure, but no model achieves success.
+† CodeBERT's silhouette appears mid-range but is an artefact of geometric compression — all pairs are dangerous despite the non-zero silhouette.  
+‡ Negative *d* and *p* = 0.873 (not significant); the cross-cluster gap is effectively zero.
+
+This cross-model agreement — despite architectural diversity — strengthens the conclusion: the inability to separate buggy from fixed code is not a model-specific weakness but a fundamental limitation of how current embedding models represent code. The 20× spread in pairwise distance (0.011–0.223) and the full range in danger rate (30–100 %) show that model choice matters for *degree* of failure, but no model achieves success. UniXcoder (lowest danger rate, highest pairwise distance) and CodeBERT (100 % danger rate, lowest pairwise distance) define the two extremes.
 
 ---
 
@@ -297,16 +313,16 @@ A notable finding is the anti-correlation between embedding dimensionality and c
 
 | # | Finding | Evidence |
 |:-:|---------|----------|
-| 1 | **Buggy and fixed code do not form separate clusters.** | Correctness silhouette ≈ 0.007–0.02 across all six models. |
+| 1 | **Buggy and fixed code do not form separate clusters.** | Correctness silhouette ≈ 0.007–0.019 across all seven models. |
 | 2 | **Embeddings cluster more by language than by correctness.** | Language silhouette 2–12× higher than correctness silhouette (Octen, MiniLM, Qwen3, Ada-002). |
-| 3 | **Easy (syntax) bugs are the most distinguishable.** | Per-severity silhouette 3–8× higher for Easy; pairwise distance 0.06–0.39 vs 0.03–0.22 for other tiers. |
-| 4 | **30–96 % of bug–fix pairs are "dangerous" at threshold 0.10.** | Range spans from 29.6 % (UniXcoder) to 96.4 % (Ada-002). |
-| 5 | **Super Hard bugs are the most dangerous.** | Up to 100 % dangerous-neighbourhood rate (Ada-002), negative silhouette on three models. |
-| 6 | **Statistical significance ≠ practical significance.** | *p* < 0.01 but Cohen's *d* < 0.15 (negligible) for all models. |
-| 7 | **Code-specific pre-training helps but does not solve the problem.** | UniXcoder achieves 6× higher pairwise distances and one-third the danger rate of Ada-002, yet correctness silhouette remains ≈ 0.01. |
-| 8 | **Results are language-agnostic.** | Per-language metrics vary by < 0.05 across C, Go, Java, Python, Swift within each model. |
-| 9 | **Results are model-agnostic.** | Six architecturally different models produce consistent patterns despite spanning 384–1,536 dimensions. |
-| 10 | **Higher dimensionality does not improve correctness separation.** | Ada-002 (1,536d) is the worst performer; UniXcoder (768d) is the best. |
+| 3 | **Easy (syntax) bugs are the most distinguishable — except under geometric compression.** | Per-severity silhouette 3–8× higher for Easy in non-compressed models; pairwise distance 0.019–0.39 vs 0.009–0.22 for other tiers. CodeBERT reaches 100 % dangerous even for Easy bugs. |
+| 4 | **29.6–100 % of bug–fix pairs are "dangerous" at threshold 0.10.** | Range spans from 29.6 % (UniXcoder, best) to 100 % (CodeBERT, worst). |
+| 5 | **Super Hard bugs are the most dangerous.** | Up to 100 % dangerous-neighbourhood rate (Ada-002, CodeBERT), negative silhouette on three models. |
+| 6 | **Statistical significance ≠ practical significance — and CodeBERT lacks even that.** | Six models: *p* < 0.01 but Cohen's *d* < 0.15 (negligible). CodeBERT: *p* = 0.873, *d* = −0.004 (not significant). |
+| 7 | **Code-specific pre-training type determines performance, not just domain.** | UniXcoder (code-specialised, cross-modal alignment) achieves the best correctness metrics; CodeBERT (code-specialised, replaced-token detection + mean pooling) achieves the worst. |
+| 8 | **Results are language-agnostic.** | Per-language metrics vary by < 0.05 across C, Go, Java, Python, Swift within each non-compressed model; CodeBERT shows 100 % danger in all five languages. |
+| 9 | **Results are model-agnostic (failure is universal, degree varies).** | Seven architecturally different models produce consistent patterns despite spanning 384–1,536 dimensions. |
+| 10 | **Higher dimensionality does not improve correctness separation.** | Ada-002 (1,536d) is the second-worst performer; CodeBERT (768d, same as UniXcoder) is the worst; UniXcoder (768d) is the best. |
 
 ---
 
@@ -314,13 +330,13 @@ A notable finding is the anti-correlation between embedding dimensionality and c
 
 > **Do correct implementations cluster separately from buggy ones within language families?**
 
-**No.** Across six embedding models, five languages, and four severity tiers, buggy and fixed implementations of the same algorithms are nearly indistinguishable in embedding space. Correctness silhouette scores range from 0.0072 to 0.0194 (where 1.0 would indicate perfect separation), and the practical effect size (Cohen's *d*) is negligible for every model. Even UniXcoder — the best performer — achieves only a 0.0133 correctness silhouette. Ada-002 — the worst performer and the only commercial API model — achieves just 0.0072.
+**No.** Across seven embedding models, five languages, and four severity tiers, buggy and fixed implementations of the same algorithms are nearly indistinguishable in embedding space. Correctness silhouette scores range from 0.0072 to 0.0194 (where 1.0 would indicate perfect separation), and the practical effect size (Cohen's *d*) is negligible for every model. Even UniXcoder — the best performer — achieves only a 0.0133 correctness silhouette. Ada-002 — the worst performer among models with positive d — achieves just 0.0072. CodeBERT achieves *d* = −0.004 (not statistically significant), the most extreme failure.
 
 > **Can we identify "dangerous neighbourhoods" in embedding space where semantically similar code exhibits mixed correctness?**
 
-**Yes — and they are pervasive.** At a cosine-distance threshold of 0.10, between 30 % (UniXcoder) and 96 % (Ada-002) of all bug–fix pairs fall into dangerous neighbourhoods. Among the five local models, the range is 30–54 %. The problem is most severe for Hard and Super Hard bugs (subtle semantic and language-specific issues), where up to 100 % of pairs are indistinguishable (Ada-002). Easy (syntax) bugs are the only category with meaningfully lower rates for local models (4.5–18 %), though even these reach 96 % on Ada-002.
+**Yes — and they are pervasive.** At a cosine-distance threshold of 0.10, between 30 % (UniXcoder) and 100 % (CodeBERT) of all bug–fix pairs fall into dangerous neighbourhoods. Among the five non-compressed local models, the range is 30–54 %. The problem is most severe for Hard and Super Hard bugs (subtle semantic and language-specific issues), where up to 100 % of pairs are indistinguishable (Ada-002, CodeBERT). Easy (syntax) bugs are the only category with meaningfully lower rates for non-compressed models (4.5–18 %), though CodeBERT collapses even these to 100 %.
 
-Code-specific pre-training (UniXcoder) provides a meaningful but insufficient advantage: it produces 6× higher pairwise distances and one-third the dangerous-neighbourhood rate of the worst performer (Ada-002), but still leaves nearly a third of bug–fix pairs indistinguishable. Commercial scale and high dimensionality (Ada-002, 1,536d) provide no advantage — in fact, Ada-002 is dramatically worse than every open-source alternative tested. These findings suggest that current code-embedding models fundamentally lack the ability to encode correctness, and that embedding-based tools for code quality assurance should be supplemented with execution-aware or verification-based signals.
+Code-specific pre-training objective determines performance more than domain: UniXcoder (cross-modal alignment) provides a meaningful but insufficient advantage — it produces 20× higher pairwise distances than CodeBERT and one-third the dangerous-neighbourhood rate of Ada-002, but still leaves nearly a third of bug–fix pairs indistinguishable. CodeBERT (replaced-token detection + mean pooling) is the worst performer of all, including Ada-002, despite sharing the same 768-dimensional space as UniXcoder. Commercial scale and high dimensionality (Ada-002, 1,536d) provide no advantage — in fact, Ada-002 is the second-worst performer. These findings suggest that current code-embedding models fundamentally lack the ability to encode correctness, and that embedding-based tools for code quality assurance should be supplemented with execution-aware or verification-based signals.
 
 ---
 

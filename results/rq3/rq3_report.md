@@ -72,7 +72,7 @@ The analysis follows a four-stage pipeline:
 
 3. **Visualisation** (`3_visualize.py`): Per-model figures — t-SNE scatter plots (global and faceted by language), silhouette bar charts, separability ratio charts, complexity distance heatmaps.
 
-4. **Cross-model aggregation** (`4_cross_model.py`): Metrics are compared across all six embedding models to assess robustness and identify model-specific patterns.
+4. **Cross-model aggregation** (`4_cross_model.py`): Metrics are compared across all seven embedding models to assess robustness and identify model-specific patterns.
 
 ### 4.2 Embedding Models
 
@@ -80,10 +80,11 @@ The analysis follows a four-stage pipeline:
 |---|---|---|
 | `ada002` | OpenAI text-embedding-ada-002 | Commercial API |
 | `bge_m3` | BAAI/bge-m3 | Open-source, multilingual |
+| `codebert` | microsoft/codebert-base | Code-specialised (bimodal pre-training) |
 | `minilm` | sentence-transformers/all-MiniLM-L6-v2 | Lightweight sentence transformer |
 | `octen` | Octen/Octen-Embedding-0.6B | Open-source, 0.6B params |
 | `qwen3` | Qwen/Qwen3-Embedding-0.6B | Open-source, 0.6B params |
-| `unixcoder` | microsoft/unixcoder-base | Code-specialised |
+| `unixcoder` | microsoft/unixcoder-base | Code-specialised (cross-modal alignment) |
 
 ### 4.3 Metric Definitions
 
@@ -108,14 +109,15 @@ The analysis follows a four-stage pipeline:
 | **qwen3** | −0.0230 | +0.005 | 0.599 | 0.522 | 0.077 | **0.593** | Medium | 43.43 | < 1e−300 |
 | **ada002** | −0.0364 | +0.005 | 0.217 | 0.194 | 0.024 | **0.478** | Small | 35.44 | < 1e−263 |
 | **unixcoder** | −0.0371 | −0.052 | 0.496 | 0.452 | 0.044 | **0.300** | Small | 25.68 | < 1e−142 |
+| **codebert** | −0.1902 | −0.080 | 0.021 | 0.020 | 0.001 | **0.047** | Neg. | 4.49 | 7.2e−06 |
 
 **Key observations:**
 
-- **All six models detect a statistically significant difference** between cross-complexity and intra-complexity distances (p < 0.001 in every case), confirming that complexity class creates measurable geometric structure in embedding space.
+- **All seven models detect a statistically significant difference** between cross-complexity and intra-complexity distances (p < 0.001 in every case), confirming that complexity class creates measurable geometric structure in embedding space.
 - **No model achieves a positive silhouette score**, meaning clean complexity-class clusters never form — the signal is real but the overlap between classes is large. Problem identity (which problem is being solved) dominates over complexity class in every model.
-- **Three models achieve a medium effect size** (Octen d=0.638, Qwen3 d=0.593, MiniLM d=0.540), while the remaining three show small effects. Notably, **UniXCoder — the only code-specialised model — achieves the weakest effect** (d=0.300), suggesting that code-specific pre-training may normalise away complexity-correlated surface patterns in favour of semantic code understanding.
-- **BGE-M3 produces the closest-to-zero (best) silhouette** (−0.0143) but has the lowest Cohen's d among non-unixcoder models.
-- **ada002 and unixcoder are unique in that their difficulty silhouette is below zero**, meaning their embeddings cannot even reliably distinguish easy/medium/hard problems.
+- **Three models achieve a medium effect size** (Octen d=0.638, Qwen3 d=0.593, MiniLM d=0.540), while three show small effects, and one is negligible. **CodeBERT — one of two code-specialised models — achieves the weakest effect overall** (d=0.047) due to geometric compression: its cross- and intra-complexity distances differ by only 0.001. **UniXCoder — the other code-specialised model — achieves the weakest effect among non-compressed models** (d=0.300), suggesting that code-specific pre-training may normalise away complexity-correlated surface patterns in favour of semantic code understanding.
+- **BGE-M3 produces the closest-to-zero (best) silhouette among general-purpose models** (−0.0143); CodeBERT's silhouette (−0.1902) is nearly five times more negative than any other model.
+- **ada002 and unixcoder are the only general-purpose/code-specialised models whose difficulty silhouette is below zero**, meaning their embeddings cannot even reliably distinguish easy/medium/hard problems. (CodeBERT's difficulty silhouette is also deeply negative at −0.080.)
 
 ![Effect Size Comparison Across Models](cross_model/effect_size_comparison.png)
 _Cohen's d (cross vs intra complexity distance) for each model. Octen leads (d=0.638, medium); UniXCoder is last (d=0.300, small). Reference lines mark the small/medium/large thresholds._
@@ -179,8 +181,9 @@ _Separability ratios per language across all six models. C++ and Swift are the m
 | **ada002** | 35.44 | 3.1e−263 | 0.478 | Small |
 | **bge_m3** | 31.99 | 1.5e−216 | 0.429 | Small |
 | **unixcoder** | 25.68 | 2.1e−142 | 0.300 | Small |
+| **codebert** | 4.49 | 7.2e−06 | 0.047 | Negligible |
 
-For UniXCoder, the bootstrap 95% CI for the mean distance gap is [0.041, 0.048], entirely above zero — the effect is not a sampling artefact. The ordering Octen > Qwen3 > MiniLM > Ada002 > BGE-M3 > UniXCoder does not follow the expected code-specialised > general pattern, with **UniXCoder ranking last**.
+For UniXCoder, the bootstrap 95% CI for the mean distance gap is [0.041, 0.048], entirely above zero — the effect is not a sampling artefact. The ordering Octen > Qwen3 > MiniLM > Ada002 > BGE-M3 > UniXCoder > CodeBERT does not follow the expected code-specialised > general pattern. **CodeBERT ranks last overall** (d=0.047) due to geometric compression, while **UniXCoder ranks last among non-compressed models** (d=0.300).
 
 ### 5.5 Global Complexity Distance Matrix (UniXCoder, pooled across all languages)
 
@@ -209,13 +212,15 @@ _Side-by-side global complexity distance matrices for all six models. O(n log n)
 
 ### 6.1 Complexity Is Weakly but Universally Encoded
 
-The central finding is consistent across all six models: algorithmic complexity class creates a **statistically significant but geometrically small** signal in code embedding space. The effect is statistically overwhelming (t > 25 for every model, p < 10⁻¹⁴² in the weakest case), yet Cohen's d values range from 0.30 to 0.64 — all below the conventional "large" threshold of 0.80. Every model shows cluster overlap large enough to prevent reliable complexity classification from embeddings alone.
+The central finding is consistent across all seven models: algorithmic complexity class creates a **statistically significant but geometrically small** signal in code embedding space. The effect is statistically overwhelming (t > 4 for every model, p < 10⁻⁵ in the weakest case), yet Cohen's d values range from 0.047 (CodeBERT) to 0.638 (Octen) — all below the conventional "large" threshold of 0.80. Among non-compressed models, d ranges from 0.300 (UniXCoder) to 0.638 (Octen). Every model shows cluster overlap large enough to prevent reliable complexity classification from embeddings alone.
 
 This paradox arises because problem identity dominates the embedding more strongly than the algorithmic approach used. An O(n) and O(n²) solution to **the same LeetCode problem** are likely more similar than two O(n) solutions to **different problems**, because both share the problem's data structures, variable names, and problem-specific logic.
 
 ### 6.2 The Code-Specialised Model Paradox
 
-**UniXCoder, the only code-specialised model, achieves the smallest Cohen's d (0.300) — ranking last.** A plausible explanation is that UniXCoder has been trained to understand code *semantically*, learning that an O(n) and O(n²) solution to the same problem are functionally related approaches. General-purpose sentence embedders (Octen, Qwen3, MiniLM) treat code more lexically: an O(n²) solution contains two nested `for` loops, producing measurably different token sequences. This parallels the RQ2 finding where UniXCoder showed weaker framework separation than general-purpose models.
+Both code-specialised models (CodeBERT and UniXCoder) underperform general-purpose models, but for different reasons. **CodeBERT achieves the weakest effect overall** (d=0.047, negligible), a consequence of geometric compression rather than semantic understanding: its maximum pairwise cosine distance is ≈0.06, collapsing all solutions into a narrow region where even the weak complexity signal present in general-purpose models is undetectable.
+
+**UniXCoder ranks last among non-compressed models** (d=0.300). A plausible explanation is that UniXCoder has been trained to understand code *semantically*, learning that an O(n) and O(n²) solution to the same problem are functionally related approaches. General-purpose sentence embedders (Octen, Qwen3, MiniLM) treat code more lexically: an O(n²) solution contains two nested `for` loops, producing measurably different token sequences. This parallels the RQ2 finding where both code-specialised models showed weaker framework separation, with CodeBERT the most extreme outlier.
 
 ### 6.3 Python as the Most Complexity-Expressive Language
 
@@ -233,10 +238,10 @@ Across all models, O(n log n) code is the most geometrically isolated complexity
 
 ## 7. Conclusion
 
-Code embedding models encode a **weak but universally significant and robust** algorithmic complexity signal. The cross-complexity cosine distance consistently exceeds the intra-complexity distance across all 6 models and all 9 languages, with bootstrapped confidence intervals for the gap entirely above zero. However, no model achieves a positive silhouette score, and polynomial complexity classes (O(n), O(n²), O(n³)) are nearly indistinguishable from each other.
+Code embedding models encode a **weak but universally significant and robust** algorithmic complexity signal. The cross-complexity cosine distance consistently exceeds the intra-complexity distance across all 7 models and all 9 languages, with bootstrapped confidence intervals for the gap entirely above zero for six models (CodeBERT's CI is near-zero but still statistically significant). However, no model achieves a positive silhouette score, and polynomial complexity classes (O(n), O(n²), O(n³)) are nearly indistinguishable from each other.
 
 Contrary to initial hypotheses:
-- **The code-specialised model (UniXCoder) encodes the weakest complexity signal**, not the strongest.
+- **Both code-specialised models (CodeBERT and UniXCoder) encode weaker complexity signals than general-purpose models**, not stronger. CodeBERT ranks last overall (d=0.047) due to geometric compression; UniXCoder ranks last among non-compressed models (d=0.300) due to semantic suppression of surface patterns.
 - **Python, not Go, produces the most complexity-separable embeddings** across most models.
 - **Rust produces the weakest per-language complexity separation**, not a high-abstraction language.
 
