@@ -4,7 +4,8 @@ RQ3: Algorithmic Complexity & Language Clustering — Metric Computation & Stati
 Loads the embeddings Parquet produced by 1_embedding.py and computes:
   1. Complexity-class Silhouette Score  (overall + per language)
   2. Cross-complexity vs intra-complexity cosine distances  (per language)
-  3. Same-problem, cross-language alignment  (same complexity, different language)
+  3. Problem identity vs complexity  (same problem, different complexity vs
+     different problem, same complexity; within each language)
   4. Difficulty-based Silhouette Score  (baseline)
   5. Complexity—complexity distance matrix  (pairwise mean distances between buckets)
   6. Statistical tests:  Welch's t-test, Cohen's d, Bootstrap 95% CIs,
@@ -166,13 +167,12 @@ def compute_complexity_distances(df: pd.DataFrame) -> dict:
       - Intra-complexity: two solutions with the *same* complexity class
       - Cross-complexity: two solutions with *different* complexity classes
 
-    Also computes per-problem same-language cross-complexity distances to measure
-    whether, for identical problems, different algorithmic approaches (different
-    complexities) produce more distant embeddings.
+    Same-problem comparisons are computed separately in
+    compute_problem_identity_distances.
 
     Args:
-        df (pd.DataFrame): DataFrame with 'embedding', 'language', 'complexity_class',
-                           'problem_slug' columns.
+        df (pd.DataFrame): DataFrame with 'embedding', 'language', 'complexity_class'
+                           columns.
 
     Returns:
         dict: Distance statistics and raw arrays for downstream statistical tests.
@@ -243,6 +243,83 @@ def compute_complexity_distances(df: pd.DataFrame) -> dict:
         "per_language":              per_language,
         "_all_intra": all_intra,   # hidden for stat tests
         "_all_cross": all_cross,   # hidden for stat tests
+    }
+
+
+# ── Metric 2b: Problem Identity vs Complexity ────────────────────────────────
+
+def compute_problem_identity_distances(df: pd.DataFrame, max_pairs: int = 200) -> dict:
+    """
+    Compare two kinds of pairs within each language:
+      - Same problem, different complexity class (e.g. brute force vs optimal)
+      - Different problem, same complexity class
+
+    If same-problem pairs are closer, the embedding organises code by the
+    problem it solves more than by its complexity class.
+
+    Args:
+        df (pd.DataFrame): DataFrame with 'embedding', 'language', 'complexity_class',
+                           'problem_slug' columns.
+        max_pairs (int): Maximum different-problem pairs sampled per class and language.
+
+    Returns:
+        dict: Overall and per-language means, Welch's t-test and Cohen's d.
+    """
+    df_clean = df[df["complexity_class"] != "Other"].copy()
+    rng = np.random.default_rng(42)
+
+    per_language: dict[str, dict] = {}
+    all_same_problem: list[float] = []
+    all_diff_problem: list[float] = []
+
+    for lang in tqdm(sorted(df_clean["language"].unique()), desc="Problem identity"):
+        lang_df = df_clean[df_clean["language"] == lang].reset_index(drop=True)
+        embs = to_matrix(lang_df)
+        problems = lang_df["problem_slug"].values
+        classes = lang_df["complexity_class"].values
+
+        # Same problem, different complexity: all such pairs
+        same_problem: list[float] = []
+        for slug in np.unique(problems):
+            idx = np.where(problems == slug)[0]
+            for i, j in combinations(idx, 2):
+                if classes[i] != classes[j]:
+                    same_problem.append(float(cosine_dist(embs[i], embs[j])))
+
+        # Different problem, same complexity: sampled per class
+        diff_problem: list[float] = []
+        for cc in np.unique(classes):
+            idx = np.where(classes == cc)[0]
+            pairs = [(i, j) for i, j in combinations(idx, 2) if problems[i] != problems[j]]
+            if len(pairs) > max_pairs:
+                chosen = rng.choice(len(pairs), max_pairs, replace=False)
+                pairs = [pairs[c] for c in chosen]
+            diff_problem.extend(float(cosine_dist(embs[i], embs[j])) for i, j in pairs)
+
+        per_language[lang] = {
+            "same_problem_diff_complexity_mean": round(float(np.mean(same_problem)), 4) if same_problem else None,
+            "diff_problem_same_complexity_mean": round(float(np.mean(diff_problem)), 4) if diff_problem else None,
+            "n_same_problem_pairs": len(same_problem),
+            "n_diff_problem_pairs": len(diff_problem),
+        }
+        all_same_problem.extend(same_problem)
+        all_diff_problem.extend(diff_problem)
+
+    same_arr = np.array(all_same_problem)
+    diff_arr = np.array(all_diff_problem)
+    t_stat, p_val = stats.ttest_ind(diff_arr, same_arr, equal_var=False)
+    d = cohens_d(diff_arr, same_arr)
+
+    return {
+        "same_problem_diff_complexity_overall": round(float(np.mean(same_arr)), 4),
+        "diff_problem_same_complexity_overall": round(float(np.mean(diff_arr)), 4),
+        "n_same_problem_pairs": int(len(same_arr)),
+        "n_diff_problem_pairs": int(len(diff_arr)),
+        "welch_t_statistic": round(float(t_stat), 4),
+        "p_value": float(p_val),
+        "cohens_d": round(d, 4),
+        "note": "Positive d means same-problem pairs are closer than same-complexity pairs.",
+        "per_language": per_language,
     }
 
 
@@ -459,6 +536,13 @@ def run_analysis(model_key: str) -> bool:
               f"cross={vals['cross_complexity_mean']}  "
               f"intra={vals['intra_complexity_mean']}")
 
+    # ── Metric 2b: Problem identity vs complexity ─────────────────────────────
+    print("\n── Problem Identity vs Complexity ──")
+    prob = compute_problem_identity_distances(df)
+    print(f"  Same problem, different complexity: {prob['same_problem_diff_complexity_overall']}")
+    print(f"  Different problem, same complexity: {prob['diff_problem_same_complexity_overall']}")
+    print(f"  Cohen's d: {prob['cohens_d']}")
+
     # ── Metric 3: Global complexity distance matrix ───────────────────────────
     print("\n── Global Complexity Distance Matrix ──")
     global_mat = compute_complexity_distance_matrix(df)
@@ -484,6 +568,7 @@ def run_analysis(model_key: str) -> bool:
         "complexity_class_counts": df["complexity_class"].value_counts().to_dict(),
         "silhouette":  sil,
         "distances":  {k: v for k, v in dist.items() if not k.startswith("_")},
+        "problem_identity": prob,
         "global_complexity_distance_matrix": global_mat,
         "per_language_complexity_distance_matrix": per_lang_mat,
         "statistical_tests": stat,

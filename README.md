@@ -56,9 +56,14 @@ uv run code/embedding.py --model all
 
 # Step 2: Hierarchical clustering + cross-model comparison
 uv run code/clustering.py --model all
+
+# Step 3: Cross-model family stability (stable pairings, per-language family overlap)
+uv run code/family_stability.py
 ```
 
-Dataset: `datasets/family_clustering/` (19 languages x 21 features).
+Each dendrogram is cut into 5 families. The family overlap of a language is the Jaccard similarity between the families that contain it under two models, averaged over all model pairs.
+
+Dataset: `datasets/family_clustering/` (19 languages x 21 features, the corpus released by Yun et al., FSE 2026).
 Results go to `results/embeddings/` and `results/clustering/`.
 
 ### RQ2: Framework-Driven Dialects
@@ -103,6 +108,7 @@ Results go to `results/RQ4/`.
 code/
   embedding.py           # Core embedding generation (shared by all RQs)
   clustering.py          # RQ1 hierarchical clustering & cross-model agreement
+  family_stability.py    # RQ1 stable pairings and family overlap across models
   model_distance.py      # Cross-model distance matrix comparison
   rq2/                   # RQ2 pipeline (1_embedding → 4_cross_model)
   rq3/                   # RQ3 pipeline

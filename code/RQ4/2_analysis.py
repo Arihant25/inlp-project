@@ -231,11 +231,15 @@ def compute_pairwise_distances(df: pd.DataFrame) -> dict:
 
 
 def _matched_pair_distances(df: pd.DataFrame) -> list[float]:
-    """Compute cosine distances between matched buggy–fixed pairs."""
+    """
+    Compute cosine distances between matched buggy–fixed pairs.
+
+    A pair is the buggy and fixed snippet with the same bug_index *and* the same
+    language, so a DataFrame spanning several languages yields one pair per
+    (bug, language).
+    """
     dists = []
-    bug_indices = df["bug_index"].unique()
-    for bi in bug_indices:
-        subset = df[df["bug_index"] == bi]
+    for (_, _), subset in df.groupby(["bug_index", "language"], sort=True):
         buggy = subset[subset["code_type"] == "buggy"]
         fixed = subset[subset["code_type"] == "fixed"]
         if len(buggy) == 0 or len(fixed) == 0:
@@ -428,11 +432,9 @@ def compute_dangerous_neighbourhoods(df: pd.DataFrame) -> dict:
 
 
 def _matched_pair_distances_with_info(df: pd.DataFrame) -> list[dict]:
-    """Compute matched buggy–fixed distances with metadata."""
+    """Compute matched buggy–fixed distances with metadata (one pair per bug and language)."""
     results = []
-    bug_indices = df["bug_index"].unique()
-    for bi in bug_indices:
-        subset = df[df["bug_index"] == bi]
+    for (_, _), subset in df.groupby(["bug_index", "language"], sort=True):
         buggy = subset[subset["code_type"] == "buggy"]
         fixed = subset[subset["code_type"] == "fixed"]
         if len(buggy) == 0 or len(fixed) == 0:
