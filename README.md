@@ -102,6 +102,45 @@ uv run code/RQ4/4_cross_model.py
 Dataset: `datasets/RQ4/bugs.json` (100 bug types x 5 languages x buggy/fixed pairs).
 Results go to `results/RQ4/`.
 
+### RQ5: Retrieval-Augmented Generation with Buggy Code
+
+Retrieval on HumanEvalFix (human-written bugs, 6 languages) and ClassEval (test-killed mutants),
+LLM generation with a retrieved example, and execution against hidden tests.
+
+```bash
+# Step 0: build ClassEval correct/mutant pairs (needs datasets/RQ5/classeval/classeval.parquet)
+uv run code/rq5/0_prepare_classeval.py
+
+# Step 1: embed queries and documents (six local embedders + CLS-pooled CodeBERT/UniXCoder)
+uv run code/rq5/1_embedding.py
+uv run code/rq5/1_embedding.py --dataset classeval
+uv run code/rq5/1_embedding.py --check          # reproducibility check against RQ4 embeddings
+
+# Step 2: retrieval metrics, BM25 baseline, real-bug proximity, pooling ablation, example-test filtering
+uv run code/rq5/2_retrieval.py
+
+# Step 3: generation (needs OLLAMA_API_KEY in .env), then test execution and evaluation
+uv run code/rq5/generate.py --llm ollama:gemma4:31b --lang python --contexts core
+uv run code/rq5/generate.py --llm ollama:gemma4:31b --lang python --contexts needed
+uv run code/rq5/3_evaluate.py --llm ollama_gemma4_31b
+```
+
+The study uses `gemma4:31b`, `gpt-oss:20b`, and `deepseek-v4.1-flash` on Ollama Cloud with
+temperature 0 and seed 0. `code/rq5/execute.py` runs Python, JavaScript (Node), and Java (JDK 17)
+programs; `python code/rq5/execute.py` validates the harness (all correct solutions pass, all buggy fail).
+
+Datasets: `datasets/RQ5/humanevalpack/` (HumanEvalPack, Muennighoff et al., ICLR 2024) and
+`datasets/RQ5/classeval/` (ClassEval, Du et al., ICSE 2024, plus our mutants).
+Results go to `results/rq5/` (embeddings, rankings, generations, executions, metrics).
+
+### Truncation and Figures
+
+```bash
+uv run code/truncation_stats.py        # share of inputs longer than each model's input limit
+uv run code/truncation_sensitivity.py  # RQ2/RQ3 with window-averaged full-text embeddings
+uv run code/make_figures.py            # regenerate the paper's figures into results/figures
+```
+
 ## Project Structure
 
 ```text
@@ -113,6 +152,7 @@ code/
   rq2/                   # RQ2 pipeline (1_embedding → 4_cross_model)
   rq3/                   # RQ3 pipeline
   RQ4/                   # RQ4 pipeline
+  rq5/                   # RQ5 retrieval-augmented generation pipeline
 
 datasets/
   family_clustering/     # RQ1: 19 languages x 21 linguistic feature snippets
