@@ -75,19 +75,25 @@ def rq2_tsne():
     X = np.vstack(df["embedding"].values)
     xy = TSNE(n_components=2, random_state=42, perplexity=30, max_iter=1000).fit_transform(X)
     langs = sorted(df["language"].unique())
-    markers = ["o", "s", "^", "D"]
-    fig, ax = plt.subplots(figsize=(7.2, 3.0))
+    markers = ["o", "s", "^", "D"]  # three frameworks in alphabetical order, then Vanilla
+    fig, ax = plt.subplots(figsize=(7.2, 3.4))
+    lang_handles = []
     for li, lang in enumerate(langs):
         sub = df["language"] == lang
-        fws = sorted(df.loc[sub, "framework"].unique())
+        fws = sorted(f for f in df.loc[sub, "framework"].unique() if f != "Vanilla") + ["Vanilla"]
+        color = CATEGORICAL[li % len(CATEGORICAL)]
         for fi, fw in enumerate(fws):
             m = (sub & (df["framework"] == fw)).values
-            ax.scatter(xy[m, 0], xy[m, 1], s=11, color=CATEGORICAL[li % len(CATEGORICAL)],
-                       marker=markers[fi % 4], alpha=0.8, linewidths=0)
-    for li, lang in enumerate(langs):
-        ax.scatter([], [], color=CATEGORICAL[li % len(CATEGORICAL)], marker="o", s=20, label=lang)
-    ax.legend(title="Language (marker shape = framework)", ncol=4, fontsize=7, title_fontsize=7,
-              frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.02))
+            ax.scatter(xy[m, 0], xy[m, 1], s=11, color=color, marker=markers[fi], alpha=0.8, linewidths=0)
+        lang_handles.append(ax.scatter([], [], color=color, marker="s", s=24, label=f"{lang} ({', '.join(fws[:3])})"))
+    leg = ax.legend(handles=lang_handles, title="Language (frameworks in marker order)", ncol=2, fontsize=6.5,
+                    title_fontsize=7, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.02),
+                    columnspacing=1.0, handletextpad=0.3)
+    ax.add_artist(leg)
+    shape_handles = [ax.scatter([], [], color="#4A4A4A", marker=mk, s=20, label=lab) for mk, lab in
+                     zip(markers, ["1st framework", "2nd framework", "3rd framework", "no framework (vanilla)"])]
+    ax.legend(handles=shape_handles, title="Marker shape", ncol=4, fontsize=6.5, title_fontsize=7,
+              frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.31), handletextpad=0.3)
     ax.set_xticks([]); ax.set_yticks([])
     ax.spines["left"].set_visible(False); ax.spines["bottom"].set_visible(False)
     save(fig, "rq2_tsne_scatter.pdf")

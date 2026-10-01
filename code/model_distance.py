@@ -17,7 +17,8 @@ MODEL_MATRICES = {
     "unixcoder": "../results/clustering/unixcoder/cosine_distance_matrix.json",
     "qwen3": "../results/clustering/qwen3/cosine_distance_matrix.json",
     "minilm": "../results/clustering/minilm/cosine_distance_matrix.json",
-    "ada002": "../results/clustering/ada002/cosine_distance_matrix.json"
+    "ada002": "../results/clustering/ada002/cosine_distance_matrix.json",
+    "codebert": "../results/clustering/codebert/cosine_distance_matrix.json"
 }
 
 
@@ -160,3 +161,7 @@ pairs.sort(key=lambda x: x[2], reverse=True)
 
 for m1, m2, score in pairs:
     print(f"{m1:12} ↔ {m2:12} : {score:.3f}")
+# Save the Spearman matrix for the paper (results/clustering/model_spearman.json)
+import json
+with open("../results/clustering/model_spearman.json", "w", encoding="utf-8") as f:
+    json.dump({"models": models, "spearman": [[round(float(x), 4) for x in row] for row in similarity_matrix]}, f, indent=2)

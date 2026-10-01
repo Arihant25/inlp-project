@@ -97,6 +97,7 @@ uv run code/RQ4/1_embedding.py --model all
 uv run code/RQ4/2_analysis.py --model all
 uv run code/RQ4/3_visualize.py --model all
 uv run code/RQ4/4_cross_model.py
+uv run code/RQ4/5_relative_distance.py   # relative pair distance R per model and bug category (exhaustive)
 ```
 
 Dataset: `datasets/RQ4/bugs.json` (100 bug types x 5 languages x buggy/fixed pairs).

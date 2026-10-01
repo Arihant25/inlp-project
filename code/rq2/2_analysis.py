@@ -123,8 +123,10 @@ def compute_framework_silhouette(df: pd.DataFrame) -> dict:
     X = embeddings_to_matrix(df)
     labels = df["framework"].values
 
-    # Overall silhouette across all frameworks unconditionally
-    overall_score = silhouette_score(X, labels, metric="cosine")
+    # Overall silhouette over the 32 language-qualified framework labels, so that
+    # frameworks sharing a name across languages (Vanilla, Spring Boot) stay distinct.
+    qualified = (df["language"] + "/" + df["framework"]).values
+    overall_score = silhouette_score(X, qualified, metric="cosine")
 
     # Per-language breakdown: silhouette score evaluating how well frameworks cluster *within* a language
     per_language = {}
@@ -164,8 +166,11 @@ def compute_cross_framework_distances(df: pd.DataFrame) -> dict:
         dict: A dictionary of aggregated distances and the raw distance distributions
               for downstream statistical testing.
     """
+    # Frameworks are compared only within a language, so that language identity
+    # does not enter the cross-framework distances. Labels are language-qualified.
+    df = df.assign(framework=df["language"] + "/" + df["framework"])
     patterns = sorted(df["pattern"].unique())
-    frameworks = sorted(df["framework"].unique())
+    languages = sorted(df["language"].unique())
 
     cross_distances_by_pattern = {}
     intra_distances_by_pattern = {}
@@ -178,43 +183,12 @@ def compute_cross_framework_distances(df: pd.DataFrame) -> dict:
     cross_fw_pair_distances = {}
 
     for pattern in patterns:
-        pat_df = df[df["pattern"] == pattern]
         cross_dists = []
         intra_dists = []
         fw_pair_dists = {}
-
-        # --- CROSS-FRAMEWORK DISTANCES ---
-        # Compare implementations of this pattern across all unique pairs of frameworks
-        for fw1, fw2 in combinations(frameworks, 2):
-            embs1 = embeddings_to_matrix(pat_df[pat_df["framework"] == fw1])
-            embs2 = embeddings_to_matrix(pat_df[pat_df["framework"] == fw2])
-
-            if len(embs1) == 0 or len(embs2) == 0:
-                continue
-
-            pair_dists = []
-            for e1 in embs1:
-                for e2 in embs2:
-                    d = cosine_dist(e1, e2)
-                    pair_dists.append(d)
-
-            # Record average distance for this specific pair of frameworks on this pattern
-            avg_d = float(np.mean(pair_dists))
-            fw_pair_key = f"{fw1} vs {fw2}"
-            fw_pair_dists[fw_pair_key] = round(avg_d, 4)
-            cross_dists.extend(pair_dists)
-
-        # --- INTRA-FRAMEWORK DISTANCES ---
-        # Compare implementations of this pattern from within the same framework
-        for fw in frameworks:
-            fw_embs = embeddings_to_matrix(pat_df[pat_df["framework"] == fw])
-            if len(fw_embs) < 2:
-                continue
-            # Pairwise distance of all variations within the same framework
-            for i in range(len(fw_embs)):
-                for j in range(i + 1, len(fw_embs)):
-                    d = cosine_dist(fw_embs[i], fw_embs[j])
-                    intra_dists.append(d)
+        for lang in languages:
+            _pattern_within_language(df[(df["pattern"] == pattern) & (df["language"] == lang)],
+                                     cross_dists, intra_dists, fw_pair_dists)
 
         cross_distances_by_pattern[pattern] = round(float(np.mean(cross_dists)), 4) if cross_dists else None
         intra_distances_by_pattern[pattern] = round(float(np.mean(intra_dists)), 4) if intra_dists else None
@@ -232,6 +206,28 @@ def compute_cross_framework_distances(df: pd.DataFrame) -> dict:
         "_all_cross_distances": all_cross_distances,  # Hidden key for stat tests
         "_all_intra_distances": all_intra_distances,  # Hidden key for stat tests
     }
+
+
+def _pattern_within_language(pat_df: pd.DataFrame, cross_dists: list, intra_dists: list, fw_pair_dists: dict):
+    """Cross- and intra-framework distances for one pattern within one language."""
+    frameworks = sorted(pat_df["framework"].unique())
+
+    # --- CROSS-FRAMEWORK DISTANCES ---
+    # Compare implementations of this pattern across all pairs of frameworks of the language
+    for fw1, fw2 in combinations(frameworks, 2):
+        embs1 = embeddings_to_matrix(pat_df[pat_df["framework"] == fw1])
+        embs2 = embeddings_to_matrix(pat_df[pat_df["framework"] == fw2])
+        pair_dists = [cosine_dist(e1, e2) for e1 in embs1 for e2 in embs2]
+        fw_pair_dists[f"{fw1} vs {fw2}"] = round(float(np.mean(pair_dists)), 4)
+        cross_dists.extend(pair_dists)
+
+    # --- INTRA-FRAMEWORK DISTANCES ---
+    # Pairwise distance of all variations of this pattern within the same framework
+    for fw in frameworks:
+        fw_embs = embeddings_to_matrix(pat_df[pat_df["framework"] == fw])
+        for i in range(len(fw_embs)):
+            for j in range(i + 1, len(fw_embs)):
+                intra_dists.append(cosine_dist(fw_embs[i], fw_embs[j]))
 
 
 # ── Step 3: Statistical Analysis ─────────────────────────────────────────────
