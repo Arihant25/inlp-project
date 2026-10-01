@@ -25,6 +25,9 @@ JS_ASSERT_PATCH = (
 PYTHON_PRELUDE = "import math\nimport re\nimport sys\nimport string\nimport hashlib\nimport heapq\nimport collections\nfrom typing import *\n"
 JAVA_PRELUDE = "import java.util.*;\nimport java.lang.*;\nimport java.util.stream.*;\nimport java.math.*;\nimport java.security.*;\n"
 
+# Node resolves test dependencies (js-md5) from code/rq5/node_modules (npm install --prefix code/rq5).
+RUN_ENV = dict(os.environ, NODE_PATH=os.path.join(os.path.dirname(os.path.abspath(__file__)), "node_modules"))
+
 TIMEOUT_S = {"python": 15, "classeval": 30, "js": 15, "java": 60}
 
 
@@ -65,7 +68,7 @@ def run_program(lang: str, code: str, test: str) -> dict:
         for cmd in cmds:
             try:
                 proc = subprocess.run(
-                    cmd, cwd=tmp, capture_output=True, text=True,
+                    cmd, cwd=tmp, capture_output=True, text=True, env=RUN_ENV,
                     timeout=TIMEOUT_S[lang], encoding="utf-8", errors="replace",
                 )
             except subprocess.TimeoutExpired:

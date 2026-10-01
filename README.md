@@ -120,13 +120,14 @@ uv run code/rq5/1_embedding.py --check          # reproducibility check against 
 uv run code/rq5/2_retrieval.py
 
 # Step 3: generation (needs OLLAMA_API_KEY in .env), then test execution and evaluation
+# (one JavaScript test needs js-md5: npm install --prefix code/rq5)
 uv run code/rq5/generate.py --llm ollama:gemma4:31b --lang python --contexts core
 uv run code/rq5/generate.py --llm ollama:gemma4:31b --lang python --contexts needed
 uv run code/rq5/3_evaluate.py --llm ollama_gemma4_31b
 ```
 
 The study uses `gemma4:31b`, `gpt-oss:20b`, and `deepseek-v4.1-flash` on Ollama Cloud with
-temperature 0 and seed 0. `code/rq5/execute.py` runs Python, JavaScript (Node), and Java (JDK 17)
+temperature 0, seed 0, and a 65,536-token output cap (34 DeepSeek responses reach it and count as failures). `code/rq5/execute.py` runs Python, JavaScript (Node), and Java (JDK 17)
 programs; `python code/rq5/execute.py` validates the harness (all correct solutions pass, all buggy fail).
 
 Datasets: `datasets/RQ5/humanevalpack/` (HumanEvalPack, Muennighoff et al., ICLR 2024) and
@@ -137,7 +138,7 @@ Results go to `results/rq5/` (embeddings, rankings, generations, executions, met
 
 ```bash
 uv run code/truncation_stats.py        # share of inputs longer than each model's input limit
-uv run code/truncation_sensitivity.py  # RQ2/RQ3 with window-averaged full-text embeddings
+uv run code/truncation_sensitivity.py  # RQ1, RQ2, RQ3, RQ5 with window-averaged full-text embeddings
 uv run code/make_figures.py            # regenerate the paper's figures into results/figures
 ```
 

@@ -1,7 +1,8 @@
 """
 RQ5: Retrieval-augmented code generation.
 
-The study uses gemma4:31b and gpt-oss:20b on Ollama Cloud (greedy decoding, seed 0).
+The study uses gemma4:31b, gpt-oss:20b, and deepseek-v4.1-flash on Ollama Cloud
+(greedy decoding, seed 0, at most 65,536 output tokens).
 Google AI Studio models are also supported.
 
 For every problem we ask an LLM to implement the function, optionally showing
@@ -33,12 +34,15 @@ from common import PROJECT_ROOT, RESULTS_DIR, build_corpus, load_language
 
 LANG_NAMES = {"python": "Python", "js": "JavaScript", "java": "Java", "classeval": "Python"}
 FENCE = {"python": "python", "js": "javascript", "java": "java", "classeval": "python"}
-EXCLUDED = {("js", 162)}  # its tests need the npm package js-md5
+EXCLUDED: set[tuple[str, int]] = set()  # JS/162 needs js-md5, installed via code/rq5/package.json
 
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
 
 OLLAMA_URL = "https://ollama.com/api/chat"
+# Output cap, above every completed generation (max 42,532 tokens), so it only ends
+# degenerate reasoning loops. A response that reaches the cap counts as a failure.
+MAX_TOKENS = 65536
 
 
 def api_key(name: str = "GEMINI_API_KEY") -> str:
@@ -50,24 +54,38 @@ def api_key(name: str = "GEMINI_API_KEY") -> str:
 
 
 def call_ollama(model: str, prompt: str, key: str, max_retries: int = 20) -> dict:
-    """Call an Ollama Cloud model (greedy decoding, fixed seed)."""
-    body = {"model": model, "stream": False, "options": {"temperature": 0, "seed": 0},
+    """Call an Ollama Cloud model (greedy decoding, fixed seed).
+
+    The response is streamed, so long generations (reasoning models can write tens of
+    thousands of tokens) complete in one request instead of timing out and being retried.
+    """
+    body = {"model": model, "stream": True, "options": {"temperature": 0, "seed": 0, "num_predict": MAX_TOKENS},
             "messages": [{"role": "user", "content": prompt}]}
     delay = 5.0
     for _ in range(max_retries):
         try:
-            r = requests.post(OLLAMA_URL, json=body, timeout=300,
-                              headers={"Authorization": f"Bearer {key}"})
-            if r.status_code == 200:
-                d = r.json()
-                return {"text": d.get("message", {}).get("content", ""), "finish": d.get("done_reason"),
-                        "usage": {"promptTokenCount": d.get("prompt_eval_count"),
-                                  "candidatesTokenCount": d.get("eval_count")}}
-            if r.status_code in (429, 500, 502, 503, 504):
-                time.sleep(delay + random.random() * 2)
-                delay = min(delay * 2, 120)
-                continue
-            return {"error": f"HTTP {r.status_code}: {r.text[:300]}"}
+            with requests.post(OLLAMA_URL, json=body, stream=True, timeout=(30, 600),
+                               headers={"Authorization": f"Bearer {key}"}) as r:
+                if r.status_code == 200:
+                    parts, last = [], {}
+                    for line in r.iter_lines():
+                        if not line:
+                            continue
+                        last = json.loads(line)
+                        parts.append(last.get("message", {}).get("content", ""))
+                        if last.get("done"):
+                            break
+                    if not last.get("done"):
+                        raise requests.RequestException("stream ended early")
+                    return {"text": "".join(parts), "finish": last.get("done_reason"),
+                            "usage": {"promptTokenCount": last.get("prompt_eval_count"),
+                                      "candidatesTokenCount": last.get("eval_count")}}
+                if r.status_code in (429, 500, 502, 503, 504):
+                    print(f"  HTTP {r.status_code}, retrying in {delay:.0f}s", flush=True)
+                    time.sleep(delay + random.random() * 2)
+                    delay = min(delay * 2, 120)
+                    continue
+                return {"error": f"HTTP {r.status_code}: {r.text[:300]}"}
         except requests.RequestException:
             time.sleep(delay)
     return {"error": "retries exhausted"}

@@ -117,10 +117,98 @@ def main():
                           "cohens_d": stat["effect_size"]["cohens_d"],
                           "problem_identity_d": prob["cohens_d"]},
         }
-        print(key, json.dumps(results[key]), flush=True)
+        results[key]["rq1"] = rq1_full_text(key, name, limit)
+        results[key]["rq5"] = rq5_full_text(name, limit, key)
+        print(key, json.dumps({k: v for k, v in results[key].items() if k != "rq1"}), flush=True)
 
+    results["rq1_stable_pairings_full_text"] = rq1_stable_pairings(
+        {k: results[k]["rq1"]["_families"] for k in MODELS})
+    for k in MODELS:
+        results[k]["rq1"].pop("_families")
+        print(k, "rq1", json.dumps(results[k]["rq1"]), flush=True)
+    print("stable pairings (full text):", results["rq1_stable_pairings_full_text"], flush=True)
     with open(os.path.join(PROJECT_ROOT, "results/truncation_sensitivity.json"), "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
+
+
+# ── RQ1: language families from full-text embeddings ─────────────────────────
+
+def rq1_full_text(key: str, name: str, limit: int) -> dict:
+    from scipy.cluster.hierarchy import cophenet, fcluster, linkage
+    from scipy.spatial.distance import pdist, squareform
+    from scipy.stats import spearmanr
+    from embedding import BASE_DIR, FEATURES, LANGUAGES, load_code_snippets
+
+    snippets = load_code_snippets(BASE_DIR, LANGUAGES, FEATURES)
+    keys = list(snippets)
+    vecs = windowed_embeddings(name, limit, [snippets[k] for k in keys])
+    with open(os.path.join(PROJECT_ROOT, f"results/clustering/{key}/cosine_distance_matrix.json"), encoding="utf-8") as f:
+        saved = json.load(f)
+    langs = saved["languages"]
+    lang_vecs = np.vstack([vecs[np.array([k.startswith(l + " ") for k in keys])].mean(0) for l in langs])
+    cond = pdist(lang_vecs, metric="cosine")
+    Z = linkage(cond, method="ward")
+    ccc, _ = cophenet(Z, cond)
+    labels = fcluster(Z, t=5, criterion="maxclust")
+    base = squareform(np.array(saved["matrix"]), checks=False)
+    old_ccc = float(cophenet(linkage(base, method="ward"), base)[0])
+    return {"ccc_truncated": round(old_ccc, 4), "ccc_full_text": round(float(ccc), 4),
+            "spearman_truncated_vs_full": round(float(spearmanr(base, cond).statistic), 4),
+            "_families": {l: int(c) for l, c in zip(langs, labels)}}
+
+
+def rq1_stable_pairings(full_families: dict) -> list:
+    """Pairs that share a family under all seven models, with full-text families for the truncating models."""
+    from itertools import combinations
+    groups = {}
+    for m in ["ada002", "bge_m3", "codebert", "minilm", "octen", "qwen3", "unixcoder"]:
+        if m in full_families:
+            groups[m] = full_families[m]
+        else:
+            with open(os.path.join(PROJECT_ROOT, f"results/clustering/{m}/language_families.json"), encoding="utf-8") as f:
+                fam = json.load(f)
+            groups[m] = {l: i for i, members in enumerate(fam.values()) for l in members}
+    langs = sorted(groups["octen"])
+    return [[a, b] for a, b in combinations(langs, 2) if all(g[a] == g[b] for g in groups.values())]
+
+
+# ── RQ5: retrieval and proximity from full-text embeddings ───────────────────
+
+def rq5_full_text(name: str, limit: int, key: str) -> dict:
+    sys.path.insert(0, os.path.join(SCRIPT_DIR, "rq5"))
+    ret = load_module(os.path.join(SCRIPT_DIR, "rq5", "2_retrieval.py"), "rq5_retrieval")
+    from common import LANGUAGES as RQ5_LANGS, build_corpus
+
+    texts, keys, corpora = [], [], {}
+    for lang in RQ5_LANGS + ["classeval"]:
+        docs, queries = build_corpus(lang)
+        corpora[lang] = (docs, queries)
+        texts += queries["query"].tolist() + docs["code"].tolist()
+        keys += [f"{lang}|q|{p}" for p in queries["problem"]] + [f"{lang}|d|{d}" for d in docs["doc_id"]]
+    vecs = dict(zip(keys, windowed_embeddings(name, limit, texts)))
+    cache = {key: vecs}
+    out, he = {}, []
+    for lang, (docs, queries) in corpora.items():
+        recs = ret.retrieval_records(ret.score_matrix(key, lang, docs, queries, cache), docs, queries)
+        if lang == "classeval":
+            out["classeval_retrieval"] = ret.summarize(recs, np.random.default_rng(42))
+        else:
+            he += recs
+    out["humanevalfix_retrieval"] = ret.summarize(he, np.random.default_rng(42))
+    he_docs = {l: corpora[l][0] for l in RQ5_LANGS}
+    out["humanevalfix_proximity"] = ret.proximity(vecs, he_docs, np.random.default_rng(42))
+    out["classeval_proximity"] = ret.proximity(vecs, {"classeval": corpora["classeval"][0]}, np.random.default_rng(42))
+    for k in ("humanevalfix_proximity", "classeval_proximity"):
+        out[k].pop("R_by_bug_type", None)
+    with open(os.path.join(PROJECT_ROOT, "results/rq5/retrieval/metrics.json"), encoding="utf-8") as f:
+        m = json.load(f)
+    out["truncated"] = {
+        "humanevalfix_retrieval": {x: m["retrieval"][key]["pooled"][x] for x in ("recall1", "buggy_first", "top1_buggy")},
+        "classeval_retrieval": {x: m["retrieval"][key]["classeval"][x] for x in ("recall1", "buggy_first", "top1_buggy")},
+        "humanevalfix_R": m["proximity_humanevalfix"][key]["R"],
+        "classeval_R": m["proximity_classeval"][key]["R"],
+    }
+    return out
 
 
 if __name__ == "__main__":
