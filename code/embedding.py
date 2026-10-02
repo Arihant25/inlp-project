@@ -16,10 +16,14 @@ from typing import Dict, List, Any
 
 import numpy as np
 import requests
-import torch
-from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
-from transformers import AutoModel, AutoTokenizer
+
+try:
+    import torch
+    from sentence_transformers import SentenceTransformer
+    from transformers import AutoModel, AutoTokenizer
+except ImportError:  # analysis-only installs need MODELS, not the embedders
+    torch = SentenceTransformer = AutoModel = AutoTokenizer = None
 
 
 # --- Configuration ---
