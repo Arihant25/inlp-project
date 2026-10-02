@@ -13,10 +13,12 @@ unmatched distance, so categories are compared on one scale.
 
 Usage:
     python code/RQ4/5_relative_distance.py
+    python code/RQ4/5_relative_distance.py --models jina_code codesage --out results/review/rq4_relative_distance_new_embedders.json
 
-Output: results/RQ4/relative_distance.json
+Output: results/RQ4/relative_distance.json (default)
 """
 
+import argparse
 import json
 import os
 
@@ -25,6 +27,7 @@ import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MODELS = ["unixcoder", "bge_m3", "codebert", "minilm", "qwen3", "octen", "ada002"]
+NEW_MODELS = ["jina_code", "codesage"]  # review extension; selected with --models
 CATEGORY = {"Easy": "syntax", "Medium": "logic", "Hard": "state", "Super Hard": "numeric"}
 
 
@@ -66,8 +69,13 @@ def analyse(model: str) -> dict:
 
 
 def main():
-    out = {m: analyse(m) for m in MODELS}
-    path = os.path.join(ROOT, "results/RQ4/relative_distance.json")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--models", nargs="+", default=MODELS, choices=MODELS + NEW_MODELS)
+    ap.add_argument("--out", default="results/RQ4/relative_distance.json", help="path relative to the repo root")
+    args = ap.parse_args()
+    out = {m: analyse(m) for m in args.models}
+    path = os.path.join(ROOT, args.out)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
     for m, v in out.items():

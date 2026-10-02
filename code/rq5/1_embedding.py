@@ -30,7 +30,7 @@ from transformers import AutoModel, AutoTokenizer
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SCRIPT_DIR)
 sys.path.insert(0, os.path.dirname(SCRIPT_DIR))
-from common import CLS_VARIANTS, EMBEDDERS, LANGUAGES, PROJECT_ROOT, RESULTS_DIR, build_corpus
+from common import CLS_VARIANTS, EMBEDDERS, LANGUAGES, NEW_EMBEDDERS, PROJECT_ROOT, RESULTS_DIR, build_corpus
 from embedding import MODELS, get_unixcoder_embeddings
 from sentence_transformers import SentenceTransformer
 
@@ -105,7 +105,7 @@ def reproducibility_check(n: int = 20):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="all", choices=EMBEDDERS + CLS_VARIANTS + ["all"])
+    ap.add_argument("--model", default="all", choices=EMBEDDERS + CLS_VARIANTS + NEW_EMBEDDERS + ["all"])
     ap.add_argument("--dataset", default="humanevalfix", choices=["humanevalfix", "classeval"])
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()

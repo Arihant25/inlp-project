@@ -119,7 +119,7 @@ def rq4_danger():
         with open(os.path.join(ROOT, f"results/RQ4/{m}/rq4_metrics.json"), encoding="utf-8") as f:
             dn = json.load(f)["dangerous_neighbourhoods"]
         rates[m] = [dn[f"threshold_{t}"]["overall"]["pct"] for t in (0.05, 0.1, 0.15)]
-    fig, ax = plt.subplots(figsize=(7.2, 1.9))
+    fig, ax = plt.subplots(figsize=(7.2, 1.6))
     w = 0.26
     x = np.arange(len(models))
     for i, (t, c) in enumerate(zip(("0.05", "0.10", "0.15"), (SKY, BLUE, NAVY))):

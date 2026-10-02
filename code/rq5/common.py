@@ -26,6 +26,9 @@ CLASSEVAL = "classeval"
 
 # The six local embedders from RQ1-RQ4 (Ada-002 is not used in RQ5).
 EMBEDDERS = ["octen", "bge_m3", "unixcoder", "codebert", "qwen3", "minilm"]
+# Review extension: two contrastively trained code embedders (not part of EMBEDDERS,
+# so the original RQ5 outputs are unchanged).
+NEW_EMBEDDERS = ["jina_code", "codesage"]
 # Pooling ablation: CLS pooling for the two code models.
 CLS_VARIANTS = ["codebert_cls", "unixcoder_cls"]
 

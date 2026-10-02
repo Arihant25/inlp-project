@@ -204,7 +204,7 @@ def main():
 
     # "ollama:<model>" selects Ollama Cloud, anything else Google AI Studio.
     if args.llm.startswith("ollama:"):
-        key, model_name = api_key("OLLAMA_API_KEY"), args.llm.split(":", 1)[1]
+        key, model_name = api_key(os.environ.get("OLLAMA_KEY_NAME", "OLLAMA_API_KEY")), args.llm.split(":", 1)[1]
         caller = lambda prompt: call_ollama(model_name, prompt, key)
     else:
         key = api_key()

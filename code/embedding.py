@@ -31,6 +31,11 @@ MODELS = {
     "qwen3": {"name": "Qwen/Qwen3-Embedding-0.6B", "type": "sentence_transformer"},
     "minilm": {"name": "sentence-transformers/all-MiniLM-L6-v2", "type": "sentence_transformer"},
     "ada002": {"name": "openai/text-embedding-ada-002", "type": "api_openrouter"},
+    # Contrastively trained code embedders (review extension). Both ship a
+    # Sentence-Transformers config (mean pooling) and need trust_remote_code;
+    # their remote code requires transformers<5 (run with transformers 4.46).
+    "jina_code": {"name": "jinaai/jina-embeddings-v2-base-code", "type": "sentence_transformer"},
+    "codesage": {"name": "codesage/codesage-base-v2", "type": "sentence_transformer"},
 }
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
